@@ -39,7 +39,7 @@ We have a development-thread at the legendary Schachfeld-forum: [Einen Namen f&u
 
 License
 -------
-The Schachfeld-engine is licensed under GPLv3. This basically means that you are allowed to do whatever you want, as long as you distribute any derived work under the same noble conditions.
+The Schachfeld-engine is licensed as open-source under GPLv3. This basically means that you are allowed to do whatever you want, as long as you distribute any derived work under the same noble conditions.
 
-* [GPLc3](license_GNU_GPLv3/gpl_v3.html)
-* [GPLc3 FAQ](license_GNU_GPLv3/gpl_v3_faq.html)
+* [GPLc3](docs/license_GNU_GPLv3/gpl_v3.html)
+* [GPLc3 FAQ](docs/license_GNU_GPLv3/gpl_v3_faq.html)
