@@ -1,3 +1,8 @@
+// Project: Schachfeld_Engine
+// Author: Rombelstielzchen
+// License: GPLv3
+// Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby/page3
+
 #include "string_functions.h"
 
 #include <algorithm>
@@ -28,6 +33,10 @@ void trim(std::string &in_out_string) {
 
 CStringTokenizer::CStringTokenizer(const std::string input) {
     input_stream.clear();
+    input_stream.str(input);
+}
+
+void CStringTokenizer::set_input(std::string input) {
     input_stream.str(input);
 }
  
