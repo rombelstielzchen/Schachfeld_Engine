@@ -3,6 +3,11 @@ Schachfeld Engine
 
 The Schachfeld-engine is a chess-engine, developped by some members of the Schachfeld-forum. Meant to become semi-strong and fun to play one day. Currently in the early stages of its development.
 
+![Board-representation](docs/pics/schachfeld_winmine_12x12.png)
+
+The engine supports the universal-chess-interface for communication with your favourite GUI. It uses a 12x12-board for calculation and is planned to receive an endgame clown with some funny mating patterns.
+
+
 How To Download
 ---------------
 Not yet
@@ -24,7 +29,7 @@ How To Build
 
 ### On Linuxoid Systems ###
 * Make sure you have the following programs installed: g++, make
-* Open a DOS-Fensterle and change zhe directory to "/home/otto/desktop(schachfeld_engine/src" or whatever the username is, my dear Mr. Otto.
+* Open a DOS-Fensterle and change the directory to "/home/otto/desktop(schachfeld_engine/src" or whatever the username is, my dear Mr. Otto.
 * Run the "make" command.
 * Enjoy the "engine" program in your working directory.
 
