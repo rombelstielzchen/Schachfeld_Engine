@@ -8,6 +8,11 @@
 #include <iostream>
 #include <string>
 
+// TODO: move board to search-thread
+#include "../board/board.h"
+
+CBoard board;
+
 std::string best_move() {
     // Dummy-function, just playing Ng8-f6-g8-f6, just to get UCI running
     static bool knight_on_g8 = false;
@@ -48,6 +53,9 @@ void CUciProtocol::process_message(const std::string command) {
     } else if (command== "isready") {
         // Our first version is always and immediately ready
         send_message("readyok");
+    } else if (command == "position") {
+        std::string fen_position = string_tokenizer.get_the_rest();
+        board.set_fen_position(fen_position);
     } else if (command== "go") {
         send_best_move();
     } else if (command== "stop") {

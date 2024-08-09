@@ -47,3 +47,14 @@ std::string CStringTokenizer::next_token() {
     input_stream >> std::skipws >> result;
     return result;
 }
+
+std::string CStringTokenizer::get_the_rest() {
+    std::string result = "";
+    std::string next = next_token();
+    while (next != "") {
+        result += next;
+        result += " ";
+        next = next_token();
+    }
+    return result;
+}

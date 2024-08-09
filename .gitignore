@@ -16,9 +16,7 @@ engine
 files.txt
 strings.txt
 x
-board/
 evaluation/
 knowledge/
 search/
 clown_mates.md
-makefile

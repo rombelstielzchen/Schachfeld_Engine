@@ -23,7 +23,7 @@ How To Build
 ------------
 ### On Windows ###
 * Get [Visual Studio 2022](https://visualstudio.microsoft.com/de/vs/community/) from MicroSoft for free (16.000 diskettes).
-* Open the fie "src/Visual_Studio/Schachfeld_Engine.sln".
+* Open the file "src/Visual_Studio/Schachfeld_Engine.sln".
 * Click Menu -> Build -> Rebuild All.
 * The command-line program "schachfeld.exe" should now exist in the folder "src/visual_studio/x64/debug", ready to be used.
 

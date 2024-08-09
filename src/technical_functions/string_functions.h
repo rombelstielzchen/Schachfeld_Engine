@@ -24,6 +24,7 @@
      public:
         void set_input(std::string input);
         std::string next_token();
+        std::string get_the_rest();
       private:
         std::istringstream input_stream;
     };
