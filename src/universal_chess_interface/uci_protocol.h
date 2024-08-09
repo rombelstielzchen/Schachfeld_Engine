@@ -3,9 +3,11 @@
 // Project: Schachfeld_Engine
 // Author: Rombelstielzchen
 // License: GPLv3
-// Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby/page3
+// Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include <string>
+
+#include "../technical_functions/string_functions.h"
 
 class CUciProtocol {
    public:
@@ -16,4 +18,6 @@ class CUciProtocol {
     void send_list_of_options();
     void send_best_move();
     void process_message(const std::string message);
+   private:
+    CStringTokenizer string_tokenizer;
 };

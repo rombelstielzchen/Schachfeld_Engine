@@ -1,7 +1,7 @@
 // Project: Schachfeld_Engine
 // Author: Rombelstielzchen
 // License: GPLv3
-// Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby/page3
+// Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "string_functions.h"
 
@@ -37,6 +37,7 @@ CStringTokenizer::CStringTokenizer(const std::string input) {
 }
 
 void CStringTokenizer::set_input(std::string input) {
+    input_stream.clear();
     input_stream.str(input);
 }
  

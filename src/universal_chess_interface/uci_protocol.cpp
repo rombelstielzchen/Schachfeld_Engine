@@ -1,14 +1,12 @@
 // Project: Schachfeld_Engine
 // Author: Rombelstielzchen
 // License: GPLv3
-// Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby/page3
+// Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "uci_protocol.h"
 
 #include <iostream>
 #include <string>
-
-#include "../technical_functions/string_functions.h"
 
 std::string best_move() {
     // Dummy-function, just playing Ng8-f6-g8-f6, just to get UCI running
@@ -64,8 +62,8 @@ void CUciProtocol::message_loop() {
     while (true) {
         std::string message;
         getline(std::cin, message);
-        CStringTokenizer tokenizer(message);
-        std::string command = tokenizer.next_token(); 
+        string_tokenizer.set_input(message);
+        std::string command = string_tokenizer.next_token(); 
         if  (command == "quit") {
             break;
         }
