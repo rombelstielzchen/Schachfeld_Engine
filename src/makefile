@@ -1,8 +1,17 @@
+# Compiler cnfiguration
+
 CC=g++
 
 CFLAGS=-Wall -O0  -c $^
 
-engine: main.o board.o uci_protocol.o string_functions.o fen_parser.o
+# Main build target
+
+default:
+	make debug
+
+# Build targets
+
+debug: main.o board.o uci_protocol.o string_functions.o fen_parser.o command_interface.o
 	g++ -o engine main.cpp string_functions.o uci_protocol.o board.o fen_parser.o
 	@echo "===================="
 	@ls -o engine
@@ -20,6 +29,9 @@ uci_protocol.o: universal_chess_interface/uci_protocol.cpp
 	$(CC) $(CFLAGS) 
 
 fen_parser.o: board/fen_parser.cpp
+	$(CC) $(CFLAGS) 
+
+command_interface.o: universal_chess_interface/command_interface.cpp
 	$(CC) $(CFLAGS) 
 
 clean:

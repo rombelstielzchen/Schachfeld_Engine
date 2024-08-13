@@ -7,6 +7,7 @@
 
 #include <string>
 
+#include "command_interface.h"
 #include "../technical_functions/string_functions.h"
 
 class CUciProtocol {
@@ -19,5 +20,6 @@ class CUciProtocol {
     void send_best_move();
     void process_message(const std::string message);
    private:
+    CCommandInterface command_interface;
     CStringTokenizer string_tokenizer;
 };

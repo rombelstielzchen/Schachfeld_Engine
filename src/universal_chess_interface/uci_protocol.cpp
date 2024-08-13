@@ -57,8 +57,10 @@ void CUciProtocol::process_message(const std::string command) {
         std::string fen_position = string_tokenizer.get_the_rest();
         board.set_fen_position(fen_position);
     } else if (command== "go") {
+        command_interface.go_infinite();
         send_best_move();
     } else if (command== "stop") {
+        command_interface.stop();
         send_best_move();
     } else {
         // "quit" already gets handled by the message_loop().
