@@ -4,21 +4,9 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "uci_protocol.h"
-
+#include "command_interface.h"
 #include <iostream>
 #include <string>
-
-// TODO: move board to search-thread
-#include "../board/board.h"
-
-CBoard board;
-
-std::string best_move() {
-    // Dummy-function, just playing Ng8-f6-g8-f6, just to get UCI running
-    static bool knight_on_g8 = false;
-    knight_on_g8 = !knight_on_g8;
-    return knight_on_g8 ? "g8f6" : "f6g8";
-}
 
 // Universal Chess Interface Protocol
 // https://gist.github.com/DOBRO/2592c6dad754ba67e6dcaec8c90165bf
@@ -40,28 +28,24 @@ void CUciProtocol::send_list_of_options() {
     // None yet
 }
 
-void CUciProtocol::send_best_move() {
-    std::string message = "bestmove " + best_move();
-    send_message(message);
-}
-
 void CUciProtocol::process_message(const std::string command) {
-    if (command == "uci") {
-         identify_engine();
-         send_list_of_options(); 
-         send_message("uciok");
+    if (command== "go") {
+        // TODO: parse the many options of "go", all in the same line
+        command_interface.go_infinite();
     } else if (command== "isready") {
         // Our first version is always and immediately ready
         send_message("readyok");
     } else if (command == "position") {
         std::string fen_position = string_tokenizer.get_the_rest();
-        board.set_fen_position(fen_position);
-    } else if (command== "go") {
-        command_interface.go_infinite();
-        send_best_move();
+        command_interface.set_position(fen_position);
     } else if (command== "stop") {
         command_interface.stop();
-        send_best_move();
+    } else if (command == "uci") {
+         identify_engine();
+         send_list_of_options(); 
+         send_message("uciok");
+    } else if (command == "ucinewgame") {
+        command_interface.new_game();
     } else {
         // "quit" already gets handled by the message_loop().
         // Silently ignore all unknown / unsupported commands

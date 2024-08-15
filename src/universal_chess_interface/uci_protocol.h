@@ -5,21 +5,19 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-#include <string>
-
 #include "command_interface.h"
 #include "../technical_functions/string_functions.h"
+#include <string>
 
 class CUciProtocol {
-   public:
+  public:
     void message_loop();
-   private:
-    void send_message(const std::string message);
+    static void send_message(const std::string message);
+  private:
     void identify_engine();
     void send_list_of_options();
-    void send_best_move();
     void process_message(const std::string message);
-   private:
+  private:
     CCommandInterface command_interface;
     CStringTokenizer string_tokenizer;
 };

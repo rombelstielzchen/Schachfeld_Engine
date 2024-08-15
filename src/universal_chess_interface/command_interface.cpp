@@ -4,12 +4,22 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "command_interface.h"
+#include "../board/board.h"
+#include "uci_protocol.h"
 #include <cassert>
+
+std::string best_move() {
+    // Dummy-function, just playing Ng8-f6-g8-f6, just to get UCI running
+    static bool knight_on_g8 = false;
+    knight_on_g8 = !knight_on_g8;
+    return knight_on_g8 ? "g8f6" : "f6g8";
+}
 
 constexpr bool NOT_YET_IMPLEMENTED = false;
 
 void CCommandInterface::go_depth(const int64_t depth_in_plies) {
-    assert(NOT_YET_IMPLEMENTED);
+    send_best_move();
+    //assert(NOT_YET_IMPLEMENTED);
 }
 
 void CCommandInterface::go_nodes(const int64_t nodes) {
@@ -51,7 +61,20 @@ void CCommandInterface::go_time(
     const int64_t moves_to_go) {
     assert(NOT_YET_IMPLEMENTED);
 }
- 
+
+void CCommandInterface::new_game() {
+}
+
 void CCommandInterface::stop() {
-    assert(NOT_YET_IMPLEMENTED);
+    send_best_move();
+    //assert(NOT_YET_IMPLEMENTED);
+}
+
+bool CCommandInterface::set_position(const std::string &fen_position) {
+    return board.set_fen_position(fen_position);
+}
+
+void CCommandInterface::send_best_move() {
+    std::string message = "bestmove " + best_move();
+    CUciProtocol::send_message(message);
 }

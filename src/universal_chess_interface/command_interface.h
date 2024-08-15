@@ -4,11 +4,15 @@
 // Author: Rombelstielzchen
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
-
+#include "../board/board.h"
 #include <cstdint>
 #include <string>
 
 class CCommandInterface {
+  public:
+    void new_game();
+    bool set_position(const std::string &fen_position);
+    void stop();
   public:
     void go_depth(const int64_t depth_in_plies);
     void go_nodes(const int64_t nodes);
@@ -27,6 +31,8 @@ class CCommandInterface {
         const int64_t moves_to_go);
   public:
     void go_searchmoves(std::string moves);
-  public:
-    void stop();
+  private:
+    void send_best_move();
+  private:
+    CBoard board;
 };

@@ -12,7 +12,7 @@ default:
 # Build targets
 
 debug: main.o board.o uci_protocol.o string_functions.o fen_parser.o command_interface.o
-	g++ -o engine main.cpp string_functions.o uci_protocol.o board.o fen_parser.o
+	g++ -o engine main.cpp string_functions.o uci_protocol.o board.o fen_parser.o command_interface.o
 	@echo "===================="
 	@ls -o engine
 
