@@ -54,7 +54,14 @@ bool CFenParser::parse_piece_placement(CBoard &board, const std::string &partial
             board.squares[x][y] = c;
             ++x;
             break;
-    case '1' ... '8': {
+    case '1' : 
+    case '2' : 
+    case '3' : 
+    case '4' : 
+    case '5' : 
+    case '6' : 
+    case '7' : 
+    case '8' : {
             int gap = c - '0';
             x += gap;
             }

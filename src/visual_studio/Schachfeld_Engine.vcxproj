@@ -127,12 +127,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\board\board.cpp" />
+    <ClCompile Include="..\board\fen_parser.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\technical_functions\string_functions.cpp" />
+    <ClCompile Include="..\universal_chess_interface\command_interface.cpp" />
     <ClCompile Include="..\universal_chess_interface\uci_protocol.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\board\board.h" />
+    <ClInclude Include="..\board\fen_parser.h" />
     <ClInclude Include="..\technical_functions\string_functions.h" />
+    <ClInclude Include="..\universal_chess_interface\command_interface.h" />
     <ClInclude Include="..\universal_chess_interface\uci_protocol.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
