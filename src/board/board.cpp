@@ -56,6 +56,6 @@ const char* const CBoard::as_is() const {
 }
 
 
-const TSquare CBoard::get_square(EFiles x, ERanks y) {
+const TSquare CBoard::get_square(const int x, const int y) {
     return squares[x][y];
 }
