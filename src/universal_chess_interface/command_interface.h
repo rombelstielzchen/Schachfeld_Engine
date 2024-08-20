@@ -33,6 +33,4 @@ class CCommandInterface {
     void go_searchmoves(std::string moves);
   private:
     void send_best_move();
-  private:
-    CBoard board;
 };

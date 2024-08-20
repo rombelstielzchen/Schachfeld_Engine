@@ -98,3 +98,6 @@ class CBoard {
     //   * in production they work exactly the same. Same speed!
     std::array<TBoardColumn, BOARDSIZE_X> squares;
 };
+
+// Global board, as "everybody" needs easy access to it
+extern CBoard board;
