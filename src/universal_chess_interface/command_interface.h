@@ -4,7 +4,9 @@
 // Author: Rombelstielzchen
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
+
 #include "../board/board.h"
+#include "../move_generator/move.h"
 #include <cstdint>
 #include <string>
 
@@ -32,5 +34,5 @@ class CCommandInterface {
   public:
     void go_searchmoves(std::string moves);
   private:
-    void send_best_move();
+    void send_best_move(SMove best_move);
 };

@@ -4,8 +4,9 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "command_interface.h"
-#include "../board/board.h"
 #include "uci_protocol.h"
+#include "../board/board.h"
+#include "../move_generator/move_generator.h"
 #include <cassert>
 
 std::string best_move() {
@@ -18,8 +19,10 @@ std::string best_move() {
 constexpr bool NOT_YET_IMPLEMENTED = false;
 
 void CCommandInterface::go_depth(const int64_t depth_in_plies) {
-    send_best_move();
-    //assert(NOT_YET_IMPLEMENTED);
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    SMove random_move = move_generator.get_random();
+    send_best_move(random_move);
 }
 
 void CCommandInterface::go_nodes(const int64_t nodes) {
@@ -66,7 +69,7 @@ void CCommandInterface::new_game() {
 }
 
 void CCommandInterface::stop() {
-    send_best_move();
+go_depth(42);
     //assert(NOT_YET_IMPLEMENTED);
 }
 
@@ -74,7 +77,7 @@ bool CCommandInterface::set_position(const std::string &fen_position) {
     return board.set_fen_position(fen_position);
 }
 
-void CCommandInterface::send_best_move() {
-    std::string message = "bestmove " + best_move();
+void CCommandInterface::send_best_move(SMove best_move) {
+    std::string message = "bestmove " + move_as_text(best_move);
     CUciProtocol::send_message(message);
 }

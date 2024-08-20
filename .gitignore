@@ -14,6 +14,7 @@ x64/
 *.o
 *.swp
 *.tmp
+a.out
 engine
 files.txt
 strings.txt
