@@ -20,40 +20,38 @@
 constexpr int BOARDSIZE_X = 12;
 constexpr int BOARDSIZE_Y = 13;
 
-// Enumerations for ranks and files on the board.
+// Constants for ranks and files on the board.
 // Always use named constants! 
 // Rank "1" and file "a" have index 2 at a board with double garden fencees.
-enum EFiles {
-    FILE_FGARDEN_FENCE_LEFT_1,
-    FILE_FGARDEN_FENCE_LEFT_2,
-    FILE_A,
-    FILE_B,
-    FILE_C,
-    FILE_D,
-    FILE_E,
-    FILE_F,
-    FILE_G,
-    FILE_H,
-    FILE_FGARDEN_FENCE_RIGHT_1,
-    FILE_FGARDEN_FENCE_RIGHT_2,
-    FILE_LAST = FILE_FGARDEN_FENCE_RIGHT_2,
-};
+// We switched from enums to simpe constants, because order and values matter
+// and we sometimes need numerical operators.
+constexpr int FILE_FGARDEN_FENCE_LEFT_1 = 0;
+constexpr int FILE_FGARDEN_FENCE_LEFT_2 = 1;
+constexpr int FILE_A = 2;
+constexpr int FILE_B = 3;
+constexpr int FILE_C = 4;
+constexpr int FILE_D = 5;
+constexpr int FILE_E = 6;
+constexpr int FILE_F = 7;
+constexpr int FILE_G = 8;
+constexpr int FILE_H = 9;
+constexpr int FILE_FGARDEN_FENCE_RIGHT_1 = 10;
+constexpr int FILE_FGARDEN_FENCE_RIGHT_2 = 11;
+constexpr int FILE_LAST = FILE_FGARDEN_FENCE_RIGHT_2;
 
-enum ERanks {
-    RANK_FGARDEN_FENCE_BOTTOM_1,
-    RANK_FGARDEN_FENCE_BOTTOM_2,
-    RANK_1,
-    RANK_2,
-    RANK_3,
-    RANK_4,
-    RANK_5,
-    RANK_6,
-    RANK_7,
-    RANK_8,
-    RANK_FGARDEN_FENCE_TOP_1,
-    RANK_FGARDEN_FENCE_TOP_2,
-    RANK_NEWLINE_CHARACTER,
-};
+constexpr int RANK_FGARDEN_FENCE_BOTTOM_1 = 0;
+constexpr int  RANK_FGARDEN_FENCE_BOTTOM_2 = 1;
+constexpr int  RANK_1 = 2;
+constexpr int  RANK_2 = 3;
+constexpr int  RANK_3 = 4;
+constexpr int  RANK_4 = 5;
+constexpr int  RANK_5 = 6;
+constexpr int  RANK_6 = 7;
+constexpr int  RANK_7 = 8;
+constexpr int  RANK_8 = 9;
+constexpr int  RANK_FGARDEN_FENCE_TOP_1 = 10;
+constexpr int  RANK_FGARDEN_FENCE_TOP_2 = 11;
+constexpr int  RANK_NEWLINE_CHARACTER = 12;
 
 // The board represents pieces as characters.
 // Advantages:
@@ -89,7 +87,7 @@ class CBoard {
     bool set_fen_position(const std::string &position);
     const std::string get_fen_position();
     const char* const as_is() const;
-    const TSquare get_square(const EFiles x, const ERanks y);
+    const TSquare get_square(const int x, const int y);
   private:
     void init_garden_fence();
     void clear();
@@ -100,3 +98,6 @@ class CBoard {
     //   * in production they work exactly the same. Same speed!
     std::array<TBoardColumn, BOARDSIZE_X> squares;
 };
+
+// Global board, as "everybody" needs easy access to it
+extern CBoard board;

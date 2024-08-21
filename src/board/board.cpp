@@ -42,7 +42,7 @@ void CBoard::clear() {
 bool CBoard::set_fen_position(const std::string &position) {
     clear();
     squares[4][5] = 'A';
-    return CFenParser::parse(*this, position);
+    return CFenParser::parse(position);
 }
 
 const std::string CBoard::get_fen_position() {
@@ -56,6 +56,8 @@ const char* const CBoard::as_is() const {
 }
 
 
-const TSquare CBoard::get_square(EFiles x, ERanks y) {
+const TSquare CBoard::get_square(const int x, const int y) {
     return squares[x][y];
 }
+
+CBoard board;

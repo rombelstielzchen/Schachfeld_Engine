@@ -6,21 +6,21 @@
 #include "fen_parser.h"
 #include "../technical_functions/string_functions.h"
 
-bool CFenParser::parse(CBoard &board_to_be_setup, const std::string &fen_board_specification) {
+bool CFenParser::parse(const std::string &fen_board_specification) {
     
     bool lack_of_errors = true;
     CStringTokenizer tokenizer(fen_board_specification);
-    lack_of_errors &= parse_piece_placement(board_to_be_setup, tokenizer.next_token());
+    lack_of_errors &= parse_piece_placement(tokenizer.next_token());
     // TODO: functions below
-    lack_of_errors &= parse_side_to_move(board_to_be_setup, tokenizer.next_token());
-    lack_of_errors &= parse_castling_rights(board_to_be_setup, tokenizer.next_token());
-    lack_of_errors &= parse_eng_passeng(board_to_be_setup, tokenizer.next_token());
-    lack_of_errors &= parse_100_ply_draw_counter(board_to_be_setup, tokenizer.next_token());
+    lack_of_errors &= parse_side_to_move(tokenizer.next_token());
+    lack_of_errors &= parse_castling_rights(tokenizer.next_token());
+    lack_of_errors &= parse_eng_passeng(tokenizer.next_token());
+    lack_of_errors &= parse_100_ply_draw_counter(tokenizer.next_token());
 //    lack_of_errors &= parse_move_counter(board_to_be_setup, tokenizer.next_token());
     return lack_of_errors;
 }
 
-bool CFenParser::parse_piece_placement(CBoard &board, const std::string &partial_input) {
+bool CFenParser::parse_piece_placement(const std::string &partial_input) {
     board.clear();
     // FEN traverses the board row by row from A8 to H1
     int x = FILE_A;
@@ -75,22 +75,22 @@ bool CFenParser::parse_piece_placement(CBoard &board, const std::string &partial
      return true;
 }
 
-bool CFenParser::parse_side_to_move(CBoard &board, const std::string &partial_input) {
+bool CFenParser::parse_side_to_move(const std::string &partial_input) {
     return true;
 }
 
-bool CFenParser::parse_castling_rights(CBoard &board, const std::string &partial_input) {
+bool CFenParser::parse_castling_rights(const std::string &partial_input) {
     return true;
 }
 
-bool CFenParser::parse_eng_passeng(CBoard &board, const std::string &partial_input) {
+bool CFenParser::parse_eng_passeng(const std::string &partial_input) {
     return true;
 }
 
-bool CFenParser::parse_100_ply_draw_counter(CBoard &board, const std::string &partial_input) {
+bool CFenParser::parse_100_ply_draw_counter(const std::string &partial_input) {
     return true;
 }
-bool CFenParser::parse_move_counter(CBoard &board, const std::string &partial_input) {
+bool CFenParser::parse_move_counter(const std::string &partial_input) {
     return true;
 }
 

@@ -20,7 +20,7 @@ void CUciProtocol::send_message(const std::string message) {
 }
 
 void CUciProtocol::identify_engine() {
-    send_message("id name Schachfeld 0.1");
+    send_message("id name Schachfeld 0.2");
     send_message("id author Rombelstielzchen");
 }
 
