@@ -6,6 +6,7 @@
 #include "universal_chess_interface/uci_protocol.h"
 
 int main() {
+    srand(time(NULL));
     CUciProtocol uci_protocol;
     uci_protocol.message_loop();
      return EXIT_SUCCESS;

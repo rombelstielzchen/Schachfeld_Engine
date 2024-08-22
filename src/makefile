@@ -63,6 +63,9 @@ semi_clean:
 	rm -f *.h,gch */*.h.gch
 	# Deleting code, automatically derived from other files
 	rm -f $(CombinedSources)
+	# Deleting binaries
+	rm -f engine
+	rm -f a.out
 
 clean:
 	make semi_clean

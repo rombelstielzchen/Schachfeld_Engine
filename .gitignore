@@ -19,8 +19,5 @@ engine
 files.txt
 strings.txt
 x
-evaluation/
-knowledge/
-search/
 clown_mates.md
 makefile
