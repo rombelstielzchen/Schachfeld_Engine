@@ -4,9 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "string_functions.h"
-
-#include <algorithm>
-#include <string>
+#include "standard_headers.h"
 
 void replace_tabs_by_spaces(std::string &in_out_string) {
     std::replace(in_out_string.begin(), in_out_string.end(), '\t', ' ');

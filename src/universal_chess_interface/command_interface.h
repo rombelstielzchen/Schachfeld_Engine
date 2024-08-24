@@ -7,8 +7,7 @@
 
 #include "../board/board.h"
 #include "../move_generator/move.h"
-#include <cstdint>
-#include <string>
+#include "../technical_functions/standard_headers.h"
 
 class CCommandInterface {
   public:

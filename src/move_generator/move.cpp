@@ -5,7 +5,7 @@
 
 #include "move.h"
 #include "../board/board.h"
-#include <cassert>
+#include "../technical_functions/standard_headers.h"
 
 bool file_in_range(const int file) {
     return ((file >= FILE_A) && (file <= FILE_H));

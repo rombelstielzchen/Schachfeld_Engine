@@ -7,9 +7,7 @@
 
 #include "move.h"
 #include "../board/board.h"
-#include <array>
-#include <cstdint>
-#include <string>
+#include "../technical_functions/standard_headers.h"
 
 // https://www.chessprogramming.org/Chess_Position
 constexpr int MAX_MOVES_IN_CHESS_POSITION = 218;

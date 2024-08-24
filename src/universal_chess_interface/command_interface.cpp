@@ -7,7 +7,7 @@
 #include "uci_protocol.h"
 #include "../board/board.h"
 #include "../move_generator/move_generator.h"
-#include <cassert>
+#include "../technical_functions/standard_headers.h"
 
 std::string best_move() {
     // Dummy-function, just playing Ng8-f6-g8-f6, just to get UCI running

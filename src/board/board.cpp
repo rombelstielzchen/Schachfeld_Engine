@@ -4,11 +4,8 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "board.h"
-
-#include <cassert>
-#include <string>
-
 #include "fen_parser.h"
+#include "../technical_functions/standard_headers.h"
 
 CBoard::CBoard() {
     assert(FILE_LAST == BOARDSIZE_X - 1);

@@ -5,7 +5,7 @@
 
 #include "move_generator.h"
 #include "../board/board.h"
-#include <cassert>
+#include "../technical_functions/standard_headers.h"
 
 CMoveGenerator::CMoveGenerator() {
     number_of_moves = 0;

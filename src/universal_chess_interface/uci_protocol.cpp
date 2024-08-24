@@ -5,8 +5,7 @@
 
 #include "uci_protocol.h"
 #include "command_interface.h"
-#include <iostream>
-#include <string>
+#include "../technical_functions/standard_headers.h"
 
 // Universal Chess Interface Protocol
 // https://gist.github.com/DOBRO/2592c6dad754ba67e6dcaec8c90165bf

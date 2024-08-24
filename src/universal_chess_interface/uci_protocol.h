@@ -7,7 +7,6 @@
 
 #include "command_interface.h"
 #include "../technical_functions/string_functions.h"
-#include <string>
 
 class CUciProtocol {
   public:

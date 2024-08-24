@@ -10,9 +10,8 @@
 //
 // https://www.chessprogramming.org/Forsyth-Edwards_Notation
 
-#include <string>
-
 #include "board.h"
+#include "../technical_functions/standard_headers.h"
 
 class CFenParser {
   public:

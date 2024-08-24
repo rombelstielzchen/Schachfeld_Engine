@@ -5,8 +5,7 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-#include <array>
-#include <string>
+#include "../technical_functions/standard_headers.h"
 
 // Board representation of the Schachfeld_Engine for playing standard chess,
 // Using a two-dimensional, piece-centric "mailbox"-approach with 8x8 slots

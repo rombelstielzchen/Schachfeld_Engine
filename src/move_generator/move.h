@@ -11,8 +11,7 @@
 //    * they get used a lot, performance matters (a bit)
 //    * we want to return moves as rvalue and store them in space-limited hash-tables.
 
-#include <cstdint>
-#include <string>
+#include "../technical_functions/standard_headers.h"
 
 typedef struct __attribute__((packed)) {
    uint8_t file;
