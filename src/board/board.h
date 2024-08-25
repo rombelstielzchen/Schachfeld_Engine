@@ -22,7 +22,7 @@ constexpr int BOARDSIZE_Y = 13;
 // Constants for ranks and files on the board.
 // Always use named constants! 
 // Rank "1" and file "a" have index 2 at a board with double garden fencees.
-// We switched from enums to simpe constants, because order and values matter
+// We switched from enums to simple constants, because order and values matter
 // and we sometimes need numerical operators.
 constexpr int FILE_FGARDEN_FENCE_LEFT_1 = 0;
 constexpr int FILE_FGARDEN_FENCE_LEFT_2 = 1;
@@ -78,6 +78,11 @@ enum ESquareContent : TSquare {
 
 typedef std::array<TSquare, BOARDSIZE_Y> TBoardColumn;
 
+enum ESideToMove {
+    WHITE_TO_MOVE,
+    BLACK_TO_MOVEE
+};
+
 class CBoard {
     friend class CFenParser;
   public:
@@ -87,6 +92,7 @@ class CBoard {
     const std::string get_fen_position();
     const char* const as_is() const;
     const TSquare get_square(const int x, const int y);
+    ESideToMove get_side_to_move() const;
   private:
     void init_garden_fence();
     void clear();
@@ -96,6 +102,7 @@ class CBoard {
     //   * std::arrays know their size and check memory-access in debug-mode
     //   * in production they work exactly the same. Same speed!
     std::array<TBoardColumn, BOARDSIZE_X> squares;
+    ESideToMove side_to_move;
 };
 
 // Global board, as "everybody" needs easy access to it

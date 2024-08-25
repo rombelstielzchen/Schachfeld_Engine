@@ -57,4 +57,8 @@ const TSquare CBoard::get_square(const int x, const int y) {
     return squares[x][y];
 }
 
+ESideToMove CBoard::get_side_to_move() const {
+    return side_to_move;
+}
+
 CBoard board;

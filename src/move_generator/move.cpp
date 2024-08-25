@@ -24,7 +24,6 @@ bool move_in_range(const SMove move) {
 }
 
 bool is_null_move(const SMove move) {
-    // TODO: replace by ssomething simple and eficient
     return ((move.source.file == NULL_MOVE.source.file)
         && (move.source.rank == NULL_MOVE.source.rank)
         && (move.target.file == NULL_MOVE.target.file)

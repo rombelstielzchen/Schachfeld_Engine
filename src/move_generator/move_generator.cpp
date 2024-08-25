@@ -7,26 +7,51 @@
 #include "../board/board.h"
 #include "../technical_functions/standard_headers.h"
 
+constexpr int WHITE_PAWN_DIRECTION = +1;
+constexpr int BLACK_PAWN_DIRECTION = -1;
+
 CMoveGenerator::CMoveGenerator() {
     number_of_moves = 0;
 }
 
-void CMoveGenerator::generate_all() {
+void CMoveGenerator::generate_all(ESideToMove side_to_move) {
+    if (side_to_move == WHITE_TO_MOVE) {
+        generate_all_white_moves();
+    } else {
+        assert(side_to_move == BLACK_TO_MOVEE);
+        generate_all_black_moves();
+    }
+}
+
+void CMoveGenerator::generate_all_white_moves() {
     for (int j = FILE_A; j <= FILE_H; ++j) {
         for (int k = RANK_1; k <= RANK_8; ++k) {
             switch (board.get_square(j, k)) {
                 case WHITE_POWER:
-                    generate_white_pawn_moves(j, k);
+                    generate_pawn_moves(j, k, WHITE_PAWN_DIRECTION);
                     break;
             }
         }
     }
 }
 
-void CMoveGenerator::generate_white_pawn_moves(const int file, const int rank) {
+void CMoveGenerator::generate_all_black_moves() {
+    for (int j = FILE_A; j <= FILE_H; ++j) {
+        for (int k = RANK_1; k <= RANK_8; ++k) {
+            switch (board.get_square(j, k)) {
+                case BLACK_POWER:
+                    generate_pawn_moves(j, k, BLACK_PAWN_DIRECTION);
+                    break;
+            }
+        }
+    }
+}
+
+void CMoveGenerator::generate_pawn_moves(const int file, const int rank, const int positive_negative_direction) {
     assert(rank >= RANK_2);
     assert(rank <= RANK_7);
-    const int next_rank = rank + 1;
+    assert((positive_negative_direction == WHITE_PAWN_DIRECTION) || (positive_negative_direction == BLACK_PAWN_DIRECTION));
+    const int next_rank = rank + positive_negative_direction;
     if (board.get_square(file, next_rank) == EMPTY_SQUARE) {
         store_move(file, rank, file, next_rank);
     }
