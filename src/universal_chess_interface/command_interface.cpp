@@ -77,7 +77,7 @@ bool CCommandInterface::set_position(const std::string &fen_position) {
     return board.set_fen_position(fen_position);
 }
 
-void CCommandInterface::send_best_move(SMove best_move) {
+void CCommandInterface::send_best_move(SMove best_move) const {
     std::string message = "bestmove " + move_as_text(best_move);
     CUciProtocol::send_message(message);
 }

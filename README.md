@@ -22,13 +22,13 @@ How To Get The Source-Code
 How To Build
 ------------
 ### On Windows ###
-* Get [Visual Studio 2022](https://visualstudio.microsoft.com/de/vs/community/) from MicroSoft for free (16.000 diskettes).
+* Get [Visual Studio 2022](https://visualstudio.microsoft.com/de/vs/community/) from MicroSoft for free (16.000 diskettes). Install especially the C++ development-tools on the left hand side of the installer.
 * Open the file "src/Visual_Studio/Schachfeld_Engine.sln".
 * Click Menu -> Build -> Rebuild All.
 * The command-line program "schachfeld.exe" should now exist in the folder "src/visual_studio/x64/debug", ready to be used.
 
 ### On Linuxoid Systems ###
-* Make sure you have the following programs installed: g++, make
+* Make sure you have the following programs installed: g++, ld, make, perl, sl,
 * Open a DOS-Fensterle and change the directory to "/home/otto/desktop(schachfeld_engine/src" or whatever the username is, my dear Mr. Otto.
 * Run the "make" command.
 * Enjoy the "engine" program in your working directory.
@@ -41,5 +41,5 @@ License
 -------
 The Schachfeld-engine is licensed as open-source under GPLv3. This basically means that you are allowed to do whatever you want, as long as you distribute any derived work under the same noble conditions.
 
-* [GPLc3](docs/license_GNU_GPLv3/gpl_v3.html)
-* [GPLc3 FAQ](docs/license_GNU_GPLv3/gpl_v3_faq.html)
+* [GPLv3](docs/license_GNU_GPLv3/gpl_v3.html)
+* [GPLv3 FAQ](docs/license_GNU_GPLv3/gpl_v3_faq.html)

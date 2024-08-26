@@ -31,7 +31,7 @@ class CCommandInterface {
         const int64_t blacl_increment_milliseconds,
         const int64_t moves_to_go);
   public:
-    void go_searchmoves(std::string moves);
+    void go_searchmoves(std::string &moves);
   private:
-    void send_best_move(SMove best_move);
+    void send_best_move(SMove best_move) const;
 };

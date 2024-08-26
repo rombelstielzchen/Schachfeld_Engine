@@ -21,6 +21,7 @@ typedef struct __attribute__((packed)) {
 typedef struct __attribute__((packed)) {
     SSquare source;
     SSquare target;
+    // TODO: castling, promotion, eng-passeng
 } SMove;
 
 constexpr SMove NULL_MOVE = {{0, 0}, {0, 0}};
@@ -35,3 +36,4 @@ char file_as_text(const int file);
 char rank_as_text(const int file);
 std::string square_as_text(const SSquare square);
 std::string move_as_text(const SMove move);
+

@@ -29,12 +29,12 @@ void trim(std::string &in_out_string) {
     trim_left(in_out_string);
 }
 
-CStringTokenizer::CStringTokenizer(const std::string input) {
+CStringTokenizer::CStringTokenizer(const std::string &input) {
     input_stream.clear();
     input_stream.str(input);
 }
 
-void CStringTokenizer::set_input(std::string input) {
+void CStringTokenizer::set_input(std::string &input) {
     input_stream.clear();
     input_stream.str(input);
 }

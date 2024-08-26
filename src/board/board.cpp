@@ -42,7 +42,7 @@ bool CBoard::set_fen_position(const std::string &position) {
     return CFenParser::parse(position);
 }
 
-const std::string CBoard::get_fen_position() {
+std::string CBoard::get_fen_position() const {
     std::string result = "TODO";
     return result;
 }
@@ -53,7 +53,7 @@ const char* const CBoard::as_is() const {
 }
 
 
-const TSquare CBoard::get_square(const int x, const int y) {
+TSquare CBoard::get_square(const int x, const int y) const {
     return squares[x][y];
 }
 

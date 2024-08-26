@@ -3,14 +3,14 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
+// Universal Chess Interface Protocol
+// https://gist.github.com/DOBRO/2592c6dad754ba67e6dcaec8c90165bf
+
 #include "uci_protocol.h"
 #include "command_interface.h"
 #include "../technical_functions/standard_headers.h"
 
-// Universal Chess Interface Protocol
-// https://gist.github.com/DOBRO/2592c6dad754ba67e6dcaec8c90165bf
-
-void CUciProtocol::send_message(const std::string message) {
+void CUciProtocol::send_message(const std::string &message) {
     // UCI standard says:
     //   * communication via text-IO
     //   * every message should end with a new-line, "\n"
@@ -18,16 +18,16 @@ void CUciProtocol::send_message(const std::string message) {
     std::cout << message << std::endl;
 }
 
-void CUciProtocol::identify_engine() {
+void CUciProtocol::identify_engine() const {
     send_message("id name Schachfeld 0.2");
     send_message("id author Rombelstielzchen");
 }
 
-void CUciProtocol::send_list_of_options() {
+void CUciProtocol::send_list_of_options() const {
     // None yet
 }
 
-void CUciProtocol::process_message(const std::string command) {
+void CUciProtocol::process_message(const std::string &command) {
     if (command== "go") {
         // TODO: parse the many options of "go", all in the same line
         command_interface.go_infinite();
@@ -63,3 +63,4 @@ void CUciProtocol::message_loop() {
         process_message(command);
     }
 }
+

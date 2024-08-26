@@ -11,3 +11,4 @@ int main() {
     uci_protocol.message_loop();
      return EXIT_SUCCESS;
 }
+

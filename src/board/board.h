@@ -5,11 +5,11 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-#include "../technical_functions/standard_headers.h"
-
 // Board representation of the Schachfeld_Engine for playing standard chess,
 // Using a two-dimensional, piece-centric "mailbox"-approach with 8x8 slots
 // representing empty squares and pieces. 
+
+#include "../technical_functions/standard_headers.h"
 
 // Size of the board used for calculation:
 //    * 8 squarres in both directions
@@ -24,8 +24,8 @@ constexpr int BOARDSIZE_Y = 13;
 // Rank "1" and file "a" have index 2 at a board with double garden fencees.
 // We switched from enums to simple constants, because order and values matter
 // and we sometimes need numerical operators.
-constexpr int FILE_FGARDEN_FENCE_LEFT_1 = 0;
-constexpr int FILE_FGARDEN_FENCE_LEFT_2 = 1;
+constexpr int FILE_GARDEN_FENCE_LEFT_1 = 0;
+constexpr int FILE_GARDEN_FENCE_LEFT_2 = 1;
 constexpr int FILE_A = 2;
 constexpr int FILE_B = 3;
 constexpr int FILE_C = 4;
@@ -34,12 +34,12 @@ constexpr int FILE_E = 6;
 constexpr int FILE_F = 7;
 constexpr int FILE_G = 8;
 constexpr int FILE_H = 9;
-constexpr int FILE_FGARDEN_FENCE_RIGHT_1 = 10;
-constexpr int FILE_FGARDEN_FENCE_RIGHT_2 = 11;
-constexpr int FILE_LAST = FILE_FGARDEN_FENCE_RIGHT_2;
+constexpr int FILE_GARDEN_FENCE_RIGHT_1 = 10;
+constexpr int FILE_GARDEN_FENCE_RIGHT_2 = 11;
+constexpr int FILE_LAST = FILE_GARDEN_FENCE_RIGHT_2;
 
-constexpr int RANK_FGARDEN_FENCE_BOTTOM_1 = 0;
-constexpr int  RANK_FGARDEN_FENCE_BOTTOM_2 = 1;
+constexpr int RANK_GARDEN_FENCE_BOTTOM_1 = 0;
+constexpr int  RANK_GARDEN_FENCE_BOTTOM_2 = 1;
 constexpr int  RANK_1 = 2;
 constexpr int  RANK_2 = 3;
 constexpr int  RANK_3 = 4;
@@ -48,8 +48,8 @@ constexpr int  RANK_5 = 6;
 constexpr int  RANK_6 = 7;
 constexpr int  RANK_7 = 8;
 constexpr int  RANK_8 = 9;
-constexpr int  RANK_FGARDEN_FENCE_TOP_1 = 10;
-constexpr int  RANK_FGARDEN_FENCE_TOP_2 = 11;
+constexpr int  RANK_GARDEN_FENCE_TOP_1 = 10;
+constexpr int  RANK_GARDEN_FENCE_TOP_2 = 11;
 constexpr int  RANK_NEWLINE_CHARACTER = 12;
 
 // The board represents pieces as characters.
@@ -89,9 +89,9 @@ class CBoard {
     CBoard();
   public:
     bool set_fen_position(const std::string &position);
-    const std::string get_fen_position();
+    std::string get_fen_position() const;
     const char* const as_is() const;
-    const TSquare get_square(const int x, const int y);
+    TSquare get_square(const int x, const int y) const;
     ESideToMove get_side_to_move() const;
   private:
     void init_garden_fence();
@@ -107,3 +107,4 @@ class CBoard {
 
 // Global board, as "everybody" needs easy access to it
 extern CBoard board;
+
