@@ -81,3 +81,4 @@ void CCommandInterface::send_best_move(SMove best_move) const {
     std::string message = "bestmove " + move_as_text(best_move);
     CUciProtocol::send_message(message);
 }
+

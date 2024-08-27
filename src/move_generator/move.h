@@ -13,12 +13,14 @@
 
 #include "../technical_functions/standard_headers.h"
 
-typedef struct __attribute__((packed)) {
+#pragma pack(1)
+
+typedef struct {
    uint8_t file;
    uint8_t rank;
 } SSquare;
 
-typedef struct __attribute__((packed)) {
+typedef struct {
     SSquare source;
     SSquare target;
     // TODO: castling, promotion, eng-passeng
