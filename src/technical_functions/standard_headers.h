@@ -3,8 +3,10 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-// Some huge, never-changing standard headers
+// Some huge, never-changing standard headers and third-party headers
 // in order to create precompiled header-files.
+
+#include "../third_party/logging/debug_log.h"
 
 #include <algorithm>
 #include <array>
