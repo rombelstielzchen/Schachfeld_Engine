@@ -43,3 +43,11 @@ The Schachfeld-engine is licensed as open-source under GPLv3. This basically mea
 
 * [GPLv3](docs/license_GNU_GPLv3/gpl_v3.html)
 * [GPLv3 FAQ](docs/license_GNU_GPLv3/gpl_v3_faq.html)
+
+Thank You!
+----------
+We would like to thank the followiwng people:
+* Fredrik Bornander for his [logging module on CodeProject](https://www.codeproject.com/Articles/63736/Simple-debug-log-for-C)
+
+Feel welcome to contact us at the Schachfeld-forum if you miss your name on the list.
+
