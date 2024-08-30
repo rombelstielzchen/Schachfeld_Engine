@@ -46,7 +46,13 @@ void CUciProtocol::process_message(const std::string &command) {
         command_interface.new_game();
     } else {
         // "quit" already gets handled by the message_loop().
-        // Silently ignore all unknown / unsupported commands
+        // So this is an unknown token. Accoring to the UCI-standard
+        // we should try to continue with the rest of the line.
+        std::string command_candidate = string_tokenizer.next_token();
+        if (command_candidate != "") {
+            // One non-empty token got consumed, so the recursion will terminate
+            process_message(command_candidate);
+        }
     }
 }
 
