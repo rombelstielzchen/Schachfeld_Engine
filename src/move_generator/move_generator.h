@@ -29,6 +29,6 @@ class CMoveGenerator {
     void store_move(const int source_file, const int source_rank, const int target_file, const int target_rank);
   private:
     std::array<SMove, MAX_MOVES_IN_CHESS_POSITION> move_list;
-    int number_of_moves;
+    unsigned int number_of_moves;
 }; 
 

@@ -84,5 +84,8 @@ std::string square_as_text(const SSquare square) {
 }
 
 std::string move_as_text(const SMove move) {
+    if (is_null_move(move)) {
+        return NULL_MOVE_AS_TEXT;
+    }
     return (square_as_text(move.source) + square_as_text(move.target));
 }

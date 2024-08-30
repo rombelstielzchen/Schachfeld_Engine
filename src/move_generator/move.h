@@ -26,7 +26,10 @@ typedef struct {
     // TODO: castling, promotion, eng-passeng
 } SMove;
 
+// Internal encoding of "none", "finished", "end of list"
 constexpr SMove NULL_MOVE = {{0, 0}, {0, 0}};
+// Textual encoding according to the UCI-standard, 4 zeroes
+const std::string NULL_MOVE_AS_TEXT = "0000";
 
 bool file_in_range(const int file);
 bool rank_in_range(const int rank);
