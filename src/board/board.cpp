@@ -12,8 +12,7 @@ CBoard::CBoard() {
     assert(RANK_NEWLINE_CHARACTER == BOARDSIZE_Y - 1);
     init_garden_fence();
     clear();
-    const std::string START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-    set_fen_position(START_POSITION);
+    set_start_position();
 }
 
 void CBoard::init_garden_fence() {
@@ -34,6 +33,11 @@ void CBoard::clear() {
             squares[j][k] = EMPTY_SQUARE;
         }
     }
+}
+
+void CBoard::set_start_position() {
+    const std::string START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    set_fen_position(START_POSITION);
 }
 
 bool CBoard::set_fen_position(const std::string &position) {

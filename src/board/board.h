@@ -1,3 +1,4 @@
+
 #pragma once
 
 // Project: Schachfeld_Engine
@@ -88,6 +89,7 @@ class CBoard {
   public:
     CBoard();
   public:
+    void set_start_position();
     bool set_fen_position(const std::string &position);
     std::string get_fen_position() const;
     const char* const as_is() const;

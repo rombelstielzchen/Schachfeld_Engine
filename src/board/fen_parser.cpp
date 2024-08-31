@@ -10,13 +10,21 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
     
     bool lack_of_errors = true;
     CStringTokenizer tokenizer(fen_board_specification);
-    lack_of_errors &= parse_piece_placement(tokenizer.next_token());
-    // TODO: functions below
-    lack_of_errors &= parse_side_to_move(tokenizer.next_token());
-    lack_of_errors &= parse_castling_rights(tokenizer.next_token());
-    lack_of_errors &= parse_eng_passeng(tokenizer.next_token());
-    lack_of_errors &= parse_100_ply_draw_counter(tokenizer.next_token());
-//    lack_of_errors &= parse_move_counter(board_to_be_setup, tokenizer.next_token());
+    std::string piece_placement = tokenizer.next_token();
+    if (piece_placement == "startpos") {
+        // UCI may send "startpos" instead of a complicated FEN
+        board.set_start_position();
+    } else {
+        // Standard case: full FEN, consisting of multiple tokens
+        lack_of_errors &= parse_piece_placement(piece_placement);
+        // TODO: functions below
+        lack_of_errors &= parse_side_to_move(tokenizer.next_token());
+        lack_of_errors &= parse_castling_rights(tokenizer.next_token());
+        lack_of_errors &= parse_eng_passeng(tokenizer.next_token());
+        lack_of_errors &= parse_100_ply_draw_counter(tokenizer.next_token());
+    //    lack_of_errors &= parse_move_counter(board_to_be_setup, tokenizer.next_token());
+    }
+    // TODO: UCI may send optional moves
     return lack_of_errors;
 }
 
