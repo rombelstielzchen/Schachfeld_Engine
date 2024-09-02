@@ -1,6 +1,5 @@
 
 #pragma once
-
 // Project: Schachfeld_Engine
 // Author: Rombelstielzchen
 // License: GPLv3
@@ -10,6 +9,7 @@
 // Using a two-dimensional, piece-centric "mailbox"-approach with 8x8 slots
 // representing empty squares and pieces. 
 
+#include "../move_generator/move.h"
 #include "../technical_functions/standard_headers.h"
 
 // Size of the board used for calculation:
@@ -93,6 +93,11 @@ class CBoard {
     bool set_fen_position(const std::string &position);
     std::string get_fen_position() const;
     const char* const as_is() const;
+  public:
+    bool make_move(const SMove move);
+    bool make_move(const std::string &long_algebraic_uci_move);
+    void unmake_move();
+  public:
     TSquare get_square(const int x, const int y) const;
     ESideToMove get_side_to_move() const;
   private:

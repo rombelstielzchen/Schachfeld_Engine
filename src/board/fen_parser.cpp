@@ -7,7 +7,7 @@
 #include "../technical_functions/string_functions.h"
 
 bool CFenParser::parse(const std::string &fen_board_specification) {
-    
+    DEBUG_METHOD();
     bool lack_of_errors = true;
     CStringTokenizer tokenizer(fen_board_specification);
     std::string piece_placement = tokenizer.next_token();
@@ -22,13 +22,18 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
         lack_of_errors &= parse_castling_rights(tokenizer.next_token());
         lack_of_errors &= parse_eng_passeng(tokenizer.next_token());
         lack_of_errors &= parse_100_ply_draw_counter(tokenizer.next_token());
-    //    lack_of_errors &= parse_move_counter(board_to_be_setup, tokenizer.next_token());
+        lack_of_errors &= parse_move_counter(tokenizer.next_token());
     }
-    // TODO: UCI may send optional moves
+    std::string optional_move = tokenizer.next_token();
+    while (optional_move != "") {
+        lack_of_errors &= parse_move(optional_move);
+        optional_move = tokenizer.next_token();
+    }
     return lack_of_errors;
 }
 
 bool CFenParser::parse_piece_placement(const std::string &partial_input) {
+    DEBUG_METHOD();
     board.clear();
     // FEN traverses the board row by row from A8 to H1
     int x = FILE_A;
@@ -107,6 +112,14 @@ bool CFenParser::parse_100_ply_draw_counter(const std::string &partial_input) {
     return true;
 }
 bool CFenParser::parse_move_counter(const std::string &partial_input) {
+    return true;
+}
+
+bool CFenParser::parse_move(std::string move_as_text) {
+    DEBUG_METHOD();
+    DEBUG_VALUE_OF(move_as_text);
+    SMove move = text_to_move(move_as_text);
+    board.make_move(move);
     return true;
 }
 

@@ -31,6 +31,9 @@ constexpr SMove NULL_MOVE = {{0, 0}, {0, 0}};
 // Textual encoding according to the UCI-standard, 4 zeroes
 const std::string NULL_MOVE_AS_TEXT = "0000";
 
+// Error value for ranks and files converted from bad textual input
+constexpr uint8_t ERROR_INVALID_COORDINATE = -1;
+
 bool file_in_range(const int file);
 bool rank_in_range(const int rank);
 bool square_in_range(const SSquare square);
@@ -42,3 +45,8 @@ char rank_as_text(const int file);
 std::string square_as_text(const SSquare square);
 std::string move_as_text(const SMove move);
 
+uint8_t text_to_file(const char file_character);
+uint8_t text_to_rank(const char rank_character);
+SMove text_to_move(const std::string &text);
+
+     

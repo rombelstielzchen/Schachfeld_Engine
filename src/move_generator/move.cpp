@@ -89,3 +89,43 @@ std::string move_as_text(const SMove move) {
     }
     return (square_as_text(move.source) + square_as_text(move.target));
 }
+
+uint8_t text_to_file(const char file_character) {
+    // No assertions here; the input comes from the outside world
+    if ((file_character < 'a') || (file_character >= 'h')) {
+        return ERROR_INVALID_COORDINATE;
+    }
+     uint8_t result = FILE_A + file_character - 'a';
+     assert(file_in_range(result));
+    return result;
+}
+
+uint8_t text_to_rank(const char rank_character) {
+    // No assertions here; the input comes from the outside world
+    if ((rank_character <= '1') || (rank_character >= '8')) {
+        return ERROR_INVALID_COORDINATE;
+     }
+     uint8_t result = RANK_1 + rank_character - '1';
+     assert(rank_in_range(result));
+     return result;
+}
+
+SMove text_to_move(const std::string &text) {
+    // No assertions here; the input comes from the outside world
+    if (text.length() < 4) {
+       // Not long algebraic notation
+        return NULL_MOVE;
+    }
+    SMove move = {
+        text_to_file(text[0]),
+        text_to_rank(text[1]),
+        text_to_file(text[2]),
+        text_to_rank(text[3])
+    };
+    if (!move_in_range(move)) {
+        return NULL_MOVE;
+    }
+    // TODO promotion
+    return move;
+}
+     

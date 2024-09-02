@@ -22,6 +22,7 @@ class CFenParser {
     static bool parse_castling_rights(const std::string &partial_input);
     static bool parse_eng_passeng(const std::string &partial_input);
     static bool parse_100_ply_draw_counter(const std::string &partial_input);
-    bool parse_move_counter(const std::string &partial_input);
+    static bool parse_move_counter(const std::string &partial_input);
+    static bool parse_move(std::string move_as_text);
 };
 

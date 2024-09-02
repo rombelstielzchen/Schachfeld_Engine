@@ -9,13 +9,6 @@
 #include "../move_generator/move_generator.h"
 #include "../technical_functions/standard_headers.h"
 
-std::string best_move() {
-    // Dummy-function, just playing Ng8-f6-g8-f6, just to get UCI running
-    static bool knight_on_g8 = false;
-    knight_on_g8 = !knight_on_g8;
-    return knight_on_g8 ? "g8f6" : "f6g8";
-}
-
 constexpr bool NOT_YET_IMPLEMENTED = false;
 
 void CCommandInterface::go_depth(const int64_t depth_in_plies) {
