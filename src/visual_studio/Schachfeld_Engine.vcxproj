@@ -102,7 +102,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);DEBUG_LOG_ENABLE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -133,6 +133,7 @@
     <ClCompile Include="..\move_generator\move.cpp" />
     <ClCompile Include="..\move_generator\move_generator.cpp" />
     <ClCompile Include="..\technical_functions\string_functions.cpp" />
+    <ClCompile Include="..\third_party\logging\debug_log.cpp" />
     <ClCompile Include="..\universal_chess_interface\command_interface.cpp" />
     <ClCompile Include="..\universal_chess_interface\uci_protocol.cpp" />
   </ItemGroup>
@@ -143,6 +144,7 @@
     <ClInclude Include="..\move_generator\move_generator.h" />
     <ClInclude Include="..\technical_functions\standard_headers.h" />
     <ClInclude Include="..\technical_functions\string_functions.h" />
+    <ClInclude Include="..\third_party\logging\debug_log.h" />
     <ClInclude Include="..\universal_chess_interface\command_interface.h" />
     <ClInclude Include="..\universal_chess_interface\uci_protocol.h" />
   </ItemGroup>

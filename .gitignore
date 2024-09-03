@@ -13,10 +13,12 @@ x64/
 *.bin
 *.exe
 *.gch
+*.hpp
 *.o
 *.swp
 *.tmp
 a.out
+debug.txt
 engine
 files.txt
 strings.txt

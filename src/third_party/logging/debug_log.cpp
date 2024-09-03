@@ -1,76 +1,61 @@
-// Code taken from Fredrik Bornander, CodeProject. Thanks a lot!
-//
-// For the original code and docu see the docs directory.
-// The directory working_simplified_demo compiles with g++ 11.4.0.
-//Use the compiler-switch "-D DEBUG_LOG_ENABLE" to turn logging on
-//
-//Changes by Rombelstielzchen for the Schachfeld-engine:
-// * code for exceptions removed (did not compile)
-// * code for collections removed (did not compile)
-// * files slightly renamed
-
-#include "debug_log.h"
-
 #if DEBUG_LOG_ENABLE
 
-namespace bornander
+#include "debug_log.h"
+#include <fstream>
+
+// Do not use this tream directly, use the wrapper!
+// At sartup it can be undefined due to initialization order!
+// std::cout is only known at runtime!
+std::ostream* debug_stream = &std::cout;
+std::ofstream debug_file_stream;
+int CLog::indentation = 0;
+
+CLog::CLog(const std::string& ctx)	: context(ctx)
+#ifdef DEBUG_LOG_ENABLE_TIMING
+	, start_time(clock())
+#endif
 {
-	namespace debug
-	{
-		int log::indentation = 0;
-		std::ostream* log::stream = &std::cout;
+	write_indentation();
+	*safe_output_stream() << "--> " << context << std::endl;
+	++indentation;
+}
 
-		log::log(const std::string& ctx)
-			: context(ctx)
+std::ostream* CLog::safe_output_stream() {
+    if (debug_stream != nullptr) {
+        return debug_stream;
+    }
+    return &std::cout;
+}
+
+CLog::~CLog() {
+	--indentation;
+	write_indentation();
+	*safe_output_stream() << "<-- " << context;
 #ifdef DEBUG_LOG_ENABLE_TIMING
-			, start_time(clock())
+	*safe_output_stream() << " in " << ((double)(clock() - start_time) / CLOCKS_PER_SEC) << "s";
 #endif
-		{
-			write_indentation();
-			*stream << "--> " << context << std::endl;
-			++indentation;
-			stream->flush();
-		}
+	*safe_output_stream() << std::endl;
+}
 
-		log::~log()
-		{
-			--indentation;
-			write_indentation(' ');
-			*stream << "<-- " << context;
-#ifdef DEBUG_LOG_ENABLE_TIMING
-			*stream << " in " << ((double)(clock() - start_time) / CLOCKS_PER_SEC) << "s";
-#endif
-			*stream << std::endl;
-			stream->flush();
-		}
+void CLog::set_stream(std::ostream& stream) {
+	debug_stream = &stream;
+}
 
-		void log::set_stream(std::ostream& stream)
-		{
-			log::stream = &stream;
-		}
-
-
-		void log::write_indentation()
-		{
-			write_indentation(' ');
-		}
-
-		void log::write_indentation(const char prefix)
-		{
-			*stream << prefix;
-			for(int i = 0; i < indentation * 2; ++i)
-			{
-				*stream << " ";
-			}
-		}
-
-		void log::message(const std::string& message)
-		{
-			write_indentation();
-			*stream << message << std::endl;
-			stream->flush();
-		}
-
+void CLog::write_indentation() {
+	for(int i = 0; i < 2 * indentation; ++i) {
+        *safe_output_stream() << " ";
 	}
 }
+
+void CLog::log_to_file() {
+    debug_file_stream.open("debug.txt");
+    set_stream(debug_file_stream);
+}
+
+void CLog::message(const std::string& message) {
+	write_indentation();
+	*safe_output_stream() << message << std::endl;
+}
+
 #endif
+
