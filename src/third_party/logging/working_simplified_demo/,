@@ -17,7 +17,7 @@ CLog::CLog(const std::string& ctx)
 	stream->flush();
 }
 
-CLog::~CLog()
+CLog::~iCLog()
 {
 	--indentation;
 	write_indentation(' ');

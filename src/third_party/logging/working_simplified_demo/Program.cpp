@@ -1,26 +1,20 @@
 #include "DebugLog.hpp"
 #include "DebugLog.cpp"
 
-#include <vector>
-#include <exception>
 #include <iostream>
 #include <string>
 
 using namespace std;
 
-DEBUG_USING_NAMESPACE
-
 class base_class
 {
 protected:
 	int counter;
-
 public:
 	base_class(const std::string& param)
 		: counter(0)
 	{
 		DEBUG_METHOD();
-
 		DEBUG_VALUE_OF(counter);
 		DEBUG_VALUE_OF(param);
 	}
@@ -28,17 +22,15 @@ public:
 	int foobar()
 	{
 		DEBUG_METHOD();
-//		DEBUG_VALUE_AND_TYPE_OF(*this);
 		foo();
 		bar();
 		DEBUG_VALUE_OF(counter);
-		
 		return counter;
 	}
 
 	void foo()
 	{
-		DEBUG_METHOD();		
+		DEBUG_METHOD();	
 		++counter;
 	}
 
@@ -55,7 +47,6 @@ public:
  {
 	 return stream << "counter is" << base.counter;
  }
-
 
 class class_a : public base_class
 {
@@ -82,58 +73,13 @@ public:
 	}
 };
 
-class class_b : public base_class
-{
-private:
-	bool will_fail;
-public:
-	class_b(const bool wf)
-		: base_class("default b param"), will_fail(wf)
-	{
-		DEBUG_METHOD();
-	}
-
-	virtual void bar()
-	{
-		DEBUG_METHOD();
-		DEBUG_VALUE_OF(will_fail);
-		if (will_fail)
-		{
-			DEBUG_MESSAGE("throwing an exception as I was configured to fail");
-//			throw std::exception("bound to happend");
-		}
-		else
-		{
-			base_class::bar();
-		}
-	}
-};
-
 int main(int /*argc*/, char** /*argv*/)
 {
+    DEBUG_SET_STREAM(cout);
 	DEBUG_METHOD();
-	try
-	{
-		std::vector<int> integer_list;
-		class_a a("setec astronomy");
-		integer_list.push_back(a.foobar());
-
-		class_b b1(false);
-
-		integer_list.push_back(b1.foobar());
-
-		DEBUG_MESSAGE("all methods called, compiling results");
-//		DEBUG_VALUE_OF_COLLECTION(integer_list);
-
-		// Run it again in a way that will throw an exception
-		class_b b2(true);
-		integer_list.push_back(b2.foobar());
-
-	}
-	catch(std::exception e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
+    std::vector<int> integer_list;
+	class_a a("setec astronomy");
+	integer_list.push_back(a.foobar());
 	return 0;
 }
 
