@@ -6,7 +6,7 @@
 // Some huge, never-changing standard headers and third-party headers
 // in order to create precompiled header-files.
 
-#include "../third_party/logging/debug_log.h"
+#include "debug_log.h"
 
 #include <algorithm>
 #include <array>

@@ -1,5 +1,16 @@
 #pragma once
 
+// Code based om the logging-framework by Fredrik Bornander
+// https://www.codeproject.com/Articles/63736/Simple-debug-log-for-C
+// CodeProject license
+// 
+// Lots of modifications for the Schachfeld chess-engine by Rombelstielzchen
+// For the original code and some docu see the directory "docu_debug_log".
+//
+// Supported preprocessor-switches:
+//    * DEBUG_LOG_ENABLE
+//    * DEBUG_LOG_ENABLE_TIMING
+
 #ifndef DEBUG_LOG_ENABLE
 
 #define DEBUG_SET_STREAM(stream) 

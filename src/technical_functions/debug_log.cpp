@@ -1,3 +1,10 @@
+// Code based om the logging-framework by Fredrik Bornander
+// https://www.codeproject.com/Articles/63736/Simple-debug-log-for-C
+// CodeProject license
+// 
+// Lots of modifications for the Schachfeld chess-engine by Rombelstielzchen
+// For the original code and some docu see the directory "docu_debug_log".
+
 #if DEBUG_LOG_ENABLE
 
 #include "debug_log.h"
