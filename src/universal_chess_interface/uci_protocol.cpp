@@ -8,6 +8,7 @@
 
 #include "uci_protocol.h"
 #include "command_interface.h"
+#include "../technical_functions/standard_headers.h"
 
 void CUciProtocol::send_message(const std::string &message) {
     // UCI standard says:
@@ -57,10 +58,12 @@ void CUciProtocol::process_message(const std::string &command) {
 }
 
 void CUciProtocol::message_loop() {
+    DEBUG_LOG_TO_FILE();
     DEBUG_METHOD();
     while (true) {
         std::string message;
         getline(std::cin, message);
+        DEBUG_VALUE_OF(message);
         string_tokenizer.set_input(message);
         std::string command = string_tokenizer.next_token(); 
         if  (command == "quit") {

@@ -89,6 +89,7 @@ bool CFenParser::parse_piece_placement(const std::string &partial_input) {
 }
 
 bool CFenParser::parse_side_to_move(const std::string &partial_input) {
+    DEBUG_METHOD();
     if (partial_input == "w") {
         board.side_to_move = WHITE_TO_MOVE;
         return true;
@@ -101,14 +102,17 @@ bool CFenParser::parse_side_to_move(const std::string &partial_input) {
 }
 
 bool CFenParser::parse_castling_rights(const std::string &partial_input) {
+    DEBUG_METHOD();
     return true;
 }
 
 bool CFenParser::parse_eng_passeng(const std::string &partial_input) {
+    DEBUG_METHOD();
     return true;
 }
 
 bool CFenParser::parse_100_ply_draw_counter(const std::string &partial_input) {
+    DEBUG_METHOD();
     return true;
 }
 bool CFenParser::parse_move_counter(const std::string &partial_input) {
@@ -118,6 +122,10 @@ bool CFenParser::parse_move_counter(const std::string &partial_input) {
 bool CFenParser::parse_move(std::string move_as_text) {
     DEBUG_METHOD();
     DEBUG_VALUE_OF(move_as_text);
+    if (move_as_text == "moves") {
+       // Token starts sequence of optional moves, Ignore it.
+       return true;
+    }
     SMove move = text_to_move(move_as_text);
     board.make_move(move);
     return true;
