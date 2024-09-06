@@ -35,7 +35,7 @@
     <ClCompile Include="..\move_generator\move.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\third_party\logging\debug_log.cpp">
+    <ClCompile Include="..\technical_functions\debug_log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,9 +47,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\board\board.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\board\fen_parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\universal_chess_interface\command_interface.h">
@@ -64,7 +61,10 @@
     <ClInclude Include="..\technical_functions\standard_headers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\third_party\logging\debug_log.h">
+    <ClInclude Include="..\technical_functions\debug_log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\board\fen_parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

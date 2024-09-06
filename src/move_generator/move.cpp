@@ -92,7 +92,7 @@ std::string move_as_text(const SMove move) {
 
 uint8_t text_to_file(const char file_character) {
     // No assertions here; the input comes from the outside world
-    if ((file_character < 'a') || (file_character >= 'h')) {
+    if ((file_character < 'a') || (file_character > 'h')) {
         return ERROR_INVALID_COORDINATE;
     }
      uint8_t result = FILE_A + file_character - 'a';
@@ -102,7 +102,7 @@ uint8_t text_to_file(const char file_character) {
 
 uint8_t text_to_rank(const char rank_character) {
     // No assertions here; the input comes from the outside world
-    if ((rank_character <= '1') || (rank_character >= '8')) {
+    if ((rank_character < '1') || (rank_character > '8')) {
         return ERROR_INVALID_COORDINATE;
      }
      uint8_t result = RANK_1 + rank_character - '1';
