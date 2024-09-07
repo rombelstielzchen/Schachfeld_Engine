@@ -10,6 +10,8 @@
 
 class CUciProtocol {
   public:
+    CUciProtocol();
+  public:
     void message_loop();
     static void send_message(const std::string &message);
   private:

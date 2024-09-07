@@ -27,14 +27,18 @@ debug:
 #	export CFLAGS=$(DEBUGFLAGS)
 	make -e engine
 
-engine: makefile main.o board.o uci_protocol.o string_functions.o fen_parser.o command_interface.o move_generator.o move.o debug_log.o
+engine: makefile main.o board.o uci_protocol.o string_functions.o  \
+	fen_parser.o command_interface.o move_generator.o move.o debug_log.o \
+	test_move_generator.o engine_test.o
 	#make semi_clean 
 #	CFLAGS=-Wall -O0  -c $^
 	#make standard_headers
 	### Linking engine
 	echo "huhu"
 	echo $(CFLAGS)
-	g++ -o engine main.o string_functions.o uci_protocol.o board.o fen_parser.o command_interface.o move_generator.o move.o debug_log.o
+	g++ -o engine main.o string_functions.o uci_protocol.o board.o  \
+	fen_parser.o command_interface.o move_generator.o move.o debug_log.o  \
+	test_move_generator.o engine_test.o
 	@sl -e +extra_foo +immortality
 	@echo "=============================="
 	@ls -o engine
@@ -68,6 +72,12 @@ move.o: move_generator/move.cpp
 debug_log.o: technical_functions/debug_log.cpp
 	$(CC) $(CFLAGS) 
 	
+test_move_generator.o: move_generator/test_move_generator.cpp
+	$(CC) $(CFLAGS) 
+
+engine_test.o: technical_functions/engine_test.cpp
+	$(CC) $(CFLAGS) 
+
 #### Other build targets ###############
 
 optimized:

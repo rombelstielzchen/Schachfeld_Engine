@@ -8,7 +8,11 @@
 
 #include "uci_protocol.h"
 #include "command_interface.h"
+#include "../technical_functions/engine_test.h"
 #include "../technical_functions/standard_headers.h"
+
+CUciProtocol::CUciProtocol() {
+}
 
 void CUciProtocol::send_message(const std::string &message) {
     // UCI standard says:
@@ -28,17 +32,19 @@ void CUciProtocol::send_list_of_options() const {
 }
 
 void CUciProtocol::process_message(const std::string &command) {
-    if (command== "go") {
+    if (command == "go") {
         // TODO: parse the many options of "go", all in the same line
         command_interface.go_infinite();
-    } else if (command== "isready") {
+    } else if (command == "isready") {
         // Our first version is always and immediately ready
         send_message("readyok");
     } else if (command == "position") {
         std::string fen_position = string_tokenizer.get_the_rest();
         command_interface.set_position(fen_position);
-    } else if (command== "stop") {
+    } else if (command == "stop") {
         command_interface.stop();
+    } else if (command == "test") {
+            CEngineTest::test_everything(); 
     } else if (command == "uci") {
          identify_engine();
          send_list_of_options(); 
