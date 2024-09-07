@@ -39,6 +39,7 @@ engine: makefile main.o board.o uci_protocol.o string_functions.o  \
 	g++ -o engine main.o string_functions.o uci_protocol.o board.o  \
 	fen_parser.o command_interface.o move_generator.o move.o debug_log.o  \
 	test_move_generator.o engine_test.o
+	make test
 	@sl -e +extra_foo +immortality
 	@echo "=============================="
 	@ls -o engine
@@ -94,6 +95,11 @@ analysis:
 	CFLAGS=ANALYSISFLAGS
 	make engine
 
+test:
+	### Testing engine
+	# Quick and dirty:
+	# Start the engine, self-test in debug-mode, then quit
+	echo "quit" | ./engine
 
 semi_clean:
 	### Deleting automatically generated code
