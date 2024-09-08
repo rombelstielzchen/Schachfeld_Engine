@@ -13,7 +13,7 @@ constexpr bool NOT_YET_IMPLEMENTED = false;
 
 void CCommandInterface::go_depth(const int64_t depth_in_plies) {
     CMoveGenerator move_generator;
-    move_generator.generate_all(board.get_side_to_move());
+    move_generator.generate_all();
     SMove random_move = move_generator.get_random();
     send_best_move(random_move);
 }

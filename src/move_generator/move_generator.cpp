@@ -14,7 +14,8 @@ CMoveGenerator::CMoveGenerator() {
     number_of_moves = 0;
 }
 
-void CMoveGenerator::generate_all(ESideToMove side_to_move) {
+void CMoveGenerator::generate_all() {
+    bool side_to_move = board.get_side_to_move();
     if (side_to_move == WHITE_TO_MOVE) {
         generate_all_white_moves();
     } else {
@@ -30,6 +31,9 @@ void CMoveGenerator::generate_all_white_moves() {
                 case WHITE_POWER:
                     generate_pawn_moves(j, k, WHITE_PAWN_DIRECTION);
                     break;
+                case WHITE_KING:
+                    generate_king_moves(j, k);
+                    break;
             }
         }
     }
@@ -41,6 +45,9 @@ void CMoveGenerator::generate_all_black_moves() {
             switch (board.get_square(j, k)) {
                 case BLACK_POWER:
                     generate_pawn_moves(j, k, BLACK_PAWN_DIRECTION);
+                    break;
+                case BLACK_KING:
+                    generate_king_moves(j, k);
                     break;
             }
         }
@@ -54,6 +61,23 @@ void CMoveGenerator::generate_pawn_moves(const int file, const int rank, const i
     const int next_rank = rank + positive_negative_direction;
     if (board.get_square(file, next_rank) == EMPTY_SQUARE) {
         store_move(file, rank, file, next_rank);
+    }
+}
+
+void CMoveGenerator::generate_king_moves(const int file, const int rank) {
+    generate_potential_move(file, rank, file    , rank + 1);
+    generate_potential_move(file, rank, file + 1, rank + 1);
+    generate_potential_move(file, rank, file - 1, rank + 1);
+    generate_potential_move(file, rank, file - 1, rank      );
+    generate_potential_move(file, rank, file + 1, rank    );
+    generate_potential_move(file, rank, file + 1, rank - 1);
+    generate_potential_move(file, rank, file    , rank - 1);
+    generate_potential_move(file, rank, file - 1, rank - 1);
+}
+
+void CMoveGenerator::generate_potential_move(const int source_file, const int source_rank, const int target_file, const int target_rank) {
+    if (board.is_valid_target_square(target_file, target_rank)) {
+        store_move(source_file, source_rank, target_file, target_rank);
     }
 }
 

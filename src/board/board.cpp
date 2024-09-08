@@ -56,12 +56,36 @@ const char* const CBoard::as_is() const {
     return &squares[0][0];
 }
 
-
 TSquare CBoard::get_square(const int x, const int y) const {
     return squares[x][y];
 }
 
-ESideToMove CBoard::get_side_to_move() const {
+bool CBoard::is_valid_target_square(const int file, const int rank) const {
+    switch (get_square(file, rank)) {
+        case EMPTY_SQUARE:
+            return true;
+            break;
+        case WHITE_POWER:
+        case WHITE_KNIGHT:
+        case WHITE_BISHOP:
+        case WHITE_ROOK:
+        case WHITE_QUEEN:
+        case WHITE_KING:
+            return (side_to_move == BLACK_TO_MOVEE);
+            break;
+        case BLACK_POWER:
+        case BLACK_KNIGHT:
+        case BLACK_BISHOP:
+        case BLACK_ROOK:
+        case BLACK_QUEEN:
+        case BLACK_KING:
+            return (side_to_move == WHITE_TO_MOVE);
+            break;
+    }
+    return false;
+}
+
+bool CBoard::get_side_to_move() const {
     return side_to_move;
 }
 

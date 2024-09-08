@@ -79,10 +79,9 @@ enum ESquareContent : TSquare {
 
 typedef std::array<TSquare, BOARDSIZE_Y> TBoardColumn;
 
-enum ESideToMove {
-    WHITE_TO_MOVE,
-    BLACK_TO_MOVEE
-};
+// Modelling side-to-move as booleans for easy flipping
+constexpr bool WHITE_TO_MOVE = true;
+constexpr bool BLACK_TO_MOVEE = false;
 
 class CBoard {
     friend class CFenParser;
@@ -98,8 +97,9 @@ class CBoard {
     bool make_move(const std::string &long_algebraic_uci_move);
     void unmake_move();
   public:
+    bool get_side_to_move() const;
     TSquare get_square(const int x, const int y) const;
-    ESideToMove get_side_to_move() const;
+    bool is_valid_target_square(const int file, const int ranks) const;
   private:
     void init_garden_fence();
     void clear();
@@ -109,7 +109,7 @@ class CBoard {
     //   * std::arrays know their size and check memory-access in debug-mode
     //   * in production they work exactly the same. Same speed!
     std::array<TBoardColumn, BOARDSIZE_X> squares;
-    ESideToMove side_to_move;
+    bool side_to_move;
 };
 
 // Global board, as "everybody" needs easy access to it
