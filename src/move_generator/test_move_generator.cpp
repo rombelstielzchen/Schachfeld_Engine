@@ -9,13 +9,24 @@
 const std::vector<STestcaseMoveGenerator> testcases = {
     // Empty board
     { 0, "8/8/8/8/8/8/8/8 w" },
-    // Simple white king moves, no castling, no other pieces
+    // White king, simple  moves, no castling, no other pieces
     { 3, "K7/8/8/8/8/8/8/8 w" },
     { 5, "1K6/8/8/8/8/8/8/8 w" },
     { 8, "8/1K6/8/8/8/8/8/8 w" },
-    // Simple white king moves, no castling, some other piece
+    // White king, simple moves, no castling, some other pieces
     { 8, "n1n5/1K6/n1n5/8/8/8/8/8 w" },
     { 4, "8/r1r5/P1P5/nKn5/P1P5/8/8/8 w" },
+    // White knight on empty board
+    { 2, "N7/8/8/8/8/8/8/8 w" },
+    
+    { 3, "1N6/8/8/8/8/8/8/8 w" },
+    { 4, "2N5/8/8/8/8/8/8/8 w" },
+    { 4, "8/1N6/8/8/8/8/8/8 w" },
+    { 6, "8/2N5/8/8/8/8/8/8 w" },
+    { 8, "8/8/2N5/8/8/8/8/8 w" },
+    // White knight, some other pieces
+    { 8, "qqqq4/8/2N5/8/8/8/8/8 w" },
+    { 6, "k7/P7/p1N5/P7/8/8/8/8 w" },
 };
 
 bool CTestMoveGenerator::test_all() {
@@ -40,9 +51,9 @@ bool CTestMoveGenerator::test(const STestcaseMoveGenerator &testcase) {
     move_generator.generate_all();
     int generated_moves = move_generator.list_size();
     if (generated_moves != testcase.expected_moves) {
-        std::cerr << "Got " << generated_moves << ", expected " << testcase.expected_moves << std:: endl;
+        std::cerr << "ERROR: got " << generated_moves << ", expected " << int(testcase.expected_moves) << std:: endl;
+        return false;;
     }
     return true;
 }
-
 
