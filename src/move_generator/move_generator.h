@@ -34,6 +34,7 @@ class CMoveGenerator {
     void generate_king_moves(const int file, const int rank);
     void generate_knight_moves(const int file, const int rank);
     void generate_bishop_moves(const int file, const int rank);
+    void generate_rook_moves(const int file, const int rank);
   private:
     void generate_potential_move(const int source_file, const int source_rank, const int target_file, const int target_rank);
     void generate_sliding_moves(const int file, const int rank, const int direction_north_sourh, const int direction_east_west);

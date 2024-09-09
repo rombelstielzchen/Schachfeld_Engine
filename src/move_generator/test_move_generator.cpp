@@ -34,6 +34,13 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     // White bishop, some pieces
     { 8, "1n6/8/5n2/4B3/8/2n3n1/8/8 w" },
     { 5, "8/5p2/5P2/4B3/2p3p1/2P3P1/8/8 w" },
+    // White rook, empty board
+    { 14, "8/8/8/8/8/8/8/7R w" },
+    { 14, "8/8/8/8/8/8/8/3R4 w" },
+    { 14, "8/8/8/8/3R4/8/8/8 w" },
+    // White rook, some pieces
+    { 10, "8/3n4/8/8/1n1R2n1/8/3n4/8 w" },
+    { 9, "8/8/8/1p4p1/1P1R2P1/8/3p4/8 w" },
 };
 
 bool CTestMoveGenerator::test_all() {
@@ -43,6 +50,7 @@ bool CTestMoveGenerator::test_all() {
            return false;
         }
     }
+    board.set_start_position();
     std::cerr << "CTestMoveGenerator::test_all(): all " << testcases.size() << " passed." << std::endl;
     return true;
 }

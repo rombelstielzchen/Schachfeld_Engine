@@ -37,6 +37,9 @@ void CMoveGenerator::generate_all_white_moves() {
                 case WHITE_BISHOP:
                     generate_bishop_moves(j, k);
                     break;
+                case WHITE_ROOK:
+                    generate_rook_moves(j, k);
+                    break;
                 case WHITE_KING:
                     generate_king_moves(j, k);
                     break;
@@ -57,6 +60,9 @@ void CMoveGenerator::generate_all_black_moves() {
                     break;
                 case BLACK_BISHOP:
                     generate_bishop_moves(j, k);
+                    break;
+                case BLACK_ROOK:
+                    generate_rook_moves(j, k);
                     break;
                 case BLACK_KING:
                     generate_king_moves(j, k);
@@ -103,6 +109,13 @@ void CMoveGenerator::generate_bishop_moves(const int file, const int rank) {
     generate_sliding_moves(file, rank, DIRECTION_NORTH, DIRECTION_WEST);
     generate_sliding_moves(file, rank, DIRECTION_SOUTH, DIRECTION_EAST);
     generate_sliding_moves(file, rank, DIRECTION_SOUTH, DIRECTION_WEST);
+}
+
+void CMoveGenerator::generate_rook_moves(const int file, const int rank) {
+    generate_sliding_moves(file, rank, DIRECTION_NORTH, DIRECTION_NEUTRAL);
+    generate_sliding_moves(file, rank, DIRECTION_NEUTRAL, DIRECTION_EAST);
+    generate_sliding_moves(file, rank, DIRECTION_NEUTRAL, DIRECTION_WEST);
+    generate_sliding_moves(file, rank, DIRECTION_SOUTH, DIRECTION_NEUTRAL);
 }
 
 void CMoveGenerator::generate_potential_move(const int source_file, const int source_rank, const int target_file, const int target_rank) {
