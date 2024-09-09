@@ -31,15 +31,19 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     { 7, "8/8/8/8/8/8/8/B7 w" },
     { 7, "8/8/8/8/8/8/8/3B4 w" },
     { 13, "8/8/8/4B3/8/8/8/8 w" },
+    // White bishop, some pieces
+    { 8, "1n6/8/5n2/4B3/8/2n3n1/8/8 w" },
+    { 5, "8/5p2/5P2/4B3/2p3p1/2P3P1/8/8 w" },
 };
 
 bool CTestMoveGenerator::test_all() {
-    std::cerr << "CTestMoveGenerator::test_all" << std::endl;
+    std::cerr << "CTestMoveGenerator::test_all()" << std::endl;
     for (const STestcaseMoveGenerator &testcase  : testcases) {
         if (!test(testcase)) {
            return false;
         }
     }
+    std::cerr << "CTestMoveGenerator::test_all(): all " << testcases.size() << " passed." << std::endl;
     return true;
 }
 
