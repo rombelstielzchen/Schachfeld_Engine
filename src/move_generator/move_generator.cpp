@@ -34,6 +34,9 @@ void CMoveGenerator::generate_all_white_moves() {
                 case WHITE_KNIGHT:
                     generate_knight_moves(j, k);
                     break;
+                case WHITE_BISHOP:
+                    generate_bishop_moves(j, k);
+                    break;
                 case WHITE_KING:
                     generate_king_moves(j, k);
                     break;
@@ -51,6 +54,9 @@ void CMoveGenerator::generate_all_black_moves() {
                     break;
                 case BLACK_KNIGHT:
                     generate_king_moves(j, k);
+                    break;
+                case BLACK_BISHOP:
+                    generate_bishop_moves(j, k);
                     break;
                 case BLACK_KING:
                     generate_king_moves(j, k);
@@ -92,9 +98,30 @@ void CMoveGenerator::generate_knight_moves(const int file, const int rank) {
     generate_potential_move(file, rank, file + 1, rank - 2);
 }
 
+void CMoveGenerator::generate_bishop_moves(const int file, const int rank) {
+    generate_sliding_moves(file, rank, DIRECTION_NORTH, DIRECTION_EAST);
+    generate_sliding_moves(file, rank, DIRECTION_NORTH, DIRECTION_WEST);
+    generate_sliding_moves(file, rank, DIRECTION_SOUTH, DIRECTION_EAST);
+    generate_sliding_moves(file, rank, DIRECTION_SOUTH, DIRECTION_WEST);
+}
+
 void CMoveGenerator::generate_potential_move(const int source_file, const int source_rank, const int target_file, const int target_rank) {
     if (board.is_valid_target_square(target_file, target_rank)) {
         store_move(source_file, source_rank, target_file, target_rank);
+    }
+}
+
+void CMoveGenerator::generate_sliding_moves(const int file, const int rank, const int direction_north_sourh, const int direction_east_west) {
+    int next_file = file + direction_east_west;
+    int next_rank = rank + direction_north_sourh;
+    while (board.get_square(next_file, next_rank) == EMPTY_SQUARE) {
+        store_move(file, rank, next_file, next_rank);
+        next_file += direction_east_west;
+        next_rank += direction_north_sourh;
+    }
+    if (board.is_valid_target_square(next_file, next_rank)) {
+        // Opponent piece
+        store_move(file, rank, next_file, next_rank);
     }
 }
 
