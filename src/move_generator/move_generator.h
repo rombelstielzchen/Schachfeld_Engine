@@ -25,6 +25,7 @@ class CMoveGenerator {
   private:
     void generate_pawn_moves(const int file, const int rank, const int positive_negative_direction);
     void generate_king_moves(const int file, const int rank);
+    void generate_knight_moves(const int file, const int rank);
 public:
     void generate_potential_move(const int source_file, const int source_rank, const int target_file, const int target_rank);
     void store_move(const int source_file, const int source_rank, const int target_file, const int target_rank);

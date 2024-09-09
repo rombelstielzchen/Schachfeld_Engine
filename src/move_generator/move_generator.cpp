@@ -31,6 +31,9 @@ void CMoveGenerator::generate_all_white_moves() {
                 case WHITE_POWER:
                     generate_pawn_moves(j, k, WHITE_PAWN_DIRECTION);
                     break;
+                case WHITE_KNIGHT:
+                    generate_knight_moves(j, k);
+                    break;
                 case WHITE_KING:
                     generate_king_moves(j, k);
                     break;
@@ -45,6 +48,9 @@ void CMoveGenerator::generate_all_black_moves() {
             switch (board.get_square(j, k)) {
                 case BLACK_POWER:
                     generate_pawn_moves(j, k, BLACK_PAWN_DIRECTION);
+                    break;
+                case BLACK_KNIGHT:
+                    generate_king_moves(j, k);
                     break;
                 case BLACK_KING:
                     generate_king_moves(j, k);
@@ -73,6 +79,17 @@ void CMoveGenerator::generate_king_moves(const int file, const int rank) {
     generate_potential_move(file, rank, file + 1, rank - 1);
     generate_potential_move(file, rank, file    , rank - 1);
     generate_potential_move(file, rank, file - 1, rank - 1);
+}
+
+void CMoveGenerator::generate_knight_moves(const int file, const int rank) {
+    generate_potential_move(file, rank, file - 1, rank + 2);
+    generate_potential_move(file, rank, file + 1, rank + 2);
+    generate_potential_move(file, rank, file - 2, rank + 1);
+    generate_potential_move(file, rank, file + 2, rank + 1);
+    generate_potential_move(file, rank, file - 2, rank - 1);
+    generate_potential_move(file, rank, file + 2, rank - 1);
+    generate_potential_move(file, rank, file - 1, rank - 2);
+    generate_potential_move(file, rank, file + 1, rank - 2);
 }
 
 void CMoveGenerator::generate_potential_move(const int source_file, const int source_rank, const int target_file, const int target_rank) {
