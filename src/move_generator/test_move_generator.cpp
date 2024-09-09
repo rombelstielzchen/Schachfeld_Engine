@@ -41,6 +41,13 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     // White rook, some pieces
     { 10, "8/3n4/8/8/1n1R2n1/8/3n4/8 w" },
     { 9, "8/8/8/1p4p1/1P1R2P1/8/3p4/8 w" },
+    // White queen, empty board
+    { 21, "8/8/8/8/8/8/8/Q7 w" },
+    { 14, "8/8/8/8/8/8/8/3Q4 w" },
+    { 27, "8/8/8/3Q4/8/8/8/8 w" },
+    // White queen, some pieces
+    { 12, "8/8/8/n3n3/8/8/8/Q3n3 w" },
+    { 11, "2n1n1n1/2P1P2P1/2p3p1/2P3P1/2P3P1/2P3P1/8/8 w" },
 };
 
 bool CTestMoveGenerator::test_all() {
