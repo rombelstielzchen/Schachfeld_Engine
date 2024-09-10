@@ -83,9 +83,16 @@ void CMoveGenerator::generate_pawn_moves(const int file, const int rank, const i
     assert(rank <= RANK_7);
     assert((positive_negative_direction == WHITE_PAWN_DIRECTION) || (positive_negative_direction == BLACK_PAWN_DIRECTION));
     const int next_rank = rank + positive_negative_direction;
+    const int left_file = file - 1;
+    const int right_file = file + 1;
+    if (board.square_occupied_by_opponent(left_file, next_rank)) {
+        store_pawn_move(file, rank, left_file, next_rank);
+    }
+    if (board.square_occupied_by_opponent(right_file, next_rank)) {
+        store_pawn_move(file, rank, right_file, next_rank);
+    }
     if (board.get_square(file, next_rank) == EMPTY_SQUARE) {
         store_pawn_move(file, rank, file, next_rank);
-//        store_move(file, rank, file, next_rank);
     }
 }
 
@@ -169,6 +176,7 @@ void CMoveGenerator::store_pawn_move(const int source_file, const int source_ran
 }
 
 void CMoveGenerator::store_move(const int source_file, const int source_rank, const int target_file, const int target_rank) {
+//    std::cerr << int(source_file) << ", " << int(source_rank) << " -> " << int(target_file) << ", " << int(target_rank) << std::endl;
     assert(source_file >= FILE_A);
     assert(source_file <= FILE_H);
     assert(source_rank >= RANK_1);
