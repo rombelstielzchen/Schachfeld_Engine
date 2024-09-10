@@ -84,7 +84,8 @@ void CMoveGenerator::generate_pawn_moves(const int file, const int rank, const i
     assert((positive_negative_direction == WHITE_PAWN_DIRECTION) || (positive_negative_direction == BLACK_PAWN_DIRECTION));
     const int next_rank = rank + positive_negative_direction;
     if (board.get_square(file, next_rank) == EMPTY_SQUARE) {
-        store_move(file, rank, file, next_rank);
+        store_pawn_move(file, rank, file, next_rank);
+//        store_move(file, rank, file, next_rank);
     }
 }
 
@@ -161,6 +162,10 @@ SMove CMoveGenerator::get_random() const {
 int CMoveGenerator::list_size() const {
     assert(number_of_moves <= MAX_MOVES_IN_CHESS_POSITION);
     return number_of_moves;
+}
+void CMoveGenerator::store_pawn_move(const int source_file, const int source_rank, const int target_file, const int target_rank) {
+    //TODO: in case of promorion generate 4 moves at once
+    store_move(source_file, source_rank, target_file, target_rank);
 }
 
 void CMoveGenerator::store_move(const int source_file, const int source_rank, const int target_file, const int target_rank) {
