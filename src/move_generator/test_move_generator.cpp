@@ -48,6 +48,13 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     // White queen, some pieces
     { 12, "8/8/8/n3n3/8/8/8/Q3n3 w" },
     { 11, "2n1n1n1/2P1P1P1/2p3p1/2P1Q1P1/2P3P1/2P3P1/8/8 w" },
+    // White pawns, simple single-jumps. No captures, no promotions, no eng-passeng
+    { 8, "8/8/8/8/8/PPPPPPPP/8/8 w" },
+    { 3, "8/8/8/8/P1P1P3/P1P1P3/P1P5/8 w" } ,
+    { 2, "8/8/8/3PP3/3PP3/3PP3/3PP3/8 w" },
+    { 2, "6k1/6P1/5PPP/6P1/6P1/6P1/6P1/8 w" },
+    // White pawns, some double-jumps
+//    { 2, "8/8/8/8/8/8/P7/8 w" },
 };
 
 bool CTestMoveGenerator::test_all() {
