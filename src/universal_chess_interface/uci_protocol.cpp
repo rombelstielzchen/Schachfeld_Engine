@@ -40,7 +40,9 @@ void CUciProtocol::process_message(const std::string &command) {
         send_message("readyok");
     } else if (command == "position") {
         std::string fen_position = string_tokenizer.get_the_rest();
-        command_interface.set_position(fen_position);
+        if (!command_interface.set_position(fen_position)) {
+            std::cerr << "ERROR: invaid position received via UCI" << std::endl;
+        }
     } else if (command == "stop") {
         command_interface.stop();
     } else if (command == "test") {
