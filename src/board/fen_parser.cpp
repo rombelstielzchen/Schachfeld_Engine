@@ -52,31 +52,36 @@ bool CFenParser::parse_piece_placement(const std::string &partial_input) {
             return false;
         }
         switch (c) {
-                case WHITE_KING:
-                case WHITE_QUEEN:
-    case WHITE_ROOK:
-    case WHITE_BISHOP:
-    case WHITE_KNIGHT:
-    case WHITE_POWER:
-    case BLACK_KING:
-    case BLACK_QUEEN:
-    case BLACK_ROOK:
-    case BLACK_BISHOP:
-    case BLACK_KNIGHT:
-    case BLACK_POWER:
-            board.squares[x][y] = c;
-            ++x;
-            break;
-    case '1' : 
-    case '2' : 
-    case '3' : 
-    case '4' : 
-    case '5' : 
-    case '6' : 
-    case '7' : 
-    case '8' : {
-            int gap = c - '0';
-            x += gap;
+            case WHITE_KING:
+            case WHITE_QUEEN:
+            case WHITE_ROOK:
+            case WHITE_BISHOP:
+            case WHITE_KNIGHT:
+            case WHITE_POWER:
+            case BLACK_KING:
+            case BLACK_QUEEN:
+            case BLACK_ROOK:
+            case BLACK_BISHOP:
+            case BLACK_KNIGHT:
+            case BLACK_POWER:
+                board.squares[x][y] = c;
+                ++x;
+                break;
+            case '1' : 
+            case '2' : 
+            case '3' : 
+            case '4' : 
+            case '5' : 
+            case '6' : 
+            case '7' : 
+            case '8' : {
+                int gap = c - '0';
+                x += gap;
+                if (x > FILE_GARDEN_FENCE_RIGHT_1) {
+                    // Extra check that catches "harmless" extra empty squares,
+                    // mostly detecting erroneous test-cases
+                    return false;
+                }
             }
             break;
      default:
