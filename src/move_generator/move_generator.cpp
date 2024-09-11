@@ -80,6 +80,14 @@ void CMoveGenerator::generate_pawn_moves(const int file, const int rank, const i
     assert(rank <= RANK_7);
     assert((positive_negative_direction == DIRECTION_NORTH) || (positive_negative_direction == DIRECTION_SOUTH));
     const int next_rank = rank + positive_negative_direction;
+    const int left_file = file - 1;
+    const int right_file = file + 1;
+    if (board.square_occupied_by_opponent(left_file, next_rank)) {
+        store_pawn_move(file, rank, left_file, next_rank);
+    }
+    if (board.square_occupied_by_opponent(right_file, next_rank)) {
+        store_pawn_move(file, rank, right_file, next_rank);
+    }
     if (board.get_square(file, next_rank) == EMPTY_SQUARE) {
         store_pawn_move(file, rank, file, next_rank);
     }
@@ -162,6 +170,7 @@ int CMoveGenerator::list_size() const {
 
 void CMoveGenerator::store_move(const SMove &move) {
     assert(move_in_range(move));
+//    std::cerr << int(source_file) << ", " << int(source_rank) << " -> " << int(target_file) << ", " << int(target_rank) << std::endl;
     assert(number_of_moves < MAX_MOVES_IN_CHESS_POSITION);
     move_list[number_of_moves] = move;
     number_of_moves++;
