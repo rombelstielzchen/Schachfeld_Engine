@@ -53,6 +53,10 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     { 3, "8/8/8/8/P1P1P3/P1P1P3/P1P5/8 w" } ,
     { 2, "8/8/8/3PP3/3PP3/3PP3/3PP3/8 w" },
     { 2, "6k1/6P1/5PPP/6P1/6P1/6P1/6P1/8 w" },
+    // White pawn, promotion
+    { 4, "8/1P6/8/8/8/8/8/8 w"},
+    { 8, "nnn5/1P6/8/8/8/8/8/8 w"},
+    { 12, "n1n5/1P6/8/8/8/8/8/8 w"},
     // White pawns, some double-jumps
 //    { 2, "8/8/8/8/8/8/P7/8 w" },
 };

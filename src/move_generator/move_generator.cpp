@@ -7,9 +7,6 @@
 #include "../board/board.h"
 #include "../technical_functions/standard_headers.h"
 
-constexpr int WHITE_PAWN_DIRECTION = +1;
-constexpr int BLACK_PAWN_DIRECTION = -1;
-
 CMoveGenerator::CMoveGenerator() {
     number_of_moves = 0;
 }
@@ -29,7 +26,7 @@ void CMoveGenerator::generate_all_white_moves() {
         for (int k = RANK_1; k <= RANK_8; ++k) {
             switch (board.get_square(j, k)) {
                 case WHITE_POWER:
-                    generate_pawn_moves(j, k, WHITE_PAWN_DIRECTION);
+                    generate_pawn_moves(j, k, DIRECTION_NORTH);
                     break;
                 case WHITE_KNIGHT:
                     generate_knight_moves(j, k);
@@ -56,7 +53,7 @@ void CMoveGenerator::generate_all_black_moves() {
         for (int k = RANK_1; k <= RANK_8; ++k) {
             switch (board.get_square(j, k)) {
                 case BLACK_POWER:
-                    generate_pawn_moves(j, k, BLACK_PAWN_DIRECTION);
+                    generate_pawn_moves(j, k, DIRECTION_SOUTH);
                     break;
                 case BLACK_KNIGHT:
                     generate_king_moves(j, k);
@@ -81,10 +78,10 @@ void CMoveGenerator::generate_all_black_moves() {
 void CMoveGenerator::generate_pawn_moves(const int file, const int rank, const int positive_negative_direction) {
     assert(rank >= RANK_2);
     assert(rank <= RANK_7);
-    assert((positive_negative_direction == WHITE_PAWN_DIRECTION) || (positive_negative_direction == BLACK_PAWN_DIRECTION));
+    assert((positive_negative_direction == DIRECTION_NORTH) || (positive_negative_direction == DIRECTION_SOUTH));
     const int next_rank = rank + positive_negative_direction;
     if (board.get_square(file, next_rank) == EMPTY_SQUARE) {
-        store_move(file, rank, file, next_rank);
+        store_pawn_move(file, rank, file, next_rank);
     }
 }
 
@@ -179,3 +176,35 @@ void CMoveGenerator::store_move(const int source_file, const int source_rank, co
     new_move.move_type = move_type;
     store_move(new_move);
 }
+
+void CMoveGenerator::store_pawn_move(const int source_file, const int source_rank, const int target_file, const int target_rank) {
+    SMove new_move;
+    new_move.source.file = source_file;
+    new_move.source.rank = source_rank;
+    new_move.target.file = target_file;
+    new_move.target.rank = target_rank;
+    if (target_rank == RANK_8) {
+        // Promotions in the order of likelihood
+        new_move.move_type = WHITE_QUEEN;
+        store_move(new_move);
+        new_move.move_type = WHITE_KNIGHT;
+        store_move(new_move);
+        new_move.move_type = WHITE_ROOK;
+        store_move(new_move);
+        new_move.move_type = WHITE_BISHOP;
+        store_move(new_move);
+    } else if (target_rank == RANK_1) {
+        new_move.move_type = BLACK_QUEEN;
+        store_move(new_move);
+        new_move.move_type = BLACK_KNIGHT;
+        store_move(new_move);
+        new_move.move_type = BLACK_ROOK;
+        store_move(new_move);
+        new_move.move_type = BLACK_BISHOP;
+        store_move(new_move);
+    } else { 
+        new_move.move_type = MOVE_TYPE_NORMAL;
+        store_move(new_move);
+    }
+}
+

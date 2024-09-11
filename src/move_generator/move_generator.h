@@ -42,6 +42,8 @@ class CMoveGenerator {
   private:
     void store_move(const SMove &move);
     void store_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type = MOVE_TYPE_NORMAL);
+    // Special method for pawns, creating four moves on promotion
+    void store_pawn_move(const int source_file, const int source_rank, const int target_file, const int target_rank);
   private:
     std::array<SMove, MAX_MOVES_IN_CHESS_POSITION> move_list;
     unsigned int number_of_moves;
