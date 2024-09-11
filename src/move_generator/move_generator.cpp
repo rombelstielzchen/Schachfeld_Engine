@@ -163,21 +163,19 @@ int CMoveGenerator::list_size() const {
     return number_of_moves;
 }
 
-void CMoveGenerator::store_move(const int source_file, const int source_rank, const int target_file, const int target_rank) {
-    assert(source_file >= FILE_A);
-    assert(source_file <= FILE_H);
-    assert(source_rank >= RANK_1);
-    assert(source_rank <= RANK_8);
-    assert(target_file >= FILE_A);
-    assert(target_file <= FILE_H);
-    assert(target_rank >= RANK_1);
-    assert(target_rank <= RANK_8);
+void CMoveGenerator::store_move(const SMove &move) {
+    assert(move_in_range(move));
     assert(number_of_moves < MAX_MOVES_IN_CHESS_POSITION);
+    move_list[number_of_moves] = move;
+    number_of_moves++;
+}
+
+void CMoveGenerator::store_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type) {
     SMove new_move;
     new_move.source.file = source_file;
     new_move.source.rank = source_rank;
     new_move.target.file = target_file;
     new_move.target.rank = target_rank;
-    move_list[number_of_moves] = new_move;
-    number_of_moves++;
+    new_move.move_type = move_type;
+    store_move(new_move);
 }
