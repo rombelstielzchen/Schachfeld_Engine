@@ -39,6 +39,9 @@ class CMoveGenerator {
   private:
     void generate_potential_move(const int source_file, const int source_rank, const int target_file, const int target_rank);
     void generate_sliding_moves(const int file, const int rank, const int direction_north_sourh, const int direction_east_west);
+  private:
+    // store_pawn_move generates multiple moves in case of promotion
+    void store_pawn_move(const int source_file, const int source_rank, const int target_file, const int target_rank);
     void store_move(const int source_file, const int source_rank, const int target_file, const int target_rank);
   private:
     std::array<SMove, MAX_MOVES_IN_CHESS_POSITION> move_list;
