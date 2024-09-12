@@ -41,7 +41,7 @@ void CUciProtocol::process_message(const std::string &command) {
     } else if (command == "position") {
         std::string fen_position = string_tokenizer.get_the_rest();
         if (!command_interface.set_position(fen_position)) {
-            std::cerr << "ERROR: invaid position received via UCI" << std::endl;
+            std::cerr << "ERROR: invalid position received via UCI" << std::endl;
         }
     } else if (command == "stop") {
         command_interface.stop();
@@ -55,7 +55,7 @@ void CUciProtocol::process_message(const std::string &command) {
         command_interface.new_game();
     } else {
         // "quit" already gets handled by the message_loop().
-        // So this is an unknown token. Accoring to the UCI-standard
+        // So this is an unknown token. According to the UCI-standard
         // we should try to continue with the rest of the line.
         std::string command_candidate = string_tokenizer.next_token();
         if (command_candidate != "") {
