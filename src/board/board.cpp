@@ -4,6 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "board.h"
+#include "fen_generator.h"
 #include "fen_parser.h"
 #include "../technical_functions/standard_headers.h"
 
@@ -36,19 +37,20 @@ void CBoard::clear() {
 }
 
 void CBoard::set_start_position() {
-    const std::string START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    const std::string START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w"; // TODO:KQkq - 0 1";
     set_fen_position(START_POSITION);
+    assert(get_fen_position() == START_POSITION);
 }
 
 bool CBoard::set_fen_position(const std::string &position) {
     clear();
-    squares[4][5] = 'A';
-    return CFenParser::parse(position);
+    bool success = CFenParser::parse(position);
+    std::cerr << "New position: " << get_fen_position() << std::endl;
+    return success;
 }
 
 std::string CBoard::get_fen_position() const {
-    std::string result = "TODO";
-    return result;
+    return CFenGenerator::get_fen_position();
 }
 
 const char* const CBoard::as_is() const {

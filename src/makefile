@@ -29,7 +29,7 @@ debug:
 
 engine: makefile main.o board.o uci_protocol.o string_functions.o  \
 	fen_parser.o command_interface.o move_generator.o move.o debug_log.o \
-	test_move_generator.o engine_test.o
+	test_move_generator.o engine_test.o fen_generator.o
 	#make semi_clean 
 #	CFLAGS=-Wall -O0  -c $^
 	#make standard_headers
@@ -38,7 +38,7 @@ engine: makefile main.o board.o uci_protocol.o string_functions.o  \
 	echo $(CFLAGS)
 	g++ -o engine main.o string_functions.o uci_protocol.o board.o  \
 	fen_parser.o command_interface.o move_generator.o move.o debug_log.o  \
-	test_move_generator.o engine_test.o
+	test_move_generator.o engine_test.o fen_generator.o
 	make test
 	@sl -e +extra_foo +immortality
 	@echo "=============================="
@@ -74,6 +74,9 @@ debug_log.o: technical_functions/debug_log.cpp
 	$(CC) $(CFLAGS) 
 	
 test_move_generator.o: move_generator/test_move_generator.cpp
+	$(CC) $(CFLAGS) 
+
+fen_generator.o: board/fen_generator.cpp
 	$(CC) $(CFLAGS) 
 
 engine_test.o: technical_functions/engine_test.cpp
