@@ -1,4 +1,4 @@
-// Code based om the logging-framework by Fredrik Bornander
+// Code based on the logging-framework by Fredrik Bornander
 // https://www.codeproject.com/Articles/63736/Simple-debug-log-for-C
 // CodeProject license
 // 
@@ -10,8 +10,8 @@
 #include "debug_log.h"
 #include <fstream>
 
-// Do not use this tream directly, use the wrapper!
-// At sartup it can be undefined due to initialization order!
+// Do not use this stream directly, use the wrapper!
+// At startup it can be undefined due to initialization order!
 // std::cout is only known at runtime!
 std::ostream* debug_stream = &std::cout;
 std::ofstream debug_file_stream;

@@ -1,3 +1,5 @@
+#pragma once
+
 // Project: Schachfeld_Engine
 // Author: Rombelstielzchen
 // License: GPLv3
@@ -16,4 +18,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+
+// To be used in assertions
+constexpr bool NOT_YET_IMPLEMENTED = false;
 

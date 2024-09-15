@@ -35,3 +35,4 @@ class CCommandInterface {
   private:
     void send_best_move(SMove best_move) const;
 };
+

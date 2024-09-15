@@ -14,7 +14,7 @@
 CUciProtocol::CUciProtocol() {
 }
 
-void CUciProtocol::send_message(const std::string &message) {
+/* static */ void CUciProtocol::send_message(const std::string &message) {
     // UCI standard says:
     //   * communication via text-IO
     //   * every message should end with a new-line, "\n"
@@ -23,7 +23,7 @@ void CUciProtocol::send_message(const std::string &message) {
 }
 
 void CUciProtocol::identify_engine() const {
-    send_message("id name Schachfeld 0.2");
+    send_message("id name Schachfeld 0.3");
     send_message("id author Rombelstielzchen");
 }
 
@@ -66,7 +66,6 @@ void CUciProtocol::process_message(const std::string &command) {
 }
 
 void CUciProtocol::message_loop() {
-    DEBUG_LOG_TO_FILE();
     DEBUG_METHOD();
     while (true) {
         std::string message;

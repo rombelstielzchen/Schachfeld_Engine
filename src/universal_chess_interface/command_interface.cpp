@@ -9,8 +9,6 @@
 #include "../move_generator/move_generator.h"
 #include "../technical_functions/standard_headers.h"
 
-constexpr bool NOT_YET_IMPLEMENTED = false;
-
 void CCommandInterface::go_depth(const int64_t depth_in_plies) {
     CMoveGenerator move_generator;
     move_generator.generate_all();
@@ -59,10 +57,11 @@ void CCommandInterface::go_time(
 }
 
 void CCommandInterface::new_game() {
+    // TODO
 }
 
 void CCommandInterface::stop() {
-go_depth(42);
+    go_depth(42);
     //assert(NOT_YET_IMPLEMENTED);
 }
 
