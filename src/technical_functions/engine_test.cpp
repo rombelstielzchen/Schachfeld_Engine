@@ -2,14 +2,16 @@
 // Author: Rombelstielzchen
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
+
 #include "engine_test.h"
+#include "../board/test_board.h"
 #include "../move_generator/test_move_generator.h"
 #include "../technical_functions/standard_headers.h"
 
 /* static */ void CEngineTest::test_everything() {
     std::cerr << "CEngineTest::test_everything() ..." << std::endl;
     bool success = CTestMoveGenerator::test_all()
-        && true
+        && CTestBoard::test_everything()
         && true
         && true;
     if (success) {
