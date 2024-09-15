@@ -18,6 +18,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <vector>
 
 // To be used in assertions
 constexpr bool NOT_YET_IMPLEMENTED = false;
