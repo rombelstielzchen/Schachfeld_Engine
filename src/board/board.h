@@ -1,5 +1,5 @@
-
 #pragma once
+
 // Project: Schachfeld_Engine
 // Author: Rombelstielzchen
 // License: GPLv3

@@ -29,16 +29,17 @@ debug:
 
 engine: makefile main.o board.o uci_protocol.o string_functions.o  \
 	fen_parser.o command_interface.o move_generator.o move.o debug_log.o \
-	test_move_generator.o engine_test.o fen_generator.o test_board.o
+	test_move_generator.o engine_test.o fen_generator.o test_board.o \
+	test_technical_functions.o
 	#make semi_clean 
 #	CFLAGS=-Wall -O0  -c $^
 	#make standard_headers
 	### Linking engine
-	echo "huhu"
 	echo $(CFLAGS)
 	g++ -o engine main.o string_functions.o uci_protocol.o board.o  \
 	fen_parser.o command_interface.o move_generator.o move.o debug_log.o  \
-	test_move_generator.o engine_test.o fen_generator.o test_board.o
+	test_move_generator.o engine_test.o fen_generator.o test_board.o \
+	test_technical_functions.o
 	make test
 	@sl -e +extra_foo +immortality
 	@echo "=============================="
@@ -83,6 +84,9 @@ engine_test.o: technical_functions/engine_test.cpp
 	$(CC) $(CFLAGS) 
 
 test_board.o: board/test_board.cpp
+	$(CC) $(CFLAGS) 
+
+test_technical_functions.o: technical_functions/test_technical_functions.cpp
 	$(CC) $(CFLAGS) 
 
 #### Other build targets ###############

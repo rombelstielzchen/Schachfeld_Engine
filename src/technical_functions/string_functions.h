@@ -19,7 +19,7 @@ class CStringTokenizer {
   public:
     CStringTokenizer(const std::string &input = "");
   public:
-    void set_input(std::string &input);
+    void set_input(const std::string &input);
     std::string next_token();
     std::string get_the_rest();
   private:

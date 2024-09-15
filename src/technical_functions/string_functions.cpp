@@ -30,11 +30,10 @@ void trim(std::string &in_out_string) {
 }
 
 CStringTokenizer::CStringTokenizer(const std::string &input) {
-    input_stream.clear();
-    input_stream.str(input);
+     set_input(input);
 }
 
-void CStringTokenizer::set_input(std::string &input) {
+void CStringTokenizer::set_input(const std::string &input) {
     input_stream.clear();
     input_stream.str(input);
 }
