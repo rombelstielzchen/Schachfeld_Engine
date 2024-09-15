@@ -8,3 +8,4 @@
 bool CTestBoard::test_everything() {
     return true;
 }
+
