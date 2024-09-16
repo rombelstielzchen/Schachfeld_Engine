@@ -60,7 +60,9 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     { 8, "nnn5/1P6/8/8/8/8/8/8 w"},
     { 12, "n1n5/1P6/8/8/8/8/8/8 w"},
     // White pawns, some double-jumps
-//    { 2, "8/8/8/8/8/8/P7/8 w" },
+    { 2, "8/8/8/8/8/8/P7/8 w" },
+    { 16, "8/8/8/8/8/8/PPPPPPPP/8 w" },
+    { 9, "8/8/8/8/p1p1pppp/P7/PPPPPPPP/8 w" },
     // White to move, multiple pieces   
     { 28, "3k4/8/8/5Q2/8/8/8/K7 w" },
     { 21, "3k1b1b/3pqppp/3n3r/3p1Q1p/3n3r/3p3p/8/K7 w" },
