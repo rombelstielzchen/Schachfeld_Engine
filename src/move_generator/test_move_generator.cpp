@@ -70,15 +70,15 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     { 0, "8/8/p7/Pp6/RP6/KP6/PP6/8 w" },
 };
 
-bool CTestMoveGenerator::test_all() {
-    std::cerr << "CTestMoveGenerator::test_all()" << std::endl;
+bool CTestMoveGenerator::test_everything() {
+    std::cerr << "CTestMoveGenerator::test_everything()" << std::endl;
     for (const STestcaseMoveGenerator &testcase  : testcases) {
         if (!test(testcase)) {
            return false;
         }
     }
     board.set_start_position();
-    std::cerr << "CTestMoveGenerator::test_all(): all " << testcases.size() << " passed." << std::endl;
+    std::cerr << "CTestMoveGenerator::test_everything(): all " << testcases.size() << " passed." << std::endl;
     return true;
 }
 
@@ -87,8 +87,8 @@ bool CTestMoveGenerator::test(const STestcaseMoveGenerator &testcase) {
     assert(testcase.expected_moves <= MAX_MOVES_IN_CHESS_POSITION);
     std::cerr << "Testcase: " << testcase.fen_position << std::endl;
     if (!board.set_fen_position(testcase.fen_position)) {
-            std::cerr << "ERROR: invalid FEN-position" << std::endl;
-            return false;
+        std::cerr << "ERROR: invalid FEN-position" << std::endl;
+        return false;
     }
     CMoveGenerator move_generator;
     move_generator.generate_all();

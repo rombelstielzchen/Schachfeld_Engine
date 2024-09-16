@@ -156,6 +156,9 @@ void CMoveGenerator::generate_queen_moves(const int file, const int rank) {
 }
 
 void CMoveGenerator::generate_potential_move(const int source_file, const int source_rank, const int target_file, const int target_rank) {
+    assert(file_in_range(source_file));
+    assert(rank_in_range(source_rank));
+    // Target may be out of range (garden-fence), therefore no assertions
     if (board.is_valid_target_square(target_file, target_rank)) {
         store_move(source_file, source_rank, target_file, target_rank);
     }
@@ -194,7 +197,7 @@ void CMoveGenerator::store_move(const SMove &move) {
 //    std::cerr << int(source_file) << ", " << int(source_rank) << " -> " << int(target_file) << ", " << int(target_rank) << std::endl;
     assert(number_of_moves < MAX_MOVES_IN_CHESS_POSITION);
     move_list[number_of_moves] = move;
-    number_of_moves++;
+    ++number_of_moves;
 }
 
 void CMoveGenerator::store_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type) {

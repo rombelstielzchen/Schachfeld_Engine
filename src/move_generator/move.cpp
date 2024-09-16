@@ -31,6 +31,7 @@ bool is_null_move(const SMove move) {
 }
 
 char file_as_text(const int file) {
+    assert(file_in_range(file));
     switch (file) {
         case FILE_A:
             return 'a';
@@ -55,6 +56,7 @@ char file_as_text(const int file) {
 }
 
 char rank_as_text(const int rank) {
+    assert(rank_in_range(rank));
     switch (rank) {
         case RANK_1:
             return '1';
@@ -79,7 +81,10 @@ char rank_as_text(const int rank) {
 }
 
 std::string square_as_text(const SSquare square) {
-    std::string result{file_as_text(square.file), rank_as_text(square.rank)};
+    assert(square_in_range(square));
+    std::string result{
+        file_as_text(square.file),
+        rank_as_text(square.rank)};
     return result;
 }
 
@@ -87,6 +92,7 @@ std::string move_as_text(const SMove move) {
     if (is_null_move(move)) {
         return NULL_MOVE_AS_TEXT;
     }
+    assert(move_in_range(move));
     return (square_as_text(move.source) + square_as_text(move.target));
 }
 

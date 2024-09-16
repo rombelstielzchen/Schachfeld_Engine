@@ -16,7 +16,7 @@ struct STestcaseMoveGenerator {
 
 class CTestMoveGenerator {
   public:
-    static bool test_all();
+    static bool test_everything();
   private:
     static bool test(const STestcaseMoveGenerator &testcase);
 };

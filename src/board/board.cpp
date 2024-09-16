@@ -58,8 +58,8 @@ const char* const CBoard::as_is() const {
     return &squares[0][0];
 }
 
-TSquare CBoard::get_square(const int x, const int y) const {
-    return squares[x][y];
+TSquare CBoard::get_square(const int file, const int rank) const {
+    return squares[file][rank];
 }
 
 bool CBoard::square_occupied_by_opponent(const int file, const int rank) const {
@@ -109,3 +109,4 @@ bool CBoard::make_move(SMove move) {
 }
 
 CBoard board;
+

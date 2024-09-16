@@ -14,7 +14,7 @@
     bool success = true
          && CTestTechnicalFunctions::test_everything()
         && CTestBoard::test_everything()
-        && CTestMoveGenerator::test_all();
+        && CTestMoveGenerator::test_everything();
     if (success) {
         std::cerr << "CEngineTest::test_everything(): all tests passed with success." << std::endl;
     } else {

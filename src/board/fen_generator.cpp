@@ -51,3 +51,4 @@ std::string CFenGenerator::get_piece_placement() {
 std::string CFenGenerator::get_side_to_move() {
     return (board.get_side_to_move() == WHITE_TO_MOVE) ? "w" : "b";
 }
+
