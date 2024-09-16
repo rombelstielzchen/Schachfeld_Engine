@@ -31,6 +31,8 @@ class CMoveGenerator {
     void generate_all_black_moves();
   private:
     void generate_pawn_moves(const int file, const int rank, const int positive_negative_direction);
+    void generate_pawn_captures(const int file, const int rank, const int positive_negative_direction);
+    void generate_pawn_forward_moves(const int file, const int rank, const int positive_negative_direction);
     void generate_king_moves(const int file, const int rank);
     void generate_knight_moves(const int file, const int rank);
     void generate_bishop_moves(const int file, const int rank);

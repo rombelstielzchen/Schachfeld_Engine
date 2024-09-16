@@ -75,7 +75,7 @@ void CMoveGenerator::generate_all_black_moves() {
     }
 }
 
-void CMoveGenerator::generate_pawn_moves(const int file, const int rank, const int positive_negative_direction) {
+void CMoveGenerator::generate_pawn_captures(const int file, const int rank, const int positive_negative_direction) {
     assert(rank >= RANK_2);
     assert(rank <= RANK_7);
     assert((positive_negative_direction == DIRECTION_NORTH) || (positive_negative_direction == DIRECTION_SOUTH));
@@ -88,9 +88,30 @@ void CMoveGenerator::generate_pawn_moves(const int file, const int rank, const i
     if (board.square_occupied_by_opponent(right_file, next_rank)) {
         store_pawn_move(file, rank, right_file, next_rank);
     }
+}
+
+void CMoveGenerator::generate_pawn_forward_moves(const int file, const int rank, const int positive_negative_direction) {
+    assert(rank >= RANK_2);
+    assert(rank <= RANK_7);
+    assert((positive_negative_direction == DIRECTION_NORTH) || (positive_negative_direction == DIRECTION_SOUTH));
+    const int next_rank = rank + positive_negative_direction;
     if (board.get_square(file, next_rank) == EMPTY_SQUARE) {
         store_pawn_move(file, rank, file, next_rank);
+        const int second_next_rank = next_rank + positive_negative_direction;
+        if (((rank == RANK_2) || (rank == RANK_7))
+            && (board.get_square(file, second_next_rank) == EMPTY_SQUARE)) {
+            // Bormal store_move() here, no possible promotion
+            store_move(file, rank, file, second_next_rank);
+        }
     }
+}
+
+void CMoveGenerator::generate_pawn_moves(const int file, const int rank, const int positive_negative_direction) {
+    assert(rank >= RANK_2);
+    assert(rank <= RANK_7);
+    assert((positive_negative_direction == DIRECTION_NORTH) || (positive_negative_direction == DIRECTION_SOUTH));
+    generate_pawn_captures(file, rank, positive_negative_direction);
+    generate_pawn_forward_moves(file, rank, positive_negative_direction);
 }
 
 void CMoveGenerator::generate_king_moves(const int file, const int rank) {
