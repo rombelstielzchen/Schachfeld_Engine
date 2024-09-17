@@ -95,6 +95,11 @@ bool CBoard::get_side_to_move() const {
     return side_to_move;
 }
 
+int CBoard::get_eng_passeng_file() const {
+    assert((eng_passeng_file == NO_ENG_PASSENG_POSSIBLE) || file_in_range(eng_passeng_file));
+    return eng_passeng_file;
+}
+
 bool CBoard::make_move(SMove move) {
     // TODO: castling, eng-passeng, promotion
     // TODO: lots of sanity checks
