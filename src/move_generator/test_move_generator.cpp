@@ -16,6 +16,16 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     // White king, simple moves, no castling, some other pieces
     { 8, "n1n5/1K6/n1n5/8/8/8/8/8 w" },
     { 4, "8/r1r5/P1P5/nKn5/P1P5/8/8/8 w" },
+    // White king, testing all 8 directions separately
+    { 3, "8/8/8/PPP5/PKP5/PPP5/8/8 w" },
+    { 4, "8/8/8/1PP5/PKP5/PPP5/8/8 w" },
+    { 3, "8/8/8/P1P5/PKP5/PPP5/8/8 w" },
+    { 4, "8/8/8/PP15/PKP5/PPP5/8/8 w" },
+    { 5, "8/8/8/PPP5/1KP5/PPP5/8/8 w" },
+    { 5, "8/8/8/PPP5/PK15/PPP5/8/8 w" },
+    { 4, "8/8/8/PPP5/PKP5/1PP5/8/8 w" },
+    { 4, "8/8/8/PPP5/PKP5/P1P5/8/8 w" },
+    { 4, "8/8/8/PPP5/PKP5/PP15/8/8 w" },
     // White knight, empty board
     { 2, "N7/8/8/8/8/8/8/8 w" },
     
@@ -27,6 +37,17 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     // White knight, some other pieces
     { 8, "qqqq4/8/2N5/8/8/8/8/8 w" },
     { 6, "k7/P7/p1N5/P7/8/8/8/8 w" },
+    // White knight, testing all 8 directions separately
+     { 0, "8/2p1p3/1pP1Pp2/1P3P2/1p1N1p2/1Pp1pP2/2P1P3/8 w" },
+    { 1, "8/2p1p3/1p11Pp2/1P3P2/1p1N1p2/1Pp1pP2/2P1P3/8 w" },
+    { 1, "8/2p1p3/1pP11p2/1P3P2/1p1N1p2/1Pp1pP2/2P1P3/8 w" },
+    { 1, "8/2p1p3/1pP1Pp2/113P2/1p1N1p2/1Pp1pP2/2P1P3/8 w" },
+    { 1, "8/2p1p3/1pP1Pp2/1P312/1p1N1p2/1Pp1pP2/2P1P3/8 w" },
+    { 1, "8/2p1p3/1pP1Pp2/1P3P2/1p1N1p2/11p1pP2/2P1P3/8 w" },
+    { 1, "8/2p1p3/1pP1Pp2/1P3P2/1p1N1p2/11p1pP2/2P1P3/8 w" },
+    { 1, "8/2p1p3/1pP1Pp2/1P3P2/1p1N1p2/1Pp1p12/2P1P3/8 w" },
+    { 1, "8/2p1p3/1pP1Pp2/1P3P2/1p1N1p2/1Pp1pP2/211P3/8 w" },
+    { 1, "8/2p1p3/1pP1Pp2/1P3P2/1p1N1p2/1Pp1pP2/2P113/8 w" },
     // White bishop, empty board
     { 7, "8/8/8/8/8/8/8/B7 w" },
     { 7, "8/8/8/8/8/8/8/3B4 w" },
