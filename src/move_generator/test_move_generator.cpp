@@ -89,6 +89,10 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     { 21, "3k1b1b/3pqppp/3n3r/3p1Q1p/3n3r/3p3p/8/K7 w" },
     { 14, "3k1b1b/3PqPpP/3n3r/3P1Q1P/3n3r/3P3P/8/K7 w"},
     { 0, "8/8/p7/Pp6/RP6/KP6/PP6/8 w" },
+    // Eng-passeng
+    { 1, "8/8/8/Pp6/8/8/8/8 w - - " },
+    { 2, "8/8/8/Pp6/8/8/8/8 w - b6" },
+    { 4, "8/8/8/PpP5/8/8/8/8 w - b6" },
 };
 
 bool CTestMoveGenerator::test_everything() {
