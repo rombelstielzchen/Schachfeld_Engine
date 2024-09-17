@@ -93,7 +93,12 @@ std::string move_as_text(const SMove move) {
         return NULL_MOVE_AS_TEXT;
     }
     assert(move_in_range(move));
-    return (square_as_text(move.source) + square_as_text(move.target));
+    std::string result = square_as_text(move.source)
+        + square_as_text(move.target);
+    if (isalpha(move.move_type)) {
+        result.push_back(move.move_type);
+    }
+    return result;
 }
 
 uint8_t text_to_file(const char file_character) {
