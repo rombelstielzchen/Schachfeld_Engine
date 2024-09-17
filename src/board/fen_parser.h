@@ -7,6 +7,8 @@
 
 // CFenParser: Utility class that sets up the board
 // according to a FEN-string received from the UCI "position" command. 
+// In order to ease the creation of test-cases we also accept partial FENS
+// with a missing end.
 //
 // https://www.chessprogramming.org/Forsyth-Edwards_Notation
 

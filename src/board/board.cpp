@@ -37,9 +37,11 @@ void CBoard::clear() {
 }
 
 void CBoard::set_start_position() {
-    const std::string START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w"; // TODO:KQkq - 0 1";
+    const std::string START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w -"; // TODO:KQkq - 0 1";
     set_fen_position(START_POSITION);
     assert(get_fen_position() == START_POSITION);
+    assert(get_side_to_move() == WHITE_TO_MOVE);
+    assert(get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
 }
 
 bool CBoard::set_fen_position(const std::string &position) {
