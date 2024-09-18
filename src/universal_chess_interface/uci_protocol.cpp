@@ -31,7 +31,9 @@ void CUciProtocol::send_list_of_options() const {
     // None yet
 }
 
-void CUciProtocol::process_message(const std::string &command) {
+void CUciProtocol::process_message(const std::string &message) {
+    string_tokenizer.set_input(message);
+    std::string command = string_tokenizer.next_token(); 
     if (command == "go") {
         // TODO: parse the many options of "go", all in the same line
         command_interface.go_infinite();
@@ -71,12 +73,12 @@ void CUciProtocol::message_loop() {
         std::string message;
         getline(std::cin, message);
         DEBUG_VALUE_OF(message);
-        string_tokenizer.set_input(message);
-        std::string command = string_tokenizer.next_token(); 
-        if  (command == "quit") {
+        // Checking the input for an exact match in order to decpuple
+        // message_loop, string_tokenizer and process_message for better testability
+        if  (message == "quit") {
             break;
         }
-        process_message(command);
+        process_message(message);
     }
 }
 
