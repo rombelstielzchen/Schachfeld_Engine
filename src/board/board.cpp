@@ -37,9 +37,11 @@ void CBoard::clear() {
 }
 
 void CBoard::set_start_position() {
-    const std::string START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w"; // TODO:KQkq - 0 1";
+    const std::string START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w -"; // TODO:KQkq - 0 1";
     set_fen_position(START_POSITION);
     assert(get_fen_position() == START_POSITION);
+    assert(get_side_to_move() == WHITE_TO_MOVE);
+    assert(get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
 }
 
 bool CBoard::set_fen_position(const std::string &position) {
@@ -93,6 +95,11 @@ bool CBoard::is_valid_target_square(const int file, const int rank) const {
 
 bool CBoard::get_side_to_move() const {
     return side_to_move;
+}
+
+int CBoard::get_eng_passeng_file() const {
+    assert((eng_passeng_file == NO_ENG_PASSENG_POSSIBLE) || file_in_range(eng_passeng_file));
+    return eng_passeng_file;
 }
 
 bool CBoard::make_move(SMove move) {

@@ -53,6 +53,9 @@ constexpr int  RANK_GARDEN_FENCE_TOP_1 = 10;
 constexpr int  RANK_GARDEN_FENCE_TOP_2 = 11;
 constexpr int  RANK_NEWLINE_CHARACTER = 12;
 
+// Eng-passeng gets stored as file of the opponents pawn
+constexpr int NO_ENG_PASSENG_POSSIBLE = FILE_GARDEN_FENCE_LEFT_1;
+
 // The board represents pieces as characters.
 // Advantages:
 //    * easy conversion of FEN-strings when receiving position-commands
@@ -98,6 +101,7 @@ class CBoard {
     void unmake_move();
   public:
     bool get_side_to_move() const;
+    int get_eng_passeng_file() const;
     TSquare get_square(const int x, const int y) const;
   public:
     bool square_occupied_by_opponent(const int file, const int rank) const;
@@ -112,6 +116,7 @@ class CBoard {
     //   * in production they work exactly the same. Same speed!
     std::array<TBoardColumn, BOARDSIZE_X> squares;
     bool side_to_move;
+    int eng_passeng_file;
 };
 
 // Global board, as "everybody" needs easy access to it

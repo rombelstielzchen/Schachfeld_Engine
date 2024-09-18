@@ -41,6 +41,7 @@ class CMoveGenerator {
   private:
     void generate_potential_move(const int source_file, const int source_rank, const int target_file, const int target_rank);
     void generate_sliding_moves(const int file, const int rank, const int direction_north_sourh, const int direction_east_west);
+    void generate_potential_eng_passeng();
   private:
     void store_move(const SMove &move);
     void store_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type = MOVE_TYPE_NORMAL);
