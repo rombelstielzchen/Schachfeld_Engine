@@ -93,6 +93,13 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     { 1, "8/8/8/Pp6/8/8/8/8 w - - " },
     { 2, "8/8/8/Pp6/8/8/8/8 w - b6" },
     { 4, "8/8/8/PpP5/8/8/8/8 w - b6" },
+    // White castling, no castling rights
+    { 10, "8/8/8/8/8/p6p/P6P/R3K2R w -"},
+    // White castling, pieces in the way
+    { 7, "8/8/8/8/8/p6p/P6P/Rn2K1nR w KQ"},
+    // White castling, not yet checking attacked squares
+    { 9, "8/8/8/8/8/p7/P7/R3K3 w -"},
+    { 8, "8/8/8/8/8/7p/7P/4K2R w -"},
 };
 
 bool CTestMoveGenerator::test_everything() {
