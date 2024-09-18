@@ -30,6 +30,26 @@ bool is_null_move(const SMove move) {
         && (move.target.rank == NULL_MOVE.target.rank));
 }
 
+bool is_any_piece(char square_or_move_type) {
+    switch (square_or_move_type) {
+        case WHITE_POWER:
+        case WHITE_KNIGHT:
+        case WHITE_BISHOP:
+        case WHITE_ROOK:
+        case WHITE_QUEEN:
+        case WHITE_KING:
+        case BLACK_POWER:
+        case BLACK_KNIGHT:
+        case BLACK_BISHOP:
+        case BLACK_ROOK:
+        case BLACK_QUEEN:
+        case BLACK_KING:
+            return true;
+        default:
+            return false;
+    }
+}
+
 char file_as_text(const int file) {
     assert(file_in_range(file));
     switch (file) {
@@ -95,7 +115,7 @@ std::string move_as_text(const SMove move) {
     assert(move_in_range(move));
     std::string result = square_as_text(move.source)
         + square_as_text(move.target);
-    if (isalpha(move.move_type)) {
+    if (is_any_piece(move.move_type)) {
         result.push_back(move.move_type);
     }
     return result;

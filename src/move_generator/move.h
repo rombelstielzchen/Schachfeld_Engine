@@ -49,6 +49,7 @@ bool rank_in_range(const int rank);
 bool square_in_range(const SSquare square);
 bool move_in_range(const SMove move);
 bool is_null_move(const SMove move);
+bool is_any_piece(char square_or_move_type);
 
 char file_as_text(const int file);
 char rank_as_text(const int file);
