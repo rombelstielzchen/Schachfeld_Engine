@@ -19,6 +19,7 @@ void CMoveGenerator::generate_all() {
         assert(side_to_move == BLACK_TO_MOVEE);
         generate_all_black_moves();
     }
+    generate_potential_eng_passeng();
 }
 
 void CMoveGenerator::generate_all_white_moves() {
@@ -176,6 +177,29 @@ void CMoveGenerator::generate_sliding_moves(const int file, const int rank, cons
         // Opponent piece
         store_move(file, rank, next_file, next_rank);
     }
+}
+
+void CMoveGenerator::generate_potential_eng_passeng() {
+     int eng_passeng_file = board.get_eng_passeng_file();
+    if (eng_passeng_file == NO_ENG_PASSENG_POSSIBLE) {
+        return;
+    }
+    int rank = RANK_5;
+    int next_rank = RANK_6;
+    char my_pawn = WHITE_POWER;
+    if (board.get_side_to_move() == BLACK_TO_MOVEE) {
+        rank = RANK_4;
+        next_rank = RANK_3;
+        my_pawn = BLACK_POWER;
+    }
+    int left = eng_passeng_file - 1;
+    int right = eng_passeng_file + 1;
+    if (board.get_square(left, rank == my_pawn)) {
+        store_move(left, rank, eng_passeng_file, next_rank, MOVE_TYPE_ENG_PASSENG);
+    }
+    if (board.get_square(right, rank) == my_pawn) {
+        store_move(right, rank, eng_passeng_file, next_rank, MOVE_TYPE_ENG_PASSENG);
+    }       
 }
 
 SMove CMoveGenerator::get_random() const {
