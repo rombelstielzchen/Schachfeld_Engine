@@ -19,7 +19,6 @@ void CMoveGenerator::generate_all() {
         assert(side_to_move == BLACK_TO_MOVEE);
         generate_all_black_moves();
     }
-    generate_potential_eng_passeng();
 }
 
 void CMoveGenerator::generate_all_white_moves() {
@@ -47,6 +46,7 @@ void CMoveGenerator::generate_all_white_moves() {
             }
         }
     }
+    generate_potential_eng_passeng();
 }
 
 void CMoveGenerator::generate_all_black_moves() {
@@ -101,7 +101,7 @@ void CMoveGenerator::generate_pawn_forward_moves(const int file, const int rank,
         const int second_next_rank = next_rank + positive_negative_direction;
         if (((rank == RANK_2) || (rank == RANK_7))
             && (board.get_square(file, second_next_rank) == EMPTY_SQUARE)) {
-            // Bormal store_move() here, no possible promotion
+            // Normal store_move() here, no possible promotion
             store_move(file, rank, file, second_next_rank);
         }
     }
@@ -157,6 +157,8 @@ void CMoveGenerator::generate_queen_moves(const int file, const int rank) {
 }
 
 void CMoveGenerator::generate_potential_move(const int source_file, const int source_rank, const int target_file, const int target_rank) {
+    // Checks the target-square, needed for king and knight
+    // and for the final square of sliding moves
     assert(file_in_range(source_file));
     assert(rank_in_range(source_rank));
     // Target may be out of range (garden-fence), therefore no assertions
@@ -192,6 +194,8 @@ void CMoveGenerator::generate_potential_eng_passeng() {
         next_rank = RANK_3;
         my_pawn = BLACK_POWER;
     }
+    assert(toupper(board.get_square(eng_passeng_file, rank)) == WHITE_POWER);
+    assert(board.get_square(eng_passeng_file, next_rank) == EMPTY_SQUARE);
     int left = eng_passeng_file - 1;
     int right = eng_passeng_file + 1;
     if (board.get_square(left, rank == my_pawn)) {
