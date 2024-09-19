@@ -5,6 +5,7 @@
 
 #include "move_generator.h"
 #include "../board/board.h"
+#include "../board/board_logic.h"
 #include "../technical_functions/standard_headers.h"
 
 CMoveGenerator::CMoveGenerator() {
@@ -186,13 +187,11 @@ void CMoveGenerator::generate_potential_eng_passeng() {
     if (eng_passeng_file == NO_ENG_PASSENG_POSSIBLE) {
         return;
     }
-    int rank = RANK_5;
+    const int rank = CBoardLogic::eng_passeng_pawn_rank();
     int next_rank = RANK_6;
-    char my_pawn = WHITE_POWER;
+    const char my_pawn = CBoardLogic::my_pawn();
     if (board.get_side_to_move() == BLACK_TO_MOVEE) {
-        rank = RANK_4;
         next_rank = RANK_3;
-        my_pawn = BLACK_POWER;
     }
     assert(toupper(board.get_square(eng_passeng_file, rank)) == WHITE_POWER);
     assert(board.get_square(eng_passeng_file, next_rank) == EMPTY_SQUARE);
