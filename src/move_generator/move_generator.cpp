@@ -84,10 +84,10 @@ void CMoveGenerator::generate_pawn_captures(const int file, const int rank, cons
     const int next_rank = rank + positive_negative_direction;
     const int left_file = file - 1;
     const int right_file = file + 1;
-    if (board.square_occupied_by_opponent(left_file, next_rank)) {
+    if (CBoardLogic::square_occupied_by_opponent(left_file, next_rank)) {
         store_pawn_move(file, rank, left_file, next_rank);
     }
-    if (board.square_occupied_by_opponent(right_file, next_rank)) {
+    if (CBoardLogic::square_occupied_by_opponent(right_file, next_rank)) {
         store_pawn_move(file, rank, right_file, next_rank);
     }
 }
@@ -163,7 +163,7 @@ void CMoveGenerator::generate_potential_move(const int source_file, const int so
     assert(file_in_range(source_file));
     assert(rank_in_range(source_rank));
     // Target may be out of range (garden-fence), therefore no assertions
-    if (board.is_valid_target_square(target_file, target_rank)) {
+    if (CBoardLogic::is_valid_target_square(target_file, target_rank)) {
         store_move(source_file, source_rank, target_file, target_rank);
     }
 }
@@ -176,7 +176,7 @@ void CMoveGenerator::generate_sliding_moves(const int file, const int rank, cons
         next_file += direction_east_west;
         next_rank += direction_north_sourh;
     }
-    if (board.is_valid_target_square(next_file, next_rank)) {
+    if (CBoardLogic::is_valid_target_square(next_file, next_rank)) {
         // Opponent piece
         store_move(file, rank, next_file, next_rank);
     }

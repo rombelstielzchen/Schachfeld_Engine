@@ -15,7 +15,11 @@ class CBoardLogic {
     static char my_pawn();
   public:
     static int eng_passeng_pawn_rank();
+    static int eng_passeng_forward_rank();
     static int my_back_rank();
+  public:
     bool castling_squares_empty(int TODO);
+    static bool square_occupied_by_opponent(const int file, const int rank);
+    static bool is_valid_target_square(const int file, const int rank);
 };
 

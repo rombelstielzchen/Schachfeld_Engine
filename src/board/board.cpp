@@ -64,33 +64,8 @@ TSquare CBoard::get_square(const int file, const int rank) const {
     return squares[file][rank];
 }
 
-bool CBoard::square_occupied_by_opponent(const int file, const int rank) const {
-    switch (get_square(file, rank)) {
-        case WHITE_POWER:
-        case WHITE_KNIGHT:
-        case WHITE_BISHOP:
-        case WHITE_ROOK:
-        case WHITE_QUEEN:
-        case WHITE_KING:
-            return (side_to_move == BLACK_TO_MOVEE);
-            break;
-        case BLACK_POWER:
-        case BLACK_KNIGHT:
-        case BLACK_BISHOP:
-        case BLACK_ROOK:
-        case BLACK_QUEEN:
-        case BLACK_KING:
-            return (side_to_move == WHITE_TO_MOVE);
-            break;
-    }
-    return false;
-}
-
-bool CBoard::is_valid_target_square(const int file, const int rank) const {
-    if (get_square(file, rank) == EMPTY_SQUARE) {
-        return true;
-    }
-    return square_occupied_by_opponent(file, rank);
+bool CBoard::square_is_empty(const int file, const int rank) const {
+    return (get_square(file, rank) == EMPTY_SQUARE);
 }
 
 bool CBoard::get_side_to_move() const {

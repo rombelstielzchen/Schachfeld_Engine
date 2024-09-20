@@ -102,10 +102,8 @@ class CBoard {
   public:
     bool get_side_to_move() const;
     int get_eng_passeng_file() const;
-    TSquare get_square(const int x, const int y) const;
-  public:
-    bool square_occupied_by_opponent(const int file, const int rank) const;
-    bool is_valid_target_square(const int file, const int rank) const;
+    TSquare get_square(const int file, const int rank) const;
+    bool square_is_empty(const int file, const int rank) const;
   private:
     void init_garden_fence();
     void clear();
