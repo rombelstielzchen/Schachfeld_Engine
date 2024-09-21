@@ -20,6 +20,7 @@ constexpr char MOVE_TYPE_WHITE_SHORT_CASTLING = 'S';
 constexpr char MOVE_TYPE_BLACK_LONG_CASTLING = 'l';
 constexpr char MOVE_TYPE_BLACK_SHORT_CASTLING = 's';
 constexpr char MOVE_TYPE_ENG_PASSENG = 'e';
+constexpr char MOVE_TYPE_DOUBLE_JUMP = 'j';
 constexpr char MOVE_TYPE_NORMAL = '\0';
 
 #pragma pack(1)

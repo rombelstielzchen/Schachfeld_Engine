@@ -32,8 +32,17 @@ int CBoardLogic::my_back_rank() {
     return (board.get_side_to_move() == WHITE_TO_MOVE) ? RANK_1 : RANK_8;
 }
 
-bool castling_squares_empty(int TODO) {
-    return false;
+bool castling_squares_empty(const char move_type) {
+    switch (move_type) {
+        case MOVE_TYPE_WHITE_SHORT_CASTLING:
+            return (board.square_is_empty(FILE_F, RANK_1) && board.square_is_empty(FILE_G, RANK_1));
+        case MOVE_TYPE_WHITE_LONG_CASTLING:
+            return (board.square_is_empty(FILE_D, RANK_1) && board.square_is_empty(FILE_C, RANK_1) && board.square_is_empty(FILE_B, RANK_1));
+        case MOVE_TYPE_BLACK_SHORT_CASTLING:
+            return (board.square_is_empty(FILE_F, RANK_8) && board.square_is_empty(FILE_G, RANK_8));
+        case MOVE_TYPE_BLACK_LONG_CASTLING:
+            return (board.square_is_empty(FILE_D, RANK_8) && board.square_is_empty(FILE_C, RANK_8) && board.square_is_empty(FILE_B, RANK_8));
+    }
 }
 
 bool CBoardLogic::square_occupied_by_opponent(const int file, const int rank) {
