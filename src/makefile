@@ -41,7 +41,7 @@ engine: makefile main.o board.o uci_protocol.o string_functions.o  \
 	test_move_generator.o engine_test.o fen_generator.o test_board.o \
 	test_technical_functions.o board_logic.o
 	make test
-	@sl -e +extra_foo +immortality
+	@#sl -e +extra_foo +immortality
 	@echo "=============================="
 	@ls -o engine
 
