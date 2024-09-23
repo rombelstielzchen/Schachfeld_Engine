@@ -76,6 +76,16 @@ int CBoard::get_eng_passeng_file() const {
     return eng_passeng_file;
 }
 
+int CBoard::get_move_counter() const {
+    assert(move_counter > 0);
+    return move_counter;
+}
+
+int CBoard::get_100_ply_draw_counter() const {
+    assert(_100_ply_draw_counter >= 0);
+    return _100_ply_draw_counter;
+}
+
 bool CBoard::make_move(SMove move) {
     // TODO: castling, eng-passeng, promotion
     // TODO: lots of sanity checks

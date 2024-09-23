@@ -86,7 +86,7 @@ typedef std::array<TSquare, BOARDSIZE_Y> TBoardColumn;
 constexpr bool WHITE_TO_MOVE = true;
 constexpr bool BLACK_TO_MOVEE = false;
 
-const std::string START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w -"; // TODO:KQkq - 0 1";
+const std::string START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 class CBoard {
     friend class CFenParser;
@@ -104,6 +104,8 @@ class CBoard {
   public:
     bool get_side_to_move() const;
     int get_eng_passeng_file() const;
+    int get_move_counter() const;
+    int get_100_ply_draw_counter() const;
     TSquare get_square(const int file, const int rank) const;
     bool square_is_empty(const int file, const int rank) const;
   private:
@@ -117,6 +119,8 @@ class CBoard {
     std::array<TBoardColumn, BOARDSIZE_X> squares;
     bool side_to_move;
     int eng_passeng_file;
+    int move_counter;
+    int _100_ply_draw_counter;
 };
 
 // Global board, as "everybody" needs easy access to it

@@ -10,10 +10,14 @@ std::string CFenGenerator::get_fen_position()
     return get_piece_placement()
         + separator
         + get_side_to_move()
-        //
         + separator
-        + get_eng_passeng();
-    // TODO: all the rest
+        + get_castling_rights()
+        + separator
+        + get_eng_passeng()
+        + separator
+        + get_100_ply_draw_counter()
+        + separator
+        + get_move_counter();
 }
 
 std::string CFenGenerator::get_piece_placement() {
@@ -70,3 +74,17 @@ std::string CFenGenerator::get_eng_passeng() {
     return result;
 }
 
+std::string CFenGenerator::get_move_counter() {
+    assert(board.get_move_counter() > 0);
+    return std::to_string(board.get_move_counter());
+}
+
+std::string CFenGenerator::get_100_ply_draw_counter() {
+    std::string result = std::to_string(board.get_100_ply_draw_counter());
+    return std::to_string(board.get_100_ply_draw_counter());
+}
+
+std::string CFenGenerator::get_castling_rights() {
+    //TODO
+    return "KQkq";
+}

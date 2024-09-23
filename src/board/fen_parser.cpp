@@ -17,7 +17,6 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
     } else {
         // Standard case: full FEN, consisting of multiple tokens
         lack_of_errors &= parse_piece_placement(piece_placement);
-        // TODO: functions below
         lack_of_errors &= parse_side_to_move(tokenizer.next_token());
         lack_of_errors &= parse_castling_rights(tokenizer.next_token());
         lack_of_errors &= parse_eng_passeng(tokenizer.next_token());
@@ -129,10 +128,17 @@ bool CFenParser::parse_eng_passeng(const std::string &partial_input) {
 }
 
 bool CFenParser::parse_100_ply_draw_counter(const std::string &partial_input) {
+    // We use the old atoi instead of stoi, because it doesn't throw exceptions 
+    // and returns 0 in case of bad input
+    board._100_ply_draw_counter = std::max(0, atoi(partial_input.c_str()));
     DEBUG_METHOD();
     return true;
 }
+
 bool CFenParser::parse_move_counter(const std::string &partial_input) {
+    // We use the old atoi instead of stoi, because it doesn't throw exceptions 
+    // and returns 0 in case of bad input
+    board.move_counter = std::max(1, atoi(partial_input.c_str()));
     return true;
 }
 
