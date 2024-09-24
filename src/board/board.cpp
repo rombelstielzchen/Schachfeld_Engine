@@ -99,5 +99,28 @@ bool CBoard::make_move(SMove move) {
     return true;
 }
 
+void CBoard::clear_castling_rights() {
+    set_castling_rights(MOVE_TYPE_WHITE_SHORT_CASTLING, false);
+    set_castling_rights(MOVE_TYPE_WHITE_LONG_CASTLING, false);
+    set_castling_rights(MOVE_TYPE_BLACK_SHORT_CASTLING, false);
+    set_castling_rights(MOVE_TYPE_BLACK_LONG_CASTLING, false);
+}
+
+void CBoard::set_castling_rights(const char move_type, bool yes_no) {
+    assert((move_type == MOVE_TYPE_WHITE_SHORT_CASTLING)
+        || (move_type == MOVE_TYPE_WHITE_LONG_CASTLING)
+        || (move_type == MOVE_TYPE_BLACK_SHORT_CASTLING)
+        || (move_type == MOVE_TYPE_BLACK_LONG_CASTLING));
+    castling_rights[move_type] = yes_no;
+}
+
+bool CBoard::get_castling_rights(char move_type) const {
+    assert((move_type == MOVE_TYPE_WHITE_SHORT_CASTLING)
+        || (move_type == MOVE_TYPE_WHITE_LONG_CASTLING)
+        || (move_type == MOVE_TYPE_BLACK_SHORT_CASTLING)
+        || (move_type == MOVE_TYPE_BLACK_LONG_CASTLING));
+    return castling_rights[move_type];
+}
+
 CBoard board;
 

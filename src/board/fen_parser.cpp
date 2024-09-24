@@ -107,6 +107,28 @@ bool CFenParser::parse_side_to_move(const std::string &partial_input) {
 
 bool CFenParser::parse_castling_rights(const std::string &partial_input) {
     DEBUG_METHOD();
+    board.clear_castling_rights();
+    if ((partial_input == "-") || (partial_input == "")) {
+        return true;
+    }
+    for (const char &c : partial_input) {
+        switch (c) {
+            case 'K':
+                board.set_castling_rights(MOVE_TYPE_WHITE_SHORT_CASTLING, true);
+                break;
+            case 'Q':
+                board.set_castling_rights(MOVE_TYPE_WHITE_LONG_CASTLING, true);
+                break;
+            case 'k':
+                board.set_castling_rights(MOVE_TYPE_BLACK_SHORT_CASTLING, true);
+                break;
+            case 'q':
+                board.set_castling_rights(MOVE_TYPE_BLACK_LONG_CASTLING, true);
+                break;
+            default:
+                return false;
+        }
+    }
     return true;
 }
 

@@ -108,6 +108,10 @@ class CBoard {
     int get_100_ply_draw_counter() const;
     TSquare get_square(const int file, const int rank) const;
     bool square_is_empty(const int file, const int rank) const;
+  public:
+    void clear_castling_rights();
+    void set_castling_rights(const char move_type, bool yes_no);
+    bool get_castling_rights(char move_type) const;
   private:
     void init_garden_fence();
     void clear();
@@ -121,6 +125,8 @@ class CBoard {
     int eng_passeng_file;
     int move_counter;
     int _100_ply_draw_counter;
+    // Some over-size supports easy access via MOVE_TYPE (char)
+    std::array<bool, MOVE_TYPE_BLACK_SHORT_CASTLING + 1> castling_rights;
 };
 
 // Global board, as "everybody" needs easy access to it
