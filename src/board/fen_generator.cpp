@@ -85,6 +85,13 @@ std::string CFenGenerator::get_100_ply_draw_counter() {
 }
 
 std::string CFenGenerator::get_castling_rights() {
-    //TODO
-    return "KQkq";
+    std::string result = "";
+    result += board.get_castling_rights(MOVE_TYPE_WHITE_SHORT_CASTLING) ? "K" : "";
+    result += board.get_castling_rights(MOVE_TYPE_WHITE_LONG_CASTLING) ? "Q" : "";
+    result += board.get_castling_rights(MOVE_TYPE_BLACK_SHORT_CASTLING) ? "k" : "";
+    result += board.get_castling_rights(MOVE_TYPE_BLACK_LONG_CASTLING) ? "q" : "";
+    if (result == "") {
+        return "-";
+    }
+    return result;
 }
