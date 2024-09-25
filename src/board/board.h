@@ -86,6 +86,8 @@ typedef std::array<TSquare, BOARDSIZE_Y> TBoardColumn;
 constexpr bool WHITE_TO_MOVE = true;
 constexpr bool BLACK_TO_MOVEE = false;
 
+const std::string START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
 class CBoard {
     friend class CFenParser;
   public:
@@ -102,10 +104,14 @@ class CBoard {
   public:
     bool get_side_to_move() const;
     int get_eng_passeng_file() const;
-    TSquare get_square(const int x, const int y) const;
+    int get_move_counter() const;
+    int get_100_ply_draw_counter() const;
+    TSquare get_square(const int file, const int rank) const;
+    bool square_is_empty(const int file, const int rank) const;
   public:
-    bool square_occupied_by_opponent(const int file, const int rank) const;
-    bool is_valid_target_square(const int file, const int rank) const;
+    void clear_castling_rights();
+    void set_castling_rights(const char move_type, bool yes_no);
+    bool get_castling_rights(char move_type) const;
   private:
     void init_garden_fence();
     void clear();
@@ -117,6 +123,10 @@ class CBoard {
     std::array<TBoardColumn, BOARDSIZE_X> squares;
     bool side_to_move;
     int eng_passeng_file;
+    int move_counter;
+    int _100_ply_draw_counter;
+    // Some over-size supports easy access via MOVE_TYPE (char)
+    std::array<bool, MOVE_TYPE_BLACK_SHORT_CASTLING + 1> castling_rights;
 };
 
 // Global board, as "everybody" needs easy access to it

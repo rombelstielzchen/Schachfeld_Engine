@@ -11,7 +11,9 @@ class CTestBoard {
   public:
     static bool test_everything();
   private:
-    static bool test_all_positions();
+    static bool test_set_start_position();
+    static bool test_as_is();
     static bool test_position(const std::string &position);
+    static bool test_accessors();
 };
 

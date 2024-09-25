@@ -37,7 +37,6 @@ void CBoard::clear() {
 }
 
 void CBoard::set_start_position() {
-    const std::string START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w -"; // TODO:KQkq - 0 1";
     set_fen_position(START_POSITION);
     assert(get_fen_position() == START_POSITION);
     assert(get_side_to_move() == WHITE_TO_MOVE);
@@ -64,33 +63,8 @@ TSquare CBoard::get_square(const int file, const int rank) const {
     return squares[file][rank];
 }
 
-bool CBoard::square_occupied_by_opponent(const int file, const int rank) const {
-    switch (get_square(file, rank)) {
-        case WHITE_POWER:
-        case WHITE_KNIGHT:
-        case WHITE_BISHOP:
-        case WHITE_ROOK:
-        case WHITE_QUEEN:
-        case WHITE_KING:
-            return (side_to_move == BLACK_TO_MOVEE);
-            break;
-        case BLACK_POWER:
-        case BLACK_KNIGHT:
-        case BLACK_BISHOP:
-        case BLACK_ROOK:
-        case BLACK_QUEEN:
-        case BLACK_KING:
-            return (side_to_move == WHITE_TO_MOVE);
-            break;
-    }
-    return false;
-}
-
-bool CBoard::is_valid_target_square(const int file, const int rank) const {
-    if (get_square(file, rank) == EMPTY_SQUARE) {
-        return true;
-    }
-    return square_occupied_by_opponent(file, rank);
+bool CBoard::square_is_empty(const int file, const int rank) const {
+    return (get_square(file, rank) == EMPTY_SQUARE);
 }
 
 bool CBoard::get_side_to_move() const {
@@ -100,6 +74,16 @@ bool CBoard::get_side_to_move() const {
 int CBoard::get_eng_passeng_file() const {
     assert((eng_passeng_file == NO_ENG_PASSENG_POSSIBLE) || file_in_range(eng_passeng_file));
     return eng_passeng_file;
+}
+
+int CBoard::get_move_counter() const {
+    assert(move_counter > 0);
+    return move_counter;
+}
+
+int CBoard::get_100_ply_draw_counter() const {
+    assert(_100_ply_draw_counter >= 0);
+    return _100_ply_draw_counter;
 }
 
 bool CBoard::make_move(SMove move) {
@@ -113,6 +97,29 @@ bool CBoard::make_move(SMove move) {
     squares[move.source.file][move.source.rank] = EMPTY_SQUARE;
     squares[move.target.file][move.target.rank] = moving_piece;
     return true;
+}
+
+void CBoard::clear_castling_rights() {
+    set_castling_rights(MOVE_TYPE_WHITE_SHORT_CASTLING, false);
+    set_castling_rights(MOVE_TYPE_WHITE_LONG_CASTLING, false);
+    set_castling_rights(MOVE_TYPE_BLACK_SHORT_CASTLING, false);
+    set_castling_rights(MOVE_TYPE_BLACK_LONG_CASTLING, false);
+}
+
+void CBoard::set_castling_rights(const char move_type, bool yes_no) {
+    assert((move_type == MOVE_TYPE_WHITE_SHORT_CASTLING)
+        || (move_type == MOVE_TYPE_WHITE_LONG_CASTLING)
+        || (move_type == MOVE_TYPE_BLACK_SHORT_CASTLING)
+        || (move_type == MOVE_TYPE_BLACK_LONG_CASTLING));
+    castling_rights[move_type] = yes_no;
+}
+
+bool CBoard::get_castling_rights(char move_type) const {
+    assert((move_type == MOVE_TYPE_WHITE_SHORT_CASTLING)
+        || (move_type == MOVE_TYPE_WHITE_LONG_CASTLING)
+        || (move_type == MOVE_TYPE_BLACK_SHORT_CASTLING)
+        || (move_type == MOVE_TYPE_BLACK_LONG_CASTLING));
+    return castling_rights[move_type];
 }
 
 CBoard board;

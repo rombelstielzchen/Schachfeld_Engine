@@ -10,10 +10,14 @@ std::string CFenGenerator::get_fen_position()
     return get_piece_placement()
         + separator
         + get_side_to_move()
-        //
         + separator
-        + get_eng_passeng();
-    // TODO: all the rest
+        + get_castling_rights()
+        + separator
+        + get_eng_passeng()
+        + separator
+        + get_100_ply_draw_counter()
+        + separator
+        + get_move_counter();
 }
 
 std::string CFenGenerator::get_piece_placement() {
@@ -70,3 +74,24 @@ std::string CFenGenerator::get_eng_passeng() {
     return result;
 }
 
+std::string CFenGenerator::get_move_counter() {
+    assert(board.get_move_counter() > 0);
+    return std::to_string(board.get_move_counter());
+}
+
+std::string CFenGenerator::get_100_ply_draw_counter() {
+    std::string result = std::to_string(board.get_100_ply_draw_counter());
+    return std::to_string(board.get_100_ply_draw_counter());
+}
+
+std::string CFenGenerator::get_castling_rights() {
+    std::string result = "";
+    result += board.get_castling_rights(MOVE_TYPE_WHITE_SHORT_CASTLING) ? "K" : "";
+    result += board.get_castling_rights(MOVE_TYPE_WHITE_LONG_CASTLING) ? "Q" : "";
+    result += board.get_castling_rights(MOVE_TYPE_BLACK_SHORT_CASTLING) ? "k" : "";
+    result += board.get_castling_rights(MOVE_TYPE_BLACK_LONG_CASTLING) ? "q" : "";
+    if (result == "") {
+        return "-";
+    }
+    return result;
+}

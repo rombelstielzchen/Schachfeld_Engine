@@ -5,6 +5,7 @@
 
 #include "move_generator.h"
 #include "../board/board.h"
+#include "../board/board_logic.h"
 #include "../technical_functions/standard_headers.h"
 
 CMoveGenerator::CMoveGenerator() {
@@ -83,10 +84,10 @@ void CMoveGenerator::generate_pawn_captures(const int file, const int rank, cons
     const int next_rank = rank + positive_negative_direction;
     const int left_file = file - 1;
     const int right_file = file + 1;
-    if (board.square_occupied_by_opponent(left_file, next_rank)) {
+    if (CBoardLogic::square_occupied_by_opponent(left_file, next_rank)) {
         store_pawn_move(file, rank, left_file, next_rank);
     }
-    if (board.square_occupied_by_opponent(right_file, next_rank)) {
+    if (CBoardLogic::square_occupied_by_opponent(right_file, next_rank)) {
         store_pawn_move(file, rank, right_file, next_rank);
     }
 }
@@ -102,7 +103,7 @@ void CMoveGenerator::generate_pawn_forward_moves(const int file, const int rank,
         if (((rank == RANK_2) || (rank == RANK_7))
             && (board.get_square(file, second_next_rank) == EMPTY_SQUARE)) {
             // Normal store_move() here, no possible promotion
-            store_move(file, rank, file, second_next_rank);
+            store_move(file, rank, file, second_next_rank, MOVE_TYPE_DOUBLE_JUMP);
         }
     }
 }
@@ -162,7 +163,7 @@ void CMoveGenerator::generate_potential_move(const int source_file, const int so
     assert(file_in_range(source_file));
     assert(rank_in_range(source_rank));
     // Target may be out of range (garden-fence), therefore no assertions
-    if (board.is_valid_target_square(target_file, target_rank)) {
+    if (CBoardLogic::is_valid_target_square(target_file, target_rank)) {
         store_move(source_file, source_rank, target_file, target_rank);
     }
 }
@@ -175,7 +176,7 @@ void CMoveGenerator::generate_sliding_moves(const int file, const int rank, cons
         next_file += direction_east_west;
         next_rank += direction_north_sourh;
     }
-    if (board.is_valid_target_square(next_file, next_rank)) {
+    if (CBoardLogic::is_valid_target_square(next_file, next_rank)) {
         // Opponent piece
         store_move(file, rank, next_file, next_rank);
     }
@@ -186,13 +187,11 @@ void CMoveGenerator::generate_potential_eng_passeng() {
     if (eng_passeng_file == NO_ENG_PASSENG_POSSIBLE) {
         return;
     }
-    int rank = RANK_5;
+    const int rank = CBoardLogic::eng_passeng_pawn_rank();
     int next_rank = RANK_6;
-    char my_pawn = WHITE_POWER;
+    const char my_pawn = CBoardLogic::my_pawn();
     if (board.get_side_to_move() == BLACK_TO_MOVEE) {
-        rank = RANK_4;
         next_rank = RANK_3;
-        my_pawn = BLACK_POWER;
     }
     assert(toupper(board.get_square(eng_passeng_file, rank)) == WHITE_POWER);
     assert(board.get_square(eng_passeng_file, next_rank) == EMPTY_SQUARE);
