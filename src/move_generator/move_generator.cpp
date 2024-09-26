@@ -125,6 +125,25 @@ void CMoveGenerator::generate_king_moves(const int file, const int rank) {
     generate_potential_move(file, rank, file + 1, rank - 1);
     generate_potential_move(file, rank, file    , rank - 1);
     generate_potential_move(file, rank, file - 1, rank - 1);
+    generate_castlings(file, rank);
+}
+
+void CMoveGenerator::generate_castlings(const int file, const int rank) {
+    if ((file != FILE_E) || (rank != CBoardLogic::my_back_rank())) {
+        return;
+    }
+    int my_short = MOVE_TYPE_WHITE_SHORT_CASTLING;
+    int my_long = MOVE_TYPE_WHITE_LONG_CASTLING;
+    if (rank == RANK_8) {
+        my_short = MOVE_TYPE_BLACK_SHORT_CASTLING;
+        my_long = MOVE_TYPE_BLACK_LONG_CASTLING;
+    }
+    if (castling_possible(my_short)) {
+        store_move(FILE_E, rank, FILE_G, rank, my_short);
+    }
+    if (castling_possible(my_long)) {
+        store_move(FILE_E, rank, FILE_C, rank, my_long);
+    }
 }
 
 void CMoveGenerator::generate_knight_moves(const int file, const int rank) {
@@ -266,5 +285,16 @@ void CMoveGenerator::store_pawn_move(const int source_file, const int source_ran
         new_move.move_type = MOVE_TYPE_NORMAL;
         store_move(new_move);
     }
+}
+
+bool CMoveGenerator::castling_possible(const int move_type) const {
+    assert((move_type == MOVE_TYPE_WHITE_SHORT_CASTLING) 
+        || (move_type == MOVE_TYPE_WHITE_LONG_CASTLING)
+        || (move_type == MOVE_TYPE_BLACK_SHORT_CASTLING)
+        || (move_type == MOVE_TYPE_BLACK_LONG_CASTLING));
+    return (board.get_castling_rights(move_type)
+        && CBoardLogic::rook_on_castling_square(move_type)
+        && (CBoardLogic::castling_squares_empty(move_type)));
+    // RODO (or not, maybe): keep track of moving pieces when calculating variations
 }
 

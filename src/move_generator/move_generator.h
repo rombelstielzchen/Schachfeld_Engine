@@ -34,6 +34,7 @@ class CMoveGenerator {
     void generate_pawn_captures(const int file, const int rank, const int positive_negative_direction);
     void generate_pawn_forward_moves(const int file, const int rank, const int positive_negative_direction);
     void generate_king_moves(const int file, const int rank);
+    void generate_castlings(const int file, const int rank);
     void generate_knight_moves(const int file, const int rank);
     void generate_bishop_moves(const int file, const int rank);
     void generate_rook_moves(const int file, const int rank);
@@ -47,6 +48,8 @@ class CMoveGenerator {
     void store_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type = MOVE_TYPE_NORMAL);
     // Special method for pawns, creating four moves on promotion
     void store_pawn_move(const int source_file, const int source_rank, const int target_file, const int target_rank);
+  private:
+    bool castling_possible(const int move_type) const;
   private:
     std::array<SMove, MAX_MOVES_IN_CHESS_POSITION> move_list;
     unsigned int number_of_moves;

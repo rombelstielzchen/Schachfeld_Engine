@@ -8,6 +8,8 @@
 #include"board_logic.h"
 #include "board.h"
 
+constexpr bool UNEXPECTED_MOVE_TYPE = false;
+
 char CBoardLogic::my_king() {
     return (board.get_side_to_move() == WHITE_TO_MOVE) ? WHITE_KING : BLACK_KING;
 }
@@ -32,7 +34,7 @@ int CBoardLogic::my_back_rank() {
     return (board.get_side_to_move() == WHITE_TO_MOVE) ? RANK_1 : RANK_8;
 }
 
-bool castling_squares_empty(const char move_type) {
+bool CBoardLogic::castling_squares_empty(const char move_type) {
     switch (move_type) {
         case MOVE_TYPE_WHITE_SHORT_CASTLING:
             return (board.square_is_empty(FILE_F, RANK_1) && board.square_is_empty(FILE_G, RANK_1));
@@ -42,6 +44,22 @@ bool castling_squares_empty(const char move_type) {
             return (board.square_is_empty(FILE_F, RANK_8) && board.square_is_empty(FILE_G, RANK_8));
         case MOVE_TYPE_BLACK_LONG_CASTLING:
             return (board.square_is_empty(FILE_D, RANK_8) && board.square_is_empty(FILE_C, RANK_8) && board.square_is_empty(FILE_B, RANK_8));
+    }
+}
+
+bool CBoardLogic::rook_on_castling_square(const char move_type) {
+    switch(move_type) {
+        case MOVE_TYPE_WHITE_SHORT_CASTLING:
+            return (board.get_square(FILE_H, RANK_1) == WHITE_ROOK);
+        case MOVE_TYPE_WHITE_LONG_CASTLING:
+            return (board.get_square(FILE_A, RANK_1) == WHITE_ROOK);
+        case MOVE_TYPE_BLACK_SHORT_CASTLING:
+            return (board.get_square(FILE_H, RANK_8) == BLACK_ROOK);
+        case MOVE_TYPE_BLACK_LONG_CASTLING:
+            return (board.get_square(FILE_A, RANK_8) == BLACK_ROOK);
+        default:
+            assert(UNEXPECTED_MOVE_TYPE);
+            break;
     }
 }
 

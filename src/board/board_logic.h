@@ -18,7 +18,8 @@ class CBoardLogic {
     static int eng_passeng_forward_rank();
     static int my_back_rank();
   public:
-    bool castling_squares_empty(const char move_type);
+    static bool castling_squares_empty(const char move_type);
+    static bool rook_on_castling_square(const char move_type);
     static bool square_occupied_by_opponent(const int file, const int rank);
     static bool is_valid_target_square(const int file, const int rank);
 };
