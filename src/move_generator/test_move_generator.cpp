@@ -100,6 +100,16 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     // White castling, not yet checking attacked squares
     { 9, "8/8/8/8/8/p7/P7/R3K3 w Q"},
     { 8, "8/8/8/8/8/7p/7P/4K2R w K"},
+    // Black pawns, normal moves
+    { 3, "8/p7/7p b"},
+    // Black pawn captures
+    { 4, "8/1p6/P1P b"},
+    // Black pawn promotions
+    { 8, "8/8/8/8/8/8/1p6/NNN b"},
+    // Black pawn, eng-passeng
+    { 2, "8/8/8/8/pP b - b3"},
+    // Black  king, castling
+    { 10, "r3k1Br/p6p/P6P b kq"},
 };
 
 bool CTestMoveGenerator::test_everything() {

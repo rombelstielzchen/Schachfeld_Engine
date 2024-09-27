@@ -75,6 +75,7 @@ void CMoveGenerator::generate_all_black_moves() {
             }
         }
     }
+    generate_potential_eng_passeng();
 }
 
 void CMoveGenerator::generate_pawn_captures(const int file, const int rank, const int positive_negative_direction) {
@@ -207,11 +208,8 @@ void CMoveGenerator::generate_potential_eng_passeng() {
         return;
     }
     const int rank = CBoardLogic::eng_passeng_pawn_rank();
-    int next_rank = RANK_6;
+    int next_rank = CBoardLogic::eng_passeng_forward_rank();
     const char my_pawn = CBoardLogic::my_pawn();
-    if (board.get_side_to_move() == BLACK_TO_MOVEE) {
-        next_rank = RANK_3;
-    }
     assert(toupper(board.get_square(eng_passeng_file, rank)) == WHITE_POWER);
     assert(board.get_square(eng_passeng_file, next_rank) == EMPTY_SQUARE);
     int left = eng_passeng_file - 1;
@@ -295,6 +293,6 @@ bool CMoveGenerator::castling_possible(const int move_type) const {
     return (board.get_castling_rights(move_type)
         && CBoardLogic::rook_on_castling_square(move_type)
         && (CBoardLogic::castling_squares_empty(move_type)));
-    // RODO (or not, maybe): keep track of moving pieces when calculating variations
+    // TODO (or not, maybe): keep track of moving pieces when calculating variations
 }
 
