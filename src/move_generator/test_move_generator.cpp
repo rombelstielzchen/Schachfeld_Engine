@@ -77,9 +77,9 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     // White pawn, captures, not yet to the 8th rank (promotion)
     { 2, "8/ppp5/1P6/8/8/8/8/8 w" },
     // White pawn, promotion
-    { 4, "8/1P6/8/8/8/8/8/8 w"},
-    { 8, "nnn5/1P6/8/8/8/8/8/8 w"},
-    { 12, "n1n5/1P6/8/8/8/8/8/8 w"},
+    { 4, "8/1P6/8/8/8/8/8/8 w" },
+    { 8, "nnn5/1P6/8/8/8/8/8/8 w" },
+    { 12, "n1n5/1P6/8/8/8/8/8/8 w" },
     // White pawns, some double-jumps
     { 2, "8/8/8/8/8/8/P7/8 w" },
     { 16, "8/8/8/8/8/8/PPPPPPPP/8 w" },
@@ -87,29 +87,32 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     // White to move, multiple pieces   
     { 28, "3k4/8/8/5Q2/8/8/8/K7 w" },
     { 21, "3k1b1b/3pqppp/3n3r/3p1Q1p/3n3r/3p3p/8/K7 w" },
-    { 14, "3k1b1b/3PqPpP/3n3r/3P1Q1P/3n3r/3P3P/8/K7 w"},
+    { 14, "3k1b1b/3PqPpP/3n3r/3P1Q1P/3n3r/3P3P/8/K7 w" },
     { 0, "8/8/p7/Pp6/RP6/KP6/PP6/8 w" },
     // Eng-passeng
     { 1, "8/8/8/Pp6/8/8/8/8 w - - " },
     { 2, "8/8/8/Pp6/8/8/8/8 w - b6" },
     { 4, "8/8/8/PpP5/8/8/8/8 w - b6" },
     // White castling, no castling rights
-    { 10, "8/8/8/8/8/p6p/P6P/R3K2R w -"},
+    { 10, "8/8/8/8/8/p6p/P6P/R3K2R w -" },
     // White castling, pieces in the way
-    { 7, "8/8/8/8/8/p6p/P6P/Rn2K1nR w KQ"},
+    { 7, "8/8/8/8/8/p6p/P6P/Rn2K1nR w KQ" },
     // White castling, not yet checking attacked squares
-    { 9, "8/8/8/8/8/p7/P7/R3K3 w Q"},
-    { 8, "8/8/8/8/8/7p/7P/4K2R w K"},
+    { 9, "8/8/8/8/8/p7/P7/R3K3 w Q" },
+    { 8, "8/8/8/8/8/7p/7P/4K2R w K" },
     // Black pawns, normal moves
-    { 3, "8/p7/7p b"},
+    { 3, "8/p7/7p b" },
     // Black pawn captures
-    { 4, "8/1p6/P1P b"},
+    { 4, "8/1p6/P1P b" },
     // Black pawn promotions
-    { 8, "8/8/8/8/8/8/1p6/NNN b"},
+    { 8, "8/8/8/8/8/8/1p6/NNN b" },
     // Black pawn, eng-passeng
-    { 2, "8/8/8/8/pP b - b3"},
+    { 2, "8/8/8/8/pP b - b3" },
     // Black  king, castling
-    { 10, "r3k1Br/p6p/P6P b kq"},
+    { 10, "r3k1Br/p6p/P6P b kq" },
+    // Some real-world positions
+    { 20, "startpos" },
+    { 33, "r1nqkbnr/pppp2pp/2n5/1B2pp2/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq" }
 };
 
 bool CTestMoveGenerator::test_everything() {
