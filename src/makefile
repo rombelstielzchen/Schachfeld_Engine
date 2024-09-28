@@ -30,7 +30,8 @@ debug:
 engine: makefile main.o board.o uci_protocol.o string_functions.o  \
 	fen_parser.o command_interface.o move_generator.o move.o debug_log.o \
 	test_move_generator.o engine_test.o fen_generator.o test_board.o \
-	test_technical_functions.o board_logic.o
+	test_technical_functions.o board_logic.o opening_book.o test_opening_book.o \
+	gm_book.o
 	#make semi_clean 
 #	CFLAGS=-Wall -O0  -c $^
 	#make standard_headers
@@ -39,7 +40,8 @@ engine: makefile main.o board.o uci_protocol.o string_functions.o  \
 	g++ -o engine main.o string_functions.o uci_protocol.o board.o  \
 	fen_parser.o command_interface.o move_generator.o move.o debug_log.o  \
 	test_move_generator.o engine_test.o fen_generator.o test_board.o \
-	test_technical_functions.o board_logic.o
+	test_technical_functions.o board_logic.o opening_book.o test_opening_book.o \
+	gm_book.o
 	make test
 	@#sl -e +extra_foo +immortality
 	@echo "=============================="
@@ -90,6 +92,15 @@ test_technical_functions.o: technical_functions/test_technical_functions.cpp
 	$(CC) $(CFLAGS) 
 
 board_logic.o: board/board_logic.cpp
+	$(CC) $(CFLAGS) 
+
+opening_book.o: opening_book/opening_book.cpp
+	$(CC) $(CFLAGS) 
+
+test_opening_book.o: opening_book/test_opening_book.cpp
+	$(CC) $(CFLAGS) 
+
+gm_book.o: opening_book/book_data/gm_book.cpp
 	$(CC) $(CFLAGS) 
 
 #### Other build targets ###############
