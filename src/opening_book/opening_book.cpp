@@ -8,33 +8,34 @@
 // based on a snall list of short lines,
 // just to get some fun and variation.
 
-#include "opeing_book.h"
+#include "opening_book.h"
 
 constexpr int VARIATION_NOT_FOUND = -1;
 
-COpwningBook::COpwningBook() {
+COpeningBook::COpeningBook() {
     last_looked_up_moves_from_startpos = "";
     last_lookup_successfull = true;
 }
 
-SMove COpwningBook::get_move(std::string moves_from_startpos_in_uci_format) {
+std::string COpeningBook::get_move(const std::string &moves_from_startpos_in_uci_format) {
     int index = random_matching_index(moves_from_startpos_in_uci_format);
     if (index == VARIATION_NOT_FOUND) {
         last_lookup_successfull = false;
-        return NULL_MOVE;
+        return NULL_MOVE_AS_TEXT;
     }
-    return text_to_move("e2e4");
+    // TODO
+    return "e2e4";
 }
 
-int COpwningBook::first_matching_index(std::string moves_from_startpos_in_uci_format) const {
+int COpeningBook::first_matching_index(std::string moves_from_startpos_in_uci_format) const {
     return VARIATION_NOT_FOUND;
 }
 
-int COpwningBook::last_matching_index(std::string moves_from_startpos_in_uci_format) const {
+int COpeningBook::last_matching_index(std::string moves_from_startpos_in_uci_format) const {
     return VARIATION_NOT_FOUND;
 }
 
-int COpwningBook::random_matching_index(std::string moves_from_startpos_in_uci_format) const {
+int COpeningBook::random_matching_index(std::string moves_from_startpos_in_uci_format) const {
     int first_index = first_matching_index(moves_from_startpos_in_uci_format);
     if (first_index == VARIATION_NOT_FOUND) {
         return VARIATION_NOT_FOUND;

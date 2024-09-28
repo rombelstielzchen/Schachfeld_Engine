@@ -13,11 +13,13 @@
 #include "../move_generator/move.h"
 #include "../technical_functions/standard_headers.h"
 
-class COpwningBook {
+typedef std::vector<std::string> TSortedVariationCollection;
+
+class COpeningBook {
   public:
-    COpwningBook();
+    COpeningBook();
     // Returns a null-move if no move could be found.
-    SMove get_move(std::string moves_from_startpos_in_uci_format);
+    std::string get_move(const std::string &moves_from_startpos_in_uci_format);
 private:
     int first_matching_index(std::string moves_from_startpos_in_uci_format) const;
     int last_matching_index(std::string moves_from_startpos_in_uci_format) const;
