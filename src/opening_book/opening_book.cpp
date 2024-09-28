@@ -9,38 +9,69 @@
 // just to get some fun and variation.
 
 #include "opening_book.h"
+#include "book_data/gm_book.h"
+
+
+bool is_prefix_of(const std::string &pattern, const std::string &long_string) {
+    DEBUG_METHOD();
+    int pattern_size = pattern.length();
+    return (long_string.find(pattern) == 0);
+}
 
 constexpr int VARIATION_NOT_FOUND = -1;
 
 COpeningBook::COpeningBook() {
+    DEBUG_METHOD();
     last_looked_up_moves_from_startpos = "";
     last_lookup_successfull = true;
 }
 
 std::string COpeningBook::get_move(const std::string &moves_from_startpos_in_uci_format) {
-    int index = random_matching_index(moves_from_startpos_in_uci_format);
+    DEBUG_METHOD();
+    int index = random_matching_index(gm_book, moves_from_startpos_in_uci_format);
     if (index == VARIATION_NOT_FOUND) {
         last_lookup_successfull = false;
         return NULL_MOVE_AS_TEXT;
     }
-    // TODO
-    return "e2e4";
+   assert(gm_book[index].length() > moves_from_startpos_in_uci_format.length());
+   int first_char = moves_from_startpos_in_uci_format.length() + 1;
+   std::string next_move = gm_book[index].substr(first_char, 4);
+    return next_move;
 }
 
-int COpeningBook::first_matching_index(std::string moves_from_startpos_in_uci_format) const {
+int COpeningBook::first_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const {
+    DEBUG_METHOD();
+    int size = book.size(); 
+    for (int j = 0; j < size; ++j) {
+         if (is_prefix_of(moves_from_startpos_in_uci_format, book[j])) {
+            return j;
+        }
+    }
     return VARIATION_NOT_FOUND;
 }
 
-int COpeningBook::last_matching_index(std::string moves_from_startpos_in_uci_format) const {
+int COpeningBook::last_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const {
+    DEBUG_METHOD();
+    int last_element = book.size() - 1;
+    for (int j = last_element; j >= 0; --j) {
+         if (is_prefix_of(moves_from_startpos_in_uci_format, book[j])) {
+            return j;
+         }
+    }
     return VARIATION_NOT_FOUND;
 }
 
-int COpeningBook::random_matching_index(std::string moves_from_startpos_in_uci_format) const {
-    int first_index = first_matching_index(moves_from_startpos_in_uci_format);
+int COpeningBook::random_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const {
+    DEBUG_METHOD();
+    std::cerr << "randi" << std::endl;
+    int first_index = first_matching_index(book, moves_from_startpos_in_uci_format);
+    std::cerr << "First: " << first_index << std::endl;
     if (first_index == VARIATION_NOT_FOUND) {
         return VARIATION_NOT_FOUND;
     }
-    int last_index = last_matching_index(moves_from_startpos_in_uci_format);
+    std::cerr << "Searching for last: " << std::endl;
+    int last_index = last_matching_index(book, moves_from_startpos_in_uci_format);
+    std::cerr << "Last: " << last_index << std::endl;
     if (last_index == VARIATION_NOT_FOUND) {
          return VARIATION_NOT_FOUND;
     }
@@ -48,6 +79,7 @@ int COpeningBook::random_matching_index(std::string moves_from_startpos_in_uci_f
     int n_matching_variations = last_index - first_index + 1;
     int random_offset = rand() % n_matching_variations;
     int random_index = first_index + random_offset;
+    std::cerr << "Random: " << random_index << std::endl;
     assert(random_index >= first_index);
     assert(random_index <= last_index);
     return random_index;

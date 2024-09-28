@@ -63,7 +63,7 @@
      std::cerr << "CTestOpeningBook::test_move_lookup() ..." << std::endl;
      bool result = lookup_returns_any_move("")
         && lookup_returns_any_move("e2e4")
-        && lookup_returns_any_move("e2e4 e7c5")
+        && lookup_returns_any_move("e2e4 c7c5")
         && lookup_returns_any_move("d2d4 g8f6 c2c4 g7g6 b1c3 d7d5")
         && lookup_returns_null_move("g1h3 b8a6")
         && lookup_returns_null_move("e2e4 b8a6")
@@ -88,7 +88,7 @@ bool CTestOpeningBook::lookup_returns_exact_move(const std::string &variation, c
 std::string CTestOpeningBook::verbose_move_lookup(const std::string &variation) {
     COpeningBook opening_book;
     std::string move = opening_book.get_move(variation);
-    std::cerr << "[" << variation << "{] -> [" << move << "]" << std::endl;
+    std::cerr << "[" << variation << "] -> [" << move << "]" << std::endl;
     return move; 
 }
 
