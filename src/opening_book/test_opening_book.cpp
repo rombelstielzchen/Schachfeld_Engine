@@ -74,9 +74,7 @@
  }
 
  bool CTestOpeningBook::lookup_returns_null_move(std::string variation) {
-     COpeningBook opening_book;
-     std::string move = opening_book.get_move(variation);
-    return (move == NULL_MOVE_AS_TEXT);
+    return (verbose_move_lookup(variation) == NULL_MOVE_AS_TEXT);
  }
 
  bool CTestOpeningBook::lookup_returns_any_move(std::string variation) {
@@ -84,7 +82,13 @@
  }
 
 bool CTestOpeningBook::lookup_returns_exact_move(const std::string &variation, const std::string &text_move) {
+    return (verbose_move_lookup(variation) == text_move);
+}
+
+std::string CTestOpeningBook::verbose_move_lookup(const std::string &variation) {
     COpeningBook opening_book;
-    return (opening_book.get_move(variation) == text_move);
+    std::string move = opening_book.get_move(variation);
+    std::cerr << "[" << variation << "{] -> [" << move << "]" << std::endl;
+    return move; 
 }
 
