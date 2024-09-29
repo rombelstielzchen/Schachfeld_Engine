@@ -53,6 +53,9 @@
     <ClCompile Include="..\move_generator\test_move_generator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\board\board_logic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\technical_functions\string_functions.h">
@@ -95,6 +98,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\technical_functions\test_technical_functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\board\board_logic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
