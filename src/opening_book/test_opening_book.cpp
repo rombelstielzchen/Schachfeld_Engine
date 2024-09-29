@@ -69,7 +69,8 @@
         && lookup_returns_null_move("e2e4 b8a6")
         && lookup_returns_exact_move("x2x1", "e7e5")
         && lookup_returns_exact_move("x2x1 e7e5", "e2e4")
-        && lookup_returns_exact_move("x2x1 e7e5 e2e4", "f7f5");
+        && lookup_returns_exact_move("x2x1 e7e5 e2e4", "f7f5")
+        && lookup_returns_null_move("x2x1 e7e5 e2e4 f7f5");
     return result;
  }
 
