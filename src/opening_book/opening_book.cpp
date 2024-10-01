@@ -12,10 +12,16 @@
 #include "book_data/gm_book.h"
 
 
-bool is_prefix_of(const std::string &pattern, const std::string &long_string) {
+bool is_prefix_of(const std::string &pattern, const std::string &long_string, bool true_prefix = false) {
     DEBUG_METHOD();
     int pattern_size = pattern.length();
-    return (long_string.find(pattern) == 0);
+    if (long_string.find(pattern) != 0) {
+        return false;
+    }
+    if (true_prefix && (pattern_size == long_string.length())) {
+        return false;
+    }
+    return true;
 }
 
 constexpr int VARIATION_NOT_FOUND = -1;
@@ -43,7 +49,7 @@ int COpeningBook::first_matching_index(const TSortedVariationCollection &book, c
     DEBUG_METHOD();
     int size = book.size(); 
     for (int j = 0; j < size; ++j) {
-         if (is_prefix_of(moves_from_startpos_in_uci_format, book[j])) {
+         if (is_prefix_of(moves_from_startpos_in_uci_format, book[j], true)) {
             return j;
         }
     }
@@ -54,7 +60,7 @@ int COpeningBook::last_matching_index(const TSortedVariationCollection &book, co
     DEBUG_METHOD();
     int last_element = book.size() - 1;
     for (int j = last_element; j >= 0; --j) {
-         if (is_prefix_of(moves_from_startpos_in_uci_format, book[j])) {
+         if (is_prefix_of(moves_from_startpos_in_uci_format, book[j], true)) {
             return j;
          }
     }
@@ -63,15 +69,11 @@ int COpeningBook::last_matching_index(const TSortedVariationCollection &book, co
 
 int COpeningBook::random_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const {
     DEBUG_METHOD();
-    std::cerr << "randi" << std::endl;
     int first_index = first_matching_index(book, moves_from_startpos_in_uci_format);
-    std::cerr << "First: " << first_index << std::endl;
     if (first_index == VARIATION_NOT_FOUND) {
         return VARIATION_NOT_FOUND;
     }
-    std::cerr << "Searching for last: " << std::endl;
     int last_index = last_matching_index(book, moves_from_startpos_in_uci_format);
-    std::cerr << "Last: " << last_index << std::endl;
     if (last_index == VARIATION_NOT_FOUND) {
          return VARIATION_NOT_FOUND;
     }
@@ -79,7 +81,6 @@ int COpeningBook::random_matching_index(const TSortedVariationCollection &book, 
     int n_matching_variations = last_index - first_index + 1;
     int random_offset = rand() % n_matching_variations;
     int random_index = first_index + random_offset;
-    std::cerr << "Random: " << random_index << std::endl;
     assert(random_index >= first_index);
     assert(random_index <= last_index);
     return random_index;
