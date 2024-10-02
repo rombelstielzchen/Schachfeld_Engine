@@ -11,6 +11,10 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
     bool lack_of_errors = true;
     CStringTokenizer tokenizer(fen_board_specification);
     std::string piece_placement = tokenizer.next_token();
+    if (piece_placement == "fen") {
+        // Ignore "fen".  Position commands have this extra token, test-cases not.
+        piece_placement = tokenizer.next_token();
+    }
     if (piece_placement == "startpos") {
         // UCI may send "startpos" instead of a complicated FEN
         board.set_start_position();
