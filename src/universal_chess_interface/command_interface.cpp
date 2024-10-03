@@ -13,14 +13,14 @@
 const std::string NO_MOVES_FROM_STARTPOS = "You better calculate, buddy!";
 
 CCommandInterface::CCommandInterface() {
-    moves_from_startpos = NO_MOVES_FROM_STARTPOS;
+    moves_from_startpos = "";
 }
 
 SMove CCommandInterface::best_move() const {
   // TODO
     // Temp tinkering
     COpeningBook opening_book;
-    std::string book_move = opening_book.get_move("e2e4");
+    std::string book_move = opening_book.get_move(moves_from_startpos);
     if (book_move != NULL_MOVE_AS_TEXT) {
         assert(move_in_range(text_to_move(book_move)));
         return text_to_move(book_move);
@@ -96,5 +96,16 @@ void CCommandInterface::send_best_move(SMove best_move) const {
 }
 
 void CCommandInterface::extract_moves_from_startpos(const std::string &position_command) {
-
+    moves_from_startpos = NO_MOVES_FROM_STARTPOS;
+    CStringTokenizer tokenizer(position_command);
+    std::string next_token = tokenizer.next_token();
+    if (next_token != "startpos")  {
+        return;
+    }
+    next_token = tokenizer.next_token();
+    if (next_token != "moves")  {
+        return;
+    }
+    moves_from_startpos = tokenizer.get_the_rest();
+    trim(moves_from_startpos);
 }

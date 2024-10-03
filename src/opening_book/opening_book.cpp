@@ -40,8 +40,15 @@ std::string COpeningBook::get_move(const std::string &moves_from_startpos_in_uci
         return NULL_MOVE_AS_TEXT;
     }
    assert(gm_book[index].length() > moves_from_startpos_in_uci_format.length());
-   int first_char = moves_from_startpos_in_uci_format.length() + 1;
+   int first_char = 0;
+   if (moves_from_startpos_in_uci_format != "") {
+       first_char = moves_from_startpos_in_uci_format.length() + 1;
+   }
    std::string next_move = gm_book[index].substr(first_char, 4);
+   if (next_move == "x2x1") {
+       // Bokelmann-Gambit for testability
+        return "e2e4";
+   }
     return next_move;
 }
 
