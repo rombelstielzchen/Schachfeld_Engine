@@ -11,6 +11,8 @@
 
 class CCommandInterface {
   public:
+    CCommandInterface();
+  public:
     void new_game();
     bool set_position(const std::string &fen_position);
     void stop();
@@ -33,6 +35,10 @@ class CCommandInterface {
   public:
     void go_searchmoves(std::string &moves);
   private:
+    void extract_moves_from_startpos(const std::string &position_command);
+    SMove best_move() const;
     void send_best_move(SMove best_move) const;
+  private:
+    std::string moves_from_startpos;
 };
 

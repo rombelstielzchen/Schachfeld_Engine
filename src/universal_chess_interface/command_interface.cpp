@@ -7,13 +7,32 @@
 #include "uci_protocol.h"
 #include "../board/board.h"
 #include "../move_generator/move_generator.h"
+#include "../opening_book/opening_book.h"
 #include "../technical_functions/standard_headers.h"
 
-void CCommandInterface::go_depth(const int64_t depth_in_plies) {
+const std::string NO_MOVES_FROM_STARTPOS = "You better calculate, buddy!";
+
+CCommandInterface::CCommandInterface() {
+    moves_from_startpos = NO_MOVES_FROM_STARTPOS;
+}
+
+SMove CCommandInterface::best_move() const {
+  // TODO
+    // Temp tinkering
+    COpeningBook opening_book;
+    std::string book_move = opening_book.get_move("e2e4");
+    if (book_move != NULL_MOVE_AS_TEXT) {
+        assert(move_in_range(text_to_move(book_move)));
+        return text_to_move(book_move);
+    }
     CMoveGenerator move_generator;
     move_generator.generate_all();
     SMove random_move = move_generator.get_random();
-    send_best_move(random_move);
+    return random_move;
+}
+
+void CCommandInterface::go_depth(const int64_t depth_in_plies) {
+  send_best_move(best_move());
 }
 
 void CCommandInterface::go_nodes(const int64_t nodes) {
@@ -58,6 +77,7 @@ void CCommandInterface::go_time(
 
 void CCommandInterface::new_game() {
     // TODO
+    moves_from_startpos = NO_MOVES_FROM_STARTPOS;
 }
 
 void CCommandInterface::stop() {
@@ -66,6 +86,7 @@ void CCommandInterface::stop() {
 }
 
 bool CCommandInterface::set_position(const std::string &fen_position) {
+    extract_moves_from_startpos(fen_position);
     return board.set_fen_position(fen_position);
 }
 
@@ -74,3 +95,6 @@ void CCommandInterface::send_best_move(SMove best_move) const {
     CUciProtocol::send_message(message);
 }
 
+void CCommandInterface::extract_moves_from_startpos(const std::string &position_command) {
+
+}
