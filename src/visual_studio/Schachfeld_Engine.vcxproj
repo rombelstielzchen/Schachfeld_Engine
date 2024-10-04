@@ -136,6 +136,9 @@
     <ClCompile Include="..\move_generator\move.cpp" />
     <ClCompile Include="..\move_generator\move_generator.cpp" />
     <ClCompile Include="..\move_generator\test_move_generator.cpp" />
+    <ClCompile Include="..\opening_book\book_data\gm_book.cpp" />
+    <ClCompile Include="..\opening_book\opening_book.cpp" />
+    <ClCompile Include="..\opening_book\test_opening_book.cpp" />
     <ClCompile Include="..\technical_functions\debug_log.cpp" />
     <ClCompile Include="..\technical_functions\engine_test.cpp" />
     <ClCompile Include="..\technical_functions\string_functions.cpp" />
@@ -152,6 +155,9 @@
     <ClInclude Include="..\move_generator\move.h" />
     <ClInclude Include="..\move_generator\move_generator.h" />
     <ClInclude Include="..\move_generator\test_move_generator.h" />
+    <ClInclude Include="..\opening_book\book_data\gm_book.h" />
+    <ClInclude Include="..\opening_book\opening_book.h" />
+    <ClInclude Include="..\opening_book\test_opening_book.h" />
     <ClInclude Include="..\technical_functions\debug_log.h" />
     <ClInclude Include="..\technical_functions\engine_test.h" />
     <ClInclude Include="..\technical_functions\standard_headers.h" />

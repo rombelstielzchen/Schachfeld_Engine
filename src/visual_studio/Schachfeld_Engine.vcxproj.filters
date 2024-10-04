@@ -56,6 +56,15 @@
     <ClCompile Include="..\board\board_logic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\opening_book\book_data\gm_book.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\opening_book\opening_book.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\opening_book\test_opening_book.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\technical_functions\string_functions.h">
@@ -101,6 +110,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\board\board_logic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\opening_book\opening_book.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\opening_book\test_opening_book.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\opening_book\book_data\gm_book.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
