@@ -13,12 +13,14 @@
 #include <algorithm>
 #include <array>
 #include <cassert>
+#include <chrono>
 #include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <ranges>
 #include <sstream>
 #include <string>
+#include <thread>
 #include <vector>
 
 // To be used in assertions

@@ -79,6 +79,17 @@ void CUciProtocol::message_loop() {
             break;
         }
         process_message(message);
+        dynamic_sleep(message);
     }
+}
+
+void CUciProtocol::dynamic_sleep(const std::string &last_message) const {
+    static int delay_in_ms = 0;
+    constexpr int max_delay = 500;
+    constexpr int delta_delay = 50;
+    delay_in_ms += (last_message != "") ? delta_delay : 0;
+    delay_in_ms = std::min(delay_in_ms, max_delay);
+    delay_in_ms = (last_message != "") ? delay_in_ms : 0;
+    std::this_thread::sleep_for(std::chrono::milliseconds(delay_in_ms));
 }
 
