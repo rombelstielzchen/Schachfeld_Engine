@@ -21,9 +21,9 @@ class COpeningBook {
     // Returns a null-move if no move could be found.
     std::string get_move(const std::string &moves_from_startpos_in_uci_format);
 private:
-    int first_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const;
-    int last_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const;
-    int random_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const;
+    size_t first_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const;
+    size_t last_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const;
+    size_t random_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const;
 private:
     std::string last_looked_up_moves_from_startpos;
     bool last_lookup_successfull;

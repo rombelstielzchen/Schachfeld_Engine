@@ -31,7 +31,7 @@
         && (variation.back() != ' ')
         && (variation.find("  ") >= 0);
         // Checking the length for plausibility
-        int length_plus_one = variation.length() + 1;
+        size_t length_plus_one = variation.length() + 1;
         constexpr int move_plus_separator = 5;
         result &= (length_plus_one % move_plus_separator == 0);
         if (!result) {
@@ -44,7 +44,7 @@
 
  bool CTestOpeningBook::test_sortedness(const TSortedVariationCollection &variation_collection) {
     std::cerr << "CTestOpeningBook::test_sortedness() ..." << std::endl;
-     int second_last = variation_collection.size() - 2;
+     size_t second_last = variation_collection.size() - 2;
      for (int i = 0; i <= second_last; ++i) {
         if (variation_collection[i].compare(variation_collection[i + 1]) >= 0) {
             std::cerr << "ERROR: bad sorting: " << variation_collection[i] << std::endl;

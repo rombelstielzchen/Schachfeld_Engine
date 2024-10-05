@@ -62,6 +62,7 @@ bool CBoardLogic::rook_on_castling_square(const char move_type) {
             return (board.get_square(FILE_A, RANK_8) == BLACK_ROOK);
         default:
             assert(UNEXPECTED_MOVE_TYPE);
+            return false;
             break;
     }
 }

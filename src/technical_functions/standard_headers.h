@@ -17,7 +17,6 @@
 #include <cstdint>
 #include <fstream>
 #include <iostream>
-#include <ranges>
 #include <sstream>
 #include <string>
 #include <thread>

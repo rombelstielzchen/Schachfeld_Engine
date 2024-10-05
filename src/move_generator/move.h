@@ -23,6 +23,7 @@ constexpr char MOVE_TYPE_ENG_PASSENG = 'e';
 constexpr char MOVE_TYPE_DOUBLE_JUMP = 'j';
 constexpr char MOVE_TYPE_NORMAL = '\0';
 
+#pragma pack(push)
 #pragma pack(1)
 
 typedef struct {
@@ -36,6 +37,8 @@ typedef struct {
    char move_type;
    //char captured_piece;
 } SMove;
+
+#pragma pack(pop)
 
 // Internal encoding of "none", "finished", "end of list"
 constexpr SMove NULL_MOVE = {{0, 0}, {0, 0}, MOVE_TYPE_NORMAL};
