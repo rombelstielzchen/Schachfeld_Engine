@@ -112,6 +112,7 @@ class CBoard {
     void clear_castling_rights();
     void set_castling_rights(const char move_type, bool yes_no);
     bool get_castling_rights(char move_type) const;
+    std::string get_moves_from_startpos() const;
   private:
     void init_garden_fence();
     void clear();
@@ -127,6 +128,7 @@ class CBoard {
     int _100_ply_draw_counter;
     // Some over-size supports easy access via MOVE_TYPE (char)
     std::array<bool, MOVE_TYPE_BLACK_SHORT_CASTLING + 1> castling_rights;
+    std::string moves_from_startpos;
 };
 
 // Global board, as "everybody" needs easy access to it

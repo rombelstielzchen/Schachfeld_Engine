@@ -6,6 +6,8 @@
 #include "fen_parser.h"
 #include "../technical_functions/string_functions.h"
 
+const std::string NO_MOVES_FROM_STARTPOS = "You better calculate, buddy!";
+
 bool CFenParser::parse(const std::string &fen_board_specification) {
     DEBUG_METHOD();
     bool lack_of_errors = true;
@@ -32,6 +34,7 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
         lack_of_errors &= parse_move(optional_move);
         optional_move = tokenizer.next_token();
     }
+    extract_moves_from_startpos(fen_board_specification);
     return lack_of_errors;
 }
 
@@ -180,3 +183,19 @@ bool CFenParser::parse_move(std::string move_as_text) {
     return true;
 }
 
+
+void CFenParser::extract_moves_from_startpos(const std::string &position_command) {
+    board.moves_from_startpos = NO_MOVES_FROM_STARTPOS;
+    CStringTokenizer tokenizer(position_command);
+    std::string next_token = tokenizer.next_token();
+    if (next_token != "startpos")  {
+        return;
+    }
+    board.moves_from_startpos = "";
+    next_token = tokenizer.next_token();
+    if (next_token != "moves")  {
+        return;
+    }
+    board.moves_from_startpos = tokenizer.get_the_rest();
+    trim(board.moves_from_startpos);
+}

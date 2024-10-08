@@ -10,41 +10,13 @@
 #include "../opening_book/opening_book.h"
 #include "../technical_functions/standard_headers.h"
 
-void endless() {
-    for (int j = 0; j < 10; ++j) {
-            CUciProtocol::send_message("Huhu!");
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    }
-    std::cerr << "Finished\n";
-}
-
-const std::string NO_MOVES_FROM_STARTPOS = "You better calculate, buddy!";
-
 CCommandInterface::CCommandInterface() {
-    moves_from_startpos = "";
-    std::thread experimental(endless);
-    std::cerr << "Started\n";
-    experimental.join();
-    std::cerr << "Joined\n";
 }
 
-SMove CCommandInterface::best_move() const {
-  // TODO
-    // Temp tinkering
-    COpeningBook opening_book;
-    std::string book_move = opening_book.get_move(moves_from_startpos);
-    if (book_move != NULL_MOVE_AS_TEXT) {
-        assert(move_in_range(text_to_move(book_move)));
-        return text_to_move(book_move);
-    }
-    CMoveGenerator move_generator;
-    move_generator.generate_all();
-    SMove random_move = move_generator.get_random();
-    return random_move;
-}
 
 void CCommandInterface::go_depth(const int64_t depth_in_plies) {
-  send_best_move(best_move());
+    std::thread worker_thread(worker_go_depth, depth_in_plies);
+    worker_thread.detach();
 }
 
 void CCommandInterface::go_nodes(const int64_t nodes) {
@@ -89,7 +61,6 @@ void CCommandInterface::go_time(
 
 void CCommandInterface::new_game() {
     // TODO
-    moves_from_startpos = NO_MOVES_FROM_STARTPOS;
 }
 
 void CCommandInterface::stop() {
@@ -98,26 +69,31 @@ void CCommandInterface::stop() {
 }
 
 bool CCommandInterface::set_position(const std::string &fen_position) {
-    extract_moves_from_startpos(fen_position);
     return board.set_fen_position(fen_position);
 }
 
-void CCommandInterface::send_best_move(SMove best_move) const {
-    std::string message = "bestmove " + move_as_text(best_move);
+void CCommandInterface::send_best_move(const std::string &best_move){
+    std::string message = "bestmove " + best_move;
     CUciProtocol::send_message(message);
 }
 
-void CCommandInterface::extract_moves_from_startpos(const std::string &position_command) {
-    moves_from_startpos = NO_MOVES_FROM_STARTPOS;
-    CStringTokenizer tokenizer(position_command);
-    std::string next_token = tokenizer.next_token();
-    if (next_token != "startpos")  {
-        return;
-    }
-    next_token = tokenizer.next_token();
-    if (next_token != "moves")  {
-        return;
-    }
-    moves_from_startpos = tokenizer.get_the_rest();
-    trim(moves_from_startpos);
+void CCommandInterface::send_best_move(SMove best_move){
+    send_best_move(move_as_text(best_move));
 }
+
+void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
+  // TODO
+    // Temp tinkering
+    COpeningBook opening_book;
+    std::string book_move = opening_book.get_move(board.get_moves_from_startpos());
+    if (book_move != NULL_MOVE_AS_TEXT) {
+        assert(move_in_range(text_to_move(book_move)));
+        send_best_move(book_move);
+        return;
+    }
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    SMove random_move = move_generator.get_random();
+    send_best_move(random_move);
+}
+

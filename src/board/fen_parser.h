@@ -26,5 +26,6 @@ class CFenParser {
     static bool parse_100_ply_draw_counter(const std::string &partial_input);
     static bool parse_move_counter(const std::string &partial_input);
     static bool parse_move(std::string move_as_text);
+    static void extract_moves_from_startpos(const std::string &position_command);
 };
 

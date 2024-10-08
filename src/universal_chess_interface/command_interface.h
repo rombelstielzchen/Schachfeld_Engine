@@ -35,10 +35,10 @@ class CCommandInterface {
   public:
     void go_searchmoves(std::string &moves);
   private:
-    void extract_moves_from_startpos(const std::string &position_command);
-    SMove best_move() const;
-    void send_best_move(SMove best_move) const;
+    static void send_best_move(const std::string &best_move);
+    static void send_best_move(SMove best_move);
   private:
-    std::string moves_from_startpos;
+    // Worker-funcrions, to be run in extra-threads
+    static void worker_go_depth(const int64_t depth_in_plies);
 };
 

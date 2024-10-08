@@ -38,6 +38,7 @@ void CBoard::clear() {
 
 void CBoard::set_start_position() {
     set_fen_position(START_POSITION);
+    moves_from_startpos = "";
     assert(get_fen_position() == START_POSITION);
     assert(get_side_to_move() == WHITE_TO_MOVE);
     assert(get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
@@ -105,6 +106,9 @@ void CBoard::clear_castling_rights() {
     set_castling_rights(MOVE_TYPE_BLACK_SHORT_CASTLING, false);
     set_castling_rights(MOVE_TYPE_BLACK_LONG_CASTLING, false);
 }
+std::string CBoard::get_moves_from_startpos() const {
+    return moves_from_startpos;
+ }
 
 void CBoard::set_castling_rights(const char move_type, bool yes_no) {
     assert((move_type == MOVE_TYPE_WHITE_SHORT_CASTLING)
