@@ -10,10 +10,22 @@
 #include "../opening_book/opening_book.h"
 #include "../technical_functions/standard_headers.h"
 
+void endless() {
+    for (int j = 0; j < 10; ++j) {
+            CUciProtocol::send_message("Huhu!");
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    }
+    std::cerr << "Finished\n";
+}
+
 const std::string NO_MOVES_FROM_STARTPOS = "You better calculate, buddy!";
 
 CCommandInterface::CCommandInterface() {
     moves_from_startpos = "";
+    std::thread experimental(endless);
+    std::cerr << "Started\n";
+    experimental.join();
+    std::cerr << "Joined\n";
 }
 
 SMove CCommandInterface::best_move() const {
