@@ -6,6 +6,7 @@
 #include "engine_test.h"
 #include "test_technical_functions.h"
 #include "../board/test_board.h"
+#include "../board/test_move_maker.h"
 #include "../move_generator/test_move_generator.h"
 #include "../opening_book/test_opening_book.h"
 #include "standard_headers.h"
@@ -15,6 +16,7 @@
     bool success = true
          && CTestTechnicalFunctions::test_everything()
         && CTestBoard::test_everything()
+        && CTestMoveMaker::test_everything()
         && CTestMoveGenerator::test_everything()
         && CTestOpeningBook::test_everything();
     if (success) {
