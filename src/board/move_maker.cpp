@@ -19,6 +19,13 @@ bool CMoveMaker::make_move(SMove move) {
     DEBUG_VALUE_OF(moving_piece);
     board.squares[move.source.file][move.source.rank] = EMPTY_SQUARE;
     board.squares[move.target.file][move.target.rank] = moving_piece;
+    switch (move.move_type) {
+        case MOVE_TYPE_NORMAL:
+            break;
+        case MOVE_TYPE_WHITE_SHORT_CASTLING:
+            board.squares[FILE_F][RANK_1] = WHITE_ROOK;
+                    break;
+    }
     return true;
 }
 
