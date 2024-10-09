@@ -4,6 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "fen_parser.h"
+#include "move_maker.h"
 #include "../technical_functions/string_functions.h"
 
 const std::string NO_MOVES_FROM_STARTPOS = "You better calculate, buddy!";
@@ -179,7 +180,7 @@ bool CFenParser::parse_move(std::string move_as_text) {
        return true;
     }
     SMove move = text_to_move(move_as_text);
-    board.make_move(move);
+    board.move_maker.make_move(move);
     return true;
 }
 

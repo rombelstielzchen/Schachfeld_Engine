@@ -87,19 +87,6 @@ int CBoard::get_100_ply_draw_counter() const {
     return _100_ply_draw_counter;
 }
 
-bool CBoard::make_move(SMove move) {
-    // TODO: castling, eng-passeng, promotion
-    // TODO: lots of sanity checks
-    DEBUG_METHOD();
-    DEBUG_VALUE_OF(move.source.file);
-    assert(move_in_range(move));
-    char moving_piece = squares[move.source.file][move.source.rank];
-    DEBUG_VALUE_OF(moving_piece);
-    squares[move.source.file][move.source.rank] = EMPTY_SQUARE;
-    squares[move.target.file][move.target.rank] = moving_piece;
-    return true;
-}
-
 void CBoard::clear_castling_rights() {
     set_castling_rights(MOVE_TYPE_WHITE_SHORT_CASTLING, false);
     set_castling_rights(MOVE_TYPE_WHITE_LONG_CASTLING, false);
