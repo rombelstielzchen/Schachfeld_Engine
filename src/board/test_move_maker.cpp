@@ -26,10 +26,10 @@ bool CTestMoveMaker::test_make_unmake_combinations() {
     board.set_fen_position(all_in_one_position);
     CMoveGenerator move_generator;
     move_generator.generate_all();
-    int n_moves = move_generator.list_size();
+    int n_moves = move_generator.move_list.list_size();
     std::cerr << n_moves << " to est" << std::endl;
    for (int j = 0; j < n_moves; ++j) {
-        SMove move = move_generator.get_random();
+        SMove move = move_generator.move_list.get_random();
         // TODO: get_next
         std::cerr << "Testing move: " << move_as_text(move) << std::endl;
         board.move_maker.make_move(move);
