@@ -29,3 +29,7 @@ bool CMoveMaker::make_move(SMove move) {
     return true;
 }
 
+void CMoveMaker::unmake_move() {
+    // TODO
+}
+
