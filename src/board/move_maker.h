@@ -14,5 +14,7 @@ class CMoveMaker {
     bool make_move(const SMove move);
     bool make_move(const std::string &long_algebraic_uci_move);
     void unmake_move();
+  private:
+    std::vector<SMove> move_history;
 };
 

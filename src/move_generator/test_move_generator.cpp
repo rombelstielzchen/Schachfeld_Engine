@@ -137,7 +137,7 @@ bool CTestMoveGenerator::test(const STestcaseMoveGenerator &testcase) {
     }
     CMoveGenerator move_generator;
     move_generator.generate_all();
-    int generated_moves = move_generator.list_size();
+    int generated_moves = move_generator.move_list.list_size();
     if (generated_moves != testcase.expected_moves) {
         std::cerr << "ERROR: got " << generated_moves << ", expected " << int(testcase.expected_moves) << std:: endl;
         return false;;

@@ -93,7 +93,7 @@ void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
     }
     CMoveGenerator move_generator;
     move_generator.generate_all();
-    SMove random_move = move_generator.get_random();
+    SMove random_move = move_generator.move_list.get_random();
     send_best_move(random_move);
 }
 

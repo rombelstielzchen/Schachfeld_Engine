@@ -26,6 +26,7 @@ bool CMoveMaker::make_move(SMove move) {
             board.squares[FILE_F][RANK_1] = WHITE_ROOK;
                     break;
     }
+    move_history.push_back(move);
     return true;
 }
 
