@@ -5,6 +5,7 @@
 
 #include "test_move_generator.h"
 #include "../board/board.h"
+#include "../technical_functions/testing.h"
 
 const std::vector<STestcaseMoveGenerator> testcases = {
     // Empty board
@@ -116,32 +117,24 @@ const std::vector<STestcaseMoveGenerator> testcases = {
 };
 
 bool CTestMoveGenerator::test_everything() {
-    std::cerr << "CTestMoveGenerator::test_everything()" << std::endl;
+    BEGIN_TESTSUITE("CTestMoveGenerator");
     for (const STestcaseMoveGenerator &testcase  : testcases) {
-        if (!test(testcase)) {
-           return false;
-        }
+        SILENT_EXPECT(test(testcase));
     }
     board.set_start_position();
-    std::cerr << "CTestMoveGenerator::test_everything(): all " << testcases.size() << " passed." << std::endl;
+    CTEST << "CTestMoveGenerator::test_everything(): all " << testcases.size() << " passed." << std::endl;
     return true;
 }
 
 bool CTestMoveGenerator::test(const STestcaseMoveGenerator &testcase) {
     assert(testcase.fen_position != "");
     assert(testcase.expected_moves <= MAX_MOVES_IN_CHESS_POSITION);
-    std::cerr << "Testcase: " << testcase.fen_position << std::endl;
-    if (!board.set_fen_position(testcase.fen_position)) {
-        std::cerr << "ERROR: invalid FEN-position" << std::endl;
-        return false;
-    }
+    CTEST << "Testcase: " << testcase.fen_position << std::endl;
+    SILENT_EXPECT(board.set_fen_position(testcase.fen_position));
     CMoveGenerator move_generator;
     move_generator.generate_all();
     int generated_moves = move_generator.move_list.list_size();
-    if (generated_moves != testcase.expected_moves) {
-        std::cerr << "ERROR: got " << generated_moves << ", expected " << int(testcase.expected_moves) << std:: endl;
-        return false;;
-    }
+    SILENT_EXPECT(generated_moves == testcase.expected_moves);
     return true;
 }
 

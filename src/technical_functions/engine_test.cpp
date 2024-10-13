@@ -15,7 +15,7 @@
     BEGIN_TESTSUITE("CEngineTest");
      EXPECT(CTestTechnicalFunctions::test_everything());
     EXPECT(CTestBoard::test_everything());
-    EXPECT(CTestMoveGenerator::test_everything());
+    EXPECT(CTestMoveMaker::test_everything());
     EXPECT(CTestMoveGenerator::test_everything());
     EXPECT(CTestOpeningBook::test_everything());
     CTEST << "CEngineTest::test_everything(): all tests passed with success." << std::endl;
