@@ -8,7 +8,7 @@
 // Board representation of the Schachfeld_Engine for playing standard chess,
 // Using a two-dimensional, piece-centric "mailbox"-approach with 8x8 slots
 // representing empty squares and pieces. 
-
+#include "move_maker.h"
 #include "../move_generator/move.h"
 #include "../technical_functions/standard_headers.h"
 
@@ -90,6 +90,7 @@ const std::string START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR 
 
 class CBoard {
     friend class CFenParser;
+    friend class CMoveMaker;
   public:
     CBoard();
   public:
@@ -97,10 +98,6 @@ class CBoard {
     bool set_fen_position(const std::string &position);
     std::string get_fen_position() const;
     const char* const as_is() const;
-  public:
-    bool make_move(const SMove move);
-    bool make_move(const std::string &long_algebraic_uci_move);
-    void unmake_move();
   public:
     bool get_side_to_move() const;
     int get_eng_passeng_file() const;
@@ -113,6 +110,8 @@ class CBoard {
     void set_castling_rights(const char move_type, bool yes_no);
     bool get_castling_rights(char move_type) const;
     std::string get_moves_from_startpos() const;
+  public:
+    CMoveMaker move_maker;
   private:
     void init_garden_fence();
     void clear();

@@ -11,7 +11,9 @@ int main() {
     DEBUG_LOG_TO_FILE();
     srand(time(NULL));
 #ifndef NDEBUG
-    CEngineTest::test_everything();
+    if (!CEngineTest::test_everything()) {
+        return EXIT_FAILURE;
+    }
 #endif
     CUciProtocol uci_protocol;
     uci_protocol.message_loop();

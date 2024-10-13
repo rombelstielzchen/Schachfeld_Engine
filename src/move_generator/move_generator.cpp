@@ -9,7 +9,6 @@
 #include "../technical_functions/standard_headers.h"
 
 CMoveGenerator::CMoveGenerator() {
-    number_of_moves = 0;
 }
 
 void CMoveGenerator::generate_all() {
@@ -86,10 +85,10 @@ void CMoveGenerator::generate_pawn_captures(const int file, const int rank, cons
     const int left_file = file - 1;
     const int right_file = file + 1;
     if (CBoardLogic::square_occupied_by_opponent(left_file, next_rank)) {
-        store_pawn_move(file, rank, left_file, next_rank);
+        move_list.store_pawn_move(file, rank, left_file, next_rank);
     }
     if (CBoardLogic::square_occupied_by_opponent(right_file, next_rank)) {
-        store_pawn_move(file, rank, right_file, next_rank);
+        move_list.store_pawn_move(file, rank, right_file, next_rank);
     }
 }
 
@@ -99,12 +98,12 @@ void CMoveGenerator::generate_pawn_forward_moves(const int file, const int rank,
     assert((positive_negative_direction == DIRECTION_NORTH) || (positive_negative_direction == DIRECTION_SOUTH));
     const int next_rank = rank + positive_negative_direction;
     if (board.get_square(file, next_rank) == EMPTY_SQUARE) {
-        store_pawn_move(file, rank, file, next_rank);
+        move_list.store_pawn_move(file, rank, file, next_rank);
         const int second_next_rank = next_rank + positive_negative_direction;
         if (((rank == RANK_2) || (rank == RANK_7))
             && (board.get_square(file, second_next_rank) == EMPTY_SQUARE)) {
             // Normal store_move() here, no possible promotion
-            store_move(file, rank, file, second_next_rank, MOVE_TYPE_DOUBLE_JUMP);
+            move_list.store_move(file, rank, file, second_next_rank, MOVE_TYPE_DOUBLE_JUMP);
         }
     }
 }
@@ -140,10 +139,10 @@ void CMoveGenerator::generate_castlings(const int file, const int rank) {
         my_long = MOVE_TYPE_BLACK_LONG_CASTLING;
     }
     if (castling_possible(my_short)) {
-        store_move(FILE_E, rank, FILE_G, rank, my_short);
+        move_list.store_move(FILE_E, rank, FILE_G, rank, my_short);
     }
     if (castling_possible(my_long)) {
-        store_move(FILE_E, rank, FILE_C, rank, my_long);
+        move_list.store_move(FILE_E, rank, FILE_C, rank, my_long);
     }
 }
 
@@ -184,7 +183,7 @@ void CMoveGenerator::generate_potential_move(const int source_file, const int so
     assert(rank_in_range(source_rank));
     // Target may be out of range (garden-fence), therefore no assertions
     if (CBoardLogic::is_valid_target_square(target_file, target_rank)) {
-        store_move(source_file, source_rank, target_file, target_rank);
+        move_list.store_move(source_file, source_rank, target_file, target_rank);
     }
 }
 
@@ -192,13 +191,13 @@ void CMoveGenerator::generate_sliding_moves(const int file, const int rank, cons
     int next_file = file + direction_east_west;
     int next_rank = rank + direction_north_sourh;
     while (board.get_square(next_file, next_rank) == EMPTY_SQUARE) {
-        store_move(file, rank, next_file, next_rank);
+        move_list.store_move(file, rank, next_file, next_rank);
         next_file += direction_east_west;
         next_rank += direction_north_sourh;
     }
     if (CBoardLogic::is_valid_target_square(next_file, next_rank)) {
         // Opponent piece
-        store_move(file, rank, next_file, next_rank);
+        move_list.store_move(file, rank, next_file, next_rank);
     }
 }
 
@@ -215,74 +214,11 @@ void CMoveGenerator::generate_potential_eng_passeng() {
     int left = eng_passeng_file - 1;
     int right = eng_passeng_file + 1;
     if (board.get_square(left, rank == my_pawn)) {
-        store_move(left, rank, eng_passeng_file, next_rank, MOVE_TYPE_ENG_PASSENG);
+        move_list.store_move(left, rank, eng_passeng_file, next_rank, MOVE_TYPE_ENG_PASSENG);
     }
     if (board.get_square(right, rank) == my_pawn) {
-        store_move(right, rank, eng_passeng_file, next_rank, MOVE_TYPE_ENG_PASSENG);
+        move_list.store_move(right, rank, eng_passeng_file, next_rank, MOVE_TYPE_ENG_PASSENG);
     }       
-}
-
-SMove CMoveGenerator::get_random() const {
-    if (number_of_moves <= 0) {
-        return NULL_MOVE;
-    }
-    // Quick and dirty random numbers are OK for a temp function
-    int index = rand() % number_of_moves;
-    return move_list[index];
-}
-
-int CMoveGenerator::list_size() const {
-    assert(number_of_moves <= MAX_MOVES_IN_CHESS_POSITION);
-    return number_of_moves;
-}
-
-void CMoveGenerator::store_move(const SMove &move) {
-    assert(move_in_range(move));
-//    std::cerr << int(source_file) << ", " << int(source_rank) << " -> " << int(target_file) << ", " << int(target_rank) << std::endl;
-    assert(number_of_moves < MAX_MOVES_IN_CHESS_POSITION);
-    move_list[number_of_moves] = move;
-    ++number_of_moves;
-}
-
-void CMoveGenerator::store_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type) {
-    SMove new_move;
-    new_move.source.file = source_file;
-    new_move.source.rank = source_rank;
-    new_move.target.file = target_file;
-    new_move.target.rank = target_rank;
-    new_move.move_type = move_type;
-    store_move(new_move);
-}
-
-void CMoveGenerator::store_pawn_move(const int source_file, const int source_rank, const int target_file, const int target_rank) {
-    SMove new_move;
-    new_move.source.file = source_file;
-    new_move.source.rank = source_rank;
-    new_move.target.file = target_file;
-    new_move.target.rank = target_rank;
-    if (target_rank == RANK_8) {
-        // Promotions in the order of likelihood
-        new_move.move_type = WHITE_QUEEN;
-        store_move(new_move);
-        new_move.move_type = WHITE_KNIGHT;
-        store_move(new_move);
-        new_move.move_type = WHITE_ROOK;
-        store_move(new_move);
-        new_move.move_type = WHITE_BISHOP;
-        store_move(new_move);
-    } else if (target_rank == RANK_1) {
-        new_move.move_type = BLACK_QUEEN;
-        store_move(new_move);
-        new_move.move_type = BLACK_KNIGHT;
-        store_move(new_move);
-        new_move.move_type = BLACK_ROOK;
-        store_move(new_move);
-        new_move.move_type = BLACK_BISHOP;
-        store_move(new_move);
-    } else { 
-        new_move.move_type = MOVE_TYPE_NORMAL;
-        store_move(new_move);
-    }
 }
 
 bool CMoveGenerator::castling_possible(const int move_type) const {

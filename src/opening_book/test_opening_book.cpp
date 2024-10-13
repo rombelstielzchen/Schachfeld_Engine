@@ -6,50 +6,45 @@
 #include "test_opening_book.h"
 #include "opening_book.h"
 #include "book_data/gm_book.h"
+#include "../technical_functions/testing.h"
 
  bool CTestOpeningBook::test_everything() {
-     std::cerr << "CTestOpeningBook::test_everything() ..." << std::endl;
-     bool result = test_book_data(gm_book, "gm_book")
-        && test_move_lookup();
-    return result;
+    BEGIN_TESTSUITE("CTestOpeningBook");
+     EXPECT(test_book_data(gm_book, "gm_book"));
+    EXPECT(test_move_lookup());
+    return true;
  }
 
  bool CTestOpeningBook::test_book_data(const TSortedVariationCollection &variation_collection, const std::string &book_name) {
     std::cerr << "CTestOpeningBook::test_book_data [" << book_name << "]" << std::endl;
-     bool result = test_formatting(variation_collection)
-        && test_sortedness(variation_collection)
-        && test_playability(variation_collection);
-    return result;
+     EXPECT(test_formatting(variation_collection));
+    EXPECT(test_sortedness(variation_collection));
+    EXPECT(test_playability(variation_collection));
+    return true;
  }
 
  bool CTestOpeningBook::test_formatting(const TSortedVariationCollection &variation_collection) {
      std::cerr << "CTestOpeningBook::test_formatting() ..." << std::endl;
-     bool result = true;
      for (const std::string &variation : variation_collection) {
+         CTEST << "Format? " << variation << std::endl;
         // Checking for extra spaces
-        result &= (variation[0] != ' ')
-        && (variation.back() != ' ')
-        && (variation.find("  ") >= 0);
+        SILENT_EXPECT(variation[0] != ' ');
+        SILENT_EXPECT(variation.back() != ' ');
+        SILENT_EXPECT(variation.find("  ") >= 0);
         // Checking the length for plausibility
         size_t length_plus_one = variation.length() + 1;
         constexpr int move_plus_separator = 5;
-        result &= (length_plus_one % move_plus_separator == 0);
-        if (!result) {
-            std::cerr << "ERROR: Malformed variation: " << variation << std::endl;
-            break;
-        }
+        SILENT_EXPECT(length_plus_one % move_plus_separator == 0);
      }
-    return result;
+    return true;
  }
 
  bool CTestOpeningBook::test_sortedness(const TSortedVariationCollection &variation_collection) {
     std::cerr << "CTestOpeningBook::test_sortedness() ..." << std::endl;
      size_t second_last = variation_collection.size() - 2;
      for (int i = 0; i <= second_last; ++i) {
-        if (variation_collection[i].compare(variation_collection[i + 1]) >= 0) {
-            std::cerr << "ERROR: bad sorting: " << variation_collection[i] << std::endl;
-            break;
-        }
+        CTEST << "Sorted? " << variation_collection[i] << std::endl;
+        SILENT_EXPECT(variation_collection[i].compare(variation_collection[i + 1]) < 0);
      }
     return true;
  }
@@ -61,17 +56,17 @@
 
  bool CTestOpeningBook::test_move_lookup() {
      std::cerr << "CTestOpeningBook::test_move_lookup() ..." << std::endl;
-     bool result = lookup_returns_any_move("")
-        && lookup_returns_any_move("e2e4")
-        && lookup_returns_any_move("e2e4 c7c5")
-        && lookup_returns_any_move("d2d4 g8f6 c2c4 g7g6 b1c3 d7d5")
-        && lookup_returns_null_move("g1h3 b8a6")
-        && lookup_returns_null_move("e2e4 b8a6")
-        && lookup_returns_exact_move("x2x1", "e7e5")
-        && lookup_returns_exact_move("x2x1 e7e5", "e2e4")
-        && lookup_returns_exact_move("x2x1 e7e5 e2e4", "f7f5")
-        && lookup_returns_null_move("x2x1 e7e5 e2e4 f7f5");
-    return result;
+    SILENT_EXPECT(lookup_returns_any_move(""));
+    SILENT_EXPECT(lookup_returns_any_move("e2e4"));
+    SILENT_EXPECT(lookup_returns_any_move("e2e4 c7c5"));
+    SILENT_EXPECT(lookup_returns_any_move("d2d4 g8f6 c2c4 g7g6 b1c3 d7d5"));
+    SILENT_EXPECT(lookup_returns_null_move("g1h3 b8a6"));
+    SILENT_EXPECT(lookup_returns_null_move("e2e4 b8a6"));
+    SILENT_EXPECT(lookup_returns_exact_move("x2x1", "e7e5"));
+    SILENT_EXPECT(lookup_returns_exact_move("x2x1 e7e5", "e2e4"));
+    SILENT_EXPECT(lookup_returns_exact_move("x2x1 e7e5 e2e4", "f7f5"));
+    SILENT_EXPECT(lookup_returns_null_move("x2x1 e7e5 e2e4 f7f5"));
+    return true;
  }
 
  bool CTestOpeningBook::lookup_returns_null_move(std::string variation) {
@@ -89,7 +84,7 @@ bool CTestOpeningBook::lookup_returns_exact_move(const std::string &variation, c
 std::string CTestOpeningBook::verbose_move_lookup(const std::string &variation) {
     COpeningBook opening_book;
     std::string move = opening_book.get_move(variation);
-    std::cerr << "[" << variation << "] -> [" << move << "]" << std::endl;
+    CTEST << "[" << variation << "] -> [" << move << "]" << std::endl;
     return move; 
 }
 

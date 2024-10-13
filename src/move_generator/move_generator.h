@@ -5,12 +5,9 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-#include "move.h"
+#include "move_list.h"
 #include "../board/board.h"
 #include "../technical_functions/standard_headers.h"
-
-// https://www.chessprogramming.org/Chess_Position
-constexpr int MAX_MOVES_IN_CHESS_POSITION = 218;
 
 // Directions for pawns and sliding pieces (queen, rook, bishop)
 constexpr int DIRECTION_NORTH = +1;
@@ -24,8 +21,8 @@ class CMoveGenerator {
     CMoveGenerator();
   public:
     void generate_all();
-    SMove get_random() const;
-    int list_size() const;
+  public:
+    CMoveList move_list;
   private:
     void generate_all_white_moves();
     void generate_all_black_moves();
@@ -44,14 +41,6 @@ class CMoveGenerator {
     void generate_sliding_moves(const int file, const int rank, const int direction_north_sourh, const int direction_east_west);
     void generate_potential_eng_passeng();
   private:
-    void store_move(const SMove &move);
-    void store_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type = MOVE_TYPE_NORMAL);
-    // Special method for pawns, creating four moves on promotion
-    void store_pawn_move(const int source_file, const int source_rank, const int target_file, const int target_rank);
-  private:
     bool castling_possible(const int move_type) const;
-  private:
-    std::array<SMove, MAX_MOVES_IN_CHESS_POSITION> move_list;
-    unsigned int number_of_moves;
 }; 
 

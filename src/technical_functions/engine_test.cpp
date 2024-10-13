@@ -7,14 +7,15 @@
 #include "testing.h"
 #include "test_technical_functions.h"
 #include "../board/test_board.h"
+#include "../board/test_move_maker.h"
 #include "../move_generator/test_move_generator.h"
 #include "../opening_book/test_opening_book.h"
 #include "standard_headers.h"
-
 /* static */ bool CEngineTest::test_everything() {
     BEGIN_TESTSUITE("CEngineTest");
      EXPECT(CTestTechnicalFunctions::test_everything());
     EXPECT(CTestBoard::test_everything());
+    EXPECT(CTestMoveGenerator::test_everything());
     EXPECT(CTestMoveGenerator::test_everything());
     EXPECT(CTestOpeningBook::test_everything());
     CTEST << "CEngineTest::test_everything(): all tests passed with success." << std::endl;
