@@ -5,7 +5,6 @@
 
 class CEngineTest {
   public:
-    // Engine-test will terminate with EXIT_FAILURE in case of errors.
-    static void test_everything();
+    static bool test_everything();
 };
 
