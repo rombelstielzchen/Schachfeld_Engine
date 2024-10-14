@@ -114,10 +114,16 @@ bool CBoard::get_castling_rights(char move_type) const {
 }
 
 void CBoard::clear_square(const int file, const int rank) {
+    assert(file_in_range(file));
+    assert(rank_in_range(rank));
+    squares[file][rank] = EMPTY_SQUARE;
 }
  
 void CBoard::put_piece(const int file, const int rank, ESquareContent piece) {
-
+    assert(file_in_range(file));
+    assert(rank_in_range(rank));
+    assert(is_any_piece(piece));
+    squares[file][rank] = piece;
 }
 
 CBoard board;
