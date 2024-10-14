@@ -15,5 +15,6 @@ class CTestBoard {
     static bool test_as_is();
     static bool test_position(const std::string &position);
     static bool test_accessors();
+    static bool test_put_piece();
 };
 

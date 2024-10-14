@@ -113,5 +113,12 @@ bool CBoard::get_castling_rights(char move_type) const {
     return castling_rights[move_type];
 }
 
+void CBoard::clear_square(const int file, const int rank) {
+}
+ 
+void CBoard::put_piece(const int file, const int rank, ESquareContent piece) {
+
+}
+
 CBoard board;
 
