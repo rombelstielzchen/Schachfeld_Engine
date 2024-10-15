@@ -21,22 +21,27 @@ bool CMoveMaker::make_move(SMove move) {
         case MOVE_TYPE_DOUBLE_JUMP:
             break;
         case MOVE_TYPE_WHITE_SHORT_CASTLING:
+            assert(moving_piece == WHITE_KING);
             board.clear_square(FILE_H, RANK_1);
             board.put_piece(FILE_F, RANK_1, WHITE_ROOK);
             break;
         case MOVE_TYPE_WHITE_LONG_CASTLING:
+            assert(moving_piece == WHITE_KING);
             board.clear_square(FILE_A, RANK_1);
             board.put_piece(FILE_C, RANK_1, WHITE_ROOK);
             break;
         case MOVE_TYPE_BLACK_SHORT_CASTLING:
+            assert(moving_piece == BLACK_KING);
             board.clear_square(FILE_H, RANK_8);
             board.put_piece(FILE_F, RANK_8, BLACK_ROOK);
             break;
         case MOVE_TYPE_BLACK_LONG_CASTLING:
+            assert(moving_piece == BLACK_KING);
             board.clear_square(FILE_A, RANK_8);
             board.put_piece(FILE_C, RANK_8, BLACK_ROOK);
             break;
         case MOVE_TYPE_ENG_PASSENG:
+            assert(toupper(moving_piece) == WHITE_POWER);
             board.clear_square(board.get_eng_passeng_file(),  CBoardLogic::eng_passeng_pawn_rank());
             break;
         case WHITE_QUEEN:
@@ -47,6 +52,7 @@ bool CMoveMaker::make_move(SMove move) {
         case BLACK_KNIGHT:
         case BLACK_ROOK:
         case BLACK_BISHOP:
+            assert(toupper(moving_piece) == WHITE_POWER);
             board.put_piece(move.target.file, move.target. rank, move.move_type);
             break;
         default:
@@ -84,8 +90,15 @@ void CMoveMaker::unmake_move() {
             board.clear_square(FILE_C, RANK_8);
             board.put_piece(FILE_A, RANK_8, BLACK_ROOK);
             break;
-
-
+        case MOVE_TYPE_ENG_PASSENG:
+            {
+                char opponent_pawn = (move.target.rank == RANK_6) ? BLACK_POWER : WHITE_POWER;
+                board.put_piece(move.target.file, move.source.rank, opponent_pawn);
+            }
+            break;
+        default:
+            assert(THIS_MUST_NOT_HAPPEN);
+            break;
     }
     board.put_piece(move.source.file, move.source.rank, moving_piece);
     // TODO: all special cases
