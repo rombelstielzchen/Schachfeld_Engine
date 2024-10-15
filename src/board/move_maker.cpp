@@ -64,6 +64,29 @@ void CMoveMaker::unmake_move() {
     char moving_piece = board.get_square(move.target.file, move.target.rank);
     assert(is_any_piece(moving_piece));
     board.clear_square(move.target.file, move.target.rank);
+    switch (move.move_type) {
+        case MOVE_TYPE_NORMAL:
+        case MOVE_TYPE_DOUBLE_JUMP:
+            break;
+        case MOVE_TYPE_WHITE_SHORT_CASTLING:
+            board.clear_square(FILE_F, RANK_1);
+            board.put_piece(FILE_H, RANK_1, WHITE_ROOK);
+            break;
+        case MOVE_TYPE_WHITE_LONG_CASTLING:
+            board.clear_square(FILE_C, RANK_1);
+            board.put_piece(FILE_A, RANK_1, WHITE_ROOK);
+            break;
+        case MOVE_TYPE_BLACK_SHORT_CASTLING:
+            board.clear_square(FILE_F, RANK_8);
+            board.put_piece(FILE_H, RANK_8, BLACK_ROOK);
+            break;
+        case MOVE_TYPE_BLACK_LONG_CASTLING:
+            board.clear_square(FILE_C, RANK_8);
+            board.put_piece(FILE_A, RANK_8, BLACK_ROOK);
+            break;
+
+
+    }
     board.put_piece(move.source.file, move.source.rank, moving_piece);
     // TODO: all special cases
 }
