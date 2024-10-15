@@ -8,15 +8,25 @@
 
 CMoveList::CMoveList() {
     number_of_moves = 0;
+    consumer_counter = 0;
 }
 
 SMove CMoveList::get_random() const {
     if (number_of_moves <= 0) {
         return NULL_MOVE;
     }
-    // Quick and dirty random numbers are OK for a temp function
+    // Quick and dirty random numbers are OK for an early proof of concept
     int index = rand() % number_of_moves;
     return move_list[index];
+}
+
+SMove CMoveList::get_next() {
+    if (consumer_counter >= number_of_moves) {
+        return NULL_MOVE;
+    }
+    SMove result = move_list[consumer_counter];
+    ++consumer_counter;
+    return result;
 }
 
 int CMoveList::list_size() const {
