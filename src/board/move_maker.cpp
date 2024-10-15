@@ -96,6 +96,18 @@ void CMoveMaker::unmake_move() {
                 board.put_piece(move.target.file, move.source.rank, opponent_pawn);
             }
             break;
+        case WHITE_QUEEN:
+        case WHITE_KNIGHT:
+        case WHITE_ROOK:
+        case WHITE_BISHOP:
+            moving_piece = WHITE_POWER;
+            break;
+        case BLACK_QUEEN:
+        case BLACK_KNIGHT:
+        case BLACK_ROOK:
+        case BLACK_BISHOP:
+            moving_piece = BLACK_POWER;
+            break;
         default:
             assert(THIS_MUST_NOT_HAPPEN);
             break;
