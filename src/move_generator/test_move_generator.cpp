@@ -118,6 +118,13 @@ const std::vector<STestcaseMoveGenerator> testcases = {
 
 bool CTestMoveGenerator::test_everything() {
     BEGIN_TESTSUITE("CTestMoveGenerator");
+    EXPECT(test_move_list());
+    EXPECT(test_positions());
+    return true;
+}
+
+bool CTestMoveGenerator::test_positions() {
+    CTEST << "CTestMoveGenerator::test_positions() ..." << std::endl;
     for (const STestcaseMoveGenerator &testcase  : testcases) {
         SILENT_EXPECT(test(testcase));
     }
@@ -135,6 +142,22 @@ bool CTestMoveGenerator::test(const STestcaseMoveGenerator &testcase) {
     move_generator.generate_all();
     int generated_moves = move_generator.move_list.list_size();
     SILENT_EXPECT(generated_moves == testcase.expected_moves);
+    return true;
+}
+
+bool CTestMoveGenerator::test_move_list() {
+    CTEST << "CTestMoveGenerator::test_move_list() ..." << std::endl;
+    board.set_start_position();
+    CMoveGenerator move_generator;
+    EXPECT(is_null_move(move_generator.move_list.get_next()));
+    move_generator.generate_all();
+    constexpr int n_moves_in_startpos = 20;
+    EXPECT(move_generator.move_list.list_size() == n_moves_in_startpos);
+    for (int j = 0; j < n_moves_in_startpos; ++j) {
+        SMove move = move_generator.move_list.get_next();
+        SILENT_EXPECT(is_null_move(move) == false);
+    }
+    EXPECT(is_null_move(move_generator.move_list.get_next()));
     return true;
 }
 

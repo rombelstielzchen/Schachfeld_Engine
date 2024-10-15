@@ -18,6 +18,8 @@ class CTestMoveGenerator {
   public:
     static bool test_everything();
   private:
+    static bool test_move_list();
+    static bool test_positions();
     static bool test(const STestcaseMoveGenerator &testcase);
 };
 
