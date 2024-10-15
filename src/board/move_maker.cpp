@@ -13,6 +13,7 @@ CMoveMaker::CMoveMaker() {
 bool CMoveMaker::make_move(SMove move) {
     assert(move_in_range(move));
     char moving_piece = board.squares[move.source.file][move.source.rank];
+    assert(is_any_piece(moving_piece));
     board.clear_square(move.source.file, move.source.rank);
     board.put_piece(move.target.file, move.target.rank, moving_piece);
     switch (move.move_type) {
@@ -57,6 +58,13 @@ bool CMoveMaker::make_move(SMove move) {
 }
 
 void CMoveMaker::unmake_move() {
-    // TODO
+    assert(move_history.size() > 0);
+    SMove move = move_history.back();
+    assert(move_in_range(move));
+    char moving_piece = board.get_square(move.target.file, move.target.rank);
+    assert(is_any_piece(moving_piece));
+    board.clear_square(move.target.file, move.target.rank);
+    board.put_piece(move.source.file, move.source.rank, moving_piece);
+    // TODO: all special cases
 }
 
