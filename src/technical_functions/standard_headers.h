@@ -25,4 +25,4 @@
 
 // To be used in assertions
 constexpr bool NOT_YET_IMPLEMENTED = false;
-
+constexpr bool THIS_MUST_NOT_HAPPEN = false;

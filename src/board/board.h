@@ -100,7 +100,7 @@ class CBoard {
     const char* const as_is() const;
   public:
     void clear_square(const int file, const int rank);
-    void put_piece(const int file, const int rank, ESquareContent piece);
+    void put_piece(const int file, const int rank, char piece);
   public:
     bool get_side_to_move() const;
     int get_eng_passeng_file() const;
