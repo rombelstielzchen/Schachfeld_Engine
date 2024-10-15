@@ -22,7 +22,7 @@ bool CTestMoveMaker::test_make_unmake_combinations() {
     CMoveGenerator move_generator;
     move_generator.generate_all();
     int n_moves = move_generator.move_list.list_size();
-    CTEST << n_moves << " to est" << std::endl;
+    CTEST << n_moves << " moves to test" << std::endl;
    for (int j = 0; j < n_moves; ++j) {
         SMove move = move_generator.move_list.get_random();
         CTEST << "Make / unmake " << move_as_text(move) << "...\n";

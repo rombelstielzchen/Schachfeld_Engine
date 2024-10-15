@@ -35,7 +35,7 @@ typedef struct {
     SSquare source;
     SSquare target;
    char move_type;
-   //char captured_piece;
+   char captured_piece;
 } SMove;
 
 #pragma pack(pop)

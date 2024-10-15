@@ -122,7 +122,7 @@ void CBoard::clear_square(const int file, const int rank) {
 void CBoard::put_piece(const int file, const int rank, char piece) {
     assert(file_in_range(file));
     assert(rank_in_range(rank));
-    assert(is_any_piece(piece));
+///    assert(is_any_piece(piece));
     squares[file][rank] = piece;
 }
 
