@@ -118,6 +118,10 @@ void CBoard::clear_square(const int file, const int rank) {
     assert(rank_in_range(rank));
     squares[file][rank] = EMPTY_SQUARE;
 }
+
+void CBoard::flip_side_to_move() {
+    side_to_move = !side_to_move;
+}
  
 void CBoard::put_piece(const int file, const int rank, char piece) {
     assert(file_in_range(file));

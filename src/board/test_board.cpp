@@ -14,7 +14,7 @@ bool CTestBoard::test_everything() {
     EXPECT(test_set_start_position());
     EXPECT(test_as_is());
     EXPECT(test_accessors());
-    EXPECT(test_put_piece());
+    EXPECT(test_modifiers());
     return true;
 }
 
@@ -62,13 +62,15 @@ bool CTestBoard::test_accessors() {
     return true;
 }
 
-bool CTestBoard::test_put_piece() {
+bool CTestBoard::test_modifiers() {
     CTEST << "CTestBoard::test_put_piece() ...\n";
     board.set_start_position();
     board.clear_square(FILE_E, RANK_2);
     board.put_piece(FILE_E, RANK_4, WHITE_POWER);
+    board.flip_side_to_move();
     EXPECT(board.square_is_empty(FILE_E, RANK_2));
     EXPECT(board.get_square(FILE_E, RANK_4) == WHITE_POWER);
+    EXPECT(board.get_side_to_move() == BLACK_TO_MOVEE);
     return true;
 }
 

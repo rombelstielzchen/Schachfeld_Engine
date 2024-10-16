@@ -60,11 +60,13 @@ bool CMoveMaker::make_move(SMove move) {
             assert(THIS_MUST_NOT_HAPPEN);
             break;
     }
+    board.flip_side_to_move();
     move_history.push_back(move);
     return true;
 }
 
 void CMoveMaker::unmake_move() {
+    board.flip_side_to_move();
     assert(move_history.size() > 0);
     SMove move = move_history.back();
     assert(move_in_range(move));

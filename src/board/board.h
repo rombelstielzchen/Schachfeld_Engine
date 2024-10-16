@@ -99,6 +99,7 @@ class CBoard {
     std::string get_fen_position() const;
     const char* const as_is() const;
   public:
+    void flip_side_to_move();
     void clear_square(const int file, const int rank);
     void put_piece(const int file, const int rank, char piece);
   public:
