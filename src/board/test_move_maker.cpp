@@ -17,8 +17,15 @@ bool CTestMoveMaker::test_everything() {
 }
 
 bool CTestMoveMaker::test_make_unmake_combinations() {
-    const std::string all_in_one_position = "r3k2r/p6R/1p6/8/5pPp/8/1p3P2/N1Nb2qn b kq g3 0 1";
-    board.set_fen_position(all_in_one_position);
+    const std::string white_all_in_one_position = "Q3rr2/3PPP2/4B3/5ppP/6P1/2N2P2/q3P3/R3K2R w KQ g6 0 1";
+    const std::string black_all_in_one_position = "r3k2r/p6R/1p6/8/5pPp/8/1p3P2/N1Nb2qn b kq g3 0 1";
+    EXPECT(test_make_unmake_combinations(white_all_in_one_position));
+    EXPECT(test_make_unmake_combinations(black_all_in_one_position));
+    return true;
+}
+
+bool CTestMoveMaker::test_make_unmake_combinations(const std::string &position) {
+    board.set_fen_position(position);
     CMoveGenerator move_generator;
     move_generator.generate_all();
     int n_moves = move_generator.move_list.list_size();
@@ -29,7 +36,7 @@ bool CTestMoveMaker::test_make_unmake_combinations() {
         // TODO: get_next
         board.move_maker.make_move(move);
         board.move_maker.unmake_move();
-        SILENT_EXPECT(board.get_fen_position() == all_in_one_position);
+        SILENT_EXPECT(board.get_fen_position() == position);
    }
     return true;
 }
