@@ -38,7 +38,7 @@ class CCommandInterface {
     static void send_best_move(const std::string &best_move);
     static void send_best_move(SMove best_move);
   private:
-    // Worker-funcrions, to be run in extra-threads
+    // Worker-functions, to be run in extra-threads
     static void worker_go_depth(const int64_t depth_in_plies);
 };
 

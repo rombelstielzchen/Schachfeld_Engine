@@ -5,7 +5,7 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-// Utikity-class for derived board-information to keep the board-class lean
+// Utility-class for derived board-information to keep the board-class lean
 
 class CBoardLogic {
   public:

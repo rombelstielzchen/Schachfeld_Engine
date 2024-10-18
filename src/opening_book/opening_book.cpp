@@ -5,7 +5,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 // A very simple, built-in opening book,
-// based on a snall list of short lines,
+// based on a small list of short lines,
 // just to get some fun and variation.
 
 #include "opening_book.h"
@@ -29,14 +29,14 @@ constexpr int VARIATION_NOT_FOUND = -1;
 COpeningBook::COpeningBook() {
     DEBUG_METHOD();
     last_looked_up_moves_from_startpos = "";
-    last_lookup_successfull = true;
+    last_lookup_successful = true;
 }
 
 std::string COpeningBook::get_move(const std::string &moves_from_startpos_in_uci_format) {
     DEBUG_METHOD();
     size_t index = random_matching_index(gm_book, moves_from_startpos_in_uci_format);
     if (index == VARIATION_NOT_FOUND) {
-        last_lookup_successfull = false;
+        last_lookup_successful = false;
         return NULL_MOVE_AS_TEXT;
     }
    assert(gm_book[index].length() > moves_from_startpos_in_uci_format.length());

@@ -26,6 +26,7 @@ SMove CMoveList::get_next() {
     }
     SMove result = move_list[consumer_counter];
     ++consumer_counter;
+    assert(move_in_range(result));
     return result;
 }
 
