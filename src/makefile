@@ -31,7 +31,7 @@ engine: makefile main.o board.o uci_protocol.o string_functions.o  \
 	fen_parser.o command_interface.o move_generator.o move.o debug_log.o \
 	test_move_generator.o engine_test.o fen_generator.o test_board.o \
 	test_technical_functions.o board_logic.o opening_book.o test_opening_book.o \
-	gm_book.o move_maker.o test_move_maker.o move_list.o
+	gm_book.o move_maker.o test_move_maker.o move_list.o search.o test_search.o
 	#make semi_clean 
 #	CFLAGS=-Wall -O0  -c $^
 	#make standard_headers
@@ -41,7 +41,7 @@ engine: makefile main.o board.o uci_protocol.o string_functions.o  \
 	fen_parser.o command_interface.o move_generator.o move.o debug_log.o  \
 	test_move_generator.o engine_test.o fen_generator.o test_board.o \
 	test_technical_functions.o board_logic.o opening_book.o test_opening_book.o \
-	gm_book.o move_maker.o test_move_maker.o move_list.o
+	gm_book.o move_maker.o test_move_maker.o move_list.o search.o test_search.o
 	make test
 	@#sl -e +extra_foo +immortality
 	@echo "=============================="
@@ -110,6 +110,12 @@ test_move_maker.o: board/test_move_maker.cpp
 	$(CC) $(CFLAGS) 
 
 move_list.o: move_generator/move_list.cpp
+	$(CC) $(CFLAGS) 
+
+search.o: search/search.cpp
+	$(CC) $(CFLAGS)
+
+test_search.o: search/test_search.cpp
 	$(CC) $(CFLAGS) 
 
 #### Other build targets ###############
