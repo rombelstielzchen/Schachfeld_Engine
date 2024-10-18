@@ -8,9 +8,16 @@
 #include"../move_generator/move.h"
 #include "../technical_functions/standard_headers.h"
 
+struct STestcaseSearch {
+    // Order of elements reversed for more readable layout of the list
+    int depth;
+    std::string expected_move;
+    std::string fen_position;
+};
+
 class CTestSearch {
   public:
       static bool test_everything();
   private:
-      static bool test_position(std::string &position, std::string expected_move);
+      static bool test_position(const STestcaseSearch &testcase);
 };

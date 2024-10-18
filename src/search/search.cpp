@@ -6,5 +6,5 @@
 #include "search.h"
 
 SMove CSearch::search() {
+    return NULL_MOVE;
 }
-
