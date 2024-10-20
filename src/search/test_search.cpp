@@ -9,8 +9,12 @@
 #include "../technical_functions/testing.h"
 
 const std::vector<STestcaseSearch> testcases = {
-    // Vapturing the king
-    { 1, "g7g8", "6k1/6Q1/6J1 w" }
+    // Capturing the king
+    { 1, "g7g8", "6k1/6Q1/6K1 w" },
+    // Capturing the queen with royal fork and perpeual
+    { 1, "f4g6", "2q2rk1/4qn1n/2q3q1/3q4/5N1q w" },
+    // Capturing the queen with mate
+    { 1, "a1h1", "7k/8/8/8/8/8/6R1/R6q w" }
 };
 
 bool CTestSearch::test_everything() {
