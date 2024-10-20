@@ -14,6 +14,7 @@
 #include <array>
 #include <cassert>
 #include <chrono>
+#include <climits>
 #include <cstdint>
 #include <fstream>
 #include <iostream>
