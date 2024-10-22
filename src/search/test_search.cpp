@@ -14,7 +14,9 @@ const std::vector<STestcaseSearch> testcases = {
     // Capturing the queen with royal fork and perpeual
     { 1, "f4g6", "2q2rk1/4qn1n/2q3q1/3q4/5N1q w" },
     // Capturing the queen with mate
-    { 1, "a1h1", "7k/8/8/8/8/8/6R1/R6q w" }
+    { 1, "a1h1", "7k/8/8/8/8/8/6R1/R6q w" },
+    // Black to move: capturing the queen with mate
+    { 1, "a1h1", "7K/8/8/8/8/8/6r1/r6Q b" },
 };
 
 bool CTestSearch::test_everything() {
