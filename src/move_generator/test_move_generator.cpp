@@ -113,7 +113,12 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     { 10, "r3k1Br/p6p/P6P b kq" },
     // Some real-world positions
     { 20, "startpos" },
-    { 33, "r1nqkbnr/pppp2pp/2n5/1B2pp2/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq" }
+    { 33, "r1nqkbnr/pppp2pp/2n5/1B2pp2/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq" },
+    // Former bug: black knight moving like a king
+    { 2, "n7 b" },
+    { 4, "2n5 b" },
+    { 8, "8/2ppp3/2pnp3/2P1P3 b" },
+    { 0, "4n3/2p3p1/2Pp1pP1/3P1P2 b" },
 };
 
 bool CTestMoveGenerator::test_everything() {

@@ -13,7 +13,7 @@
 
 CC=g++
 
-DEBUGFLAGS=-Wall -O0  -D DEBUG_LOG_ENABLE -c $^
+DEBUGFLAGS=-Wall -O0 -c $^
 OPTIMIZEDFLAGS=-Wall -O2  -c $^
 ANALYSISFLAGS=-Wall -Wextra -Wpedantic -O0  -c $^
 CFLAGS=$(DEBUGFLAGS)

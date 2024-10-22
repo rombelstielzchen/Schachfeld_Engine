@@ -57,7 +57,7 @@ void CMoveGenerator::generate_all_black_moves() {
                     generate_pawn_moves(j, k, DIRECTION_SOUTH);
                     break;
                 case BLACK_KNIGHT:
-                    generate_king_moves(j, k);
+                    generate_knight_moves(j, k);
                     break;
                 case BLACK_BISHOP:
                     generate_bishop_moves(j, k);
