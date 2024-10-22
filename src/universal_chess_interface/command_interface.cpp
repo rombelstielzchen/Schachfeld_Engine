@@ -6,8 +6,8 @@
 #include "command_interface.h"
 #include "uci_protocol.h"
 #include "../board/board.h"
-#include "../move_generator/move_generator.h"
 #include "../opening_book/opening_book.h"
+#include "../search/search.h"
 #include "../technical_functions/standard_headers.h"
 
 CCommandInterface::CCommandInterface() {
@@ -91,9 +91,9 @@ void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
         send_best_move(book_move);
         return;
     }
-    CMoveGenerator move_generator;
-    move_generator.generate_all();
-    SMove random_move = move_generator.move_list.get_random();
-    send_best_move(random_move);
+    CSearch searcher;
+    SMove calculated_move = searcher.search();
+    assert(move_in_range(calculated_move));
+    send_best_move(calculated_move);
 }
 
