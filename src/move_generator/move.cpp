@@ -141,7 +141,7 @@ uint8_t text_to_rank(const char rank_character) {
      return result;
 }
 
-SMove text_to_move(const std::string &text) {
+SMove text_to_basic_move(const std::string &text) {
     // No assertions here; the input comes from the outside world
     if (text.length() < 4) {
        // Not long algebraic notation

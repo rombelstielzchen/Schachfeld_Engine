@@ -18,6 +18,7 @@ class CMoveList {
     int list_size() const;
     SMove get_random() const;
     SMove get_next();
+    SMove lookup_move(const std::string &text_move) const;
   public:
     void store_move(const SMove &move);
     void store_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type = MOVE_TYPE_NORMAL);

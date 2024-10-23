@@ -87,7 +87,7 @@ void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
     COpeningBook opening_book;
     std::string book_move = opening_book.get_move(board.get_moves_from_startpos());
     if (book_move != NULL_MOVE_AS_TEXT) {
-        assert(move_in_range(text_to_move(book_move)));
+        assert(move_in_range(text_to_basic_move(book_move)));
         send_best_move(book_move);
         return;
     }

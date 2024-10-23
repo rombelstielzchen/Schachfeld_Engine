@@ -4,6 +4,8 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "fen_parser.h"
+#include "../move_generator/move_generator.h"
+#include "../move_generator/move_list.h"
 #include "move_maker.h"
 #include "../technical_functions/string_functions.h"
 
@@ -179,9 +181,13 @@ bool CFenParser::parse_move(std::string move_as_text) {
        // Token starts sequence of optional moves, Ignore it.
        return true;
     }
-    SMove move = text_to_move(move_as_text);
-    board.move_maker.make_move(move);
-    return true;
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    SMove move = move_generator.move_list.lookup_move(move_as_text);
+    if (is_null_move(move)) {
+        return false;
+    }
+    return board.move_maker.make_move(move);
 }
 
 

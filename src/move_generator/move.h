@@ -62,5 +62,7 @@ std::string move_as_text(const SMove move);
 
 uint8_t text_to_file(const char file_character);
 uint8_t text_to_rank(const char rank_character);
-SMove text_to_move(const std::string &text);
+// text_to_basic_move does not know the finer details (castling, eng-passeng, ...).
+// Use this function only as a tool in smarter functions and for verifications
+SMove text_to_basic_move(const std::string &text);
 
