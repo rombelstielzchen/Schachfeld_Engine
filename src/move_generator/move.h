@@ -66,3 +66,5 @@ uint8_t text_to_rank(const char rank_character);
 // Use this function only as a tool in smarter functions and for verifications
 SMove text_to_basic_move(const std::string &text);
 
+bool move_coords_are_equal(const SMove &a, const SMove &b);
+

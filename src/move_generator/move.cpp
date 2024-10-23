@@ -161,4 +161,10 @@ SMove text_to_basic_move(const std::string &text) {
     // TODO promotion
     return move;
 }
-     
+ 
+bool move_coords_are_equal(const SMove &a, const SMove &b) {
+    return ((a.source.file == b.source.file)
+        && (a.source.rank == b.source.rank)
+       && (a.target.file == b .target.file)
+       && (a.target.rank == b.target.rank));
+}

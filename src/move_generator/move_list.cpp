@@ -33,11 +33,7 @@ SMove CMoveList::get_next() {
 SMove CMoveList::lookup_move(const std::string &text_move) const {
     const SMove basic_move = text_to_basic_move(text_move);
     for (int j = 0; j <=list_size(); ++j) {
-        if ((basic_move.source.file == move_list[j].source.file)
-            && (basic_move.source.rank == move_list[j].source.rank)
-           && (basic_move.target.file == move_list[j] .target.file)
-           && (basic_move.target.rank == move_list[j].target.rank)) {
-            // Coordinates match
+        if (move_coords_are_equal(basic_move, move_list[j])) {
             // TODO: possile under-promotions
             return move_list[j];
         }
