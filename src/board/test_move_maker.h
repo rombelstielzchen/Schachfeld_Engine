@@ -12,6 +12,7 @@ class CTestMoveMaker {
     static bool test_everything();
   private:
     static bool test_make_unmake_combinations();
+    static bool test_eng_passeng_rights();
     static bool test_make_unmake_combinations(const std::string &position);
     static bool test_algebraic_game();
 };

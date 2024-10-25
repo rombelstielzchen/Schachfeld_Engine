@@ -11,6 +11,7 @@
 
 bool CTestMoveMaker::test_everything() {
     BEGIN_TESTSUITE("CTestMoveMaker");
+    EXPECT(test_eng_passeng_rights());
     EXPECT(test_make_unmake_combinations());
     EXPECT(test_algebraic_game());
     return true;
@@ -43,7 +44,7 @@ bool CTestMoveMaker::test_make_unmake_combinations(const std::string &position) 
 
 bool CTestMoveMaker::test_algebraic_game() {
     CTEST << "CTestMoveMaker::test_algebraic_game() ...\n";
-    board.set_fen_position("startpos moves g1f3 d7d5 g2g3 c7c6 f1g2 g8f6 e1g1 e7e6 a2a4 f8e7 a4a5");// b7b5 a5b6 e8g8 b6b7 b8d7 b7a8b");
+    board.set_fen_position("startpos moves g1f3 d7d5 g2g3 c7c6 f1g2 g8f6 e1g1 e7e6 a2a4 f8e7 a4a5 b7b5 a5b6 e8g8 b6b7 b8d7");// b7a8b");
     EXPECT(board.get_square(FILE_G, RANK_1) == WHITE_KING);
     EXPECT(board.get_square(FILE_F, RANK_1) == WHITE_ROOK);
     EXPECT(board.square_is_empty(FILE_E, RANK_1));
@@ -57,3 +58,21 @@ bool CTestMoveMaker::test_algebraic_game() {
     return true;
 }
 
+bool CTestMoveMaker::test_eng_passeng_rights() {
+    CTEST << "CTestMoveMaker::test_eng_passeng_rights() ...\n";
+    board.set_start_position();
+    EXPECT(board.get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
+    board.move_maker.make_move("a2a4");
+    EXPECT(board.get_eng_passeng_file() == FILE_A);
+    board.move_maker.make_move("b7b5");
+    EXPECT(board.get_eng_passeng_file() == FILE_B);
+    board.move_maker.make_move("c2c3");
+    EXPECT(board.get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
+    board.move_maker.unmake_move();
+    EXPECT(board.get_eng_passeng_file() == FILE_B);
+    board.move_maker.unmake_move();
+    EXPECT(board.get_eng_passeng_file() == FILE_A);
+    board.move_maker.unmake_move();
+    EXPECT(board.get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
+    return true;
+}
