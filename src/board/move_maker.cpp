@@ -6,14 +6,13 @@
 #include "move_maker.h"
 #include "board.h"
 #include "board_logic.h"
+#include "../move_generator/move_generator.h"
 
 CMoveMaker::CMoveMaker() {
 }
 
 bool CMoveMaker::make_move(SMove move) {
     assert(move_in_range(move));
-    std::cerr << ";oving " << move_as_text(move) << "--------------\n";
-            std::cerr << board.as_is();
     char moving_piece = board.squares[move.source.file][move.source.rank];
     assert(is_any_piece(moving_piece));
     board.clear_square(move.source.file, move.source.rank);
@@ -55,8 +54,6 @@ bool CMoveMaker::make_move(SMove move) {
             break;
         case MOVE_TYPE_ENG_PASSENG:
             assert(toupper(moving_piece) == WHITE_POWER);
-            std::cerr << "STM: " << board.get_side_to_move() << "\n";
-            std::cerr << "PR: " << int(CBoardLogic::eng_passeng_pawn_rank()) << "\n";
             board.clear_square(board.get_eng_passeng_file(),  CBoardLogic::eng_passeng_pawn_rank());
             board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
             break;
@@ -78,8 +75,17 @@ bool CMoveMaker::make_move(SMove move) {
     }
     board.flip_side_to_move();
     move_history.push_back(move);
-            std::cerr << board.as_is();
     return true;
+}
+
+bool CMoveMaker::make_move(const std::string &long_algebraic_uci_move) {
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    SMove move = move_generator.move_list.lookup_move(long_algebraic_uci_move);
+    if (is_null_move(move)) {
+        return false;
+    }
+    return make_move(move);
 }
 
 void CMoveMaker::unmake_move() {
@@ -117,7 +123,6 @@ void CMoveMaker::unmake_move() {
         case MOVE_TYPE_ENG_PASSENG:
             {
                 char opponent_pawn = (move.target.rank == RANK_6) ? BLACK_POWER : WHITE_POWER;
-                std::cerr << "Putu: " << int(move.target.file) << ", " << int(move.source.rank) << "\n";
                 board.put_piece(move.target.file, move.source.rank, opponent_pawn);
             }
             break;
