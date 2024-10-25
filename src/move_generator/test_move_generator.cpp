@@ -119,6 +119,8 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     { 4, "2n5 b" },
     { 8, "8/2ppp3/2pnp3/2P1P3 b" },
     { 0, "4n3/2p3p1/2Pp1pP1/3P1P2 b" },
+    // Former bug: phantom eng-passeng from left, stupid brackets
+    { 0, "8/8/8/p7/P7/8/8/8 b - a3" },
 };
 
 bool CTestMoveGenerator::test_everything() {

@@ -213,7 +213,7 @@ void CMoveGenerator::generate_potential_eng_passeng() {
     assert(board.get_square(eng_passeng_file, next_rank) == EMPTY_SQUARE);
     int left = eng_passeng_file - 1;
     int right = eng_passeng_file + 1;
-    if (board.get_square(left, rank == my_pawn)) {
+    if (board.get_square(left, rank) == my_pawn) {
         move_list.store_move(left, rank, eng_passeng_file, next_rank, MOVE_TYPE_ENG_PASSENG);
     }
     if (board.get_square(right, rank) == my_pawn) {
