@@ -34,7 +34,7 @@ SMove CMoveList::lookup_move(const std::string &text_move) const {
     const SMove basic_move = text_to_basic_move(text_move);
     for (int j = 0; j < list_size(); ++j) {
         if (move_coords_are_equal(basic_move, move_list[j])) {
-            // TODO: possile under-promotions
+            // TODO: possible under-promotions
             return move_list[j];
         }
     }
