@@ -76,7 +76,7 @@ void CUciProtocol::message_loop() {
         std::string message;
         getline(std::cin, message);
         DEBUG_VALUE_OF(message);
-        // Checking the input for an exact match in order to decpuple
+        // Checking the input for an exact match in order to decouple
         // message_loop, string_tokenizer and process_message for better testability
         if  (message == "quit") {
             break;
