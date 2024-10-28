@@ -10,13 +10,13 @@
 
  bool CTestOpeningBook::test_everything() {
     BEGIN_TESTSUITE("CTestOpeningBook");
-     EXPECT(test_book_data(gm_book, "gm_book"));
     EXPECT(test_move_lookup());
+     EXPECT(test_book_data(gm_book, "gm_book"));
     return true;
  }
 
  bool CTestOpeningBook::test_book_data(const TSortedVariationCollection &variation_collection, const std::string &book_name) {
-    std::cerr << "CTestOpeningBook::test_book_data [" << book_name << "]" << std::endl;
+    std::cerr << "CTestOpeningBook::test_book_data (" << book_name << ")" << std::endl;
      EXPECT(test_formatting(variation_collection));
     EXPECT(test_sortedness(variation_collection));
     EXPECT(test_playability(variation_collection));

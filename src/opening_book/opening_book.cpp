@@ -11,7 +11,7 @@
 #include "opening_book.h"
 #include "book_data/gm_book.h"
 
-
+// TODO; move
 bool is_prefix_of(const std::string &pattern, const std::string &long_string, bool true_prefix = false) {
     DEBUG_METHOD();
     size_t pattern_size = pattern.length();
