@@ -6,15 +6,50 @@
 #include "search.h"
 #include "../move_generator/move_generator.h"
 
+// TODO; serious eval in own module
 int evaluate() {
     int score = 0;
     for (int j = FILE_A; j <= FILE_H; ++j) {
         for (int k = RANK_1; k <= RANK_8; ++k) {
             char piece = board.get_square(j, k);
-            if (!is_any_piece(piece)) {
-                continue;
+            switch (piece) {
+                case WHITE_KING:
+                    score += 20000;
+                    break;
+                case WHITE_QUEEN:
+                    score += 900;
+                    break;
+                case WHITE_ROOK:
+                    score += 500;
+                    break;
+                case WHITE_BISHOP:
+                    score += 310;
+                    break;
+                case WHITE_KNIGHT:
+                    score += 290;
+                    break;
+                case WHITE_POWER:
+                    score += 100;
+                    break;
+                case BLACK_KING:
+                    score -= 20000;
+                    break;
+                case BLACK_QUEEN:
+                    score -= 900;
+                    break;
+                case BLACK_ROOK:
+                    score -= 500;
+                    break;
+                case BLACK_BISHOP:
+                    score -= 310;
+                    break;
+                case BLACK_KNIGHT:
+                    score -= 290;
+                    break;
+                case BLACK_POWER:
+                    score -= 100;
+                    break;
             }
-            score += isupper(piece) ? +1: -1;
         }
     }
     return score;
