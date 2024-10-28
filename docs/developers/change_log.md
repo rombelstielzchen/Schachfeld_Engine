@@ -1,12 +1,13 @@
 Major Changes
 =============
 
-Version 0.2
+Version 0.6
 -----------
-* 
-* A FEN-parser that decodes "position"-commands.
-* A very basic move-generator that creates single-jump pawn--moves for both black and white.
-* Playing random pawn moves.
+* A very basic search-function (1 ply)
+* A very basic democtatic evaluation-function. All men are equal.
+
+Version 0.2
+----------
 
 Version 0.5
 -----------
@@ -14,15 +15,18 @@ Version 0.5
 
 Version 0.4
 -----------
-A moves-generator that now generates all moves. Castling does not yet consider all finer rules.
+* A move-generator that now generates all moves. Castling does not yet consider all finer rules.
 
 Version 0.3
 -----------
 * A move-generator that generates all easy moves, except double-jumps, eng-passeng, castlinh and promotions.
 
 Version 0.2
------------
-* A move-generator that generates single-step pawn-moves
+------------
+* A "mailbox" board-representation with a double garden-fence.
+* A FEN-parser that decodes "position"-commands.
+* A very basic move-generator that creates single-jump pawn--moves for both black and white.
+* Playing random pawn moves.
 
 Version 0.1
 -----------
