@@ -28,7 +28,7 @@ How To Build
 * The command-line program "schachfeld.exe" should now exist in the folder "src/visual_studio/x64/debug", ready to be used.
 
 ### On Linuxoid Systems ###
-* Make sure you have the following programs installed: g++, ld, make, perl, sl,
+* Make sure you have the following programs installed: g++, ld, make, perl, sed.
 * Open a DOS-Fensterle and change the directory to "/home/otto/desktop(schachfeld_engine/src" or whatever the username is, my dear Mr. Otto.
 * Run the "make" command.
 * Enjoy the "engine" program in your working directory.
@@ -46,7 +46,8 @@ The Schachfeld-engine is licensed as open-source under GPLv3. This basically mea
 
 Thank You!
 ----------
-We would like to thank the followiwng people:
+* David J. Barnes for his excellent tool [pgn-extract](https://www.cs.kent.ac.uk/people/staff/djb/pgn-extract/).
+* iThe makers of PGN-Mentor for their [huge collection of high-quality games](https://www.pgnmentor.com/files.html).
 * Fredrik Bornander for his [logging module on CodeProject](https://www.codeproject.com/Articles/63736/Simple-debug-log-for-C)
 
 Feel welcome to contact us at the Schachfeld-forum if you miss your name on the list.
