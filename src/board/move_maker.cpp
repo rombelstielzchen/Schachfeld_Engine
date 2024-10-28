@@ -7,6 +7,7 @@
 #include "board.h"
 #include "board_logic.h"
 #include "../move_generator/move_generator.h"
+#include "../technical_functions/string_functions.h"
 
 CMoveMaker::CMoveMaker() {
 }
@@ -151,3 +152,16 @@ void CMoveMaker::unmake_all() {
         unmake_move();
     }
 }
+
+bool CMoveMaker::play_variation(const std::string &variation) {
+    CStringTokenizer tokenizer(variation);
+    std::string next_move = tokenizer.next_token();
+    while (next_move != "") {
+        if (!make_move(next_move)) {
+            return false;
+        }
+        next_move = tokenizer.next_token();
+    }
+    return true;
+}
+

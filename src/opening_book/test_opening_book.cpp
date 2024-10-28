@@ -6,6 +6,8 @@
 #include "test_opening_book.h"
 #include "opening_book.h"
 #include "book_data/gm_book.h"
+#include "../board/board.h"
+#include "../board/move_maker.h"
 #include "../technical_functions/testing.h"
 
  bool CTestOpeningBook::test_everything() {
@@ -50,7 +52,16 @@
  }
 
  bool CTestOpeningBook::test_playability(const TSortedVariationCollection &variation_collection) {
-     // TODO
+     for (const std::string &variation : variation_collection) {
+        if (variation[0] == 'x') {
+            // Bokelmann-Gambit for deterministic testability, unplayable
+            continue;
+        }
+        CTEST <<
+     "Playable? " << variation << std::endl;
+         board.set_start_position();
+         SILENT_EXPECT(board.move_maker.play_variation(variation));
+     }
     return true;
  }
 
