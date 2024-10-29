@@ -32,7 +32,7 @@ engine: makefile main.o board.o uci_protocol.o string_functions.o  \
 	test_move_generator.o engine_test.o fen_generator.o test_board.o \
 	test_technical_functions.o board_logic.o opening_book.o test_opening_book.o \
 	gm_book.o move_maker.o test_move_maker.o move_list.o search.o test_search.o \
-	evaluator.o
+	evaluator.o test_evaluator.o
 	#make semi_clean 
 #	CFLAGS=-Wall -O0  -c $^
 	#make standard_headers
@@ -43,7 +43,7 @@ engine: makefile main.o board.o uci_protocol.o string_functions.o  \
 	test_move_generator.o engine_test.o fen_generator.o test_board.o \
 	test_technical_functions.o board_logic.o opening_book.o test_opening_book.o \
 	gm_book.o move_maker.o test_move_maker.o move_list.o search.o test_search.o \
-		evaluator.o
+		evaluator.o test_evaluator.o
 	make test
 	@#sl -e +extra_foo +immortality
 	@echo "=============================="
@@ -117,7 +117,10 @@ move_list.o: move_generator/move_list.cpp
 search.o: search/search.cpp
 	$(CC) $(CFLAGS)
 
-evaluator.o: evaluation/evaluator.cpp
+evaluator.o: evaluator/evaluator.cpp
+	$(CC) $(CFLAGS)
+
+test_evaluator.o: evaluator/test_evaluator.cpp
 	$(CC) $(CFLAGS)
 
 test_search.o: search/test_search.cpp

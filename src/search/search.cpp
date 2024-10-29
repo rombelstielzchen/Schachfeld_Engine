@@ -4,7 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "search.h"
-#include "../evaluation/evaluator.h"
+#include "../evaluator/evaluator.h"
 #include "../move_generator/move_generator.h"
 
 SMove CSearch::search() {

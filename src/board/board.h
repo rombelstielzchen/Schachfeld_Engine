@@ -9,7 +9,7 @@
 // Using a two-dimensional, piece-centric "mailbox"-approach with 8x8 slots
 // representing empty squares and pieces. 
 #include "move_maker.h"
-#include "../evaluation/evaluator.h"
+#include "../evaluator/evaluator.h"
 #include "../move_generator/move.h"
 #include "../technical_functions/standard_headers.h"
 
