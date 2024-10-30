@@ -6,7 +6,9 @@
 #include "evaluator.h"
 #include "../board/board.h"
 
-int CEvaluator::evaluate() {
+constexpr int half_pawn = 50;
+
+int CEvaluator::evaluate() const {
     int score = 0;
     for (int j = FILE_A; j <= FILE_H; ++j) {
         for (int k = RANK_1; k <= RANK_8; ++k) {
@@ -54,3 +56,8 @@ int CEvaluator::evaluate() {
     return score;
 }
 
+bool CEvaluator::evaluates_approximately_to(const int score) const {
+    int real_score = evaluate();
+    return (abs(real_score - score) < half_pawn);
+
+}

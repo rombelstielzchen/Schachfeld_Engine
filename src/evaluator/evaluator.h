@@ -7,6 +7,9 @@
  
 class CEvaluator {
   public:
-    int evaluate();
+    int evaluate() const;
+  public:
+    // For testing purposes
+    bool evaluates_approximately_to(const int score) const;
 };
 
