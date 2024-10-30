@@ -164,7 +164,7 @@ clean:
 	rm -f *.o */*.o
 
 stats:
-	wc *.cpp */*.cpp */*.h */*/*.cpp */*/*.h makefile
+	wc *.cpp */*.cpp */*.h */*/*.cpp */*/*.h makefile *.sh */*.sh */*/*.sh
 	ls -o engine
 
 standard_headers: technical_functions/standard_headers.h.gch
