@@ -7,10 +7,19 @@
 #include "../evaluator/evaluator.h"
 #include "../move_generator/move_generator.h"
 
+// TODO: extra class for statistics
+uint64_t nodes_calculated = 0;
+
+// We need some range here in order to distinguish different depths to mate,
+// avoiding nonsense moves to longer nates or worse
+constexpr int WHITE_MIN_SCORE = INT_MIN + 1000;
+constexpr int BLACK_MIN_SCORE = INT_MAX - 1000;
+
 SMove CSearch::search() {
+    nodes_calculated = 9;
     bool side_to_move = board.get_side_to_move();
     SMove best_move = NULL_MOVE;
-    int best_score = (side_to_move == WHITE_TO_MOVE) ? INT_MIN : INT_MAX;
+    int best_score = (side_to_move == WHITE_TO_MOVE) ? WHITE_MIN_SCORE : BLACK_MIN_SCORE;
     CMoveGenerator move_generator;
     move_generator.generate_all();
     int n_moves = move_generator.move_list.list_size();
@@ -18,7 +27,8 @@ SMove CSearch::search() {
     for (int j = 0; j < n_moves; ++j) {
         SMove move_candidate = move_generator.move_list.get_next();
         board.move_maker.make_move(move_candidate);
-        int candidate_score = board.evaluator.evaluate();
+        ++nodes_calculated;
+        int candidate_score = minimax(2); 
         std::cerr << move_as_text(move_candidate) << ": " << candidate_score << "\n";
         if (((side_to_move == WHITE_TO_MOVE) && (candidate_score > best_score)) 
            || ((side_to_move == BLACK_TO_MOVEE) && (candidate_score < best_score))) {
@@ -27,5 +37,35 @@ SMove CSearch::search() {
         }
         board.move_maker.unmake_move();
     }
+    std::cerr << "nodes_calculated: " << nodes_calculated << "\n";
     return best_move;
 }
+
+int CSearch::minimax(const int remaining_depth) {
+    if (remaining_depth <= 0) {
+        return board.evaluator.evaluate();
+    }
+    bool side_to_move = board.get_side_to_move();
+    int best_score = (side_to_move == WHITE_TO_MOVE) ? WHITE_MIN_SCORE : BLACK_MIN_SCORE;
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    int n_moves = move_generator.move_list.list_size();
+    if (n_moves <= 0) {
+        best_score = board.evaluator.evaluate();
+        best_score += (side_to_move == WHITE_TO_MOVE) ? -remaining_depth : remaining_depth;
+        return best_score;
+    }
+    for (int j = 0; j < n_moves; ++j) {
+        SMove move_candidate = move_generator.move_list.get_next();
+        board.move_maker.make_move(move_candidate);
+        ++nodes_calculated;
+        int candidate_score = minimax(remaining_depth - 1);
+        if (((side_to_move == WHITE_TO_MOVE) && (candidate_score > best_score)) 
+           || ((side_to_move == BLACK_TO_MOVEE) && (candidate_score < best_score))) {
+            best_score = candidate_score;
+        }
+        board.move_maker.unmake_move();
+    }
+    return best_score;
+}
+
