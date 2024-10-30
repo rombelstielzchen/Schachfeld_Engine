@@ -10,8 +10,20 @@
 
 bool CTestEvaluator::test_everything() {
     BEGIN_TESTSUITE("CTestEvaluator");
-  board.set_start_position();
-  EXPECT(board.evaluator.evaluates_approximately_to(0));
+    EXPECT(test_equal_positions());
+    EXPECT(test_decided_posizions());
+    return true;
+}
+bool CTestEvaluator::test_equal_positions() {
+    CTEST << "CTestEvaluator::test_equal_positions() ...\n";
+    board.set_start_position();
+    EXPECT(board.evaluator.evaluates_approximately_to(0));
+    return true;
+}
+
+bool CTestEvaluator::test_decided_posizions() {
+    CTEST << "CTestEvaluator::test_decided_posizions() ...\n";
+    // TODO
     return true;
 }
 
