@@ -23,8 +23,12 @@ const std::vector<STestcaseSearch> testcases = {
 //    { 2, "a6a4", "8/6k1/R6n/8/n7/8/8/K7 w" }, 
     // Mate in 1, capturing the king in 3 plies
     { 3, "h6h8", "k6q/5R2/7R/8/8/8/8/K7 w" },
+    // Skewer
+     { 2, "d8a5", "k2b4/8/8/8/8/2K5/8/4Q3 b" },
     // Royal fork for black, no capture at first move
-    { 3, "d4c2", "8/8/8/8/3n4/8/8/Q3K3 b" },
+    { 2, "d4c2", "8/8/8/8/3n4/8/8/Q3K2k b" },
+    // Smothered mate, very basic
+    { 4, "a2g8", "5r1k/6pp/7N/8/8/8/Q7/7K w" },
 };
 // Requires recapture-extension
 //    { 2, "e6a6", "8/5k2/n3R1n1/8/8/8/8/7K w" },
@@ -42,7 +46,7 @@ bool CTestSearch::test_position(const STestcaseSearch &testcase) {
     CTEST << "Expecting: " << testcase.expected_move << "\n";
     board.set_fen_position(testcase.fen_position);
     CSearch searcher;
-    SMove best_move = searcher.search();
+    SMove best_move = searcher.search(testcase.depth);
     CTEST << "Got move: " << move_as_text(best_move) << "\n";
     EXPECT(move_as_text(best_move) == testcase.expected_move);
     return true;

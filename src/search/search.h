@@ -9,7 +9,7 @@
 
 class CSearch {
   public:
-    SMove search();
+    SMove search(int depth);
   private:
     int minimax(int remaining_depth);
 };

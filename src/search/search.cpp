@@ -15,7 +15,11 @@ uint64_t nodes_calculated = 0;
 constexpr int WHITE_MIN_SCORE = INT_MIN + 1000;
 constexpr int BLACK_MIN_SCORE = INT_MAX - 1000;
 
-SMove CSearch::search() {
+SMove CSearch::search(int depth) {
+    constexpr int min_meaningful_depth_to_avoid_illegal_moves = 2;
+    if (depth < min_meaningful_depth_to_avoid_illegal_moves) {
+        depth = min_meaningful_depth_to_avoid_illegal_moves;
+    }
     nodes_calculated = 9;
     bool side_to_move = board.get_side_to_move();
     SMove best_move = NULL_MOVE;
@@ -28,7 +32,7 @@ SMove CSearch::search() {
         SMove move_candidate = move_generator.move_list.get_next();
         board.move_maker.make_move(move_candidate);
         ++nodes_calculated;
-        int candidate_score = minimax(2); 
+        int candidate_score = minimax(depth); 
         std::cerr << move_as_text(move_candidate) << ": " << candidate_score << "\n";
         if (((side_to_move == WHITE_TO_MOVE) && (candidate_score > best_score)) 
            || ((side_to_move == BLACK_TO_MOVEE) && (candidate_score < best_score))) {
