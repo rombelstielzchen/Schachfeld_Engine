@@ -11,6 +11,7 @@ CInfo::CInfo() {
 }
 
 void CInfo::clear_all() {
+    nodes_calculated = 0;
 }
 
 void CInfo::set_best_move(const std::string &best_move, const int score) {
@@ -29,3 +30,7 @@ void CInfo::set_current_move(const std::string &current_move) {
 }
 
 
+void CInfo::set_nodes(const int64_t nodes) {
+    std::string info = "nodes " + std::to_string(nodes);
+    CUciProtocol::send_info(info);
+}

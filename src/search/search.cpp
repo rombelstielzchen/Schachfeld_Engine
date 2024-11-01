@@ -43,8 +43,8 @@ SMove CSearch::search(int depth) {
             info.set_best_move(move_as_text(best_move), best_score);
         }
         board.move_maker.unmake_move();
+        info.set_nodes(nodes_calculated);
     }
-    std::cerr << "nodes_calculated: " << nodes_calculated << "\n";
     return best_move;
 }
 

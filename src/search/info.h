@@ -13,7 +13,9 @@ class CInfo {
     void set_best_move(const std::string &best_move, const int score);;
     void set_depth(const int depth);
     void set_current_move(const std::string &current_move);
+    void set_nodes(const int64_t nodes);
   private:
+    int64_t nodes_calculated;
 };
 
 
