@@ -167,8 +167,12 @@ clean:
 	rm -f *.o */*.o
 
 stats:
-	wc *.cpp */*.cpp */*.h */*/*.cpp */*/*.h makefile *.sh */*.sh */*/*.sh
-	ls -o engine
+	@wc *.cpp */*.cpp */*.h */*/*.cpp */*/*.h makefile */*/*.sh
+	@echo -n "Book-lines: "
+	@grep "\"," opening_book/book_data/gm_book.cpp | wc -l
+	@echo -n "TODO items: "
+	@grep TODO *.cpp */*.cpp */*/*.cpp | wc -l
+	@ls -o engine
 
 standard_headers: technical_functions/standard_headers.h.gch
 
