@@ -34,6 +34,11 @@ void CUciProtocol::send_list_of_options() const {
     // None yet
 }
 
+void CUciProtocol::send_info(const std::string &information) {
+    std::string full_message = "info " + information;
+    send_message(full_message);
+}
+
 void CUciProtocol::process_message(const std::string &message) {
     string_tokenizer.set_input(message);
     std::string command = string_tokenizer.next_token(); 

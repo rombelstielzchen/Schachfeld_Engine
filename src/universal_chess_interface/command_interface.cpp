@@ -92,7 +92,7 @@ void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
         return;
     }
     CSearch searcher;
-    SMove calculated_move = searcher.search();
+    SMove calculated_move = searcher.search(depth_in_plies);
     assert(move_in_range(calculated_move));
     send_best_move(calculated_move);
 }
