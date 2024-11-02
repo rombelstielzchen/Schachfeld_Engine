@@ -5,7 +5,7 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-#include "info.h"
+#include "search_statistics.h"
 #include"../move_generator/move.h"
 
 class CSearch {
@@ -14,6 +14,6 @@ class CSearch {
   private:
     int minimax(int remaining_depth);
   private:
-    CInfo info;
+    CSearchStatistics search_statistics;
 };
 

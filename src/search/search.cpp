@@ -20,8 +20,8 @@ SMove CSearch::search(int depth) {
     if (depth < min_meaningful_depth_to_avoid_illegal_moves) {
         depth = min_meaningful_depth_to_avoid_illegal_moves;
     }
-    info.clear_all();
-    info.set_depth(depth);
+    search_statistics.reset();
+    search_statistics.set_depth(depth);
     nodes_calculated = 9;
     bool side_to_move = board.get_side_to_move();
     SMove best_move = NULL_MOVE;
@@ -32,7 +32,7 @@ SMove CSearch::search(int depth) {
     assert(n_moves >= 0);
     for (int j = 0; j < n_moves; ++j) {
         SMove move_candidate = move_generator.move_list.get_next();
-        info.set_current_move(move_as_text(move_candidate));
+        search_statistics.set_current_move(move_as_text(move_candidate));
         board.move_maker.make_move(move_candidate);
         ++nodes_calculated;
         int candidate_score = minimax(depth); 
@@ -40,10 +40,10 @@ SMove CSearch::search(int depth) {
            || ((side_to_move == BLACK_TO_MOVEE) && (candidate_score < best_score))) {
             best_score = candidate_score;
             best_move = move_candidate;
-            info.set_best_move(move_as_text(best_move), best_score);
+            search_statistics.set_best_move(move_as_text(best_move), best_score);
         }
         board.move_maker.unmake_move();
-        info.set_nodes(nodes_calculated);
+        search_statistics.set_nodes(nodes_calculated);
     }
     return best_move;
 }

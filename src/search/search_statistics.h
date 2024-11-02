@@ -5,17 +5,18 @@
 
 #include "../technical_functions/standard_headers.h"
 
-class CInfo {
+class CSearchStatistics {
   public:
-    CInfo();
+    CSearchStatistics();
   public:
-    void clear_all();
+    void reset();
     void set_best_move(const std::string &best_move, const int score);;
     void set_depth(const int depth);
     void set_current_move(const std::string &current_move);
     void set_nodes(const int64_t nodes);
   private:
     int64_t nodes_calculated;
+    std::chrono::time_point<std::chrono::system_clock> start_time, now_time;
 };
 
 
