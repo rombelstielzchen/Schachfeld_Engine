@@ -16,28 +16,31 @@ void CSearchStatistics::reset() {
 }
 
 void CSearchStatistics::set_best_move(const std::string &best_move, const int score) {
+    assert(move_in_range(text_to_basic_move(best_move)));
     std::string info = "bestmove " + best_move + " score " + std::to_string(score);
     CUciProtocol::send_info(info);
 }
 
 void CSearchStatistics::set_depth(const int depth) {
+    assert(depth > 0);
     std::string info = "depth " + std::to_string(depth);
     CUciProtocol::send_info(info);
 }
 
 void CSearchStatistics::set_current_move(const std::string &current_move) {
+    assert(move_in_range(text_to_basic_move(current_move)));
     std::string info = "currmove " + current_move;
     CUciProtocol::send_info(info);
 }
 
-
 void CSearchStatistics::set_nodes(const int64_t nodes) {
-    now_time = std::chrono::system_clock::now();
-   std::chrono::system_clock::duration time_difference = now_time - start_time; 
-   int64_t duration_milliseconds = time_difference.count();
-    ++duration_milliseconds;
-    assert(duration_milliseconds > 0);
-    int64_t nodes_per_second = (nodes * 1000) / duration_milliseconds;
+    assert(nodes > 0);
+    now_time = std::chrono::high_resolution_clock::now();
+   std::chrono::duration<float> used_time_ms = now_time - start_time; 
+    ++used_time_ms;
+    assert(used_time_ms.count() > 0);
+    int64_t nodes_per_second = (nodes * 1000) / used_time_ms.count();
     std::string info = "nodes " + std::to_string(nodes) + " nps " + std::to_string(nodes_per_second);
     CUciProtocol::send_info(info);
 }
+

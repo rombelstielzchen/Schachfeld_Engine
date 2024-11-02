@@ -16,7 +16,7 @@ class CSearchStatistics {
     void set_nodes(const int64_t nodes);
   private:
     int64_t nodes_calculated;
-    std::chrono::time_point<std::chrono::system_clock> start_time, now_time;
+    std::chrono::time_point<std::chrono::high_resolution_clock> start_time, now_time;
 };
 
 
