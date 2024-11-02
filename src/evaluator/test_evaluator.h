@@ -10,7 +10,7 @@ class CTestEvaluator {
    static bool test_everything();
   private:
    static bool test_equal_positions();
-   static bool test_decided_posizions();
+   static bool test_decided_positions();
    // TODO: later, for incremental updates
    static bool test_make_unmake_moves();
 };

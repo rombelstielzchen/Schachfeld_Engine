@@ -12,7 +12,7 @@ CSearchStatistics::CSearchStatistics() {
 
 void CSearchStatistics::reset() {
     nodes_calculated = 0;
-    start_time = std::chrono::system_clock::now();
+    start_time = std::chrono::high_resolution_clock::now();
 }
 
 void CSearchStatistics::set_best_move(const std::string &best_move, const int score) {
@@ -36,10 +36,9 @@ void CSearchStatistics::set_current_move(const std::string &current_move) {
 void CSearchStatistics::set_nodes(const int64_t nodes) {
     assert(nodes > 0);
     now_time = std::chrono::high_resolution_clock::now();
-   std::chrono::duration<float> used_time_ms = now_time - start_time; 
-    ++used_time_ms;
-    assert(used_time_ms.count() > 0);
-    int64_t nodes_per_second = (nodes * 1000) / used_time_ms.count();
+   std::chrono::duration<float> used_time_seconds = now_time - start_time; 
+    assert(used_time_seconds.count() > 0);
+    int64_t nodes_per_second = nodes / used_time_seconds.count();
     std::string info = "nodes " + std::to_string(nodes) + " nps " + std::to_string(nodes_per_second);
     CUciProtocol::send_info(info);
 }

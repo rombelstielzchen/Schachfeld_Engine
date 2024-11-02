@@ -11,7 +11,7 @@
 bool CTestEvaluator::test_everything() {
     BEGIN_TESTSUITE("CTestEvaluator");
     EXPECT(test_equal_positions());
-    EXPECT(test_decided_posizions());
+    EXPECT(test_decided_positions());
     return true;
 }
 bool CTestEvaluator::test_equal_positions() {
@@ -21,8 +21,8 @@ bool CTestEvaluator::test_equal_positions() {
     return true;
 }
 
-bool CTestEvaluator::test_decided_posizions() {
-    CTEST << "CTestEvaluator::test_decided_posizions() ...\n";
+bool CTestEvaluator::test_decided_positions() {
+    CTEST << "CTestEvaluator::test_decided_positions() ...\n";
     // TODO
     return true;
 }
