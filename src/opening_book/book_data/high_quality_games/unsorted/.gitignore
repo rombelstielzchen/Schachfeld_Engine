@@ -1,0 +1,5 @@
+*.exe
+*.pgn
+openings/
+players/
+tournaments/
