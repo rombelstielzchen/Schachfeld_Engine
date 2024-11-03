@@ -1,6 +1,13 @@
 Major Changes
 =============
 
+Version 0.7
+-----------
+* Recursive minimax search, most basic form, searching all moves to full depth.
+* A slightly more advanced evaluation-function that counts wood. 
+  Bishop = 3.1, knight = 2.9 wood-points.
+* A book-building-tool ans a high-quality opening-bok, ~5000 lines of 10 plies.
+
 Version 0.6
 -----------
 * A very basic search-function (1 ply)

@@ -19,7 +19,7 @@ x64/
 *.tmp
 a.out
 debug.txt
-engine
+engine*
 files.txt
 strings.txt
 x

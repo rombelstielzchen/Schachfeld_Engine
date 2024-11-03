@@ -14,7 +14,7 @@ PGBEXTRACT="./pgn_extract/pgn-extract.exe"
 
 echo "### Building gm_book.cpp"
 # Concatenate all game sources
-cat high_quality_games/*/* > tmp1.tmp
+cat high_quality_games/*/*.pgn > tmp1.tmp
 # Extract opening lines
 ${PGBEXTRACT} --minply ${DEPTH} -C -V --noresults --notags --plylimit ${DEPTH} -w9999 -Wuci --quiet tmp1.tmp > tmp2.tmp
 # Sort and uniquify

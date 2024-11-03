@@ -92,6 +92,15 @@
     <ClCompile Include="..\search\search.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\search\search_statistics.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\evaluator\evaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\evaluator\test_evaluator.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\universal_chess_interface\uci_protocol.h">
@@ -161,6 +170,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\search\test_search.h">
+      <Filter>Header Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\search\search_statistics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\evaluator\evaluator.h">
+      <Filter>Source Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\evaluator\test_evaluator.h">
       <Filter>Header Files\Tests</Filter>
     </ClInclude>
   </ItemGroup>

@@ -134,6 +134,8 @@
     <ClCompile Include="..\board\move_maker.cpp" />
     <ClCompile Include="..\board\test_board.cpp" />
     <ClCompile Include="..\board\test_move_maker.cpp" />
+    <ClCompile Include="..\evaluator\evaluator.cpp" />
+    <ClCompile Include="..\evaluator\test_evaluator.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\move_generator\move.cpp" />
     <ClCompile Include="..\move_generator\move_generator.cpp" />
@@ -143,6 +145,7 @@
     <ClCompile Include="..\opening_book\opening_book.cpp" />
     <ClCompile Include="..\opening_book\test_opening_book.cpp" />
     <ClCompile Include="..\search\search.cpp" />
+    <ClCompile Include="..\search\search_statistics.cpp" />
     <ClCompile Include="..\search\test_search.cpp" />
     <ClCompile Include="..\technical_functions\debug_log.cpp" />
     <ClCompile Include="..\technical_functions\engine_test.cpp" />
@@ -159,6 +162,8 @@
     <ClInclude Include="..\board\move_maker.h" />
     <ClInclude Include="..\board\test_board.h" />
     <ClInclude Include="..\board\test_move_maker.h" />
+    <ClInclude Include="..\evaluator\evaluator.h" />
+    <ClInclude Include="..\evaluator\test_evaluator.h" />
     <ClInclude Include="..\move_generator\move.h" />
     <ClInclude Include="..\move_generator\move_generator.h" />
     <ClInclude Include="..\move_generator\move_list.h" />
@@ -167,6 +172,7 @@
     <ClInclude Include="..\opening_book\opening_book.h" />
     <ClInclude Include="..\opening_book\test_opening_book.h" />
     <ClInclude Include="..\search\search.h" />
+    <ClInclude Include="..\search\search_statistics.h" />
     <ClInclude Include="..\search\test_search.h" />
     <ClInclude Include="..\technical_functions\debug_log.h" />
     <ClInclude Include="..\technical_functions\engine_test.h" />
