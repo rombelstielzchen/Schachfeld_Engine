@@ -12,7 +12,7 @@ class CSearch {
   public:
     SMove search(int depth);
   private:
-    int minimax(int remaining_depth);
+    int alpha_beta(int remaining_depth, int alpha, int beta);
   private:
     CSearchStatistics search_statistics;
 };

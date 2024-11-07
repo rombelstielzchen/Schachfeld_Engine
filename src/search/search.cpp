@@ -31,17 +31,18 @@ SMove CSearch::search(int depth) {
     int n_moves = move_generator.move_list.list_size();
     assert(n_moves >= 0);
     for (int j = 0; j < n_moves; ++j) {
+        // No alpha-beta-cutoffs here. Top-level search has to examine all oves,
+        // but feed the recursive search with the current alpha-beta values.
         SMove move_candidate = move_generator.move_list.get_next();
         search_statistics.set_current_move(move_as_text(move_candidate));
         board.move_maker.make_move(move_candidate);
         ++nodes_calculated;
-        int candidate_score = minimax(depth); 
+        int candidate_score = alpha_beta(depth, alpha, beta); 
         if ((side_to_move == WHITE_TO_MOVE) && (candidate_score > best_score)) {
             best_move = move_candidate;
             best_score = candidate_score;
             alpha = candidate_score;
         } else if ((side_to_move == BLACK_TO_MOVEE) && (candidate_score < best_score)) {
-            best_score = candidate_score;
             best_move = move_candidate;
             best_score = candidate_score;
             beta = candidate_score;
@@ -53,7 +54,7 @@ SMove CSearch::search(int depth) {
     return best_move;
 }
 
-int CSearch::minimax(const int remaining_depth) {
+int CSearch::alpha_beta(int remaining_depth, int alpha, int beta) {
     if (remaining_depth <= 0) {
         return board.evaluator.evaluate();
     }
@@ -71,7 +72,7 @@ int CSearch::minimax(const int remaining_depth) {
         SMove move_candidate = move_generator.move_list.get_next();
         board.move_maker.make_move(move_candidate);
         ++nodes_calculated;
-        int candidate_score = minimax(remaining_depth - 1);
+        int candidate_score = alpha_beta(remaining_depth - 1, alpha, beta);
         if (((side_to_move == WHITE_TO_MOVE) && (candidate_score > best_score)) 
            || ((side_to_move == BLACK_TO_MOVEE) && (candidate_score < best_score))) {
             best_score = candidate_score;
