@@ -14,6 +14,9 @@ class CSearch {
   private:
     int alpha_beta(int remaining_depth, int alpha, int beta);
   private:
+    inline bool white_scpre_way_too_good(const int score, const int beta) const;
+    inline bool black_scpre_way_too_good(const int score, const int alpha) const;
+  private:
     CSearchStatistics search_statistics;
 };
 
