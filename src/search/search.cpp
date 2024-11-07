@@ -17,14 +17,14 @@ constexpr int BLACK_MIN_SCORE = INT_MAX - 1000;
 
 SMove CSearch::search(int depth) {
     constexpr int min_meaningful_depth_to_avoid_illegal_moves = 2;
-    if (depth < min_meaningful_depth_to_avoid_illegal_moves) {
-        depth = min_meaningful_depth_to_avoid_illegal_moves;
-    }
+    depth = std::max(depth,  min_meaningful_depth_to_avoid_illegal_moves);
     search_statistics.reset();
     search_statistics.set_depth(depth);
-    nodes_calculated = 9;
+    nodes_calculated = 0;
     bool side_to_move = board.get_side_to_move();
     SMove best_move = NULL_MOVE;
+    int alpha = WHITE_MIN_SCORE;
+    int beta = BLACK_MIN_SCORE;
     int best_score = (side_to_move == WHITE_TO_MOVE) ? WHITE_MIN_SCORE : BLACK_MIN_SCORE;
     CMoveGenerator move_generator;
     move_generator.generate_all();
@@ -36,14 +36,19 @@ SMove CSearch::search(int depth) {
         board.move_maker.make_move(move_candidate);
         ++nodes_calculated;
         int candidate_score = minimax(depth); 
-        if (((side_to_move == WHITE_TO_MOVE) && (candidate_score > best_score)) 
-           || ((side_to_move == BLACK_TO_MOVEE) && (candidate_score < best_score))) {
+        if ((side_to_move == WHITE_TO_MOVE) && (candidate_score > best_score)) {
+            best_move = move_candidate;
+            best_score = candidate_score;
+            alpha = candidate_score;
+        } else if ((side_to_move == BLACK_TO_MOVEE) && (candidate_score < best_score)) {
             best_score = candidate_score;
             best_move = move_candidate;
-            search_statistics.set_best_move(move_as_text(best_move), best_score);
+            best_score = candidate_score;
+            beta = candidate_score;
         }
-        board.move_maker.unmake_move();
+        search_statistics.set_best_move(move_as_text(best_move), best_score);
         search_statistics.set_nodes(nodes_calculated);
+        board.move_maker.unmake_move();
     }
     return best_move;
 }
