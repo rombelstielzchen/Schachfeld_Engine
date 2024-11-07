@@ -65,7 +65,7 @@ int CSearch::alpha_beta(int remaining_depth, int alpha, int beta) {
     int n_moves = move_generator.move_list.list_size();
     if (n_moves <= 0) {
         best_score = board.evaluator.evaluate();
-        best_score += (side_to_move == WHITE_TO_MOVE) ? -remaining_depth : remaining_depth;
+        best_score += (side_to_move == WHITE_TO_MOVE) ? - remaining_depth : remaining_depth;
         return best_score;
     }
     for (int j = 0; j < n_moves; ++j) {
@@ -73,8 +73,9 @@ int CSearch::alpha_beta(int remaining_depth, int alpha, int beta) {
         board.move_maker.make_move(move_candidate);
         ++nodes_calculated;
         int candidate_score = alpha_beta(remaining_depth - 1, alpha, beta);
-        if (((side_to_move == WHITE_TO_MOVE) && (candidate_score > best_score)) 
-           || ((side_to_move == BLACK_TO_MOVEE) && (candidate_score < best_score))) {
+        if ((side_to_move == WHITE_TO_MOVE) && (candidate_score > best_score)) {
+            best_score = candidate_score;
+        } else if ((side_to_move == BLACK_TO_MOVEE) && (candidate_score < best_score)) {
             best_score = candidate_score;
         }
         board.move_maker.unmake_move();
