@@ -76,12 +76,12 @@ int CSearch::alpha_beta(int remaining_depth, int alpha, int beta) {
         board.move_maker.unmake_move();
         if ((side_to_move == WHITE_TO_MOVE) && (candidate_score > best_score)) {
             if (white_scpre_way_too_good(candidate_score, beta)) {
-                return beta;
+///                return beta;
             }
             best_score = candidate_score;
         } else if ((side_to_move == BLACK_TO_MOVEE) && (candidate_score < best_score)) {
             if (black_scpre_way_too_good(candidate_score, alpha)) {
-                return alpha;
+///                return alpha;
             }
             best_score = candidate_score;
         }

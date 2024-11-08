@@ -83,7 +83,7 @@ void CUciProtocol::message_loop() {
         DEBUG_VALUE_OF(message);
         // Checking the input for an exact match in order to decouple
         // message_loop, string_tokenizer and process_message for better testability
-        if  (message == "quit") {
+        if  ((message == "quit") || (message == "exit")) {
             break;
         }
         process_message(message);
