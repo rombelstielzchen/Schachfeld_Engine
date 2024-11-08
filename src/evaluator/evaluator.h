@@ -11,5 +11,8 @@ class CEvaluator {
   public:
     // For testing purposes
     bool evaluates_approximately_to(const int score) const;
+  private:
+    // Temp function to get some minimal positional understanding
+    int positional_bonus(const int file, const int rank) const;
 };
 
