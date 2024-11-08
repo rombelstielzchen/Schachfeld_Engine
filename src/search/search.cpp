@@ -90,10 +90,10 @@ int CSearch::alpha_beta(int remaining_depth, int alpha, int beta) {
 }
 
 inline bool CSearch::white_scpre_way_too_good(const int score, const int beta) const {
-    return (score >= beta);
+    return (score <= beta);
 }
 
 inline bool CSearch::black_scpre_way_too_good(const int score, const int alpha) const {
-    return (score <= alpha);
+    return (score >= alpha);
 }
 
