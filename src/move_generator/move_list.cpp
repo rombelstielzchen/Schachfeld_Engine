@@ -54,7 +54,7 @@ void CMoveList::store_move(const SMove &move) {
     ++number_of_moves;
 }
 
-void CMoveList::store_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type) {
+void CMoveList::store_silent_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type) {
     SMove new_move;
     new_move.source.file = source_file;
     new_move.source.rank = source_rank;
@@ -96,3 +96,17 @@ void CMoveList::store_pawn_move(const int source_file, const int source_rank, co
 }
 
 
+
+void CMoveList::store_capture(const int source_file, const int source_rank, const int target_file, const int target_rank) {
+    // Temp
+    store_silent_move(source_file, source_rank, target_file, target_rank);
+}
+
+void CMoveList::store_pawn_capture(const int source_file, const int source_rank, const int target_file, const int target_rank) {
+    // TODO: promo
+    store_capture(source_file, source_rank, target_file, target_rank);
+}
+
+void CMoveList::store_eng_passeng(const int source_file, const int source_rank, const int target_file, const int target_rank) {
+    // TODO
+}
