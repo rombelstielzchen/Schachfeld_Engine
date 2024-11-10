@@ -27,6 +27,11 @@ class CMoveList {
     // Special method for pawns, creating four moves on promotion
     void store_pawn_move(const int source_file, const int source_rank, const int target_file, const int target_rank);
   private:
+    void store_white_promotions(const int source_file, const int source_rank, const int target_file, const int target_rank);
+    void store_black_promotions(const int source_file, const int source_rank, const int target_file, const int target_rank);
+  private:
+    void store_silent_move(const SMove &move);
+    void store_capture(const SMove &move);
     // Temp, old implementation
     void store_move(const SMove &move);
   private:

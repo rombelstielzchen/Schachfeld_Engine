@@ -85,10 +85,10 @@ void CMoveGenerator::generate_pawn_captures(const int file, const int rank, cons
     const int left_file = file - 1;
     const int right_file = file + 1;
     if (CBoardLogic::square_occupied_by_opponent(left_file, next_rank)) {
-        move_list.store_pawn_capture(file, rank, left_file, next_rank);
+        move_list.store_pawn_move(file, rank, left_file, next_rank);
     }
     if (CBoardLogic::square_occupied_by_opponent(right_file, next_rank)) {
-        move_list.store_pawn_capture(file, rank, right_file, next_rank);
+        move_list.store_pawn_move(file, rank, right_file, next_rank);
     }
 }
 
