@@ -18,6 +18,7 @@ constexpr int BLACK_MIN_SCORE = INT_MAX - 1000;
 SMove CSearch::search(int depth) {
     constexpr int min_meaningful_depth_to_avoid_illegal_moves = 2;
     depth = std::max(depth,  min_meaningful_depth_to_avoid_illegal_moves);
+    --depth;
     search_statistics.reset();
     search_statistics.set_depth(depth);
     nodes_calculated = 0;
