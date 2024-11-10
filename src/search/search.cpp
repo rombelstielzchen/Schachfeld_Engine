@@ -51,6 +51,7 @@ SMove CSearch::search(int depth) {
         search_statistics.set_nodes(nodes_calculated);
         board.move_maker.unmake_move();
     }
+    search_statistics.log_branching_factor(nodes_calculated, depth);
     return best_move;
 }
 

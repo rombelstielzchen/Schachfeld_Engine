@@ -1,6 +1,11 @@
 Major Changes
 =============
 
+Version 0.8
+-----------
+* Alpha-beta-pruning,a more advanced search-strategy
+* A very basic, temporary, evaluation function
+
 Version 0.7
 -----------
 * Recursive minimax search, most basic form, searching all moves to full depth.

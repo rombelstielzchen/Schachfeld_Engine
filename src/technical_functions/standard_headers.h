@@ -15,6 +15,8 @@
 #include <cassert>
 #include <chrono>
 #include <climits>
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include <cstdint>
 #include <fstream>
 #include <iostream>

@@ -14,6 +14,7 @@ class CSearchStatistics {
     void set_depth(const int depth);
     void set_current_move(const std::string &current_move);
     void set_nodes(const int64_t nodes);
+    void log_branching_factor(const int  nodees, const int depth) const;
   private:
     int64_t nodes_calculated;
     std::chrono::time_point<std::chrono::high_resolution_clock> start_time, now_time;

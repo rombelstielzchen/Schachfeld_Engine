@@ -43,3 +43,10 @@ void CSearchStatistics::set_nodes(const int64_t nodes) {
     CUciProtocol::send_info(info);
 }
 
+void CSearchStatistics::log_branching_factor(const int  nodees, const int depth) const {
+    // Approximate value, not considering extensions and reductions
+    double branching_factor = pow(M_E, log(nodees) / depth);
+    std::string message = "branching_factor: " + std::to_string(branching_factor);
+    CUciProtocol::send_info(message);
+}
+
