@@ -10,6 +10,12 @@
 
 // https://www.chessprogramming.org/Chess_Position
 constexpr int MAX_MOVES_IN_CHESS_POSITION = 218;
+// Just a guess!
+// TEMP!!! Problems with stackframe mismatch!
+constexpr unsigned int MAX_CAPTURES_IN_CHESS_POSITION = 20;
+// Our move-list is bidirectional; left part for captures, right part for silent moves.
+constexpr unsigned int LIST_SIZE = MAX_MOVES_IN_CHESS_POSITION + MAX_CAPTURES_IN_CHESS_POSITION;
+constexpr unsigned int LIST_ORIGIN = MAX_CAPTURES_IN_CHESS_POSITION;
 
 class CMoveList {
   public:
@@ -36,8 +42,9 @@ class CMoveList {
     void store_move(const SMove &move);
   private:
     // Using array instead of vector due to its known size and for better performance
-    std::array<SMove, MAX_MOVES_IN_CHESS_POSITION> move_list;
-    unsigned int number_of_moves;
-    unsigned int consumer_counter;
+    std::array<SMove,LIST_SIZE> bidirectional_move_list;
+    unsigned int first_capture;
+    unsigned int last_silent_move;
+    unsigned int consumer_position;
 };
 

@@ -7,51 +7,55 @@
 #include "../board/board.h"
 
 CMoveList::CMoveList() {
-    number_of_moves = 0;
-    consumer_counter = 0;
+    first_capture = LIST_ORIGIN;
+    last_silent_move = LIST_ORIGIN;
+    consumer_position = LIST_ORIGIN;
 }
 
 SMove CMoveList::get_random() const {
-    if (number_of_moves <= 0) {
+    if (list_size() <= 0) {
         return NULL_MOVE;
     }
     // Quick and dirty random numbers are OK for an early proof of concept
-    int index = rand() % number_of_moves;
-    return move_list[index];
+    unsigned int index = first_capture + rand() % list_size();
+    assert(index >= first_capture);
+    assert(index < last_silent_move);
+    return bidirectional_move_list[index];
 }
 
 SMove CMoveList::get_next() {
-    if (consumer_counter >= number_of_moves) {
+    assert(consumer_position >= first_capture);
+    if (consumer_position >= last_silent_move) {
         return NULL_MOVE;
     }
-    SMove result = move_list[consumer_counter];
-    ++consumer_counter;
+    SMove result = bidirectional_move_list[consumer_position];
+    ++consumer_position;
     assert(move_in_range(result));
     return result;
 }
 
 SMove CMoveList::lookup_move(const std::string &text_move) const {
     const SMove basic_move = text_to_basic_move(text_move);
-    for (int j = 0; j < list_size(); ++j) {
-        if (move_coords_are_equal(basic_move, move_list[j])) {
+    assert(last_silent_move >= first_capture);
+    for (int j = first_capture; j < last_silent_move; ++j) {
+        if (move_coords_are_equal(basic_move, bidirectional_move_list[j])) {
             // TODO: possible under-promotions
-            return move_list[j];
+            return bidirectional_move_list[j];
         }
     }
     return NULL_MOVE;
 }
 
 int CMoveList::list_size() const {
-    assert(number_of_moves <= MAX_MOVES_IN_CHESS_POSITION);
-    return number_of_moves;
+    assert(last_silent_move >= first_capture);
+    return (last_silent_move - first_capture);
 }
 
 void CMoveList::store_move(const SMove &move) {
     assert(move_in_range(move));
 //    std::cerr << int(source_file) << ", " << int(source_rank) << " -> " << int(target_file) << ", " << int(target_rank) << std::endl;
-    assert(number_of_moves < MAX_MOVES_IN_CHESS_POSITION);
-    move_list[number_of_moves] = move;
-    ++number_of_moves;
+    bidirectional_move_list[last_silent_move] = move;
+    ++last_silent_move;
 }
 
 void CMoveList::store_silent_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type) {
@@ -75,7 +79,6 @@ void CMoveList::store_pawn_move(const int source_file, const int source_rank, co
         store_silent_move(source_file, source_rank, target_file, target_rank);
     }
 }
-
 
 
 void CMoveList::store_capture(const int source_file, const int source_rank, const int target_file, const int target_rank) {
