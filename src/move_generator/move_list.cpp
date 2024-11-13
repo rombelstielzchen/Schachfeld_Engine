@@ -51,13 +51,6 @@ int CMoveList::list_size() const {
     return (last_silent_move - first_capture);
 }
 
-void CMoveList::store_move(const SMove &move) {
-    assert(move_in_range(move));
-//    std::cerr << int(source_file) << ", " << int(source_rank) << " -> " << int(target_file) << ", " << int(target_rank) << std::endl;
-    bidirectional_move_list[last_silent_move] = move;
-    ++last_silent_move;
-}
-
 void CMoveList::store_silent_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type) {
     SMove new_move;
     new_move.source.file = source_file;

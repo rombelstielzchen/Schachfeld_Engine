@@ -102,7 +102,6 @@ void CMoveGenerator::generate_pawn_forward_moves(const int file, const int rank,
         const int second_next_rank = next_rank + positive_negative_direction;
         if (((rank == RANK_2) || (rank == RANK_7))
             && (board.get_square(file, second_next_rank) == EMPTY_SQUARE)) {
-            // Normal store_move() here, no possible promotion
             move_list.store_silent_move(file, rank, file, second_next_rank, MOVE_TYPE_DOUBLE_JUMP);
         }
     }

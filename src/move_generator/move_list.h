@@ -38,8 +38,6 @@ class CMoveList {
   private:
     void store_silent_move(const SMove &move);
     void store_capture(const SMove &move);
-    // Temp, old implementation
-    void store_move(const SMove &move);
   private:
     // Using array instead of vector due to its known size and for better performance
     std::array<SMove,LIST_SIZE> bidirectional_move_list;
