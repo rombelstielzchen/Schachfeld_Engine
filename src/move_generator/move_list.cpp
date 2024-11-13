@@ -140,5 +140,10 @@ void CMoveList::store_silent_move(const SMove &move) {
 }
 
 void CMoveList::store_capture(const SMove &move) {
-    store_move(move);
+    assert(first_capture > 0);
+    assert(consumer_position >= first_capture);
+    --first_capture;
+    --consumer_position;
+    bidirectional_move_list[first_capture] = move;
  }
+
