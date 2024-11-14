@@ -142,3 +142,8 @@ void CMoveList::store_capture(const SMove &move) {
     bidirectional_move_list[first_capture] = move;
  }
 
+void CMoveList::prune_silent_moves() {
+    assert(first_capture <= LIST_ORIGIN);
+    assert(last_silent_move >= LIST_ORIGIN);
+    last_silent_move = LIST_ORIGIN;
+}
