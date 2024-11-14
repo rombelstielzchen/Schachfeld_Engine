@@ -75,8 +75,12 @@ void CMoveList::store_pawn_move(const int source_file, const int source_rank, co
 
 
 void CMoveList::store_capture(const int source_file, const int source_rank, const int target_file, const int target_rank) {
-    // Temp
-    store_silent_move(source_file, source_rank, target_file, target_rank);
+    SMove new_move;
+    new_move.source.file = source_file;
+    new_move.source.rank = source_rank;
+    new_move.target.file = target_file;
+    new_move.target.rank = target_rank;
+    store_capture(new_move);
 }
 
 void CMoveList::store_pawn_capture(const int source_file, const int source_rank, const int target_file, const int target_rank) {
