@@ -18,7 +18,6 @@ constexpr int BLACK_MIN_SCORE = INT_MAX - 1000;
 SMove CSearch::search(int depth) {
     constexpr int min_meaningful_depth_to_avoid_illegal_moves = 2;
     depth = std::max(depth,  min_meaningful_depth_to_avoid_illegal_moves);
-    --depth;
     search_statistics.reset();
     search_statistics.set_depth(depth);
     nodes_calculated = 0;
@@ -38,7 +37,7 @@ SMove CSearch::search(int depth) {
         search_statistics.set_current_move(move_as_text(move_candidate));
         board.move_maker.make_move(move_candidate);
         ++nodes_calculated;
-        int candidate_score = alpha_beta(depth, alpha, beta); 
+        int candidate_score = alpha_beta(depth - 1, alpha, beta); 
         if ((side_to_move == WHITE_TO_MOVE) && (candidate_score > best_score)) {
             best_move = move_candidate;
             best_score = candidate_score;
