@@ -73,7 +73,6 @@ void CMoveList::store_pawn_move(const int source_file, const int source_rank, co
     }
 }
 
-
 void CMoveList::store_capture(const int source_file, const int source_rank, const int target_file, const int target_rank) {
     SMove new_move;
     new_move.source.file = source_file;
@@ -151,3 +150,4 @@ void CMoveList::prune_silent_moves() {
     assert(last_silent_move >= LIST_ORIGIN);
     last_silent_move = LIST_ORIGIN;
 }
+
