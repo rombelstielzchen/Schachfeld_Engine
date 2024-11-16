@@ -12,56 +12,43 @@ int CEvaluator::evaluate() const {
     int score = 0;
     for (int j = FILE_A; j <= FILE_H; ++j) {
         for (int k = RANK_1; k <= RANK_8; ++k) {
-            char piece = board.get_square(j, k);
-            switch (piece) {
-                case WHITE_KING:
-                    score += 20000;
-                    score += castling_bonus(j, k);
-                    break;
-                case WHITE_QUEEN:
-                    score += 900;
-                    score += central_bonus(j, k);
-                    break;
-                case WHITE_ROOK:
-                    score += 500;
-                    break;
-                case WHITE_BISHOP:
-                    score += 310;
-                    score += central_bonus(j, k);
-                    break;
-                case WHITE_KNIGHT:
-                    score += 290;
-                    score += central_bonus(j, k);
-                    break;
-                case WHITE_POWER:
-                    score += 100;
-                    break;
-                case BLACK_KING:
-                    score -= 20000;
-                    score -= castling_bonus(j, k);
-                    break;
-                case BLACK_QUEEN:
-                    score -= 900;
-                    score -= central_bonus(j, k);
-                    break;
-                case BLACK_ROOK:
-                    score -= 500;
-                    break;
-                case BLACK_BISHOP:
-                    score -= 310;
-                    score -= central_bonus(j, k);
-                    break;
-                case BLACK_KNIGHT:
-                    score -= 290;
-                    score -= central_bonus(j, k);
-                    break;
-                case BLACK_POWER:
-                    score -= 100;
-                    break;
-            }
+            score += evaluate_square(j, k);
         }
     }
     return score;
+}
+
+int CEvaluator::evaluate_square(const int file, const int rank) const {
+    char piece = board.get_square(file, rank);
+    switch (piece) {
+        case WHITE_KING:
+            return (20000 + castling_bonus(file, rank));
+        case WHITE_QUEEN:
+            return (900 + central_bonus(file, rank));
+        case WHITE_ROOK:
+            return 500;
+        case WHITE_BISHOP:
+            return (310 + central_bonus(file, rank));
+        case WHITE_KNIGHT:
+            return (290 + central_bonus(file, rank));
+        case WHITE_POWER:
+            return 100;
+        case BLACK_KING:
+            return (-20000 - castling_bonus(file, rank));
+        case BLACK_QUEEN:
+            return (-900 - central_bonus(file, rank));
+        case BLACK_ROOK:
+            return -500;
+        case BLACK_BISHOP:
+            return (-310 - central_bonus(file, rank));
+        case BLACK_KNIGHT:
+            return (-290 - central_bonus(file, rank));
+        case BLACK_POWER:
+            return -100;
+        default:
+            assert(piece == EMPTY_SQUARE);
+            return 0;
+    }
 }
 
 bool CEvaluator::evaluates_approximately_to(const int score) const {
