@@ -12,6 +12,8 @@ class CEvaluator {
     // For testing purposes
     bool evaluates_approximately_to(const int score) const;
   private:
+    int evaluate_square(const int file, const int rank) const;
+  private:
     // Temp function to get some minimal positional understanding
     int central_bonus(const int file, const int rank) const;
     int castling_bonus(const int file, const int rank) const;

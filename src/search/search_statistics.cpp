@@ -17,7 +17,7 @@ void CSearchStatistics::reset() {
 
 void CSearchStatistics::set_best_move(const std::string &best_move, const int score) {
     assert(move_in_range(text_to_basic_move(best_move)));
-    std::string info = "bestmove " + best_move + " score cp" + std::to_string(score);
+    std::string info = "bestmove " + best_move + " score cp " + std::to_string(score);
     CUciProtocol::send_info(info);
 }
 

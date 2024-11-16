@@ -16,7 +16,7 @@ CCommandInterface::CCommandInterface() {
 
 void CCommandInterface::go_depth(const int64_t depth_in_plies) {
 //    std::thread worker_thread(worker_go_depth, depth_in_plies);
-    std::thread worker_thread(worker_go_depth, 9);
+    std::thread worker_thread(worker_go_depth, 7);
     worker_thread.detach();
 }
 
