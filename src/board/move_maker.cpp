@@ -23,6 +23,7 @@ bool CMoveMaker::make_move(SMove move) {
     former_eng_passeng_files.push_back(board.get_eng_passeng_file());
     switch (move.move_type) {
         case MOVE_TYPE_NORMAL:
+        case MOVE_TYPE_CAPTURE:
             board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
             break;
         case MOVE_TYPE_DOUBLE_JUMP:
@@ -103,6 +104,7 @@ void CMoveMaker::unmake_move() {
     board.put_piece(move.target.file, move.target.rank, move.captured_piece);
     switch (move.move_type) {
         case MOVE_TYPE_NORMAL:
+        case MOVE_TYPE_CAPTURE:
         case MOVE_TYPE_DOUBLE_JUMP:
             break;
         case MOVE_TYPE_WHITE_SHORT_CASTLING:

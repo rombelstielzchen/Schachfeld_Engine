@@ -26,12 +26,14 @@ class CMoveList {
     SMove get_next();
     SMove lookup_move(const std::string &text_move) const;
   public:
-    void store_silent_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type = MOVE_TYPE_NORMAL);
-    void store_capture(const int source_file, const int source_rank, const int target_file, const int target_rank);
-    void store_pawn_capture(const int source_file, const int source_rank, const int target_file, const int target_rank);
+    void store_castling(const char move_type);
     void store_eng_passeng(const int source_file, const int source_rank, const int target_file, const int target_rank);
     // Special method for pawns, creating four moves on promotion
+    void store_pawn_capture(const int source_file, const int source_rank, const int target_file, const int target_rank);
     void store_pawn_move(const int source_file, const int source_rank, const int target_file, const int target_rank);
+  public:
+    void store_silent_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type = MOVE_TYPE_NORMAL);
+    void store_capture(const int source_file, const int source_rank, const int target_file, const int target_rank);
   public:
     void prune_silent_moves();
   private:

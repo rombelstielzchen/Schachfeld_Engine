@@ -21,6 +21,7 @@ constexpr char MOVE_TYPE_BLACK_LONG_CASTLING = 'l';
 constexpr char MOVE_TYPE_BLACK_SHORT_CASTLING = 's';
 constexpr char MOVE_TYPE_ENG_PASSENG = 'e';
 constexpr char MOVE_TYPE_DOUBLE_JUMP = 'j';
+constexpr char MOVE_TYPE_CAPTURE = 'x';
 constexpr char MOVE_TYPE_NORMAL = '\0';
 
 #pragma pack(push)
@@ -41,7 +42,10 @@ typedef struct {
 #pragma pack(pop)
 
 // Internal encoding of "none", "finished", "end of list"
-constexpr SMove NULL_MOVE = {{0, 0}, {0, 0}, MOVE_TYPE_NORMAL};
+constexpr SMove NULL_MOVE = {{0, 0}, 
+    {0, 0}, 
+    MOVE_TYPE_NORMAL
+};
 // Textual encoding according to the UCI-standard, 4 zeroes
 const std::string NULL_MOVE_AS_TEXT = "0000";
 
