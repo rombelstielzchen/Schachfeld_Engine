@@ -179,7 +179,14 @@ bool CTestMoveGenerator::test_prune_silent_moves() {
 bool CTestMoveGenerator::test_filter_by_target_square() {
     CTEST << "CTestMoveGenerator::test_filter_by_target_square() ...\n";
     board.set_start_position();
+    CMoveGenerator move_generator;
     board.move_maker.play_variation("d2d4 d7d5 c2c4 e7e6 b1c3 g8f6 g1f3 c7c6 c1g5 f8b4 c4d5");
+    move_generator.generate_all();
+    move_generator.move_list.prune_silent_moves();
+    EXPECT(move_generator.move_list.list_size() == 5);
+    SSquare d5 = { FILE_D, RANK_5 };
+    move_generator.move_list.filter_captures_by_target_square(d5);
+    EXPECT(move_generator.move_list.list_size() == 4);
     return true;
 }
 

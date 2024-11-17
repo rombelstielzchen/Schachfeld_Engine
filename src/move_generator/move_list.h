@@ -36,6 +36,7 @@ class CMoveList {
     void store_capture(const int source_file, const int source_rank, const int target_file, const int target_rank);
   public:
     void prune_silent_moves();
+    void filter_captures_by_target_square(const SSquare &target_square);
   private:
     void store_white_promotions(const int source_file, const int source_rank, const int target_file, const int target_rank);
     void store_black_promotions(const int source_file, const int source_rank, const int target_file, const int target_rank);

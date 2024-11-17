@@ -186,3 +186,6 @@ void CMoveList::store_castling(const char move_type) {
     store_silent_move(new_move);
 }
 
+void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
+}
+
