@@ -127,7 +127,8 @@ const std::vector<STestcaseMoveGenerator> testcases = {
 
 bool CTestMoveGenerator::test_everything() {
     BEGIN_TESTSUITE("CTestMoveGenerator");
-    EXPECT(test_move_list());
+    EXPECT(test_prune_silent_moves());
+    EXPECT(test_filter_by_target_square());
     EXPECT(test_positions());
     return true;
 }
@@ -159,8 +160,8 @@ bool CTestMoveGenerator::test(const STestcaseMoveGenerator &testcase) {
     return true;
 }
 
-bool CTestMoveGenerator::test_move_list() {
-    CTEST << "CTestMoveGenerator::test_move_list() ..." << std::endl;
+bool CTestMoveGenerator::test_prune_silent_moves() {
+    CTEST << "CTestMoveGenerator::test_prune_silent_moves() ..." << std::endl;
     board.set_start_position();
     CMoveGenerator move_generator;
     EXPECT(is_null_move(move_generator.move_list.get_next()));
@@ -172,6 +173,13 @@ bool CTestMoveGenerator::test_move_list() {
         SILENT_EXPECT(is_null_move(move) == false);
     }
     EXPECT(is_null_move(move_generator.move_list.get_next()));
+    return true;
+}
+
+bool CTestMoveGenerator::test_filter_by_target_square() {
+    CTEST << "CTestMoveGenerator::test_filter_by_target_square() ...\n";
+    board.set_start_position();
+    board.move_maker.play_variation("d2d4 d7d5 c2c4 e7e6 b1c3 g8f6 g1f3 c7c6 c1g5 f8b4 c4d5");
     return true;
 }
 

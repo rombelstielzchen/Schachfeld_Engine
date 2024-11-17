@@ -16,6 +16,7 @@ class CMoveMaker {
     void unmake_move();
     void unmake_all();
     bool play_variation(const std::string &variation);
+    void reset_history();
   private:
     std::vector<SMove> move_history;
     std::vector <int> former_eng_passeng_files;

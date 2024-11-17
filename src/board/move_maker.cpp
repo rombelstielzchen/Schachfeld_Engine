@@ -10,6 +10,7 @@
 #include "../technical_functions/string_functions.h"
 
 CMoveMaker::CMoveMaker() {
+    reset_history();
 }
 
 bool CMoveMaker::make_move(SMove move) {
@@ -87,6 +88,8 @@ bool CMoveMaker::make_move(const std::string &long_algebraic_uci_move) {
     if (is_null_move(move)) {
         return false;
     }
+    //!!!
+//!!!    std::cerr << move_as_text(move) << "\n";
     return make_move(move);
 }
 
@@ -165,5 +168,10 @@ bool CMoveMaker::play_variation(const std::string &variation) {
         next_move = tokenizer.next_token();
     }
     return true;
+}
+
+void CMoveMaker::reset_history() {
+    move_history.clear();
+    former_eng_passeng_files.clear();
 }
 
