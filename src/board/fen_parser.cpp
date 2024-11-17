@@ -33,6 +33,8 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
         lack_of_errors &= parse_move_counter(tokenizer.next_token());
     }
     std::string optional_move = tokenizer.next_token();
+    board.move_maker.reset_history();
+    // TODO: play_variation()
     while (optional_move != "") {
         lack_of_errors &= parse_move(optional_move);
         optional_move = tokenizer.next_token();

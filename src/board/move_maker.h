@@ -8,6 +8,7 @@
 #include "../technical_functions/standard_headers.h"
 
 class CMoveMaker {
+    friend class CTestMoveMaker;
   public:
     CMoveMaker();
   public:
