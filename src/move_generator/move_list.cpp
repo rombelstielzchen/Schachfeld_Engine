@@ -187,5 +187,13 @@ void CMoveList::store_castling(const char move_type) {
 }
 
 void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
+    prune_silent_moves();
+    for (int j = first_capture; j < LIST_ORIGIN; ++j) {
+        SMove move = bidirectional_move_list[j];
+        if ((move.target.file == target_square.file) && (move.target.rank == target_square.rank)) {
+            store_silent_move(move);
+        }
+    }
+    first_capture = LIST_ORIGIN;
 }
 
