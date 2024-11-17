@@ -130,5 +130,3 @@ void CBoard::put_piece(const int file, const int rank, char piece) {
     squares[file][rank] = piece;
 }
 
-CBoard board;
-

@@ -137,5 +137,5 @@ class CBoard {
 };
 
 // Global board, as "everybody" needs easy access to it
-extern CBoard board;
+inline CBoard board;
 
