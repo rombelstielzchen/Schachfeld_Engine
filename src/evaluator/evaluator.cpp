@@ -18,6 +18,10 @@ int CEvaluator::evaluate() const {
     return score;
 }
 
+int CEvaluator::evaluate_square(const SSquare &square) const {
+    return evaluate_square(square.file, square.rank);
+}
+
 int CEvaluator::evaluate_square(const int file, const int rank) const {
     char piece = board.get_square(file, rank);
     switch (piece) {

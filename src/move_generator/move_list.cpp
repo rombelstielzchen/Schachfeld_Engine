@@ -197,3 +197,8 @@ void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
     first_capture = LIST_ORIGIN;
 }
 
+SMove CMoveList::get_least_valuable_aggressor() const {
+    // TODO
+    return NULL_MOVE;
+}
+

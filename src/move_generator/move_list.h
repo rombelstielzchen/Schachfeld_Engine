@@ -24,6 +24,7 @@ class CMoveList {
     int list_size() const;
     SMove get_random() const;
     SMove get_next();
+    SMove get_least_valuable_aggressor() const;
     SMove lookup_move(const std::string &text_move) const;
   public:
     void store_castling(const char move_type);
