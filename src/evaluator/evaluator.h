@@ -10,11 +10,11 @@
 class CEvaluator {
   public:
     int evaluate() const;
+    int evaluate_square(const SSquare &square) const;
   public:
     // For testing purposes
     bool evaluates_approximately_to(const int score) const;
   private:
-    int evaluate_square(const SSquare &square) const;
     int evaluate_square(const int file, const int rank) const;
   private:
     // Temp function to get some minimal positional understanding

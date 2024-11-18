@@ -188,6 +188,7 @@ bool CTestMoveGenerator::test_filter_by_target_square() {
     move_generator.move_list.filter_captures_by_target_square(d5);
     EXPECT(move_generator.move_list.list_size() == 4);
     SMove move = move_generator.move_list.get_least_valuable_aggressor();
+    CTEST << "Least_valuanle_aggressot: " << move_as_text(move) << "\n";
     EXPECT((move_as_text(move) == "c6d5") || (move_as_text(move) == "e6d5"));
     return true;
 }

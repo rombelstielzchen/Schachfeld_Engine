@@ -198,7 +198,15 @@ void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
 }
 
 SMove CMoveList::get_least_valuable_aggressor() const {
-    // TODO
-    return NULL_MOVE;
+    int least_value = INT_MAX;
+    SMove best_move = NULL_MOVE;
+    for (unsigned int j = first_capture; j < last_silent_move; ++j) {
+        int piece_value = abs(board.evaluator.evaluate_square(bidirectional_move_list[j].source));
+        if (piece_value < least_value) {
+            least_value = piece_value;
+            best_move = bidirectional_move_list[j];
+        }
+    }
+    return best_move;
 }
 
