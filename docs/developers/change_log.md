@@ -5,6 +5,7 @@ Version 0.8
 -----------
 * Alpha-beta-pruning,a more advanced search-strategy
 * A very basic, temporary, evaluation function
+* Recapture-extension, allowing the players to recapture, in order to avoid stupid captures and over-optimistic evaluations at the end of the search.
 
 Version 0.7
 -----------
@@ -23,7 +24,7 @@ Version 0.2
 
 Version 0.5
 -----------
-* A very vasic opening-book, imülemented as an internal list of vaeiations in text-form
+* A very vasic opening-book, implemented as an internal list of vaeiations in text-form
 
 Version 0.4
 -----------
