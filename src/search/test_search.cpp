@@ -20,7 +20,7 @@ const std::vector<STestcaseSearch> testcases = {
     // Two pawns under attack, one protected by recapture
     { 3, "d5e6", "8/1p6/2p1p3/3P3K w" },
     // Two knights under attack, one protected by recapture
-//    { 2, "a6a4", "8/6k1/R6n/8/n7/8/8/K7 w" }, 
+    { 4, "a6a4", "8/6k1/R6n/8/n7/8/8/K7 w" }, 
     // Mate in 1, capturing the king in 3 plies
     { 3, "h6h8", "k6q/5R2/7R/8/8/8/8/K7 w" },
     // Skewer
@@ -29,9 +29,11 @@ const std::vector<STestcaseSearch> testcases = {
     { 3, "d4c2", "8/8/8/8/3n4/8/8/Q3K2k b" },
     // Smothered mate, very basic
     { 5, "a2g8", "5r1k/6pp/7N/8/8/8/Q7/7K w" },
+    // Requires recapture-extension
+    { 1, "e6a6", "8/5k2/n3R1b1/8/8/8/8/7K w" },
+    { 1, "b8c8", "RRb/p2b w" },
+    { 1, "a8a7", "RRb/p2b/4b w" },
 };
-// Requires recapture-extension
-//    { 2, "e6a6", "8/5k2/n3R1n1/8/8/8/8/7K w" },
 
 bool CTestSearch::test_everything() {
     BEGIN_TESTSUITE("CTestSearch");
