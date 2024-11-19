@@ -7,6 +7,8 @@ The Schachfeld-engine is a chess-engine, developped by some members of the Schac
 
 The engine supports the universal-chess-interface for communication with your favourite GUI. It uses a 12x12-board for calculation and is planned to receive an endgame clown with some funny mating patterns.
 
+[docs/developers/change_log.md](Change-log)
+
 
 How To Download
 ---------------
@@ -14,7 +16,7 @@ Not yet
 
 How to Use
 ----------
-Not yet
+Take yiur favourite graphical chess-prgram. There should be a menu-item like Menu -> Engines -> Install Engine..., that either opens a dialog or directly starts a file-selection-dialog. Here select the *SchachfeldEngine.exe*. If you get asked if the engine supports the uCI-protocol or the WinBoard-peorocol, choose UCI. The engine should be now ready to be used. Some GUIs will automatically start the new engine, others will ask you to start the active one. Have fun!
 
 How To Get The Source-Code
 --------------------------
@@ -25,11 +27,11 @@ How To Build
 * Get [Visual Studio 2022](https://visualstudio.microsoft.com/de/vs/community/) from MicroSoft for free (16.000 diskettes). Install especially the C++ development-tools on the left hand side of the installer.
 * Open the file "src/Visual_Studio/Schachfeld_Engine.sln".
 * Click Menu -> Build -> Rebuild All.
-* The command-line program "schachfeld.exe" should now exist in the folder "src/visual_studio/x64/debug", ready to be used.
+* The command-line program "schachfeld.exe" should now exist in the folder "src/visual_studio/x64/Release", ready to be used.
 
 ### On Linuxoid Systems ###
 * Make sure you have the following programs installed: g++, ld, make, perl, sed.
-* Open a DOS-Fensterle and change the directory to "/home/otto/desktop(schachfeld_engine/src" or whatever the username is, my dear Mr. Otto.
+* Open a DOS-Fensterle and change the directory to "/home/otto/desktop/schachfeld_engine/src" or whatever the username is, my dear Mr. Otto.
 * Run the "make" command.
 * Enjoy the "engine" program in your working directory.
 
