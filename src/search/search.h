@@ -13,9 +13,10 @@ class CSearch {
     SMove search(int depth);
   private:
     int alpha_beta(int remaining_depth, int alpha, int beta);
+    int recapture_extension(const SSquare &target_square, int alpha, int beta);
   private:
-    inline bool white_scpre_way_too_good(const int score, const int beta) const;
-    inline bool black_scpre_way_too_good(const int score, const int alpha) const;
+    inline bool white_score_way_too_good(const int score, const int beta) const;
+    inline bool black_score_way_too_good(const int score, const int alpha) const;
   private:
     CSearchStatistics search_statistics;
 };

@@ -30,6 +30,21 @@ bool is_null_move(const SMove move) {
         && (move.target.rank == NULL_MOVE.target.rank));
 }
 
+bool is_any_capture(const SMove &move) {
+    switch (move.move_type) {
+        case MOVE_TYPE_NORMAL:
+        case MOVE_TYPE_DOUBLE_JUMP:
+        case MOVE_TYPE_WHITE_SHORT_CASTLING:
+        case MOVE_TYPE_WHITE_LONG_CASTLING:
+        case MOVE_TYPE_BLACK_SHORT_CASTLING:
+        case MOVE_TYPE_BLACK_LONG_CASTLING:
+            return false;
+        default:
+            // captures, eng-passeng, promotions
+            return true;
+    }
+}
+
 bool is_any_piece(char square_or_move_type) {
     switch (square_or_move_type) {
         case WHITE_POWER:

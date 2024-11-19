@@ -16,6 +16,7 @@ constexpr int WHITE_MIN_SCORE = INT_MIN + 1000;
 constexpr int BLACK_MIN_SCORE = INT_MAX - 1000;
 
 SMove CSearch::search(int depth) {
+    assert(depth >= 0);
     constexpr int min_meaningful_depth_to_avoid_illegal_moves = 2;
     depth = std::max(depth,  min_meaningful_depth_to_avoid_illegal_moves);
     search_statistics.reset();
@@ -56,6 +57,8 @@ SMove CSearch::search(int depth) {
 }
 
 int CSearch::alpha_beta(int remaining_depth, int alpha, int beta) {
+    assert(remaining_depth >= 0);
+    assert(alpha <= beta);
     if (remaining_depth <= 0) {
         return board.evaluator.evaluate();
     }
@@ -73,16 +76,23 @@ int CSearch::alpha_beta(int remaining_depth, int alpha, int beta) {
         SMove move_candidate = move_generator.move_list.get_next();
         board.move_maker.make_move(move_candidate);
         ++nodes_calculated;
-        int candidate_score = alpha_beta(remaining_depth - 1, alpha, beta);
+        int candidate_score;
+        if (remaining_depth > 1) {
+            candidate_score = alpha_beta(remaining_depth - 1, alpha, beta);
+        } else if (is_any_capture(move_candidate)) {
+            candidate_score = recapture_extension(move_candidate.target, alpha, beta);
+        } else {
+            candidate_score = board.evaluator.evaluate();
+        }
         board.move_maker.unmake_move();
         if ((side_to_move == WHITE_TO_MOVE) && (candidate_score > best_score)) {
-            if (white_scpre_way_too_good(candidate_score, beta)) {
+            if (white_score_way_too_good(candidate_score, beta)) {
                 return beta;
             }
             best_score = candidate_score;
             alpha = std::max(alpha, best_score);
         } else if ((side_to_move == BLACK_TO_MOVEE) && (candidate_score < best_score)) {
-            if (black_scpre_way_too_good(candidate_score, alpha)) {
+            if (black_score_way_too_good(candidate_score, alpha)) {
                 return alpha;
             }
             best_score = candidate_score;
@@ -92,11 +102,41 @@ int CSearch::alpha_beta(int remaining_depth, int alpha, int beta) {
     return best_score;
 }
 
-inline bool CSearch::white_scpre_way_too_good(const int score, const int beta) const {
+int CSearch::recapture_extension(const SSquare &target_square, int alpha, int beta) {
+    assert(square_in_range(target_square));
+    assert(alpha <= beta);
+    int score = board.evaluator.evaluate();
+    if (board.get_side_to_move() == WHITE_TO_MOVE) {
+        if (white_score_way_too_good(score, beta)) {
+            return beta;
+        }
+    } else {
+        if (black_score_way_too_good(score, alpha)) {
+            return alpha;
+        }
+    }
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    move_generator.move_list.filter_captures_by_target_square(target_square);
+    SMove recapture = move_generator.move_list.get_least_valuable_aggressor();
+    if (is_null_move(recapture)) {
+        return score;
+    }
+    assert(move_in_range(recapture));
+    assert(recapture.target.file == target_square.file);
+    assert(recapture.target.rank == target_square.rank);
+    board.move_maker.make_move(recapture);
+    // Recursion guaranteed to terminate, as recaptures are limited
+    score = recapture_extension(target_square, alpha, beta);
+    board.move_maker.unmake_move();
+    return score;
+}
+
+inline bool CSearch::white_score_way_too_good(const int score, const int beta) const {
     return (score >= beta);
 }
 
-inline bool CSearch::black_scpre_way_too_good(const int score, const int alpha) const {
+inline bool CSearch::black_score_way_too_good(const int score, const int alpha) const {
     return (score <= alpha);
 }
 
