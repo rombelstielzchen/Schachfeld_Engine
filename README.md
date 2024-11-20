@@ -7,7 +7,7 @@ The Schachfeld-engine is a chess-engine, developped by some members of the Schac
 
 The engine supports the universal-chess-interface for communication with your favourite GUI. It uses a 12x12-board for calculation and is planned to receive an endgame clown with some funny mating patterns.
 
-[docs/developers/change_log.md](Change-log)
+[Change-log](docs/developers/change_log.md)
 
 
 How To Download

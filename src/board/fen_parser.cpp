@@ -9,8 +9,6 @@
 #include "move_maker.h"
 #include "../technical_functions/string_functions.h"
 
-const std::string NO_MOVES_FROM_STARTPOS = "You better calculate, buddy!";
-
 bool CFenParser::parse(const std::string &fen_board_specification) {
     DEBUG_METHOD();
     bool lack_of_errors = true;
@@ -171,18 +169,8 @@ bool CFenParser::parse_move_counter(const std::string &partial_input) {
     return true;
 }
 
-bool CFenParser::parse_move(std::string move_as_text) {
-    DEBUG_METHOD();
-    DEBUG_VALUE_OF(move_as_text);
-    if (move_as_text == "moves") {
-       // Token starts sequence of optional moves, Ignore it.
-       return true;
-    }
-    return board.move_maker.make_move(move_as_text);
-}
-
 void CFenParser::extract_moves_from_startpos(const std::string &position_command) {
-    board.moves_from_startpos = NO_MOVES_FROM_STARTPOS;
+    board.moves_from_startpos = ""; 
     CStringTokenizer tokenizer(position_command);
     std::string next_token = tokenizer.next_token();
     if (next_token != "startpos")  {

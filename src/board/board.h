@@ -87,7 +87,7 @@ typedef std::array<TSquare, BOARDSIZE_Y> TBoardColumn;
 constexpr bool WHITE_TO_MOVE = true;
 constexpr bool BLACK_TO_MOVEE = false;
 
-const std::string START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+inline const std::string START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 class CBoard {
     friend class CFenParser;
