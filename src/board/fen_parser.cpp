@@ -32,14 +32,9 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
         lack_of_errors &= parse_100_ply_draw_counter(tokenizer.next_token());
         lack_of_errors &= parse_move_counter(tokenizer.next_token());
     }
-    std::string optional_move = tokenizer.next_token();
     board.move_maker.reset_history();
-    // TODO: play_variation()
-    while (optional_move != "") {
-        lack_of_errors &= parse_move(optional_move);
-        optional_move = tokenizer.next_token();
-    }
     extract_moves_from_startpos(fen_board_specification);
+    lack_of_errors = board.move_maker.play_variation(board.get_moves_from_startpos());
     return lack_of_errors;
 }
 
@@ -185,7 +180,6 @@ bool CFenParser::parse_move(std::string move_as_text) {
     }
     return board.move_maker.make_move(move_as_text);
 }
-
 
 void CFenParser::extract_moves_from_startpos(const std::string &position_command) {
     board.moves_from_startpos = NO_MOVES_FROM_STARTPOS;

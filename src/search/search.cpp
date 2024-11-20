@@ -126,6 +126,7 @@ int CSearch::recapture_extension(const SSquare &target_square, int alpha, int be
     assert(recapture.target.file == target_square.file);
     assert(recapture.target.rank == target_square.rank);
     board.move_maker.make_move(recapture);
+    ++nodes_calculated;
     // Recursion guaranteed to terminate, as recaptures are limited
     score = recapture_extension(target_square, alpha, beta);
     board.move_maker.unmake_move();
