@@ -24,7 +24,7 @@ bool is_prefix_of(const std::string &pattern, const std::string &long_string, bo
     return true;
 }
 
-constexpr int VARIATION_NOT_FOUND = -1;
+constexpr size_t VARIATION_NOT_FOUND = std::string::npos;
 
 COpeningBook::COpeningBook() {
     DEBUG_METHOD();
@@ -55,7 +55,7 @@ std::string COpeningBook::get_move(const std::string &moves_from_startpos_in_uci
 size_t COpeningBook::first_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const {
     DEBUG_METHOD();
     size_t size = book.size(); 
-    for (int j = 0; j < size; ++j) {
+    for (size_t j = 0; j < size; ++j) {
          if (is_prefix_of(moves_from_startpos_in_uci_format, book[j], true)) {
             return j;
         }

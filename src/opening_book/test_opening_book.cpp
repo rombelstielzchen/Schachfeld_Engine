@@ -44,9 +44,9 @@
  bool CTestOpeningBook::test_sortedness(const TSortedVariationCollection &variation_collection) {
     std::cerr << "CTestOpeningBook::test_sortedness() ..." << std::endl;
      size_t second_last = variation_collection.size() - 2;
-     for (int i = 0; i <= second_last; ++i) {
-        CTEST << "Sorted? " << variation_collection[i] << std::endl;
-        SILENT_EXPECT(variation_collection[i].compare(variation_collection[i + 1]) < 0);
+     for (size_t j = 0; j <= second_last; ++j) {
+        CTEST << "Sorted? " << variation_collection[j] << std::endl;
+        SILENT_EXPECT(variation_collection[j].compare(variation_collection[j + 1]) < 0);
      }
     return true;
  }
