@@ -33,6 +33,13 @@ const std::vector<STestcaseSearch> testcases = {
     { 1, "e6a6", "8/5k2/n3R1b1/8/8/8/8/7K w" },
     { 1, "b8c8", "RRb/p2b w" },
     { 1, "a8a7", "RRb/p2b/4b w" },
+    { 1, "d5e4", "q/Bq/2q/3q/4R/5Q/6Q/7Q b" },
+    { 1, "d5e4", "q/Bq/2q/3q/4R/5Q/6Q/7Q b" },
+    { 1, "b7a7", "q/Bq/2q/3R/4Q/5Q/6Q/7Q b" },
+    { 1, "b7a7", "8/Bq/2q/3q/4R/5Q/6Q/7Q b" },
+    { 1, "c8d8", "rrrQRRR b" },
+    { 1, "b8c8", "RRnq/2k w" },
+    { 1, "c6b6", "B/1B/1pQ/3b/4b w" },
 };
 
 bool CTestSearch::test_everything() {
