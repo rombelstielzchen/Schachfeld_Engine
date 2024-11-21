@@ -37,7 +37,7 @@ SMove CMoveList::get_next() {
 SMove CMoveList::lookup_move(const std::string &text_move) const {
     const SMove basic_move = text_to_basic_move(text_move);
     assert(last_silent_move >= first_capture);
-    for (int j = first_capture; j < last_silent_move; ++j) {
+    for (unsigned int j = first_capture; j < last_silent_move; ++j) {
         if (move_coords_are_equal(basic_move, bidirectional_move_list[j])) {
             // TODO: possible under-promotions
             return bidirectional_move_list[j];
@@ -188,7 +188,7 @@ void CMoveList::store_castling(const char move_type) {
 
 void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
     prune_silent_moves();
-    for (int j = first_capture; j < LIST_ORIGIN; ++j) {
+    for (unsigned int j = first_capture; j < LIST_ORIGIN; ++j) {
         SMove move = bidirectional_move_list[j];
         if ((move.target.file == target_square.file) && (move.target.rank == target_square.rank)) {
             store_silent_move(move);
