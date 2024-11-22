@@ -7,9 +7,6 @@
 #include "../evaluator/evaluator.h"
 #include "../move_generator/move_generator.h"
 
-// TODO: extra class for statistics
-uint64_t nodes_calculated = 0;
-
 // We need some range here in order to distinguish different depths to mate,
 // avoiding nonsense moves to longer nates or worse
 constexpr int WHITE_MIN_SCORE = INT_MIN + 1000;
