@@ -31,6 +31,11 @@
     EXPECT(tokenizer.next_token() == "world");
     // Extra space at the end, as "the rest" gets re-constructed from tokens
     EXPECT(tokenizer.get_the_rest() == "greetings from the moon ");
+    // is_prefix_of
+    EXPECT(is_prefix_of("bob","bobby") == true);
+    EXPECT(is_prefix_of("bobby","bobby") == true);
+    EXPECT(is_prefix_of("bobby","bobby", true) == false);
+    EXPECT(is_prefix_of("bobby","tolya") == false);
     return true;
 }
 

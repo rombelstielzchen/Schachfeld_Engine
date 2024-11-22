@@ -10,19 +10,7 @@
 
 #include "opening_book.h"
 #include "book_data/gm_book.h"
-
-// TODO; move
-bool is_prefix_of(const std::string &pattern, const std::string &long_string, bool true_prefix = false) {
-    DEBUG_METHOD();
-    size_t pattern_size = pattern.length();
-    if (long_string.find(pattern) != 0) {
-        return false;
-    }
-    if (true_prefix && (pattern_size == long_string.length())) {
-        return false;
-    }
-    return true;
-}
+#include "../technical_functions/string_functions.h"
 
 constexpr size_t VARIATION_NOT_FOUND = std::string::npos;
 

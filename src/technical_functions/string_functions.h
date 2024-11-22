@@ -15,6 +15,9 @@ void trim_right(std::string &in_out_string);
     
 void trim(std::string &in_out_string);
 
+
+bool is_prefix_of(const std::string &pattern, const std::string &long_string, bool true_prefix = false);
+
 class CStringTokenizer {
   public:
     CStringTokenizer(const std::string &input = "");

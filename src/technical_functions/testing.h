@@ -26,7 +26,7 @@ if ((condition)) { \
 ++testcase_counter; \
 if ((condition) == false) { \
     --testcase_counter; \
-   EXPECT(condition); \ 
+   EXPECT(condition); \
 }
 
 #define BEGIN_TESTSUITE(name) CTEST << "TESTSUITE " << (name) << std::endl;
