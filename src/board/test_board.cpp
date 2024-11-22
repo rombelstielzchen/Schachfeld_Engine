@@ -57,8 +57,8 @@ bool CTestBoard::test_accessors() {
     EXPECT(board.get_square(FILE_E, RANK_8) == BLACK_KING);
     EXPECT(board.square_is_empty(FILE_E, RANK_2) == false);
     EXPECT(board.square_is_empty(FILE_E, RANK_4) == true);
-    // Another position, leading to different results
-    // TODO: the other accessors
+    board.flip_side_to_move();
+    EXPECT(board.get_side_to_move() == BLACK_TO_MOVEE);
     return true;
 }
 
