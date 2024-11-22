@@ -20,7 +20,6 @@ bool CMoveMaker::make_move(SMove move) {
     board.clear_square(move.source.file, move.source.rank);
     move.captured_piece = board.get_square(move.target.file, move.target.rank);
     board.put_piece(move.target.file, move.target.rank, moving_piece);
-// TODO!!!
     former_eng_passeng_files.push_back(board.get_eng_passeng_file());
     switch (move.move_type) {
         case MOVE_TYPE_NORMAL:
@@ -147,7 +146,6 @@ void CMoveMaker::unmake_move() {
             break;
     }
     board.put_piece(move.source.file, move.source.rank, moving_piece);
-    // TODO: all special cases
 }
 
 void CMoveMaker::unmake_all() {
