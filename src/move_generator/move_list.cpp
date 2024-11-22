@@ -44,7 +44,6 @@ SMove CMoveList::lookup_move(const std::string &text_move) const {
     }
     for (unsigned int j = first_capture; j < last_silent_move; ++j) {
         if (move_coords_are_equal(basic_move, bidirectional_move_list[j])) {
-            // TODO: possible under-promotions
             return bidirectional_move_list[j];
         }
     }

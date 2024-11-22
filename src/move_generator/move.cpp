@@ -172,7 +172,6 @@ SMove text_to_basic_move(const std::string &text) {
     if (!move_in_range(move)) {
         return NULL_MOVE;
     }
-    // TODO promotion
     return move;
 }
  

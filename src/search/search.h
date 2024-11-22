@@ -19,5 +19,6 @@ class CSearch {
     inline bool black_score_way_too_good(const int score, const int alpha) const;
   private:
     CSearchStatistics search_statistics;
+    uint64_t nodes_calculated;
 };
 
