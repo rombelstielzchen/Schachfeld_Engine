@@ -35,8 +35,13 @@ SMove CMoveList::get_next() {
 }
 
 SMove CMoveList::lookup_move(const std::string &text_move) const {
-    const SMove basic_move = text_to_basic_move(text_move);
     assert(last_silent_move >= first_capture);
+     SMove basic_move = text_to_basic_move(text_move);
+    assert(basic_move.move_type == MOVE_TYPE_NORMAL);
+    if (text_move.length() > 4) {
+        basic_move.move_type = text_move[4];
+        assert(is_any_piece(basic_move.move_type));
+    }
     for (unsigned int j = first_capture; j < last_silent_move; ++j) {
         if (move_coords_are_equal(basic_move, bidirectional_move_list[j])) {
             // TODO: possible under-promotions

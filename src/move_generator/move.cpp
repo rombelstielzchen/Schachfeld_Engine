@@ -167,7 +167,6 @@ SMove text_to_basic_move(const std::string &text) {
         text_to_rank(text[1]),
         text_to_file(text[2]),
         text_to_rank(text[3]),
-        // TODO
         MOVE_TYPE_NORMAL
     };
     if (!move_in_range(move)) {

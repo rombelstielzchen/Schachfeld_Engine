@@ -88,8 +88,6 @@ bool CMoveMaker::make_move(const std::string &long_algebraic_uci_move) {
     if (is_null_move(move)) {
         return false;
     }
-    //!!!
-//!!!    std::cerr << move_as_text(move) << "\n";
     return make_move(move);
 }
 
