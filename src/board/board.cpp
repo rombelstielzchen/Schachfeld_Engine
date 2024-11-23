@@ -14,6 +14,8 @@ CBoard::CBoard() {
     init_garden_fence();
     clear();
     set_start_position();
+    assert(side_to_move == WHITE_TO_MOVE);
+    assert(move_counter > 0);
 }
 
 void CBoard::init_garden_fence() {
