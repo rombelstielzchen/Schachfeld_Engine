@@ -174,13 +174,9 @@ std::string CFenParser::extract_moves_from_position_command(const std::string &p
     std::string result = "";
     CStringTokenizer tokenizer(position_command);
     std::string next_token = tokenizer.next_token();
-    if (next_token != "startpos")  {
-        return "";
-    }
-    next_token = tokenizer.next_token();
-    if (next_token != "moves")  {
-        return "";
-    }
+   while ((next_token != "") && (next_token != "moves")) {
+       next_token = tokenizer.next_token();
+   }
     result = tokenizer.get_the_rest();
     trim(result);
     return result;
