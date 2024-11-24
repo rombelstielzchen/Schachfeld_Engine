@@ -10,18 +10,19 @@
 #include "../technical_functions/string_functions.h"
 
 bool CFenParser::parse(const std::string &fen_board_specification) {
-    DEBUG_METHOD();
+    bool startpos_seen = false;
     bool lack_of_errors = true;
     CStringTokenizer tokenizer(fen_board_specification);
     std::string piece_placement = tokenizer.next_token();
-    if (piece_placement == "fen") {
-        // Ignore "fen".  Position commands have this extra token, test-cases not.
-        piece_placement = tokenizer.next_token();
-    }
     if (piece_placement == "startpos") {
         // UCI may send "startpos" instead of a complicated FEN
+        startpos_seen = true;
         board.set_start_position();
     } else {
+        if (piece_placement == "fen") {
+        // Ignore "fen".  Position commands have this extra token, test-cases not.
+        piece_placement = tokenizer.next_token();
+        }
         // Standard case: full FEN, consisting of multiple tokens
         lack_of_errors &= parse_piece_placement(piece_placement);
         lack_of_errors &= parse_side_to_move(tokenizer.next_token());
