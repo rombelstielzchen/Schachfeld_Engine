@@ -10,18 +10,19 @@
 #include "../technical_functions/string_functions.h"
 
 bool CFenParser::parse(const std::string &fen_board_specification) {
-    DEBUG_METHOD();
+    std::string extra_moves = extract_moves_from_position_command(fen_board_specification);
     bool lack_of_errors = true;
     CStringTokenizer tokenizer(fen_board_specification);
     std::string piece_placement = tokenizer.next_token();
-    if (piece_placement == "fen") {
-        // Ignore "fen".  Position commands have this extra token, test-cases not.
-        piece_placement = tokenizer.next_token();
-    }
     if (piece_placement == "startpos") {
         // UCI may send "startpos" instead of a complicated FEN
         board.set_start_position();
+        board.moves_from_startpos = extra_moves;
     } else {
+        if (piece_placement == "fen") {
+        // Ignore "fen".  Position commands have this extra token, test-cases not.
+        piece_placement = tokenizer.next_token();
+        }
         // Standard case: full FEN, consisting of multiple tokens
         lack_of_errors &= parse_piece_placement(piece_placement);
         lack_of_errors &= parse_side_to_move(tokenizer.next_token());
@@ -29,10 +30,10 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
         lack_of_errors &= parse_eng_passeng(tokenizer.next_token());
         lack_of_errors &= parse_100_ply_draw_counter(tokenizer.next_token());
         lack_of_errors &= parse_move_counter(tokenizer.next_token());
+        board.moves_from_startpos = "-";
     }
     board.move_maker.reset_history();
-    extract_moves_from_startpos(fen_board_specification);
-    lack_of_errors = board.move_maker.play_variation(board.get_moves_from_startpos());
+    lack_of_errors = board.move_maker.play_variation(extra_moves);
     return lack_of_errors;
 }
 
@@ -169,18 +170,14 @@ bool CFenParser::parse_move_counter(const std::string &partial_input) {
     return true;
 }
 
-void CFenParser::extract_moves_from_startpos(const std::string &position_command) {
-    board.moves_from_startpos = ""; 
+std::string CFenParser::extract_moves_from_position_command(const std::string &position_command) {
+    std::string result = "";
     CStringTokenizer tokenizer(position_command);
     std::string next_token = tokenizer.next_token();
-    if (next_token != "startpos")  {
-        return;
-    }
-    board.moves_from_startpos = "";
-    next_token = tokenizer.next_token();
-    if (next_token != "moves")  {
-        return;
-    }
-    board.moves_from_startpos = tokenizer.get_the_rest();
-    trim(board.moves_from_startpos);
+   while ((next_token != "") && (next_token != "moves")) {
+       next_token = tokenizer.next_token();
+   }
+    result = tokenizer.get_the_rest();
+    trim(result);
+    return result;
 }

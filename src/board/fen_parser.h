@@ -25,6 +25,6 @@ class CFenParser {
     static bool parse_eng_passeng(const std::string &partial_input);
     static bool parse_100_ply_draw_counter(const std::string &partial_input);
     static bool parse_move_counter(const std::string &partial_input);
-    static void extract_moves_from_startpos(const std::string &position_command);
+    static std::string extract_moves_from_position_command(const std::string &position_command);
 };
 
