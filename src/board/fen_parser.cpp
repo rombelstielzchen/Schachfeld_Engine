@@ -31,7 +31,7 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
         lack_of_errors &= parse_move_counter(tokenizer.next_token());
     }
     board.move_maker.reset_history();
-    extract_moves_from_startpos(fen_board_specification);
+    extract_moves_from_position_command(fen_board_specification);
     lack_of_errors = board.move_maker.play_variation(board.get_moves_from_startpos());
     return lack_of_errors;
 }
@@ -169,7 +169,7 @@ bool CFenParser::parse_move_counter(const std::string &partial_input) {
     return true;
 }
 
-void CFenParser::extract_moves_from_startpos(const std::string &position_command) {
+void CFenParser::extract_moves_from_position_command(const std::string &position_command) {
     board.moves_from_startpos = ""; 
     CStringTokenizer tokenizer(position_command);
     std::string next_token = tokenizer.next_token();
