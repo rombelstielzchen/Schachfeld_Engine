@@ -40,6 +40,7 @@ void CBoard::clear() {
 
 void CBoard::set_start_position() {
     set_fen_position(START_POSITION);
+    moves_from_startpos = "";
     assert(get_fen_position() == START_POSITION);
     assert(get_side_to_move() == WHITE_TO_MOVE);
     assert(get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
@@ -47,8 +48,8 @@ void CBoard::set_start_position() {
 
 bool CBoard::set_fen_position(const std::string &position) {
     clear();
-    bool success = CFenParser::parse(position);
     moves_from_startpos = "";
+    bool success = CFenParser::parse(position);
     std::cerr << "New position: " << get_fen_position() << std::endl;
     return success;
 }

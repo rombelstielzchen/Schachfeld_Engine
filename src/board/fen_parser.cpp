@@ -17,7 +17,7 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
     if (piece_placement == "startpos") {
         // UCI may send "startpos" instead of a complicated FEN
         board.set_start_position();
-    board.moves_from_startpos = extra_moves;
+        board.moves_from_startpos = extra_moves;
     } else {
         if (piece_placement == "fen") {
         // Ignore "fen".  Position commands have this extra token, test-cases not.
@@ -30,7 +30,7 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
         lack_of_errors &= parse_eng_passeng(tokenizer.next_token());
         lack_of_errors &= parse_100_ply_draw_counter(tokenizer.next_token());
         lack_of_errors &= parse_move_counter(tokenizer.next_token());
-        board.moves_from_startpos = extra_moves;
+        board.moves_from_startpos = "-";
     }
     board.move_maker.reset_history();
     lack_of_errors = board.move_maker.play_variation(extra_moves);
