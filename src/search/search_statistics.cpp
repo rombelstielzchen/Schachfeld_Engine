@@ -39,7 +39,8 @@ void CSearchStatistics::set_nodes(const int64_t nodes) {
    std::chrono::duration<float> used_time_seconds = now_time - start_time; 
     assert(used_time_seconds.count() > 0);
     int64_t nodes_per_second = nodes / used_time_seconds.count();
-    std::string info = "nodes " + std::to_string(nodes) + " nps " + std::to_string(nodes_per_second);
+   int64_t used_time_milliseconds = static_cast<int64_t>(used_time_seconds.count() * 1000);
+    std::string info = "nodes " + std::to_string(nodes) + " time " + std::to_string(used_time_milliseconds) + " nps " + std::to_string(nodes_per_second);
     CUciProtocol::send_info(info);
 }
 
