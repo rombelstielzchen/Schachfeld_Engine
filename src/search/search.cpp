@@ -7,11 +7,6 @@
 #include "../evaluator/evaluator.h"
 #include "../move_generator/move_generator.h"
 
-// We need some range here in order to distinguish different depths to mate,
-// avoiding nonsense moves to longer nates or worse
-constexpr int WHITE_MIN_SCORE = INT_MIN + 1000;
-constexpr int BLACK_MIN_SCORE = INT_MAX - 1000;
-
 SMove CSearch::search(int depth) {
     assert(depth >= 0);
     constexpr int min_meaningful_depth_to_avoid_illegal_moves = 2;
