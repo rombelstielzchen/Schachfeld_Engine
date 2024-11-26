@@ -7,7 +7,7 @@
 #include "uci_protocol.h"
 #include "../board/board.h"
 #include "../opening_book/opening_book.h"
-#include "../search/search.h"
+#include "../search/iterative_deepening.h"
 #include "../technical_functions/standard_headers.h"
 
 CCommandInterface::CCommandInterface() {
@@ -92,7 +92,7 @@ void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
         send_best_move(book_move);
         return;
     }
-    CSearch searcher;
+    CIterativeDeepening searcher;
     SMove calculated_move = searcher.search(depth_in_plies);
     assert(move_in_range(calculated_move));
     send_best_move(calculated_move);
