@@ -13,8 +13,6 @@ constexpr int WHITE_MIN_SCORE = INT_MIN + 1000;
 constexpr int BLACK_MIN_SCORE = INT_MAX - 1000;
 
 class CSearch {
-  private:
-    SMove search(int depth);
   public:
     int alpha_beta(int remaining_depth, int alpha, int beta);
   private:
