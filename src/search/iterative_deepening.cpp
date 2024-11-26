@@ -19,9 +19,9 @@ SMove CIterativeDeepening::search(int depth) {
     depth = std::max(depth,  min_meaningful_depth_to_avoid_illegal_moves);
     best_move = NULL_MOVE;
     move_generator.generate_all();
-    for (int j = min_meaningful_depth_to_avoid_illegal_moves; j <= depth; ++j) {
+    for (int current_depth = min_meaningful_depth_to_avoid_illegal_moves; current_depth <= depth; ++current_depth) {
         move_generator.move_list.reuse_list();
-        root_node_search(depth);
+        root_node_search(current_depth);
     }
     return best_move;
 }
