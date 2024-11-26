@@ -20,4 +20,5 @@ class CSearchStatistics {
     std::chrono::time_point<std::chrono::high_resolution_clock> start_time, now_time;
 };
 
+inline CSearchStatistics search_statistics;
 

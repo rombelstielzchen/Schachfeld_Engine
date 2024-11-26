@@ -5,7 +5,6 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-#include "search_statistics.h"
 #include"../move_generator/move.h"
 
 // We need some range here in order to distinguish different depths to mate,
@@ -23,7 +22,6 @@ class CSearch {
     inline bool white_score_way_too_good(const int score, const int beta) const;
     inline bool black_score_way_too_good(const int score, const int alpha) const;
   private:
-    CSearchStatistics search_statistics;
     uint64_t nodes_calculated;
 };
 
