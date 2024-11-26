@@ -16,5 +16,6 @@ class CIterativeDeepening {
   private:
     // Long-living at the root-node for better move-ordering
     CMoveGenerator move_generator;
+    SMove best_move;
 };
 

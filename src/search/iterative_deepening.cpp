@@ -8,12 +8,16 @@
 #include "search_statistics.h"
 
 int64_t nodes_calculated = 0; //!!!
+                           CIterativeDeepening::CIterativeDeepening() {
+    best_move = NULL_MOVE;
+}
 
 constexpr int min_meaningful_depth_to_avoid_illegal_moves = 2;
 
 SMove CIterativeDeepening::search(int depth) {
     assert(depth >= 0);
     depth = std::max(depth,  min_meaningful_depth_to_avoid_illegal_moves);
+    best_move = NULL_MOVE;
     move_generator.generate_all();
     for (int j = min_meaningful_depth_to_avoid_illegal_moves; j <= depth; ++j) {
         root_node_search(depth);

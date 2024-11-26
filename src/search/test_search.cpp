@@ -4,7 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include"test_search.h"
-#include "search.h"
+#include "iterative_deepening.h"
 #include "../board/board.h"
 #include "../technical_functions/testing.h"
 
@@ -54,7 +54,7 @@ bool CTestSearch::test_position(const STestcaseSearch &testcase) {
     CTEST << "Searching: " << testcase.fen_position << "\n";
     CTEST << "Expecting: " << testcase.expected_move << "\n";
     board.set_fen_position(testcase.fen_position);
-    CSearch searcher;
+    CIterativeDeepening searcher;
     SMove best_move = searcher.search(testcase.depth);
     CTEST << "Got move: " << move_as_text(best_move) << "\n";
     EXPECT(move_as_text(best_move) == testcase.expected_move);
