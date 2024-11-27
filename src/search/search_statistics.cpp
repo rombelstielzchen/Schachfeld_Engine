@@ -7,12 +7,16 @@
 #include "../universal_chess_interface/uci_protocol.h"
 
 CSearchStatistics::CSearchStatistics() {
-    reset();
+    reset_all();
 }
 
-void CSearchStatistics::reset() {
+void CSearchStatistics::reset_all() {
     nodes_calculated = 0;
     start_time = std::chrono::high_resolution_clock::now();
+}
+
+void CSearchStatistics::reset_current_depth() {
+    // TODO
 }
 
 void CSearchStatistics::set_best_move(const std::string &best_move, const int score) {

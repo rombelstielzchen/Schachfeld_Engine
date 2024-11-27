@@ -9,7 +9,8 @@ class CSearchStatistics {
   public:
     CSearchStatistics();
   public:
-    void reset();
+    void reset_all();
+    void reset_current_depth();
     void set_best_move(const std::string &best_move, const int score);;
     void set_depth(const int depth);
     void set_current_move(const std::string &current_move);
