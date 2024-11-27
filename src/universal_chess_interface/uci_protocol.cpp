@@ -48,7 +48,7 @@ void CUciProtocol::process_message(const std::string &message) {
     } else if (command == "isready") {
         // Our first version is always and immediately ready
         send_message("readyok");
-    } else if (command == "position") {
+    } else if ((command == "position") || (command == "p")) {
         std::string fen_position = string_tokenizer.get_the_rest();
         if (!command_interface.set_position(fen_position)) {
             std::cerr << "ERROR: invalid position received via UCI" << std::endl;
@@ -83,7 +83,7 @@ void CUciProtocol::message_loop() {
         DEBUG_VALUE_OF(message);
         // Checking the input for an exact match in order to decouple
         // message_loop, string_tokenizer and process_message for better testability
-        if  ((message == "quit") || (message == "exit")) {
+        if  ((message == "quit") || (message == "exit") || (message == "x")) {
             break;
         }
         process_message(message);

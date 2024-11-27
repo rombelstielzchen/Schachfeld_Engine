@@ -14,12 +14,12 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
     bool lack_of_errors = true;
     CStringTokenizer tokenizer(fen_board_specification);
     std::string piece_placement = tokenizer.next_token();
-    if (piece_placement == "startpos") {
+    if ((piece_placement == "startpos") || (piece_placement == "s")) {
         // UCI may send "startpos" instead of a complicated FEN
         board.set_start_position();
         board.moves_from_startpos = extra_moves;
     } else {
-        if (piece_placement == "fen") {
+        if ((piece_placement == "fen") || (piece_placement == "f")) {
         // Ignore "fen".  Position commands have this extra token, test-cases not.
         piece_placement = tokenizer.next_token();
         }
@@ -174,7 +174,7 @@ std::string CFenParser::extract_moves_from_position_command(const std::string &p
     std::string result = "";
     CStringTokenizer tokenizer(position_command);
     std::string next_token = tokenizer.next_token();
-   while ((next_token != "") && (next_token != "moves")) {
+   while ((next_token != "") && (next_token != "moves") && (next_token != "m")) {
        next_token = tokenizer.next_token();
    }
     result = tokenizer.get_the_rest();
