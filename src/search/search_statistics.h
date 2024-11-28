@@ -9,15 +9,20 @@ class CSearchStatistics {
   public:
     CSearchStatistics();
   public:
-    void reset();
+    void reset_all();
+    void reset_current_depth(int new_depth);
     void set_best_move(const std::string &best_move, const int score);;
-    void set_depth(const int depth);
-    void set_current_move(const std::string &current_move);
-    void set_nodes(const int64_t nodes);
-    void log_branching_factor(const int  nodees, const int depth) const;
+    void set_current_move(const std::string &current_move, int score);
+    void add_nodes(const int64_t nodes);
+    void log_branching_factor() const;
+  private:
+    std::string node_statistics() const;
   private:
     int64_t nodes_calculated;
-    std::chrono::time_point<std::chrono::high_resolution_clock> start_time, now_time;
+    int64_t nodes_at_start_of_current_depth;
+    int max_depth;
+    std::chrono::time_point<std::chrono::high_resolution_clock> start_time;
 };
 
+inline CSearchStatistics search_statistics;
 

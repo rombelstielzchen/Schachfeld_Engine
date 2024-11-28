@@ -214,3 +214,7 @@ SMove CMoveList::get_least_valuable_aggressor() const {
     return best_move;
 }
 
+void CMoveList::reuse_list() {
+    consumer_position = first_capture;
+}
+
