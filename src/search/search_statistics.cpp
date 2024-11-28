@@ -32,9 +32,9 @@ void CSearchStatistics::set_best_move(const std::string &best_move, const int sc
     CUciProtocol::send_info(info);
 }
 
-void CSearchStatistics::set_current_move(const std::string &current_move) {
+void CSearchStatistics::set_current_move(const std::string &current_move, int score) {
     assert(move_in_range(text_to_basic_move(current_move)));
-    std::string info = "currmove " + current_move;
+    std::string info = "currmove " + current_move + " score cp " + std::to_string(score) + node_statistics();
     CUciProtocol::send_info(info);
 }
 
@@ -42,15 +42,16 @@ void CSearchStatistics::add_nodes(const int64_t nodes) {
     assert(nodes > 0);
     nodes_calculated += nodes;
 }
-/*
-    now_time = std::chrono::high_resolution_clock::now();
+
+std::string CSearchStatistics::node_statistics() const {
+    std::chrono::time_point<std::chrono::high_resolution_clock> now_time = std::chrono::high_resolution_clock::now();
    std::chrono::duration<float> used_time_seconds = now_time - start_time; 
     assert(used_time_seconds.count() > 0);
-    int64_t nodes_per_second = nodes / used_time_seconds.count();
+    int64_t nodes_per_second = nodes_calculated / used_time_seconds.count();
    int64_t used_time_milliseconds = static_cast<int64_t>(used_time_seconds.count() * 1000);
-    std::string info = "nodes " + std::to_string(nodes) + " time " + std::to_string(used_time_milliseconds) + " nps " + std::to_string(nodes_per_second);
-    CUciProtocol::send_info(info);
-}*/
+    std::string info = " nodes " + std::to_string(nodes_calculated) + " time " + std::to_string(used_time_milliseconds) + " nps " + std::to_string(nodes_per_second);
+    return info;
+}
 
 void CSearchStatistics::log_branching_factor() const {
     // Approximate value, not considering extensions and reductions

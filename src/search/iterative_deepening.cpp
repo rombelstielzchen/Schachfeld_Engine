@@ -42,9 +42,9 @@ void CIterativeDeepening::root_node_search(int depth) {
         SMove move_candidate = move_generator.move_list.get_next();
         assert(is_null_move(move_candidate) == false);
         assert(move_in_range(move_candidate));
-        search_statistics.set_current_move(move_as_text(move_candidate));
         board.move_maker.make_move(move_candidate);
         int candidate_score = search.alpha_beta(depth - 1, alpha, beta); 
+        search_statistics.set_current_move(move_as_text(move_candidate), candidate_score);
         if ((side_to_move == WHITE_TO_MOVE) && (candidate_score > best_score)) {
             best_move = move_candidate;
             best_score = candidate_score;
