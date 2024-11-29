@@ -39,7 +39,7 @@ void CSearchStatistics::set_current_move(const std::string &current_move, int sc
 }
 
 void CSearchStatistics::add_nodes(const int64_t nodes) {
-    assert(nodes > 0);
+    assert(nodes >= 0);
     nodes_calculated += nodes;
 }
 

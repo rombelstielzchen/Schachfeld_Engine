@@ -40,6 +40,8 @@ const std::vector<STestcaseSearch> testcases = {
     { 1, "c8d8", "rrrQRRR b" },
     { 1, "b8c8", "RRnq/2k w" },
     { 1, "c6b6", "B/1B/1pQ/3b/4b w" },
+    // Former bug: counter-attacks in check
+    { 4, "h8g8", "5q1k/1q3pp1/8/8/8/8/7Q/K6R b" },
 };
 
 bool CTestSearch::test_everything() {
@@ -51,6 +53,9 @@ bool CTestSearch::test_everything() {
 }
 
 bool CTestSearch::test_position(const STestcaseSearch &testcase) {
+    assert(testcase.depth > 0);
+    assert(testcase.expected_move != "");
+    assert(testcase.fen_position != "");
     CTEST << "Searching: " << testcase.fen_position << "\n";
     CTEST << "Expecting: " << testcase.expected_move << "\n";
     board.set_fen_position(testcase.fen_position);
