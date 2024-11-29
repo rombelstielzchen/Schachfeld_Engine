@@ -104,6 +104,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);DEBUG_LOG_ENABLE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -118,6 +120,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,6 +148,7 @@
     <ClCompile Include="..\opening_book\book_data\gm_book.cpp" />
     <ClCompile Include="..\opening_book\opening_book.cpp" />
     <ClCompile Include="..\opening_book\test_opening_book.cpp" />
+    <ClCompile Include="..\search\iterative_deepening.cpp" />
     <ClCompile Include="..\search\search.cpp" />
     <ClCompile Include="..\search\search_statistics.cpp" />
     <ClCompile Include="..\search\test_search.cpp" />
@@ -171,6 +176,7 @@
     <ClInclude Include="..\opening_book\book_data\gm_book.h" />
     <ClInclude Include="..\opening_book\opening_book.h" />
     <ClInclude Include="..\opening_book\test_opening_book.h" />
+    <ClInclude Include="..\search\iterative_deepening.h" />
     <ClInclude Include="..\search\search.h" />
     <ClInclude Include="..\search\search_statistics.h" />
     <ClInclude Include="..\search\test_search.h" />
