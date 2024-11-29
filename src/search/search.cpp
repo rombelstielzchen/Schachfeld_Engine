@@ -8,11 +8,17 @@
 #include "../evaluator/evaluator.h"
 #include "../move_generator/move_generator.h"
 
+constexpr int HALF_KING = 10000;
+
 int CSearch::alpha_beta(int remaining_depth, int alpha, int beta) {
     assert(remaining_depth >= 0);
     assert(alpha <= beta);
+    int score = board.evaluator.evaluate();
     if (remaining_depth <= 0) {
-        return board.evaluator.evaluate();
+        return score;
+    }
+    if (abs(score) > HALF_KING) {
+        return score;
     }
     bool side_to_move = board.get_side_to_move();
     int best_score = (side_to_move == WHITE_TO_MOVE) ? WHITE_MIN_SCORE : BLACK_MIN_SCORE;
