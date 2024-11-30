@@ -181,3 +181,16 @@ bool move_coords_are_equal(const SMove &a, const SMove &b) {
        && (a.target.file == b .target.file)
        && (a.target.rank == b.target.rank));
 }
+
+bool operator == (const SSquare a, const SSquare b) {
+    return ((a.file == b.file) && (a.rank == b.rank));
+}
+
+bool operator ==(const SMove a, const SMove b) {
+    return ((a.source == b.source) && (a.target == b.target) && (a.move_type == b.move_type));
+}
+
+bool operator ==(const SMove a, const std::string &b) {
+    return (move_as_text(a) == b);
+}
+

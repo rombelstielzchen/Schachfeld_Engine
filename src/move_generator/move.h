@@ -76,4 +76,7 @@ uint8_t text_to_rank(const char rank_character);
 SMove text_to_basic_move(const std::string &text);
 
 bool move_coords_are_equal(const SMove &a, const SMove &b);
+bool operator == (const SSquare a, const SSquare b);
+bool operator ==(const SMove a, const SMove b);
+bool operator ==(const SMove a, const std::string &b);
 

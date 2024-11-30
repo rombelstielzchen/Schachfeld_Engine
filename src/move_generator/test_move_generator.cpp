@@ -190,20 +190,20 @@ bool CTestMoveGenerator::test_filter_by_target_square() {
     EXPECT(move_generator.move_list.list_size() == 4);
     SMove move = move_generator.move_list.get_least_valuable_aggressor();
     CTEST << "Least_valuanle_aggressot: " << move_as_text(move) << "\n";
-    EXPECT((move_as_text(move) == "c6d5") || (move_as_text(move) == "e6d5"));
+    EXPECT((move == "c6d5") || (move == "e6d5"));
     return true;
 }
 
 bool CTestMoveGenerator::test_reuse_list() {
     CTEST << "CMoveGenerator::true\n() ...";
     assert(testcases.size() > 42);
-    board.set_fen_position(testcases[42].fen_position);
+    SILENT_EXPECT(board.set_fen_position(testcases[42].fen_position));
     CMoveGenerator move_generator;
     move_generator.generate_all();
     SMove first_move = move_generator.move_list.get_next();
     move_generator.move_list.reuse_list();
     SMove first_move_again = move_generator.move_list.get_next();
-    EXPECT(move_as_text(first_move) == move_as_text(first_move_again));
+    EXPECT(first_move == first_move_again);
     return true;
 }
 
