@@ -54,6 +54,9 @@ constexpr int  RANK_GARDEN_FENCE_TOP_1 = 10;
 constexpr int  RANK_GARDEN_FENCE_TOP_2 = 11;
 constexpr int  RANK_NEWLINE_CHARACTER = 12;
 
+static_assert(FILE_LAST == BOARDSIZE_X - 1);
+static_assert(RANK_NEWLINE_CHARACTER == BOARDSIZE_Y - 1);
+
 // Eng-passeng gets stored as file of the opponents pawn
 constexpr int NO_ENG_PASSENG_POSSIBLE = FILE_GARDEN_FENCE_LEFT_1;
 

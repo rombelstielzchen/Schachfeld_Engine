@@ -39,6 +39,9 @@ typedef struct {
    char captured_piece;
 } SMove;
 
+static_assert(sizeof(SSquare) <= sizeof(int));
+static_assert(sizeof(SMove) <= sizeof(int64_t));
+
 #pragma pack(pop)
 
 // Internal encoding of "none", "finished", "end of list"
@@ -46,13 +49,14 @@ constexpr SMove NULL_MOVE = {{0, 0},
     {0, 0}, 
     MOVE_TYPE_NORMAL
 };
+
 // Textual encoding according to the UCI-standard, 4 zeroes
 inline const std::string NULL_MOVE_AS_TEXT = "0000";
 
 // Error value for ranks and files, when converting from bad textual input
 constexpr uint8_t ERROR_INVALID_COORDINATE = -1;
 
-bool file_in_range(const int file);
+ bool file_in_range(const int file);
 bool rank_in_range(const int rank);
 bool square_in_range(const SSquare square);
 bool move_in_range(const SMove move);

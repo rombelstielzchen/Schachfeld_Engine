@@ -9,8 +9,6 @@
 #include "../technical_functions/standard_headers.h"
 
 CBoard::CBoard() {
-    assert(FILE_LAST == BOARDSIZE_X - 1);
-    assert(RANK_NEWLINE_CHARACTER == BOARDSIZE_Y - 1);
     init_garden_fence();
     clear();
     set_start_position();
