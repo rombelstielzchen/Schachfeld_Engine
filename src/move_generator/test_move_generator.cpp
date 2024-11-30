@@ -225,6 +225,14 @@ bool CTestMoveGenerator::test_shift_current_move_to_top() {
     EXPECT(move_coords_are_equal(move_generator.move_list.get_next(), former_first));
     EXPECT(move_coords_are_equal(move_generator.move_list.get_next(), former_second));
     EXPECT(move_coords_are_equal(move_generator.move_list.get_next(), former_fourth));
+    // One more test, reordering a single move
+    std::string single_move_position = "8/8/P w";
+    SILENT_EXPECT(board.set_fen_position(single_move_position));
+    move_generator.generate_all();
+    SMove only_move = move_generator.move_list.get_next();
+    move_generator.move_list.shift_current_move_to_top();
+    move_generator.move_list.reuse_list();
+    EXPECT(move_coords_are_equal(move_generator.move_list.get_next(), only_move)); 
     return true;
 }
 
