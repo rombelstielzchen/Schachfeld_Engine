@@ -130,6 +130,7 @@ bool CTestMoveGenerator::test_everything() {
     EXPECT(test_prune_silent_moves());
     EXPECT(test_filter_by_target_square());
     EXPECT(test_reuse_list());
+    EXPECT(test_shift_current_move_to_top());
     EXPECT(test_positions());
     return true;
 }
@@ -204,6 +205,10 @@ bool CTestMoveGenerator::test_reuse_list() {
     move_generator.move_list.reuse_list();
     SMove first_move_again = move_generator.move_list.get_next();
     EXPECT(move_as_text(first_move) == move_as_text(first_move_again));
+    return true;
+}
+bool CTestMoveGenerator::test_shift_current_move_to_top() {
+    CTEST << "CTestMoveGenerator::test_shift_current_move_to_top() ,,,\n";
     return true;
 }
 

@@ -218,3 +218,5 @@ void CMoveList::reuse_list() {
     consumer_position = first_capture;
 }
 
+void CMoveList::shift_current_move_to_top() {
+}

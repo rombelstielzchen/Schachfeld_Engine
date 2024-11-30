@@ -38,7 +38,10 @@ class CMoveList {
   public:
     void prune_silent_moves();
     void filter_captures_by_target_square(const SSquare &target_square);
-  void reuse_list();
+  public:
+    // For root-node ordering
+    void reuse_list();
+    void shift_current_move_to_top();
   private:
     void store_white_promotions(const int source_file, const int source_rank, const int target_file, const int target_rank);
     void store_black_promotions(const int source_file, const int source_rank, const int target_file, const int target_rank);
