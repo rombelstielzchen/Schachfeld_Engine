@@ -208,7 +208,23 @@ bool CTestMoveGenerator::test_reuse_list() {
     return true;
 }
 bool CTestMoveGenerator::test_shift_current_move_to_top() {
-    CTEST << "CTestMoveGenerator::test_shift_current_move_to_top() ,,,\n";
+    CTEST << "CTestMoveGenerator::test_shift_current_move_to_top() ...\n";
+    const std::string position = "k1K w";
+    SILENT_EXPECT(board.set_fen_position(position));
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    int former_list_size = move_generator.move_list.list_size();
+    SMove former_first = move_generator.move_list.get_next();
+    SMove former_second = move_generator.move_list.get_next();
+    SMove former_third = move_generator.move_list.get_next();
+    move_generator.move_list.shift_current_move_to_top();
+    SMove former_fourth = move_generator.move_list.get_next();
+    move_generator.move_list.reuse_list();
+    EXPECT(move_generator.move_list.list_size() == former_list_size);
+    EXPECT(move_coords_are_equal(move_generator.move_list.get_next(), former_third));
+    EXPECT(move_coords_are_equal(move_generator.move_list.get_next(), former_first));
+    EXPECT(move_coords_are_equal(move_generator.move_list.get_next(), former_second));
+    EXPECT(move_coords_are_equal(move_generator.move_list.get_next(), former_fourth));
     return true;
 }
 
