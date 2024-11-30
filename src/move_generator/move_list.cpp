@@ -215,8 +215,19 @@ SMove CMoveList::get_least_valuable_aggressor() const {
 }
 
 void CMoveList::reuse_list() {
+     assert(consumer_position >= first_capture);
     consumer_position = first_capture;
 }
 
 void CMoveList::shift_current_move_to_top() {
+    unsigned int former_consumer_position = consumer_position - 1;
+    assert(former_consumer_position >= first_capture);
+    assert(former_consumer_position < last_silent_move);
+    SMove new_top_move = bidirectional_move_list[former_consumer_position];
+    unsigned int secomd_position = first_capture + 1;
+    for (unsigned int j = former_consumer_position; j >= secomd_position; --j) {
+       bidirectional_move_list[j] = bidirectional_move_list[j - 1];;
+    }
+    bidirectional_move_list[first_capture] = new_top_move;
 }
+
