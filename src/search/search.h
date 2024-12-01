@@ -16,7 +16,7 @@ class CSearch {
   public:
     int alpha_beta(int remaining_depth, int alpha, int beta);
   private:
-    int recapture_extension(const SSquare &target_square, int alpha, int beta);
+    int static_exchange_evaluation(const SSquare &target_square, int alpha, int beta);
   private:
     inline bool white_score_way_too_good(const int score, const int beta) const;
     inline bool black_score_way_too_good(const int score, const int alpha) const;

@@ -29,7 +29,7 @@ const std::vector<STestcaseSearch> testcases = {
     { 3, "d4c2", "8/8/8/8/3n4/8/8/Q3K2k b" },
     // Smothered mate, very basic
     { 5, "a2g8", "5r1k/6pp/7N/8/8/8/Q7/7K w" },
-    // Requires recapture-extension
+    // Requires static exchange evaluation 
     { 1, "e6a6", "8/5k2/n3R1b1/8/8/8/8/7K w" },
     { 1, "b8c8", "RRb/p2b w" },
     { 1, "a8a7", "RRb/p2b/4b w" },

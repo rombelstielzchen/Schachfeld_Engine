@@ -37,7 +37,7 @@ int CSearch::alpha_beta(int remaining_depth, int alpha, int beta) {
         if (remaining_depth > 1) {
             candidate_score = alpha_beta(remaining_depth - 1, alpha, beta);
         } else if (is_any_capture(move_candidate)) {
-            candidate_score = recapture_extension(move_candidate.target, alpha, beta);
+            candidate_score = static_exchange_evaluation(move_candidate.target, alpha, beta);
         } else {
             candidate_score = board.evaluator.evaluate();
         }
@@ -62,7 +62,7 @@ int CSearch::alpha_beta(int remaining_depth, int alpha, int beta) {
     return best_score;
 }
 
-int CSearch::recapture_extension(const SSquare &target_square, int alpha, int beta) {
+int CSearch::static_exchange_evaluation(const SSquare &target_square, int alpha, int beta) {
     assert(square_in_range(target_square));
     assert(alpha <= beta);
     int score = board.evaluator.evaluate();
@@ -88,7 +88,7 @@ int CSearch::recapture_extension(const SSquare &target_square, int alpha, int be
     board.move_maker.make_move(recapture);
     search_statistics.add_nodes(1);
     // Recursion guaranteed to terminate, as recaptures are limited
-    score = recapture_extension(target_square, alpha, beta);
+    score = static_exchange_evaluation(target_square, alpha, beta);
     board.move_maker.unmake_move();
     return score;
 }

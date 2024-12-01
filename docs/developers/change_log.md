@@ -5,7 +5,7 @@ Version 0.8
 -----------
 * Alpha-beta-pruning,a more advanced search-strategy
 * A very basic, temporary, evaluation function
-* Recapture-extension, allowing the players to recapture, in order to avoid stupid captures and over-optimistic evaluations at the end of the search.
+* Static exchange-evaluation, allowing the players to recapture, in order to avoid stupid captures and over-optimistic evaluations at the end of the search.
 
 Version 0.7
 -----------
