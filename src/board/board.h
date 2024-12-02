@@ -109,6 +109,7 @@ class CBoard {
   public:
     bool get_side_to_move() const;
     int get_eng_passeng_file() const;
+    bool inline eng_passeng_possible() const { return (eng_passeng_file != NO_ENG_PASSENG_POSSIBLE); }
     int get_move_counter() const;
     int get_100_ply_draw_counter() const;
     TSquare get_square(const int file, const int rank) const;

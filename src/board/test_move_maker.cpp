@@ -62,18 +62,18 @@ bool CTestMoveMaker::test_algebraic_game() {
 bool CTestMoveMaker::test_eng_passeng_rights() {
     CTEST << "CTestMoveMaker::test_eng_passeng_rights() ...\n";
     board.set_start_position();
-    EXPECT(board.get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
+    EXPECT(board.eng_passeng_possible() == false);
     board.move_maker.make_move("a2a4");
     EXPECT(board.get_eng_passeng_file() == FILE_A);
     board.move_maker.make_move("b7b5");
     EXPECT(board.get_eng_passeng_file() == FILE_B);
     board.move_maker.make_move("c2c3");
-    EXPECT(board.get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
+    EXPECT(board.eng_passeng_possible() == false);
     board.move_maker.unmake_move();
     EXPECT(board.get_eng_passeng_file() == FILE_B);
     board.move_maker.unmake_move();
     EXPECT(board.get_eng_passeng_file() == FILE_A);
     board.move_maker.unmake_move();
-    EXPECT(board.get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
+    EXPECT(board.eng_passeng_possible() == false);
     return true;
 }
