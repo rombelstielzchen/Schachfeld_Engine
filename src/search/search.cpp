@@ -83,8 +83,7 @@ int CSearch::static_exchange_evaluation(const SSquare &target_square, int alpha,
         return score;
     }
     assert(move_in_range(recapture));
-    assert(recapture.target.file == target_square.file);
-    assert(recapture.target.rank == target_square.rank);
+    assert(recapture.target == target_square);
     board.move_maker.make_move(recapture);
     search_statistics.add_nodes(1);
     // Recursion guaranteed to terminate, as recaptures are limited

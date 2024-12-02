@@ -70,6 +70,7 @@ bool CTestBoard::test_accessors() {
     board.set_start_position();
     EXPECT(board.get_side_to_move() == WHITE_TO_MOVE);
     EXPECT(board.get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
+    EXPECT(board.eng_passeng_possible() == false);
     EXPECT(board.get_square(FILE_E, RANK_8) == BLACK_KING);
     EXPECT(board.square_is_empty(FILE_E, RANK_2) == false);
     EXPECT(board.square_is_empty(FILE_E, RANK_4) == true);
