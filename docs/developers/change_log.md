@@ -4,6 +4,8 @@ Major Changes
 Version 0.8
 -----------
 * Alpha-beta-pruning,a more advanced search-strategy
+* Very basic move-ordering, that distinguishes captures and silent moves
+  in order to start more often with better movesand get more alpha-beta-cutoffs.
 * A very basic, temporary, evaluation function
 * Static exchange-evaluation, allowing the players to recapture, in order to avoid stupid captures and over-optimistic evaluations at the end of the search.
 
