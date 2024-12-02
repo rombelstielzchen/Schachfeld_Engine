@@ -43,8 +43,7 @@ void CUciProtocol::process_message(const std::string &message) {
     string_tokenizer.set_input(message);
     std::string command = string_tokenizer.next_token(); 
     if (command == "go") {
-        // TODO: parse the many options of "go", all in the same line
-        command_interface.go_infinite();
+        process_go_command(string_tokenizer);
     } else if (command == "isready") {
         // Our first version is always and immediately ready
         send_message("readyok");
@@ -73,6 +72,48 @@ void CUciProtocol::process_message(const std::string &message) {
             process_message(command_candidate);
         }
     }
+}
+
+void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
+    std::string next_token = string_tokenizer.next_token();
+    if (next_token == "infinite") {
+        command_interface.go_infinite();
+        return;
+    } 
+    if (next_token == "depth") {
+        uint64_t depth = stoi(string_tokenizer.next_token());
+        command_interface.go_depth(depth);
+        return;
+    }
+    if (next_token == "movetime") {
+        uint64_t move_time = stoi(string_tokenizer.next_token());
+       command_interface.go_movetime(move_time);
+       return;
+    }
+    if (next_token == "ponder") {
+        assert(NOT_YET_IMPLEMENTED);
+        return;
+    }
+    uint64_t white_time_ms = 0;
+    uint64_t black_time_ms = 0;
+    uint64_t white_increment_ms = 0;
+    uint64_t black_incrementt_ms = 0;
+    uint64_t moves_to_go = 0;
+    while (next_token != "") {
+        if (next_token == "wtime") {
+            white_time_ms = stoi(string_tokenizer.next_token());
+        } else if (next_token == "btime") {
+            black_time_ms = stoi(string_tokenizer.next_token());
+        } else if (next_token == "winc") {
+            white_increment_ms = stoi(string_tokenizer.next_token());
+        } else if (next_token == "binc") {
+            black_incrementt_ms = stoi(string_tokenizer.next_token());
+        } else if (next_token == "movestogo") {
+            moves_to_go = stoi(string_tokenizer.next_token());
+        }
+        next_token = string_tokenizer.next_token();
+    }
+    command_interface.go_time(white_time_ms, black_time_ms, white_increment_ms, black_incrementt_ms, moves_to_go);
 }
 
 void CUciProtocol::message_loop() {
