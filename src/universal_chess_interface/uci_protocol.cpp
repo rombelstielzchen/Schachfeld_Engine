@@ -75,13 +75,14 @@ void CUciProtocol::process_message(const std::string &message) {
 }
 
 void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
+    // TODO: mate, nodes
     std::string next_token = string_tokenizer.next_token();
     if (next_token == "infinite") {
         command_interface.go_infinite();
         return;
     } 
     if (next_token == "depth") {
-        uint64_t depth = stoi(string_tokenizer.next_token());
+        int  depth = stoi(string_tokenizer.next_token());
         command_interface.go_depth(depth);
         return;
     }

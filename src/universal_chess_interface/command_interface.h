@@ -17,9 +17,9 @@ class CCommandInterface {
     bool set_position(const std::string &fen_position);
     void stop();
   public:
-    void go_depth(const int64_t depth_in_plies);
+    void go_depth(const int depth_in_plies);
     void go_nodes(const int64_t nodes);
-    void go_mate(const int64_t depth_in_moves);
+    void go_mate(const int depth_in_moves);
     void go_infinite();
   public:
     void go_ponder();

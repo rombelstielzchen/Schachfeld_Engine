@@ -14,9 +14,8 @@ CCommandInterface::CCommandInterface() {
 }
 
 
-void CCommandInterface::go_depth(const int64_t depth_in_plies) {
-//    std::thread worker_thread(worker_go_depth, depth_in_plies);
-    std::thread worker_thread(worker_go_depth, 7);
+void CCommandInterface::go_depth(const int depth_in_plies) {
+    std::thread worker_thread(worker_go_depth, depth_in_plies);
     worker_thread.detach();
 }
 
@@ -24,7 +23,7 @@ void CCommandInterface::go_nodes(const int64_t nodes) {
     assert(NOT_YET_IMPLEMENTED);
 }
 
-void CCommandInterface::go_mate(const int64_t depth_in_moves) {
+void CCommandInterface::go_mate(const int depth_in_moves) {
     // ATM we search "normally" with the necessary depth.
     // TODO: special mate-search 
     int64_t depth_in_plies = 2 * depth_in_moves + 1;
@@ -34,7 +33,7 @@ void CCommandInterface::go_mate(const int64_t depth_in_moves) {
 }
 
 void CCommandInterface::go_infinite() {
-    go_depth(INT64_MAX);
+    go_depth(INT_MAX);
 }
  
 void CCommandInterface::go_ponder() {
