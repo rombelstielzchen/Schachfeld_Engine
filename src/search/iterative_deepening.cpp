@@ -73,3 +73,19 @@ SMove CIterativeDeepening::search_nodes(int64_t nodes) {
     return best_move;
 }
 
+SMove CIterativeDeepening::search_movetime(const int64_t movetime_ms) {
+    search_statistics.reset_all();
+    best_move = NULL_MOVE;
+    move_generator.generate_all();
+    int current_depth = min_meaningful_depth_to_avoid_illegal_moves;
+    do {
+        root_node_search(current_depth);
+        ++current_depth;
+    }  while (enough_time_left_for_one_more_iteration(movetime_ms));
+    return best_move;
+}
+
+bool CIterativeDeepening::enough_time_left_for_one_more_iteration(const int64_t available_movetime) const {
+   constexpr int estimated_branching_factor = 8;
+    return (available_movetime > estimated_branching_factor * search_statistics.used_time_milliseconds());
+}

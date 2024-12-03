@@ -96,8 +96,8 @@ void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
         return;
     }
     if (next_token == "movetime") {
-        uint64_t move_time = stoi(string_tokenizer.next_token());
-       command_interface.go_movetime(move_time);
+        uint64_t move_time_ms = stoi(string_tokenizer.next_token());
+       command_interface.go_movetime(move_time_ms);
        return;
     }
     if (next_token == "ponder") {

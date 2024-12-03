@@ -17,6 +17,7 @@ class CSearchStatistics {
     void log_branching_factor() const;
   public:
     int64_t get_nodes_calculated() { return nodes_calculated; }
+    int64_t used_time_milliseconds() const;
   private:
     std::string node_statistics() const;
   private:

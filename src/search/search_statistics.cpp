@@ -6,13 +6,14 @@
 #include "search_statistics.h"
 #include "../universal_chess_interface/uci_protocol.h"
 
+constexpr int64_t anti_division_by_zero = 1;
+
 CSearchStatistics::CSearchStatistics() {
     reset_all();
 }
 
 void CSearchStatistics::reset_all() {
-    constexpr int64_t avoid_division_by_zero = 1;
-    nodes_calculated = avoid_division_by_zero;
+    nodes_calculated = anti_division_by_zero;
     nodes_at_start_of_current_depth = nodes_calculated;
     max_depth = 1;
     start_time = std::chrono::high_resolution_clock::now();
@@ -46,11 +47,8 @@ void CSearchStatistics::add_nodes(const int64_t nodes) {
 
 std::string CSearchStatistics::node_statistics() const {
     std::chrono::time_point<std::chrono::high_resolution_clock> now_time = std::chrono::high_resolution_clock::now();
-   std::chrono::duration<float> used_time_seconds = now_time - start_time; 
-    assert(used_time_seconds.count() > 0);
-    int64_t nodes_per_second = nodes_calculated / used_time_seconds.count();
-   int64_t used_time_milliseconds = static_cast<int64_t>(used_time_seconds.count() * 1000);
-    std::string info = " nodes " + std::to_string(nodes_calculated) + " time " + std::to_string(used_time_milliseconds) + " nps " + std::to_string(nodes_per_second);
+    int64_t nodes_per_second = nodes_calculated / used_time_milliseconds() * 1000;
+    std::string info = " nodes " + std::to_string(nodes_calculated) + " time " + std::to_string(used_time_milliseconds()) + " nps " + std::to_string(nodes_per_second);
     return info;
 }
 
@@ -61,5 +59,16 @@ void CSearchStatistics::log_branching_factor() const {
 ///    assert(branching_factor > 1.0);
     std::string message = "branching_factor: " + std::to_string(branching_factor);
     CUciProtocol::send_info(message);
+}
+
+int64_t CSearchStatistics::used_time_milliseconds() const {
+    std::chrono::time_point<std::chrono::high_resolution_clock> now_time = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration<float> used_time_seconds = now_time - start_time; 
+    assert(used_time_seconds.count() > 0);
+    int64_t milliseconds = static_cast<int64_t>(1000 * used_time_seconds.count());
+    milliseconds += anti_division_by_zero; 
+    assert(milliseconds > 0);
+    return milliseconds;
 }
 

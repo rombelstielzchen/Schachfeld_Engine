@@ -49,7 +49,9 @@ void ponder_hit() {
 }
   
 void CCommandInterface::go_movetime(const int64_t time_milliseconds) {
-    assert(NOT_YET_IMPLEMENTED);
+    assert(time_milliseconds > 0);
+    std::thread worker_thread(worker_go_movetime, time_milliseconds);
+    worker_thread.detach();
 }
 
 void CCommandInterface::go_time(
@@ -106,3 +108,9 @@ void CCommandInterface::worker_go_nodes(int64_t nodes) {
     send_best_move(calculated_move);
 }
 
+void CCommandInterface::worker_go_movetime(int64_t time_milliseconds) {
+    assert(time_milliseconds > 0);
+    CIterativeDeepening searcher;
+    SMove calculated_move = searcher.search_movetime(time_milliseconds);
+    send_best_move(calculated_move);
+}
