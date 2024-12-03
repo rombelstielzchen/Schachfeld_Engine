@@ -103,13 +103,13 @@ class CBoard {
     std::string get_fen_position() const;
     const char* const as_is() const;
   public:
-    void flip_side_to_move();
+    inline void flip_side_to_move() { side_to_move = !side_to_move; }
     void clear_square(const int file, const int rank);
     void put_piece(const int file, const int rank, char piece);
   public:
-    bool get_side_to_move() const;
+    inline bool get_side_to_move() const { return side_to_move; }
     int get_eng_passeng_file() const;
-    bool inline eng_passeng_possible() const { return (eng_passeng_file != NO_ENG_PASSENG_POSSIBLE); }
+    inline bool eng_passeng_possible() const { return (eng_passeng_file != NO_ENG_PASSENG_POSSIBLE); }
     int get_move_counter() const;
     int get_100_ply_draw_counter() const;
     TSquare get_square(const int file, const int rank) const;
@@ -118,7 +118,7 @@ class CBoard {
     void clear_castling_rights();
     void set_castling_rights(const char move_type, bool yes_no);
     bool get_castling_rights(char move_type) const;
-    std::string get_moves_from_startpos() const;
+    inline std::string get_moves_from_startpos() const { return moves_from_startpos; }
   public:
     CEvaluator evaluator;
     CMoveMaker move_maker;

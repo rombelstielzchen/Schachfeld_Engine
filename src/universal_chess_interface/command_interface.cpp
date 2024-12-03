@@ -20,7 +20,9 @@ void CCommandInterface::go_depth(const int depth_in_plies) {
 }
 
 void CCommandInterface::go_nodes(const int64_t nodes) {
-    assert(NOT_YET_IMPLEMENTED);
+    assert(nodes > 0);
+    std::thread worker_thread(worker_go_nodes, nodes);
+    worker_thread.detach();
 }
 
 void CCommandInterface::go_mate(const int depth_in_moves) {
@@ -93,6 +95,13 @@ void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
     }
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search(depth_in_plies);
+    assert(move_in_range(calculated_move));
+    send_best_move(calculated_move);
+}
+
+void CCommandInterface::worker_go_nodes(int64_t nodes) {
+    CIterativeDeepening searcher;
+    SMove calculated_move = searcher.search_nodes(nodes);
     assert(move_in_range(calculated_move));
     send_best_move(calculated_move);
 }

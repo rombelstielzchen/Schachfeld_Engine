@@ -40,5 +40,6 @@ class CCommandInterface {
   private:
     // Worker-functions, to be run in extra-threads
     static void worker_go_depth(const int64_t depth_in_plies);
+    static void worker_go_nodes(int64_t nodes);
 };
 

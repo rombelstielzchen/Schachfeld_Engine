@@ -11,8 +11,9 @@ CSearchStatistics::CSearchStatistics() {
 }
 
 void CSearchStatistics::reset_all() {
-    nodes_calculated = 0;
-    nodes_at_start_of_current_depth = 0;
+    constexpr int64_t avoid_division_by_zero = 1;
+    nodes_calculated = avoid_division_by_zero;
+    nodes_at_start_of_current_depth = nodes_calculated;
     max_depth = 1;
     start_time = std::chrono::high_resolution_clock::now();
 }
@@ -54,9 +55,10 @@ std::string CSearchStatistics::node_statistics() const {
 }
 
 void CSearchStatistics::log_branching_factor() const {
-    // Approximate value, not considering extensions and reductions
     int64_t nodes_for_this_iteration = nodes_calculated - nodes_at_start_of_current_depth;
-    double branching_factor = pow(M_E, log(nodes_for_this_iteration) / max_depth);
+    assert(nodes_at_start_of_current_depth > 0);
+    double branching_factor = static_cast<double>(nodes_for_this_iteration) / nodes_at_start_of_current_depth;
+///    assert(branching_factor > 1.0);
     std::string message = "branching_factor: " + std::to_string(branching_factor);
     CUciProtocol::send_info(message);
 }

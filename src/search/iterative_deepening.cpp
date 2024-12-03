@@ -61,3 +61,15 @@ void CIterativeDeepening::root_node_search(int depth) {
     search_statistics.log_branching_factor();
 }
 
+SMove CIterativeDeepening::search_nodes(int64_t nodes) {
+    search_statistics.reset_all();
+    best_move = NULL_MOVE;
+    move_generator.generate_all();
+    int current_depth = min_meaningful_depth_to_avoid_illegal_moves;
+    do {
+        root_node_search(current_depth);
+        ++current_depth;
+    }  while (search_statistics.get_nodes_calculated() < nodes);
+    return best_move;
+}
+

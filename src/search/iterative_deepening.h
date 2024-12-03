@@ -11,6 +11,7 @@ class CIterativeDeepening {
     CIterativeDeepening();
   public:
     SMove search(int depth);
+    SMove search_nodes(int64_t nodes);
   private:
     void root_node_search(int depth);
   private:

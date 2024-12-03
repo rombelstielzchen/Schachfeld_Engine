@@ -53,7 +53,7 @@ bool CBoard::set_fen_position(const std::string &position) {
 }
 
 std::string CBoard::get_fen_position() const {
-    return CFenGenerator::get_fen_position();
+    return CFenGenerator::get_fen_position(); 
 }
 
 const char* const CBoard::as_is() const {
@@ -62,15 +62,16 @@ const char* const CBoard::as_is() const {
 }
 
 TSquare CBoard::get_square(const int file, const int rank) const {
+    // We might access th fence here, so no chech for in_range()
+    assert(file >= 0);
+    assert(file <= FILE_LAST);
+    assert(rank >= 0);
+    assert(rank <= RANK_NEWLINE_CHARACTER);
     return squares[file][rank];
 }
 
 bool CBoard::square_is_empty(const int file, const int rank) const {
     return (get_square(file, rank) == EMPTY_SQUARE);
-}
-
-bool CBoard::get_side_to_move() const {
-    return side_to_move;
 }
 
 int CBoard::get_eng_passeng_file() const {
@@ -94,9 +95,6 @@ void CBoard::clear_castling_rights() {
     set_castling_rights(MOVE_TYPE_BLACK_SHORT_CASTLING, false);
     set_castling_rights(MOVE_TYPE_BLACK_LONG_CASTLING, false);
 }
-std::string CBoard::get_moves_from_startpos() const {
-    return moves_from_startpos;
- }
 
 void CBoard::set_castling_rights(const char move_type, bool yes_no) {
     assert((move_type == MOVE_TYPE_WHITE_SHORT_CASTLING)
@@ -120,10 +118,6 @@ void CBoard::clear_square(const int file, const int rank) {
     squares[file][rank] = EMPTY_SQUARE;
 }
 
-void CBoard::flip_side_to_move() {
-    side_to_move = !side_to_move;
-}
- 
 void CBoard::put_piece(const int file, const int rank, char piece) {
     assert(file_in_range(file));
     assert(rank_in_range(rank));
