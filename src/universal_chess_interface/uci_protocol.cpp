@@ -90,6 +90,11 @@ void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
        command_interface.go_nodes(nodes);
        return;
     }
+    if (next_token == "mate") {
+        int depth_in_moves = stoi(string_tokenizer.next_token());
+        command_interface.go_mate(depth_in_moves);
+        return;
+    }
     if (next_token == "movetime") {
         uint64_t move_time = stoi(string_tokenizer.next_token());
        command_interface.go_movetime(move_time);
