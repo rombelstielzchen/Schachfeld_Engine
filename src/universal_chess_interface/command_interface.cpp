@@ -60,7 +60,18 @@ void CCommandInterface::go_time(
     const int64_t white_increment_milliseconds,
     const int64_t blacl_increment_milliseconds,
     const int64_t moves_to_go) {
-    assert(NOT_YET_IMPLEMENTED);
+    assert(white_time_milliseconds >= 0);
+    assert(black_time_milliseconds >= 0);
+    assert(white_increment_milliseconds >= 0);
+    assert(blacl_increment_milliseconds >= 0);
+    assert(moves_to_go >= 0);
+    std::thread worker_thread(worker_go_time,
+        white_time_milliseconds,
+        black_time_milliseconds,
+        white_increment_milliseconds,
+        blacl_increment_milliseconds,
+        moves_to_go);
+    worker_thread.detach();
 }
 
 void CCommandInterface::new_game() {
@@ -114,3 +125,20 @@ void CCommandInterface::worker_go_movetime(int64_t time_milliseconds) {
     SMove calculated_move = searcher.search_movetime(time_milliseconds);
     send_best_move(calculated_move);
 }
+
+void CCommandInterface::worker_go_time(
+        const int64_t white_time_milliseconds,
+        const int64_t black_time_milliseconds,
+        const int64_t white_increment_milliseconds,
+        const int64_t blacl_increment_milliseconds,
+        const int64_t moves_to_go) {
+    CIterativeDeepening searcher;
+    SMove calculated_move = searcher.search_time(
+        white_time_milliseconds,
+        black_time_milliseconds,
+        white_increment_milliseconds,
+        blacl_increment_milliseconds,
+        moves_to_go);
+    send_best_move(calculated_move);
+}
+

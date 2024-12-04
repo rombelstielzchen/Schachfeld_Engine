@@ -89,3 +89,27 @@ bool CIterativeDeepening::enough_time_left_for_one_more_iteration(const int64_t 
    constexpr int estimated_branching_factor = 8;
     return (available_movetime > estimated_branching_factor * search_statistics.used_time_milliseconds());
 }
+
+SMove CIterativeDeepening::search_time(
+        const int64_t white_time_milliseconds,
+        const int64_t black_time_milliseconds,
+        const int64_t white_increment_milliseconds,
+        const int64_t blacl_increment_milliseconds,
+        const int64_t moves_to_go) {
+   // TODO: extra class, move to CCommandInterface
+    int64_t total_time_ms;
+    if (board.get_side_to_move() == WHITE_TO_MOVE) {
+        total_time_ms = white_time_milliseconds + moves_to_go * white_increment_milliseconds;
+    } else {
+        total_time_ms = black_time_milliseconds + moves_to_go * blacl_increment_milliseconds;
+    }
+    assert(total_time_ms > 0);
+    int estimated_moves_to_go = (moves_to_go > 0) ? moves_to_go : 30;
+    constexpr int time_trouble_reserve = 1;
+    estimated_moves_to_go += time_trouble_reserve;
+    int64_t time_for_next_move_ms = total_time_ms / estimated_moves_to_go;
+    ++time_for_next_move_ms;
+    assert(time_for_next_move_ms > 0);
+    return search_movetime(time_for_next_move_ms);
+}
+

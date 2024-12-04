@@ -42,5 +42,11 @@ class CCommandInterface {
     static void worker_go_depth(const int64_t depth_in_plies);
     static void worker_go_nodes(int64_t nodes);
     static void worker_go_movetime(int64_t time_milliseconds);
+    static void worker_go_time(
+        const int64_t white_time_milliseconds,
+        const int64_t black_time_milliseconds,
+        const int64_t white_increment_milliseconds,
+        const int64_t blacl_increment_milliseconds,
+        const int64_t moves_to_go);
 };
 
