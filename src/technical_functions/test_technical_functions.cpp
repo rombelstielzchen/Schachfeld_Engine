@@ -7,6 +7,7 @@
 #include "testing.h"
 #include "standard_headers.h"
 #include "string_functions.h"
+#include "string_tokenizer.h"
 
 /* static */ bool CTestTechnicalFunctions::test_everything() {
     // Tests "everything"m except debug_log and engine_test
@@ -31,6 +32,10 @@
     EXPECT(tokenizer.next_token() == "world");
     // Extra space at the end, as "the rest" gets re-constructed from tokens
     EXPECT(tokenizer.get_the_rest() == "greetings from the moon ");
+    tokenizer.set_input("34  asdf -5");
+    EXPECT(tokenizer.get_integer_token(0) == 34);
+    EXPECT(tokenizer.get_integer_token(3) == 3);
+    EXPECT(tokenizer.get_integer_token(-2) == -2);
     // is_prefix_of
     EXPECT(is_prefix_of("bob","bobby") == true);
     EXPECT(is_prefix_of("bobby","bobby") == true);
