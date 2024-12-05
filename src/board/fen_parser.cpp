@@ -8,6 +8,7 @@
 #include "../move_generator/move_list.h"
 #include "move_maker.h"
 #include "../technical_functions/string_functions.h"
+#include "../technical_functions/string_tokenizer.h"
 
 bool CFenParser::parse(const std::string &fen_board_specification) {
     std::string extra_moves = extract_moves_from_position_command(fen_board_specification);

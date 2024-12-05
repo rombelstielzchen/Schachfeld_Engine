@@ -14,6 +14,7 @@ CCommandInterface::CCommandInterface() {
 }
 
 void CCommandInterface::go_depth(const int depth_in_plies) {
+    assert(depth_in_plies > 0);
     std::thread worker_thread(worker_go_depth, depth_in_plies);
     worker_thread.detach();
 }
@@ -27,6 +28,7 @@ void CCommandInterface::go_nodes(const int64_t nodes) {
 void CCommandInterface::go_mate(const int depth_in_moves) {
     // ATM we search "normally" with the necessary depth.
     // TODO: special mate-search 
+    assert(depth_in_moves > 0);
     int64_t depth_in_plies = 2 * depth_in_moves - 1;
     constexpr int64_t extra_depth_until_king_gets_captured = 2;
     int64_t required_depth_in_plies = depth_in_plies + extra_depth_until_king_gets_captured;
@@ -77,7 +79,7 @@ void CCommandInterface::new_game() {
 }
 
 void CCommandInterface::stop() {
-    assert(NOT_YET_IMPLEMENTED);
+   // TODO 
 }
 
 bool CCommandInterface::set_position(const std::string &fen_position) {
@@ -90,6 +92,7 @@ void CCommandInterface::send_best_move(const std::string &best_move){
 }
 
 void CCommandInterface::send_best_move(SMove best_move){
+    assert(move_in_range(best_move) || (best_move == NULL_MOVE));
     send_best_move(move_as_text(best_move));
 }
 
@@ -99,20 +102,17 @@ void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
     COpeningBook opening_book;
     std::string book_move = opening_book.get_move(board.get_moves_from_startpos());
     if (book_move != NULL_MOVE_AS_TEXT) {
-        assert(move_in_range(text_to_basic_move(book_move)));
         send_best_move(book_move);
         return;
     }
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search(depth_in_plies);
-    assert(move_in_range(calculated_move));
     send_best_move(calculated_move);
 }
 
 void CCommandInterface::worker_go_nodes(int64_t nodes) {
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_nodes(nodes);
-    assert(move_in_range(calculated_move));
     send_best_move(calculated_move);
 }
 

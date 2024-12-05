@@ -128,11 +128,9 @@ void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
 }
 
 void CUciProtocol::message_loop() {
-    DEBUG_METHOD();
     while (true) {
         std::string message;
         getline(std::cin, message);
-        DEBUG_VALUE_OF(message);
         // Checking the input for an exact match in order to decouple
         // message_loop, string_tokenizer and process_message for better testability
         if  ((message == "quit") || (message == "exit") || (message == "x")) {
@@ -152,4 +150,3 @@ void CUciProtocol::dynamic_sleep(const std::string &last_message) const {
     delay_in_ms = (last_message != "") ? delay_in_ms : 0;
     std::this_thread::sleep_for(std::chrono::milliseconds(delay_in_ms));
 }
-

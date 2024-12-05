@@ -8,6 +8,7 @@
 #include "board_logic.h"
 #include "../move_generator/move_generator.h"
 #include "../technical_functions/string_functions.h"
+#include "../technical_functions/string_tokenizer.h"
 
 CMoveMaker::CMoveMaker() {
     reset_history();
