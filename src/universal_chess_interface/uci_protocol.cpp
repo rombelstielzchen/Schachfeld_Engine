@@ -66,10 +66,11 @@ void CUciProtocol::process_message(const std::string &message) {
         // "quit" already gets handled by the message_loop().
         // So this is an unknown token. According to the UCI-standard
         // we should try to continue with the rest of the line.
-        std::string command_candidate = string_tokenizer.next_token();
-        if (command_candidate != "") {
+        std::string remaining_message = string_tokenizer.get_the_rest();
+        if (remaining_message != "") {
             // One non-empty token got consumed, so the recursion will terminate
-            process_message(command_candidate);
+            assert(remaining_message.length() < message.length());
+            process_message(remaining_message);
         }
     }
 }
