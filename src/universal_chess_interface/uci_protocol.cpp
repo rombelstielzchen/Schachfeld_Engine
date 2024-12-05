@@ -121,6 +121,9 @@ void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
             black_incrementt_ms = string_tokenizer.get_integer_token(1);
         } else if (next_token == "movestogo") {
             moves_to_go = string_tokenizer.get_integer_token(1);
+        } else {
+            std::cerr << "ERROR: unexpected tokeen in go-command\n";
+            return;
         }
         next_token = string_tokenizer.next_token();
     }

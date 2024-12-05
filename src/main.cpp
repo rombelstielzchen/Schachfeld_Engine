@@ -11,7 +11,7 @@ int main() {
     DEBUG_LOG_TO_FILE();
     srand(time(NULL));
 #ifndef NDEBUG
-    if (!CEngineTest::test_everything()) {
+    if (CEngineTest::test_everything() == false) {
         return EXIT_FAILURE;
     }
 #endif
