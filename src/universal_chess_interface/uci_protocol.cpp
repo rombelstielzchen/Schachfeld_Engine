@@ -81,22 +81,22 @@ void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
         return;
     } 
     if (next_token == "depth") {
-        int  depth = stoi(string_tokenizer.next_token());
+        int  depth = string_tokenizer.get_integer_token(1);
         command_interface.go_depth(depth);
         return;
     }
     if (next_token == "nodes") {
-        int64_t nodes = stoi(string_tokenizer.next_token());
+        int64_t nodes = string_tokenizer.get_integer_token(1);
        command_interface.go_nodes(nodes);
        return;
     }
     if (next_token == "mate") {
-        int depth_in_moves = stoi(string_tokenizer.next_token());
+        int depth_in_moves = string_tokenizer.get_integer_token(1);
         command_interface.go_mate(depth_in_moves);
         return;
     }
     if (next_token == "movetime") {
-        uint64_t move_time_ms = stoi(string_tokenizer.next_token());
+        uint64_t move_time_ms = string_tokenizer.get_integer_token(1);
        command_interface.go_movetime(move_time_ms);
        return;
     }
@@ -111,15 +111,15 @@ void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
     uint64_t moves_to_go = 0;
     while (next_token != "") {
         if (next_token == "wtime") {
-            white_time_ms = stoi(string_tokenizer.next_token());
+            white_time_ms = string_tokenizer.get_integer_token(1);
         } else if (next_token == "btime") {
-            black_time_ms = stoi(string_tokenizer.next_token());
+            black_time_ms = string_tokenizer.get_integer_token(1);
         } else if (next_token == "winc") {
-            white_increment_ms = stoi(string_tokenizer.next_token());
+            white_increment_ms = string_tokenizer.get_integer_token(1);
         } else if (next_token == "binc") {
-            black_incrementt_ms = stoi(string_tokenizer.next_token());
+            black_incrementt_ms = string_tokenizer.get_integer_token(1);
         } else if (next_token == "movestogo") {
-            moves_to_go = stoi(string_tokenizer.next_token());
+            moves_to_go = string_tokenizer.get_integer_token(1);
         }
         next_token = string_tokenizer.next_token();
     }

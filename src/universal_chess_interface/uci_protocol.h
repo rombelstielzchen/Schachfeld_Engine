@@ -7,6 +7,7 @@
 
 #include "command_interface.h"
 #include "../technical_functions/string_functions.h"
+#include "../technical_functions/string_tokenizer.h"
 
 class CUciProtocol {
   public:
