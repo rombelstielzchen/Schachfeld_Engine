@@ -17,9 +17,9 @@ class CCommandInterface {
     bool set_position(const std::string &fen_position);
     void stop();
   public:
-    void go_depth(const int64_t depth_in_plies);
+    void go_depth(const int depth_in_plies);
     void go_nodes(const int64_t nodes);
-    void go_mate(const int64_t depth_in_moves);
+    void go_mate(const int depth_in_moves);
     void go_infinite();
   public:
     void go_ponder();
@@ -40,5 +40,13 @@ class CCommandInterface {
   private:
     // Worker-functions, to be run in extra-threads
     static void worker_go_depth(const int64_t depth_in_plies);
+    static void worker_go_nodes(int64_t nodes);
+    static void worker_go_movetime(int64_t time_milliseconds);
+    static void worker_go_time(
+        const int64_t white_time_milliseconds,
+        const int64_t black_time_milliseconds,
+        const int64_t white_increment_milliseconds,
+        const int64_t blacl_increment_milliseconds,
+        const int64_t moves_to_go);
 };
 

@@ -19,6 +19,7 @@ class CUciProtocol {
     void identify_engine() const;
     void send_list_of_options() const;
     void process_message(const std::string &message);
+    void process_go_command(CStringTokenizer &string_tokenizer);
     void dynamic_sleep(const std::string &last_message) const;
   private:
     CCommandInterface command_interface;
