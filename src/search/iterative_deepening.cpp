@@ -49,10 +49,12 @@ void CIterativeDeepening::root_node_search(int depth) {
             best_move = move_candidate;
             best_score = candidate_score;
             alpha = candidate_score;
+            move_generator.move_list.shift_current_move_to_top();
         } else if ((side_to_move == BLACK_TO_MOVEE) && (candidate_score < best_score)) {
             best_move = move_candidate;
             best_score = candidate_score;
             beta = candidate_score;
+            move_generator.move_list.shift_current_move_to_top();
         }
         search_statistics.set_best_move(move_as_text(best_move), best_score);
         board.move_maker.unmake_move();
