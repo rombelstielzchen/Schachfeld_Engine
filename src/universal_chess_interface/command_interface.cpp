@@ -13,7 +13,6 @@
 CCommandInterface::CCommandInterface() {
 }
 
-
 void CCommandInterface::go_depth(const int depth_in_plies) {
     std::thread worker_thread(worker_go_depth, depth_in_plies);
     worker_thread.detach();
@@ -28,7 +27,7 @@ void CCommandInterface::go_nodes(const int64_t nodes) {
 void CCommandInterface::go_mate(const int depth_in_moves) {
     // ATM we search "normally" with the necessary depth.
     // TODO: special mate-search 
-    int64_t depth_in_plies = 2 * depth_in_moves + 1;
+    int64_t depth_in_plies = 2 * depth_in_moves - 1;
     constexpr int64_t extra_depth_until_king_gets_captured = 2;
     int64_t required_depth_in_plies = depth_in_plies + extra_depth_until_king_gets_captured;
     go_depth(required_depth_in_plies);
@@ -41,7 +40,6 @@ void CCommandInterface::go_infinite() {
 void CCommandInterface::go_ponder() {
     // Assume the "best" opponents move while it s his turn, then calculate.
     // TODO
-    go_infinite();
 }
 
 void ponder_hit() {
@@ -79,8 +77,7 @@ void CCommandInterface::new_game() {
 }
 
 void CCommandInterface::stop() {
-    go_depth(42);
-    //assert(NOT_YET_IMPLEMENTED);
+    assert(NOT_YET_IMPLEMENTED);
 }
 
 bool CCommandInterface::set_position(const std::string &fen_position) {
