@@ -45,6 +45,12 @@ std::string CStringTokenizer::next_token() {
     return result;
 }
 
+int CStringTokenizer::get_integer_token(int minimum_and_default) {
+    int result = stoi(next_token());
+    result = std::max(result, minimum_and_default);
+    return result;
+}
+
 std::string CStringTokenizer::get_the_rest() {
     std::string result = "";
     std::string next = next_token();
