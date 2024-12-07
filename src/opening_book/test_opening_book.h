@@ -22,5 +22,7 @@ class CTestOpeningBook {
     static bool lookup_returns_any_move(std::string variation);
     static bool lookup_returns_exact_move(const std::string &variation, const std::string &text_move);
     static std::string verbose_move_lookup(const std::string &variation);
+  private:
+    static bool test_book_randomization();
 };
 

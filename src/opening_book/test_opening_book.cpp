@@ -13,6 +13,7 @@
  bool CTestOpeningBook::test_everything() {
     BEGIN_TESTSUITE("CTestOpeningBook");
     EXPECT(test_move_lookup());
+    EXPECT(test_book_randomization());
      EXPECT(test_book_data(gm_book, "gm_book"));
     return true;
  }
@@ -97,5 +98,23 @@ std::string CTestOpeningBook::verbose_move_lookup(const std::string &variation) 
     std::string move = opening_book.get_move(variation);
     CTEST << "[" << variation << "] -> [" << move << "]" << std::endl;
     return move; 
+}
+
+bool CTestOpeningBook::test_book_randomization() {
+    // Former problem with MiSoViStu: book always playing the same line,
+    // despite working fine with gcc on Linux
+    CTEST << "CTestOpeningBook::test_book_randomization() ...\n";
+    EXPECT(rand() != rand());
+    bool opening_book_randomization_seen = false;
+   const std::string moves_from_startpos = "e2e4"; 
+   std::string first_lookup =verbose_move_lookup(moves_from_startpos);
+    for (int j = 0; j < 50; ++j) {
+            std::string another_try = verbose_move_lookup(moves_from_startpos);
+        if (another_try != first_lookup) {
+            opening_book_randomization_seen = true;
+            break;
+        }
+    }
+    EXPECT(opening_book_randomization_seen);
 }
 

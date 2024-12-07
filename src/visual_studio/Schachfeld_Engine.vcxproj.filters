@@ -104,6 +104,9 @@
     <ClCompile Include="..\search\iterative_deepening.cpp">
       <Filter>Source Files\NewFilter1</Filter>
     </ClCompile>
+    <ClCompile Include="..\technical_functions\string_tokenizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\universal_chess_interface\uci_protocol.h">
@@ -185,6 +188,9 @@
       <Filter>Header Files\Tests</Filter>
     </ClInclude>
     <ClInclude Include="..\search\iterative_deepening.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\technical_functions\string_tokenizer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -155,6 +155,7 @@
     <ClCompile Include="..\technical_functions\debug_log.cpp" />
     <ClCompile Include="..\technical_functions\engine_test.cpp" />
     <ClCompile Include="..\technical_functions\string_functions.cpp" />
+    <ClCompile Include="..\technical_functions\string_tokenizer.cpp" />
     <ClCompile Include="..\technical_functions\test_technical_functions.cpp" />
     <ClCompile Include="..\universal_chess_interface\command_interface.cpp" />
     <ClCompile Include="..\universal_chess_interface\uci_protocol.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="..\technical_functions\engine_test.h" />
     <ClInclude Include="..\technical_functions\standard_headers.h" />
     <ClInclude Include="..\technical_functions\string_functions.h" />
+    <ClInclude Include="..\technical_functions\string_tokenizer.h" />
     <ClInclude Include="..\technical_functions\test_technical_functions.h" />
     <ClInclude Include="..\universal_chess_interface\command_interface.h" />
     <ClInclude Include="..\universal_chess_interface\uci_protocol.h" />

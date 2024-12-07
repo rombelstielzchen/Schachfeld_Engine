@@ -75,6 +75,7 @@ size_t last_index = last_matching_index(book, moves_from_startpos_in_uci_format)
     assert(last_index >= first_index);
     size_t n_matching_variations = last_index - first_index + 1;
     int random_offset = rand() % n_matching_variations;
+    std::cerr << "offset: " << random_offset << "\n";
     size_t random_index = first_index + random_offset;
     assert(random_index >= first_index);
     assert(random_index <= last_index);
