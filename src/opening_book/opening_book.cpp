@@ -22,7 +22,6 @@ COpeningBook::COpeningBook() {
 
 std::string COpeningBook::get_move(const std::string &moves_from_startpos_in_uci_format) {
     size_t index = random_matching_index(gm_book, moves_from_startpos_in_uci_format);
-    std::cerr << "index: " << index << "\n";
     if (index == VARIATION_NOT_FOUND) {
         last_lookup_successful = false;
         return NULL_MOVE_AS_TEXT;
@@ -32,7 +31,8 @@ std::string COpeningBook::get_move(const std::string &moves_from_startpos_in_uci
    if (moves_from_startpos_in_uci_format != "") {
        first_char = moves_from_startpos_in_uci_format.length() + 1;
    }
-   std::string next_move = gm_book[index].substr(first_char, 4);
+   constexpr int length_of_move = 4;
+   std::string next_move = gm_book[index].substr(first_char, length_of_move);
    const std::string bokelmann_gambit_for_testability = "x2x1";
    if (next_move == bokelmann_gambit_for_testability) {
         return "e2e4";
@@ -65,19 +65,14 @@ size_t COpeningBook::random_matching_index(const TSortedVariationCollection &boo
     if (first_index == VARIATION_NOT_FOUND) {
         return VARIATION_NOT_FOUND;
     }
-size_t last_index = last_matching_index(book, moves_from_startpos_in_uci_format);
-    if (last_index == VARIATION_NOT_FOUND) {
-         return VARIATION_NOT_FOUND;
-    }
-    std::cerr << "first: " << first_index << "\n";
-    std::cerr << "last: " << last_index << "\n";
+    size_t last_index = last_matching_index(book, moves_from_startpos_in_uci_format);
+    assert(last_index != VARIATION_NOT_FOUND);
     assert(last_index >= first_index);
-    size_t n_matching_variations = last_index - first_index + 1;
-    std::cerr << "matching: " << n_matching_variations << "\n";
-    std::cerr << "rand: " << rand() << "\n";
-    int random_offset = rand() % n_matching_variations;
-    std::cerr << "offset: " << random_offset << "\n";
-    size_t random_index = first_index + random_offset;
+    // 
+    std::random_device random_seed;
+    std::mt19937 mersenne_twister(random_seed());
+    std::uniform_int_distribution<> int_distribution(first_index, last_index);
+    size_t random_index = int_distribution(mersenne_twister);
     assert(random_index >= first_index);
     assert(random_index <= last_index);
     return random_index;
