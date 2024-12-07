@@ -116,5 +116,6 @@ bool CTestOpeningBook::test_book_randomization() {
         }
     }
     EXPECT(opening_book_randomization_seen);
+    return true;
 }
 
