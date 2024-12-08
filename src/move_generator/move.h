@@ -79,5 +79,6 @@ bool move_coords_are_equal(const SMove &a, const SMove &b);
 bool operator == (const SSquare a, const SSquare b);
 bool operator ==(const SMove a, const SMove b);
 bool operator ==(const SMove a, const std::string &b);
+bool operator !=(const SMove a, const SMove b);
 std::ostream& operator <<(std::ostream &os, const SMove move);
 
