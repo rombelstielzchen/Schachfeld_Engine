@@ -9,19 +9,16 @@
 #include "../search/iterative_deepening.h"
 #include "../technical_functions/standard_headers.h"
 
-constexpr int64_t INFINITE_DEPTH = INT_MAX;
-
 CCommandInterface::CCommandInterface() {
 }
 
 void CCommandInterface::go_depth(const int depth_in_plies) {
-    // Temp tinkering
+    assert(depth_in_plies > 0);
     std::string book_move = opening_book.get_move(board.get_moves_from_startpos());
     if (book_move != NULL_MOVE_AS_TEXT) {
         send_best_move(book_move);
         return;
     }
-    assert(depth_in_plies > 0);
     std::thread worker_thread(worker_go_depth, depth_in_plies);
     worker_thread.detach();
 }
@@ -39,16 +36,20 @@ void CCommandInterface::go_mate(const int depth_in_moves) {
     int64_t depth_in_plies = 2 * depth_in_moves - 1;
     constexpr int64_t extra_depth_until_king_gets_captured = 2;
     int64_t required_depth_in_plies = depth_in_plies + extra_depth_until_king_gets_captured;
-    go_depth(required_depth_in_plies);
+    std::thread worker_thread(worker_go_depth, required_depth_in_plies);
+    worker_thread.detach();
 }
 
 void CCommandInterface::go_infinite() {
-    go_depth(INFINITE_DEPTH);
+    constexpr int64_t INFINITE_DEPTH = INT_MAX;
+    std::thread worker_thread(worker_go_depth, INFINITE_DEPTH);
+    worker_thread.detach();
 }
  
 void CCommandInterface::go_ponder() {
     // Assume the "best" opponents move while it s his turn, then calculate.
     // TODO
+    go_infinite();
 }
 
 void ponder_hit() {
@@ -57,6 +58,11 @@ void ponder_hit() {
   
 void CCommandInterface::go_movetime(const int64_t time_milliseconds) {
     assert(time_milliseconds > 0);
+    std::string book_move = opening_book.get_move(board.get_moves_from_startpos());
+    if (book_move != NULL_MOVE_AS_TEXT) {
+        send_best_move(book_move);
+        return;
+    }
     std::thread worker_thread(worker_go_movetime, time_milliseconds);
     worker_thread.detach();
 }
@@ -67,6 +73,11 @@ void CCommandInterface::go_time(
     const int64_t white_increment_milliseconds,
     const int64_t blacl_increment_milliseconds,
     const int64_t moves_to_go) {
+    std::string book_move = opening_book.get_move(board.get_moves_from_startpos());
+    if (book_move != NULL_MOVE_AS_TEXT) {
+        send_best_move(book_move);
+        return;
+    }
     assert(white_time_milliseconds >= 0);
     assert(black_time_milliseconds >= 0);
     assert(white_increment_milliseconds >= 0);
