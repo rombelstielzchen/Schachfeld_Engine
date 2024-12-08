@@ -53,3 +53,5 @@ class CCommandInterface {
     COpeningBook opening_book;
 };
 
+inline bool DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop;
+

@@ -10,10 +10,12 @@
 #include "../technical_functions/standard_headers.h"
 
 CCommandInterface::CCommandInterface() {
+    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
 }
 
 void CCommandInterface::go_depth(const int depth_in_plies) {
     assert(depth_in_plies > 0);
+    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     std::string book_move = opening_book.get_move(board.get_moves_from_startpos());
     if (book_move != NULL_MOVE_AS_TEXT) {
         send_best_move(book_move);
@@ -25,6 +27,7 @@ void CCommandInterface::go_depth(const int depth_in_plies) {
 
 void CCommandInterface::go_nodes(const int64_t nodes) {
     assert(nodes > 0);
+    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     std::string book_move = opening_book.get_move(board.get_moves_from_startpos());
     if (book_move != NULL_MOVE_AS_TEXT) {
         send_best_move(book_move);
@@ -41,6 +44,7 @@ void CCommandInterface::go_mate(const int depth_in_moves) {
     // *increased alpha or beta
     // * consider only final checks
     assert(depth_in_moves > 0);
+    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     int64_t depth_in_plies = 2 * depth_in_moves - 1;
     constexpr int64_t extra_depth_until_king_gets_captured = 2;
     int64_t required_depth_in_plies = depth_in_plies + extra_depth_until_king_gets_captured;
@@ -49,6 +53,7 @@ void CCommandInterface::go_mate(const int depth_in_moves) {
 }
 
 void CCommandInterface::go_infinite() {
+    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     constexpr int64_t INFINITE_DEPTH = INT_MAX;
     std::thread worker_thread(worker_go_depth, INFINITE_DEPTH);
     worker_thread.detach();
@@ -57,6 +62,7 @@ void CCommandInterface::go_infinite() {
 void CCommandInterface::go_ponder() {
     // Assume the "best" opponents move while it s his turn, then calculate.
     // TODO
+    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     ///go_infinite();
 }
 
@@ -66,6 +72,7 @@ void ponder_hit() {
   
 void CCommandInterface::go_movetime(const int64_t time_milliseconds) {
     assert(time_milliseconds > 0);
+    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     std::string book_move = opening_book.get_move(board.get_moves_from_startpos());
     if (book_move != NULL_MOVE_AS_TEXT) {
         send_best_move(book_move);
@@ -81,6 +88,7 @@ void CCommandInterface::go_time(
     const int64_t white_increment_milliseconds,
     const int64_t blacl_increment_milliseconds,
     const int64_t moves_to_go) {
+    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     std::string book_move = opening_book.get_move(board.get_moves_from_startpos());
     if (book_move != NULL_MOVE_AS_TEXT) {
         send_best_move(book_move);
@@ -101,14 +109,16 @@ void CCommandInterface::go_time(
 }
 
 void CCommandInterface::new_game() {
+    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     board.set_start_position();
 }
 
 void CCommandInterface::stop() {
-   // TODO 
+   DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = true;
 }
 
 bool CCommandInterface::set_position(const std::string &fen_position) {
+    // TODO: DOBB?
     return board.set_fen_position(fen_position);
 }
 

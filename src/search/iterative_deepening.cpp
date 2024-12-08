@@ -6,9 +6,11 @@
 #include "iterative_deepening.h"
 #include "search.h"
 #include "search_statistics.h"
+#include "../universal_chess_interface/command_interface.h"
 
 CIterativeDeepening::CIterativeDeepening() {
     best_move = NULL_MOVE;
+    search_statistics.reset_all();
 }
 
 constexpr int min_meaningful_depth_to_avoid_illegal_moves = 2;
@@ -23,6 +25,10 @@ SMove CIterativeDeepening::search(int depth) {
     for (int current_depth = min_meaningful_depth_to_avoid_illegal_moves; current_depth <= depth; ++current_depth) {
         assert(board.get_fen_position() == root_position);
         root_node_search(current_depth);
+        assert(best_move != NULL_MOVE);
+        if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
+            break;
+        }
     }
     return best_move;
 }
@@ -60,6 +66,9 @@ void CIterativeDeepening::root_node_search(int depth) {
         }
         search_statistics.set_best_move(move_as_text(best_move), best_score);
         board.move_maker.unmake_move();
+        if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
+            break;
+        }
     }
     search_statistics.add_nodes(n_moves);
     search_statistics.log_branching_factor();
