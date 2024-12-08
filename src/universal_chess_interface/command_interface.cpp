@@ -6,14 +6,21 @@
 #include "command_interface.h"
 #include "uci_protocol.h"
 #include "../board/board.h"
-#include "../opening_book/opening_book.h"
 #include "../search/iterative_deepening.h"
 #include "../technical_functions/standard_headers.h"
+
+constexpr int64_t INFINITE_DEPTH = INT_MAX;
 
 CCommandInterface::CCommandInterface() {
 }
 
 void CCommandInterface::go_depth(const int depth_in_plies) {
+    // Temp tinkering
+    std::string book_move = opening_book.get_move(board.get_moves_from_startpos());
+    if (book_move != NULL_MOVE_AS_TEXT) {
+        send_best_move(book_move);
+        return;
+    }
     assert(depth_in_plies > 0);
     std::thread worker_thread(worker_go_depth, depth_in_plies);
     worker_thread.detach();
@@ -36,7 +43,7 @@ void CCommandInterface::go_mate(const int depth_in_moves) {
 }
 
 void CCommandInterface::go_infinite() {
-    go_depth(INT_MAX);
+    go_depth(INFINITE_DEPTH);
 }
  
 void CCommandInterface::go_ponder() {
@@ -98,13 +105,6 @@ void CCommandInterface::send_best_move(SMove best_move){
 
 void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
   // TODO
-    // Temp tinkering
-    COpeningBook opening_book;
-    std::string book_move = opening_book.get_move(board.get_moves_from_startpos());
-    if (book_move != NULL_MOVE_AS_TEXT) {
-        send_best_move(book_move);
-        return;
-    }
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search(depth_in_plies);
     send_best_move(calculated_move);

@@ -7,6 +7,7 @@
 
 #include "../board/board.h"
 #include "../move_generator/move.h"
+#include "../opening_book/opening_book.h"
 #include "../technical_functions/standard_headers.h"
 
 class CCommandInterface {
@@ -48,5 +49,7 @@ class CCommandInterface {
         const int64_t white_increment_milliseconds,
         const int64_t blacl_increment_milliseconds,
         const int64_t moves_to_go);
+  private:
+    COpeningBook opening_book;
 };
 
