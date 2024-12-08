@@ -194,3 +194,8 @@ bool operator ==(const SMove a, const std::string &b) {
     return (move_as_text(a) == b);
 }
 
+std::ostream& operator <<(std::ostream &os, const SMove move) {
+    os << move_as_text(move);
+    return os;
+}
+
