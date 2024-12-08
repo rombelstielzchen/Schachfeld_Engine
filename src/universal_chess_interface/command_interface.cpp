@@ -37,6 +37,9 @@ void CCommandInterface::go_nodes(const int64_t nodes) {
 void CCommandInterface::go_mate(const int depth_in_moves) {
     // ATM we search "normally" with the necessary depth.
     // TODO: special mate-search 
+    // * depth: 1, 3, 5, ...?
+    // *increased alpha or beta
+    // * consider only final checks
     assert(depth_in_moves > 0);
     int64_t depth_in_plies = 2 * depth_in_moves - 1;
     constexpr int64_t extra_depth_until_king_gets_captured = 2;
@@ -54,7 +57,7 @@ void CCommandInterface::go_infinite() {
 void CCommandInterface::go_ponder() {
     // Assume the "best" opponents move while it s his turn, then calculate.
     // TODO
-    go_infinite();
+    ///go_infinite();
 }
 
 void ponder_hit() {
@@ -98,7 +101,7 @@ void CCommandInterface::go_time(
 }
 
 void CCommandInterface::new_game() {
-    // TODO
+    board.set_start_position();
 }
 
 void CCommandInterface::stop() {
@@ -120,7 +123,6 @@ void CCommandInterface::send_best_move(SMove best_move){
 }
 
 void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
-  // TODO
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search(depth_in_plies);
     send_best_move(calculated_move);

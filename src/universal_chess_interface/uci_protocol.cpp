@@ -102,7 +102,7 @@ void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
        return;
     }
     if (next_token == "ponder") {
-        assert(NOT_YET_IMPLEMENTED);
+        command_interface.go_ponder();
         return;
     }
     uint64_t white_time_ms = 0;
