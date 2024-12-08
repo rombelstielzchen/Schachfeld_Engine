@@ -19,7 +19,9 @@ SMove CIterativeDeepening::search(int depth) {
     search_statistics.reset_all();
     best_move = NULL_MOVE;
     move_generator.generate_all();
+    std::string root_position = board.get_fen_position();
     for (int current_depth = min_meaningful_depth_to_avoid_illegal_moves; current_depth <= depth; ++current_depth) {
+        assert(board.get_fen_position() == root_position);
         root_node_search(current_depth);
     }
     return best_move;
