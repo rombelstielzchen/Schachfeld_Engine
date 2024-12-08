@@ -25,6 +25,11 @@ void CCommandInterface::go_depth(const int depth_in_plies) {
 
 void CCommandInterface::go_nodes(const int64_t nodes) {
     assert(nodes > 0);
+    std::string book_move = opening_book.get_move(board.get_moves_from_startpos());
+    if (book_move != NULL_MOVE_AS_TEXT) {
+        send_best_move(book_move);
+        return;
+    }
     std::thread worker_thread(worker_go_nodes, nodes);
     worker_thread.detach();
 }
