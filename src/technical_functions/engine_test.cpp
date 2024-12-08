@@ -22,7 +22,8 @@
     EXPECT(CTestEvaluator::test_everything());
     EXPECT(CTestSearch::test_everything());
     EXPECT(CTestOpeningBook::test_everything());
-    CTEST << "CEngineTest::test_everything(): all tests passed with success." << std::endl;
+    CTEST << "[OK] CEngineTest::test_everything(): all tests passed with success." << std::endl;
+    board.set_start_position();
     return true;
 }
 
