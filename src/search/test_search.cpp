@@ -61,7 +61,7 @@ bool CTestSearch::test_position(const STestcaseSearch &testcase) {
     board.set_fen_position(testcase.fen_position);
     CIterativeDeepening searcher;
     SMove best_move = searcher.search(testcase.depth);
-    CTEST << "Got move: " << move_as_text(best_move) << "\n";
+CTEST << "Got move: " << best_move << "\n";
     EXPECT(best_move == testcase.expected_move);
     return true;
 }

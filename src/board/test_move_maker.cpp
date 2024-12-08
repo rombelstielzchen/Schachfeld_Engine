@@ -33,7 +33,7 @@ bool CTestMoveMaker::test_make_unmake_combinations(const std::string &position) 
     CTEST << n_moves << " moves to test" << std::endl;
    for (int j = 0; j < n_moves; ++j) {
         SMove move = move_generator.move_list.get_next();
-        CTEST << "Make / unmake " << move_as_text(move) << "...\n";
+        CTEST << "Make / unmake " << move << "...\n";
         board.move_maker.make_move(move);
         board.move_maker.unmake_move();
         SILENT_EXPECT(board.get_fen_position() == position);
