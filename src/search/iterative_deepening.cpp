@@ -23,6 +23,9 @@ SMove CIterativeDeepening::search(int depth) {
     move_generator.generate_all();
     std::string root_position = board.get_fen_position();
     for (int current_depth = min_meaningful_depth_to_avoid_illegal_moves; current_depth <= depth; ++current_depth) {
+        if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
+            break;
+        }
         assert(board.get_fen_position() == root_position);
         root_node_search(current_depth);
         assert(best_move != NULL_MOVE);
@@ -41,18 +44,19 @@ void CIterativeDeepening::root_node_search(int depth) {
     move_generator.move_list.reuse_list();
     int n_moves = move_generator.move_list.list_size();
     assert(n_moves >= 0);
-    for (int j = 0; j < n_moves; ++j) {
+    constexpr int uci_first_movenumber = 1;
+    for (int j = uci_first_movenumber; j <= n_moves; ++j) {
         if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
             break;
         }
         // No alpha-beta-cutoffs here. Top-level search has to examine all moves,
         // but feed the recursive search with the current alpha-beta values.
         SMove move_candidate = move_generator.move_list.get_next();
-        assert(is_null_move(move_candidate) == false);
+        assert(move_candidate != NULL_MOVE);
         assert(move_in_range(move_candidate));
         board.move_maker.make_move(move_candidate);
         int candidate_score = search.alpha_beta(depth - 1, alpha, beta); 
-        search_statistics.set_current_move(move_as_text(move_candidate), candidate_score);
+        search_statistics.set_current_move(move_candidate, candidate_score, j);
         if ((side_to_move == WHITE_TO_MOVE) && (candidate_score > best_score)) {
             best_move = move_candidate;
             best_score = candidate_score;
@@ -79,7 +83,7 @@ SMove CIterativeDeepening::search_nodes(int64_t nodes) {
     do {
         root_node_search(current_depth);
         ++current_depth;
-    }  while (search_statistics.get_nodes_calculated() < nodes);
+    }  while ((search_statistics.get_nodes_calculated() < nodes) && !DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop);
     return best_move;
 }
 
@@ -91,7 +95,7 @@ SMove CIterativeDeepening::search_movetime(const int64_t movetime_ms) {
     do {
         root_node_search(current_depth);
         ++current_depth;
-    }  while (enough_time_left_for_one_more_iteration(movetime_ms));
+    }  while ((enough_time_left_for_one_more_iteration(movetime_ms)) && !DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop);
     return best_move;
 }
 

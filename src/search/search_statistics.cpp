@@ -34,9 +34,14 @@ void CSearchStatistics::set_best_move(const std::string &best_move, const int sc
     CUciProtocol::send_info(info);
 }
 
-void CSearchStatistics::set_current_move(const std::string &current_move, int score) {
-    assert(move_in_range(text_to_basic_move(current_move)));
-    std::string info = "currmove " + current_move + " score cp " + std::to_string(score) + node_statistics();
+void CSearchStatistics::set_current_move(const SMove current_move, int score, int movenumber) {
+    assert(move_in_range(current_move));
+    constexpr int uci_first_movenumber = 1;
+    assert(movenumber >= uci_first_movenumber);
+    std::string info = "currmove " + move_as_text(current_move)
+        + " score cp " + std::to_string(score)
+        + " currmovenumber " + std::to_string(movenumber)
+        + node_statistics();
     CUciProtocol::send_info(info);
 }
 
