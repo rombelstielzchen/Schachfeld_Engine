@@ -26,9 +26,6 @@ SMove CIterativeDeepening::search(int depth) {
         assert(board.get_fen_position() == root_position);
         root_node_search(current_depth);
         assert(best_move != NULL_MOVE);
-        if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
-            break;
-        }
     }
     return best_move;
 }
@@ -45,6 +42,9 @@ void CIterativeDeepening::root_node_search(int depth) {
     int n_moves = move_generator.move_list.list_size();
     assert(n_moves >= 0);
     for (int j = 0; j < n_moves; ++j) {
+        if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
+            break;
+        }
         // No alpha-beta-cutoffs here. Top-level search has to examine all moves,
         // but feed the recursive search with the current alpha-beta values.
         SMove move_candidate = move_generator.move_list.get_next();
@@ -66,9 +66,6 @@ void CIterativeDeepening::root_node_search(int depth) {
         }
         search_statistics.set_best_move(move_as_text(best_move), best_score);
         board.move_maker.unmake_move();
-        if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
-            break;
-        }
     }
     search_statistics.add_nodes(n_moves);
     search_statistics.log_branching_factor();
