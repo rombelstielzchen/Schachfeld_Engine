@@ -77,7 +77,7 @@ void CUciProtocol::process_message(const std::string &message) {
 
 void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
     std::string next_token = string_tokenizer.next_token();
-    if (next_token == "infinite") {
+    if ((next_token == "infinite") || (next_token == "")) {
         command_interface.go_infinite();
         return;
     } 
