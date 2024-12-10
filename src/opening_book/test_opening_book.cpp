@@ -33,7 +33,7 @@
         // Checking for extra spaces
         SILENT_EXPECT(variation[0] != ' ');
         SILENT_EXPECT(variation.back() != ' ');
-        SILENT_EXPECT(variation.find("  ") >= 0);
+        SILENT_EXPECT(variation.find("  ") == std::string::npos);
         // Checking the length for plausibility
         size_t length_plus_one = variation.length() + 1;
         constexpr int move_plus_separator = 5;

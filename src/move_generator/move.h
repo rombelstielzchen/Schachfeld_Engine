@@ -47,7 +47,8 @@ static_assert(sizeof(SMove) <= sizeof(int64_t));
 // Internal encoding of "none", "finished", "end of list"
 constexpr SMove NULL_MOVE = {{0, 0}, 
     {0, 0}, 
-    MOVE_TYPE_NORMAL
+    MOVE_TYPE_NORMAL,
+    '\0'
 };
 
 // Textual encoding according to the UCI-standard, 4 zeroes

@@ -56,7 +56,7 @@ std::string CBoard::get_fen_position() const {
     return CFenGenerator::get_fen_position(); 
 }
 
-const char* const CBoard::as_is() const {
+const char*  CBoard::as_is() const {
     assert(squares.back().back() == '\0');
     return &squares[0][0];
 }

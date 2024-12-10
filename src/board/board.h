@@ -101,7 +101,7 @@ class CBoard {
     void set_start_position();
     bool set_fen_position(const std::string &position);
     std::string get_fen_position() const;
-    const char* const as_is() const;
+     const char* as_is() const;
   public:
     inline void flip_side_to_move() { side_to_move = !side_to_move; }
     void clear_square(const int file, const int rank);
