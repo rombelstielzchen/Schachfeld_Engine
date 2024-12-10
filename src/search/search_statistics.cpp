@@ -51,24 +51,25 @@ void CSearchStatistics::add_nodes(const int64_t nodes) {
 }
 
 std::string CSearchStatistics::node_statistics() const {
-    std::chrono::time_point<std::chrono::high_resolution_clock> now_time = std::chrono::high_resolution_clock::now();
-    int64_t nodes_per_second = nodes_calculated / used_time_milliseconds() * 1000;
+    int64_t nodes_per_second = (nodes_calculated * 1000) / used_time_milliseconds();
+    assert(nodes_per_second > 0);
     std::string info = " nodes " + std::to_string(nodes_calculated) + " time " + std::to_string(used_time_milliseconds()) + " nps " + std::to_string(nodes_per_second);
     return info;
 }
 
 void CSearchStatistics::log_branching_factor() const {
-    int64_t nodes_for_this_iteration = nodes_calculated - nodes_at_start_of_current_depth;
     assert(nodes_at_start_of_current_depth > 0);
+    assert(nodes_calculated > nodes_at_start_of_current_depth);
+    int64_t nodes_for_this_iteration = nodes_calculated - nodes_at_start_of_current_depth;
     double branching_factor = static_cast<double>(nodes_for_this_iteration) / nodes_at_start_of_current_depth;
-///    assert(branching_factor > 1.0);
+    // branching_factor nay be < 1 in case of "stop"-command
+    assert(branching_factor > 0);
     std::string message = "branching_factor: " + std::to_string(branching_factor);
     CUciProtocol::send_info(message);
 }
 
 int64_t CSearchStatistics::used_time_milliseconds() const {
     std::chrono::time_point<std::chrono::high_resolution_clock> now_time = std::chrono::high_resolution_clock::now();
-
     std::chrono::duration<float> used_time_seconds = now_time - start_time; 
     assert(used_time_seconds.count() > 0);
     int64_t milliseconds = static_cast<int64_t>(1000 * used_time_seconds.count());
