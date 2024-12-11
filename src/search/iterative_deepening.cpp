@@ -68,7 +68,7 @@ void CIterativeDeepening::root_node_search(int depth) {
             beta = candidate_score;
             move_generator.move_list.shift_current_move_to_top();
         }
-        search_statistics.set_best_move(move_as_text(best_move), best_score);
+        search_statistics.set_best_move(best_move, best_score);
         board.move_maker.unmake_move();
     }
     search_statistics.add_nodes(n_moves);

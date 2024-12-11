@@ -28,9 +28,9 @@ void CSearchStatistics::reset_current_depth(int new_depth) {
     nodes_at_start_of_current_depth = nodes_calculated;
 }
 
-void CSearchStatistics::set_best_move(const std::string &best_move, const int score) {
-    assert(move_in_range(text_to_basic_move(best_move)));
-    std::string info = "bestmove " + best_move + " score cp " + std::to_string(score);
+void CSearchStatistics::set_best_move(const SMove best_move, const int score) {
+    assert(move_in_range(best_move));
+    std::string info = "bestmove " + move_as_text(best_move) + " score cp " + std::to_string(score);
     CUciProtocol::send_info(info);
 }
 
@@ -43,11 +43,6 @@ void CSearchStatistics::set_current_move(const SMove current_move, int score, in
         + " currmovenumber " + std::to_string(movenumber)
         + node_statistics();
     CUciProtocol::send_info(info);
-}
-
-void CSearchStatistics::add_nodes(const int64_t nodes) {
-    assert(nodes >= 0);
-    nodes_calculated += nodes;
 }
 
 std::string CSearchStatistics::node_statistics() const {

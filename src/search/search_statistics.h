@@ -14,10 +14,13 @@ class CSearchStatistics {
   public:
     void reset_all();
     void reset_current_depth(int new_depth);
-    void set_best_move(const std::string &best_move, const int score);
+    void set_best_move(const SMove best_move, const int score);
     void set_current_move(const SMove current_move, int score, int movenumber);
-    void add_nodes(const int64_t nodes);
     void log_branching_factor() const;
+    inline void add_nodes(const int64_t nodes) {
+        assert(nodes >= 0);
+        nodes_calculated += nodes;
+    }
   public:
     int64_t get_nodes_calculated() { return nodes_calculated; }
     int64_t used_time_milliseconds() const;
