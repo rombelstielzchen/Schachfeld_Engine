@@ -37,6 +37,9 @@ SMove CMoveList::get_next() {
 SMove CMoveList::lookup_move(const std::string &text_move) const {
     assert(last_silent_move >= first_capture);
      SMove basic_move = text_to_basic_move(text_move);
+     if (basic_move == NULL_MOVE) {
+         return NULL_MOVE;
+     }
     assert(basic_move.move_type == MOVE_TYPE_NORMAL);
     if (text_move.length() > 4) {
         basic_move.move_type = text_move[4];
