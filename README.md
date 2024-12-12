@@ -20,6 +20,17 @@ Take yiur favourite graphical chess-prgram. There should be a menu-item like Men
 
 How To Get The Source-Code
 --------------------------
+* First you need Git, a source-code management system. As a Windows-user you can get it from [https://git-scm.com/downloads/win](https://git-scm.com/downloads/win).
+* Create an empty folder on your desktop, name it Schachfeld or similar.
+* Git comes with two frontends: a graphical user-interface and a console, Git-Bash.
+  We use the latter one, which works on other systems too. Open Git-Bash, then change the working-directory at the command-prompt:
+  ~~~
+  cd Desktop
+  cd Schachfeld
+  ~~~
+  *
+  *
+
 
 How To Build
 ------------
