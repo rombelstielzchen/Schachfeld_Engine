@@ -26,7 +26,7 @@ How To Get The Source-Code
   ~~~
   cd Desktop
   ~~~
-  The following steps will then create a new directory **Schachfeld_Emgine** on your desktop.
+  The following steps will then create a new directory **Schachfeld_Engine** on your desktop.
 * Now you can check out the project from Github. At your command-prompt type:
 ~~~
 git clone https://github.com/rombelstielzchen/Schachfeld_Engine
