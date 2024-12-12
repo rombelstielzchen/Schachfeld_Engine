@@ -16,21 +16,22 @@ Not yet
 
 How to Use
 ----------
-Take yiur favourite graphical chess-prgram. There should be a menu-item like Menu -> Engines -> Install Engine..., that either opens a dialog or directly starts a file-selection-dialog. Here select the *SchachfeldEngine.exe*. If you get asked if the engine supports the uCI-protocol or the WinBoard-peorocol, choose UCI. The engine should be now ready to be used. Some GUIs will automatically start the new engine, others will ask you to start the active one. Have fun!
+Take your favourite graphical chess-prgram. There should be a menu-item like Menu -> Engines -> Install Engine..., that either opens a dialog or directly starts a file-selection-dialog. Here select the *SchachfeldEngine.exe*. If you get asked if the engine supports the uCI-protocol or the WinBoard-peorocol, choose UCI. The engine should be now ready to be used. Some GUIs will automatically start the new engine, others will ask you to start the active one. Have fun!
 
 How To Get The Source-Code
 --------------------------
 * First you need Git, a source-code management system. As a Windows-user you can get it from [https://git-scm.com/downloads/win](https://git-scm.com/downloads/win).
-* Create an empty folder on your desktop, name it Schachfeld or similar.
 * Git comes with two frontends: a graphical user-interface and a console, Git-Bash.
   We use the latter one, which works on other systems too. Open Git-Bash, then change the working-directory at the command-prompt:
   ~~~
   cd Desktop
-  cd Schachfeld
   ~~~
-  *
-  *
-
+  The following steps will then create a new directory **Schachfeld_Emgine** on your desktop.
+* Now you can check out the project from Github. At your command-prompt type:
+~~~
+git clone https://github.com/rombelstielzchen/Schachfeld_Engine
+~~~
+ Once the download has completed you should see **Schachfeld_Engine** at your desktop, This directory contains the complete Git-database (hidden) and the code of the main development-branch. Enjoy!
 
 How To Build
 ------------
