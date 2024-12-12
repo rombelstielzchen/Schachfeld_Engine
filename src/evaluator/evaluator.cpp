@@ -30,7 +30,7 @@ int CEvaluator::evaluate_square(const int file, const int rank) const {
         case WHITE_QUEEN:
             return (900 + central_bonus(file, rank));
         case WHITE_ROOK:
-            return 500;
+            return 470;
         case WHITE_BISHOP:
             return (310 + central_bonus(file, rank));
         case WHITE_KNIGHT:
@@ -42,7 +42,7 @@ int CEvaluator::evaluate_square(const int file, const int rank) const {
         case BLACK_QUEEN:
             return (-900 - central_bonus(file, rank));
         case BLACK_ROOK:
-            return -500;
+            return -470;
         case BLACK_BISHOP:
             return (-310 - central_bonus(file, rank));
         case BLACK_KNIGHT:
