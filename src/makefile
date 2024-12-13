@@ -155,9 +155,10 @@ analysis:
 
 test:
 	### Testing engine
-	# Quick and dirty:
-	# Start the engine, self-test in debug-mode, then quit
-	echo "quit" | ./engine
+	# "echo "quit" | ./engine"
+	# ... was a quick test, executing the built-in self-test in debug-mode.
+	# Script below also tests the UCI-protocol
+	../test/quick_engine_test.pl
 
 semi_clean:
 	### Deleting automatically generated code
