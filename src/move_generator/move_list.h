@@ -42,6 +42,8 @@ class CMoveList {
     // For root-node ordering
     void reuse_list();
     void shift_current_move_to_top();
+  public:
+    std::string as_text() const;
   private:
     void store_white_promotions(const int source_file, const int source_rank, const int target_file, const int target_rank);
     void store_black_promotions(const int source_file, const int source_rank, const int target_file, const int target_rank);

@@ -7,6 +7,7 @@
 #include "search.h"
 #include "search_statistics.h"
 #include "../universal_chess_interface/command_interface.h"
+#include "../universal_chess_interface/uci_protocol.h"
 
 CIterativeDeepening::CIterativeDeepening() {
     best_move = NULL_MOVE;
@@ -73,6 +74,7 @@ void CIterativeDeepening::root_node_search(int depth) {
     }
     search_statistics.add_nodes(n_moves);
     search_statistics.log_branching_factor();
+    CUciProtocol::send_info(move_generator.move_list.as_text());
 }
 
 SMove CIterativeDeepening::search_nodes(int64_t nodes) {

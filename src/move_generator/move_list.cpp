@@ -234,3 +234,13 @@ void CMoveList::shift_current_move_to_top() {
     bidirectional_move_list[first_capture] = new_top_move;
 }
 
+std::string CMoveList::as_text() const {
+    std::string info ="move_list (" + std::to_string(list_size()) + "): ";
+    for (int j = 0; j < list_size(); ++j) {
+        int index = first_capture + j;
+        info +=move_as_text(bidirectional_move_list[index]);
+        info += " ";
+    }
+    return info;
+}
+
