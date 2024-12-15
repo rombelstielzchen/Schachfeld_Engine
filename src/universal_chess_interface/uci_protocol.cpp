@@ -43,7 +43,7 @@ void CUciProtocol::send_info(const std::string &information) {
 void CUciProtocol::process_message(const std::string &message) {
     string_tokenizer.set_input(message);
     std::string command = string_tokenizer.next_token(); 
-    if (command == "go") {
+    if ((command == "go") || (command == "g")) {
         process_go_command(string_tokenizer);
     } else if (command == "isready") {
         // Our first version is always and immediately ready
@@ -53,7 +53,7 @@ void CUciProtocol::process_message(const std::string &message) {
         if (!command_interface.set_position(fen_position)) {
             std::cerr << "ERROR: invalid position received via UCI" << std::endl;
         }
-    } else if (command == "stop") {
+    } else if ((command == "stop") || (command == "s")) {
         command_interface.stop();
     } else if (command == "test") {
             CEngineTest::test_everything(); 
@@ -78,31 +78,31 @@ void CUciProtocol::process_message(const std::string &message) {
 
 void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
     std::string next_token = string_tokenizer.next_token();
-    if ((next_token == "infinite") || (next_token == "")) {
+    if ((next_token == "infinite") || (next_token == "i") || (next_token == "")) {
         command_interface.go_infinite();
         return;
     } 
-    if (next_token == "depth") {
+    if ((next_token == "depth") || (next_token == "d")) {
         int  depth = string_tokenizer.get_integer_token(1);
         command_interface.go_depth(depth);
         return;
     }
-    if (next_token == "nodes") {
+    if ((next_token == "nodes") || (next_token == "n")) {
         int64_t nodes = string_tokenizer.get_integer_token(1);
        command_interface.go_nodes(nodes);
        return;
     }
-    if (next_token == "mate") {
+    if ((next_token == "mate") || (next_token == "m")) {
         int depth_in_moves = string_tokenizer.get_integer_token(1);
         command_interface.go_mate(depth_in_moves);
         return;
     }
-    if (next_token == "movetime") {
+    if ((next_token == "movetime") || (next_token == "mt")) {
         uint64_t move_time_ms = string_tokenizer.get_integer_token(1);
        command_interface.go_movetime(move_time_ms);
        return;
     }
-    if (next_token == "ponder") {
+    if ((next_token == "ponder") || (next_token == "p")) {
         command_interface.go_ponder();
         return;
     }
