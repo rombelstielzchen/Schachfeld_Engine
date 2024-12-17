@@ -5,6 +5,7 @@
 
 #include "test_board.h"
 #include "board.h"
+#include "../move_generator/move.h"
 #include "../technical_functions/testing.h"
 
 const std::string startpos_with_no_moves = "startpos";
@@ -20,6 +21,7 @@ bool CTestBoard::test_everything() {
     EXPECT(test_accessors());
     EXPECT(test_modifiers());
     EXPECT(test_moves_from_startpos());
+    EXPECT(test_castling_rights());
     return true;
 }
 
@@ -110,3 +112,14 @@ bool CTestBoard::test_moves_from_startpos() {
     EXPECT(board.move_maker.play_variation(board.get_moves_from_startpos()) == false);
     return true;
 }
+
+bool CTestBoard::test_castling_rights() {
+    CTEST << "CTestBoard::test_castling_rights() ...\n";
+    SILENT_EXPECT(board.set_fen_position("startpos moves g2g3 g8f6 f1g2 h8g8 e1f1"));
+    EXPECT(board.get_castling_rights(MOVE_TYPE_BLACK_LONG_CASTLING) == true);
+    EXPECT(board.get_castling_rights(MOVE_TYPE_BLACK_SHORT_CASTLING) == false);
+    EXPECT(board.get_castling_rights(MOVE_TYPE_WHITE_LONG_CASTLING) == false);
+    EXPECT(board.get_castling_rights(MOVE_TYPE_WHITE_SHORT_CASTLING) == false);
+    return true;
+}
+
