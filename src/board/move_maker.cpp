@@ -6,6 +6,7 @@
 #include "move_maker.h"
 #include "board.h"
 #include "board_logic.h"
+#include "square_constants.h"
 #include "../move_generator/move_generator.h"
 #include "../technical_functions/string_functions.h"
 #include "../technical_functions/string_tokenizer.h"
@@ -163,6 +164,7 @@ bool CMoveMaker::play_variation(const std::string &variation) {
         if (!make_move(next_move)) {
             return false;
         }
+        update_castling_rights(next_move);
         next_move = tokenizer.next_token();
     }
     return true;
@@ -171,5 +173,29 @@ bool CMoveMaker::play_variation(const std::string &variation) {
 void CMoveMaker::reset_history() {
     move_history.clear();
     former_eng_passeng_files.clear();
+}
+
+void CMoveMaker::update_castling_rights(const std::string &textual_move) const {
+    SMove move = text_to_basic_move(textual_move);
+    update_castling_rights(move.source);
+    update_castling_rights(move.target);
+}
+
+void CMoveMaker::update_castling_rights(const SSquare source_or_target_square) const {
+   if (source_or_target_square == A1) {
+        board.set_castling_rights(MOVE_TYPE_WHITE_LONG_CASTLING, false);
+    } else if (source_or_target_square == E1) {
+        board.set_castling_rights(MOVE_TYPE_WHITE_LONG_CASTLING, false);
+        board.set_castling_rights(MOVE_TYPE_WHITE_SHORT_CASTLING, false);
+    } else if (source_or_target_square == H1) {
+        board.set_castling_rights(MOVE_TYPE_WHITE_SHORT_CASTLING, false);
+    } else if (source_or_target_square == A8) {
+        board.set_castling_rights(MOVE_TYPE_BLACK_LONG_CASTLING, false);
+    } else if (source_or_target_square == E8) {
+        board.set_castling_rights(MOVE_TYPE_BLACK_LONG_CASTLING, false);
+        board.set_castling_rights(MOVE_TYPE_BLACK_SHORT_CASTLING, false);
+    } else if (source_or_target_square == H8) {
+        board.set_castling_rights(MOVE_TYPE_BLACK_SHORT_CASTLING, false);
+    }
 }
 

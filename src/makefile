@@ -154,11 +154,9 @@ analysis:
 	make engine
 
 test:
-	### Testing engine
-	# "echo "quit" | ./engine"
-	# ... was a quick test, executing the built-in self-test in debug-mode.
-	# Script below also tests the UCI-protocol
-	../test/quick_engine_test.pl
+	### Testing engine, executing a quick self-test, without UCI.
+	# For more tests see the "test" directory.
+	echo "quit" | ./engine
 
 semi_clean:
 	### Deleting automatically generated code

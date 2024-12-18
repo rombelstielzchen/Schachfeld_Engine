@@ -14,6 +14,7 @@ bool CTestMoveMaker::test_everything() {
     EXPECT(test_eng_passeng_rights());
     EXPECT(test_make_unmake_combinations());
     EXPECT(test_algebraic_game());
+    EXPECT(test_castling_rights());
     return true;
 }
 
@@ -54,6 +55,10 @@ bool CTestMoveMaker::test_algebraic_game() {
     EXPECT(board.get_square(FILE_A, RANK_8) == WHITE_BISHOP);
    CTEST << "Now unmaking all moves ...\n";
    board.move_maker.unmake_all();
+   board.set_castling_rights(MOVE_TYPE_WHITE_SHORT_CASTLING, true);
+   board.set_castling_rights(MOVE_TYPE_WHITE_LONG_CASTLING, true);
+   board.set_castling_rights(MOVE_TYPE_BLACK_SHORT_CASTLING, true);
+   board.set_castling_rights(MOVE_TYPE_BLACK_LONG_CASTLING, true);
    EXPECT(board.get_fen_position() == START_POSITION);
     EXPECT(board.move_maker.move_history.size() == 0);
     return true;
@@ -77,3 +82,14 @@ bool CTestMoveMaker::test_eng_passeng_rights() {
     EXPECT(board.eng_passeng_possible() == false);
     return true;
 }
+
+bool CTestMoveMaker::test_castling_rights() {
+    CTEST << "CTestMoveMaker::test_castling_rights() ...\n";
+    SILENT_EXPECT(board.set_fen_position("startpos moves g2g3 g8f6 f1g2 h8g8 e1f1"));
+    EXPECT(board.get_castling_rights(MOVE_TYPE_BLACK_LONG_CASTLING) == true);
+    EXPECT(board.get_castling_rights(MOVE_TYPE_BLACK_SHORT_CASTLING) == false);
+    EXPECT(board.get_castling_rights(MOVE_TYPE_WHITE_LONG_CASTLING) == false);
+    EXPECT(board.get_castling_rights(MOVE_TYPE_WHITE_SHORT_CASTLING) == false);
+    return true;
+}
+

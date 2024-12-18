@@ -4,9 +4,9 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "fen_parser.h"
+#include "move_maker.h"
 #include "../move_generator/move_generator.h"
 #include "../move_generator/move_list.h"
-#include "move_maker.h"
 #include "../technical_functions/string_functions.h"
 #include "../technical_functions/string_tokenizer.h"
 
@@ -182,3 +182,4 @@ std::string CFenParser::extract_moves_from_position_command(const std::string &p
     trim(result);
     return result;
 }
+

@@ -19,6 +19,9 @@ class CMoveMaker {
     bool play_variation(const std::string &variation);
     void reset_history();
   private:
+    void update_castling_rights(const std::string &textual_move) const;
+    void update_castling_rights(const SSquare source_or_target_square) const;
+  private:
     std::vector<SMove> move_history;
     std::vector <int> former_eng_passeng_files;
 };
