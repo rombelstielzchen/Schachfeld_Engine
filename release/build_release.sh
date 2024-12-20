@@ -12,6 +12,7 @@ echo "### Packaing Release ###"
 BINARY=$(ls -d -1 $BIN_DIR/* | tail -1)
 # Get the name without exe-extension, to be used as directory-namee
 TARGET_DIR=$(ls -1 $BIN_DIR/* | tail -1 | xargs basename | sed -e "s/\.exe//;")
+ZIP_FILE=$(echo $TARGET_DIR | sed -e "s/$/.zip/;")
 
 # Copying all needed files
 rm -rf $TARGET_DIR
@@ -21,9 +22,12 @@ cp ../README.md $TARGET_DIR
 cp -R ../docs/ $TARGET_DIR
 rm -rf $TARGET_DIR/docs/developers/
 
+# Buila a zip-archive
+zip -r $ZIP_FILE $TARGET_DIR
+
 # Final Report
 echo -n "Binary: "
 ls -d $TARGET_DIR/* | grep exe
 echo -n "Archive: "
-ls -l -d *.ziip
-
+ls -l -d $ZIP_FILE
+unzip -l $ZIP_FILE

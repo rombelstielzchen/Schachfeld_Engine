@@ -42,7 +42,7 @@ How To Build
 * The command-line program "schachfeld.exe" should now exist in the folder "src/visual_studio/x64/Release", ready to be used.
 
 ### On Linuxoid Systems ###
-* Make sure you have the following programs installed: g++, ld, make, perl, sed.
+* Make sure you have the following programs installed: g++, ld, make, perl, sed, xargs, zip.
 * Open a DOS-Fensterle and change the directory to "/home/otto/desktop/schachfeld_engine/src" or whatever the username is, my dear Mr. Otto.
 * Run the "make" command.
 * Enjoy the "engine" program in your working directory.

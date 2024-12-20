@@ -48,7 +48,6 @@ bool CBoard::set_fen_position(const std::string &position) {
     clear();
     moves_from_startpos = "";
     bool success = CFenParser::parse(position);
-    std::cerr << "New position: " << get_fen_position() << std::endl;
     return success;
 }
 
