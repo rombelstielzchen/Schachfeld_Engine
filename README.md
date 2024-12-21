@@ -16,7 +16,7 @@ Not yet
 
 How to Use
 ----------
-Take your favourite graphical chess-prgram. There should be a menu-item like Menu -> Engines -> Install Engine..., that either opens a dialog or directly starts a file-selection-dialog. Here select the *SchachfeldEngine.exe*. If you get asked if the engine supports the uCI-protocol or the WinBoard-peorocol, choose UCI. The engine should be now ready to be used. Some GUIs will automatically start the new engine, others will ask you to start the active one. Have fun!
+Take your favourite graphical chess-program. There should be a menu-item like Menu -> Engines -> Install Engine..., that either opens a dialog or directly starts a file-selection-dialog. Here select the *SchachfeldEngine.exe*. If you get asked if the engine supports the UCI-protocol or the WinBoard-protocol, choose UCI. The engine should be now ready to be used. Some GUIs will automatically start the new engine, others will ask you to start the active one. Have fun!
 
 How To Get The Source-Code
 --------------------------
