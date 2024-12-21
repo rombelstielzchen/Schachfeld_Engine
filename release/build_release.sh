@@ -5,6 +5,12 @@
 # License: GPLv3
 # Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
+# Preconditions:
+#   * Linux-engine built and tested, simply "make"
+#   * Windows engine built with MiSo ViStu in Release-mode
+#   * Windows-executable renamed with version-number, e.g. Schachfeld_Engine_3.1
+#   * Execztable moved to binaries-directory. see below ...
+
 BIN_DIR='../older_versions'
 
 echo "### Packaing Release ###"
@@ -22,7 +28,7 @@ cp ../README.md $TARGET_DIR
 cp -R ../docs/ $TARGET_DIR
 rm -rf $TARGET_DIR/docs/developers/
 
-# Buila a zip-archive
+# Buil a zip-archive
 zip -r $ZIP_FILE $TARGET_DIR
 
 # Final Report
@@ -31,3 +37,4 @@ ls -d $TARGET_DIR/* | grep exe
 echo -n "Archive: "
 ls -l -d $ZIP_FILE
 unzip -l $ZIP_FILE
+
