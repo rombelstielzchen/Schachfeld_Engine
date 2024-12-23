@@ -39,7 +39,6 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
 }
 
 bool CFenParser::parse_piece_placement(const std::string &partial_input) {
-    DEBUG_METHOD();
     board.clear();
     // FEN traverses the board row by row from A8 to H1
     int x = FILE_A;
@@ -100,7 +99,6 @@ bool CFenParser::parse_piece_placement(const std::string &partial_input) {
 }
 
 bool CFenParser::parse_side_to_move(const std::string &partial_input) {
-    DEBUG_METHOD();
     if (partial_input == "w") {
         board.side_to_move = WHITE_TO_MOVE;
         return true;
@@ -113,7 +111,6 @@ bool CFenParser::parse_side_to_move(const std::string &partial_input) {
 }
 
 bool CFenParser::parse_castling_rights(const std::string &partial_input) {
-    DEBUG_METHOD();
     board.clear_castling_rights();
     if ((partial_input == "-") || (partial_input == "")) {
         return true;
@@ -140,7 +137,6 @@ bool CFenParser::parse_castling_rights(const std::string &partial_input) {
 }
 
 bool CFenParser::parse_eng_passeng(const std::string &partial_input) {
-    DEBUG_METHOD();
     if ((partial_input == "-") || (partial_input == "")) {
         board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
         return true;
@@ -160,7 +156,6 @@ bool CFenParser::parse_100_ply_draw_counter(const std::string &partial_input) {
     // We use the old atoi instead of stoi, because it doesn't throw exceptions 
     // and returns 0 in case of bad input
     board._100_ply_draw_counter = std::max(0, atoi(partial_input.c_str()));
-    DEBUG_METHOD();
     return true;
 }
 
