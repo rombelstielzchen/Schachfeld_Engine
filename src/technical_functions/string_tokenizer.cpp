@@ -45,7 +45,6 @@ std::string CStringTokenizer::get_the_rest() {
 }
 
 bool is_prefix_of(const std::string &pattern, const std::string &long_string, bool true_prefix) {
-    DEBUG_METHOD();
     size_t pattern_size = pattern.length();
     if (long_string.find(pattern) != 0) {
         return false;
