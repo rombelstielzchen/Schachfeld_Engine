@@ -30,7 +30,7 @@ void CSearchStatistics::reset_current_depth(int new_depth) {
 
 void CSearchStatistics::set_best_move(const SMove best_move, const int score) {
     assert(move_in_range(best_move));
-    std::string info = "bestmove " + move_as_text(best_move) + " score cp " + std::to_string(score);
+    std::string info = "bestmove " + move_as_text(best_move) + anti_adjudication_score(score);
     CUciProtocol::send_info(info);
 }
 
@@ -39,7 +39,7 @@ void CSearchStatistics::set_current_move(const SMove current_move, int score, in
     constexpr int uci_first_movenumber = 1;
     assert(movenumber >= uci_first_movenumber);
     std::string info = "currmove " + move_as_text(current_move)
-        + " score cp " + std::to_string(score)
+        + anti_adjudication_score(score)
         + " currmovenumber " + std::to_string(movenumber)
         + node_statistics();
     CUciProtocol::send_info(info);
@@ -50,6 +50,21 @@ std::string CSearchStatistics::node_statistics() const {
     assert(nodes_per_second > 0);
     std::string info = " nodes " + std::to_string(nodes_calculated) + " time " + std::to_string(used_time_milliseconds()) + " nps " + std::to_string(nodes_per_second);
     return info;
+}
+
+std::string CSearchStatistics::anti_adjudication_score(int score) const {
+    // Some GUIs adjudicate the game, if the score is too large, too low or too equal.
+    // Let's conterfeit this! ;-)
+    constexpr int max_score = 599;
+    constexpr int min_score = -max_score;
+    constexpr int epsilon_score = 007;
+    score = std::min(score, max_score);
+    score = std::max(score, min_score);
+    if (abs(score) < epsilon_score) {
+        score = epsilon_score;
+    }
+    std::string result = " score cp " + std::to_string(score) + " ";
+    return result;
 }
 
 void CSearchStatistics::log_branching_factor() const {

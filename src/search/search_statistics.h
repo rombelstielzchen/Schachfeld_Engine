@@ -26,6 +26,7 @@ class CSearchStatistics {
     int64_t used_time_milliseconds() const;
   private:
     std::string node_statistics() const;
+    std::string anti_adjudication_score(int score) const;
   private:
     int64_t nodes_calculated;
     int64_t nodes_at_start_of_current_depth;
