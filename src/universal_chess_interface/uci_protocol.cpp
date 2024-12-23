@@ -11,6 +11,9 @@
 #include "../technical_functions/engine_test.h"
 #include "../technical_functions/standard_headers.h"
 
+const std::string ENGINE_ID = "Schachfeld_Engine_0.a";
+static_assert('a' > '9');
+
 CUciProtocol::CUciProtocol() {
 }
 
@@ -26,7 +29,8 @@ CUciProtocol::CUciProtocol() {
 }
 
 void CUciProtocol::identify_engine() const {
-    send_message("id name Schachfeld 0.9");
+        std::string id_message = "id name " + ENGINE_ID;
+        send_message(id_message);
     send_message("id autor Rombelstielzchen");
 }
 
