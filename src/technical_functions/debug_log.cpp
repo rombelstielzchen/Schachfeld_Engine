@@ -1,21 +1,6 @@
-// Code based on the logging-framework by Fredrik Bornander
-// https://www.codeproject.com/Articles/63736/Simple-debug-log-for-C
-// CodeProject license
-// 
-// Lots of modifications for the Schachfeld chess-engine by Rombelstielzchen
-// For the original code and some docu see the directory "docu_debug_log".
-
-#if DEBUG_LOG_ENABLE
+/*#if DEBUG_LOG_ENABLE
 
 #include "debug_log.h"
-#include <fstream>
-
-// Do not use this stream directly, use the wrapper!
-// At startup it can be undefined due to initialization order!
-// std::cout is only known at runtime!
-std::ostream* debug_stream = &std::cout;
-std::ofstream debug_file_stream;
-int CLog::indentation = 0;
 
 CLog::CLog(const std::string& ctx)	: context(ctx)
 #ifdef DEBUG_LOG_ENABLE_TIMING
@@ -65,4 +50,4 @@ void CLog::message(const std::string& message) {
 }
 
 #endif
-
+*/
