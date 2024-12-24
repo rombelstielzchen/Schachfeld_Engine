@@ -11,6 +11,10 @@ static_assert(INTPTR_MAX == INT64_MAX, "64-bit technology required: parameter-pa
 
 int main() {
     DEBUG_LOG_TO_FILE();
+    DEBUG_METHOD();
+    DEBUG_MESSAGE("huhu");
+    int a = 12;
+    DEBUG_VALUE_OF(a);
     srand(time(NULL));
 #ifndef NDEBUG
     if (CEngineTest::test_everything() == false) {
