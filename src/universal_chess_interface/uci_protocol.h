@@ -22,6 +22,7 @@ class CUciProtocol {
     void process_message(const std::string &message);
     void process_go_command(CStringTokenizer &string_tokenizer);
     void dynamic_sleep(const std::string &last_message) const;
+    void display_help() const;
   private:
     CCommandInterface command_interface;
     CStringTokenizer string_tokenizer;

@@ -15,6 +15,8 @@ const std::string ENGINE_ID = "Schachfeld_Engine_0.a";
 static_assert('a' > '9');
 
 CUciProtocol::CUciProtocol() {
+    send_message(ENGINE_ID);
+    send_message("'help' or '?' for some guidance");
 }
 
 /* static */ void CUciProtocol::send_message(const std::string &message) {
@@ -67,6 +69,8 @@ void CUciProtocol::process_message(const std::string &message) {
          send_message("uciok");
     } else if (command == "ucinewgame") {
         command_interface.new_game();
+    } else if ((command == "help") || (command == "?")) {
+        display_help();
     } else {
         // "quit" already gets handled by the message_loop().
         // So this is an unknown token. According to the UCI-standard
@@ -158,3 +162,18 @@ void CUciProtocol::dynamic_sleep(const std::string &last_message) const {
     delay_in_ms = (last_message != "") ? delay_in_ms : 0;
     std::this_thread::sleep_for(std::chrono::milliseconds(delay_in_ms));
 }
+
+void CUciProtocol::display_help() const {
+    send_message("This chess-engine is meant to be used with any modern graphical user-interface,");
+    send_message("communicating via the UCI protocol.");
+    send_message("If you are curious, you might try the command-line:");
+    send_message("    * 'position startpos moves g2g4' or 'p s m g2g4'");
+    send_message("    * Alternatively: 'position fen ....'");
+    send_message("    * 'go depth 7' or 'g d 7' to search");
+    send_message("    * 'go movetime 20000' or ' g mt 20000'");
+    send_message("    * 'go infinite' or 'go' or 'g'");
+    send_message("    * 'stop' and some patience to force a move");
+    send_message("    * 'test' for the self-test");
+    send_message("    * 'quit' or 'x'to terminate");
+}
+
