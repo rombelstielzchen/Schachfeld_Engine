@@ -56,7 +56,7 @@ std::string CFenGenerator::get_piece_placement() {
 }
 
 std::string CFenGenerator::get_side_to_move() {
-    return (board.get_side_to_move() == WHITE_TO_MOVE) ? "w" : "b";
+    return (board.get_side_to_move() == WHITE_PLAYER) ? "w" : "b";
 }
 
 std::string CFenGenerator::get_eng_passeng() {
@@ -66,7 +66,7 @@ std::string CFenGenerator::get_eng_passeng() {
     }
     assert(file_in_range(eng_passeng_file));
     std::string result{file_as_text(eng_passeng_file)};
-    if (board.get_side_to_move() == WHITE_TO_MOVE) {
+    if (board.get_side_to_move() == WHITE_PLAYER) {
        result.push_back('6');
     } else {
         result.push_back('3');

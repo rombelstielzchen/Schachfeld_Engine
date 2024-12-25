@@ -37,7 +37,7 @@ bool CTestBoard::test_set_fen_position() {
      EXPECT(board.get_fen_position() == START_POSITION);
      SILENT_EXPECT(board.set_fen_position(startpos_with_moves));
     EXPECT(board.get_square(FILE_E, RANK_4) == WHITE_POWER);
-    EXPECT(board.get_side_to_move() == BLACK_TO_MOVEE);
+    EXPECT(board.get_side_to_move() == BLACK_PLAYER);
     EXPECT(board.get_eng_passeng_file() == FILE_F);
     return true;
 } 
@@ -69,14 +69,14 @@ bool CTestBoard::test_as_is() {
 bool CTestBoard::test_accessors() {
    CTEST  << "CTestBoard::test_accessors() ..." << std::endl;
     board.set_start_position();
-    EXPECT(board.get_side_to_move() == WHITE_TO_MOVE);
+    EXPECT(board.get_side_to_move() == WHITE_PLAYER);
     EXPECT(board.get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
     EXPECT(board.eng_passeng_possible() == false);
     EXPECT(board.get_square(FILE_E, RANK_8) == BLACK_KING);
     EXPECT(board.square_is_empty(FILE_E, RANK_2) == false);
     EXPECT(board.square_is_empty(FILE_E, RANK_4) == true);
     board.flip_side_to_move();
-    EXPECT(board.get_side_to_move() == BLACK_TO_MOVEE);
+    EXPECT(board.get_side_to_move() == BLACK_PLAYER);
     return true;
 }
 
@@ -88,7 +88,7 @@ bool CTestBoard::test_modifiers() {
     board.flip_side_to_move();
     EXPECT(board.square_is_empty(FILE_E, RANK_2));
     EXPECT(board.get_square(FILE_E, RANK_4) == WHITE_POWER);
-    EXPECT(board.get_side_to_move() == BLACK_TO_MOVEE);
+    EXPECT(board.get_side_to_move() == BLACK_PLAYER);
     return true;
 }
 

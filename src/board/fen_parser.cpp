@@ -100,10 +100,10 @@ bool CFenParser::parse_piece_placement(const std::string &partial_input) {
 
 bool CFenParser::parse_side_to_move(const std::string &partial_input) {
     if (partial_input == "w") {
-        board.side_to_move = WHITE_TO_MOVE;
+        board.side_to_move = WHITE_PLAYER;
         return true;
     } else if (partial_input == "b") {
-        board.side_to_move = BLACK_TO_MOVEE;
+        board.side_to_move = BLACK_PLAYER;
         return true;
     }
     // Unexpected character

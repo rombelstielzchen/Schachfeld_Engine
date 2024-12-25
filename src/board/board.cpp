@@ -12,7 +12,7 @@ CBoard::CBoard() {
     init_garden_fence();
     clear();
     set_start_position();
-    assert(side_to_move == WHITE_TO_MOVE);
+    assert(side_to_move == WHITE_PLAYER);
     assert(move_counter > 0);
 }
 
@@ -40,7 +40,7 @@ void CBoard::set_start_position() {
     set_fen_position(START_POSITION);
     moves_from_startpos = "";
     assert(get_fen_position() == START_POSITION);
-    assert(get_side_to_move() == WHITE_TO_MOVE);
+    assert(get_side_to_move() == WHITE_PLAYER);
     assert(get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
 }
 

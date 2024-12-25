@@ -13,10 +13,10 @@ CMoveGenerator::CMoveGenerator() {
 
 void CMoveGenerator::generate_all() {
     bool side_to_move = board.get_side_to_move();
-    if (side_to_move == WHITE_TO_MOVE) {
+    if (side_to_move == WHITE_PLAYER) {
         generate_all_white_moves();
     } else {
-        assert(side_to_move == BLACK_TO_MOVEE);
+        assert(side_to_move == BLACK_PLAYER);
         generate_all_black_moves();
     }
 }

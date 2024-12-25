@@ -11,19 +11,19 @@
 constexpr bool UNEXPECTED_MOVE_TYPE = false;
 
 char CBoardLogic::my_king() {
-    return (board.get_side_to_move() == WHITE_TO_MOVE) ? WHITE_KING : BLACK_KING;
+    return (board.get_side_to_move() == WHITE_PLAYER) ? WHITE_KING : BLACK_KING;
 }
 
 char CBoardLogic::my_rook() {
-    return (board.get_side_to_move() == WHITE_TO_MOVE) ? WHITE_ROOK : BLACK_ROOK;
+    return (board.get_side_to_move() == WHITE_PLAYER) ? WHITE_ROOK : BLACK_ROOK;
 }
 
 char CBoardLogic::my_pawn() {
-    return (board.get_side_to_move() == WHITE_TO_MOVE) ? WHITE_POWER : BLACK_POWER;
+    return (board.get_side_to_move() == WHITE_PLAYER) ? WHITE_POWER : BLACK_POWER;
 }
 
 int CBoardLogic::eng_passeng_pawn_rank() {
-    return (board.get_side_to_move() == WHITE_TO_MOVE) ? RANK_5 : RANK_4;
+    return (board.get_side_to_move() == WHITE_PLAYER) ? RANK_5 : RANK_4;
 }
 
 int CBoardLogic::eng_passeng_forward_rank() {
@@ -31,7 +31,7 @@ int CBoardLogic::eng_passeng_forward_rank() {
 }
 
 int CBoardLogic::my_back_rank() {
-    return (board.get_side_to_move() == WHITE_TO_MOVE) ? RANK_1 : RANK_8;
+    return (board.get_side_to_move() == WHITE_PLAYER) ? RANK_1 : RANK_8;
 }
 
 bool CBoardLogic::castling_squares_empty(const char move_type) {
@@ -75,7 +75,7 @@ bool CBoardLogic::square_occupied_by_opponent(const int file, const int rank) {
         case WHITE_ROOK:
         case WHITE_QUEEN:
         case WHITE_KING:
-            return (board.get_side_to_move() == BLACK_TO_MOVEE);
+            return (board.get_side_to_move() == BLACK_PLAYER);
             break;
         case BLACK_POWER:
         case BLACK_KNIGHT:
@@ -83,7 +83,7 @@ bool CBoardLogic::square_occupied_by_opponent(const int file, const int rank) {
         case BLACK_ROOK:
         case BLACK_QUEEN:
         case BLACK_KING:
-            return (board.get_side_to_move() == WHITE_TO_MOVE);
+            return (board.get_side_to_move() == WHITE_PLAYER);
             break;
     }
     return false;

@@ -41,7 +41,7 @@ void CIterativeDeepening::root_node_search(int depth) {
     bool side_to_move = board.get_side_to_move();
     int alpha = WHITE_MIN_SCORE;
     int beta = BLACK_MIN_SCORE;
-    int best_score = (side_to_move == WHITE_TO_MOVE) ? WHITE_MIN_SCORE : BLACK_MIN_SCORE;
+    int best_score = (side_to_move == WHITE_PLAYER) ? WHITE_MIN_SCORE : BLACK_MIN_SCORE;
     move_generator.move_list.reuse_list();
     int n_moves = move_generator.move_list.list_size();
     assert(n_moves >= 0);
@@ -58,12 +58,12 @@ void CIterativeDeepening::root_node_search(int depth) {
         board.move_maker.make_move(move_candidate);
         int candidate_score = search.alpha_beta(depth - 1, alpha, beta); 
         search_statistics.set_current_move(move_candidate, candidate_score, j);
-        if ((side_to_move == WHITE_TO_MOVE) && (candidate_score > best_score)) {
+        if ((side_to_move == WHITE_PLAYER) && (candidate_score > best_score)) {
             best_move = move_candidate;
             best_score = candidate_score;
             alpha = candidate_score;
             move_generator.move_list.shift_current_move_to_top();
-        } else if ((side_to_move == BLACK_TO_MOVEE) && (candidate_score < best_score)) {
+        } else if ((side_to_move == BLACK_PLAYER) && (candidate_score < best_score)) {
             best_move = move_candidate;
             best_score = candidate_score;
             beta = candidate_score;
@@ -114,7 +114,7 @@ SMove CIterativeDeepening::search_time(
         const int64_t moves_to_go) {
    // TODO: extra class, move to CCommandInterface
     int64_t total_time_ms;
-    if (board.get_side_to_move() == WHITE_TO_MOVE) {
+    if (board.get_side_to_move() == WHITE_PLAYER) {
         total_time_ms = white_time_milliseconds + moves_to_go * white_increment_milliseconds;
     } else {
         total_time_ms = black_time_milliseconds + moves_to_go * blacl_increment_milliseconds;
