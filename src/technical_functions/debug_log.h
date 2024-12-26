@@ -59,7 +59,7 @@ template<class T> void value_of(const std::string& name, const T& value);
 
 inline void write_indentation() {
 	for(int i = 0; i < 2 * indentation; ++i) {
-        *safe_output_stream() << " ";
+        *safe_output_stream() << "  ";
 	}
 }
 

@@ -21,6 +21,8 @@ CUciProtocol::CUciProtocol() {
     // Used by both UCI-thread and calculator-thread, therefore mutex-protected
         std::mutex message_mutex;
         std::lock_guard<std::mutex> lock(message_mutex);
+        DEBUG_METHOD();
+        DEBUG_VALUE_OF(message);
     // UCI standard says:
     //   * communication via text-IO
     //   * every message should end with a new-line, "\n"
@@ -45,6 +47,8 @@ void CUciProtocol::send_info(const std::string &information) {
 }
 
 void CUciProtocol::process_message(const std::string &message) {
+    DEBUG_METHOD();
+    DEBUG_VALUE_OF(message);
     string_tokenizer.set_input(message);
     std::string command = string_tokenizer.next_token(); 
     if ((command == "go") || (command == "g")) {
