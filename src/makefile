@@ -13,7 +13,7 @@
 
 CC=g++
 
-DEBUGFLAGS=-Wall -O0 -c $^
+DEBUGFLAGS=-D DEBUG_LOG_ENABLE -Wall -O0 -c $^
 OPTIMIZEDFLAGS=-Wall -O2  -c $^
 ANALYSISFLAGS=-Wall -Wextra -Wpedantic -O0  -c $^
 CFLAGS=$(DEBUGFLAGS)
@@ -28,7 +28,7 @@ debug:
 	make -e engine
 
 engine: makefile main.o board.o uci_protocol.o string_functions.o  \
-	fen_parser.o command_interface.o move_generator.o move.o debug_log.o \
+	fen_parser.o command_interface.o move_generator.o move.o \
 	test_move_generator.o engine_test.o fen_generator.o test_board.o \
 	test_technical_functions.o board_logic.o opening_book.o test_opening_book.o \
 	gm_book.o move_maker.o test_move_maker.o move_list.o search.o test_search.o \
@@ -40,7 +40,7 @@ engine: makefile main.o board.o uci_protocol.o string_functions.o  \
 	### Linking engine
 	echo $(CFLAGS)
 	g++ -o engine main.o string_functions.o uci_protocol.o board.o  \
-	fen_parser.o command_interface.o move_generator.o move.o debug_log.o  \
+	fen_parser.o command_interface.o move_generator.o move.o \
 	test_move_generator.o engine_test.o fen_generator.o test_board.o \
 	test_technical_functions.o board_logic.o opening_book.o test_opening_book.o \
 	gm_book.o move_maker.o test_move_maker.o move_list.o search.o test_search.o \
@@ -77,9 +77,6 @@ move_generator.o: move_generator/move_generator.cpp
 move.o: move_generator/move.cpp
 	$(CC) $(CFLAGS) 
 
-debug_log.o: technical_functions/debug_log.cpp
-	$(CC) $(CFLAGS) 
-	
 test_move_generator.o: move_generator/test_move_generator.cpp
 	$(CC) $(CFLAGS) 
 
