@@ -9,6 +9,7 @@
 #include "../board/test_board.h"
 #include "../board/test_move_maker.h"
 #include "../evaluator/test_evaluator.h"
+#include "../evaluator/test_piece_square_value_tables.h"
 #include "../move_generator/test_move_generator.h"
 #include "../opening_book/test_opening_book.h"
 #include "../search/test_search.h"
@@ -19,6 +20,7 @@
     EXPECT(CTestBoard::test_everything());
     EXPECT(CTestMoveGenerator::test_everything());
     EXPECT(CTestMoveMaker::test_everything());
+    EXPECT(CTestPieceSquareValueTables::test_everything());
     EXPECT(CTestEvaluator::test_everything());
     EXPECT(CTestSearch::test_everything());
     EXPECT(CTestOpeningBook::test_everything());
