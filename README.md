@@ -12,11 +12,11 @@ The engine supports the universal-chess-interface for communication with your fa
 
 How To Download
 ---------------
-Not yet
+[version_0.9.zip](release/archives/Schachfeld_Engine_0.9.zip)
 
 How to Use
 ----------
-Take your favourite graphical chess-program. There should be a menu-item like Menu -> Engines -> Install Engine..., that either opens a dialog or directly starts a file-selection-dialog. Here select the *SchachfeldEngine.exe*. If you get asked if the engine supports the UCI-protocol or the WinBoard-protocol, choose UCI. The engine should be now ready to be used. Some GUIs will automatically start the new engine, others will ask you to start the active one. Have fun!
+First download the latest zip-archive and extract it, e.g. to your desktop. Then take your favourite graphical chess-program. There should be a menu-item like Menu -> Engines -> Install Engine..., that either opens a dialog or directly starts a file-selection-dialog. Here select the *SchachfeldEngine.exe*. If you get asked if the engine supports the UCI-protocol or the WinBoard-protocol, choose UCI. The engine should be now ready to be used. Some GUIs will automatically start the new engine, others will ask you to start the active one. Have fun!
 
 How To Get The Source-Code
 --------------------------
