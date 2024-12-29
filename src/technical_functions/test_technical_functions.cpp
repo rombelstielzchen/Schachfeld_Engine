@@ -32,12 +32,12 @@
     EXPECT(is_prefix_of("bobby","bobby", true) == false);
     EXPECT(is_prefix_of("bobby","tolya") == false);
     // replace and remove
-    initial = "hElLo, world!";
+    initial = "Hello, world!";
     EXPECT(replace_substring(initial, "ello", "uhu", true) == 1);
     EXPECT(initial == "Huhu, world!");
-    replace_all_substrings(initial, "U", "o", true);
+    replace_all_substrings(initial, "u", "o", true);
     EXPECT(initial == "Hoho, world!");
-    remove_all_substrings(initial, ", world!");
+    remove_all_substrings(initial, ", world");
     EXPECT(initial == "Hoho!");
     return true;
 }

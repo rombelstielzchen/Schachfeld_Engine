@@ -29,18 +29,31 @@ void trim(std::string &in_out_string) {
     trim_left(in_out_string);
 }
 
-size_t find_substring(const std::string &text, const std::string substring) {
-    return 0;
+size_t find_substring(const std::string &text, const std::string substring, bool case_insensitive) {
+    // TODO: insensitive + test
+    return text.find(substring);
 }
 
 size_t replace_substring(std::string &source, const std::string &substring, const std::string &by_what, bool case_insensitive) {
-    return 0;
+    size_t pos = find_substring(source, substring);
+    if (pos != std::string::npos) {
+        source.replace(pos, substring.length(), by_what);
+    }
+    return pos;
 }
 
 void replace_all_substrings(std::string &source, const std::string &substring, const std::string &by_what, bool case_insensitive) {
-
+    if ((substring == "") || (substring == by_what)) {
+        return;
+    }
+    // TODO: replace naive implementation, searching N times from the beginning
+    size_t pos = 0;
+    while (pos != std::string::npos) {
+        pos = replace_substring(source, substring, by_what, case_insensitive);
+    }
 }
 
 void remove_all_substrings(std::string &source, const std::string &substring, bool case_insensitive) {
+    replace_all_substrings(source, substring, "", case_insensitive);
 }
 
