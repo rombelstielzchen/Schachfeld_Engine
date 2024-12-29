@@ -10,5 +10,6 @@ class CTestTechnicalFunctions {
     static bool test_everything();
   private:
     static bool test_string_functions();
+    static bool test_string_tokenizer();
 };
 

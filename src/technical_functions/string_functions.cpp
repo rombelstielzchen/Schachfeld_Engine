@@ -29,3 +29,18 @@ void trim(std::string &in_out_string) {
     trim_left(in_out_string);
 }
 
+size_t find_substring(const std::string &text, const std::string substring) {
+    return 0;
+}
+
+size_t replace_substring(std::string &source, const std::string &substring, const std::string &by_what, bool case_insensitive) {
+    return 0;
+}
+
+void replace_all_substrings(std::string &source, const std::string &substring, const std::string &by_what, bool case_insensitive) {
+
+}
+
+void remove_all_substrings(std::string &source, const std::string &substring, bool case_insensitive) {
+}
+
