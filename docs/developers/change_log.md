@@ -1,6 +1,12 @@
 Major Changes
 =============
 
+Version 0.a
+-----------
+- Anti-adjudication: preventing scores that are too good, too bad or too equal.
+- Convenience at the command-line: lots of shortcuts lijke "p s m ..."
+  for "position startpos moves ...". Also ignoring phpbb "[FEN]" tags copied from fora.
+
 Version 0.9
 -----------
 * Basic time-management, using iterative-deepening, in order to play chess with time-controls.
