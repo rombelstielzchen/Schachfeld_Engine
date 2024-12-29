@@ -176,13 +176,13 @@ clean:
 stats:
 	@echo -n "LOC total:  "
 	@cat *.cpp */*.cpp */*.h */*/*.cpp */*/*.h makefile */*/*.sh */*/*/*.sh ../*/*.pl ../*/*.sh | wc -l
-	@echo -n "LOC tests:  "
+	@echo -n "LOC tests:   "
 	@cat */*test*.cpp */*test*.h | wc -l
-	@echo -n "Book-lines: "
+	@echo -n "Book-lines:  "
 	@grep "\"," opening_book/book_data/gm_book.cpp | wc -l
-	@echo -n "LOC tools:   "
+	@echo -n "LOC tools:    "
 	@cat makefile ../*/*.sh ../*/*.pl */*/*.sh */*/*/*.sh | wc -l
-	@echo -n "TODO items:    "
+	@echo -n "TODO items:     "
 	@grep TODO *.cpp */*.cpp */*/*.cpp | wc -l
 	@ls -o engine
 
