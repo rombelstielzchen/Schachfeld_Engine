@@ -47,9 +47,6 @@
     <ClCompile Include="..\move_generator\move.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\technical_functions\debug_log.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\board\fen_generator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

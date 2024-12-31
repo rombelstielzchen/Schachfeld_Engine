@@ -152,7 +152,6 @@
     <ClCompile Include="..\search\search.cpp" />
     <ClCompile Include="..\search\search_statistics.cpp" />
     <ClCompile Include="..\search\test_search.cpp" />
-    <ClCompile Include="..\technical_functions\debug_log.cpp" />
     <ClCompile Include="..\technical_functions\engine_test.cpp" />
     <ClCompile Include="..\technical_functions\string_functions.cpp" />
     <ClCompile Include="..\technical_functions\string_tokenizer.cpp" />

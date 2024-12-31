@@ -7,6 +7,7 @@
 #include "search_statistics.h"
 #include "../evaluator/evaluator.h"
 #include "../move_generator/move_generator.h"
+#include "../universal_chess_interface/command_interface.h"
 
 constexpr int HALF_KING = 10000;
 
@@ -35,6 +36,11 @@ int CSearch::alpha_beta(int remaining_depth, int alpha, int beta) {
         board.move_maker.make_move(move_candidate);
         int candidate_score;
         if (remaining_depth > 1) {
+            if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
+                board.move_maker.unmake_move();
+                constexpr int score_does_not_matter_wont_get_used = 314159;
+                return score_does_not_matter_wont_get_used;
+            }
             candidate_score = alpha_beta(remaining_depth - 1, alpha, beta);
         } else if (is_any_capture(move_candidate)) {
             candidate_score = static_exchange_evaluation(move_candidate.target, alpha, beta);
