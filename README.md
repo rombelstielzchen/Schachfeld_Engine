@@ -62,8 +62,10 @@ The Schachfeld-engine is licensed as open-source under GPLv3. This basically mea
 Thank You!
 ----------
 * David J. Barnes for his excellent tool [pgn-extract](https://www.cs.kent.ac.uk/people/staff/djb/pgn-extract/).
-* The makers of PGN-Mentor for their [huge collection of high-quality games](https://www.pgnmentor.com/files.html).
 * Fredrik Bornander for his [logging module on CodeProject](https://www.codeproject.com/Articles/63736/Simple-debug-log-for-C)
+* The makers of PGN-Mentor for their [huge collection of high-quality games](https://www.pgnmentor.com/files.html).
+* Salto.mattale for testing and reporting problems.
+* Zadesa for testing and reporting problems.
 
 Feel welcome to contact us at the Schachfeld-forum if you miss your name on the list.
 
