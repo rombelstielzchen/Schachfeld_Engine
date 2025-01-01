@@ -6,6 +6,7 @@ Version 0.a
 - Anti-adjudication: preventing scores that are too good, too bad or too equal.
 - Convenience at the command-line: lots of shortcuts lijke "p s m ..."
   for "position startpos moves ...". Also ignoring phpbb "[FEN]" tags copied from fora.
+  * Fast reactions to stop-commands, as the formerly slow reaction has been suspected to cause problems with some GUIs (LucasChess and maybe ScidVsPc).
 
 Version 0.9
 -----------
