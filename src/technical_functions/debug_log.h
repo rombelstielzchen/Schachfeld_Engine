@@ -1,5 +1,9 @@
 #pragma once
 
+#ifndef DEBUG_LOG_ENABLE
+#define DEBUG_LOG_ENABLE
+#endif
+
 // Code based on the logging-framework by Fredrik Bornander
 // https://www.codeproject.com/Articles/63736/Simple-debug-log-for-C
 // CodeProject license
@@ -78,8 +82,32 @@ template<class T> void value_of(const std::string& name, const T& value) {
     // endl causes a flush, so all extra flushing removed
 }
 
+ 
+
+// TODO: independent of system and compiler
+#ifdef _WIN32
+
+#include <winuser.h>
+
+inline std::string debug_filename() {
+    char path[MAX_PATH+1];
+    if (SHGetSpecialFolderPath(HWND_DESKTOP, path, CSIDL_DESKTOP, false)) {
+        return path;
+    }
+    return "./debug.txt";
+}
+
+#else
+
+inline std::string debug_filename() {
+    const std::string filename = "./debug.txt";
+    return filename;
+}
+
+#endif
+
 inline void log_to_file() {
-    debug_file_stream.open("debug.txt");
+    debug_file_stream.open(debug_filename());
     set_stream(debug_file_stream);
 }
 
