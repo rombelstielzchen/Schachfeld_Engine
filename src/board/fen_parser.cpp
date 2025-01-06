@@ -12,8 +12,6 @@
 
 bool CFenParser::parse(const std::string &fen_board_specification) {
     std::string cleaned_up_specification = fen_board_specification;
-    remove_all_substrings(cleaned_up_specification, "[FEN]", true);
-    remove_all_substrings(cleaned_up_specification, "[/FEN]", true);
     std::string extra_moves = extract_moves_from_position_command(cleaned_up_specification);
     bool lack_of_errors = true;
     CStringTokenizer tokenizer(cleaned_up_specification);

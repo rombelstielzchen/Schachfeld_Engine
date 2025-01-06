@@ -40,8 +40,9 @@ bool CTestBoard::test_set_fen_position() {
     EXPECT(board.get_square(FILE_E, RANK_4) == WHITE_POWER);
     EXPECT(board.get_side_to_move() == BLACK_PLAYER);
     EXPECT(board.get_eng_passeng_file() == FILE_F);
-    SILENT_EXPECT(board.set_fen_position(fen_with_bb_tags));
-    EXPECT(board.get_fen_position() == fen_with_no_moves);
+    /// Removal of phpbb-tags happens ATM in CUciProtocol
+    ///SILENT_EXPECT(board.set_fen_position(fen_with_bb_tags));
+   /// EXPECT(board.get_fen_position() == fen_with_no_moves);
     return true;
 } 
 
