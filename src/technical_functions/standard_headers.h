@@ -8,8 +8,16 @@
 // Some huge, never-changing standard headers and third-party headers
 // in order to create precompiled header-files.
 
-#include "debug_log.h"
+#ifdef _WIN32
 
+#include <windows.h>
+// Work around the legendary min-max-problem, macro-magic ruining std::C++
+#undef min
+#undef max
+
+#endif
+
+#include "debug_log.h"
 #include <algorithm>
 #include <array>
 #include <cassert>
@@ -30,3 +38,4 @@
 // To be used in assertions
 constexpr bool NOT_YET_IMPLEMENTED = false;
 constexpr bool THIS_MUST_NOT_HAPPEN = false;
+
