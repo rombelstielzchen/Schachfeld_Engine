@@ -12,6 +12,7 @@
 #include "../move_generator/test_move_generator.h"
 #include "../opening_book/test_opening_book.h"
 #include "../search/test_search.h"
+#include "../search/test_statistics.h"
 #include "standard_headers.h"
 /* static */ bool CEngineTest::test_everything() {
     BEGIN_TESTSUITE("CEngineTest");
@@ -20,6 +21,7 @@
     EXPECT(CTestMoveGenerator::test_everything());
     EXPECT(CTestMoveMaker::test_everything());
     EXPECT(CTestEvaluator::test_everything());
+    EXPECT(CTestStatistics::test_everything());
     EXPECT(CTestSearch::test_everything());
     EXPECT(CTestOpeningBook::test_everything());
     CTEST << "[OK] CEngineTest::test_everything(): all tests passed with success." << std::endl;
