@@ -13,9 +13,9 @@
 
 CC=g++
 
-DEBUGFLAGS=-D DEBUG_LOG_ENABLE -Wall -O0 -c $^
-OPTIMIZEDFLAGS=-Wall -O2  -c $^
-ANALYSISFLAGS=-Wall -Wextra -Wpedantic -O0  -c $^
+DEBUGFLAGS=-D DEBUG_LOG_ENABLE -std=c++17 -Wall -O0 -c $^
+OPTIMIZEDFLAGS=-std=c++17 -Wall -O2  -c $^
+ANALYSISFLAGS==-std=c++17 -Wall -Wextra -Wpedantic -O0  -c $^
 CFLAGS=$(DEBUGFLAGS)
 
 COMBINEDSOURCES="all_in_one.cpp"
