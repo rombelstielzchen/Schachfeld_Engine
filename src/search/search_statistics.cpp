@@ -52,7 +52,7 @@ std::string CSearchStatistics::node_statistics() const {
     return info;
 }
 
-std::string CSearchStatistics::anti_adjudication_score(int score) const {
+std::string CSearchStatistics::anti_adjudication_score(int score) {
     // Some GUIs adjudicate the game, if the score is too large, too low or too equal.
     // Let's conterfeit this! ;-)
     constexpr int max_score = 599;

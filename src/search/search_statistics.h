@@ -9,6 +9,7 @@
 #include "../technical_functions/standard_headers.h"
 
 class CSearchStatistics {
+    friend class CTestStatistics;
   public:
     CSearchStatistics();
   public:
@@ -24,9 +25,11 @@ class CSearchStatistics {
   public:
     int64_t get_nodes_calculated() { return nodes_calculated; }
     int64_t used_time_milliseconds() const;
+    // TODO
+    int expected_branching_factor_for_next_iteration() const;
   private:
     std::string node_statistics() const;
-    std::string anti_adjudication_score(int score) const;
+    static std::string anti_adjudication_score(int score);
   private:
     int64_t nodes_calculated;
     int64_t nodes_at_start_of_current_depth;
