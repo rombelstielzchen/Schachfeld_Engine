@@ -86,6 +86,9 @@
     <ClCompile Include="..\search\test_search.cpp">
       <Filter>Source Files\Tests</Filter>
     </ClCompile>
+    <ClCompile Include="..\search\test_statistics.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
     <ClCompile Include="..\search\search.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -173,6 +176,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\search\test_search.h">
+      <Filter>Header Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\search\test_statistics.h">
       <Filter>Header Files\Tests</Filter>
     </ClInclude>
     <ClInclude Include="..\search\search_statistics.h">
