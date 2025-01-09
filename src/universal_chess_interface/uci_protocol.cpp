@@ -190,7 +190,7 @@ void CUciProtocol::display_help() const {
     send_message("    * 'go depth 7' or 'g d 7' to search");
     send_message("    * 'go movetime 20000' or ' g mt 20000'");
     send_message("    * 'go infinite' or 'go' or 'g'");
-    send_message("    * 'stop' and some patience to force a move");
+    send_message("    * 'stop' to force a move");
     send_message("    * 'test' for the self-test");
     send_message("    * 'quit' or 'x'to terminate");
 }

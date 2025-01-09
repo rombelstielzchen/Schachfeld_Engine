@@ -64,6 +64,7 @@ Thank You!
 * David J. Barnes for his excellent tool [pgn-extract](https://www.cs.kent.ac.uk/people/staff/djb/pgn-extract/).
 * Fredrik Bornander for his [logging module on CodeProject](https://www.codeproject.com/Articles/63736/Simple-debug-log-for-C)
 * The makers of PGN-Mentor for their [huge collection of high-quality games](https://www.pgnmentor.com/files.html).
+* ReorX for testing on Mac and reporting problems with the build-process.
 * Salto.mattale for testing and reporting problems.
 * Zadesa for testing and reporting problems.
 
