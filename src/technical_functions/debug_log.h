@@ -87,32 +87,26 @@ template<class T> void value_of(const std::string& name, const T& value) {
 // TODO: independent of system and compiler
 #ifdef _WIN32
 
+// TODO: all headers needed?
 #include <windows.h>
 #include "pathcch.h"
 #include "shlobj_core.h"
-//#include <wchar>
 #include <wchar.h>
 #include <winuser.h>
 
 #pragma comment(lib, "pathcch.lib")
 
 inline std::wstring const debug_filename() {
-    //static wchar_t debug_path[MAX_PATH + 1] = L".";
     std::wstring debug_path = L".";
     PWSTR p_desktop_path;
     if (SHGetKnownFolderPath(FOLDERID_Desktop, 0, 0, &p_desktop_path) == S_OK) {
-        //MessageBox(0, p_desktop_path, L"Desktop", MB_OK);
-       // wcscpy(debug_path, desktop_path);
-       // int length = std::wcslen(desktop_path);
-        //debug_path[length] = L'/';
-        //debug_path[length] + 1 = L'\0';
         debug_path = p_desktop_path;
     }
     // The calling process is responsible for freeing this resource once it is no longer needed 
     // by calling CoTaskMemFree, whether SHGetKnownFolderPath succeeds or not. 
+    // TODO: it terminates here
     ///CoTaskMemFree(&p_desktop_path);
         debug_path += L"/debug-txt";
-        //MessageBox(0, debug_path.c_str(), L"Debug", MB_OK);
     return debug_path;
 }
 
