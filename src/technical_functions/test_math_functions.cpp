@@ -4,6 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "test_math_functions.h"
+#include "math_functions.h"
 #include "testing.h"
 
 bool CTestMathFunctions::test_everything() {
@@ -15,11 +16,23 @@ bool CTestMathFunctions::test_everything() {
 
 bool CTestMathFunctions::test_approximately_equal() {
     CTEST << "CTEST::test_approximately_equal() ...\n";
+    EXPECT(approximately_equal(99, 100) == false);
+    EXPECT(approximately_equal(0.1, 0.2) == false);
+    EXPECT(approximately_equal(0, 0.001) == false);
+    EXPECT(approximately_equal(-0.001, 0) == false);
+    EXPECT(approximately_equal(99999, 100000) == true);
+    EXPECT(approximately_equal(9, 0.00001) == true);
     return true;
 }
 
 bool CTestMathFunctions::test_root() {
     CTEST << "CTEST::test_root() ...\n";
+    EXPECT(approximately_equal(root(64, 2) , 8));
+    EXPECT(approximately_equal(root(64, 3), 2));
+    EXPECT(approximately_equal(root(8, 0.5), 8));
+    EXPECT(approximately_equal(root(7, 1), 1));
+    EXPECT(approximately_equal(root(1, 7), 1));
+    EXPECT(approximately_equal(root(0, 555), 0));
     return true;
 }
 

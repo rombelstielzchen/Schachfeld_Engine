@@ -33,7 +33,7 @@ engine: makefile main.o board.o uci_protocol.o string_functions.o  \
 	test_technical_functions.o board_logic.o opening_book.o test_opening_book.o \
 	gm_book.o move_maker.o test_move_maker.o move_list.o search.o test_search.o \
 	evaluator.o test_evaluator.o search_statistics.o iterative_deepening.o \
-	string_tokenizer.o test_statistics.o
+	string_tokenizer.o test_statistics.o test_math_functions.o math_functions.o
 	#make semi_clean 
 #	CFLAGS=-Wall -O0  -c $^
 	#make standard_headers
@@ -45,7 +45,7 @@ engine: makefile main.o board.o uci_protocol.o string_functions.o  \
 	test_technical_functions.o board_logic.o opening_book.o test_opening_book.o \
 	gm_book.o move_maker.o test_move_maker.o move_list.o search.o test_search.o \
 		evaluator.o test_evaluator.o search_statistics.o iterative_deepening.o \
-	string_tokenizer.o  test_statistics.o
+		string_tokenizer.o  test_statistics.o test_math_functions.o math_functions.o
 	make test
 	@#sl -e +extra_foo +immortality
 	@echo "=============================="
@@ -135,6 +135,12 @@ string_tokenizer.o: technical_functions/string_tokenizer.cpp
 	$(CC) $(CFLAGS) 
 
 test_statistics.o: search/test_statistics.cpp
+	$(CC) $(CFLAGS) 
+
+test_math_functions.o: technical_functions/test_math_functions.cpp
+	$(CC) $(CFLAGS) 
+
+math_functions.o: technical_functions/math_functions.cpp
 	$(CC) $(CFLAGS) 
 
 #### Other build targets ###############

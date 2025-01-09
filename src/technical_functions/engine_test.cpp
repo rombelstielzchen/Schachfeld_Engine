@@ -5,6 +5,7 @@
 
 #include "engine_test.h"
 #include "testing.h"
+#include "test_math_functions.h"
 #include "test_technical_functions.h"
 #include "../board/test_board.h"
 #include "../board/test_move_maker.h"
@@ -16,6 +17,7 @@
 #include "standard_headers.h"
 /* static */ bool CEngineTest::test_everything() {
     BEGIN_TESTSUITE("CEngineTest");
+    EXPECT(CTestMathFunctions::test_everything());
      EXPECT(CTestTechnicalFunctions::test_everything());
     EXPECT(CTestBoard::test_everything());
     EXPECT(CTestMoveGenerator::test_everything());
@@ -24,7 +26,7 @@
     EXPECT(CTestStatistics::test_everything());
     EXPECT(CTestSearch::test_everything());
     EXPECT(CTestOpeningBook::test_everything());
-    CTEST << "[OK] CEngineTest::test_everything(): all tests passed with success." << std::endl;
+    CTEST << "[OK] CEngineTest::test_everything(): all " << testcase_counter  << " chevks passed with success." << std::endl;
     board.set_start_position();
     return true;
 }
