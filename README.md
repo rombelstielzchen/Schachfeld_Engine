@@ -51,7 +51,7 @@ How To Build
 How To Geek
 -----------
 If you are curious, how a chess-engine works under the hood, 
-you might just diuble-click the executablei for a first impression. 
+you might just double-click the executable for a first impression. 
 The Schachfeld_Engine will then run user-friendly in a black window
 and display some instructions.
 
