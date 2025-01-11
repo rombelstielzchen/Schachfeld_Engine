@@ -18,6 +18,7 @@ class CSearchStatistics {
     void set_best_move(const SMove best_move, const int score);
     void set_current_move(const SMove current_move, int score, int movenumber);
     void log_branching_factor() const;
+    void log_subtree_size() const;
     inline void add_nodes(const int64_t nodes) {
         assert(nodes >= 0);
         nodes_calculated += nodes;
@@ -33,6 +34,7 @@ class CSearchStatistics {
   private:
     int64_t nodes_calculated;
     int64_t nodes_at_start_of_current_depth;
+    int64_t nodes_at_start_of_current_move;
     int max_depth;
     std::chrono::time_point<std::chrono::high_resolution_clock> start_time;
 };

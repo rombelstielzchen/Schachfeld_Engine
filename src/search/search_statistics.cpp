@@ -15,6 +15,7 @@ CSearchStatistics::CSearchStatistics() {
 void CSearchStatistics::reset_all() {
     nodes_calculated = anti_division_by_zero;
     nodes_at_start_of_current_depth = nodes_calculated;
+    nodes_at_start_of_current_move = nodes_at_start_of_current_depth;
     max_depth = 1;
     start_time = std::chrono::high_resolution_clock::now();
 }
@@ -26,6 +27,7 @@ void CSearchStatistics::reset_current_depth(int new_depth) {
     std::string info = "depth " + std::to_string(new_depth);
     CUciProtocol::send_info(info);
     nodes_at_start_of_current_depth = nodes_calculated;
+    nodes_at_start_of_current_move = nodes_calculated;
 }
 
 void CSearchStatistics::set_best_move(const SMove best_move, const int score) {
@@ -40,9 +42,12 @@ void CSearchStatistics::set_current_move(const SMove current_move, int score, in
     assert(movenumber >= uci_first_movenumber);
     std::string info = "currmove " + move_as_text(current_move)
         + anti_adjudication_score(score)
-        + " currmovenumber " + std::to_string(movenumber)
+        + " currmovenumber "
+        + std::to_string(movenumber)
         + node_statistics();
     CUciProtocol::send_info(info);
+    log_subtree_size();
+    nodes_at_start_of_current_move = nodes_calculated;
 }
 
 std::string CSearchStatistics::node_statistics() const {
@@ -86,5 +91,12 @@ int64_t CSearchStatistics::used_time_milliseconds() const {
     milliseconds += anti_division_by_zero; 
     assert(milliseconds > 0);
     return milliseconds;
+}
+
+void CSearchStatistics::log_subtree_size() const {
+    int64_t size = nodes_calculated - nodes_at_start_of_current_move;
+    assert(size >= 0);
+    std::string message = "subtree_size " + std::to_string(size);
+    CUciProtocol::send_info(message);
 }
 
