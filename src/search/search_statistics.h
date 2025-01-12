@@ -24,12 +24,15 @@ class CSearchStatistics {
         nodes_calculated += nodes;
     }
   public:
-    int64_t get_nodes_calculated() { return nodes_calculated; }
-    int64_t used_time_milliseconds() const;
     // TODO
     int expected_branching_factor_for_next_iteration() const;
   private:
+    int64_t get_nodes_calculated() { return nodes_calculated; }
+    int64_t used_time_milliseconds() const;
+    int64_t nodes_per_second() const;
+  private:
     std::string node_statistics() const;
+    int64_t subtree_size() const;
     static std::string anti_adjudication_score(int score);
   private:
     int64_t nodes_calculated;

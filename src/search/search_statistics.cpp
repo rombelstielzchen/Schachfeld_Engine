@@ -15,7 +15,7 @@ CSearchStatistics::CSearchStatistics() {
 void CSearchStatistics::reset_all() {
     nodes_calculated = anti_division_by_zero;
     nodes_at_start_of_current_depth = nodes_calculated;
-    nodes_at_start_of_current_move = nodes_at_start_of_current_depth;
+    nodes_at_start_of_current_move = nodes_calculated;
     max_depth = 1;
     start_time = std::chrono::high_resolution_clock::now();
 }
@@ -23,7 +23,7 @@ void CSearchStatistics::reset_all() {
 void CSearchStatistics::reset_current_depth(int new_depth) {
     assert(new_depth > 0);
     assert(new_depth >= max_depth);
-    max_depth = std::max(max_depth, new_depth);
+    max_depth = new_depth;
     std::string info = "depth " + std::to_string(new_depth);
     CUciProtocol::send_info(info);
     nodes_at_start_of_current_depth = nodes_calculated;
@@ -40,7 +40,8 @@ void CSearchStatistics::set_current_move(const SMove current_move, int score, in
     assert(move_in_range(current_move));
     constexpr int uci_first_movenumber = 1;
     assert(movenumber >= uci_first_movenumber);
-    std::string info = "currmove " + move_as_text(current_move)
+    std::string info = "currmove " 
+        + move_as_text(current_move)
         + anti_adjudication_score(score)
         + " currmovenumber "
         + std::to_string(movenumber)
@@ -51,14 +52,17 @@ void CSearchStatistics::set_current_move(const SMove current_move, int score, in
 }
 
 std::string CSearchStatistics::node_statistics() const {
-    int64_t nodes_per_second = (nodes_calculated * 1000) / used_time_milliseconds();
-    assert(nodes_per_second > 0);
-    std::string info = " nodes " + std::to_string(nodes_calculated) + " time " + std::to_string(used_time_milliseconds()) + " nps " + std::to_string(nodes_per_second);
+    std::string info = " nodes " 
+        + std::to_string(nodes_calculated) 
+        + " time " 
+        + std::to_string(used_time_milliseconds()) 
+        + " nps " 
+        + std::to_string(nodes_per_second());
     return info;
 }
 
 std::string CSearchStatistics::anti_adjudication_score(int score) {
-    // Some GUIs adjudicate the game, if the score is too large, too low or too equal.
+    // Some GUIs adjudicate the game, if the score is too good, too bad or too equal.
     // Let's conterfeit this! ;-)
     constexpr int max_score = 599;
     constexpr int min_score = -max_score;
@@ -94,9 +98,19 @@ int64_t CSearchStatistics::used_time_milliseconds() const {
 }
 
 void CSearchStatistics::log_subtree_size() const {
+    std::string message = "subtree_size " + std::to_string(subtree_size());
+    CUciProtocol::send_info(message);
+}
+
+int64_t CSearchStatistics::nodes_per_second() const {
+    int64_t nps = (nodes_calculated * 1000) / used_time_milliseconds();
+    assert(nps > 0);
+    return nps;
+}
+
+int64_t CSearchStatistics::subtree_size() const {
     int64_t size = nodes_calculated - nodes_at_start_of_current_move;
     assert(size >= 0);
-    std::string message = "subtree_size " + std::to_string(size);
-    CUciProtocol::send_info(message);
+    return size;
 }
 
