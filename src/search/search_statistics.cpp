@@ -18,6 +18,7 @@ void CSearchStatistics::reset_all() {
     nodes_at_start_of_current_move = nodes_calculated;
     max_depth = 1;
     start_time = std::chrono::high_resolution_clock::now();
+    subtree_size_bestmove = 0;
 }
 
 void CSearchStatistics::reset_current_depth(int new_depth) {
@@ -28,12 +29,14 @@ void CSearchStatistics::reset_current_depth(int new_depth) {
     CUciProtocol::send_info(info);
     nodes_at_start_of_current_depth = nodes_calculated;
     nodes_at_start_of_current_move = nodes_calculated;
+    subtree_size_bestmove = 0;
 }
 
 void CSearchStatistics::set_best_move(const SMove best_move, const int score) {
     assert(move_in_range(best_move));
     std::string info = "bestmove " + move_as_text(best_move) + anti_adjudication_score(score);
     CUciProtocol::send_info(info);
+    subtree_size_bestmove = subtree_size();
 }
 
 void CSearchStatistics::set_current_move(const SMove current_move, int score, int movenumber) {

@@ -38,6 +38,7 @@ class CSearchStatistics {
     int64_t nodes_calculated;
     int64_t nodes_at_start_of_current_depth;
     int64_t nodes_at_start_of_current_move;
+    int64_t subtree_size_bestmove;
     int max_depth;
     std::chrono::time_point<std::chrono::high_resolution_clock> start_time;
 };
