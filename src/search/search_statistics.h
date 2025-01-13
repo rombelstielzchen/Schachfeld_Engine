@@ -15,24 +15,34 @@ class CSearchStatistics {
   public:
     void reset_all();
     void reset_current_depth(int new_depth);
+    void reset_for_next_move();
+  public:
+    int64_t get_nodes_calculated() { return nodes_calculated; }
+    int64_t used_time_milliseconds() const;
     void set_best_move(const SMove best_move, const int score);
     void set_current_move(const SMove current_move, int score, int movenumber);
     void log_branching_factor() const;
+    void log_subtree_size() const;
+    void log_subtree_size_bestmove() const;
     inline void add_nodes(const int64_t nodes) {
         assert(nodes >= 0);
         nodes_calculated += nodes;
     }
   public:
-    int64_t get_nodes_calculated() { return nodes_calculated; }
-    int64_t used_time_milliseconds() const;
     // TODO
     int expected_branching_factor_for_next_iteration() const;
   private:
+    int64_t nodes_for_this_iteration() const;
+    int64_t nodes_per_second() const;
+  private:
     std::string node_statistics() const;
+    int64_t subtree_size() const;
     static std::string anti_adjudication_score(int score);
   private:
     int64_t nodes_calculated;
     int64_t nodes_at_start_of_current_depth;
+    int64_t nodes_at_start_of_current_move;
+    int64_t subtree_size_bestmove;
     int max_depth;
     std::chrono::time_point<std::chrono::high_resolution_clock> start_time;
 };
