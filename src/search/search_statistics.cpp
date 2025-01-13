@@ -32,6 +32,10 @@ void CSearchStatistics::reset_current_depth(int new_depth) {
     subtree_size_bestmove = 0;
 }
 
+void CSearchStatistics::reset_for_next_move() {
+    nodes_at_start_of_current_move = nodes_calculated;
+}
+
 void CSearchStatistics::set_best_move(const SMove best_move, const int score) {
     assert(move_in_range(best_move));
     std::string info = "bestmove " + move_as_text(best_move) + anti_adjudication_score(score);
@@ -51,7 +55,6 @@ void CSearchStatistics::set_current_move(const SMove current_move, int score, in
         + node_statistics();
     CUciProtocol::send_info(info);
     log_subtree_size();
-    nodes_at_start_of_current_move = nodes_calculated;
 }
 
 std::string CSearchStatistics::node_statistics() const {
@@ -82,11 +85,21 @@ std::string CSearchStatistics::anti_adjudication_score(int score) {
 void CSearchStatistics::log_branching_factor() const {
     assert(nodes_at_start_of_current_depth > 0);
     assert(nodes_calculated > nodes_at_start_of_current_depth);
-    int64_t nodes_for_this_iteration = nodes_calculated - nodes_at_start_of_current_depth;
-    double branching_factor = static_cast<double>(nodes_for_this_iteration) / nodes_at_start_of_current_depth;
+    double branching_factor = static_cast<double>(nodes_for_this_iteration()) / nodes_at_start_of_current_depth;
     // branching_factor nay be < 1 in case of "stop"-command
     assert(branching_factor > 0);
     std::string message = "branching_factor: " + std::to_string(branching_factor);
+    CUciProtocol::send_info(message);
+}
+
+void CSearchStatistics::log_subtree_size_bestmove() const {
+    assert(nodes_for_this_iteration() > 0);
+    double relative_size = static_cast<double>(subtree_size_bestmove) / nodes_for_this_iteration();
+    double size_percent = 100 * relative_size;
+    std::string message = " subtree_size_bestmove " 
+        + std::to_string(subtree_size_bestmove) 
+        + " percent " 
+        + std::to_string(size_percent);
     CUciProtocol::send_info(message);
 }
 
@@ -115,5 +128,10 @@ int64_t CSearchStatistics::subtree_size() const {
     int64_t size = nodes_calculated - nodes_at_start_of_current_move;
     assert(size >= 0);
     return size;
+}
+
+int64_t CSearchStatistics::nodes_for_this_iteration() const {
+    assert(nodes_calculated > nodes_at_start_of_current_depth);
+    return nodes_calculated - nodes_at_start_of_current_depth;
 }
 

@@ -50,6 +50,7 @@ void CIterativeDeepening::root_node_search(int depth) {
     for (int j = uci_first_movenumber; j <= n_moves; ++j) {
         // No alpha-beta-cutoffs here. Top-level search has to examine all moves,
         // but feed the recursive search with the current alpha-beta values.
+        search_statistics.reset_for_next_move();
         SMove move_candidate = move_generator.move_list.get_next();
         assert(move_candidate != NULL_MOVE);
         assert(move_in_range(move_candidate));
@@ -66,18 +67,20 @@ void CIterativeDeepening::root_node_search(int depth) {
             best_score = candidate_score;
             alpha = candidate_score;
             move_generator.move_list.shift_current_move_to_top();
+            search_statistics.set_best_move(best_move, best_score);
         } else if ((side_to_move == BLACK_PLAYER) && (candidate_score < best_score)) {
             best_move = move_candidate;
             best_score = candidate_score;
             beta = candidate_score;
             move_generator.move_list.shift_current_move_to_top();
+            search_statistics.set_best_move(best_move, best_score);
         }
-        search_statistics.set_best_move(best_move, best_score);
         board.move_maker.unmake_move();
     }
     search_statistics.add_nodes(n_moves);
     CUciProtocol::send_info(move_generator.move_list.as_text());
     search_statistics.log_branching_factor();
+    search_statistics.log_subtree_size_bestmove();
 }
 
 SMove CIterativeDeepening::search_nodes(int64_t nodes) {
