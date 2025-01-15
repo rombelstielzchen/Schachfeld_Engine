@@ -244,3 +244,7 @@ std::string CMoveList::as_text() const {
     return info;
 }
 
+void CMoveList::remove(const SMove move) {
+
+}
+

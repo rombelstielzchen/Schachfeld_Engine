@@ -10,6 +10,7 @@
 #include "../board/test_board.h"
 #include "../board/test_move_maker.h"
 #include "../evaluator/test_evaluator.h"
+#include "../move_generator/test_move_list.h"
 #include "../move_generator/test_move_generator.h"
 #include "../opening_book/test_opening_book.h"
 #include "../search/test_search.h"
@@ -20,6 +21,7 @@
     EXPECT(CTestMathFunctions::test_everything());
      EXPECT(CTestTechnicalFunctions::test_everything());
     EXPECT(CTestBoard::test_everything());
+    EXPECT(CTestMoveList::test_everything());
     EXPECT(CTestMoveGenerator::test_everything());
     EXPECT(CTestMoveMaker::test_everything());
     EXPECT(CTestEvaluator::test_everything());

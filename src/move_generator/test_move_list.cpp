@@ -6,6 +6,7 @@
 #include "test_move_list.h"
 #include "move_generator.h"
 #include "../board/board.h"
+#include "../board/square_constants.h"
 #include "../technical_functions/testing.h"
 
 bool CTestMoveList::test_everything() {
@@ -14,6 +15,7 @@ bool CTestMoveList::test_everything() {
     EXPECT(test_filter_by_target_square());
     EXPECT(test_reuse_list());
     EXPECT(test_shift_current_move_to_top());
+    EXPECT(test_remove());
     return true;
 }
 
@@ -89,6 +91,21 @@ bool CTestMoveList::test_shift_current_move_to_top() {
     move_generator.move_list.shift_current_move_to_top();
     move_generator.move_list.reuse_list();
     EXPECT(move_coords_are_equal(move_generator.move_list.get_next(), only_move)); 
+    return true;
+}
+
+bool CTestMoveList::test_remove() {
+    CTEST << "CTestMoveList::test_remove() ...\n";
+    std::string nearly_stalemaze = "1k/3Q b";
+    SILENT_EXPECT(board.set_fen_position(nearly_stalemaze));
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    SILENT_EXPECT(move_generator.move_list.list_size() == 5);
+   constexpr SMove illegal_moveF = {{FILE_B, RANK_8}, C8, MOVE_TYPE_NORMAL};
+   move_generator.move_list.remove(illegal_moveF);
+    EXPECT(move_generator.move_list.list_size() == 4);
+    move_generator.move_list.filter_captures_by_target_square(C8);
+    EXPECT(move_generator.move_list.list_size() == 0);
     return true;
 }
 

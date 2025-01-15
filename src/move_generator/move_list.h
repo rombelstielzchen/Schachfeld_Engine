@@ -18,6 +18,7 @@ constexpr unsigned int LIST_SIZE = MAX_MOVES_IN_CHESS_POSITION + MAX_CAPTURES_IN
 constexpr unsigned int LIST_ORIGIN = MAX_CAPTURES_IN_CHESS_POSITION;
 
 class CMoveList {
+    friend class CTestMoveList;
   public:
     CMoveList();
   public:
