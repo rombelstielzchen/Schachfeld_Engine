@@ -22,11 +22,12 @@ CFLAGS=$(DEBUGFLAGS)
 
 engine: main.o board.o uci_protocol.o string_functions.o  \
 	fen_parser.o command_interface.o move_generator.o move.o \
-	test_move_generator.o engine_test.o fen_generator.o test_board.o \
+test_move_generator.o engine_test.o fen_generator.o test_board.o \
 	test_technical_functions.o board_logic.o opening_book.o test_opening_book.o \
 	gm_book.o move_maker.o test_move_maker.o move_list.o search.o test_search.o \
 	evaluator.o test_evaluator.o search_statistics.o iterative_deepening.o \
-	string_tokenizer.o test_statistics.o test_math_functions.o math_functions.o
+	string_tokenizer.o test_statistics.o test_math_functions.o math_functions.o \
+	test_move_list.o
 	make semi_clean 
 	make standard_headers
 	### Linking engine
@@ -125,6 +126,9 @@ test_math_functions.o: technical_functions/test_math_functions.cpp
 	$(CC) $(CFLAGS) 
 
 math_functions.o: technical_functions/math_functions.cpp
+	$(CC) $(CFLAGS) 
+
+test_move_list.o: move_generator/test_move_list.cpp
 	$(CC) $(CFLAGS) 
 
 #### Other build targets ###############
