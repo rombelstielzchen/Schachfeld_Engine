@@ -148,12 +148,16 @@ bool CTestMoveGenerator::test(const STestcaseMoveGenerator &testcase) {
     CMoveGenerator move_generator;
     move_generator.generate_all();
     int generated_moves = move_generator.move_list.list_size();
-    CTEST << "Moves: " << generated_moves << "\n";
+    CTEST << "Pseudo-legal moves: " << generated_moves << "\n";
     SILENT_EXPECT(generated_moves == testcase.expected_pseudo_legal_moves);
     move_generator.move_list.prune_silent_moves();
     int generated_captures = move_generator.move_list.list_size();
-    CTEST << "Captures: " << generated_captures << "\n";
+    CTEST << "Pseudo-legal captures: " << generated_captures << "\n";
     SILENT_EXPECT(generated_captures == testcase.expected_pseudo_legal_captures);
+    move_generator.generate_all();
+    move_generator.move_list.prune_illegal_moves();
+   int strictly_legal_moves = move_generator.move_list.list_size();
+    CTEST << "Legal moves: " << generated_moves << strictly_legal_moves << "\n";
     return true;
 }
 
