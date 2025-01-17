@@ -259,6 +259,18 @@ std::string CMoveList::as_text() const {
 }
 
 void CMoveList::remove(const SMove move) {
-
+    unsigned int position = get_index(move);
+    assert(position != NOT_FOUND);
+    assert(position >= first_capture);
+    assert(position < last_silent_move);
+    assert(consumer_position == first_capture);
+    if (position < LIST_ORIGIN) {
+        bidirectional_move_list[position] = bidirectional_move_list[first_capture];
+        ++first_capture;
+        ++consumer_position;
+    } else {
+        bidirectional_move_list[position] == bidirectional_move_list[last_index()];
+        --last_silent_move;
+    }
 }
 

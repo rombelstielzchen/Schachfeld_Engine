@@ -52,6 +52,7 @@ class CMoveList {
     inline void store_silent_move(const SMove &move);
     inline void store_capture(const SMove &move);
   private:
+    inline unsigned int last_index() const { return last_silent_move - 1; }
     unsigned int get_index(const SMove basic_move) const;
     void remove(const SMove move);
   private:
