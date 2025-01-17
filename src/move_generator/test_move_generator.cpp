@@ -143,18 +143,18 @@ bool CTestMoveGenerator::test_positions() {
 
 bool CTestMoveGenerator::test(const STestcaseMoveGenerator &testcase) {
     assert(testcase.fen_position != "");
-    assert(testcase.expected_moves <= MAX_MOVES_IN_CHESS_POSITION);
+    assert(testcase.expected_pseudo_legal_moves <= MAX_MOVES_IN_CHESS_POSITION);
     CTEST << "Testcase: " << testcase.fen_position << std::endl;
     SILENT_EXPECT(board.set_fen_position(testcase.fen_position));
     CMoveGenerator move_generator;
     move_generator.generate_all();
     int generated_moves = move_generator.move_list.list_size();
     CTEST << "Moves: " << generated_moves << "\n";
-    SILENT_EXPECT(generated_moves == testcase.expected_moves);
+    SILENT_EXPECT(generated_moves == testcase.expected_pseudo_legal_moves);
     move_generator.move_list.prune_silent_moves();
     int generated_captures = move_generator.move_list.list_size();
     CTEST << "Captures: " << generated_captures << "\n";
-    SILENT_EXPECT(generated_captures == testcase.expected_captures);
+    SILENT_EXPECT(generated_captures == testcase.expected_pseudo_legal_captures);
     return true;
 }
 

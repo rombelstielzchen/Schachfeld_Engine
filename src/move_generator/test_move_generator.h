@@ -10,8 +10,9 @@
 
 struct STestcaseMoveGenerator {
     // Order of elements reversed for more readable layout of the list
-    uint8_t expected_moves;
-    uint8_t expected_captures;
+    uint8_t expected_pseudo_legal_moves;
+    uint8_t expected_pseudo_legal_captures;
+//    uint8_t expected_legal_moves;
     std::string fen_position;
 };
 
