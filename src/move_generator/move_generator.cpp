@@ -12,6 +12,7 @@ CMoveGenerator::CMoveGenerator() {
 }
 
 void CMoveGenerator::generate_all() {
+    assert(move_list.list_size() == 0);
     bool side_to_move = board.get_side_to_move();
     if (side_to_move == WHITE_PLAYER) {
         generate_all_white_moves();

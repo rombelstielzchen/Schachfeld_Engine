@@ -9,9 +9,14 @@
 constexpr unsigned int NOT_FOUND = INT_MAX;
 
 CMoveList::CMoveList() {
+    clear();
+}
+
+void CMoveList::clear() {
     first_capture = LIST_ORIGIN;
     last_silent_move = LIST_ORIGIN;
     consumer_position = LIST_ORIGIN;
+    assert(list_size() == 0);
 }
 
 SMove CMoveList::get_random() const {
