@@ -178,6 +178,9 @@ void CMoveList::prune_silent_moves() {
     last_silent_move = LIST_ORIGIN;
 }
 
+void CMoveList::prune_illegal_moves() {
+}
+
 void CMoveList::store_castling(const char move_type) {
     SMove new_move;
     new_move.source.file = FILE_E;

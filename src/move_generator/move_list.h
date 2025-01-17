@@ -40,6 +40,9 @@ class CMoveList {
     void prune_silent_moves();
     void filter_captures_by_target_square(const SSquare &target_square);
   public:
+    // For the root-node, in order to avoid greedy captures when getting mated
+    void prune_illegal_moves();
+  public:
     // For root-node ordering
     void reuse_list();
     void shift_current_move_to_top();
