@@ -11,7 +11,7 @@ Version 0.a
 Version 0.9
 -----------
 * Basic time-management, using iterative-deepening, in order to play chess with time-controls.
-* Simple ove-ordering at the roo-tnode of the banana-tree, shifting the currently best move t the top pf the list, in order to start with a good candidate when iterating deeper.
+* Simple move-ordering at the roo-tnode of the banana-tree, shifting the currently best move t the top pf the list, in order to start with a good candidate when iterating deeper.
 * Handling castling-rights when receiving a startpos-command with moves.
 
 Version 0.8
