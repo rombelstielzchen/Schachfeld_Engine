@@ -6,6 +6,8 @@
 #include "move_list.h"
 #include "../board/board.h"
 
+constexpr unsigned int NOT_FOUND = INT_MAX;
+
 CMoveList::CMoveList() {
     first_capture = LIST_ORIGIN;
     last_silent_move = LIST_ORIGIN;
@@ -34,23 +36,35 @@ SMove CMoveList::get_next() {
     return result;
 }
 
-SMove CMoveList::lookup_move(const std::string &text_move) const {
+unsigned int CMoveList::get_index(const SMove basic_move) const {
+    assert(move_in_range(basic_move));
     assert(last_silent_move >= first_capture);
+    for (unsigned int j = first_capture; j < last_silent_move; ++j) {
+        if (move_coords_are_equal(basic_move, bidirectional_move_list[j])) {
+            return j;
+        }
+    }
+    return NOT_FOUND;
+}
+
+SMove CMoveList::lookup_move(const std::string &text_move) const {
      SMove basic_move = text_to_basic_move(text_move);
      if (basic_move == NULL_MOVE) {
          return NULL_MOVE;
      }
+     // TODO: make this paer of text_to_basic_move
     assert(basic_move.move_type == MOVE_TYPE_NORMAL);
     if (text_move.length() > 4) {
         basic_move.move_type = text_move[4];
         assert(is_any_piece(basic_move.move_type));
     }
-    for (unsigned int j = first_capture; j < last_silent_move; ++j) {
-        if (move_coords_are_equal(basic_move, bidirectional_move_list[j])) {
-            return bidirectional_move_list[j];
-        }
+    unsigned int index = get_index(basic_move);
+    if (index == NOT_FOUND) {
+        return NULL_MOVE;
     }
-    return NULL_MOVE;
+    assert(index >= 0);
+    assert(index <  LIST_SIZE);
+    return bidirectional_move_list[index];
 }
 
 int CMoveList::list_size() const {

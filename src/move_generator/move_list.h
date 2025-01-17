@@ -52,6 +52,7 @@ class CMoveList {
     inline void store_silent_move(const SMove &move);
     inline void store_capture(const SMove &move);
   private:
+    unsigned int get_index(const SMove basic_move) const;
     void remove(const SMove move);
   private:
     // Using array instead of vector due to its known size and for better performance
