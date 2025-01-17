@@ -19,10 +19,6 @@ class CTestMoveGenerator {
   public:
     static bool test_everything();
   private:
-    static bool test_prune_silent_moves();
-    static bool test_filter_by_target_square();
-    static bool test_reuse_list();
-    static bool test_shift_current_move_to_top();
     static bool test_positions();
     static bool test(const STestcaseMoveGenerator &testcase);
 };

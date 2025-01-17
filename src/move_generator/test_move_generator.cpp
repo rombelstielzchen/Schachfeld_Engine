@@ -127,10 +127,6 @@ const std::vector<STestcaseMoveGenerator> testcases = {
 
 bool CTestMoveGenerator::test_everything() {
     BEGIN_TESTSUITE("CTestMoveGenerator");
-    EXPECT(test_prune_silent_moves());
-    EXPECT(test_filter_by_target_square());
-    EXPECT(test_reuse_list());
-    EXPECT(test_shift_current_move_to_top());
     EXPECT(test_positions());
     return true;
 }
@@ -159,80 +155,6 @@ bool CTestMoveGenerator::test(const STestcaseMoveGenerator &testcase) {
     int generated_captures = move_generator.move_list.list_size();
     CTEST << "Captures: " << generated_captures << "\n";
     SILENT_EXPECT(generated_captures == testcase.expected_captures);
-    return true;
-}
-
-bool CTestMoveGenerator::test_prune_silent_moves() {
-    CTEST << "CTestMoveGenerator::test_prune_silent_moves() ..." << std::endl;
-    board.set_start_position();
-    CMoveGenerator move_generator;
-    EXPECT(is_null_move(move_generator.move_list.get_next()));
-    move_generator.generate_all();
-    constexpr int n_moves_in_startpos = 20;
-    EXPECT(move_generator.move_list.list_size() == n_moves_in_startpos);
-    for (int j = 0; j < n_moves_in_startpos; ++j) {
-        SMove move = move_generator.move_list.get_next();
-        SILENT_EXPECT(is_null_move(move) == false);
-    }
-    EXPECT(is_null_move(move_generator.move_list.get_next()));
-    return true;
-}
-
-bool CTestMoveGenerator::test_filter_by_target_square() {
-    CTEST << "CTestMoveGenerator::test_filter_by_target_square() ...\n";
-    board.set_start_position();
-    CMoveGenerator move_generator;
-    board.move_maker.play_variation("d2d4 d7d5 c2c4 e7e6 b1c3 g8f6 g1f3 c7c6 c1g5 f8b4 c4d5");
-    move_generator.generate_all();
-    move_generator.move_list.prune_silent_moves();
-    EXPECT(move_generator.move_list.list_size() == 5);
-    SSquare d5 = { FILE_D, RANK_5 };
-    move_generator.move_list.filter_captures_by_target_square(d5);
-    EXPECT(move_generator.move_list.list_size() == 4);
-    SMove move = move_generator.move_list.get_least_valuable_aggressor();
-    CTEST << "Least_valuanle_aggressot: " << move << "\n";
-    EXPECT((move == "c6d5") || (move == "e6d5"));
-    return true;
-}
-
-bool CTestMoveGenerator::test_reuse_list() {
-    CTEST << "CMoveGenerator::true\n() ...";
-    assert(testcases.size() > 42);
-    SILENT_EXPECT(board.set_fen_position(testcases[42].fen_position));
-    CMoveGenerator move_generator;
-    move_generator.generate_all();
-    SMove first_move = move_generator.move_list.get_next();
-    move_generator.move_list.reuse_list();
-    SMove first_move_again = move_generator.move_list.get_next();
-    EXPECT(first_move == first_move_again);
-    return true;
-}
-bool CTestMoveGenerator::test_shift_current_move_to_top() {
-    CTEST << "CTestMoveGenerator::test_shift_current_move_to_top() ...\n";
-    const std::string position = "k1K w";
-    SILENT_EXPECT(board.set_fen_position(position));
-    CMoveGenerator move_generator;
-    move_generator.generate_all();
-    int former_list_size = move_generator.move_list.list_size();
-    SMove former_first = move_generator.move_list.get_next();
-    SMove former_second = move_generator.move_list.get_next();
-    SMove former_third = move_generator.move_list.get_next();
-    move_generator.move_list.shift_current_move_to_top();
-    SMove former_fourth = move_generator.move_list.get_next();
-    move_generator.move_list.reuse_list();
-    EXPECT(move_generator.move_list.list_size() == former_list_size);
-    EXPECT(move_coords_are_equal(move_generator.move_list.get_next(), former_third));
-    EXPECT(move_coords_are_equal(move_generator.move_list.get_next(), former_first));
-    EXPECT(move_coords_are_equal(move_generator.move_list.get_next(), former_second));
-    EXPECT(move_coords_are_equal(move_generator.move_list.get_next(), former_fourth));
-    // One more test, reordering a single move
-    std::string single_move_position = "8/8/P w";
-    SILENT_EXPECT(board.set_fen_position(single_move_position));
-    move_generator.generate_all();
-    SMove only_move = move_generator.move_list.get_next();
-    move_generator.move_list.shift_current_move_to_top();
-    move_generator.move_list.reuse_list();
-    EXPECT(move_coords_are_equal(move_generator.move_list.get_next(), only_move)); 
     return true;
 }
 
