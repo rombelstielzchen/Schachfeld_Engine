@@ -51,7 +51,7 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     // White bishop, empty board
     { 7, 0, 7, "8/8/8/8/8/8/8/B7 w" },
     { 7, 0, 7, "8/8/8/8/8/8/8/3B4 w" },
-    { 13, 0, 1, "8/8/8/4B3/8/8/8/8 w" },
+    { 13, 0, 13, "8/8/8/4B3/8/8/8/8 w" },
     // White bishop, some pieces
     { 8, 4, 8, "1n6/8/5n2/4B3/8/2n3n1/8/8 w" },
     { 5, 0, 5, "8/5p2/5P2/4B3/2p3p1/2P3P1/8/8 w" },
@@ -114,7 +114,7 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     { 20, 0, 20, "startpos" },
     { 33, 3, 33, "r1nqkbnr/pppp2pp/2n5/1B2pp2/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq" },
     // Former bug: black knight moving like a king
-    { 2, 0, 4, "n7 b" },
+    { 2, 0, 2, "n7 b" },
     { 4, 0, 4, "2n5 b" },
     { 8, 0, 8, "8/2ppp3/2pnp3/2P1P3 b" },
     { 0, 0, 0, "4n3/2p3p1/2Pp1pP1/3P1P2 b" },
@@ -122,6 +122,8 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     { 0, 0, 0, "8/8/8/p7/P7/8/8/8 b - a3" },
     // Former bug: slifing pieces and move-ordering
     { 16, 1, 16, "r1k/8/R1K w" },
+    // Legality: king nearly stale_mate
+    { 5, 0, 1, "1K/3q w" },
 };
 
 bool CTestMoveGenerator::test_everything() {
@@ -154,10 +156,12 @@ bool CTestMoveGenerator::test(const STestcaseMoveGenerator &testcase) {
     int generated_captures = move_generator.move_list.list_size();
     CTEST << "Pseudo-legal captures: " << generated_captures << "\n";
     SILENT_EXPECT(generated_captures == testcase.expected_pseudo_legal_captures);
+    move_generator.move_list.clear();
     move_generator.generate_all();
     move_generator.move_list.prune_illegal_moves();
    int strictly_legal_moves = move_generator.move_list.list_size();
-    CTEST << "Legal moves: " << generated_moves << strictly_legal_moves << "\n";
+    CTEST << "Legal moves: " << strictly_legal_moves << "\n";
+    SILENT_EXPECT(strictly_legal_moves == testcase.expected_legal_moves);
     return true;
 }
 

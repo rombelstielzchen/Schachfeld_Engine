@@ -86,6 +86,7 @@ bool CTestMoveList::test_shift_current_move_to_top() {
     // One more test, reordering a single move
     std::string single_move_position = "8/8/P w";
     SILENT_EXPECT(board.set_fen_position(single_move_position));
+    move_generator.move_list.clear();
     move_generator.generate_all();
     SMove only_move = move_generator.move_list.get_next();
     move_generator.move_list.shift_current_move_to_top();
