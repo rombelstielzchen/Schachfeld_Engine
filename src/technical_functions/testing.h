@@ -8,6 +8,7 @@
 #include "standard_headers.h"
 
 inline int testcase_counter = 0;
+static std::string classname_testsuite = "noname";
 
 #define CTEST std::cerr
 
@@ -29,5 +30,10 @@ if ((condition) == false) { \
    EXPECT(condition); \
 }
 
-#define BEGIN_TESTSUITE(name) CTEST << "TESTSUITE " << (name) << std::endl;
+#define BEGIN_TESTSUITE(name)\
+    classname_testsuite = name; \
+    CTEST << "TESTSUITE " << classname_testsuite << std::endl;
+
+#define TEST_FUNCTION() \
+    CTEST << classname_testsuite << "::" <<  __func__ << "() ...\n";
 

@@ -7,6 +7,8 @@
 
 // Utility-class for derived board-information to keep the board-class lean
 
+#include "../move_generator/move.h"
+
 class CBoardLogic {
   public:
     // Piece encodings, depending on side-to-move
@@ -22,5 +24,8 @@ class CBoardLogic {
     static bool rook_on_castling_square(const char move_type);
     static bool square_occupied_by_opponent(const int file, const int rank);
     static bool is_valid_target_square(const int file, const int rank);
+  public:
+    // Simple and slow, meant for the root-node onlyy
+    static SSquare king_square(bool white_or_black);
 };
 

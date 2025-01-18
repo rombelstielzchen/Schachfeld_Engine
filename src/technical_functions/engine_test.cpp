@@ -8,6 +8,7 @@
 #include "test_math_functions.h"
 #include "test_technical_functions.h"
 #include "../board/test_board.h"
+#include "../board/test_board_logic.h"
 #include "../board/test_move_maker.h"
 #include "../evaluator/test_evaluator.h"
 #include "../move_generator/test_move_list.h"
@@ -21,6 +22,7 @@
     EXPECT(CTestMathFunctions::test_everything());
      EXPECT(CTestTechnicalFunctions::test_everything());
     EXPECT(CTestBoard::test_everything());
+    EXPECT(CTestBoardLogic::test_everything());
     EXPECT(CTestMoveList::test_everything());
     EXPECT(CTestMoveGenerator::test_everything());
     EXPECT(CTestMoveMaker::test_everything());
@@ -28,7 +30,7 @@
     EXPECT(CTestStatistics::test_everything());
     EXPECT(CTestSearch::test_everything());
     EXPECT(CTestOpeningBook::test_everything());
-    CTEST << "[OK] CEngineTest::test_everything(): all " << testcase_counter  << " chevks passed with success." << std::endl;
+    CTEST << "[OK] CEngineTest::test_everything(): all " << testcase_counter  << " cheks passed with success." << std::endl;
     board.set_start_position();
     return true;
 }

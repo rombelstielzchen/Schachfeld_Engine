@@ -7,6 +7,7 @@
 
 #include"board_logic.h"
 #include "board.h"
+#include "square_constants.h"
 
 constexpr bool UNEXPECTED_MOVE_TYPE = false;
 
@@ -94,5 +95,18 @@ bool CBoardLogic::is_valid_target_square(const int file, const int rank) {
         return true;
     }
     return square_occupied_by_opponent(file, rank);
+}
+
+SSquare CBoardLogic::king_square(bool white_or_black) {
+    char wanted_king_dead_or_alive = (white_or_black == WHITE_PLAYER) ? WHITE_KING : BLACK_KING;
+    for (uint8_t j = FILE_A; j <= FILE_H; ++j) {
+        for (uint8_t k = RANK_1; k <= RANK_8; ++k) {
+            if (board.get_square(j, k) == wanted_king_dead_or_alive) {
+                SSquare location = {j, k};
+                return location;
+            }
+        }
+    }
+    return NULL_SQUARE;
 }
 
