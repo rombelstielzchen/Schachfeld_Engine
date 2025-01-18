@@ -15,7 +15,7 @@ bool CTestMathFunctions::test_everything() {
 }
 
 bool CTestMathFunctions::test_approximately_equal() {
-    CTEST << "CTEST::test_approximately_equal() ...\n";
+   TEST_FUNCTION(); 
     EXPECT(approximately_equal(99, 100) == false);
     EXPECT(approximately_equal(0.1, 0.2) == false);
     EXPECT(approximately_equal(0, 0.001) == false);
@@ -26,7 +26,7 @@ bool CTestMathFunctions::test_approximately_equal() {
 }
 
 bool CTestMathFunctions::test_root() {
-    CTEST << "CTEST::test_root() ...\n";
+    TEST_FUNCTION();
     EXPECT(approximately_equal(root(64, 2) , 8));
     EXPECT(approximately_equal(root(64, 3), 4));
     EXPECT(approximately_equal(root(8, 0.5), 64));
