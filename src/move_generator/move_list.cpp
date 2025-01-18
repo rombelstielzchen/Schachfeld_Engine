@@ -4,6 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "move_list.h"
+#include "move_generator.h"
 #include "../board/board.h"
 
 constexpr unsigned int NOT_FOUND = INT_MAX;
@@ -184,6 +185,13 @@ void CMoveList::prune_silent_moves() {
 }
 
 void CMoveList::prune_illegal_moves() {
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    SMove move = move_generator.move_list.get_next();
+    while (move != NULL_MOVE) {
+
+        move = move_generator.move_list.get_next();
+    }
 }
 
 void CMoveList::store_castling(const char move_type) {

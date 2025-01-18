@@ -11,8 +11,8 @@ class CTestBoard {
   public:
     static bool test_everything();
   private:
-    static bool test_set_start_position();
     static bool test_set_fen_position();
+    static bool test_set_start_position();
     static bool test_as_is();
     static bool test_accessors();
     static bool test_modifiers();
