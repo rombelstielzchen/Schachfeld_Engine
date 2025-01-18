@@ -35,5 +35,5 @@ if ((condition) == false) { \
     CTEST << "TESTSUITE " << classname_testsuite << std::endl;
 
 #define TEST_FUNCTION() \
-    CTEST << classname_testsuite << ";;" <<  __func__ << "() ...\n";
+    CTEST << classname_testsuite << "::" <<  __func__ << "() ...\n";
 

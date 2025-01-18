@@ -27,7 +27,7 @@ test_move_generator.o engine_test.o fen_generator.o test_board.o \
 	gm_book.o move_maker.o test_move_maker.o move_list.o search.o test_search.o \
 	evaluator.o test_evaluator.o search_statistics.o iterative_deepening.o \
 	string_tokenizer.o test_statistics.o test_math_functions.o math_functions.o \
-	test_move_list.o
+	test_move_list.o test_board_logic.o
 	make semi_clean 
 	make standard_headers
 	### Linking engine
@@ -129,6 +129,9 @@ math_functions.o: technical_functions/math_functions.cpp
 	$(CC) $(CFLAGS) 
 
 test_move_list.o: move_generator/test_move_list.cpp
+	$(CC) $(CFLAGS) 
+
+test_board_logic.o: board/test_board_logic.cpp
 	$(CC) $(CFLAGS) 
 
 #### Other build targets ###############
