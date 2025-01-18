@@ -26,6 +26,6 @@ class CBoardLogic {
     static bool is_valid_target_square(const int file, const int rank);
   public:
     // Simple and slow, meant for the root-node onlyy
-    static SSquare king_square(bool side_to_move);
+    static SSquare king_square(bool white_or_black);
 };
 
