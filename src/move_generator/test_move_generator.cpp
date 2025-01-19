@@ -124,6 +124,10 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     { 16, 1, 13, "r1k/8/R1K w" },
     // Legality: king nearly stale_mate
     { 5, 0, 1, "1K/3q w" },
+    // Legality: not capturing the attacker
+    { 9, 1, 1, "8/8/8/8/8/5q/3n2KP w" },
+    // Legality: stalemate
+    { 3, 0, 0, "k/2Q b" },
 };
 
 bool CTestMoveGenerator::test_everything() {
