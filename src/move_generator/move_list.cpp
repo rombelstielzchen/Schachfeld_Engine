@@ -6,6 +6,8 @@
 #include "move_list.h"
 #include "move_generator.h"
 #include "../board/board.h"
+#include "../board/board_logic.h"
+#include "../board/square_constants.h"
 
 constexpr unsigned int NOT_FOUND = INT_MAX;
 
@@ -185,13 +187,25 @@ void CMoveList::prune_silent_moves() {
 }
 
 void CMoveList::prune_illegal_moves() {
-    CMoveGenerator move_generator;
-    move_generator.generate_all();
-    SMove move = move_generator.move_list.get_next();
+    bool my_colour = board.get_side_to_move();
+    SMove move = get_next();
     while (move != NULL_MOVE) {
-
-        move = move_generator.move_list.get_next();
+        std::cout << "Checking " << move << "\n";
+        board.move_maker.make_move(move);
+        SSquare my_king_square = CBoardLogic::king_square(my_colour);
+       CMoveGenerator response_generator;
+       response_generator.generate_all();
+        board.move_maker.unmake_move();
+        response_generator.move_list.prune_silent_moves();
+        response_generator.move_list.filter_captures_by_target_square(my_king_square);
+        if (response_generator.move_list.list_size() > 0) {
+            std::cout << "remove\n";
+            SMove illegal_move = move;
+            remove(illegal_move);
+        }
+        move = get_next();
     }
+    reuse_list();
 }
 
 void CMoveList::store_castling(const char move_type) {
@@ -279,14 +293,14 @@ void CMoveList::remove(const SMove move) {
     assert(position != NOT_FOUND);
     assert(position >= first_capture);
     assert(position < last_silent_move);
-    assert(consumer_position == first_capture);
     if (position < LIST_ORIGIN) {
         bidirectional_move_list[position] = bidirectional_move_list[first_capture];
         ++first_capture;
-        ++consumer_position;
     } else {
         bidirectional_move_list[position] == bidirectional_move_list[last_index()];
         --last_silent_move;
+       // TODO 
+        --consumer_position;
     }
 }
 
