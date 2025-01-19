@@ -190,7 +190,6 @@ void CMoveList::prune_illegal_moves() {
     bool my_colour = board.get_side_to_move();
     SMove move = get_next();
     while (move != NULL_MOVE) {
-        std::cout << "Checking " << move << "\n";
         board.move_maker.make_move(move);
         SSquare my_king_square = CBoardLogic::king_square(my_colour);
        CMoveGenerator response_generator;
@@ -199,7 +198,6 @@ void CMoveList::prune_illegal_moves() {
         response_generator.move_list.prune_silent_moves();
         response_generator.move_list.filter_captures_by_target_square(my_king_square);
         if (response_generator.move_list.list_size() > 0) {
-            std::cout << "remove\n";
             SMove illegal_move = move;
             remove(illegal_move);
         }
@@ -297,10 +295,9 @@ void CMoveList::remove(const SMove move) {
         bidirectional_move_list[position] = bidirectional_move_list[first_capture];
         ++first_capture;
     } else {
-        bidirectional_move_list[position] == bidirectional_move_list[last_index()];
+        bidirectional_move_list[position] = bidirectional_move_list[last_index()];
         --last_silent_move;
-       // TODO 
-        --consumer_position;
+        consumer_position = position;
     }
 }
 
