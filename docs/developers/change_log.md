@@ -1,6 +1,11 @@
 Major Changes
 =============
 
+Version 0.b
+-----------
+* Pruning illegal moves at the root-node. Illegal moves usualy get sorted out by the search, but in completely lost positions the king could become gready. A dead man may it everything.
+* Now acting a tempo, if there is only one legal move.
+
 Version 0.a
 -----------
 - Anti-adjudication: preventing scores that are too good, too bad or too equal.
