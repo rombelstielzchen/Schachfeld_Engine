@@ -15,7 +15,7 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     { 5, 0, 5, "1K6/8/8/8/8/8/8/8 w" },
     { 8, 0, 8, "8/1K6/8/8/8/8/8/8 w" },
     // White king, simple moves, no castling, some other pieces
-    { 8, 4, 8, "n1n5/1K6/n1n5/8/8/8/8/8 w" },
+    { 8, 4, 4, "n1n5/1K6/n1n5/8/8/8/8/8 w" },
     { 4, 2, 4, "8/r1r5/P1P5/nKn5/P1P5/8/8/8 w" },
     // White king, testing all 8 directions separately
     { 3, 0, 3, "8/8/8/PPP5/PKP5/PPP5/8/8 w" },
@@ -96,7 +96,7 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     // White castling, no castling rights
     { 10, 0, 10, "8/8/8/8/8/p6p/P6P/R3K2R w -" },
     // White castling, pieces in the way
-    { 7, 2, 7, "8/8/8/8/8/p6p/P6P/Rn2K1nR w KQ" },
+    { 7, 2, 5, "8/8/8/8/8/p6p/P6P/Rn2K1nR w KQ" },
     // White castling, not yet checking attacked squares
     { 9, 0, 9, "8/8/8/8/8/p7/P7/R3K3 w Q" },
     { 8, 0, 8, "8/8/8/8/8/7p/7P/4K2R w K" },
@@ -109,7 +109,7 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     // Black pawn, eng-passeng
     { 2, 1, 2, "8/8/8/8/pP b - b3" },
     // Black  king, castling
-    { 10, 1, 10, "r3k1Br/p6p/P6P b kq" },
+    { 10, 1, 9, "r3k1Br/p6p/P6P b kq" },
     // Some real-world positions
     { 20, 0, 20, "startpos" },
     { 33, 3, 33, "r1nqkbnr/pppp2pp/2n5/1B2pp2/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq" },
@@ -121,7 +121,7 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     // Former bug: phantom eng-passeng from left, stupid brackets
     { 0, 0, 0, "8/8/8/p7/P7/8/8/8 b - a3" },
     // Former bug: slifing pieces and move-ordering
-    { 16, 1, 16, "r1k/8/R1K w" },
+    { 16, 1, 13, "r1k/8/R1K w" },
     // Legality: king nearly stale_mate
     { 5, 0, 1, "1K/3q w" },
 };
