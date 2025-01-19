@@ -22,6 +22,10 @@ SMove CIterativeDeepening::search(int depth) {
     search_statistics.reset_all();
     best_move = NULL_MOVE;
     move_generator.generate_all();
+    move_generator.move_list.prune_illegal_moves();
+    if (only_one_legal_move()) {
+        return only_move();
+    }
     std::string root_position = board.get_fen_position();
     for (int current_depth = min_meaningful_depth_to_avoid_illegal_moves; current_depth <= depth; ++current_depth) {
         if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
@@ -87,6 +91,10 @@ SMove CIterativeDeepening::search_nodes(int64_t nodes) {
     search_statistics.reset_all();
     best_move = NULL_MOVE;
     move_generator.generate_all();
+    move_generator.move_list.prune_illegal_moves();
+    if (only_one_legal_move()) {
+        return only_move();
+    }
     int current_depth = min_meaningful_depth_to_avoid_illegal_moves;
     do {
         root_node_search(current_depth);
@@ -99,6 +107,10 @@ SMove CIterativeDeepening::search_movetime(const int64_t movetime_ms) {
     search_statistics.reset_all();
     best_move = NULL_MOVE;
     move_generator.generate_all();
+    move_generator.move_list.prune_illegal_moves();
+    if (only_one_legal_move()) {
+        return only_move();
+    }
     int current_depth = min_meaningful_depth_to_avoid_illegal_moves;
     do {
         root_node_search(current_depth);
@@ -133,5 +145,14 @@ SMove CIterativeDeepening::search_time(
     ++time_for_next_move_ms;
     assert(time_for_next_move_ms > 0);
     return search_movetime(time_for_next_move_ms);
+}
+
+bool CIterativeDeepening::only_one_legal_move() const {
+    return move_generator.move_list.list_size() == 1;
+}
+
+SMove CIterativeDeepening::only_move() {
+    assert(only_one_legal_move());
+    return move_generator.move_list.get_next();
 }
 
