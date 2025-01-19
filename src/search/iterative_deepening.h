@@ -8,6 +8,8 @@
 #include"../move_generator/move.h"
 #include"../move_generator/move_generator.h"
 
+constexpr int64_t INFINITE_DEPTH = INT_MAX;
+
 class CIterativeDeepening {
   public:
     CIterativeDeepening();

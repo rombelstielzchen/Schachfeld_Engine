@@ -54,7 +54,6 @@ void CCommandInterface::go_mate(const int depth_in_moves) {
 
 void CCommandInterface::go_infinite() {
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
-    constexpr int64_t INFINITE_DEPTH = INT_MAX;
     std::thread worker_thread(worker_go_depth, INFINITE_DEPTH);
     worker_thread.detach();
 }

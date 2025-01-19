@@ -23,7 +23,7 @@ SMove CIterativeDeepening::search(int depth) {
     best_move = NULL_MOVE;
     move_generator.generate_all();
     move_generator.move_list.prune_illegal_moves();
-    if (only_one_legal_move()) {
+    if (only_one_legal_move() && (depth < INFINITE_DEPTH)) {
         return only_move();
     }
     std::string root_position = board.get_fen_position();
