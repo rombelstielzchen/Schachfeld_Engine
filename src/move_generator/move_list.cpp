@@ -203,6 +203,7 @@ void CMoveList::prune_illegal_moves() {
         }
         move = get_next();
     }
+    prune_illegal_castlings();
     reuse_list();
 }
 
@@ -310,3 +311,30 @@ bool CMoveList::move_on_list(const std::string &text_move) const {
     SMove move = text_to_basic_move(text_move);
     return (get_index(move) != NOT_FOUND);
 }
+
+void CMoveList::prune_illegal_castlings() {
+    // TODO: refactoring
+    SSquare king_square = CBoardLogic::king_square(board.get_side_to_move());
+    if (king_square.file != FILE_E) {
+        return;
+    }
+    if (king_square.rank != CBoardLogic::my_back_rank()) {
+        return;
+    }
+    if (board.get_side_to_move() == WHITE_PLAYER) {
+        if (!move_on_list("e1f1") && move_on_list("e1g1")) {
+            remove("e1g1");
+        }
+        if (!move_on_list("e1d1") && move_on_list("e1c1")) {
+            remove("e1c1");
+        }
+        return;
+    }
+    if (!move_on_list("e8f8") && move_on_list("e8g8")) {
+        remove("e8g8");
+    }
+    if (!move_on_list("e8d8") && move_on_list("e8c8")) {
+        remove("e8c8");
+    }
+}
+

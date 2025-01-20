@@ -129,8 +129,8 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     // Legality: stalemate
     { 3, 0, 0, "k/2Q b" },
     // Legality: castling over controlled squares
-    { 12, 0, 8, "8/8/8/8/8/p6p/P6P/R3K2R w KQ" },
-    { 12, 0, 8, "r3k2r/p6p/P6P b kq" },
+    { 12, 1, 8, "8/8/8/8/8/p6p/P3p2P/R3K2R w KQ" },
+    { 12, 0, 6, "r3k2r/p6p/P6P/3R1R b kq" },
 
 };
 
