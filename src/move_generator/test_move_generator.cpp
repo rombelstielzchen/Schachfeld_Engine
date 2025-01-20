@@ -120,14 +120,18 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     { 0, 0, 0, "4n3/2p3p1/2Pp1pP1/3P1P2 b" },
     // Former bug: phantom eng-passeng from left, stupid brackets
     { 0, 0, 0, "8/8/8/p7/P7/8/8/8 b - a3" },
-    // Former bug: slifing pieces and move-ordering
+    // Former bug: sliding pieces and move-ordering
     { 16, 1, 13, "r1k/8/R1K w" },
     // Legality: king nearly stale_mate
     { 5, 0, 1, "1K/3q w" },
-    // Legality: not capturing the attacker
+    // Legality: not capturing the protected attacker
     { 9, 1, 1, "8/8/8/8/8/5q/3n2KP w" },
     // Legality: stalemate
     { 3, 0, 0, "k/2Q b" },
+    // Legality: castling over controlled squares
+    { 12, 0, 8, "8/8/8/8/8/p6p/P6P/R3K2R w KQ" },
+    { 12, 0, 8, "r3k2r/p6p/P6P b kq" },
+
 };
 
 bool CTestMoveGenerator::test_everything() {
