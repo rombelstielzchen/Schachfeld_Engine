@@ -11,6 +11,7 @@
 
 bool CTestMoveList::test_everything() {
     BEGIN_TESTSUITE("CTestMoveList");
+    EXPECT(test_basics());
     EXPECT(test_prune_silent_moves());
     EXPECT(test_filter_by_target_square());
     EXPECT(test_reuse_list());
@@ -110,3 +111,12 @@ bool CTestMoveList::test_remove() {
     return true;
 }
 
+bool CTestMoveList::test_basics() {
+    TEST_FUNCTION();
+    board.set_start_position();
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    EXPECT(move_generator.move_list.move_on_list("g1f3"));
+    EXPECT(move_generator.move_list.move_on_list("h1h3") == false);
+    return true;
+}

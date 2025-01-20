@@ -301,3 +301,12 @@ void CMoveList::remove(const SMove move) {
     }
 }
 
+void CMoveList::remove(const std::string &move_text) {
+    SMove move = text_to_basic_move(move_text);
+    remove(move);
+}
+
+bool CMoveList::move_on_list(const std::string &text_move) const {
+    SMove move = text_to_basic_move(text_move);
+    return (get_index(move) != NOT_FOUND);
+}

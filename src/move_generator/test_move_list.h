@@ -10,6 +10,7 @@
 class CTestMoveList {
   public:
     static bool test_everything();
+    static bool test_basics();
   private:
     static bool test_prune_silent_moves();
     static bool test_filter_by_target_square();
