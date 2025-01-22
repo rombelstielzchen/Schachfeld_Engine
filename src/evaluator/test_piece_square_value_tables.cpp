@@ -9,11 +9,12 @@
 bool CTestPieceSquareValueTables::test_everything() {
     BEGIN_TESTSUITE("CTestPieceSquareValueTables");
     EXPECT(test_plausibility());
+    EXPECT(test_positions());
     return true;
 }
 
 bool CTestPieceSquareValueTables::test_plausibility() {
-    CTEST << "CTestPieceSquareValueTables::test_plausibility() ...\n";
+    TEST_FUNCTION();
     EXPECT(test_plausibility(main_piece_square_value_table_set));
     EXPECT(test_plausibility(endgame_king_psv_table));
     return true;
@@ -62,5 +63,20 @@ bool CTestPieceSquareValueTables::test_plausibility(const TPieceSquareValueTable
     EXPECT(minimum * maximum >= 0);
     EXPECT((minimum > 0) || (maximum < 0) || (minimum == maximum));
     return true;
+}
+
+bool CTestPieceSquareValueTables::test_positions() {
+    TEST_FUNCTION();
+    EXPECT(first_position_better("w",
+        "B w"));
+    return true;
+}
+
+bool CTestPieceSquareValueTables::first_position_better(const std::string &first_fen, const std::string &second_fen) {
+    SILENT_EXPECT(board.set_fen_position(first_fen));
+    int first_value = board.evaluator.evaluate();
+    SILENT_EXPECT(board.set_fen_position(second_fen));
+    int second_value = board.evaluator.evaluate();
+    return first_value > second_value;
 }
 

@@ -14,5 +14,8 @@ class CTestPieceSquareValueTables {
     static bool test_plausibility();
     static bool test_plausibility(const TPieceSquareValueTableSet &psv_table_set);
     static bool test_plausibility(const TPieceSquareValueTable &psv_table);
+  private:
+    static bool test_positions();
+    static bool first_position_better(const std::string &first_fen, const std::string &second_fen);
 };
 
