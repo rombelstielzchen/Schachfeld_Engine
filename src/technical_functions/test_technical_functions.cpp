@@ -13,6 +13,7 @@
     // Tests "everything"m except debug_log and engine_test
         BEGIN_TESTSUITE("CTestTechnicalFunctions");
     EXPECT(test_string_functions());
+    EXPECT(test_string_tokenizer());
     return true;
 }
 
@@ -25,7 +26,24 @@
     CTEST << "Testing trim()" << std::endl;
     trim(initial);
     EXPECT(initial == "Hello   ,         world !");
-    CTEST << "Testing CStringTokenizer" << std::endl;
+    // is_prefix_of
+    EXPECT(is_prefix_of("bob","bobby") == true);
+    EXPECT(is_prefix_of("bobby","bobby") == true);
+    EXPECT(is_prefix_of("bobby","bobby", true) == false);
+    EXPECT(is_prefix_of("bobby","tolya") == false);
+    // replace and remove
+    initial = "Hello, world!";
+    EXPECT(replace_substring(initial, "ello", "uhu", true) == 1);
+    EXPECT(initial == "Huhu, world!");
+    replace_all_substrings(initial, "u", "o", true);
+    EXPECT(initial == "Hoho, world!");
+    remove_all_substrings(initial, ", world");
+    EXPECT(initial == "Hoho!");
+    return true;
+}
+
+bool CTestTechnicalFunctions::test_string_tokenizer() {
+    CTEST << "CTestTechnicalFunctions::test_string_tokenizer() ...\n"; 
     std::string long_text = "hello world greetings from the moon";
     CStringTokenizer tokenizer(long_text);
     EXPECT(tokenizer.next_token() == "hello");
@@ -36,11 +54,6 @@
     EXPECT(tokenizer.get_integer_token(0) == 34);
     EXPECT(tokenizer.get_integer_token(3) == 3);
     EXPECT(tokenizer.get_integer_token(-2) == -2);
-    // is_prefix_of
-    EXPECT(is_prefix_of("bob","bobby") == true);
-    EXPECT(is_prefix_of("bobby","bobby") == true);
-    EXPECT(is_prefix_of("bobby","bobby", true) == false);
-    EXPECT(is_prefix_of("bobby","tolya") == false);
     return true;
 }
 

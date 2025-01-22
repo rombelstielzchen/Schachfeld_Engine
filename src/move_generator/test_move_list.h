@@ -7,15 +7,15 @@
 
 #include "../technical_functions/standard_headers.h"
 
-class CTestBoard {
+class CTestMoveList {
   public:
     static bool test_everything();
+    static bool test_basics();
   private:
-    static bool test_set_fen_position();
-    static bool test_set_start_position();
-    static bool test_as_is();
-    static bool test_accessors();
-    static bool test_modifiers();
-    static bool test_moves_from_startpos();
+    static bool test_prune_silent_moves();
+    static bool test_filter_by_target_square();
+    static bool test_reuse_list();
+    static bool test_shift_current_move_to_top();
+    static bool test_remove();
 };
 

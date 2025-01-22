@@ -22,6 +22,10 @@ SMove CIterativeDeepening::search(int depth) {
     search_statistics.reset_all();
     best_move = NULL_MOVE;
     move_generator.generate_all();
+    move_generator.move_list.prune_illegal_moves();
+    if (only_one_legal_move() && (depth < INFINITE_DEPTH)) {
+        return only_move();
+    }
     std::string root_position = board.get_fen_position();
     for (int current_depth = min_meaningful_depth_to_avoid_illegal_moves; current_depth <= depth; ++current_depth) {
         if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
@@ -31,6 +35,7 @@ SMove CIterativeDeepening::search(int depth) {
         root_node_search(current_depth);
         assert(best_move != NULL_MOVE);
     }
+    assert(board.get_fen_position() == root_position);
     return best_move;
 }
 
@@ -47,40 +52,49 @@ void CIterativeDeepening::root_node_search(int depth) {
     assert(n_moves >= 0);
     constexpr int uci_first_movenumber = 1;
     for (int j = uci_first_movenumber; j <= n_moves; ++j) {
-        if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
-            break;
-        }
         // No alpha-beta-cutoffs here. Top-level search has to examine all moves,
         // but feed the recursive search with the current alpha-beta values.
+        search_statistics.reset_for_next_move();
         SMove move_candidate = move_generator.move_list.get_next();
         assert(move_candidate != NULL_MOVE);
         assert(move_in_range(move_candidate));
         board.move_maker.make_move(move_candidate);
         int candidate_score = search.alpha_beta(depth - 1, alpha, beta); 
+        if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
+            // Break HERE. Do not update bestmove based on potentially crappy data
+            board.move_maker.unmake_move();
+            break;
+        }
         search_statistics.set_current_move(move_candidate, candidate_score, j);
         if ((side_to_move == WHITE_PLAYER) && (candidate_score > best_score)) {
             best_move = move_candidate;
             best_score = candidate_score;
             alpha = candidate_score;
             move_generator.move_list.shift_current_move_to_top();
+            search_statistics.set_best_move(best_move, best_score);
         } else if ((side_to_move == BLACK_PLAYER) && (candidate_score < best_score)) {
             best_move = move_candidate;
             best_score = candidate_score;
             beta = candidate_score;
             move_generator.move_list.shift_current_move_to_top();
+            search_statistics.set_best_move(best_move, best_score);
         }
-        search_statistics.set_best_move(best_move, best_score);
         board.move_maker.unmake_move();
     }
     search_statistics.add_nodes(n_moves);
-    search_statistics.log_branching_factor();
     CUciProtocol::send_info(move_generator.move_list.as_text());
+    search_statistics.log_branching_factor();
+    search_statistics.log_subtree_size_bestmove();
 }
 
 SMove CIterativeDeepening::search_nodes(int64_t nodes) {
     search_statistics.reset_all();
     best_move = NULL_MOVE;
     move_generator.generate_all();
+    move_generator.move_list.prune_illegal_moves();
+    if (only_one_legal_move()) {
+        return only_move();
+    }
     int current_depth = min_meaningful_depth_to_avoid_illegal_moves;
     do {
         root_node_search(current_depth);
@@ -93,6 +107,10 @@ SMove CIterativeDeepening::search_movetime(const int64_t movetime_ms) {
     search_statistics.reset_all();
     best_move = NULL_MOVE;
     move_generator.generate_all();
+    move_generator.move_list.prune_illegal_moves();
+    if (only_one_legal_move()) {
+        return only_move();
+    }
     int current_depth = min_meaningful_depth_to_avoid_illegal_moves;
     do {
         root_node_search(current_depth);
@@ -127,5 +145,14 @@ SMove CIterativeDeepening::search_time(
     ++time_for_next_move_ms;
     assert(time_for_next_move_ms > 0);
     return search_movetime(time_for_next_move_ms);
+}
+
+bool CIterativeDeepening::only_one_legal_move() const {
+    return move_generator.move_list.list_size() == 1;
+}
+
+SMove CIterativeDeepening::only_move() {
+    assert(only_one_legal_move());
+    return move_generator.move_list.get_next();
 }
 

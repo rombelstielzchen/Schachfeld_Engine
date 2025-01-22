@@ -5,11 +5,11 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-class CTestTechnicalFunctions {
+class CTestStatistics {
   public:
     static bool test_everything();
   private:
-    static bool test_string_functions();
-    static bool test_string_tokenizer();
+    static bool test_basic_stats();
+    static bool test_anti_adjudication_score();
+    static bool test_expected_branching_factor();
 };
-

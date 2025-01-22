@@ -4,12 +4,22 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "move_list.h"
+#include "move_generator.h"
 #include "../board/board.h"
+#include "../board/board_logic.h"
+#include "../board/square_constants.h"
+
+constexpr unsigned int NOT_FOUND = INT_MAX;
 
 CMoveList::CMoveList() {
+    clear();
+}
+
+void CMoveList::clear() {
     first_capture = LIST_ORIGIN;
     last_silent_move = LIST_ORIGIN;
     consumer_position = LIST_ORIGIN;
+    assert(list_size() == 0);
 }
 
 SMove CMoveList::get_random() const {
@@ -34,23 +44,35 @@ SMove CMoveList::get_next() {
     return result;
 }
 
-SMove CMoveList::lookup_move(const std::string &text_move) const {
+unsigned int CMoveList::get_index(const SMove basic_move) const {
+    assert(move_in_range(basic_move));
     assert(last_silent_move >= first_capture);
+    for (unsigned int j = first_capture; j < last_silent_move; ++j) {
+        if (move_coords_are_equal(basic_move, bidirectional_move_list[j])) {
+            return j;
+        }
+    }
+    return NOT_FOUND;
+}
+
+SMove CMoveList::lookup_move(const std::string &text_move) const {
      SMove basic_move = text_to_basic_move(text_move);
      if (basic_move == NULL_MOVE) {
          return NULL_MOVE;
      }
+     // TODO: make this paer of text_to_basic_move
     assert(basic_move.move_type == MOVE_TYPE_NORMAL);
     if (text_move.length() > 4) {
         basic_move.move_type = text_move[4];
         assert(is_any_piece(basic_move.move_type));
     }
-    for (unsigned int j = first_capture; j < last_silent_move; ++j) {
-        if (move_coords_are_equal(basic_move, bidirectional_move_list[j])) {
-            return bidirectional_move_list[j];
-        }
+    unsigned int index = get_index(basic_move);
+    if (index == NOT_FOUND) {
+        return NULL_MOVE;
     }
-    return NULL_MOVE;
+    assert(index >= 0);
+    assert(index <  LIST_SIZE);
+    return bidirectional_move_list[index];
 }
 
 int CMoveList::list_size() const {
@@ -164,6 +186,27 @@ void CMoveList::prune_silent_moves() {
     last_silent_move = LIST_ORIGIN;
 }
 
+void CMoveList::prune_illegal_moves() {
+    bool my_colour = board.get_side_to_move();
+    SMove move = get_next();
+    while (move != NULL_MOVE) {
+        board.move_maker.make_move(move);
+        SSquare my_king_square = CBoardLogic::king_square(my_colour);
+       CMoveGenerator response_generator;
+       response_generator.generate_all();
+        board.move_maker.unmake_move();
+        response_generator.move_list.prune_silent_moves();
+        response_generator.move_list.filter_captures_by_target_square(my_king_square);
+        if (response_generator.move_list.list_size() > 0) {
+            SMove illegal_move = move;
+            remove(illegal_move);
+        }
+        move = get_next();
+    }
+    prune_illegal_castlings();
+    reuse_list();
+}
+
 void CMoveList::store_castling(const char move_type) {
     SMove new_move;
     new_move.source.file = FILE_E;
@@ -242,5 +285,56 @@ std::string CMoveList::as_text() const {
         info += " ";
     }
     return info;
+}
+
+void CMoveList::remove(const SMove move) {
+    unsigned int position = get_index(move);
+    assert(position != NOT_FOUND);
+    assert(position >= first_capture);
+    assert(position < last_silent_move);
+    if (position < LIST_ORIGIN) {
+        bidirectional_move_list[position] = bidirectional_move_list[first_capture];
+        ++first_capture;
+    } else {
+        bidirectional_move_list[position] = bidirectional_move_list[last_index()];
+        --last_silent_move;
+        consumer_position = position;
+    }
+}
+
+void CMoveList::remove(const std::string &move_text) {
+    SMove move = text_to_basic_move(move_text);
+    remove(move);
+}
+
+bool CMoveList::move_on_list(const std::string &text_move) const {
+    SMove move = text_to_basic_move(text_move);
+    return (get_index(move) != NOT_FOUND);
+}
+
+void CMoveList::prune_illegal_castlings() {
+    // TODO: refactoring
+    SSquare king_square = CBoardLogic::king_square(board.get_side_to_move());
+    if (king_square.file != FILE_E) {
+        return;
+    }
+    if (king_square.rank != CBoardLogic::my_back_rank()) {
+        return;
+    }
+    if (board.get_side_to_move() == WHITE_PLAYER) {
+        if (!move_on_list("e1f1") && move_on_list("e1g1")) {
+            remove("e1g1");
+        }
+        if (!move_on_list("e1d1") && move_on_list("e1c1")) {
+            remove("e1c1");
+        }
+        return;
+    }
+    if (!move_on_list("e8f8") && move_on_list("e8g8")) {
+        remove("e8g8");
+    }
+    if (!move_on_list("e8d8") && move_on_list("e8c8")) {
+        remove("e8c8");
+    }
 }
 

@@ -18,9 +18,10 @@ constexpr unsigned int LIST_SIZE = MAX_MOVES_IN_CHESS_POSITION + MAX_CAPTURES_IN
 constexpr unsigned int LIST_ORIGIN = MAX_CAPTURES_IN_CHESS_POSITION;
 
 class CMoveList {
+    friend class CTestMoveGenerator;
+    friend class CTestMoveList;
   public:
     CMoveList();
-  public:
     int list_size() const;
     SMove get_random() const;
     SMove get_next();
@@ -39,17 +40,29 @@ class CMoveList {
     void prune_silent_moves();
     void filter_captures_by_target_square(const SSquare &target_square);
   public:
+    // For the root-node, in order to avoid greedy captures when getting mated
+    void prune_illegal_moves();
+  public:
     // For root-node ordering
     void reuse_list();
     void shift_current_move_to_top();
   public:
     std::string as_text() const;
   private:
+    void clear();
+  private:
     void store_white_promotions(const int source_file, const int source_rank, const int target_file, const int target_rank);
     void store_black_promotions(const int source_file, const int source_rank, const int target_file, const int target_rank);
   private:
     inline void store_silent_move(const SMove &move);
     inline void store_capture(const SMove &move);
+  private:
+    inline unsigned int last_index() const { return last_silent_move - 1; }
+    unsigned int get_index(const SMove basic_move) const;
+    bool move_on_list(const std::string &move_text) const;
+    void remove(const SMove move);
+    void remove(const std::string& move_text);
+    void prune_illegal_castlings();
   private:
     // Using array instead of vector due to its known size and for better performance
     std::array<SMove,LIST_SIZE> bidirectional_move_list;

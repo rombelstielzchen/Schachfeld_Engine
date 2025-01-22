@@ -1,5 +1,9 @@
 #pragma once
 
+#ifndef DEBUG_LOG_ENABLE
+#define DEBUG_LOG_ENABLE
+#endif
+
 // Code based on the logging-framework by Fredrik Bornander
 // https://www.codeproject.com/Articles/63736/Simple-debug-log-for-C
 // CodeProject license
@@ -78,8 +82,45 @@ template<class T> void value_of(const std::string& name, const T& value) {
     // endl causes a flush, so all extra flushing removed
 }
 
+ 
+
+// TODO: independent of system and compiler
+#ifdef _WIN32
+
+// TODO: all headers needed?
+#include <windows.h>
+#include "pathcch.h"
+#include "shlobj_core.h"
+#include <wchar.h>
+#include <winuser.h>
+
+#pragma comment(lib, "pathcch.lib")
+
+inline std::wstring const debug_filename() {
+    std::wstring debug_path = L".";
+    PWSTR p_desktop_path;
+    if (SHGetKnownFolderPath(FOLDERID_Desktop, 0, 0, &p_desktop_path) == S_OK) {
+        debug_path = p_desktop_path;
+    }
+    // The calling process is responsible for freeing this resource once it is no longer needed 
+    // by calling CoTaskMemFree, whether SHGetKnownFolderPath succeeds or not. 
+    // TODO: it terminates here
+    ///CoTaskMemFree(&p_desktop_path);
+        debug_path += L"/debug-txt";
+    return debug_path;
+}
+
+#else
+
+inline std::string debug_filename() {
+    const std::string filename = "./debug.txt";
+    return filename;
+}
+
+#endif
+
 inline void log_to_file() {
-    debug_file_stream.open("debug.txt");
+    debug_file_stream.open(debug_filename());
     set_stream(debug_file_stream);
 }
 

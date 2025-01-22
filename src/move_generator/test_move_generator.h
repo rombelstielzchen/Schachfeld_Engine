@@ -10,8 +10,9 @@
 
 struct STestcaseMoveGenerator {
     // Order of elements reversed for more readable layout of the list
-    uint8_t expected_moves;
-    uint8_t expected_captures;
+    uint8_t expected_pseudo_legal_moves;
+    uint8_t expected_pseudo_legal_captures;
+    uint8_t expected_legal_moves;
     std::string fen_position;
 };
 
@@ -19,10 +20,6 @@ class CTestMoveGenerator {
   public:
     static bool test_everything();
   private:
-    static bool test_prune_silent_moves();
-    static bool test_filter_by_target_square();
-    static bool test_reuse_list();
-    static bool test_shift_current_move_to_top();
     static bool test_positions();
     static bool test(const STestcaseMoveGenerator &testcase);
 };

@@ -1,10 +1,22 @@
 Major Changes
 =============
 
+Version 0.b
+-----------
+* Pruning illegal moves at the root-node. Illegal moves usualy get sorted out by the search, but in completely lost positions the king could become gready. A dead man may it everything.
+* Now acting a tempo, if there is only one legal move.
+
+Version 0.a
+-----------
+- Anti-adjudication: preventing scores that are too good, too bad or too equal.
+- Convenience at the command-line: lots of shortcuts lijke "p s m ..."
+  for "position startpos moves ...". Also ignoring phpbb "[FEN]" tags copied from fora.
+  * Fast reactions to stop-commands, as the formerly slow reaction has been suspected to cause problems with some GUIs (LucasChess and maybe ScidVsPc).
+
 Version 0.9
 -----------
 * Basic time-management, using iterative-deepening, in order to play chess with time-controls.
-* Simple ove-ordering at the roo-tnode of the banana-tree, shifting the currently best move t the top pf the list, in order to start with a good candidate when iterating deeper.
+* Simple move-ordering at the roo-tnode of the banana-tree, shifting the currently best move t the top pf the list, in order to start with a good candidate when iterating deeper.
 * Handling castling-rights when receiving a startpos-command with moves.
 
 Version 0.8

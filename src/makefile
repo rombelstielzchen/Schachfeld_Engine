@@ -13,41 +13,26 @@
 
 CC=g++
 
-DEBUGFLAGS=-D DEBUG_LOG_ENABLE -Wall -O0 -c $^
-OPTIMIZEDFLAGS=-Wall -O2  -c $^
-ANALYSISFLAGS=-Wall -Wextra -Wpedantic -O0  -c $^
+DEBUGFLAGS=-D DEBUG_LOG_ENABLE -std=c++17 -Wall -O0 -c $^
+OPTIMIZEDFLAGS=-std=c++17 -Wall -O2  -c $^
+ANALYSISFLAGS==-std=c++17 -Wall -Wextra -Wpedantic -O0  -c $^
 CFLAGS=$(DEBUGFLAGS)
-
-COMBINEDSOURCES="all_in_one.cpp"
 
 ### Main build-target ##################
 
-debug:
-	### Setting debug options, then going to compile
-#	export CFLAGS=$(DEBUGFLAGS)
-	make -e engine
-
-engine: makefile main.o board.o uci_protocol.o string_functions.o  \
+engine: main.o board.o uci_protocol.o string_functions.o  \
 	fen_parser.o command_interface.o move_generator.o move.o \
-	test_move_generator.o engine_test.o fen_generator.o test_board.o \
+test_move_generator.o engine_test.o fen_generator.o test_board.o \
 	test_technical_functions.o board_logic.o opening_book.o test_opening_book.o \
 	gm_book.o move_maker.o test_move_maker.o move_list.o search.o test_search.o \
 	evaluator.o test_evaluator.o search_statistics.o iterative_deepening.o \
-	string_tokenizer.o test_piece_square_value_tables.o
-	#make semi_clean 
-#	CFLAGS=-Wall -O0  -c $^
-	#make standard_headers
+	string_tokenizer.o test_statistics.o test_math_functions.o math_functions.o \
+	test_move_list.o test_board_logic.o test_piece_square_value_tables.o
+	make semi_clean 
+	make standard_headers
 	### Linking engine
-	echo $(CFLAGS)
-	g++ -o engine main.o string_functions.o uci_protocol.o board.o  \
-	fen_parser.o command_interface.o move_generator.o move.o \
-	test_move_generator.o engine_test.o fen_generator.o test_board.o \
-	test_technical_functions.o board_logic.o opening_book.o test_opening_book.o \
-	gm_book.o move_maker.o test_move_maker.o move_list.o search.o test_search.o \
-		evaluator.o test_evaluator.o search_statistics.o iterative_deepening.o \
-	string_tokenizer.o test_piece_square_value_tables.o
+	$(CC) -o $@ $^ 
 	make test
-	@#sl -e +extra_foo +immortality
 	@echo "=============================="
 	@ls -o engine
 
@@ -135,23 +120,23 @@ string_tokenizer.o: technical_functions/string_tokenizer.cpp
 	$(CC) $(CFLAGS) 
 
 test_piece_square_value_tables.o: evaluator/test_piece_square_value_tables.cpp
+
+test_statistics.o: search/test_statistics.cpp
+	$(CC) $(CFLAGS) 
+
+test_math_functions.o: technical_functions/test_math_functions.cpp
+	$(CC) $(CFLAGS) 
+
+math_functions.o: technical_functions/math_functions.cpp
+	$(CC) $(CFLAGS) 
+
+test_move_list.o: move_generator/test_move_list.cpp
+	$(CC) $(CFLAGS) 
+
+test_board_logic.o: board/test_board_logic.cpp
 	$(CC) $(CFLAGS) 
 
 #### Other build targets ###############
-
-optimized:
-	make clean
-	### Generating all-in-one source-file
-	cat *.cpp */*.cpp > $(COMBINEDSOURCES)
-	### Building with optimizing options
-	CFLAGS=OPTIMIZEDFLAGS
-	$(CC) $(CFLAGS) $(COMBINEDSOURCES)
-
-analysis:
-	make clean
-	### Building with extra warnings
-	CFLAGS=ANALYSISFLAGS
-	make engine
 
 test:
 	### Testing engine, executing a quick self-test, without UCI.

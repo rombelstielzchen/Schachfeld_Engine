@@ -12,11 +12,12 @@ The engine supports the universal-chess-interface for communication with your fa
 
 How To Download
 ---------------
-Not yet
+[version_0.9.zip](https://github.com/rombelstielzchen/Schachfeld_Engine/raw/refs/heads/main/release/archives/Schachfeld_Engine_0.9.zip)
+
 
 How to Use
 ----------
-Take your favourite graphical chess-program. There should be a menu-item like Menu -> Engines -> Install Engine..., that either opens a dialog or directly starts a file-selection-dialog. Here select the *SchachfeldEngine.exe*. If you get asked if the engine supports the UCI-protocol or the WinBoard-protocol, choose UCI. The engine should be now ready to be used. Some GUIs will automatically start the new engine, others will ask you to start the active one. Have fun!
+First download the latest zip-archive and extract it, e.g. to your desktop. Then take your favourite graphical chess-program. There should be a menu-item like Menu -> Engines -> Install Engine..., that either opens a custom dialog or directly starts a file-selection-dialog. Here select the *SchachfeldEngine.exe*. If you get asked if the engine supports the UCI-protocol or the WinBoard-protocol, choose UCI. The engine should be now ready to be used. Some GUIs will automatically start the new engine, others will ask you to start the new one. Have fun!
 
 How To Get The Source-Code
 --------------------------
@@ -26,12 +27,12 @@ How To Get The Source-Code
   ~~~
   cd Desktop
   ~~~
-  The following steps will then create a new directory **Schachfeld_Engine** on your desktop.
 * Now you can check out the project from Github. At your command-prompt type:
 ~~~
 git clone https://github.com/rombelstielzchen/Schachfeld_Engine
 ~~~
- Once the download has completed you should see **Schachfeld_Engine** at your desktop, This directory contains the complete Git-database (hidden) and the code of the main development-branch. Enjoy!
+ Once the download has completed you should see **Schachfeld_Engine** at your desktop, 
+ This directory contains the complete Git-database (hidden) and the code of the main development-branch. Enjoy!
 
 How To Build
 ------------
@@ -42,10 +43,17 @@ How To Build
 * The command-line program "schachfeld.exe" should now exist in the folder "src/visual_studio/x64/Release", ready to be used.
 
 ### On Linuxoid Systems ###
-* Make sure you have the following programs installed: basename, bash, echo, g++, ld, make, perl, sed, sort, uniq, xargs, zip. Most of them should be installed per default, don't worry.
+* Make sure you have the following programs installed: basename, bash, echo, git, g++, ld, make, perl, sed, sort, uniq, xargs, zip. Most of them should be installed per default, don't worry.
 * Open a DOS-Fensterle and change the directory to "/home/otto/desktop/schachfeld_engine/src" or whatever the username is, my dear Mr. Otto.
 * Run the "make" command.
 * Enjoy the "engine" program in your working directory.
+
+How To Geek
+-----------
+If you are curious, how a chess-engine works under the hood, 
+you might just double-click the executable for a first impression. 
+The Schachfeld_Engine will then run user-friendly in a black window
+and display some instructions.
 
 How To Communicate / Cooperate
 ------------------------------
@@ -58,11 +66,16 @@ The Schachfeld-engine is licensed as open-source under GPLv3. This basically mea
 * [GPLv3](docs/license_GNU_GPLv3/gpl_v3.html)
 * [GPLv3 FAQ](docs/license_GNU_GPLv3/gpl_v3_faq.html)
 
+![flowers](docs/pics/flower-bouquet.jpg)
+
 Thank You!
 ----------
 * David J. Barnes for his excellent tool [pgn-extract](https://www.cs.kent.ac.uk/people/staff/djb/pgn-extract/).
-* The makers of PGN-Mentor for their [huge collection of high-quality games](https://www.pgnmentor.com/files.html).
 * Fredrik Bornander for his [logging module on CodeProject](https://www.codeproject.com/Articles/63736/Simple-debug-log-for-C)
+* The makers of PGN-Mentor for their [huge collection of high-quality games](https://www.pgnmentor.com/files.html).
+* ReorX for testing on Mac and reporting problems with the build-process.
+* Salto.mattale for testing and reporting problems.
+* Zadesa for testing and reporting problems.
 
 Feel welcome to contact us at the Schachfeld-forum if you miss your name on the list.
 

@@ -23,8 +23,8 @@ CUciProtocol::CUciProtocol() {
     // Used by both UCI-thread and calculator-thread, therefore mutex-protected
         std::mutex message_mutex;
         std::lock_guard<std::mutex> lock(message_mutex);
-        DEBUG_METHOD();
-        DEBUG_VALUE_OF(message);
+        //DEBUG_METHOD();
+        //DEBUG_VALUE_OF(message);
     // UCI standard says:
     //   * communication via text-IO
     //   * every message should end with a new-line, "\n"
@@ -48,9 +48,22 @@ void CUciProtocol::send_info(const std::string &information) {
     send_message(full_message);
 }
 
+void CUciProtocol::preprocess_message(std::string &message) const {
+    trim(message);
+    size_t phpbb_fen_pos = message.find("[FEN]");
+    if (phpbb_fen_pos == std::string::npos) {
+        return;
+    }
+    if (phpbb_fen_pos == 0) {
+        replace_substring(message, "[FEN]", "position fen ", true);
+    }
+    remove_all_substrings(message, "[FEN]");
+    remove_all_substrings(message, "[/FEN]");
+}
+
 void CUciProtocol::process_message(const std::string &message) {
-    DEBUG_METHOD();
-    DEBUG_VALUE_OF(message);
+    //DEBUG_METHOD();
+    //DEBUG_VALUE_OF(message);
     string_tokenizer.set_input(message);
     std::string command = string_tokenizer.next_token(); 
     if ((command == "go") || (command == "g")) {
@@ -147,6 +160,7 @@ void CUciProtocol::message_loop() {
     while (true) {
         std::string message;
         getline(std::cin, message);
+        preprocess_message(message);
         // Checking the input for an exact match in order to decouple
         // message_loop, string_tokenizer and process_message for better testability
         if  ((message == "quit") || (message == "exit") || (message == "x")) {
@@ -176,7 +190,7 @@ void CUciProtocol::display_help() const {
     send_message("    * 'go depth 7' or 'g d 7' to search");
     send_message("    * 'go movetime 20000' or ' g mt 20000'");
     send_message("    * 'go infinite' or 'go' or 'g'");
-    send_message("    * 'stop' and some patience to force a move");
+    send_message("    * 'stop' to force a move");
     send_message("    * 'test' for the self-test");
     send_message("    * 'quit' or 'x'to terminate");
 }

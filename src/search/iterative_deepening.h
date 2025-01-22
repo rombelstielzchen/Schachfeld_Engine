@@ -8,6 +8,8 @@
 #include"../move_generator/move.h"
 #include"../move_generator/move_generator.h"
 
+constexpr int64_t INFINITE_DEPTH = INT_MAX;
+
 class CIterativeDeepening {
   public:
     CIterativeDeepening();
@@ -24,6 +26,8 @@ class CIterativeDeepening {
   private:
     void root_node_search(int depth);
     bool enough_time_left_for_one_more_iteration(const int64_t available_movetime) const;
+    bool only_one_legal_move() const;
+    SMove only_move();
   private:
     // Long-living at the root-node for better move-ordering
     CMoveGenerator move_generator;

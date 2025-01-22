@@ -15,45 +15,60 @@ CSearchStatistics::CSearchStatistics() {
 void CSearchStatistics::reset_all() {
     nodes_calculated = anti_division_by_zero;
     nodes_at_start_of_current_depth = nodes_calculated;
+    nodes_at_start_of_current_move = nodes_calculated;
     max_depth = 1;
     start_time = std::chrono::high_resolution_clock::now();
+    subtree_size_bestmove = 0;
 }
 
 void CSearchStatistics::reset_current_depth(int new_depth) {
     assert(new_depth > 0);
     assert(new_depth >= max_depth);
-    max_depth = std::max(max_depth, new_depth);
+    max_depth = new_depth;
     std::string info = "depth " + std::to_string(new_depth);
     CUciProtocol::send_info(info);
     nodes_at_start_of_current_depth = nodes_calculated;
+    nodes_at_start_of_current_move = nodes_calculated;
+    subtree_size_bestmove = 0;
+}
+
+void CSearchStatistics::reset_for_next_move() {
+    nodes_at_start_of_current_move = nodes_calculated;
 }
 
 void CSearchStatistics::set_best_move(const SMove best_move, const int score) {
     assert(move_in_range(best_move));
     std::string info = "bestmove " + move_as_text(best_move) + anti_adjudication_score(score);
     CUciProtocol::send_info(info);
+    subtree_size_bestmove = subtree_size();
 }
 
 void CSearchStatistics::set_current_move(const SMove current_move, int score, int movenumber) {
     assert(move_in_range(current_move));
     constexpr int uci_first_movenumber = 1;
     assert(movenumber >= uci_first_movenumber);
-    std::string info = "currmove " + move_as_text(current_move)
+    std::string info = "currmove " 
+        + move_as_text(current_move)
         + anti_adjudication_score(score)
-        + " currmovenumber " + std::to_string(movenumber)
+        + " currmovenumber "
+        + std::to_string(movenumber)
         + node_statistics();
     CUciProtocol::send_info(info);
+    log_subtree_size();
 }
 
 std::string CSearchStatistics::node_statistics() const {
-    int64_t nodes_per_second = (nodes_calculated * 1000) / used_time_milliseconds();
-    assert(nodes_per_second > 0);
-    std::string info = " nodes " + std::to_string(nodes_calculated) + " time " + std::to_string(used_time_milliseconds()) + " nps " + std::to_string(nodes_per_second);
+    std::string info = " nodes " 
+        + std::to_string(nodes_calculated) 
+        + " time " 
+        + std::to_string(used_time_milliseconds()) 
+        + " nps " 
+        + std::to_string(nodes_per_second());
     return info;
 }
 
-std::string CSearchStatistics::anti_adjudication_score(int score) const {
-    // Some GUIs adjudicate the game, if the score is too large, too low or too equal.
+std::string CSearchStatistics::anti_adjudication_score(int score) {
+    // Some GUIs adjudicate the game, if the score is too good, too bad or too equal.
     // Let's conterfeit this! ;-)
     constexpr int max_score = 599;
     constexpr int min_score = -max_score;
@@ -70,11 +85,21 @@ std::string CSearchStatistics::anti_adjudication_score(int score) const {
 void CSearchStatistics::log_branching_factor() const {
     assert(nodes_at_start_of_current_depth > 0);
     assert(nodes_calculated > nodes_at_start_of_current_depth);
-    int64_t nodes_for_this_iteration = nodes_calculated - nodes_at_start_of_current_depth;
-    double branching_factor = static_cast<double>(nodes_for_this_iteration) / nodes_at_start_of_current_depth;
+    double branching_factor = static_cast<double>(nodes_for_this_iteration()) / nodes_at_start_of_current_depth;
     // branching_factor nay be < 1 in case of "stop"-command
     assert(branching_factor > 0);
     std::string message = "branching_factor: " + std::to_string(branching_factor);
+    CUciProtocol::send_info(message);
+}
+
+void CSearchStatistics::log_subtree_size_bestmove() const {
+    assert(nodes_for_this_iteration() > 0);
+    double relative_size = static_cast<double>(subtree_size_bestmove) / nodes_for_this_iteration();
+    double size_percent = 100 * relative_size;
+    std::string message = " subtree_size_bestmove " 
+        + std::to_string(subtree_size_bestmove) 
+        + " percent " 
+        + std::to_string(size_percent);
     CUciProtocol::send_info(message);
 }
 
@@ -86,5 +111,27 @@ int64_t CSearchStatistics::used_time_milliseconds() const {
     milliseconds += anti_division_by_zero; 
     assert(milliseconds > 0);
     return milliseconds;
+}
+
+void CSearchStatistics::log_subtree_size() const {
+    std::string message = "subtree_size " + std::to_string(subtree_size());
+    CUciProtocol::send_info(message);
+}
+
+int64_t CSearchStatistics::nodes_per_second() const {
+    int64_t nps = (nodes_calculated * 1000) / used_time_milliseconds();
+    assert(nps > 0);
+    return nps;
+}
+
+int64_t CSearchStatistics::subtree_size() const {
+    int64_t size = nodes_calculated - nodes_at_start_of_current_move;
+    assert(size >= 0);
+    return size;
+}
+
+int64_t CSearchStatistics::nodes_for_this_iteration() const {
+    assert(nodes_calculated > nodes_at_start_of_current_depth);
+    return nodes_calculated - nodes_at_start_of_current_depth;
 }
 

@@ -152,7 +152,7 @@
     <ClCompile Include="..\search\search.cpp" />
     <ClCompile Include="..\search\search_statistics.cpp" />
     <ClCompile Include="..\search\test_search.cpp" />
-    <ClCompile Include="..\technical_functions\debug_log.cpp" />
+    <ClCompile Include="..\search\test_statistics.cpp" />
     <ClCompile Include="..\technical_functions\engine_test.cpp" />
     <ClCompile Include="..\technical_functions\string_functions.cpp" />
     <ClCompile Include="..\technical_functions\string_tokenizer.cpp" />
@@ -181,6 +181,7 @@
     <ClInclude Include="..\search\search.h" />
     <ClInclude Include="..\search\search_statistics.h" />
     <ClInclude Include="..\search\test_search.h" />
+    <ClInclude Include="..\search\test_statistics.h" />
     <ClInclude Include="..\technical_functions\debug_log.h" />
     <ClInclude Include="..\technical_functions\engine_test.h" />
     <ClInclude Include="..\technical_functions\standard_headers.h" />
