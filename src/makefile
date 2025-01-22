@@ -20,14 +20,40 @@ CFLAGS=$(DEBUGFLAGS)
 
 ### Main build-target ##################
 
-engine: main.o board.o uci_protocol.o string_functions.o  \
-	fen_parser.o command_interface.o move_generator.o move.o \
-test_move_generator.o engine_test.o fen_generator.o test_board.o \
-	test_technical_functions.o board_logic.o opening_book.o test_opening_book.o \
-	gm_book.o move_maker.o test_move_maker.o move_list.o search.o test_search.o \
-	evaluator.o test_evaluator.o search_statistics.o iterative_deepening.o \
-	string_tokenizer.o test_statistics.o test_math_functions.o math_functions.o \
-	test_move_list.o test_board_logic.o test_piece_square_value_tables.o
+engine: \
+	board.o \
+	board_logic.o \
+	command_interface.o \
+	engine_test.o \
+	evaluator.o \
+	fen_generator.o \
+	fen_parser.o \
+	gm_book.o \
+	iterative_deepening.o \
+	main.o \
+	math_functions.o \
+	move.o \
+	move_generator.o \
+	move_list.o \
+	move_maker.o \
+	opening_book.o \
+	search.o \
+	search_statistics.o \
+	string_functions.o  \
+	string_tokenizer.o \
+	test_board.o \
+	test_board_logic.o \
+	test_evaluator.o \
+	test_math_functions.o \
+	test_move_generator.o \
+	test_move_list.o \
+	test_move_maker.o \
+	test_opening_book.o \
+	test_piece_square_value_tables.o \
+	test_search.o \
+	test_statistics.o \
+	test_technical_functions.o \
+	uci_protocol.o 
 	make semi_clean 
 	make standard_headers
 	### Linking engine
@@ -134,6 +160,9 @@ test_move_list.o: move_generator/test_move_list.cpp
 	$(CC) $(CFLAGS) 
 
 test_board_logic.o: board/test_board_logic.cpp
+	$(CC) $(CFLAGS) 
+
+test_piece_square_value_tables.o: evaluator/test_piece_square_value_tables.cpp
 	$(CC) $(CFLAGS) 
 
 #### Other build targets ###############
