@@ -37,6 +37,7 @@ engine: \
 	move_list.o \
 	move_maker.o \
 	opening_book.o \
+	piece_square_value_tables.o \
 	search.o \
 	search_statistics.o \
 	string_functions.o  \
@@ -163,6 +164,9 @@ test_board_logic.o: board/test_board_logic.cpp
 	$(CC) $(CFLAGS) 
 
 test_piece_square_value_tables.o: evaluator/test_piece_square_value_tables.cpp
+	$(CC) $(CFLAGS) 
+
+piece_square_value_tables.o: evaluator/piece_square_value_tables.cpp
 	$(CC) $(CFLAGS) 
 
 #### Other build targets ###############

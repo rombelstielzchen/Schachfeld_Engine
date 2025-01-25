@@ -27,3 +27,15 @@ typedef std::array<TPieceSquareValueTable, N_PIECE_SQUARE_VALUE_TABLES> TPieceSq
 inline TPieceSquareValueTableSet main_piece_square_value_table_set;
 inline TPieceSquareValueTable endgame_king_psv_table;
 
+// TODO: create a class, once things work
+void assign_psv_table(TPieceSquareValueTable &target_psv, const TPieceSquareValueTable &source_psv);
+
+void flip_horizontally(TPieceSquareValueTable &psv_table);
+
+extern const TPieceSquareValueTable psv_white_king;
+extern const TPieceSquareValueTable psv_white_queen;
+extern const TPieceSquareValueTable psv_white_rook;
+extern const TPieceSquareValueTable psv_white_bishop;
+extern const TPieceSquareValueTable psv_white_knight;
+extern const TPieceSquareValueTable psv_white_power;
+
