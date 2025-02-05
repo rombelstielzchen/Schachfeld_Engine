@@ -69,7 +69,7 @@ std::string CSearchStatistics::node_statistics() const {
 
 std::string CSearchStatistics::anti_adjudication_score(int score) {
     // Some GUIs adjudicate the game, if the score is too good, too bad or too equal.
-    // Let's conterfeit this! ;-)
+    // Let's thwart this! ;-)
     constexpr int max_score = 599;
     constexpr int min_score = -max_score;
     constexpr int epsilon_score = 007;
