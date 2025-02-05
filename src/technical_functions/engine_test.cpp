@@ -13,6 +13,7 @@
 #include "../evaluator/test_evaluator.h"
 #include "../move_generator/test_move_list.h"
 #include "../move_generator/test_move_generator.h"
+#include "../move_generator/test_perft.h"
 #include "../opening_book/test_opening_book.h"
 #include "../search/test_search.h"
 #include "../search/test_statistics.h"
@@ -25,6 +26,7 @@
     EXPECT(CTestBoardLogic::test_everything());
     EXPECT(CTestMoveList::test_everything());
     EXPECT(CTestMoveGenerator::test_everything());
+    EXPECT(CTestPerft::test_everything());
     EXPECT(CTestMoveMaker::test_everything());
     EXPECT(CTestEvaluator::test_everything());
     EXPECT(CTestStatistics::test_everything());
