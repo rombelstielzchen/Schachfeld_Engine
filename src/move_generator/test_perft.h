@@ -14,10 +14,12 @@
 class CTestPerft {
   public:
     static bool test_everything();
+    static bool test_everything_extended_depth();
   private:
-    static bool test_basic();
+    static bool test_shallow_depth();
+    static bool test_up_to_depth(const unsigned int depth);
   private:
-    static int64_t perft(const int depth);
-    static int64_t perft(const int depth, const std::string fen_position);
+    static int64_t perft( const std::string &fen_position, const unsigned int depth);
+    static int64_t perft(const unsigned int depth);
 };
 

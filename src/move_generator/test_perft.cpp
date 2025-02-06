@@ -13,26 +13,54 @@
 #include "../move_generator/move_generator.h"
 #include "../technical_functions/testing.h"
 
+typedef struct {
+    std::string fen_position;
+    std::vector<int64_t>positions_vy_depth;
+} STestcase;
+
+typedef std::vector<STestcase> VTestcaseCollection;
+
+const VTestcaseCollection testcase_collection = {
+    { "startpos", { 1, 20, 400, 8902, 197281, 4865609, 119060324 } },
+    { "", { 1 } },
+    { "", { 1 } },
+    { "", { 1 } },
+};
+
 bool CTestPerft::test_everything() {
     BEGIN_TESTSUITE("CTestPerft");
-    EXPECT(test_basic());
+    EXPECT(test_shallow_depth());
     return true;
 }
 
-bool CTestPerft::test_basic() {
+bool CTestPerft::test_shallow_depth() {
     TEST_FUNCTION();
-    board.set_start_position();
-    EXPECT(perft(1) == 20);
-    EXPECT(perft(2) == 400);
-    EXPECT(perft(3) == 8902);
-    EXPECT(perft(4) == 197281);
-    EXPECT(perft(5) == 4865609);
-    EXPECT(perft(6) == 119060324);
+    constexpr unsigned int shallow_depth = 3;
+    EXPECT(test_up_to_depth(shallow_depth));
     return true;
 }
 
-int64_t CTestPerft::perft(const int depth) {
-    assert(depth >= 1);
+bool CTestPerft::test_up_to_depth(const unsigned int depth) {
+    TEST_FUNCTION();
+   for (unsigned int j = 0; j <= depth; ++j) {
+        for (const STestcase &testcase : testcase_collection) {
+            int64_t expeted_result = testcase.positions_vy_depth[j];
+            CTEST << "Testcase: " << testcase.fen_position << "\n";
+            CTEST << "Depth: " << j << "\n";
+            CTEST << "Expected: " <<expeted_result << "\n";
+            int64_t true_result = perft(testcase.fen_position, j);
+            SILENT_EXPECT(expeted_result == true_result);
+        }
+   }
+   return true;
+}
+
+int64_t CTestPerft::perft( const std::string &fen_position, const unsigned int depth) {
+     SILENT_EXPECT(board.set_fen_position(fen_position));
+     return perft(depth);
+}
+
+int64_t CTestPerft::perft(const unsigned int depth) {
     CMoveGenerator move_generator;
     move_generator.generate_all();
     move_generator.move_list.prune_illegal_moves();
@@ -51,10 +79,5 @@ int64_t CTestPerft::perft(const int depth) {
         board.move_maker.unmake_move();
     }
     return nodes_enumearated;
-}
-
-int64_t CTestPerft::perft(const int depth, const std::string fen_position) {
-    SILENT_EXPECT(board.set_fen_position(fen_position));
-    return perft(depth);
 }
 
