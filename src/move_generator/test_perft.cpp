@@ -22,9 +22,7 @@ typedef std::vector<STestcase> VTestcaseCollection;
 
 const VTestcaseCollection testcase_collection = {
     { "startpos", { 1, 20, 400, 8902, 197281, 4865609, 119060324 } },
-    { "", { 1 } },
-    { "", { 1 } },
-    { "", { 1 } },
+    { "", { 1, 0, 0, 0, 0, 0, 0 } },
 };
 
 bool CTestPerft::test_everything() {
@@ -45,6 +43,9 @@ bool CTestPerft::test_up_to_depth(const unsigned int depth) {
    for (unsigned int j = 0; j <= depth; ++j) {
         for (const STestcase &testcase : testcase_collection) {
             int64_t expeted_result = testcase.positions_vy_depth[j];
+            if (expeted_result <= 0) {
+                continue;
+            }
             CTEST << "Testcase: " << testcase.fen_position << "\n";
             CTEST << "Depth: " << j << "\n";
             CTEST << "Expected: " <<expeted_result << "\n";
