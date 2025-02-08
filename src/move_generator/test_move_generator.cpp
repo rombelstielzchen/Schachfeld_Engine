@@ -131,6 +131,9 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     // Legality: castling over controlled squares
     { 12, 1, 8, "8/8/8/8/8/p6p/P3p2P/R3K2R w KQ" },
     { 12, 0, 6, "r3k2r/p6p/P6P/3R1R b kq" },
+    // Legality: castling, king in check
+    { 12, 1, 5, "8/8/8/8/8/p6p/P4p1P/R3K2R w KQ" },
+    { 12, 0, 4, "r3k2r/p6p/P6P/4R b kq" },
 
 };
 
