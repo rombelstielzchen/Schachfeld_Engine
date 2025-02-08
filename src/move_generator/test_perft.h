@@ -19,7 +19,7 @@ class CTestPerft {
     static bool test_shallow_depth();
     static bool test_up_to_depth(const unsigned int depth);
   private:
-    static int64_t perft( const std::string &fen_position, const unsigned int depth);
-    static int64_t perft(const unsigned int depth);
+    static int64_t perft( const std::string &fen_position, const unsigned int depth, bool display_moves = false);
+    static int64_t perft(const unsigned int depth, bool display_moves = false);
 };
 
