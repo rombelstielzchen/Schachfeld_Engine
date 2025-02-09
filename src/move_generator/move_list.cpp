@@ -11,6 +11,21 @@
 
 constexpr unsigned int NOT_FOUND = INT_MAX;
 
+bool square_attacked_by_side_to_move(const SSquare square) {
+       CMoveGenerator response_generator;
+       response_generator.generate_all();
+        response_generator.move_list.prune_silent_moves();
+        response_generator.move_list.filter_captures_by_target_square(square);
+    return (response_generator.move_list.list_size() > 0);
+}
+
+bool square_attacked_by_side_not_to_move(const SSquare square) {
+    board.flip_side_to_move();
+    bool result = square_attacked_by_side_to_move(square);
+    board.flip_side_to_move();
+    return result;
+}
+
 CMoveList::CMoveList() {
     clear();
 }
@@ -192,15 +207,11 @@ void CMoveList::prune_illegal_moves() {
     while (move != NULL_MOVE) {
         board.move_maker.make_move(move);
         SSquare my_king_square = CBoardLogic::king_square(my_colour);
-       CMoveGenerator response_generator;
-       response_generator.generate_all();
-        board.move_maker.unmake_move();
-        response_generator.move_list.prune_silent_moves();
-        response_generator.move_list.filter_captures_by_target_square(my_king_square);
-        if (response_generator.move_list.list_size() > 0) {
+        if (square_attacked_by_side_to_move(my_king_square)) {
             SMove illegal_move = move;
             remove(illegal_move);
         }
+        board.move_maker.unmake_move();
         move = get_next();
     }
     prune_illegal_castlings();
