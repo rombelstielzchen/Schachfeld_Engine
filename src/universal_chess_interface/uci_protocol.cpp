@@ -88,6 +88,8 @@ void CUciProtocol::process_message(const std::string &message) {
         command_interface.new_game();
     } else if ((command == "help") || (command == "?")) {
         display_help();
+    } else if (command == "perft") {
+        (void)command_interface.test_move_generator();
     } else {
         // "quit" already gets handled by the message_loop().
         // So this is an unknown token. According to the UCI-standard
@@ -192,6 +194,7 @@ void CUciProtocol::display_help() const {
     send_message("    * 'go infinite' or 'go' or 'g'");
     send_message("    * 'stop' to force a move");
     send_message("    * 'test' for the self-test");
+    send_message("    * 'perft' for a looong test of the move_generator");
     send_message("    * 'quit' or 'x'to terminate");
 }
 

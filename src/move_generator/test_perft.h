@@ -14,7 +14,7 @@
 class CTestPerft {
   public:
     static bool test_everything();
-    static bool test_everything_extended_depth();
+    static bool test_extended_depth();
   private:
     static bool test_shallow_depth();
     static bool test_up_to_depth(const unsigned int depth);
