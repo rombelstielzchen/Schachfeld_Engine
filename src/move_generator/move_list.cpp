@@ -20,9 +20,9 @@ bool square_attacked_by_side_to_move(const SSquare square) {
 }
 
 bool square_attacked_by_side_not_to_move(const SSquare square) {
-    board.flip_side_to_move();
+    board.move_maker.make_null_move();
     bool result = square_attacked_by_side_to_move(square);
-    board.flip_side_to_move();
+    board.move_maker.unmake_null_move();
     return result;
 }
 
