@@ -300,7 +300,9 @@ std::string CMoveList::as_text() const {
 
 void CMoveList::remove(const SMove move) {
     unsigned int position = get_index(move);
-    assert(position != NOT_FOUND);
+    if (position == NOT_FOUND) {
+        return;
+    }
     assert(position >= first_capture);
     assert(position < last_silent_move);
     if (position < LIST_ORIGIN) {
@@ -339,6 +341,10 @@ void CMoveList::prune_illegal_castlings() {
         if (!move_on_list("e1d1") && move_on_list("e1c1")) {
             remove("e1c1");
         }
+        if (square_attacked_by_side_not_to_move(king_square)) {
+            remove("e1g1");
+            remove("e1c1");
+        }
         return;
     }
     if (!move_on_list("e8f8") && move_on_list("e8g8")) {
@@ -347,5 +353,9 @@ void CMoveList::prune_illegal_castlings() {
     if (!move_on_list("e8d8") && move_on_list("e8c8")) {
         remove("e8c8");
     }
+        if (square_attacked_by_side_not_to_move(king_square)) {
+            remove("e8g8");
+            remove("e8c8");
+        }
 }
 
