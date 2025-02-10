@@ -9,10 +9,12 @@
 #include "../technical_functions/standard_headers.h"
 
 // https://www.chessprogramming.org/Chess_Position
-constexpr int MAX_MOVES_IN_CHESS_POSITION = 218;
+// TODO: make sure th move_list works with both extremes, normal moves and captures
+constexpr int MAX_MOVES_IN_CHESS_POSITION = /* 218 */ 193;
 // Just a guess!
 // TEMP!!! Problems with stackframe mismatch!
-constexpr unsigned int MAX_CAPTURES_IN_CHESS_POSITION = 25;
+// 25 is too low, but 50 + 218 too large
+constexpr unsigned int MAX_CAPTURES_IN_CHESS_POSITION = 50;
 // Our move-list is bidirectional; left part for captures, right part for silent moves.
 constexpr unsigned int LIST_SIZE = MAX_MOVES_IN_CHESS_POSITION + MAX_CAPTURES_IN_CHESS_POSITION;
 constexpr unsigned int LIST_ORIGIN = MAX_CAPTURES_IN_CHESS_POSITION;

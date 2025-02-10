@@ -188,6 +188,7 @@ void CMoveList::store_silent_move(const SMove &move) {
 }
 
 void CMoveList::store_capture(const SMove &move) {
+    // If this assertion fails, then we need to adjust the number of maximum captures 
     assert(first_capture > 0);
     assert(consumer_position >= first_capture);
     --first_capture;
