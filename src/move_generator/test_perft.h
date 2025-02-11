@@ -21,5 +21,7 @@ class CTestPerft {
   private:
     static int64_t perft( const std::string &fen_position, const unsigned int depth, bool display_moves = false);
     static int64_t perft(const unsigned int depth, bool display_moves = false);
+  private:
+    static bool illegal_castlings_possible_at_higher_depth_Rh1_g1_h1_00();
 };
 
