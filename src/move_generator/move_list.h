@@ -8,7 +8,7 @@
 #include "move.h"
 #include "../technical_functions/standard_headers.h"
 
-// https://www.chessprogramming.org/Chess_Position
+// https://www.talkchess.com/forum/viewtopic.php?t=39332
 constexpr int MAX_MOVES_IN_CHESS_POSITION = 218;
 // Captures: probably 74. We use conservative 80.
 // https://chess.stackexchange.com/questions/8323/maximum-number-of-captures-in-a-position
