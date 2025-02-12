@@ -85,7 +85,6 @@ SMove CMoveList::lookup_move(const std::string &text_move) const {
     if (index == NOT_FOUND) {
         return NULL_MOVE;
     }
-    assert(index >= 0);
     assert(index <  LIST_SIZE);
     return bidirectional_move_list[index];
 }
