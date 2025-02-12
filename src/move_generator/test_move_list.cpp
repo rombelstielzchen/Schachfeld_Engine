@@ -17,11 +17,12 @@ bool CTestMoveList::test_everything() {
     EXPECT(test_reuse_list());
     EXPECT(test_shift_current_move_to_top());
     EXPECT(test_remove());
+    EXPECT(test_extremes());
     return true;
 }
 
 bool CTestMoveList::test_prune_silent_moves() {
-    CTEST << "CTestMoveList::test_prune_silent_moves() ..." << std::endl;
+   TEST_FUNCTION(); 
     board.set_start_position();
     CMoveGenerator move_generator;
     EXPECT(is_null_move(move_generator.move_list.get_next()));
@@ -37,7 +38,7 @@ bool CTestMoveList::test_prune_silent_moves() {
 }
 
 bool CTestMoveList::test_filter_by_target_square() {
-    CTEST << "CTestMoveList::test_filter_by_target_square() ...\n";
+    TEST_FUNCTION(); 
     board.set_start_position();
     CMoveGenerator move_generator;
     board.move_maker.play_variation("d2d4 d7d5 c2c4 e7e6 b1c3 g8f6 g1f3 c7c6 c1g5 f8b4 c4d5");
@@ -54,7 +55,7 @@ bool CTestMoveList::test_filter_by_target_square() {
 }
 
 bool CTestMoveList::test_reuse_list() {
-    CTEST << "CMoveList::test_reuse_list\n() ...";
+    TEST_FUNCTION(); 
     // TODO: new test-case
 ///    assert(testcases.size() > 42);
 ///    SILENT_EXPECT(board.set_fen_position(testcases[42].fen_position));
@@ -67,7 +68,7 @@ bool CTestMoveList::test_reuse_list() {
     return true;
 }
 bool CTestMoveList::test_shift_current_move_to_top() {
-    CTEST << "CTestMoveList::test_shift_current_move_to_top() ...\n";
+    TEST_FUNCTION(); 
     const std::string position = "k1K w";
     SILENT_EXPECT(board.set_fen_position(position));
     CMoveGenerator move_generator;
@@ -97,14 +98,14 @@ bool CTestMoveList::test_shift_current_move_to_top() {
 }
 
 bool CTestMoveList::test_remove() {
-    CTEST << "CTestMoveList::test_remove() ...\n";
+    TEST_FUNCTION(); 
     std::string nearly_stalemaze = "1k/3Q b";
     SILENT_EXPECT(board.set_fen_position(nearly_stalemaze));
     CMoveGenerator move_generator;
     move_generator.generate_all();
     SILENT_EXPECT(move_generator.move_list.list_size() == 5);
-   constexpr SMove illegal_moveF = {{FILE_B, RANK_8}, C8, MOVE_TYPE_NORMAL};
-   move_generator.move_list.remove(illegal_moveF);
+   constexpr SMove illegal_move = {{FILE_B, RANK_8}, C8, MOVE_TYPE_NORMAL, EMPTY_SQUARE};
+   move_generator.move_list.remove(illegal_move);
     EXPECT(move_generator.move_list.list_size() == 4);
     move_generator.move_list.filter_captures_by_target_square(C8);
     EXPECT(move_generator.move_list.list_size() == 0);
@@ -120,3 +121,23 @@ bool CTestMoveList::test_basics() {
     EXPECT(move_generator.move_list.move_on_list("h1h3") == false);
     return true;
 }
+
+bool CTestMoveList::test_extremes() {
+    TEST_FUNCTION();
+    const std::string position_with_218_moves = "3Q4/1Q4Q1/4Q3/2Q4R/Q4Q2/3Q4/1Q4Rp/1K1BBNNk w - - 0 1";
+    SILENT_EXPECT(board.set_fen_position(position_with_218_moves));
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    EXPECT(move_generator.move_list.list_size() == 218);
+    std::string position_with_74_captures = "r1n1n1b/1P1P21P21P/1N1N1N/2RnQrRq/2pKp/3BNQbQ/k/4Bq w";
+    SILENT_EXPECT(board.set_fen_position(position_with_74_captures));
+    move_generator.move_list.clear();
+    move_generator.generate_all();
+    CTEST << move_generator.move_list.list_size() << "\n";
+    move_generator.move_list.prune_silent_moves();
+    CTEST << move_generator.move_list.list_size() << "\n";
+    // TODO
+//    EXPECT(move_generator.move_list.list_size() == 74);
+    return true;
+}
+

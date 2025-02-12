@@ -6,8 +6,10 @@
 #include "command_interface.h"
 #include "uci_protocol.h"
 #include "../board/board.h"
+#include "../move_generator/test_perft.h"
 #include "../search/iterative_deepening.h"
 #include "../technical_functions/standard_headers.h"
+#include "../technical_functions/testing.h"
 
 CCommandInterface::CCommandInterface() {
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
@@ -164,5 +166,10 @@ void CCommandInterface::worker_go_time(
         blacl_increment_milliseconds,
         moves_to_go);
     send_best_move(calculated_move);
+}
+
+bool CCommandInterface::test_move_generator() {
+    EXPECT(CTestPerft::test_extended_depth());
+    return true;
 }
 

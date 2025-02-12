@@ -50,6 +50,7 @@ engine: \
 	test_move_list.o \
 	test_move_maker.o \
 	test_opening_book.o \
+	test_perft.o \
 	test_piece_square_value_tables.o \
 	test_search.o \
 	test_statistics.o \
@@ -167,6 +168,9 @@ test_piece_square_value_tables.o: evaluator/test_piece_square_value_tables.cpp
 	$(CC) $(CFLAGS) 
 
 piece_square_value_tables.o: evaluator/piece_square_value_tables.cpp
+	$(CC) $(CFLAGS) 
+
+test_perft.o: move_generator/test_perft.cpp
 	$(CC) $(CFLAGS) 
 
 #### Other build targets ###############

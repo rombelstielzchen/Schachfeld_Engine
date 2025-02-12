@@ -5,6 +5,9 @@ Version 0.b
 -----------
 * Pruning illegal moves at the root-node. Illegal moves usualy get sorted out by the search, but in completely lost positions the king could become gready. A dead man may it everything.
 * Now acting a tempo, if there is only one legal move.
+* A perft-function that enumerates all follow-up positions in a given
+  position up to a fixed depth in order to test the move-generator
+  on billions of positions.
 
 Version 0.a
 -----------

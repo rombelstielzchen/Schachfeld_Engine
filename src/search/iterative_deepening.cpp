@@ -44,8 +44,7 @@ void CIterativeDeepening::root_node_search(int depth) {
     CSearch search;
     search_statistics.reset_current_depth(depth);
     bool side_to_move = board.get_side_to_move();
-    int alpha = WHITE_MIN_SCORE;
-    int beta = BLACK_MIN_SCORE;
+    SAlphaBetaWindow alpha_beta_window = INFINIE_AKPHA_BETA_WINDOW;
     int best_score = (side_to_move == WHITE_PLAYER) ? WHITE_MIN_SCORE : BLACK_MIN_SCORE;
     move_generator.move_list.reuse_list();
     int n_moves = move_generator.move_list.list_size();
@@ -59,7 +58,7 @@ void CIterativeDeepening::root_node_search(int depth) {
         assert(move_candidate != NULL_MOVE);
         assert(move_in_range(move_candidate));
         board.move_maker.make_move(move_candidate);
-        int candidate_score = search.alpha_beta(depth - 1, alpha, beta); 
+        int candidate_score = search.alpha_beta(depth - 1, alpha_beta_window); 
         if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
             // Break HERE. Do not update bestmove based on potentially crappy data
             board.move_maker.unmake_move();
@@ -69,13 +68,13 @@ void CIterativeDeepening::root_node_search(int depth) {
         if ((side_to_move == WHITE_PLAYER) && (candidate_score > best_score)) {
             best_move = move_candidate;
             best_score = candidate_score;
-            alpha = candidate_score;
+            alpha_beta_window.alpha = candidate_score;
             move_generator.move_list.shift_current_move_to_top();
             search_statistics.set_best_move(best_move, best_score);
         } else if ((side_to_move == BLACK_PLAYER) && (candidate_score < best_score)) {
             best_move = move_candidate;
             best_score = candidate_score;
-            beta = candidate_score;
+            alpha_beta_window.beta = candidate_score;
             move_generator.move_list.shift_current_move_to_top();
             search_statistics.set_best_move(best_move, best_score);
         }

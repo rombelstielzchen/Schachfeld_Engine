@@ -82,6 +82,12 @@ bool CMoveMaker::make_move(SMove move) {
     return true;
 }
 
+void CMoveMaker::make_null_move() {
+    board.flip_side_to_move();
+    former_eng_passeng_files.push_back(board.get_eng_passeng_file());
+    board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
+}
+
 bool CMoveMaker::make_move(const std::string &long_algebraic_uci_move) {
     CMoveGenerator move_generator;
     move_generator.generate_all();
@@ -91,6 +97,13 @@ bool CMoveMaker::make_move(const std::string &long_algebraic_uci_move) {
         return false;
     }
     return make_move(move);
+}
+
+void CMoveMaker::unmake_null_move() {
+    board.flip_side_to_move();
+    assert(former_eng_passeng_files.size() > 0);
+    board.eng_passeng_file = former_eng_passeng_files.back();
+    former_eng_passeng_files.pop_back();
 }
 
 void CMoveMaker::unmake_move() {

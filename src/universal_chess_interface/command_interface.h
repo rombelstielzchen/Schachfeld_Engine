@@ -31,10 +31,12 @@ class CCommandInterface {
         const int64_t white_time_milliseconds,
         const int64_t black_time_milliseconds,
         const int64_t white_increment_milliseconds,
-        const int64_t blacl_increment_milliseconds,
+        const int64_t black_increment_milliseconds,
         const int64_t moves_to_go);
   public:
     void go_searchmoves(std::string &moves);
+  public:
+    bool test_move_generator();
   private:
     static void send_best_move(const std::string &best_move);
     static void send_best_move(SMove best_move);
