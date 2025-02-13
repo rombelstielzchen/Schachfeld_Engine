@@ -137,6 +137,7 @@
     <ClCompile Include="..\board\fen_parser.cpp" />
     <ClCompile Include="..\board\move_maker.cpp" />
     <ClCompile Include="..\board\test_board.cpp" />
+    <ClCompile Include="..\board\test_board_logic.cpp" />
     <ClCompile Include="..\board\test_move_maker.cpp" />
     <ClCompile Include="..\evaluator\evaluator.cpp" />
     <ClCompile Include="..\evaluator\test_evaluator.cpp" />
@@ -145,6 +146,8 @@
     <ClCompile Include="..\move_generator\move_generator.cpp" />
     <ClCompile Include="..\move_generator\move_list.cpp" />
     <ClCompile Include="..\move_generator\test_move_generator.cpp" />
+    <ClCompile Include="..\move_generator\test_move_list.cpp" />
+    <ClCompile Include="..\move_generator\test_perft.cpp" />
     <ClCompile Include="..\opening_book\book_data\gm_book.cpp" />
     <ClCompile Include="..\opening_book\opening_book.cpp" />
     <ClCompile Include="..\opening_book\test_opening_book.cpp" />
@@ -154,8 +157,10 @@
     <ClCompile Include="..\search\test_search.cpp" />
     <ClCompile Include="..\search\test_statistics.cpp" />
     <ClCompile Include="..\technical_functions\engine_test.cpp" />
+    <ClCompile Include="..\technical_functions\math_functions.cpp" />
     <ClCompile Include="..\technical_functions\string_functions.cpp" />
     <ClCompile Include="..\technical_functions\string_tokenizer.cpp" />
+    <ClCompile Include="..\technical_functions\test_math_functions.cpp" />
     <ClCompile Include="..\technical_functions\test_technical_functions.cpp" />
     <ClCompile Include="..\universal_chess_interface\command_interface.cpp" />
     <ClCompile Include="..\universal_chess_interface\uci_protocol.cpp" />
