@@ -5,6 +5,24 @@
 
 #include "piece_square_value_tables.h"
 
+const TPieceSquareValueTable psv_white_king = { 0 };
+const TPieceSquareValueTable psv_white_queen = { 0 };
+const TPieceSquareValueTable psv_white_rook = { 0 };
+const TPieceSquareValueTable psv_white_bishop = { 0 };
+const TPieceSquareValueTable psv_white_knight = { 0 };
+
+const TPieceSquareValueTable psv_white_power = {{
+    { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
+    { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
+    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
+    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
+    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
+    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
+    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
+    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
+    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
+    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 }}};
+
 // TODO: create a class, once things work
 
 void assign_psv_table(TPieceSquareValueTable &target_psv, const TPieceSquareValueTable &source_psv) {
@@ -63,21 +81,4 @@ void normalize_average(TPieceSquareValueTable &psv_table, int target_average) {
     constexpr int smaller_than_1_rounded_to_0 = 0;
     assert(average(psv_table) - target_average == smaller_than_1_rounded_to_0);
 }
-
-extern const TPieceSquareValueTable psv_white_king;
-extern const TPieceSquareValueTable psv_white_queen;
-extern const TPieceSquareValueTable psv_white_rook;
-extern const TPieceSquareValueTable psv_white_bishop;
-extern const TPieceSquareValueTable psv_white_knight;
-extern const TPieceSquareValueTable psv_white_power = {{
-    { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
-    { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 }}};
 
