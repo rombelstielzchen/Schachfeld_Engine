@@ -82,3 +82,18 @@ void normalize_average(TPieceSquareValueTable &psv_table, int target_average) {
     assert(average(psv_table) - target_average == smaller_than_1_rounded_to_0);
 }
 
+void init_main_psv_set() {
+    assign_psv_table(WHITE_POWER, psv_white_power);
+    assign_psv_table(WHITE_KNIGHT, psv_white_knight);
+    assign_psv_table(WHITE_BISHOP, psv_white_bishop);
+    assign_psv_table(WHITE_ROOK, psv_white_rook);
+    assign_psv_table(WHITE_QUEEN, psv_white_queen);
+    assign_psv_table(WHITE_KING, psv_white_king);
+    clone_from_white_to_black(BLACK_POWER);
+    clone_from_white_to_black(BLACK_KNIGHT);
+    clone_from_white_to_black(BLACK_BISHOP);
+    clone_from_white_to_black(BLACK_ROOK);
+    clone_from_white_to_black(BLACK_QUEEN);
+    clone_from_white_to_black(BLACK_KING);
+}
+

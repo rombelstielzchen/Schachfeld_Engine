@@ -28,6 +28,9 @@ inline TPieceSquareValueTableSet main_piece_square_value_table_set;
 inline TPieceSquareValueTable endgame_king_psv_table;
 
 // TODO: create a class, once things work
+
+void init_main_psv_set();
+
 void assign_psv_table(TPieceSquareValueTable &target_psv, const TPieceSquareValueTable &source_psv);
 void assign_psv_table(char piece_type, const TPieceSquareValueTable &source_psv);
 
