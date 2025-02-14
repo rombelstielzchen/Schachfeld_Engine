@@ -1,5 +1,6 @@
 #pragma once
 
+
 // Project: Schachfeld_Engine
 // Author: Rombelstielzchen
 // License: GPLv3
@@ -29,8 +30,13 @@ inline TPieceSquareValueTable endgame_king_psv_table;
 
 // TODO: create a class, once things work
 void assign_psv_table(TPieceSquareValueTable &target_psv, const TPieceSquareValueTable &source_psv);
+void assign_psv_table(char piece_type, const TPieceSquareValueTable &source_psv);
 
-void flip_horizontally(TPieceSquareValueTable &psv_table);
+void flip_vertically(TPieceSquareValueTable &psv_table);
+void clone_from_white_to_black(char black_piece_type);
+
+int average(const TPieceSquareValueTable psv_table);
+void normalize_average(TPieceSquareValueTable &psv_table, int target_psv);
 
 extern const TPieceSquareValueTable psv_white_king;
 extern const TPieceSquareValueTable psv_white_queen;
