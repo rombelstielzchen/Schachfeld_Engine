@@ -20,6 +20,7 @@
 //        as the memory-layout of our board is column after column.
 constexpr int BOARDSIZE_X = 12;
 constexpr int BOARDSIZE_Y = 13;
+constexpr int N_SQUARES_ON_BOARD = 64;
 
 // Constants for ranks and files on the board.
 // Always use named constants! 
@@ -58,6 +59,7 @@ typedef enum {
 
 static_assert(FILE_LAST == BOARDSIZE_X - 1);
 static_assert(RANK_NEWLINE_CHARACTER == BOARDSIZE_Y - 1);
+static_assert((FILE_H - FILE_A + 1) * (RANK_8 - RANK_1 + 1) == N_SQUARES_ON_BOARD);
 
 // Eng-passeng gets stored as file of the opponents pawn
 constexpr TFile NO_ENG_PASSENG_POSSIBLE = FILE_GARDEN_FENCE_LEFT_1;

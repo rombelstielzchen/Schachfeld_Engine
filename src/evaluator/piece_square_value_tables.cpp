@@ -64,7 +64,7 @@ int average(const TPieceSquareValueTable psv_table) {
             sum += psv_table[j][k];
         }
     }
-    int64_t average = sum / 64; // TODO
+    int64_t average = sum / N_SQUARES_ON_BOARD;
     assert(average >= INT_MIN);
     assert(average <= INT_MAX);
     return static_cast<int>(average);
