@@ -35,6 +35,7 @@ void assign_psv_table(TPieceSquareValueTable &target_psv, const TPieceSquareValu
 void assign_psv_table(char piece_type, const TPieceSquareValueTable &source_psv);
 
 void flip_vertically(TPieceSquareValueTable &psv_table);
+void negate(TPieceSquareValueTable &psv_table);
 void clone_from_white_to_black(char black_piece_type);
 
 int average(const TPieceSquareValueTable psv_table);

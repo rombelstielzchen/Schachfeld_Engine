@@ -57,9 +57,9 @@ bool CTestPieceSquareValueTables::test_plausibility(const TPieceSquareValueTable
             sum += value;
         }
     }
-    float average = sum / 64;
-    EXPECT(minimum >= 0.5 * average);
-    EXPECT(maximum <= 2 * average);
+    float average = sum / N_SQUARES_ON_BOARD;
+    EXPECT(abs(minimum) >= 0.5 * abs(average));
+    EXPECT(abs(maximum) <= 2 *abs( average));
     EXPECT(minimum * maximum >= 0);
     EXPECT((minimum > 0) || (maximum < 0) || (minimum == maximum));
     return true;

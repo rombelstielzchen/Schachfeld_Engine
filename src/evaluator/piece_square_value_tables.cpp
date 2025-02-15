@@ -5,13 +5,13 @@
 
 #include "piece_square_value_tables.h"
 
-const TPieceSquareValueTable psv_white_king = { 0 };
-const TPieceSquareValueTable psv_white_queen = { 0 };
-const TPieceSquareValueTable psv_white_rook = { 0 };
-const TPieceSquareValueTable psv_white_bishop = { 0 };
-const TPieceSquareValueTable psv_white_knight = { 0 };
+TPieceSquareValueTable psv_white_king = { 0 };
+TPieceSquareValueTable psv_white_queen = { 0 };
+TPieceSquareValueTable psv_white_rook = { 0 };
+TPieceSquareValueTable psv_white_bishop = { 0 };
+TPieceSquareValueTable psv_white_knight = { 0 };
 
-const TPieceSquareValueTable psv_white_power = {{
+TPieceSquareValueTable psv_white_power = {{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
@@ -23,7 +23,7 @@ const TPieceSquareValueTable psv_white_power = {{
     { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
     { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 }}};
 
-const TPieceSquareValueTable psv_dummy = {{
+TPieceSquareValueTable psv_dummy = {{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0, 3141, 3141, 3141, 3141, 3141, 3141, 3141, 3141 },
@@ -61,6 +61,14 @@ void flip_vertically(TPieceSquareValueTable &psv_table) {
     }
 }
 
+void negate(TPieceSquareValueTable &psv_table) {
+    for (int j = FILE_A; j <= FILE_H; ++j) {
+        for (int k = RANK_1; k <= RANK_8; ++k) {
+            psv_table[j][k] = -psv_table[j][k];
+        }
+    }
+}
+
 void clone_from_white_to_black(char black_piece_type) {
     assert(is_any_piece(black_piece_type));
     assert(islower(black_piece_type));
@@ -69,12 +77,14 @@ void clone_from_white_to_black(char black_piece_type) {
     assert(white_piece_type != black_piece_type);
     assign_psv_table(main_piece_square_value_table_set[black_piece_type], main_piece_square_value_table_set[white_piece_type]);
     flip_vertically(main_piece_square_value_table_set[black_piece_type]);
+    negate(main_piece_square_value_table_set[black_piece_type]);
 }
 
 int average(const TPieceSquareValueTable psv_table) {
+        DEBUG_METHOD();
     int64_t sum = 0;
     for (int j = FILE_A; j <= FILE_H; ++j) {
-        for (int k = RANK_1; k <= RANK_8; ++j) {
+        for (int k = RANK_1; k <= RANK_8; ++k) {
             sum += psv_table[j][k];
         }
     }
@@ -85,10 +95,11 @@ int average(const TPieceSquareValueTable psv_table) {
 }
 
 void normalize_average(TPieceSquareValueTable &psv_table, int target_average) {
+    DEBUG_METHOD();
     int average_value = average(psv_table);
     int delta = target_average - average_value;
     for (int j = FILE_A; j <= FILE_H; ++j) {
-        for (int k = RANK_1; k <= RANK_8; ++j) {
+        for (int k = RANK_1; k <= RANK_8; ++k) {
             psv_table[j][k] += delta;
         }
     }
@@ -97,12 +108,18 @@ void normalize_average(TPieceSquareValueTable &psv_table, int target_average) {
 }
 
 void init_main_psv_set() {
+    normalize_average(psv_white_power, 100);
     assign_psv_table(WHITE_POWER, psv_white_power);
-    assign_psv_table(WHITE_KNIGHT, psv_dummy); //psv_white_knight);
-    assign_psv_table(WHITE_BISHOP, psv_dummy); //sv_white_bishop);
-    assign_psv_table(WHITE_ROOK, psv_dummy); //sv_white_rook);
-    assign_psv_table(WHITE_QUEEN, psv_dummy); //sv_white_queen);
-    assign_psv_table(WHITE_KING, psv_dummy); //sv_white_king);
+    normalize_average(psv_white_knight, 290);
+    assign_psv_table(WHITE_KNIGHT, psv_white_knight);
+    normalize_average(psv_white_bishop, 320);
+    assign_psv_table(WHITE_BISHOP, psv_white_bishop);
+    normalize_average(psv_white_rook, 470);
+    assign_psv_table(WHITE_ROOK, psv_white_rook);
+    normalize_average(psv_white_queen, 890);
+    assign_psv_table(WHITE_QUEEN, psv_white_queen);
+    normalize_average(psv_white_king, 20000);
+    assign_psv_table(WHITE_KING, psv_white_king);
     clone_from_white_to_black(BLACK_POWER);
     clone_from_white_to_black(BLACK_KNIGHT);
     clone_from_white_to_black(BLACK_BISHOP);
