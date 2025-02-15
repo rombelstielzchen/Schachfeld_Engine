@@ -27,6 +27,8 @@ int CEvaluator::evaluate_square(const int file, const int rank) const {
     char square_content = board.get_square(file, rank);
     assert(square_content <= LAST_PIECE_TYPE);
     int result = main_piece_square_value_table_set[square_content][file][rank];
+    assert((square_content != EMPTY_SQUARE) || (result == 0));
+    assert((square_content == EMPTY_SQUARE) || (result != 0));
     return result;
 }
 
