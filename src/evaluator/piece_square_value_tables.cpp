@@ -23,6 +23,18 @@ const TPieceSquareValueTable psv_white_power = {{
     { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
     { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 }}};
 
+const TPieceSquareValueTable psv_dummy = {{
+    { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
+    { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
+    { 0,   0, 3141, 3141, 3141, 3141, 3141, 3141, 3141, 3141 },
+    { 0,   0, 3141, 3141, 3141, 3141, 3141, 3141, 3141, 3141 },
+    { 0,   0, 3141, 3141, 3141, 3141, 3141, 3141, 3141, 3141 },
+    { 0,   0, 3141, 3141, 3141, 3141, 3141, 3141, 3141, 3141 },
+    { 0,   0, 3141, 3141, 3141, 3141, 3141, 3141, 3141, 3141 },
+    { 0,   0, 3141, 3141, 3141, 3141, 3141, 3141, 3141, 3141 },
+    { 0,   0, 3141, 3141, 3141, 3141, 3141, 3141, 3141, 3141 },
+    { 0,   0, 3141, 3141, 3141, 3141, 3141, 3141, 3141, 3141 }}};
+
 // TODO: create a class, once things work
 
 void assign_psv_table(TPieceSquareValueTable &target_psv, const TPieceSquareValueTable &source_psv) {
@@ -55,7 +67,7 @@ void clone_from_white_to_black(char black_piece_type) {
     char white_piece_type = toupper(black_piece_type);
     assert(is_any_piece(white_piece_type));
     assert(white_piece_type != black_piece_type);
-    assign_psv_table(main_piece_square_value_table_set[white_piece_type], main_piece_square_value_table_set[black_piece_type]);
+    assign_psv_table(main_piece_square_value_table_set[black_piece_type], main_piece_square_value_table_set[white_piece_type]);
     flip_vertically(main_piece_square_value_table_set[black_piece_type]);
 }
 
@@ -86,11 +98,11 @@ void normalize_average(TPieceSquareValueTable &psv_table, int target_average) {
 
 void init_main_psv_set() {
     assign_psv_table(WHITE_POWER, psv_white_power);
-    assign_psv_table(WHITE_KNIGHT, psv_white_knight);
-    assign_psv_table(WHITE_BISHOP, psv_white_bishop);
-    assign_psv_table(WHITE_ROOK, psv_white_rook);
-    assign_psv_table(WHITE_QUEEN, psv_white_queen);
-    assign_psv_table(WHITE_KING, psv_white_king);
+    assign_psv_table(WHITE_KNIGHT, psv_dummy); //psv_white_knight);
+    assign_psv_table(WHITE_BISHOP, psv_dummy); //sv_white_bishop);
+    assign_psv_table(WHITE_ROOK, psv_dummy); //sv_white_rook);
+    assign_psv_table(WHITE_QUEEN, psv_dummy); //sv_white_queen);
+    assign_psv_table(WHITE_KING, psv_dummy); //sv_white_king);
     clone_from_white_to_black(BLACK_POWER);
     clone_from_white_to_black(BLACK_KNIGHT);
     clone_from_white_to_black(BLACK_BISHOP);
