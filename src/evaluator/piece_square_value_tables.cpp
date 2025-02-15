@@ -27,10 +27,12 @@ const TPieceSquareValueTable psv_white_power = {{
 
 void assign_psv_table(TPieceSquareValueTable &target_psv, const TPieceSquareValueTable &source_psv) {
     for (int j = FILE_A; j <= FILE_H; ++j) {
-        for (int k = RANK_1; k <= RANK_8; ++j) {
+        for (int k = RANK_1; k <= RANK_8; ++k) {
             target_psv[j][k] = source_psv[j][k];
         }
     }
+    assert(target_psv[FILE_A][RANK_1] == source_psv[FILE_A][RANK_1]);
+    assert(target_psv[FILE_H][RANK_8] == source_psv[FILE_H][RANK_8]);
 }
 
 void assign_psv_table(char piece_type, const TPieceSquareValueTable &source_psv) {
@@ -49,8 +51,8 @@ void flip_vertically(TPieceSquareValueTable &psv_table) {
 
 void clone_from_white_to_black(char black_piece_type) {
     assert(is_any_piece(black_piece_type));
-    assert(isupper(black_piece_type));
-    char white_piece_type = tolower(black_piece_type);
+    assert(islower(black_piece_type));
+    char white_piece_type = toupper(black_piece_type);
     assert(is_any_piece(white_piece_type));
     assert(white_piece_type != black_piece_type);
     assign_psv_table(main_piece_square_value_table_set[white_piece_type], main_piece_square_value_table_set[black_piece_type]);
