@@ -49,7 +49,7 @@ bool CTestMoveList::test_filter_by_target_square() {
     move_generator.move_list.filter_captures_by_target_square(d5);
     EXPECT(move_generator.move_list.list_size() == 4);
     SMove move = move_generator.move_list.get_least_valuable_aggressor();
-    CTEST << "Least_valuanle_aggressot: " << move << "\n";
+    CTEST << "Least_valuable_aggressor: " << move << "\n";
     EXPECT((move == "c6d5") || (move == "e6d5"));
     return true;
 }

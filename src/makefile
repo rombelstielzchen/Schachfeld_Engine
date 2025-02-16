@@ -20,14 +20,42 @@ CFLAGS=$(DEBUGFLAGS)
 
 ### Main build-target ##################
 
-engine: main.o board.o uci_protocol.o string_functions.o  \
-	fen_parser.o command_interface.o move_generator.o move.o \
-test_move_generator.o engine_test.o fen_generator.o test_board.o \
-	test_technical_functions.o board_logic.o opening_book.o test_opening_book.o \
-	gm_book.o move_maker.o test_move_maker.o move_list.o search.o test_search.o \
-	evaluator.o test_evaluator.o search_statistics.o iterative_deepening.o \
-	string_tokenizer.o test_statistics.o test_math_functions.o math_functions.o \
-	test_move_list.o test_board_logic.o test_perft.o
+engine: \
+	board.o \
+	board_logic.o \
+	command_interface.o \
+	engine_test.o \
+	evaluator.o \
+	fen_generator.o \
+	fen_parser.o \
+	gm_book.o \
+	iterative_deepening.o \
+	main.o \
+	math_functions.o \
+	move.o \
+	move_generator.o \
+	move_list.o \
+	move_maker.o \
+	opening_book.o \
+	piece_square_value_tables.o \
+	search.o \
+	search_statistics.o \
+	string_functions.o  \
+	string_tokenizer.o \
+	test_board.o \
+	test_board_logic.o \
+	test_evaluator.o \
+	test_math_functions.o \
+	test_move_generator.o \
+	test_move_list.o \
+	test_move_maker.o \
+	test_opening_book.o \
+	test_perft.o \
+	test_piece_square_value_tables.o \
+	test_search.o \
+	test_statistics.o \
+	test_technical_functions.o \
+	uci_protocol.o 
 	make semi_clean 
 	make standard_headers
 	### Linking engine
@@ -119,6 +147,8 @@ iterative_deepening.o: search/iterative_deepening.cpp
 string_tokenizer.o: technical_functions/string_tokenizer.cpp
 	$(CC) $(CFLAGS) 
 
+test_piece_square_value_tables.o: evaluator/test_piece_square_value_tables.cpp
+
 test_statistics.o: search/test_statistics.cpp
 	$(CC) $(CFLAGS) 
 
@@ -132,6 +162,12 @@ test_move_list.o: move_generator/test_move_list.cpp
 	$(CC) $(CFLAGS) 
 
 test_board_logic.o: board/test_board_logic.cpp
+	$(CC) $(CFLAGS) 
+
+test_piece_square_value_tables.o: evaluator/test_piece_square_value_tables.cpp
+	$(CC) $(CFLAGS) 
+
+piece_square_value_tables.o: evaluator/piece_square_value_tables.cpp
 	$(CC) $(CFLAGS) 
 
 test_perft.o: move_generator/test_perft.cpp
@@ -160,10 +196,17 @@ clean:
 	rm -f *.o */*.o
 
 stats:
-	@wc *.cpp */*.cpp */*.h */*/*.cpp */*/*.h makefile */*/*.sh
-	@echo -n "Book-lines: "
+	@echo -n "LOC total:  "
+	@cat *.cpp */*.cpp */*.h */*/*.cpp */*/*.h makefile */*/*.sh */*/*/*.sh ../*/*.pl ../*/*.sh | wc -l
+	@echo -n "Book-lines:  "
 	@grep "\"," opening_book/book_data/gm_book.cpp | wc -l
-	@echo -n "TODO items: "
+	@echo -n "LOC tests:   "
+	@cat */*test*.cpp */*test*.h | wc -l
+	@echo -n "Assertions:   "
+	@cat *.cpp */*.cpp */*.h */*/*.cpp */*/*.h */*/*/*.cpp | grep -s assert | wc -l
+	@echo -n "LOC tools:    "
+	@cat makefile ../*/*.sh ../*/*.pl */*/*.sh */*/*/*.sh | wc -l
+	@echo -n "TODO items:    "
 	@grep TODO *.cpp */*.cpp */*/*.cpp | wc -l
 	@ls -o engine
 

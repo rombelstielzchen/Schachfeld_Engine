@@ -8,12 +8,16 @@
 #include "../board/board.h"
 #include "../technical_functions/testing.h"
 
+const std::vector<STestcaseEvaluator> testcases_evaluator = {
+};
+
 bool CTestEvaluator::test_everything() {
     BEGIN_TESTSUITE("CTestEvaluator");
     EXPECT(test_equal_positions());
     EXPECT(test_decided_positions());
     EXPECT(test_move_sequence());
     EXPECT(test_black_advantage());
+    EXPECT(test_positions());
     return true;
 }
 bool CTestEvaluator::test_equal_positions() {
@@ -57,4 +61,22 @@ bool CTestEvaluator::test_black_advantage() {
     (board.evaluator.evaluate() > 100);
     return true;
 }
+
+ bool CTestEvaluator::test_positions() {
+    CTEST << "CTestEvaluator::test_positions() ...\n";
+    for (const STestcaseEvaluator &testcase : testcases_evaluator) {
+        SILENT_EXPECT(first_position_better(testcase));
+    }
+    return true;
+}
+
+bool CTestEvaluator::first_position_better(const STestcaseEvaluator &testcase) {
+    CTEST << "testcase: [\"" << testcase.better_position << "\", \"" << testcase.worse_position << "\"]\n";
+    SILENT_EXPECT(board.set_fen_position(testcase.better_position));
+    int better_Score = board.evaluator.evaluate();
+    SILENT_EXPECT(board.set_fen_position(testcase.worse_position));
+    int worse_score = board.evaluator.evaluate();
+    SILENT_EXPECT(better_Score > worse_score);
+    return true;
+ }
 

@@ -7,11 +7,16 @@
 #include "universal_chess_interface/uci_protocol.h"
 #include "technical_functions/standard_headers.h"
 
+// TEMP
+#include "evaluator/piece_square_value_tables.h"
+
 static_assert(INTPTR_MAX == INT64_MAX, "64-bit technology required: parameter-passing of small structs; hash-table-entries in the future");
 
 int main() {
     //DEBUG_LOG_TO_FILE();
     srand(time(NULL));
+    //TEMP
+    init_main_psv_set();
 #ifndef NDEBUG
     if (CEngineTest::test_everything() == false) {
         return EXIT_FAILURE;
