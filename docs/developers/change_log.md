@@ -1,6 +1,10 @@
 Major Changes
 =============
 
+Version 0.c
+-----------
+* Basic piece-square-value-tables for evaluation.
+
 Version 0.b
 -----------
 * Pruning illegal moves at the root-node. Illegal moves usualy get sorted out by the search, but in completely lost positions the king could become gready. A dead man may it everything.

@@ -11,7 +11,7 @@
 #include "../technical_functions/engine_test.h"
 #include "../technical_functions/standard_headers.h"
 
-const std::string ENGINE_ID = "Schachfeld_Engine_0.b";
+const std::string ENGINE_ID = "Schachfeld_Engine_0.c";
 static_assert('a' > '9');
 
 CUciProtocol::CUciProtocol() {
