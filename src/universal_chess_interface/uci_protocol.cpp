@@ -15,8 +15,9 @@ const std::string ENGINE_ID = "Schachfeld_Engine_0.c";
 static_assert('a' > '9');
 
 CUciProtocol::CUciProtocol() {
-    send_message(ENGINE_ID);
-    send_message("'help' or '?' for some guidance");
+    // Use std::cerr here, std::cout is reserved for the protocol
+    std::cerr << ENGINE_ID << "\n";
+    std::cerr << "'help' or '?' for some guidance" << "\n";
 }
 
 /* static */ void CUciProtocol::send_message(const std::string &message) {
