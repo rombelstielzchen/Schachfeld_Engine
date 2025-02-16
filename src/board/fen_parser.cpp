@@ -95,7 +95,6 @@ bool CFenParser::parse_piece_placement(const std::string &partial_input) {
             return false;
         }
     }
-///    std::cout << board.as_is();
      return true;
 }
 
