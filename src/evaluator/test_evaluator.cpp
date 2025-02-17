@@ -9,6 +9,9 @@
 #include "../technical_functions/testing.h"
 
 const std::vector<STestcaseEvaluator> testcases_evaluator = {
+   // Caveat! All evaluations are from whites point of view!
+    {"k/////5PP/5P/6K w", "k/////5P/5P1P/6K w"},
+    { "6k/5p1p/5p////K b", "6k/5p/5pp////K b"},
 };
 
 bool CTestEvaluator::test_everything() {
@@ -21,20 +24,20 @@ bool CTestEvaluator::test_everything() {
     return true;
 }
 bool CTestEvaluator::test_equal_positions() {
-    CTEST << "CTestEvaluator::test_equal_positions() ...\n";
+    TEST_FUNCTION();
     board.set_start_position();
     EXPECT(board.evaluator.evaluates_approximately_to(0));
     return true;
 }
 
 bool CTestEvaluator::test_decided_positions() {
-    CTEST << "CTestEvaluator::test_decided_positions() ...\n";
+    TEST_FUNCTION();
     // TODO
     return true;
 }
 
 bool CTestEvaluator::test_move_sequence() {
-    CTEST << "CTestEvaluator::test_move_sequence() ...\n";
+    TEST_FUNCTION();
     board.set_start_position();
     EXPECT(board.evaluator.evaluate() == 0);
     board.move_maker.play_variation("e2e4 e7e5 g1f3");
@@ -55,7 +58,7 @@ bool CTestEvaluator::test_move_sequence() {
 }
 
 bool CTestEvaluator::test_black_advantage() {
-    CTEST << "CTestEvaluator::test_black_advantage() ...\n";
+    TEST_FUNCTION();
     board.set_start_position();
     board.move_maker.play_variation("e2e4 e7e5 g1f3 g8f6 f3g1 f6e4");
     (board.evaluator.evaluate() > 100);
@@ -63,7 +66,7 @@ bool CTestEvaluator::test_black_advantage() {
 }
 
  bool CTestEvaluator::test_positions() {
-    CTEST << "CTestEvaluator::test_positions() ...\n";
+    TEST_FUNCTION();
     for (const STestcaseEvaluator &testcase : testcases_evaluator) {
         SILENT_EXPECT(first_position_better(testcase));
     }
@@ -76,6 +79,7 @@ bool CTestEvaluator::first_position_better(const STestcaseEvaluator &testcase) {
     int better_Score = board.evaluator.evaluate();
     SILENT_EXPECT(board.set_fen_position(testcase.worse_position));
     int worse_score = board.evaluator.evaluate();
+    std::cout << better_Score << " >? " << worse_score << "\n";
     SILENT_EXPECT(better_Score > worse_score);
     return true;
  }
