@@ -39,6 +39,15 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     // Pawns on 5th / 6th / 7th rank: semi-strong / monsters / potentially a bit weak
     { "8/8/PPPPPPPP w", "8/8/8/PPPPPPPP w" },
     { "8/8/PPPPPPPP w", "8/PPPPPPPP w" },
+    // Pawns on 2nd / 3rd rank
+    { "8/8/8/8/8/8/P w", "8/8/8/8/8/P W"},
+    { "8/8/8/8/8/8/1P w", "8/8/8/8/8/1P W"},
+    { "8/8/8/8/8/8/2P w", "8/8/8/8/8/2P W"},
+    { "8/8/8/8/8/8/3P w", "8/8/8/8/8/3P W"},
+    { "8/8/8/8/8/8/4P w", "8/8/8/8/8/4P W"},
+    { "8/8/8/8/8/8/5P w", "8/8/8/8/8/5P W"},
+    { "8/8/8/8/8/8/6P w", "8/8/8/8/8/6P W"},
+    { "8/8/8/8/8/8/7P w", "8/8/8/8/8/7P W"},
 };
 
 bool CTestEvaluator::test_everything() {
