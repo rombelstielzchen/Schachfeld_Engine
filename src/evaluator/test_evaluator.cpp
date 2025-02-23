@@ -68,6 +68,7 @@ bool CTestEvaluator::test_everything() {
     EXPECT(test_decided_positions());
     EXPECT(test_move_sequence());
     EXPECT(test_black_advantage());
+    EXPECT(test_pawn_values());
     EXPECT(test_positions());
     return true;
 }
@@ -111,6 +112,11 @@ bool CTestEvaluator::test_black_advantage() {
     board.move_maker.play_variation("e2e4 e7e5 g1f3 g8f6 f3g1 f6e4");
     (board.evaluator.evaluate() > 100);
     return true;
+}
+
+bool CTestEvaluator::test_pawn_values() {
+    TEST_FUNCTION();
+    return false;
 }
 
  bool CTestEvaluator::test_positions() {

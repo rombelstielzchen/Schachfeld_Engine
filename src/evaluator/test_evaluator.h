@@ -7,6 +7,8 @@
 
 #include "../technical_functions/standard_headers.h"
 
+#include "../move_generator/move.h"
+
 struct STestcaseEvaluator {
     std::string better_position;
     std::string worse_position;
@@ -22,7 +24,10 @@ class CTestEvaluator {
     static bool test_black_advantage();
     // TODO: later, for incremental updates
     static bool test_make_unmake_moves();
+    static bool test_pawn_values();
     static bool test_positions();
+  private:
     static bool first_position_better(const STestcaseEvaluator &testcase);
+    static bool first_pawn_better(const SSquare first, const SSquare second);
 };
 
