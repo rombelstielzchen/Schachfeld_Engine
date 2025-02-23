@@ -10,8 +10,27 @@
 
 const std::vector<STestcaseEvaluator> testcases_evaluator = {
    // Caveat! All evaluations are from whites point of view!
+   // First: kingside-structure, inspired vy V_beinahe_9
     {"k/////5PP/5P/6K w", "k/////5P/5P1P/6K w"},
     { "6k/5p1p/5p////K b", "6k/5p/5pp////K b"},
+    // Central pawn structure: e4 + f4 / e5 + d6
+    { "8/8/3p/4p/4PP w", "8/8/8/4p/4P w" },
+    { "8/8/3p/8/4P w", "8/8/8/4p/4P w" },
+    // Central pawn structure: e4 + d4 / e5 + d6
+    { "8/8/3p/4p/3PP w", "8/8/8/4p/4P w" },
+    { "8/8/3p/8/4P w", "8/8/8/4p/4P w" },
+    // Central pawn structure: e4 + d4 / d5 + e6
+    { "8/8/4p/3p/3PP w", "8/8/8/3p/3P w" },
+    { "8/8/3p/8/4P w", "8/8/8/4p/4P w" },
+    // Central pawn structure: e4 + d4 / d5 + c6
+    { "8/8/4p/2p/3PP w", "8/8/8/2p/3P w" },
+    { "8/8/2p/8/3P w", "8/8/8/4p/4P w" },
+    // Central pawn structure: c4 + d4 / d5 + c6
+    { "8/8/2p/3p/2PP w", "8/8/8/3p/3P w" },
+    { "8/8/2p/8/3P w", "8/8/2p/3p/2PP w" },
+    // Central pawn structure: c4 + d4 / d5 + e6
+    { "8/8/2p/3p/2PP w", "8/8/8/3p/3P w" },
+    { "8/8/2p/8/3P w", "8/8/2p/3p/2PP w" },
 };
 
 bool CTestEvaluator::test_everything() {
