@@ -40,6 +40,9 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     { "8/8/6p/4pp/4P w", "8/8/8/4pp w" },
     // Central pawn structure: b4 + c5 + d5 / d6 (KID)
     { "8/8/8/2PP w", "8/8/3p/1pp w" },
+    // Central pawn structure: c4 + d5 / d6+ e6 (Benoni)
+    { "8/8/3pp/3P/2P w", "8/8/3p/3P w" },
+    { "8/8/3p/3P w", "8/8/3p/8/2P w" },
     // Pawns on 5th / 6th / 7th rank: semi-strong / monsters / potentially a bit weak
     { "8/8/PPPPPPPP w", "8/8/8/PPPPPPPP w" },
     { "8/8/PPPPPPPP w", "8/PPPPPPPP w" },
