@@ -48,6 +48,11 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     { "8/8/8/8/8/8/5P w", "8/8/8/8/8/5P W"},
     { "8/8/8/8/8/8/6P w", "8/8/8/8/8/6P W"},
     { "8/8/8/8/8/8/7P w", "8/8/8/8/8/7P W"},
+    // Rook-Pawns: 3rd > 5th > 4th
+    { "8/8/8/8/8/P w", "8/8/8/P W" },
+    { "8/8/8/P w", "8/8/8/8/P W" },
+    { "8/8/8/8/8/7P w", "8/8/8/7P W" },
+    { "8/8/8/7P w", "8/8/8/8/7P W" },
 };
 
 bool CTestEvaluator::test_everything() {
