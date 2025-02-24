@@ -8,6 +8,7 @@
 #include "../move_generator/move.h"
  
 class CEvaluator {
+    friend class CTestEvaluator;
   public:
     int evaluate() const;
     int evaluate_square(const SSquare &square) const;
@@ -16,5 +17,6 @@ class CEvaluator {
     bool evaluates_approximately_to(const int score) const;
   private:
     int evaluate_square(const int file, const int rank) const;
+    static int evaluate_white_pawn(const SSquare square);
 };
 

@@ -39,3 +39,8 @@ bool CEvaluator::evaluates_approximately_to(const int score) const {
     return (abs(real_score - score) < half_pawn);
 }
 
+int CEvaluator::evaluate_white_pawn(const SSquare square) {
+    assert(square_in_range(square));
+    return main_piece_square_value_table_set[WHITE_POWER][square.file][square.rank];
+}
+

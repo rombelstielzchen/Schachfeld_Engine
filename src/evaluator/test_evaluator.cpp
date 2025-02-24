@@ -6,6 +6,7 @@
 #include "test_evaluator.h"
 #include "evaluator.h"
 #include "../board/board.h"
+#include "../board/square_constants.h"
 #include "../technical_functions/testing.h"
 
 const std::vector<STestcaseEvaluator> testcases_evaluator = {
@@ -116,7 +117,42 @@ bool CTestEvaluator::test_black_advantage() {
 
 bool CTestEvaluator::test_pawn_values() {
     TEST_FUNCTION();
-    return false;
+    // Logical consequences from more comples tests
+    // 1) avoid bad central advances
+    EXPECT(first_pawn_better(C4, C5));
+    EXPECT(first_pawn_better(D4, D5));
+    EXPECT(first_pawn_better(E4, E5));
+    EXPECT(first_pawn_better(F4, F5));
+    // Avoid bad exchanges of central pawn (for white)
+    // Slav
+    EXPECT(first_pawn_better(C4, C3));
+    EXPECT(first_pawn_better(D4, C4));
+    // Queens Gambit
+    EXPECT(first_pawn_better(C4, E3));
+    EXPECT(first_pawn_better(D4, C4));
+    // Caro-Kann
+    EXPECT(first_pawn_better(E4, C3));
+    EXPECT(first_pawn_better(E4, D4));
+    // French
+    EXPECT(first_pawn_better(E4, E3));
+    EXPECT(first_pawn_better(E4, D4)); // TODO ???
+    //  Scotch
+    EXPECT(first_pawn_better(D4, D3));
+    EXPECT(first_pawn_better(E4, D4));
+    // Kings Gambit
+    EXPECT(first_pawn_better(F4, D3));
+    EXPECT(first_pawn_better(E4, F4));
+    // Kings Indian (1)
+    EXPECT(first_pawn_better(E4, F4));
+    EXPECT(first_pawn_better(E4, G3));
+    // Kings Indian (2)
+    EXPECT(first_pawn_better(D3, B4));
+    // TODO: c2 > c4 > c5 > black c7 = c2
+    //    EXPECT(first_pawn_better(C5, C2));
+    // Benoni
+    EXPECT(first_pawn_better(D5, E3));
+    EXPECT(first_pawn_better(C4, E3));
+    return true;
 }
 
  bool CTestEvaluator::test_positions() {
@@ -137,4 +173,10 @@ bool CTestEvaluator::first_position_better(const STestcaseEvaluator &testcase) {
     SILENT_EXPECT(better_Score > worse_score);
     return true;
  }
+
+bool CTestEvaluator::first_pawn_better(const SSquare first, const SSquare second) {
+    int first_value = CEvaluator::evaluate_white_pawn(first);
+    int second_value = CEvaluator::evaluate_white_pawn(second);
+    return (first_value > second_value);
+}
 
