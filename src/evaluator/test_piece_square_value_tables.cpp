@@ -72,7 +72,7 @@ bool CTestPieceSquareValueTables::test_positions() {
     EXPECT(first_position_better("B w", "w"));
     EXPECT(first_position_better("w", "b w"));
     // Bad exchange B + N against R + P
-    EXPECT(first_position_better("BN w", "R//////P w"));
+    EXPECT(first_position_better("8/8/8/3BN w", "////4P/5P/6R w"));
     return true;
 }
 
