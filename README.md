@@ -12,7 +12,7 @@ The engine supports the universal-chess-interface for communication with your fa
 
 How To Download
 ---------------
-[version_0.b.zip](https://github.com/rombelstielzchen/Schachfeld_Engine/raw/refs/heads/main/release/archives/Schachfeld_Engine_0.b.zip)
+[version_0.c.zip](https://github.com/rombelstielzchen/Schachfeld_Engine/raw/refs/heads/main/release/archives/Schachfeld_Engine_0.c.zip)
 
 
 How to Use
@@ -74,7 +74,7 @@ Thank You!
 * Fredrik Bornander for his [logging module on CodeProject](https://www.codeproject.com/Articles/63736/Simple-debug-log-for-C)
 * The makers of PGN-Mentor for their [huge collection of high-quality games](https://www.pgnmentor.com/files.html).
 * ReorX for testing on Mac and reporting problems with the build-process.
-* Salto.mattale for testing and reporting problems.
+* Salto.mattale forasking "Do we test? Do we test? Do we test?" T1his advice was the very-very-very-best!
 * Zadesa for testing and reporting problems.
 
 Feel welcome to contact us at the Schachfeld-forum if you miss your name on the list.
