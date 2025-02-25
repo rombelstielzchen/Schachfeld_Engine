@@ -61,6 +61,11 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     { "8/8/8/P w", "8/8/8/8/P W" },
     { "8/8/8/8/8/7P w", "8/8/8/7P W" },
     { "8/8/8/7P w", "8/8/8/8/7P W" },
+    // Fianchetto
+    { "8/8/8/8/8/5NP/5PKP w", "8/8/8/8/8/5NP/5P1P/6K w" },
+    { "8/8/8/8/8/8/5PPP/6K w", "8/8/8/8/8/6P/5P1P/6K w" },
+    { "8/8/8/8/8/6P/5PBP/6K w", "8/8/8/8/2B/8/6P/5PKP w" },
+    { "8/8/8/8/2B/8/5PPP/6K w", "8/8/8/8/8/8/6P/5PBP/6K w" },
 };
 
 bool CTestEvaluator::test_everything() {
