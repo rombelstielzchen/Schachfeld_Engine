@@ -43,7 +43,7 @@ void CCommandInterface::go_mate(const int depth_in_moves) {
     // ATM we search "normally" with the necessary depth.
     // TODO: special mate-search 
     // * depth: 1, 3, 5, ...?
-    // *increased alpha or beta
+    // * increased alpha or beta
     // * consider only final checks
     assert(depth_in_moves > 0);
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;

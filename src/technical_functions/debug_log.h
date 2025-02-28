@@ -1,9 +1,5 @@
 #pragma once
 
-#ifndef DEBUG_LOG_ENABLE
-#define DEBUG_LOG_ENABLE
-#endif
-
 // Code based on the logging-framework by Fredrik Bornander
 // https://www.codeproject.com/Articles/63736/Simple-debug-log-for-C
 // CodeProject license
