@@ -57,12 +57,6 @@ inline void set_stream(std::ostream& stream) {
 
 template<class T> void value_of(const std::string& name, const T& value);
 
-inline void write_indentation() {
-	for(int i = 0; i < 2 * indentation; ++i) {
-        *safe_output_stream() << "  ";
-	}
-}
-
 class CLog {
   public:
     CLog(const std::string& context);
@@ -70,15 +64,6 @@ class CLog {
     const std::string context;
     clock_t start_time;
 };
-
-template<class T> void value_of(const std::string& name, const T& value) {
-    write_indentation();
-    *safe_output_stream() << name;
-    *safe_output_stream() << "=[" << value << "]" << std::endl;
-    // endl causes a flush, so all extra flushing removed
-}
-
- 
 
 // TODO: independent of system and compiler
 #ifdef _WIN32
@@ -121,8 +106,15 @@ inline void log_to_file() {
 }
 
 inline void message(const std::string& message) {
-	write_indentation();
-	*safe_output_stream() << message << std::endl;
+    int indentation_width = 2 * indentation;
+    std::string indented_message = std::string(indentation_width, ' ') + message + "\n";
+	*safe_output_stream() << indented_message;
+    std::flush(*safe_output_stream());
+}
+
+template<class T> void value_of(const std::string& name, const T& value) {
+    std::string text = name + "=[" + value + "]\n";
+    message(text);
 }
 
 inline CLog::CLog(const std::string& ctx)	: context(ctx)
@@ -130,19 +122,19 @@ inline CLog::CLog(const std::string& ctx)	: context(ctx)
 	, start_time(clock())
 #endif
 {
-	write_indentation();
-	*safe_output_stream() << "--> " << context << std::endl;
+    std::string text = "--> " + context;
+    message(text);
 	++indentation;
 }
 
 inline CLog::~CLog() {
 	--indentation;
-	write_indentation();
-	*safe_output_stream() << "<-- " << context;
+    std::string text = "<-- " + context;
 #ifdef DEBUG_LOG_ENABLE_TIMING
-	*safe_output_stream() << " in " << ((double)(clock() - start_time) / CLOCKS_PER_SEC) << "s";
+	text += < " in " + ((double)(clock() - start_time) / CLOCKS_PER_SEC) + "s";
 #endif
-	*safe_output_stream() << std::endl;
+	text += "\n";
+    message(text);
 }
 
 #endif
