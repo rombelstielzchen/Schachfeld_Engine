@@ -10,10 +10,12 @@
 class CEvaluator {
     friend class CTestEvaluator;
   public:
+    CEvaluator();
     int evaluate() const;
     int evaluate_square(const SSquare &square) const;
-  public:
+  private:
     // For testing purposes
+    // TODO: move to test?
     bool evaluates_approximately_to(const int score) const;
   private:
     int evaluate_square(const int file, const int rank) const;

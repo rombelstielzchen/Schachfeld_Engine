@@ -7,6 +7,10 @@
 #include "piece_square_value_tables.h"
 #include "../board/board.h"
 
+CEvaluator::CEvaluator() {
+    init_main_psv_set();
+}
+
 int CEvaluator::evaluate() const {
     int score = 0;
     for (int j = FILE_A; j <= FILE_H; ++j) {
