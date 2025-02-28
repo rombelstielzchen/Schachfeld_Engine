@@ -46,6 +46,7 @@ class CMoveList {
     // For root-node ordering
     void reuse_list();
     void shift_current_move_to_top();
+    void shift_killer_move_to_top(const SMove killer);
   public:
     std::string as_text() const;
   private:
