@@ -11,7 +11,7 @@
 
 constexpr int HALF_KING = 10000;
 
-int CSearch::alpha_beta(int remaining_depth, SAlphaBetaWindow alpha_beta_window) {
+int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWindow alpha_beta_window) {
     assert(remaining_depth >= 0);
     assert(alpha_beta_window.alpha <= alpha_beta_window.beta);
     int score = board.evaluator.evaluate();
@@ -42,7 +42,7 @@ int CSearch::alpha_beta(int remaining_depth, SAlphaBetaWindow alpha_beta_window)
                 constexpr int score_does_not_matter_wont_get_used = 314159;
                 return score_does_not_matter_wont_get_used;
             }
-            candidate_score = alpha_beta(remaining_depth - 1, alpha_beta_window);
+            candidate_score = alpha_beta(remaining_depth - 1, distace_to_root + 1, alpha_beta_window);
         } else if (is_any_capture(move_candidate)) {
             candidate_score = static_exchange_evaluation(move_candidate.target, alpha_beta_window);
         } else {
