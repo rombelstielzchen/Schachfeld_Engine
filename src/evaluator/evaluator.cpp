@@ -9,16 +9,16 @@
 
 CEvaluator::CEvaluator() {
     init_main_psv_set();
+    value = 0;
 }
 
-int CEvaluator::evaluate() const {
-    int score = 0;
+void CEvaluator::initial_full_evaluation() {
+   value = 0; 
     for (int j = FILE_A; j <= FILE_H; ++j) {
         for (int k = RANK_1; k <= RANK_8; ++k) {
-            score += evaluate_square(j, k);
+            value += evaluate_square(j, k);
         }
     }
-    return score;
 }
 
 int CEvaluator::evaluate_square(const SSquare &square) const {
