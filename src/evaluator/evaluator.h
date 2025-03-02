@@ -13,9 +13,8 @@ class CEvaluator {
     CEvaluator();
   public:
     void initial_full_evaluation();
-    void incremental_add(char piece, SSquare square);
-    void incremental_subtract(char piece, SSquare square);
-    void incremental_clear(SSquare square);
+    void incremental_add(char piece, const SSquare square);
+    void incremental_clear_square(const SSquare square);
     int evaluate() const { return value; }
   public:
     // TODO: private?
@@ -28,6 +27,6 @@ class CEvaluator {
     int evaluate_square(const int file, const int rank) const;
     static int evaluate_white_pawn(const SSquare square);
   private:
-    int value = 0;
+    int value;
 };
 
