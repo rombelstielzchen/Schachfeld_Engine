@@ -71,7 +71,7 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     { "8/8/8/8/2B/8/5PPP/6K w", "8/8/8/8/8/8/6P/5PBP/6K w" },
     // Bad exchange, protecting Bc4 by b3 instead of playing Bb3
     // TODO
-//    { "8/8/8/8/8/1P/1PP w", "8/8/8/8/2P/8/P1P w "},
+    { "8/8/8/8/8/1P/1PP w", "8/8/8/8/2P/8/P1P w "},
     // Bad exchange, protecting Bf4 by g3 instead of playing Bg3
     { "8/8/8/8/8/6P/5PP w", "8/8/8/8/5P/8/5P1P w "},
 };
