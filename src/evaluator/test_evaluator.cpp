@@ -44,6 +44,9 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     // Central pawn structure: c4 + d5 / d6+ e6 (Benoni)
     { "8/8/3pp/3P/2P w", "8/8/3p/3P w" },
     { "8/8/3p/3P w", "8/8/3p/8/2P w" },
+    // Central pawn structure c3 or c2 / e5 (Ruy Lopez, Italian)
+{ "8/8/8/8/3PP w", "8/8/8/4p/3PP/2P w" },
+{ "8/8/8/8/3PP w", "8/8/8/4p/3PP/8/2P w" },
     // Pawns on 5th / 6th / 7th rank: semi-strong / monsters / potentially a bit weak
     { "8/8/PPPPPPPP w", "8/8/8/PPPPPPPP w" },
     { "8/8/PPPPPPPP w", "8/PPPPPPPP w" },
@@ -66,6 +69,11 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     { "8/8/8/8/8/8/5PPP/6K w", "8/8/8/8/8/6P/5P1P/6K w" },
     { "8/8/8/8/8/6P/5PBP/6K w", "8/8/8/8/2B/8/6P/5PKP w" },
     { "8/8/8/8/2B/8/5PPP/6K w", "8/8/8/8/8/8/6P/5PBP/6K w" },
+    // Bad exchange, protecting Bc4 by b3 instead of playing Bb3
+    // TODO
+//    { "8/8/8/8/8/1P/1PP w", "8/8/8/8/2P/8/P1P w "},
+    // Bad exchange, protecting Bf4 by g3 instead of playing Bg3
+    { "8/8/8/8/8/6P/5PP w", "8/8/8/8/5P/8/5P1P w "},
 };
 
 bool CTestEvaluator::test_everything() {
@@ -152,11 +160,15 @@ bool CTestEvaluator::test_pawn_values() {
     EXPECT(first_pawn_better(E4, G3));
     // Kings Indian (2)
     EXPECT(first_pawn_better(D3, B4));
-    // TODO: c2 > c4 > c5 > black c7 = c2
+    // Conflict: c2 > c4 > c5 > black c7 = c2
     //    EXPECT(first_pawn_better(C5, C2));
+    EXPECT(first_pawn_better(C2, C5));
     // Benoni
     EXPECT(first_pawn_better(D5, E3));
     EXPECT(first_pawn_better(C4, E3));
+    // Ruy Lopez / Italian
+    EXPECT(first_pawn_better(E4, C3));
+    EXPECT(first_pawn_better(E4, C2));
     return true;
 }
 
