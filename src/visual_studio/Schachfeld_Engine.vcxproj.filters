@@ -122,6 +122,12 @@
     <ClCompile Include="..\technical_functions\math_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\evaluator\piece_square_value_tables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\evaluator\test_piece_square_value_tables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\universal_chess_interface\uci_protocol.h">
@@ -211,5 +217,10 @@
     <ClInclude Include="..\technical_functions\string_tokenizer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\evaluator\.piece_square_value_tables.h.swp">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

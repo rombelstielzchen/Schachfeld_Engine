@@ -140,7 +140,9 @@
     <ClCompile Include="..\board\test_board_logic.cpp" />
     <ClCompile Include="..\board\test_move_maker.cpp" />
     <ClCompile Include="..\evaluator\evaluator.cpp" />
+    <ClCompile Include="..\evaluator\piece_square_value_tables.cpp" />
     <ClCompile Include="..\evaluator\test_evaluator.cpp" />
+    <ClCompile Include="..\evaluator\test_piece_square_value_tables.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\move_generator\move.cpp" />
     <ClCompile Include="..\move_generator\move_generator.cpp" />
@@ -195,6 +197,9 @@
     <ClInclude Include="..\technical_functions\test_technical_functions.h" />
     <ClInclude Include="..\universal_chess_interface\command_interface.h" />
     <ClInclude Include="..\universal_chess_interface\uci_protocol.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\evaluator\.piece_square_value_tables.h.swp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
