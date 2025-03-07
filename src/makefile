@@ -46,6 +46,7 @@ engine: \
 	test_board.o \
 	test_board_logic.o \
 	test_evaluator.o \
+	test_killer_heuristics.o \
 	test_math_functions.o \
 	test_move_generator.o \
 	test_move_list.o \
@@ -175,6 +176,9 @@ test_perft.o: move_generator/test_perft.cpp
 	$(CC) $(CFLAGS) 
 
 killer_heuristics.o: search/killer_heuristics.cpp
+	$(CC) $(CFLAGS) 
+
+test_killer_heuristics.o: search/test_killer_heuristics.cpp
 	$(CC) $(CFLAGS) 
 
 #### Other build targets ###############
