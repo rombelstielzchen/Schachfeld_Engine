@@ -30,6 +30,7 @@ engine: \
 	fen_parser.o \
 	gm_book.o \
 	iterative_deepening.o \
+	killer_heuristics.o \
 	main.o \
 	math_functions.o \
 	move.o \
@@ -171,6 +172,9 @@ piece_square_value_tables.o: evaluator/piece_square_value_tables.cpp
 	$(CC) $(CFLAGS) 
 
 test_perft.o: move_generator/test_perft.cpp
+	$(CC) $(CFLAGS) 
+
+killer_heuristics.o: search/killer_heuristics.cpp
 	$(CC) $(CFLAGS) 
 
 #### Other build targets ###############
