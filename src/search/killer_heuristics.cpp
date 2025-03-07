@@ -4,21 +4,22 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "killer_heuristics.h"
-#include "../board/square_constants.h"
-
-constexpr SMove DUMMY_KILLER = { E1, F6, MOVE_TYPE_NORMAL, EMPTY_SQUARE };
 
 CKillerHeuristic::CKillerHeuristic() {
+    for (SMove &slot : killer_movess) {
+        slot = DUMMY_KILLER;
+    }
 }
 
 void CKillerHeuristic::store_hiller(int distance_to_root, const SMove move) {
     assert(distance_to_root >= 0);
+    assert(distance_to_root < MAX_KILLER_DEPTH);
     killer_movess[distance_to_root] = move;
 }
 
 SMove CKillerHeuristic::get_killer(int distance_to_root) {
     assert(distance_to_root >= 0);
-    killer_movess[42];
-    return DUMMY_KILLER;
+    assert(distance_to_root < MAX_KILLER_DEPTH);
+    return killer_movess[distance_to_root];
 }
 
