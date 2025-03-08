@@ -20,7 +20,7 @@ class CKillerHeuristic {
    public:
     CKillerHeuristic();
    public:
-    void store_hiller(int distance_to_root, const SMove move);
+    void store_killer(int distance_to_root, const SMove move);
    SMove get_killer(int distance_to_root);
    private:
     std::array<SMove, MAX_KILLER_DEPTH> killer_movess;

@@ -52,6 +52,7 @@ int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWind
         if ((side_to_move == WHITE_PLAYER) && (candidate_score > best_score)) {
             if (white_score_way_too_good(candidate_score, alpha_beta_window)) {
                 search_statistics.add_nodes(j + 1);
+                killer_heuristic.store_killer(distace_to_root, move_candidate);
                 return alpha_beta_window.beta;
             }
             best_score = candidate_score;
@@ -59,6 +60,7 @@ int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWind
         } else if ((side_to_move == BLACK_PLAYER) && (candidate_score < best_score)) {
             if (black_score_way_too_good(candidate_score, alpha_beta_window)) {
                 search_statistics.add_nodes(j + 1);
+                killer_heuristic.store_killer(distace_to_root,move_candidate);
                 return alpha_beta_window.alpha;
             }
             best_score = candidate_score;

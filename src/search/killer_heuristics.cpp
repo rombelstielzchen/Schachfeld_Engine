@@ -11,7 +11,7 @@ CKillerHeuristic::CKillerHeuristic() {
     }
 }
 
-void CKillerHeuristic::store_hiller(int distance_to_root, const SMove move) {
+void CKillerHeuristic::store_killer(int distance_to_root, const SMove move) {
     assert(distance_to_root >= 0);
     assert(distance_to_root < MAX_KILLER_DEPTH);
     killer_movess[distance_to_root] = move;

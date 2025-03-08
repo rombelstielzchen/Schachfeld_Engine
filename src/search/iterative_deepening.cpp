@@ -40,6 +40,11 @@ SMove CIterativeDeepening::search(int depth) {
 }
 
 void CIterativeDeepening::root_node_search(int depth) {
+   // Top-level search
+   //   * managing alpha-beta-wibdows, but bo cutoffs here ("all-node")
+   //   * Sorting and reusing the move-list, therefore...
+   //     - no hash-moves
+   //     - no killer-moves here
     assert(depth >= min_meaningful_depth_to_avoid_illegal_moves);
     CSearch search;
     search_statistics.reset_current_depth(depth);
