@@ -42,7 +42,7 @@ SMove CIterativeDeepening::search(int depth) {
 void CIterativeDeepening::root_node_search(int depth) {
     assert(depth >= min_meaningful_depth_to_avoid_illegal_moves);
     CSearch search;
-    search_statistics.reset_current_depth(depth);
+    search_statistics.on_new_depth(depth);
     bool side_to_move = board.get_side_to_move();
     SAlphaBetaWindow alpha_beta_window = INFINIE_AKPHA_BETA_WINDOW;
     int best_score = (side_to_move == WHITE_PLAYER) ? WHITE_MIN_SCORE : BLACK_MIN_SCORE;
@@ -53,7 +53,7 @@ void CIterativeDeepening::root_node_search(int depth) {
     for (int j = uci_first_movenumber; j <= n_moves; ++j) {
         // No alpha-beta-cutoffs here. Top-level search has to examine all moves,
         // but feed the recursive search with the current alpha-beta values.
-        search_statistics.reset_for_next_move();
+        search_statistics.on_new_move();
         SMove move_candidate = move_generator.move_list.get_next();
         assert(move_candidate != NULL_MOVE);
         assert(move_in_range(move_candidate));

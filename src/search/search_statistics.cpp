@@ -13,27 +13,27 @@ CSearchStatistics::CSearchStatistics() {
 }
 
 void CSearchStatistics::reset_all() {
-    nodes_calculated = anti_division_by_zero;
-    nodes_at_start_of_current_depth = nodes_calculated;
-    nodes_at_start_of_current_move = nodes_calculated;
+    nodes_total = anti_division_by_zero;
+    nodes_at_start_of_current_depth = nodes_total;
+    nodes_at_start_of_current_move = nodes_total;
     max_depth = 1;
     start_time = std::chrono::high_resolution_clock::now();
     subtree_size_bestmove = 0;
 }
 
-void CSearchStatistics::reset_current_depth(int new_depth) {
+void CSearchStatistics::on_new_depth(int new_depth) {
     assert(new_depth > 0);
     assert(new_depth >= max_depth);
     max_depth = new_depth;
     std::string info = "depth " + std::to_string(new_depth);
     CUciProtocol::send_info(info);
-    nodes_at_start_of_current_depth = nodes_calculated;
-    nodes_at_start_of_current_move = nodes_calculated;
+    nodes_at_start_of_current_depth = nodes_total;
+    nodes_at_start_of_current_move = nodes_total;
     subtree_size_bestmove = 0;
 }
 
-void CSearchStatistics::reset_for_next_move() {
-    nodes_at_start_of_current_move = nodes_calculated;
+void CSearchStatistics::on_new_move() {
+    nodes_at_start_of_current_move = nodes_total;
 }
 
 void CSearchStatistics::set_best_move(const SMove best_move, const int score) {
@@ -59,7 +59,7 @@ void CSearchStatistics::set_current_move(const SMove current_move, int score, in
 
 std::string CSearchStatistics::node_statistics() const {
     std::string info = " nodes " 
-        + std::to_string(nodes_calculated) 
+        + std::to_string(nodes_total) 
         + " time " 
         + std::to_string(used_time_milliseconds()) 
         + " nps " 
@@ -84,7 +84,7 @@ std::string CSearchStatistics::anti_adjudication_score(int score) {
 
 void CSearchStatistics::log_branching_factor() const {
     assert(nodes_at_start_of_current_depth > 0);
-    assert(nodes_calculated > nodes_at_start_of_current_depth);
+    assert(nodes_total > nodes_at_start_of_current_depth);
     double branching_factor = static_cast<double>(nodes_for_this_iteration()) / nodes_at_start_of_current_depth;
     // branching_factor nay be < 1 in case of "stop"-command
     assert(branching_factor > 0);
@@ -119,19 +119,19 @@ void CSearchStatistics::log_subtree_size() const {
 }
 
 int64_t CSearchStatistics::nodes_per_second() const {
-    int64_t nps = (nodes_calculated * 1000) / used_time_milliseconds();
+    int64_t nps = (nodes_total * 1000) / used_time_milliseconds();
     assert(nps > 0);
     return nps;
 }
 
 int64_t CSearchStatistics::subtree_size() const {
-    int64_t size = nodes_calculated - nodes_at_start_of_current_move;
+    int64_t size = nodes_total - nodes_at_start_of_current_move;
     assert(size >= 0);
     return size;
 }
 
 int64_t CSearchStatistics::nodes_for_this_iteration() const {
-    assert(nodes_calculated > nodes_at_start_of_current_depth);
-    return nodes_calculated - nodes_at_start_of_current_depth;
+    assert(nodes_total > nodes_at_start_of_current_depth);
+    return nodes_total - nodes_at_start_of_current_depth;
 }
 
