@@ -16,14 +16,6 @@ class CSearchStatistics {
     void reset_all();
     void on_new_depth(int new_depth);
     void on_new_move();
-  public:
-    // Use direct access only for incrementing the couners.
-    // Resets and evaluations through methods.
-  public:
-    int64_t killers_stored;
-    int64_t killers_stored_tqual;
-    int64_t killers_queried_total;
-    int64_t killers_queried_legal;
   public:    
     int64_t get_nodes_total() { return nodes_total; }
     int64_t used_time_milliseconds() const;
@@ -39,6 +31,13 @@ class CSearchStatistics {
   public:
     // TODO
     int expected_branching_factor_for_next_iteration() const;
+  public:
+    // Use direct access only for incrementing the couners.
+    // Resets and evaluations through methods.
+    int64_t killers_stored;
+    int64_t killers_stored_tqual;
+    int64_t killers_queried_total;
+    int64_t killers_queried_legal;
   private:
     int64_t nodes_for_this_iteration() const;
     int64_t nodes_per_second() const;
@@ -47,10 +46,9 @@ class CSearchStatistics {
     int64_t subtree_size() const;
     static std::string anti_adjudication_score(int score);
   private:
-    int64_t node_total;
-    int64_t nodes_this_depth;
-    int64_t nodes_this_variation;
     int64_t nodes_total;
+///    int64_t nodes_this_depth;
+//    int64_t nodes_this_variation;
     int64_t nodes_at_start_of_current_depth;
     int64_t nodes_at_start_of_current_move;
     int64_t subtree_size_bestmove;
