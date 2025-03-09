@@ -70,6 +70,7 @@ class CMoveList {
     std::array<SMove,LIST_SIZE> bidirectional_move_list;
     unsigned int first_capture;
     unsigned int next_empty_slot;
+    unsigned int next_empty_slot_before_pruning_silent_moves;
     unsigned int consumer_position;
 };
 

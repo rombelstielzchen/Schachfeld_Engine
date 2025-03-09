@@ -33,6 +33,7 @@ CMoveList::CMoveList() {
 void CMoveList::clear() {
     first_capture = LIST_ORIGIN;
     next_empty_slot = LIST_ORIGIN;
+    next_empty_slot_before_pruning_silent_moves = LIST_ORIGIN;
     consumer_position = LIST_ORIGIN;
     assert(list_size() == 0);
 }
@@ -198,7 +199,12 @@ void CMoveList::store_capture(const SMove &move) {
 void CMoveList::prune_silent_moves() {
     assert(first_capture <= LIST_ORIGIN);
     assert(next_empty_slot >= LIST_ORIGIN);
+    next_empty_slot_before_pruning_silent_moves = std::max(next_empty_slot, next_empty_slot_before_pruning_silent_moves);
     next_empty_slot = LIST_ORIGIN;
+}
+
+void CMoveList::unprune_silent_moves() {
+    next_empty_slot = next_empty_slot_before_pruning_silent_moves;
 }
 
 void CMoveList::prune_illegal_moves() {
