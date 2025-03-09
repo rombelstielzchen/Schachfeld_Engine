@@ -38,6 +38,7 @@ class CMoveList {
     void store_capture(const int source_file, const int source_rank, const int target_file, const int target_rank);
   public:
     void prune_silent_moves();
+    void unprune_silent_moves();
     void filter_captures_by_target_square(const SSquare &target_square);
   public:
     // For the root-node, in order to avoid greedy captures when getting mated
@@ -57,17 +58,18 @@ class CMoveList {
     inline void store_silent_move(const SMove &move);
     inline void store_capture(const SMove &move);
   private:
-    inline unsigned int last_index() const { return last_silent_move - 1; }
+    /// ???
+    inline unsigned int last_move_index() const { return next_empty_slot - 1; }
     unsigned int get_index(const SMove basic_move) const;
     bool move_on_list(const std::string &move_text) const;
     void remove(const SMove move);
-    void remove(const std::string& move_text);
+    void remove(const std::string &move_text);
     void prune_illegal_castlings();
   private:
     // Using array instead of vector due to its known size and for better performance
     std::array<SMove,LIST_SIZE> bidirectional_move_list;
     unsigned int first_capture;
-    unsigned int last_silent_move;
+    unsigned int next_empty_slot;
     unsigned int consumer_position;
 };
 

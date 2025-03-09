@@ -32,7 +32,7 @@ CMoveList::CMoveList() {
 
 void CMoveList::clear() {
     first_capture = LIST_ORIGIN;
-    last_silent_move = LIST_ORIGIN;
+    next_empty_slot = LIST_ORIGIN;
     consumer_position = LIST_ORIGIN;
     assert(list_size() == 0);
 }
@@ -44,13 +44,13 @@ SMove CMoveList::get_random() const {
     // Quick and dirty random numbers are OK for an early proof of concept
     unsigned int index = first_capture + rand() % list_size();
     assert(index >= first_capture);
-    assert(index < last_silent_move);
+    assert(index < next_empty_slot);
     return bidirectional_move_list[index];
 }
 
 SMove CMoveList::get_next() {
     assert(consumer_position >= first_capture);
-    if (consumer_position >= last_silent_move) {
+    if (consumer_position >= next_empty_slot) {
         return NULL_MOVE;
     }
     SMove result = bidirectional_move_list[consumer_position];
@@ -61,8 +61,8 @@ SMove CMoveList::get_next() {
 
 unsigned int CMoveList::get_index(const SMove basic_move) const {
     assert(move_in_range(basic_move));
-    assert(last_silent_move >= first_capture);
-    for (unsigned int j = first_capture; j < last_silent_move; ++j) {
+    assert(next_empty_slot >= first_capture);
+    for (unsigned int j = first_capture; j < next_empty_slot; ++j) {
         if (move_coords_are_equal(basic_move, bidirectional_move_list[j])) {
             return j;
         }
@@ -90,8 +90,8 @@ SMove CMoveList::lookup_move(const std::string &text_move) const {
 }
 
 int CMoveList::list_size() const {
-    assert(last_silent_move >= first_capture);
-    return (last_silent_move - first_capture);
+    assert(next_empty_slot >= first_capture);
+    return (next_empty_slot - first_capture);
 }
 
 void CMoveList::store_silent_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type) {
@@ -181,9 +181,9 @@ void CMoveList::store_black_promotions(const int source_file, const int source_r
 }
 
 void CMoveList::store_silent_move(const SMove &move) {
-    bidirectional_move_list[last_silent_move] = move; 
-    ++last_silent_move;
-   assert(last_silent_move < LIST_SIZE);
+    bidirectional_move_list[next_empty_slot] = move; 
+    ++next_empty_slot;
+   assert(next_empty_slot < LIST_SIZE);
 }
 
 void CMoveList::store_capture(const SMove &move) {
@@ -197,8 +197,8 @@ void CMoveList::store_capture(const SMove &move) {
 
 void CMoveList::prune_silent_moves() {
     assert(first_capture <= LIST_ORIGIN);
-    assert(last_silent_move >= LIST_ORIGIN);
-    last_silent_move = LIST_ORIGIN;
+    assert(next_empty_slot >= LIST_ORIGIN);
+    next_empty_slot = LIST_ORIGIN;
 }
 
 void CMoveList::prune_illegal_moves() {
@@ -261,7 +261,7 @@ void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
 SMove CMoveList::get_least_valuable_aggressor() const {
     int least_value = INT_MAX;
     SMove best_move = NULL_MOVE;
-    for (unsigned int j = first_capture; j < last_silent_move; ++j) {
+    for (unsigned int j = first_capture; j < next_empty_slot; ++j) {
         int piece_value = abs(board.evaluator.evaluate_square(bidirectional_move_list[j].source));
         if (piece_value < least_value) {
             least_value = piece_value;
@@ -279,7 +279,7 @@ void CMoveList::reuse_list() {
 void CMoveList::shift_current_move_to_top() {
     unsigned int former_consumer_position = consumer_position - 1;
     assert(former_consumer_position >= first_capture);
-    assert(former_consumer_position < last_silent_move);
+    assert(former_consumer_position < next_empty_slot);
     SMove new_top_move = bidirectional_move_list[former_consumer_position];
     unsigned int secomd_position = first_capture + 1;
     for (unsigned int j = former_consumer_position; j >= secomd_position; --j) {
@@ -304,13 +304,13 @@ void CMoveList::remove(const SMove move) {
         return;
     }
     assert(position >= first_capture);
-    assert(position < last_silent_move);
+    assert(position < next_empty_slot);
     if (position < LIST_ORIGIN) {
         bidirectional_move_list[position] = bidirectional_move_list[first_capture];
         ++first_capture;
     } else {
-        bidirectional_move_list[position] = bidirectional_move_list[last_index()];
-        --last_silent_move;
+        bidirectional_move_list[position] = bidirectional_move_list[last_move_index()];
+        --next_empty_slot;
         consumer_position = position;
     }
 }
