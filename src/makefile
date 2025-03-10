@@ -35,6 +35,7 @@ engine: \
 	move.o \
 	move_generator.o \
 	move_list.o \
+	move_list__filters.o \
 	move_list__store.o \
 	move_maker.o \
 	opening_book.o \
@@ -125,6 +126,9 @@ test_move_maker.o: board/test_move_maker.cpp
 	$(CC) $(CFLAGS) 
 
 move_list.o: move_generator/move_list.cpp
+	$(CC) $(CFLAGS) 
+
+move_list__filters.o: move_generator/move_list__filters.cpp
 	$(CC) $(CFLAGS) 
 
 move_list__store.o: move_generator/move_list__store.cpp

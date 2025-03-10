@@ -8,6 +8,8 @@
 #include "move.h"
 #include "../technical_functions/standard_headers.h"
 
+constexpr unsigned int NOT_FOUND = INT_MAX;
+
 // https://www.talkchess.com/forum/viewtopic.php?t=39332
 constexpr int MAX_MOVES_IN_CHESS_POSITION = 218;
 // Captures: probably 74. We use conservative 80.
