@@ -83,7 +83,7 @@ void CMoveList::shift_current_move_to_top() {
 
 void CMoveList::remove(const SMove move) {
     unsigned int position = get_index(move);
-    if (position == NOT_FOUND) {
+    if (position == MOVE_NOT_ON_LIST) {
         return;
     }
     assert(position >= first_capture);

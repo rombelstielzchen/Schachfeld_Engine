@@ -8,7 +8,7 @@
 #include "move.h"
 #include "../technical_functions/standard_headers.h"
 
-constexpr unsigned int NOT_FOUND = INT_MAX;
+constexpr unsigned int MOVE_NOT_ON_LIST = INT_MAX;
 
 // https://www.talkchess.com/forum/viewtopic.php?t=39332
 constexpr int MAX_MOVES_IN_CHESS_POSITION = 218;

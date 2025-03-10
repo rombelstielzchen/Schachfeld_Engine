@@ -51,7 +51,7 @@ unsigned int CMoveList::get_index(const SMove basic_move) const {
             return j;
         }
     }
-    return NOT_FOUND;
+    return MOVE_NOT_ON_LIST;
 }
 
 SMove CMoveList::lookup_move(const std::string &text_move) const {
@@ -66,7 +66,7 @@ SMove CMoveList::lookup_move(const std::string &text_move) const {
         assert(is_any_piece(basic_move.move_type));
     }
     unsigned int index = get_index(basic_move);
-    if (index == NOT_FOUND) {
+    if (index == MOVE_NOT_ON_LIST) {
         return NULL_MOVE;
     }
     assert(index <  LIST_SIZE);
@@ -103,6 +103,6 @@ std::string CMoveList::as_text() const {
 
 bool CMoveList::move_on_list(const std::string &text_move) const {
     SMove move = text_to_basic_move(text_move);
-    return (get_index(move) != NOT_FOUND);
+    return (get_index(move) != MOVE_NOT_ON_LIST);
 }
 
