@@ -27,6 +27,7 @@ class CMoveList {
     int list_size() const;
     SMove get_random() const;
     SMove get_next();
+SMove get_next__capture_killer_silent();
     SMove get_least_valuable_aggressor() const;
     SMove lookup_move(const std::string &text_move) const;
   public:

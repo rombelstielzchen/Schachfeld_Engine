@@ -31,6 +31,13 @@ SMove CMoveList::get_next() {
     return result;
 }
 
+SMove CMoveList::get_next__capture_killer_silent() {
+    if (consumer_position == LIST_ORIGIN) {
+        // TODO: integrate killer
+    }
+    return get_next();
+}
+
 SMove CMoveList::get_least_valuable_aggressor() const {
     int least_value = INT_MAX;
     SMove best_move = NULL_MOVE;
