@@ -21,28 +21,7 @@ void CMoveList::clear() {
     assert(list_size() == 0);
 }
 
-SMove CMoveList::get_random() const {
-    if (list_size() <= 0) {
-        return NULL_MOVE;
-    }
-    // Quick and dirty random numbers are OK for an early proof of concept
-    unsigned int index = first_capture + rand() % list_size();
-    assert(index >= first_capture);
-    assert(index < next_empty_slot);
-    return bidirectional_move_list[index];
-}
-
-SMove CMoveList::get_next() {
-    assert(consumer_position >= first_capture);
-    if (consumer_position >= next_empty_slot) {
-        return NULL_MOVE;
-    }
-    SMove result = bidirectional_move_list[consumer_position];
-    ++consumer_position;
-    assert(move_in_range(result));
-    return result;
-}
-
+// TODO: rename index_of
 unsigned int CMoveList::get_index(const SMove basic_move) const {
     assert(move_in_range(basic_move));
     assert(next_empty_slot >= first_capture);
@@ -76,19 +55,6 @@ SMove CMoveList::lookup_move(const std::string &text_move) const {
 int CMoveList::list_size() const {
     assert(next_empty_slot >= first_capture);
     return (next_empty_slot - first_capture);
-}
-
-SMove CMoveList::get_least_valuable_aggressor() const {
-    int least_value = INT_MAX;
-    SMove best_move = NULL_MOVE;
-    for (unsigned int j = first_capture; j < next_empty_slot; ++j) {
-        int piece_value = abs(board.evaluator.evaluate_square(bidirectional_move_list[j].source));
-        if (piece_value < least_value) {
-            least_value = piece_value;
-            best_move = bidirectional_move_list[j];
-        }
-    }
-    return best_move;
 }
 
 std::string CMoveList::as_text() const {
