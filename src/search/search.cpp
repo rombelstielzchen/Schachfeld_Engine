@@ -33,7 +33,7 @@ int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWind
         return best_score;
     }
     for (int j = 0; j < n_moves; ++j) {
-        SMove move_candidate = move_generator.move_list.get_next__capture_killer_silent();
+        SMove move_candidate = move_generator.move_list.get_next__capture_killer_silent(distace_to_root);
         board.move_maker.make_move(move_candidate);
         int candidate_score;
         if (remaining_depth > 1) {

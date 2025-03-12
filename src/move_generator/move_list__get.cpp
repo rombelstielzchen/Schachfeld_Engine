@@ -4,10 +4,9 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "move_list.h"
-#include "move_generator.h"
+//#include "move_generator.h"
 #include "../board/board.h"
-#include "../board/board_logic.h"
-#include "../board/square_constants.h"
+#include "../search/killer_heuristics.h"
 
 SMove CMoveList::get_random() const {
     if (list_size() <= 0) {
@@ -31,9 +30,9 @@ SMove CMoveList::get_next() {
     return result;
 }
 
-SMove CMoveList::get_next__capture_killer_silent() {
+SMove CMoveList::get_next__capture_killer_silent(int distance_to_root) {
     if (consumer_position == LIST_ORIGIN) {
-        // TODO: integrate killer
+        integrate_killer(distance_to_root);
     }
     return get_next();
 }
@@ -49,5 +48,9 @@ SMove CMoveList::get_least_valuable_aggressor() const {
         }
     }
     return best_move;
+}
+
+void CMoveList::integrate_killer(int distance_to_root) {
+
 }
 

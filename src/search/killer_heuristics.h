@@ -26,3 +26,4 @@ class CKillerHeuristic {
     std::array<SMove, MAX_KILLER_DEPTH> killer_movess;
 };
 
+inline CKillerHeuristic killer_heuristic;
