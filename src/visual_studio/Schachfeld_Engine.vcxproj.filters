@@ -218,4 +218,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\evaluator\.piece_square_value_tables.h.swp">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

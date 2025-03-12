@@ -8,6 +8,8 @@
 #include "move.h"
 #include "../technical_functions/standard_headers.h"
 
+constexpr unsigned int MOVE_NOT_ON_LIST = INT_MAX;
+
 // https://www.talkchess.com/forum/viewtopic.php?t=39332
 constexpr int MAX_MOVES_IN_CHESS_POSITION = 218;
 // Captures: probably 74. We use conservative 80.
@@ -25,6 +27,7 @@ class CMoveList {
     int list_size() const;
     SMove get_random() const;
     SMove get_next();
+SMove get_next__capture_killer_silent();
     SMove get_least_valuable_aggressor() const;
     SMove lookup_move(const std::string &text_move) const;
   public:
@@ -38,6 +41,7 @@ class CMoveList {
     void store_capture(const int source_file, const int source_rank, const int target_file, const int target_rank);
   public:
     void prune_silent_moves();
+    void unprune_silent_moves();
     void filter_captures_by_target_square(const SSquare &target_square);
   public:
     // For the root-node, in order to avoid greedy captures when getting mated
@@ -58,17 +62,19 @@ class CMoveList {
     inline void store_silent_move(const SMove &move);
     inline void store_capture(const SMove &move);
   private:
-    inline unsigned int last_index() const { return last_silent_move - 1; }
+    /// ???
+    inline unsigned int last_move_index() const { return next_empty_slot - 1; }
     unsigned int get_index(const SMove basic_move) const;
     bool move_on_list(const std::string &move_text) const;
     void remove(const SMove move);
-    void remove(const std::string& move_text);
+    void remove(const std::string &move_text);
     void prune_illegal_castlings();
   private:
     // Using array instead of vector due to its known size and for better performance
     std::array<SMove,LIST_SIZE> bidirectional_move_list;
     unsigned int first_capture;
-    unsigned int last_silent_move;
+    unsigned int next_empty_slot;
+    unsigned int next_empty_slot_before_pruning_silent_moves;
     unsigned int consumer_position;
 };
 

@@ -1,9 +1,13 @@
 Major Changes
 =============
 
+Version 0.d
+-----------
+* Incremental updates of the eveluation-function when making / unmaking moves.
+
 Version 0.c
 -----------
-* Basic piece-square-value-tables for evaluation.
+* Basic piece-square-value-tables for evaluation. Unexpected benefut: the engine now calculates more than 3x as much nodes perseconde due to improved CPU-pipelining.
 
 Version 0.b
 -----------

@@ -198,6 +198,9 @@
     <ClInclude Include="..\universal_chess_interface\command_interface.h" />
     <ClInclude Include="..\universal_chess_interface\uci_protocol.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\evaluator\.piece_square_value_tables.h.swp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

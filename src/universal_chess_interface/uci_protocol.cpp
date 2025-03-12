@@ -11,25 +11,24 @@
 #include "../technical_functions/engine_test.h"
 #include "../technical_functions/standard_headers.h"
 
-const std::string ENGINE_ID = "Schachfeld_Engine_0.c";
+const std::string ENGINE_ID = "Schachfeld_Engine_0.d";
 static_assert('a' > '9');
 
 CUciProtocol::CUciProtocol() {
-    // Use std::cerr here, std::cout is reserved for the protocol
+    // Use std::cerr here; std::cout is reserved for the protocol
     std::cerr << ENGINE_ID << "\n";
-    std::cerr << "'help' or '?' for some guidance" << "\n";
+    std::cerr << "'help' or '?' for some guidance\n";
 }
 
 /* static */ void CUciProtocol::send_message(const std::string &message) {
     // Used by both UCI-thread and calculator-thread, therefore mutex-protected
         std::mutex message_mutex;
         std::lock_guard<std::mutex> lock(message_mutex);
-        //DEBUG_METHOD();
-        //DEBUG_VALUE_OF(message);
     // UCI standard says:
     //   * communication via text-IO
     //   * every message should end with a new-line, "\n"
     // To be on the safe side. we use endl, which also flushes the buffer.
+    // TODO: 2 functions, with and wirhout flush
     std::cout << message << std::endl;
 }
 
@@ -63,8 +62,6 @@ void CUciProtocol::preprocess_message(std::string &message) const {
 }
 
 void CUciProtocol::process_message(const std::string &message) {
-    //DEBUG_METHOD();
-    //DEBUG_VALUE_OF(message);
     string_tokenizer.set_input(message);
     std::string command = string_tokenizer.next_token(); 
     if ((command == "go") || (command == "g")) {

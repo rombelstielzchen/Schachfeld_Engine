@@ -7,14 +7,18 @@
 #include "piece_square_value_tables.h"
 #include "../board/board.h"
 
-int CEvaluator::evaluate() const {
-    int score = 0;
+CEvaluator::CEvaluator() {
+    init_main_psv_set();
+    value = 0;
+}
+
+void CEvaluator::initial_full_evaluation() {
+   value = 0; 
     for (int j = FILE_A; j <= FILE_H; ++j) {
         for (int k = RANK_1; k <= RANK_8; ++k) {
-            score += evaluate_square(j, k);
+            value += evaluate_square(j, k);
         }
     }
-    return score;
 }
 
 int CEvaluator::evaluate_square(const SSquare &square) const {
@@ -43,4 +47,14 @@ int CEvaluator::evaluate_white_pawn(const SSquare square) {
     assert(square_in_range(square));
     return main_piece_square_value_table_set[WHITE_POWER][square.file][square.rank];
 }
+ void CEvaluator::incremental_add(char piece, const SSquare square) {
+     assert(square_in_range(square));
+     assert(is_any_piece(piece) || (piece == EMPTY_SQUARE));
+     value += main_piece_square_value_table_set[piece][square.file][square.rank];
+ }
+
+ void CEvaluator::incremental_clear_square(const SSquare square) {
+     assert(square_in_range(square));
+    value -= evaluate_square(square);
+ }
 
