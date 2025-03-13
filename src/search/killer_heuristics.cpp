@@ -14,12 +14,17 @@ CKillerHeuristic::CKillerHeuristic() {
 void CKillerHeuristic::store_killer(int distance_to_root, const SMove move) {
     assert(distance_to_root >= 0);
     assert(distance_to_root < MAX_KILLER_DEPTH);
+    assert(move_in_range(move));
+    assert(move != DUMMY_KILLER);
+    assert(move != NULL_MOVE);
     killer_movess[distance_to_root] = move;
 }
 
 SMove CKillerHeuristic::get_killer(int distance_to_root) {
     assert(distance_to_root >= 0);
     assert(distance_to_root < MAX_KILLER_DEPTH);
-    return killer_movess[distance_to_root];
+    SMove killer = killer_movess[distance_to_root];
+    assert(move_in_range(killer));
+    return killer;
 }
 

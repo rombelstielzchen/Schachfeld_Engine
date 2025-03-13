@@ -4,6 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "search.h"
+#include "killer_heuristics.h"
 #include "search_statistics.h"
 #include "../evaluator/evaluator.h"
 #include "../move_generator/move_generator.h"
