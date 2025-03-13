@@ -54,9 +54,10 @@ SMove CMoveList::get_least_valuable_aggressor() const {
 void CMoveList::integrate_killer(int distance_to_root) {
     assert(distance_to_root > 0);
     SMove killer_move = killer_heuristic.get_killer(distance_to_root);
+    // We ignore rare killer-castlings here 
+    assert(killer_move.move_type == MOVE_TYPE_NORMAL);
     int position = get_index(killer_move);
     if (position != MOVE_NOT_ON_LIST) {
-        // TODO: make sure that only quiet movess become killers and get found
         assert(position >=  first_capture);
         assert(position < next_empty_slot);
         std::swap(bidirectional_move_list[LIST_ORIGIN], bidirectional_move_list[position]);
