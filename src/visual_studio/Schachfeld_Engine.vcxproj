@@ -147,6 +147,9 @@
     <ClCompile Include="..\move_generator\move.cpp" />
     <ClCompile Include="..\move_generator\move_generator.cpp" />
     <ClCompile Include="..\move_generator\move_list.cpp" />
+    <ClCompile Include="..\move_generator\move_list__filters.cpp" />
+    <ClCompile Include="..\move_generator\move_list__get.cpp" />
+    <ClCompile Include="..\move_generator\move_list__store.cpp" />
     <ClCompile Include="..\move_generator\test_move_generator.cpp" />
     <ClCompile Include="..\move_generator\test_move_list.cpp" />
     <ClCompile Include="..\move_generator\test_perft.cpp" />
