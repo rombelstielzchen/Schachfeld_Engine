@@ -82,8 +82,7 @@ void CIterativeDeepening::root_node_search(int depth) {
     }
     search_statistics.add_nodes(n_moves);
     CUciProtocol::send_info(move_generator.move_list.as_text());
-    search_statistics.log_branching_factor();
-    search_statistics.log_subtree_size_bestmove();
+    search_statistics.on_finished();
 }
 
 SMove CIterativeDeepening::search_nodes(int64_t nodes) {
@@ -98,7 +97,7 @@ SMove CIterativeDeepening::search_nodes(int64_t nodes) {
     do {
         root_node_search(current_depth);
         ++current_depth;
-    }  while ((search_statistics.get_nodes_calculated() < nodes) && !DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop);
+    }  while ((search_statistics.get_nodes_total() < nodes) && !DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop);
     return best_move;
 }
 

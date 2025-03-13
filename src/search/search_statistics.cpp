@@ -8,6 +8,8 @@
 
 constexpr int64_t anti_division_by_zero = 1;
 
+const std::string separator = "********************************";
+
 CSearchStatistics::CSearchStatistics() {
     reset_all();
 }
@@ -82,7 +84,7 @@ std::string CSearchStatistics::anti_adjudication_score(int score) {
     return result;
 }
 
-void CSearchStatistics::log_branching_factor() const {
+void CSearchStatistics::log_branching_factors() const {
     assert(nodes_at_start_of_current_depth > 0);
     assert(nodes_total > nodes_at_start_of_current_depth);
     double branching_factor = static_cast<double>(nodes_for_this_iteration()) / nodes_at_start_of_current_depth;
@@ -133,5 +135,12 @@ int64_t CSearchStatistics::subtree_size() const {
 int64_t CSearchStatistics::nodes_for_this_iteration() const {
     assert(nodes_total > nodes_at_start_of_current_depth);
     return nodes_total - nodes_at_start_of_current_depth;
+}
+
+void CSearchStatistics::on_finished() const {
+    CUciProtocol::send_info(separator);
+    log_subtree_size_bestmove();
+    log_branching_factors();
+    CUciProtocol::send_info(separator);
 }
 
