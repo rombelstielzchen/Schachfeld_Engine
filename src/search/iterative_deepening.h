@@ -29,7 +29,7 @@ class CIterativeDeepening {
     bool only_one_legal_move() const;
     SMove only_move();
   private:
-    // Long-living at the root-node for better move-ordering
+    // Long-living move-list at the root-node for better move-ordering
     CMoveGenerator move_generator;
     SMove best_move;
 };

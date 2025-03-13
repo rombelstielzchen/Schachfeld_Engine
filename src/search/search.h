@@ -24,7 +24,7 @@ static_assert(sizeof(SAlphaBetaWindow) <= sizeof(int64_t));
 
 #pragma pack(pop)
 
-constexpr SAlphaBetaWindow INFINIE_AKPHA_BETA_WINDOW = { WHITE_MIN_SCORE, BLACK_MIN_SCORE };
+constexpr SAlphaBetaWindow INFINIE_ALPHA_BETA_WINDOW = { WHITE_MIN_SCORE, BLACK_MIN_SCORE };
 
 class CSearch {
   public:

@@ -21,9 +21,9 @@ class CKillerHeuristic {
     CKillerHeuristic();
    public:
     void store_killer(int distance_to_root, const SMove move);
-   SMove get_killer(int distance_to_root);
+   SMove get_killer(int distance_to_root) const;
    private:
-    std::array<SMove, MAX_KILLER_DEPTH> killer_movess;
+    std::array<SMove, MAX_KILLER_DEPTH> killer_moves;
 };
 
 inline CKillerHeuristic killer_heuristic;
