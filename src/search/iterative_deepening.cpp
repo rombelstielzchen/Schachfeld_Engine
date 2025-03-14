@@ -47,7 +47,7 @@ void CIterativeDeepening::root_node_search(int depth) {
    //     - no killer-moves here
     assert(depth >= min_meaningful_depth_to_avoid_illegal_moves);
     CSearch search;
-    search_statistics.reset_current_depth(depth);
+    search_statistics.on_new_depth(depth);
     bool side_to_move = board.get_side_to_move();
     SAlphaBetaWindow alpha_beta_window = INFINIE_ALPHA_BETA_WINDOW;
     int best_score = (side_to_move == WHITE_PLAYER) ? WHITE_MIN_SCORE : BLACK_MIN_SCORE;
@@ -58,7 +58,7 @@ void CIterativeDeepening::root_node_search(int depth) {
     for (int j = uci_first_movenumber; j <= n_moves; ++j) {
         // No alpha-beta-cutoffs here. Top-level search has to examine all moves,
         // but feed the recursive search with the current alpha-beta values.
-        search_statistics.reset_for_next_move();
+        search_statistics.on_new_move();
         SMove move_candidate = move_generator.move_list.get_next();
         assert(move_candidate != NULL_MOVE);
         assert(move_in_range(move_candidate));
@@ -88,8 +88,7 @@ void CIterativeDeepening::root_node_search(int depth) {
     }
     search_statistics.add_nodes(n_moves);
     CUciProtocol::send_info(move_generator.move_list.as_text());
-    search_statistics.log_branching_factor();
-    search_statistics.log_subtree_size_bestmove();
+    search_statistics.on_finished();
 }
 
 SMove CIterativeDeepening::search_nodes(int64_t nodes) {
@@ -104,7 +103,7 @@ SMove CIterativeDeepening::search_nodes(int64_t nodes) {
     do {
         root_node_search(current_depth);
         ++current_depth;
-    }  while ((search_statistics.get_nodes_calculated() < nodes) && !DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop);
+    }  while ((search_statistics.get_nodes_total() < nodes) && !DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop);
     return best_move;
 }
 

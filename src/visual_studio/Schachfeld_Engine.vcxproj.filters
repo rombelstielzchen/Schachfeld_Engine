@@ -128,6 +128,15 @@
     <ClCompile Include="..\evaluator\test_piece_square_value_tables.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\move_generator\move_list__filters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\move_generator\move_list__get.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\move_generator\move_list__store.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\universal_chess_interface\uci_protocol.h">
