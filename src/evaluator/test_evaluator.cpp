@@ -76,6 +76,8 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     { "8/8/8/8/8/1P/1PP w", "8/8/8/8/2P/8/P1P w "},
     // Bad exchange, protecting Bf4 by g3 instead of playing Bg3
     { "8/8/8/8/8/6P/5PP w", "8/8/8/8/5P/8/5P1P w "},
+    // Bad "active" queen-development to d3 in the opening
+    { "8/8/8/8/8/8/8/3Q w", "8/8/8/8/8/3Q w" },
 };
 
 bool CTestEvaluator::test_everything() {
