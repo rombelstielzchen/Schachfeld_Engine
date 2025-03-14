@@ -157,8 +157,10 @@
     <ClCompile Include="..\opening_book\opening_book.cpp" />
     <ClCompile Include="..\opening_book\test_opening_book.cpp" />
     <ClCompile Include="..\search\iterative_deepening.cpp" />
+    <ClCompile Include="..\search\killer_heuristics.cpp" />
     <ClCompile Include="..\search\search.cpp" />
     <ClCompile Include="..\search\search_statistics.cpp" />
+    <ClCompile Include="..\search\test_killer_heuristics.cpp" />
     <ClCompile Include="..\search\test_search.cpp" />
     <ClCompile Include="..\search\test_statistics.cpp" />
     <ClCompile Include="..\technical_functions\engine_test.cpp" />
