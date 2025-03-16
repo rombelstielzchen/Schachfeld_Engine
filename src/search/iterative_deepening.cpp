@@ -9,12 +9,12 @@
 #include "../universal_chess_interface/command_interface.h"
 #include "../universal_chess_interface/uci_protocol.h"
 
+constexpr int min_meaningful_depth_to_avoid_illegal_moves = 2;
+
 CIterativeDeepening::CIterativeDeepening() {
     best_move = NULL_MOVE;
     search_statistics.reset_all();
 }
-
-constexpr int min_meaningful_depth_to_avoid_illegal_moves = 2;
 
 SMove CIterativeDeepening::search(int depth) {
     assert(depth >= 0);
@@ -40,11 +40,16 @@ SMove CIterativeDeepening::search(int depth) {
 }
 
 void CIterativeDeepening::root_node_search(int depth) {
+   // Top-level search
+   //   * managing alpha-beta-wibdows, but no cutoffs here ("all-node")
+   //   * Sorting and reusing the move-list, therefore...
+   //     - no hash-moves here
+   //     - no killer-moves here
     assert(depth >= min_meaningful_depth_to_avoid_illegal_moves);
     CSearch search;
     search_statistics.on_new_depth(depth);
     bool side_to_move = board.get_side_to_move();
-    SAlphaBetaWindow alpha_beta_window = INFINIE_AKPHA_BETA_WINDOW;
+    SAlphaBetaWindow alpha_beta_window = INFINIE_ALPHA_BETA_WINDOW;
     int best_score = (side_to_move == WHITE_PLAYER) ? WHITE_MIN_SCORE : BLACK_MIN_SCORE;
     move_generator.move_list.reuse_list();
     int n_moves = move_generator.move_list.list_size();
@@ -58,7 +63,8 @@ void CIterativeDeepening::root_node_search(int depth) {
         assert(move_candidate != NULL_MOVE);
         assert(move_in_range(move_candidate));
         board.move_maker.make_move(move_candidate);
-        int candidate_score = search.alpha_beta(depth - 1, alpha_beta_window); 
+        constexpr int distance_to_first_children = 1;
+        int candidate_score = search.alpha_beta(depth - 1, distance_to_first_children, alpha_beta_window); 
         if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
             // Break HERE. Do not update bestmove based on potentially crappy data
             board.move_maker.unmake_move();

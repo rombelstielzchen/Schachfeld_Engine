@@ -27,7 +27,7 @@ class CMoveList {
     int list_size() const;
     SMove get_random() const;
     SMove get_next();
-SMove get_next__capture_killer_silent();
+SMove get_next__capture_killer_silent(int dis);
     SMove get_least_valuable_aggressor() const;
     SMove lookup_move(const std::string &text_move) const;
   public:
@@ -50,6 +50,7 @@ SMove get_next__capture_killer_silent();
     // For root-node ordering
     void reuse_list();
     void shift_current_move_to_top();
+    void integrate_killer(int distance_to_root); 
   public:
     std::string as_text() const;
   private:

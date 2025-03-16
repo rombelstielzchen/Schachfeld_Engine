@@ -4,6 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "search.h"
+#include "killer_heuristics.h"
 #include "search_statistics.h"
 #include "../evaluator/evaluator.h"
 #include "../move_generator/move_generator.h"
@@ -11,7 +12,7 @@
 
 constexpr int HALF_KING = 10000;
 
-int CSearch::alpha_beta(int remaining_depth, SAlphaBetaWindow alpha_beta_window) {
+int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWindow alpha_beta_window) {
     assert(remaining_depth >= 0);
     assert(alpha_beta_window.alpha <= alpha_beta_window.beta);
     int score = board.evaluator.evaluate();
@@ -33,7 +34,7 @@ int CSearch::alpha_beta(int remaining_depth, SAlphaBetaWindow alpha_beta_window)
         return best_score;
     }
     for (int j = 0; j < n_moves; ++j) {
-        SMove move_candidate = move_generator.move_list.get_next__capture_killer_silent();
+        SMove move_candidate = move_generator.move_list.get_next__capture_killer_silent(distace_to_root);
         board.move_maker.make_move(move_candidate);
         int candidate_score;
         if (remaining_depth > 1) {
@@ -42,7 +43,7 @@ int CSearch::alpha_beta(int remaining_depth, SAlphaBetaWindow alpha_beta_window)
                 constexpr int score_does_not_matter_wont_get_used = 314159;
                 return score_does_not_matter_wont_get_used;
             }
-            candidate_score = alpha_beta(remaining_depth - 1, alpha_beta_window);
+            candidate_score = alpha_beta(remaining_depth - 1, distace_to_root + 1, alpha_beta_window);
         } else if (is_any_capture(move_candidate)) {
             candidate_score = static_exchange_evaluation(move_candidate.target, alpha_beta_window);
         } else {
@@ -52,6 +53,7 @@ int CSearch::alpha_beta(int remaining_depth, SAlphaBetaWindow alpha_beta_window)
         if ((side_to_move == WHITE_PLAYER) && (candidate_score > best_score)) {
             if (white_score_way_too_good(candidate_score, alpha_beta_window)) {
                 search_statistics.add_nodes(j + 1);
+                killer_heuristic.store_killer(distace_to_root, move_candidate);
                 return alpha_beta_window.beta;
             }
             best_score = candidate_score;
@@ -59,6 +61,7 @@ int CSearch::alpha_beta(int remaining_depth, SAlphaBetaWindow alpha_beta_window)
         } else if ((side_to_move == BLACK_PLAYER) && (candidate_score < best_score)) {
             if (black_score_way_too_good(candidate_score, alpha_beta_window)) {
                 search_statistics.add_nodes(j + 1);
+                killer_heuristic.store_killer(distace_to_root,move_candidate);
                 return alpha_beta_window.alpha;
             }
             best_score = candidate_score;

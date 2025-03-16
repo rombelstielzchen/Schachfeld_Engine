@@ -16,6 +16,8 @@
 #include "../move_generator/test_move_generator.h"
 #include "../move_generator/test_perft.h"
 #include "../opening_book/test_opening_book.h"
+
+#include "../search/test_killer_heuristics.h"
 #include "../search/test_search.h"
 #include "../search/test_statistics.h"
 #include "standard_headers.h"
@@ -32,6 +34,7 @@
     EXPECT(CTestPieceSquareValueTables::test_everything());
     EXPECT(CTestEvaluator::test_everything());
     EXPECT(CTestStatistics::test_everything());
+    EXPECT(CTestKillerHeuristic::test_everything());
     EXPECT(CTestSearch::test_everything());
     EXPECT(CTestOpeningBook::test_everything());
     CTEST << "[OK] CEngineTest::test_everything(): all " << testcase_counter  << " cheks passed with success." << std::endl;

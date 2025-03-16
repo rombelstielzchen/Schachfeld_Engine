@@ -24,11 +24,11 @@ static_assert(sizeof(SAlphaBetaWindow) <= sizeof(int64_t));
 
 #pragma pack(pop)
 
-constexpr SAlphaBetaWindow INFINIE_AKPHA_BETA_WINDOW = { WHITE_MIN_SCORE, BLACK_MIN_SCORE };
+constexpr SAlphaBetaWindow INFINIE_ALPHA_BETA_WINDOW = { WHITE_MIN_SCORE, BLACK_MIN_SCORE };
 
 class CSearch {
   public:
-    int alpha_beta(int remaining_depth, SAlphaBetaWindow alpha_beta_window);
+    int alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWindow alpha_beta_window);
   private:
     int static_exchange_evaluation(const SSquare &target_square, SAlphaBetaWindow alpha_beta_window);
   private:

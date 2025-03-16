@@ -57,6 +57,10 @@ int CMoveList::list_size() const {
     return (next_empty_slot - first_capture);
 }
 
+void shift_killer_move_to_top(const SMove killer) {
+    //TODO
+}
+
 std::string CMoveList::as_text() const {
     std::string info ="move_list (" + std::to_string(list_size()) + "): ";
     for (int j = 0; j < list_size(); ++j) {
