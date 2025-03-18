@@ -3,6 +3,7 @@ Major Changes
 
 Version 0.d
 -----------
+* Basic killer-heuristic, trying a silent killer-move from a eighbour-variation first -- after all captures, before the other silent moves.
 * Incremental updates of the eveluation-function when making / unmaking moves.
 
 Version 0.c
