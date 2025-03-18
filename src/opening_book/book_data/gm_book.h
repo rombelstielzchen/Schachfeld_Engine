@@ -3,7 +3,7 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-#include "../opening_book.h"
+#include "../data_book.h"
 
 extern const TSortedVariationCollection gm_book;
 

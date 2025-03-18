@@ -8,19 +8,19 @@
 // based on a small list of short lines,
 // just to get some fun and variation.
 
-#include "opening_book.h"
+#include "data_book.h"
 #include "book_data/gm_book.h"
 #include "../technical_functions/string_functions.h"
 
 constexpr size_t VARIATION_NOT_FOUND = std::string::npos;
 
-COpeningBook::COpeningBook() {
+CDataBook::CDataBook() {
     
     last_looked_up_moves_from_startpos = "";
     last_lookup_successful = true;
 }
 
-std::string COpeningBook::get_move(const std::string &moves_from_startpos_in_uci_format) {
+std::string CDataBook::get_move(const std::string &moves_from_startpos_in_uci_format) {
     size_t index = random_matching_index(gm_book, moves_from_startpos_in_uci_format);
     if (index == VARIATION_NOT_FOUND) {
         last_lookup_successful = false;
@@ -40,7 +40,7 @@ std::string COpeningBook::get_move(const std::string &moves_from_startpos_in_uci
     return next_move;
 }
 
-size_t COpeningBook::first_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const {
+size_t CDataBook::first_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const {
     size_t size = book.size(); 
     for (size_t j = 0; j < size; ++j) {
          if (is_prefix_of(moves_from_startpos_in_uci_format, book[j], true)) {
@@ -50,7 +50,7 @@ size_t COpeningBook::first_matching_index(const TSortedVariationCollection &book
     return VARIATION_NOT_FOUND;
 }
 
-size_t COpeningBook::last_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const {
+size_t CDataBook::last_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const {
     size_t last_element = book.size() - 1;
     for (int j = last_element; j >= 0; --j) {
          if (is_prefix_of(moves_from_startpos_in_uci_format, book[j], true)) {
@@ -60,7 +60,7 @@ size_t COpeningBook::last_matching_index(const TSortedVariationCollection &book,
     return VARIATION_NOT_FOUND;
 }
 
-size_t COpeningBook::random_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const {
+size_t CDataBook::random_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const {
     size_t first_index = first_matching_index(book, moves_from_startpos_in_uci_format);
     if (first_index == VARIATION_NOT_FOUND) {
         return VARIATION_NOT_FOUND;

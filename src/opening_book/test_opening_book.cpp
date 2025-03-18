@@ -4,7 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "test_opening_book.h"
-#include "opening_book.h"
+#include "master_book.h"
 #include "book_data/gm_book.h"
 #include "../board/board.h"
 #include "../board/move_maker.h"
@@ -94,8 +94,8 @@ bool CTestOpeningBook::lookup_returns_exact_move(const std::string &variation, c
 }
 
 std::string CTestOpeningBook::verbose_move_lookup(const std::string &variation) {
-    COpeningBook opening_book;
-    std::string move = opening_book.get_move(variation);
+    CMasterBook master_book;
+    std::string move = master_book.get_move(variation);
     CTEST << "[" << variation << "] -> [" << move << "]" << std::endl;
     return move; 
 }
@@ -105,17 +105,17 @@ bool CTestOpeningBook::test_book_randomization() {
     // despite working fine with gcc on Linux
     CTEST << "CTestOpeningBook::test_book_randomization() ...\n";
     EXPECT(rand() != rand());
-    bool opening_book_randomization_seen = false;
+    bool master_book_randomization_seen = false;
    const std::string moves_from_startpos = "e2e4"; 
    std::string first_lookup =verbose_move_lookup(moves_from_startpos);
     for (int j = 0; j < 50; ++j) {
             std::string another_try = verbose_move_lookup(moves_from_startpos);
         if (another_try != first_lookup) {
-            opening_book_randomization_seen = true;
+            master_book_randomization_seen = true;
             break;
         }
     }
-    EXPECT(opening_book_randomization_seen);
+    EXPECT(master_book_randomization_seen);
     return true;
 }
 

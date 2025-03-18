@@ -15,9 +15,9 @@
 
 typedef std::vector<std::string> TSortedVariationCollection;
 
-class COpeningBook {
+class CMasterBook {
   public:
-    COpeningBook();
+    CMasterBook();
     // Returns a null-move if no move could be found.
     std::string get_move(const std::string &moves_from_startpos_in_uci_format);
   private:
