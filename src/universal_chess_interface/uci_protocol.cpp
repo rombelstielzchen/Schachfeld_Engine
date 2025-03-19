@@ -39,8 +39,8 @@ void CUciProtocol::identify_engine() const {
 }
 
 void CUciProtocol::send_list_of_options() const {
+	send_message("option name book type combo default solid_mix var broad_GM var tabijas var solid_mix");
     send_message("option name UCI_EngineAbout type string default Schachfeld-engine by Rombelstielzchen. Protocol: UCI. Licensed as open-source under GPLv3. Contact:  https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby. Source-code: https://github.com/rombelstielzchen/Schachfeld_Engine");
-    // No real options yet
 }
 
 void CUciProtocol::send_info(const std::string &information) {
