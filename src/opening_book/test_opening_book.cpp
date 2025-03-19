@@ -14,7 +14,7 @@
     BEGIN_TESTSUITE("CTestOpeningBook");
     EXPECT(test_move_lookup());
     EXPECT(test_book_randomization());
-     EXPECT(test_book_data(gm_book, "gm_book"));
+     EXPECT(test_book_data(sorted_variation_collection_gm_book, "gm_book"));
     return true;
  }
 
@@ -27,7 +27,7 @@
  }
 
  bool CTestOpeningBook::test_formatting(const TSortedVariationCollection &variation_collection) {
-     std::cerr << "CTestOpeningBook::test_formatting() ..." << std::endl;
+     TEST_FUNCTION();
      for (const std::string &variation : variation_collection) {
          CTEST << "Format? " << variation << std::endl;
         // Checking for extra spaces
@@ -43,7 +43,7 @@
  }
 
  bool CTestOpeningBook::test_sortedness(const TSortedVariationCollection &variation_collection) {
-    std::cerr << "CTestOpeningBook::test_sortedness() ..." << std::endl;
+     TEST_FUNCTION();
      size_t second_last = variation_collection.size() - 2;
      for (size_t j = 0; j <= second_last; ++j) {
         CTEST << "Sorted? " << variation_collection[j] << std::endl;
@@ -67,7 +67,7 @@
  }
 
  bool CTestOpeningBook::test_move_lookup() {
-     std::cerr << "CTestOpeningBook::test_move_lookup() ..." << std::endl;
+     TEST_FUNCTION();
     SILENT_EXPECT(lookup_returns_any_move(""));
     SILENT_EXPECT(lookup_returns_any_move("e2e4"));
     SILENT_EXPECT(lookup_returns_any_move("e2e4 c7c5"));
@@ -103,7 +103,7 @@ std::string CTestOpeningBook::verbose_move_lookup(const std::string &variation) 
 bool CTestOpeningBook::test_book_randomization() {
     // Former problem with MiSoViStu: book always playing the same line,
     // despite working fine with gcc on Linux
-    CTEST << "CTestOpeningBook::test_book_randomization() ...\n";
+    TEST_FUNCTION();
     EXPECT(rand() != rand());
     bool master_book_randomization_seen = false;
    const std::string moves_from_startpos = "e2e4"; 

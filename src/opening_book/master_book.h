@@ -26,7 +26,7 @@ class CMasterBook {
     bool last_lookup_successful;
   private:
     CDataBook gm_book;
-    CDataBook wonder_weapons_black;
-    CDataBook wonder_weapons_white;
+//    CDataBook wonder_weapons_black;
+//    CDataBook wonder_weapons_white;
 };
 

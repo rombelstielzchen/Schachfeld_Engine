@@ -9,7 +9,7 @@
 
 #include "gm_book.h"
 
-const TSortedVariationCollection gm_book = {
+const TSortedVariationCollection sorted_variation_collection_gm_book = {
     "b1c3 c7c5 g1f3 g8f6 e2e4 d7d6 d2d4 c5d4 f3d4 a7a6",
     "b1c3 d7d5 e2e4 d5e4 c3e4 c8f5 d1e2 b8d7 d2d3 e7e6",
     "b1c3 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 g8f6 c1g5 f8b4",

@@ -7,7 +7,7 @@
 
 #include "../board/board.h"
 #include "../move_generator/move.h"
-#include "../opening_book/opening_book.h"
+#include "../opening_book/master_book.h"
 #include "../technical_functions/standard_headers.h"
 
 class CCommandInterface {
@@ -52,7 +52,7 @@ class CCommandInterface {
         const int64_t blacl_increment_milliseconds,
         const int64_t moves_to_go);
   private:
-    COpeningBook opening_book;
+    CMasterBook master_book;
 };
 
 inline bool DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop;

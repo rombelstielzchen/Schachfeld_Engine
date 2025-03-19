@@ -17,7 +17,7 @@ typedef std::vector<std::string> TSortedVariationCollection;
 
 class CDataBook {
   public:
-    CDataBook();
+    CDataBook(const TSortedVariationCollection &sorted_variation_collection);
     // Returns a null-move if no move could be found.
     std::string get_move(const std::string &moves_from_startpos_in_uci_format);
   private:
@@ -27,5 +27,6 @@ class CDataBook {
   private:
     std::string last_looked_up_moves_from_startpos;
     bool last_lookup_successful;
+    const TSortedVariationCollection &sorted_variation_collection;
 };
 

@@ -9,30 +9,28 @@
 // just to get some fun and variation.
 
 #include "data_book.h"
-#include "book_data/gm_book.h"
 #include "../technical_functions/string_functions.h"
 
 constexpr size_t VARIATION_NOT_FOUND = std::string::npos;
 
-CDataBook::CDataBook() {
-    
+CDataBook::CDataBook(const TSortedVariationCollection &sorted_variation_collection) : sorted_variation_collection(sorted_variation_collection) {
     last_looked_up_moves_from_startpos = "";
     last_lookup_successful = true;
 }
 
 std::string CDataBook::get_move(const std::string &moves_from_startpos_in_uci_format) {
-    size_t index = random_matching_index(gm_book, moves_from_startpos_in_uci_format);
+    size_t index = random_matching_index(sorted_variation_collection, moves_from_startpos_in_uci_format);
     if (index == VARIATION_NOT_FOUND) {
         last_lookup_successful = false;
         return NULL_MOVE_AS_TEXT;
     }
-   assert(gm_book[index].length() > moves_from_startpos_in_uci_format.length());
+   assert(sorted_variation_collection[index].length() > moves_from_startpos_in_uci_format.length());
    size_t first_char = 0;
    if (moves_from_startpos_in_uci_format != "") {
        first_char = moves_from_startpos_in_uci_format.length() + 1;
    }
    constexpr int length_of_move = 4;
-   std::string next_move = gm_book[index].substr(first_char, length_of_move);
+   std::string next_move = sorted_variation_collection[index].substr(first_char, length_of_move);
    const std::string bokelmann_gambit_for_testability = "x2x1";
    if (next_move == bokelmann_gambit_for_testability) {
         return "e2e4";

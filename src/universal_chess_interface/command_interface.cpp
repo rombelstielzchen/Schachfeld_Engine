@@ -1,4 +1,5 @@
 // Project: Schachfeld_Engine
+// 
 // Author: Rombelstielzchen
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
@@ -18,7 +19,7 @@ CCommandInterface::CCommandInterface() {
 void CCommandInterface::go_depth(const int depth_in_plies) {
     assert(depth_in_plies > 0);
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
-    std::string book_move = opening_book.get_move(board.get_moves_from_startpos());
+    std::string book_move = master_book.get_move(board.get_moves_from_startpos());
     if (book_move != NULL_MOVE_AS_TEXT) {
         send_best_move(book_move);
         return;
@@ -30,7 +31,7 @@ void CCommandInterface::go_depth(const int depth_in_plies) {
 void CCommandInterface::go_nodes(const int64_t nodes) {
     assert(nodes > 0);
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
-    std::string book_move = opening_book.get_move(board.get_moves_from_startpos());
+    std::string book_move = master_book.get_move(board.get_moves_from_startpos());
     if (book_move != NULL_MOVE_AS_TEXT) {
         send_best_move(book_move);
         return;
@@ -74,7 +75,7 @@ void ponder_hit() {
 void CCommandInterface::go_movetime(const int64_t time_milliseconds) {
     assert(time_milliseconds > 0);
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
-    std::string book_move = opening_book.get_move(board.get_moves_from_startpos());
+    std::string book_move = master_book.get_move(board.get_moves_from_startpos());
     if (book_move != NULL_MOVE_AS_TEXT) {
         send_best_move(book_move);
         return;
@@ -90,7 +91,7 @@ void CCommandInterface::go_time(
     const int64_t blacl_increment_milliseconds,
     const int64_t moves_to_go) {
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
-    std::string book_move = opening_book.get_move(board.get_moves_from_startpos());
+    std::string book_move = master_book.get_move(board.get_moves_from_startpos());
     if (book_move != NULL_MOVE_AS_TEXT) {
         send_best_move(book_move);
         return;

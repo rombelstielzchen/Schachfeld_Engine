@@ -36,7 +36,7 @@ echo "// Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-bab
 echo "" >> ${GMBOOK}
 echo "#include \"gm_book.h\"" >> ${GMBOOK}
 echo "" >> ${GMBOOK}
-echo "const TSortedVariationCollection gm_book = {" >> ${GMBOOK}
+echo "const TSortedVariationCollection sorted_variation_collection_gm_book = {" >> ${GMBOOK}
 # Include book-data
 cat tmp5.tmp >> ${GMBOOK}
 # Construct end of opening.book

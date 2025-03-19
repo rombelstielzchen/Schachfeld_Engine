@@ -24,6 +24,7 @@ engine: \
 	board.o \
 	board_logic.o \
 	command_interface.o \
+	data_book.o \
 	engine_test.o \
 	evaluator.o \
 	fen_generator.o \
@@ -40,7 +41,7 @@ engine: \
 	move_list__get.o \
 	move_list__store.o \
 	move_maker.o \
-	opening_book.o \
+	master_book.o \
 	piece_square_value_tables.o \
 	search.o \
 	search_statistics.o \
@@ -113,7 +114,10 @@ test_technical_functions.o: technical_functions/test_technical_functions.cpp
 board_logic.o: board/board_logic.cpp
 	$(CC) $(CFLAGS) 
 
-opening_book.o: opening_book/opening_book.cpp
+master_book.o: opening_book/master_book.cpp
+	$(CC) $(CFLAGS) 
+
+data_book.o: opening_book/data_book.cpp
 	$(CC) $(CFLAGS) 
 
 test_opening_book.o: opening_book/test_opening_book.cpp

@@ -12,12 +12,14 @@
 #include "book_data/gm_book.h"
 #include "../technical_functions/string_functions.h"
 
-CMasterBook::CMasterBook() {
+CMasterBook::CMasterBook() : gm_book(sorted_variation_collection_gm_book) {
     last_looked_up_moves_from_startpos = "";
     last_lookup_successful = true;
 }
 
 std::string CMasterBook::get_move(const std::string &moves_from_startpos_in_uci_format) {
-    return NULL_MOVE_AS_TEXT;
+        std::cerr << "alive\n";
+//    return "0000";//NULL_MOVE_AS_TEXT;
+    return gm_book.get_move(moves_from_startpos_in_uci_format);
 }
 

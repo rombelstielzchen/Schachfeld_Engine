@@ -5,5 +5,5 @@
 
 #include "../data_book.h"
 
-extern const TSortedVariationCollection gm_book;
+extern const TSortedVariationCollection sorted_variation_collection_gm_book;
 
