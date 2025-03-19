@@ -6,6 +6,7 @@
 #include "test_opening_book.h"
 #include "master_book.h"
 #include "book_data/gm_book.h"
+#include "book_data/tabijas.h"
 #include "../board/board.h"
 #include "../board/move_maker.h"
 #include "../technical_functions/testing.h"
@@ -15,6 +16,7 @@
     EXPECT(test_move_lookup());
     EXPECT(test_book_randomization());
      EXPECT(test_book_data(sorted_variation_collection_gm_book, "gm_book"));
+     EXPECT(test_book_data(sorted_variation_collection_tabijas, "tabijas"));
     return true;
  }
 
