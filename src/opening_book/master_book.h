@@ -14,6 +14,13 @@
 #include "../move_generator/move.h"
 #include "../technical_functions/standard_headers.h"
 
+typedef enum {
+    BOOK_OPTIONS_BROAD_GM,
+    BOOK_OPTIONS_TABIJAS,
+    BOOK_OPTIONS_WONDER_WEAPONS,
+    BOOK_OPTIONS_SOLID_MIX,
+} EBookOptions;
+
 typedef std::vector<std::string> TSortedVariationCollection;
 
 class CMasterBook {
@@ -21,13 +28,16 @@ class CMasterBook {
     CMasterBook();
     // Returns a null-move if no move could be found.
     std::string get_move(const std::string &moves_from_startpos_in_uci_format);
+    void set_option(const std::string &selected_uci_option);
+    std::string get_solid_mix();
   private:
-    std::string last_looked_up_moves_from_startpos;
-    bool last_lookup_successful;
+    void set_option(EBookOptions option);
   private:
     CDataBook gm_book;
     CDataBook tabijas;
 //    CDataBook wonder_weapons_black;
 //    CDataBook wonder_weapons_white;
+  private:
+     EBookOptions boook_option;
 };
 

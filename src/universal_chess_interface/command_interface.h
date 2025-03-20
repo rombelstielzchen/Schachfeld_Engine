@@ -11,6 +11,7 @@
 #include "../technical_functions/standard_headers.h"
 
 class CCommandInterface {
+    friend class CUciProtocol;
   public:
     CCommandInterface();
   public:

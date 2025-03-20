@@ -18,6 +18,8 @@ CUciProtocol::CUciProtocol() {
     // Use std::cerr here; std::cout is reserved for the protocol
     std::cerr << ENGINE_ID << "\n";
     std::cerr << "'help' or '?' for some guidance\n";
+    //TEMP! R!!!
+    command_interface.master_book.set_option("tabijas");
 }
 
 /* static */ void CUciProtocol::send_message(const std::string &message) {

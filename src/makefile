@@ -47,6 +47,7 @@ engine: \
 	search_statistics.o \
 	string_functions.o  \
 	string_tokenizer.o \
+	tabijas.o \
 	test_board.o \
 	test_board_logic.o \
 	test_evaluator.o \
@@ -163,6 +164,9 @@ iterative_deepening.o: search/iterative_deepening.cpp
 	$(CC) $(CFLAGS) 
 
 string_tokenizer.o: technical_functions/string_tokenizer.cpp
+	$(CC) $(CFLAGS) 
+
+tabijas.o: opening_book/book_data/tabijas.cpp
 	$(CC) $(CFLAGS) 
 
 test_piece_square_value_tables.o: evaluator/test_piece_square_value_tables.cpp
