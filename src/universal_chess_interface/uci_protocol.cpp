@@ -19,7 +19,6 @@ CUciProtocol::CUciProtocol() {
     std::cerr << ENGINE_ID << "\n";
     std::cerr << "'help' or '?' for some guidance\n";
     //TEMP! R!!!
-    command_interface.master_book.set_option("tabijas");
 }
 
 /* static */ void CUciProtocol::send_message(const std::string &message) {
@@ -68,6 +67,8 @@ void CUciProtocol::process_message(const std::string &message) {
     std::string command = string_tokenizer.next_token(); 
     if ((command == "go") || (command == "g")) {
         process_go_command(string_tokenizer);
+    } else if (command == "setoption") {
+        process_option(string_tokenizer);
     } else if (command == "isready") {
         // Our first version is always and immediately ready
         send_message("readyok");
@@ -196,5 +197,16 @@ void CUciProtocol::display_help() const {
     send_message("    * 'test' for the self-test");
     send_message("    * 'perft' for a looong test of the move_generator");
     send_message("    * 'quit' or 'x'to terminate");
+}
+
+void CUciProtocol::process_option(CStringTokenizer &string_tokenizer) {
+    if (string_tokenizer.next_token() != "name") {
+        return;
+    }
+    if (string_tokenizer.next_token() == "book") {
+        if (string_tokenizer.next_token() == "value") {
+            command_interface.master_book.set_option(string_tokenizer.next_token());
+        }
+    }
 }
 

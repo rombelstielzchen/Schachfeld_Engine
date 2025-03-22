@@ -40,8 +40,9 @@ void CMasterBook::set_option(const std::string &selected_uci_option) {
     } else if (selected_uci_option == "solid_mix") {
         boook_option = BOOK_OPTIONS_SOLID_MIX;
     } else {
-        assert(THIS_MUST_NOT_HAPPEN);
+       // Ignore unexpected vales from a potential stupid / malicious outside world 
     }
+    std::cerr << "boook_option: " << boook_option << "\n";
 
 }
 
