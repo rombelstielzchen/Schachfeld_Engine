@@ -26,11 +26,12 @@ typedef std::vector<std::string> TSortedVariationCollection;
 class CMasterBook {
   public:
     CMasterBook();
+    void on_new_game();
     // Returns a null-move if no move could be found.
     std::string get_move(const std::string &moves_from_startpos_in_uci_format);
     void set_option(const std::string &selected_uci_option);
-    std::string get_solid_mix();
   private:
+    void randomize_book_for_this_game();
     void set_option(EBookOptions option);
   private:
     CDataBook gm_book;
@@ -39,5 +40,7 @@ class CMasterBook {
 //    CDataBook wonder_weapons_white;
   private:
      EBookOptions boook_option;
+     // Pption might be randomized, but should be fix for an entire game
+     EBookOptions boook_option_for_this_game;
 };
 
