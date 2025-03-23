@@ -67,7 +67,7 @@ void CUciProtocol::process_message(const std::string &message) {
     std::string command = string_tokenizer.next_token(); 
     if ((command == "go") || (command == "g")) {
         process_go_command(string_tokenizer);
-    } else if (command == "setoption") {
+    } else if ((command == "setoption") || (command == "so")) {
         process_option(string_tokenizer);
     } else if (command == "isready") {
         // Our first version is always and immediately ready
@@ -85,7 +85,7 @@ void CUciProtocol::process_message(const std::string &message) {
          identify_engine();
          send_list_of_options(); 
          send_message("uciok");
-    } else if (command == "ucinewgame") {
+    } else if ((command == "ucinewgame") || (command == "ng")) {
         command_interface.new_game();
     } else if ((command == "help") || (command == "?")) {
         display_help();

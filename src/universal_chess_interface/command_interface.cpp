@@ -113,6 +113,7 @@ void CCommandInterface::go_time(
 void CCommandInterface::new_game() {
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     board.set_start_position();
+    master_book.on_new_game();
 }
 
 void CCommandInterface::stop() {
