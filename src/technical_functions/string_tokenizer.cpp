@@ -17,6 +17,11 @@ void CStringTokenizer::set_input(const std::string &input) {
 std::string CStringTokenizer::next_token() {
     std::string result;
     result.clear();
+    if (pushed_back_token != "") {
+        result = pushed_back_token;
+        pushed_back_token = "";
+        return result;
+    } 
     input_stream >> std::skipws >> result;
     return result;
 }
@@ -67,7 +72,7 @@ bool CStringTokenizer::next_token_is_one_of(const std::string &token1, const std
     return false;
 }
 
-void CStringTokenizer::push_nack(const std::string &token) {
+void CStringTokenizer::push_back(const std::string &token) {
     assert(pushed_back_token == "");
     pushed_back_token = token;
 }

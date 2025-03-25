@@ -18,7 +18,7 @@
 }
 
 /* static */ bool CTestTechnicalFunctions::test_string_functions() {
-    CTEST << "CTestTechnicalFunctions::test_string_functions() ..." << std::endl;
+        TEST_FUNCTION();
     std::string initial = "\t \t\t \tHello   ,   \t\t\t   world !   \t\t";
     CTEST << "Testing replace_tabs_by_spaces()" << std::endl;
     replace_tabs_by_spaces(initial);
@@ -43,11 +43,13 @@
 }
 
 bool CTestTechnicalFunctions::test_string_tokenizer() {
-    CTEST << "CTestTechnicalFunctions::test_string_tokenizer() ...\n"; 
+    TEST_FUNCTION();
     std::string long_text = "hello world greetings from the moon";
     CStringTokenizer tokenizer(long_text);
     EXPECT(tokenizer.next_token() == "hello");
     EXPECT(tokenizer.next_token() == "world");
+    tokenizer.push_back("moon");
+    EXPECT(tokenizer.next_token() == "moon");
     // Extra space at the end, as "the rest" gets re-constructed from tokens
     EXPECT(tokenizer.get_the_rest() == "greetings from the moon ");
     tokenizer.set_input("34  asdf -5");
