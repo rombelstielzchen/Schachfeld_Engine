@@ -56,6 +56,10 @@ bool CTestTechnicalFunctions::test_string_tokenizer() {
     EXPECT(tokenizer.get_integer_token(0) == 34);
     EXPECT(tokenizer.get_integer_token(3) == 3);
     EXPECT(tokenizer.get_integer_token(-2) == -2);
+    tokenizer.set_input("a omega");
+    EXPECT(tokenizer.next_token_is_one_of("b", "c", "d") == false);
+    EXPECT(tokenizer.next_token_is("a"));
+    EXPECT(tokenizer.next_token_is("omega"));
     return true;
 }
 

@@ -61,15 +61,23 @@ bool is_prefix_of(const std::string &pattern, const std::string &long_string, bo
 }
  
 bool CStringTokenizer::next_token_is(const std::string &token) {
+    std::string next = next_token();
+    if (next == token) {
+        return true;
+    }
+    push_back(next);
     return false;
 }
 
 bool CStringTokenizer::next_token_is_one_of(const std::string &token1, const std::string &token2) {
-    return false;
+    return (next_token_is(token1)
+        || next_token_is(token2));
 }
 
 bool CStringTokenizer::next_token_is_one_of(const std::string &token1, const std::string &token2, const std::string &token3) {
-    return false;
+    return (next_token_is(token1)
+        || next_token_is(token2)
+        || next_token_is(token3));
 }
 
 void CStringTokenizer::push_back(const std::string &token) {
