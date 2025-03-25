@@ -15,7 +15,16 @@ class CStringTokenizer {
     std::string next_token();
     int get_integer_token(int minimum_and_default);
     std::string get_the_rest();
+  public:
+    // The functions below consmue one token only on success
+    bool next_token_is(const std::string &token);
+    bool next_token_is_one_of(const std::string &token1, const std::string &token2);
+    bool next_token_is_one_of(const std::string &token1, const std::string &token2, const std::string &token3);
+  private:
+    void push_nack(const std::string &token);
   private:
     std::istringstream input_stream;
+    // Any reasonable parser uses one-token-lookahead
+    std::string pushed_back_token;;
 };
 

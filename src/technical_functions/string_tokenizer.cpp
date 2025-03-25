@@ -54,4 +54,21 @@ bool is_prefix_of(const std::string &pattern, const std::string &long_string, bo
     }
     return true;
 }
+ 
+bool CStringTokenizer::next_token_is(const std::string &token) {
+    return false;
+}
+
+bool CStringTokenizer::next_token_is_one_of(const std::string &token1, const std::string &token2) {
+    return false;
+}
+
+bool CStringTokenizer::next_token_is_one_of(const std::string &token1, const std::string &token2, const std::string &token3) {
+    return false;
+}
+
+void CStringTokenizer::push_nack(const std::string &token) {
+    assert(pushed_back_token == "");
+    pushed_back_token = token;
+}
 
