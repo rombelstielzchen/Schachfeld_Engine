@@ -51,6 +51,11 @@ void CUciProtocol::send_info(const std::string &information) {
     send_message(full_message);
 }
 
+void CUciProtocol::send_error(const std::string &error_messag) {
+    std::string full_message = "error: " + error_messag + "\n";
+    std::cerr << full_message;
+}
+
 void CUciProtocol::preprocess_message(std::string &message) const {
     trim(message);
     size_t phpbb_fen_pos = message.find("[FEN]");
@@ -203,16 +208,19 @@ void CUciProtocol::display_help() const {
 
 void CUciProtocol::process_option(CStringTokenizer &string_tokenizer) {
     if (string_tokenizer.next_token_is_one_of( "name", "n") == false) {
-        // TODO: error message
+       send_error("malformed option command"); 
         return;
     }
     std::string name = string_tokenizer.next_token();
     if (string_tokenizer.next_token_is_one_of( "value", "v") == false) {
+       send_error("malformed option command"); 
         return;
     }
     std::string value = string_tokenizer.next_token();
     if ((name == "book") || (name == "b")) {
         command_interface.master_book.set_option(value);
+    } else {
+        send_error("unknown option name");
     }
 }
 
