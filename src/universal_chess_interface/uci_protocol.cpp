@@ -20,7 +20,6 @@ CUciProtocol::CUciProtocol() {
     // Use std::cerr here; std::cout is reserved for the protocol
     std::cerr << ENGINE_ID << "\n";
     std::cerr << "'help' or '?' for some guidance\n";
-    //TEMP! R!!!
 }
 
 /* static */ void CUciProtocol::send_message(const std::string &message) {
@@ -71,37 +70,37 @@ void CUciProtocol::preprocess_message(std::string &message) const {
 
 void CUciProtocol::process_message(const std::string &message) {
     string_tokenizer.set_input(message);
-    std::string command = string_tokenizer.next_token(); 
-    if ((command == "go") || (command == "g")) {
+    if (string_tokenizer.next_token_is_one_of("go", "g")) {
         process_go_command(string_tokenizer);
-    } else if ((command == "setoption") || (command == "so")) {
+    } else if (string_tokenizer.next_token_is_one_of("setoption", "so")) {
         process_option(string_tokenizer);
-    } else if (command == "isready") {
+    } else if (string_tokenizer.next_token_is("isready")) {
         // Our first version is always and immediately ready
         send_message("readyok");
-    } else if ((command == "position") || (command == "p")) {
+    } else if (string_tokenizer.next_token_is_one_of("position", "p")) {
         std::string fen_position = string_tokenizer.get_the_rest();
         if (!command_interface.set_position(fen_position)) {
-            std::cerr << "ERROR: invalid position received via UCI" << std::endl;
+            send_error("invalid position received via UCI");
         }
-    } else if ((command == "stop") || (command == "s")) {
+    } else if (string_tokenizer.next_token_is_one_of("stop", "s")) {
         command_interface.stop();
-    } else if (command == "test") {
+    } else if (string_tokenizer.next_token_is("test")) {
             CEngineTest::test_everything(); 
-    } else if (command == "uci") {
+    } else if (string_tokenizer.next_token_is("uci")) {
          identify_engine();
          send_list_of_options(); 
          send_message("uciok");
-    } else if ((command == "ucinewgame") || (command == "ng")) {
+    } else if (string_tokenizer.next_token_is_one_of("ucinewgame", "ng")) {
         command_interface.new_game();
-    } else if ((command == "help") || (command == "?")) {
+    } else if (string_tokenizer.next_token_is_one_of("help", "?")) {
         display_help();
-    } else if (command == "perft") {
+    } else if (string_tokenizer.next_token_is("perft")) {
         (void)command_interface.test_move_generator();
     } else {
         // "quit" already gets handled by the message_loop().
         // So this is an unknown token. According to the UCI-standard
         // we should try to continue with the rest of the line.
+        (void)string_tokenizer.next_token(); 
         std::string remaining_message = string_tokenizer.get_the_rest();
         if (remaining_message != "") {
             // One non-empty token got consumed, so the recursion will terminate
@@ -112,32 +111,31 @@ void CUciProtocol::process_message(const std::string &message) {
 }
 
 void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
-    std::string next_token = string_tokenizer.next_token();
-    if ((next_token == "infinite") || (next_token == "i") || (next_token == "")) {
+    if (string_tokenizer.next_token_is_one_of("infinite", "i", "")) {
         command_interface.go_infinite();
         return;
     } 
-    if ((next_token == "depth") || (next_token == "d")) {
+    if (string_tokenizer.next_token_is_one_of("depth", "d")) {
         int  depth = string_tokenizer.get_integer_token(1);
         command_interface.go_depth(depth);
         return;
     }
-    if ((next_token == "nodes") || (next_token == "n")) {
+    if (string_tokenizer.next_token_is_one_of("nodes", "n")) {
         int64_t nodes = string_tokenizer.get_integer_token(1);
        command_interface.go_nodes(nodes);
        return;
     }
-    if ((next_token == "mate") || (next_token == "m")) {
+    if (string_tokenizer.next_token_is_one_of("mate", "m")) {
         int depth_in_moves = string_tokenizer.get_integer_token(1);
         command_interface.go_mate(depth_in_moves);
         return;
     }
-    if ((next_token == "movetime") || (next_token == "mt")) {
+    if (string_tokenizer.next_token_is_one_of("movetime", "mt")) {
         uint64_t move_time_ms = string_tokenizer.get_integer_token(1);
        command_interface.go_movetime(move_time_ms);
        return;
     }
-    if ((next_token == "ponder") || (next_token == "p")) {
+    if (string_tokenizer.next_token_is_one_of("ponder", "p")) {
         command_interface.go_ponder();
         return;
     }
@@ -146,6 +144,7 @@ void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
     uint64_t white_increment_ms = 0;
     uint64_t black_incrementt_ms = 0;
     uint64_t moves_to_go = 0;
+    std::string next_token = string_tokenizer.next_token();
     while (next_token != "") {
         if (next_token == "wtime") {
             white_time_ms = string_tokenizer.get_integer_token(1);
@@ -158,7 +157,7 @@ void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
         } else if (next_token == "movestogo") {
             moves_to_go = string_tokenizer.get_integer_token(1);
         } else {
-            std::cerr << "ERROR: unexpected tokeen in go-command\n";
+            send_error("unexpected tokeen in go-command");
             return;
         }
         next_token = string_tokenizer.next_token();
@@ -170,7 +169,8 @@ void CUciProtocol::message_loop() {
     while (true) {
         std::string message;
         getline(std::cin, message);
-        // Checking the input for an exact match in order to decouple
+        trim(message);
+        // Exit handling here in order to decouple
         // message_loop, string_tokenizer and process_message for better testability
         if  ((message == "quit") || (message == "exit") || (message == "x")) {
             break;
