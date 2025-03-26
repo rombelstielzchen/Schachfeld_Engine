@@ -170,7 +170,6 @@ void CUciProtocol::message_loop() {
     while (true) {
         std::string message;
         getline(std::cin, message);
-        preprocess_message(message);
         // Checking the input for an exact match in order to decouple
         // message_loop, string_tokenizer and process_message for better testability
         if  ((message == "quit") || (message == "exit") || (message == "x")) {
