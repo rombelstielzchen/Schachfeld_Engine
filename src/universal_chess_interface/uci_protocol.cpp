@@ -1,4 +1,6 @@
 // Project: Schachfeld_Engine
+// 
+// 
 // Author: Rombelstielzchen
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
@@ -200,13 +202,17 @@ void CUciProtocol::display_help() const {
 }
 
 void CUciProtocol::process_option(CStringTokenizer &string_tokenizer) {
-    if (string_tokenizer.next_token() != "name") {
+    if (string_tokenizer.next_token_is_one_of( "name", "n") == false) {
+        // TODO: error message
         return;
     }
-    if (string_tokenizer.next_token() == "book") {
-        if (string_tokenizer.next_token() == "value") {
-            command_interface.master_book.set_option(string_tokenizer.next_token());
-        }
+    std::string name = string_tokenizer.next_token();
+    if (string_tokenizer.next_token_is_one_of( "value", "v") == false) {
+        return;
+    }
+    std::string value = string_tokenizer.next_token();
+    if ((name == "book") || (name == "b")) {
+        command_interface.master_book.set_option(value);
     }
 }
 
