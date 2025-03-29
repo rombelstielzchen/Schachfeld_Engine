@@ -62,6 +62,8 @@ SMove get_next__capture_killer_silent(int dis);
     inline void store_silent_move(const SMove &move);
     inline void store_capture(const SMove &move);
   private:
+    SMove get_next__best_captire();
+  private:
     /// ???
     inline unsigned int last_move_index() const { return next_empty_slot - 1; }
     unsigned int get_index(const SMove basic_move) const;

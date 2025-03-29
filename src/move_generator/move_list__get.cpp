@@ -32,10 +32,31 @@ SMove CMoveList::get_next() {
 }
 
 SMove CMoveList::get_next__capture_killer_silent(int distance_to_root) {
+    if (consumer_position < LIST_ORIGIN) {
+        return get_next__best_captire();
+    }
     if (consumer_position == LIST_ORIGIN) {
         integrate_killer(distance_to_root);
     }
     return get_next();
+}
+
+SMove CMoveList::get_next__best_captire() {
+    assert(consumer_position < LIST_ORIGIN);
+    int best_index = consumer_position;
+    int best_score = bidirectional_move_list[best_index].potential_gain;
+    for (int j = consumer_position + 1; j < LIST_ORIGIN; ++j) {
+        int score = bidirectional_move_list[j].potential_gain;
+        if (score > best_score) {
+            best_index = j;
+        }
+    }
+    SMove best_move = bidirectional_move_list[best_index];
+    assert(best_move.move_type != MOVE_TYPE_NORMAL);
+//    assert(best_move.potential_gain > 0);
+    bidirectional_move_list[best_index] = bidirectional_move_list[consumer_position];
+     ++consumer_position;
+    return best_move;
 }
 
 SMove CMoveList::get_least_valuable_aggressor() const {
