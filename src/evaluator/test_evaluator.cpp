@@ -83,6 +83,12 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     { "/////5P/5PPP w", "/////5P/4P1PP w" },
     // Pawn on d3 better then d2 for bettter development
    { "/////3P w", "//////3Pw" },
+   // Knights on the king-side more worth than on the queen-side:
+   // Preparing castling, attacking / defending the kingA
+   { "/////5N w", "/////2N w" },
+   { "//5N w", "//2N w" },
+    { "////4N w", "////3N w" },
+    { "///4N w", "///3N w" },
 };
 
 bool CTestEvaluator::test_everything() {
@@ -115,8 +121,10 @@ bool CTestEvaluator::test_move_sequence() {
     board.move_maker.play_variation("e2e4 e7e5 g1f3");
     EXPECT(board.evaluator.evaluate() > 0);
     board.move_maker.make_move("b8c6");
+    EXPECT(board.evaluator.evaluate() >= 0);
+    board.move_maker.play_variation("b1c3 g8f6");
     EXPECT(board.evaluator.evaluate() == 0);
-    board.move_maker.play_variation("b1c3 g8f6 f1b5");
+    board.move_maker.play_variation("f1b5");
     EXPECT(board.evaluator.evaluate() > 0);
     board.move_maker.make_move("f8b4");
     EXPECT(board.evaluator.evaluate() == 0);
