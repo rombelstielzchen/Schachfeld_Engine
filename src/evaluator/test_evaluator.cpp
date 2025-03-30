@@ -78,6 +78,11 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     { "8/8/8/8/8/6P/5PP w", "8/8/8/8/5P/8/5P1P w "},
     // Bad "active" queen-development to d3 in the opening
     { "8/8/8/8/8/8/8/3Q w", "8/8/8/8/8/3Q w" },
+    // Capture away from the center with pawns on d2 / e2 for free piece-play
+    { "/////2P/PPP w", "/////2P/P1PP w" },
+    { "/////5P/5PPP w", "/////5P/4P1PP w" },
+    // Pawn on d3 better then d2 for bettter development
+   { "/////3P w", "//////3Pw" },
 };
 
 bool CTestEvaluator::test_everything() {
