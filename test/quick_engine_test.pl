@@ -20,8 +20,8 @@ use constant EXIT_FAILURE => 1;
 use constant MODE_INPUT_PIPE => "-|";
 use constant MODE_OUTPUT_PIPE => "|-";
 
-my $output_pipe;
 my $input_pipe;
+my $output_pipe;
 
 sub EXPECT {
     my ($condition) = @_;
@@ -36,26 +36,28 @@ sub send_message {
     print $output_pipe $message;
 }
 
-sub start_engine {
-    print "Starting engine: @{[ ENGINE ]}\n";
-    my $pid = fork();
-    die "Failed to foek: $!" unless defined $pid;
-    if ($pid == 0) {
-        exit;
-        exec(ENGINE);
-        # exec replaces the process and never returns.
-        # No further script actions in this case
-    }
-    die "Unexpected PID after fork" if $pid == 0;
-    our $child_pid = $pid;
-    print "Child PID: $child_pid\n";
-    print "Setting up pipes for communication ...\n";
-    open $output_pipe, MODE_OUTPUT_PIPE, @{[ ENGINE ]} or die $!;
-    open input_pipe, MODE_INPUT_PIPE, @{[ ENGINE ]} or die $!;
-    send_message("uci\n");
-    send_message("isready\n");
-    send_message("quit\n");
+### BOMP -- Begin Of Main Program ######
+print "### Quick Engine Test ########\n";
+print "Starting engine: @{[ ENGINE ]}\n";
+my $pid = fork();
+die "Failed to foek: $!" unless defined $pid;
+if ($pid == 0) {
+    exit;
+    exec(ENGINE);
+    # exec replaces the process and never returns.
+    # No further script actions in this case
 }
+die "Unexpected PID after fork" if $pid == 0;
+our $child_pid = $pid;
+print "Child PID: $child_pid\n";
+print "Setting up pipes for communication ...\n";
+open $output_pipe, MODE_OUTPUT_PIPE, @{[ ENGINE ]} or die $!;
+#open input_pipe, MODE_INPUT_PIPE, @{[ ENGINE ]} or die $!;
+send_message("uci\n");
+send_message("isready\n");
+send_message("quit\n");
+exit(EXIT_SUCCESS);
+
 
 #sub await_inout { 
 #    my ($expected_input, $timeout_seconds) = @_;
@@ -66,8 +68,4 @@ sub start_engine {
 #    print "gugu";
     #}
 
-### BOMP -- Begin Of Main Program ######
-print "### Quick Engine Test ########\n";
-start_engine();
-exit(EXIT_SUCCESS);
 
