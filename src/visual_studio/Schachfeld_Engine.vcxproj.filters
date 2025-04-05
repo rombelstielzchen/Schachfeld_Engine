@@ -56,9 +56,6 @@
     <ClCompile Include="..\opening_book\book_data\gm_book.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\opening_book\opening_book.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\technical_functions\engine_test.cpp">
       <Filter>Source Files\Tests</Filter>
     </ClCompile>
@@ -135,6 +132,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\move_generator\move_list__store.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\search\killer_heuristics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\search\test_killer_heuristics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\opening_book\data_book.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\opening_book\master_book.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\opening_book\book_data\tabijas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -154,7 +154,9 @@
     <ClCompile Include="..\move_generator\test_move_list.cpp" />
     <ClCompile Include="..\move_generator\test_perft.cpp" />
     <ClCompile Include="..\opening_book\book_data\gm_book.cpp" />
-    <ClCompile Include="..\opening_book\opening_book.cpp" />
+    <ClCompile Include="..\opening_book\book_data\tabijas.cpp" />
+    <ClCompile Include="..\opening_book\data_book.cpp" />
+    <ClCompile Include="..\opening_book\master_book.cpp" />
     <ClCompile Include="..\opening_book\test_opening_book.cpp" />
     <ClCompile Include="..\search\iterative_deepening.cpp" />
     <ClCompile Include="..\search\killer_heuristics.cpp" />
