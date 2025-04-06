@@ -3,8 +3,9 @@ Major Changes
 
 Version 0.d
 -----------
-* Basic killer-heuristic, trying a silent killer-move from a eighbour-variation first -- after all captures, before the other silent moves.
-* Incremental updates of the eveluation-function when making / unmaking moves.
+* Basic killer-heuristic, trying a silent killer-move from a neighbour-variation first -- after all captures, before the other silent moves.  Improvement: 10x - 12x less nodes needed at typical blitz depths.
+* Even more move-ordering: most valuable victim first, when using a capture-move. Improvement: 3x - 4x less nodes needed at typical blitz depths.
+* Incremental updates of the eveluation-function when making / unmaking moves. Improvement: 20 % to 50 % more nodes calculated per second.
 
 Version 0.c
 -----------
