@@ -22,7 +22,7 @@ static_assert(remaining_probability_broad_GM >= 0.00);
 CMasterBook::CMasterBook() : gm_book(sorted_variation_collection_gm_book),
         tabijas(sorted_variation_collection_tabijas) {
     assert(rand() != rand());
-    set_option(BOOK_OPTIONS_BROAD_GM);
+    set_option(BOOK_OPTIONS_SOLID_MIX);
 }
 
 std::string CMasterBook::get_move(const std::string &moves_from_startpos_in_uci_format) {
