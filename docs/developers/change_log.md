@@ -1,6 +1,10 @@
 Major Changes
 =============
 
+Version 0.e
+-----------
+* A second opening book "tabijas" with some dozen main-lines. The user can now choose between "broad_GM", "tabijas" and "solid_mix".
+
 Version 0.d
 -----------
 * Basic killer-heuristic, trying a silent killer-move from a neighbour-variation first -- after all captures, before the other silent moves.  Improvement: 10x - 12x less nodes needed at typical blitz depths.
