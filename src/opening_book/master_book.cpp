@@ -4,10 +4,6 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-// A very simple, built-in opening book,
-// based on a small list of short lines,
-// just to get some fun and variation.
-
 #include "master_book.h"
 #include "book_data/gm_book.h"
 #include "book_data/tabijas.h"
@@ -30,7 +26,7 @@ std::string CMasterBook::get_move(const std::string &moves_from_startpos_in_uci_
     std::string book_move = NULL_MOVE_AS_TEXT;
     switch (boook_option_for_this_game) {
         case BOOK_OPTIONS_BROAD_GM:
-           // Nothing toi be done here in order to avoid double lookups.
+           // Nothing to be done here in order to avoid double lookups.
            // Broad_GM is our backup for failed lookups.
             break;
         case BOOK_OPTIONS_TABIJAS:
@@ -65,7 +61,7 @@ void CMasterBook::set_option(const std::string &selected_uci_option) {
     } else if (selected_uci_option == "solid_mix") {
         set_option(BOOK_OPTIONS_SOLID_MIX);
     } else {
-       // Ignore unexpected vales from a potential stupid / malicious outside world 
+       // Ignore unexpected valiues from a potential stupid / malicious outside world 
     }
 }
 
@@ -75,6 +71,8 @@ void CMasterBook::randomize_book_for_this_game() {
         return;
     }
     float random = float(rand()) / RAND_MAX;
+    assert(random >= 0.0);
+    assert(random <= 1.0);
     if (random < probability_tabijas) {
         boook_option_for_this_game = BOOK_OPTIONS_TABIJAS;
     } else if (random < (probability_tabijas + probability_wonder_weapons)) {

@@ -18,8 +18,7 @@ bool CTestStatistics::test_everything() {
 }
 
 bool CTestStatistics::test_basic_stats() {
-    CTEST << "CTestStatistics::test_basic_stats() ...\n";
-    // TODO
+   TEST_FUNCTION(); 
     EXPECT(CSearchStatistics::anti_adjudication_score(600) == " score cp 599 ");
     EXPECT(CSearchStatistics::anti_adjudication_score(598) == " score cp 598 ");
     EXPECT(CSearchStatistics::anti_adjudication_score(12) == " score cp 12 ");
@@ -32,12 +31,12 @@ bool CTestStatistics::test_basic_stats() {
 }
 
 bool CTestStatistics::test_anti_adjudication_score() {
-    CTEST << "CTestStatistics::test_anti_adjudication_score() ...\n";
+   TEST_FUNCTION(); 
     return true;
 }
 
 bool CTestStatistics:: test_expected_branching_factor() {
-    CTEST << "CTestStatistics::test_expected_branching_factor() ...\n";
+   TEST_FUNCTION(); 
     return true;
  }
 

@@ -4,10 +4,6 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-// A very simple, built-in opening book,
-// based on a small list of short lines,
-// just to get some fun and variation.
-
 #include "data_book.h"
 #include "../technical_functions/string_functions.h"
 
@@ -66,7 +62,10 @@ size_t CDataBook::random_matching_index(const TSortedVariationCollection &book, 
     size_t last_index = last_matching_index(book, moves_from_startpos_in_uci_format);
     assert(last_index != VARIATION_NOT_FOUND);
     assert(last_index >= first_index);
-    // 
+    // rand() would be good ebough, Undortunately it did not work with Gcc,
+    // (only with Visual Studio) despite prorper srand(time(NULL)),
+    // always returning 41 (rhe 42th positive number!).
+    // So we go for an overkill random-number-generatir.
     std::random_device random_seed;
     std::mt19937 mersenne_twister(random_seed());
     std::uniform_int_distribution<> int_distribution(first_index, last_index);

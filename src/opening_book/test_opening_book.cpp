@@ -21,7 +21,7 @@
  }
 
  bool CTestOpeningBook::test_book_data(const TSortedVariationCollection &variation_collection, const std::string &book_name) {
-    std::cerr << "CTestOpeningBook::test_book_data (" << book_name << ")" << std::endl;
+    CTEST << "CTestOpeningBook::test_book_data (" << book_name << ")" << std::endl;
      EXPECT(test_formatting(variation_collection));
     EXPECT(test_sortedness(variation_collection));
     EXPECT(test_playability(variation_collection));
@@ -70,12 +70,12 @@
 
  bool CTestOpeningBook::test_move_lookup() {
      TEST_FUNCTION();
-    SILENT_EXPECT(lookup_returns_any_move(""));
-    SILENT_EXPECT(lookup_returns_any_move("e2e4"));
-    SILENT_EXPECT(lookup_returns_any_move("e2e4 c7c5"));
-    SILENT_EXPECT(lookup_returns_any_move("d2d4 g8f6 c2c4 g7g6 b1c3 d7d5"));
-    SILENT_EXPECT(lookup_returns_null_move("g1h3 b8a6"));
-    SILENT_EXPECT(lookup_returns_null_move("e2e4 b8a6"));
+    EXPECT(lookup_returns_any_move(""));
+    EXPECT(lookup_returns_any_move("e2e4"));
+    EXPECT(lookup_returns_any_move("e2e4 c7c5"));
+    EXPECT(lookup_returns_any_move("d2d4 g8f6 c2c4 g7g6 b1c3 d7d5"));
+    EXPECT(lookup_returns_null_move("g1h3 b8a6"));
+    EXPECT(lookup_returns_null_move("e2e4 b8a6"));
     SILENT_EXPECT(lookup_returns_exact_move("x2x1", "e7e5"));
     SILENT_EXPECT(lookup_returns_exact_move("x2x1 e7e5", "e2e4"));
     SILENT_EXPECT(lookup_returns_exact_move("x2x1 e7e5 e2e4", "f7f5"));

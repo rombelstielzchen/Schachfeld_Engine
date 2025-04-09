@@ -6,9 +6,8 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-// A very simple, built-in opening book,
-// based on a small list of short lines,
-// just to get some fun and variation.
+// The master-book controls several data-books,
+// considering user-options and some randomization.
 
 #include "data_book.h"
 #include "../move_generator/move.h"
@@ -40,7 +39,7 @@ class CMasterBook {
 //    CDataBook wonder_weapons_white;
   private:
      EBookOptions boook_option;
-     // Pption might be randomized, but should be fix for an entire game
+     // Option might be randomized, but should be fix for an entire game
      EBookOptions boook_option_for_this_game;
 };
 

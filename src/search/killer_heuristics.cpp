@@ -18,7 +18,7 @@ void CKillerHeuristic::store_killer(int distance_to_root, const SMove move) {
     assert(move != DUMMY_KILLER);
     assert(move != NULL_MOVE);
     if (move.move_type == MOVE_TYPE_NORMAL) {
-        // TODO: Would rare killer-castlings be worth the overhead?
+        // Ignoring rare killer-castlings here; probably not worth the overhead
         killer_moves[distance_to_root] = move;
     }
 }
