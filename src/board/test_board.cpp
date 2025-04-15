@@ -5,6 +5,7 @@
 
 #include "test_board.h"
 #include "board.h"
+#include "square_constants.h"
 #include "../move_generator/move.h"
 #include "../technical_functions/testing.h"
 
@@ -87,8 +88,8 @@ bool CTestBoard::test_accessors() {
 bool CTestBoard::test_modifiers() {
     CTEST << "CTestBoard::test_put_piece() ...\n";
     board.set_start_position();
-    board.clear_square(FILE_E, RANK_2);
-    board.put_piece(FILE_E, RANK_4, WHITE_POWER);
+    board.clear_square(E2);
+    board.put_piece(E4, WHITE_POWER);
     board.flip_side_to_move();
     EXPECT(board.square_is_empty(FILE_E, RANK_2));
     EXPECT(board.get_square(FILE_E, RANK_4) == WHITE_POWER);

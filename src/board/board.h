@@ -108,8 +108,8 @@ class CBoard {
      const char* as_is() const;
   public:
     inline void flip_side_to_move() { side_to_move = !side_to_move; }
-    void clear_square(const int file, const int rank);
-    void put_piece(const int file, const int rank, char piece);
+    void clear_square(const SSquare square);
+    void put_piece(const SSquare square, char piece);
   public:
     inline bool get_side_to_move() const { return side_to_move; }
     int get_eng_passeng_file() const;

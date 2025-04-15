@@ -45,7 +45,7 @@ SMove CMoveList::get_next__best_captire() {
     assert(consumer_position < LIST_ORIGIN);
     int best_index = consumer_position;
     int best_score = bidirectional_move_list[best_index].potential_gain;
-    for (int j = consumer_position + 1; j < LIST_ORIGIN; ++j) {
+    for (unsigned int j = consumer_position + 1; j < LIST_ORIGIN; ++j) {
         int score = bidirectional_move_list[j].potential_gain;
         if (score > best_score) {
             best_index = j;
@@ -77,7 +77,7 @@ void CMoveList::integrate_killer(int distance_to_root) {
     SMove killer_move = killer_heuristic.get_killer(distance_to_root);
     // We ignore rare killer-castlings here 
     assert(killer_move.move_type == MOVE_TYPE_NORMAL);
-    int position = get_index(killer_move);
+    unsigned int position = get_index(killer_move);
     if (position != MOVE_NOT_ON_LIST) {
         assert(position >=  first_capture);
         assert(position < next_empty_slot);

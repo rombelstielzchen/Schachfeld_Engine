@@ -59,7 +59,7 @@ SMove get_next__capture_killer_silent(int dis);
     void store_white_promotions(const int source_file, const int source_rank, const int target_file, const int target_rank);
     void store_black_promotions(const int source_file, const int source_rank, const int target_file, const int target_rank);
   private:
-    inline void store_silent_move(const SMove &move);
+    void store_silent_move(const SMove &move);
     inline void store_capture(const SMove &move);
   private:
     SMove get_next__best_captire();

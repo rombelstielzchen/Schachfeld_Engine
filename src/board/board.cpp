@@ -112,23 +112,17 @@ bool CBoard::get_castling_rights(char move_type) const {
     return castling_rights[move_type];
 }
 
-void CBoard::clear_square(const int file, const int rank) {
-     // TODO: change argument to SSquare
-    assert(file_in_range(file));
-    assert(rank_in_range(rank));
-    SSquare square = { file, rank };
+void CBoard::clear_square(const SSquare square) {
+    assert(square_in_range(square));
     evaluator.incremental_clear_square(square);
-    squares[file][rank] = EMPTY_SQUARE;
+    squares[square.file][square.rank] = EMPTY_SQUARE;
 }
 
-void CBoard::put_piece(const int file, const int rank, char piece) {
-     // TODO: change argument to SSquare
-    assert(file_in_range(file));
-    assert(rank_in_range(rank));
-    SSquare square = { file, rank };
+void CBoard::put_piece(const SSquare square, char piece) {
+    assert(square_in_range(square));
 ///    assert(is_any_piece(piece));
     evaluator.incremental_clear_square(square);
     evaluator.incremental_add(piece, square);
-    squares[file][rank] = piece;
+    squares[square.file][square.rank] = piece;
 }
 

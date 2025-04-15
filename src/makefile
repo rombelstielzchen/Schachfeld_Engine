@@ -20,6 +20,12 @@ CFLAGS=$(DEBUGFLAGS)
 
 ### Main build-target ##################
 
+default:
+	make engine
+	#make test
+	@echo "=============================="
+	@ls -o engine
+
 engine: \
 	board.o \
 	board_logic.o \
@@ -67,7 +73,6 @@ engine: \
 	make standard_headers
 	### Linking engine
 	$(CC) -o $@ $^ 
-	make test
 	@echo "=============================="
 	@ls -o engine
 
