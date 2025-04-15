@@ -168,7 +168,8 @@ SMove text_to_basic_move(const std::string &text) {
         text_to_file(text[2]),
         text_to_rank(text[3]),
         MOVE_TYPE_NORMAL,
-        '\0'
+        EMPTY_SQUARE,
+        0
     };
     if (!move_in_range(move)) {
         return NULL_MOVE;

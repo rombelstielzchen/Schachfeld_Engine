@@ -31,11 +31,12 @@ void trim(std::string &in_out_string) {
 
 size_t find_substring(const std::string &text, const std::string substring, bool case_insensitive) {
     // TODO: insensitive + test
+    assert(case_insensitive == false);
     return text.find(substring);
 }
 
 size_t replace_substring(std::string &source, const std::string &substring, const std::string &by_what, bool case_insensitive) {
-    size_t pos = find_substring(source, substring);
+    size_t pos = find_substring(source, substring, case_insensitive);
     if (pos != std::string::npos) {
         source.replace(pos, substring.length(), by_what);
     }

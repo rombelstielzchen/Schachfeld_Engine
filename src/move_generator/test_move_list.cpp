@@ -110,7 +110,7 @@ bool CTestMoveList::test_remove() {
     CMoveGenerator move_generator;
     move_generator.generate_all();
     SILENT_EXPECT(move_generator.move_list.list_size() == 5);
-   constexpr SMove illegal_move = {{FILE_B, RANK_8}, C8, MOVE_TYPE_NORMAL, EMPTY_SQUARE};
+   constexpr SMove illegal_move = {{FILE_B, RANK_8}, C8, MOVE_TYPE_NORMAL, EMPTY_SQUARE,0};
    move_generator.move_list.remove(illegal_move);
     EXPECT(move_generator.move_list.list_size() == 4);
     move_generator.move_list.filter_captures_by_target_square(C8);

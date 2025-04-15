@@ -18,7 +18,7 @@
 }
 
 /* static */ bool CTestTechnicalFunctions::test_string_functions() {
-        TEST_FUNCTION();
+    TEST_FUNCTION();
     std::string initial = "\t \t\t \tHello   ,   \t\t\t   world !   \t\t";
     CTEST << "Testing replace_tabs_by_spaces()" << std::endl;
     replace_tabs_by_spaces(initial);
@@ -33,9 +33,9 @@
     EXPECT(is_prefix_of("bobby","tolya") == false);
     // replace and remove
     initial = "Hello, world!";
-    EXPECT(replace_substring(initial, "ello", "uhu", true) == 1);
+    EXPECT(replace_substring(initial, "ello", "uhu") == 1);
     EXPECT(initial == "Huhu, world!");
-    replace_all_substrings(initial, "u", "o", true);
+    replace_all_substrings(initial, "u", "o");
     EXPECT(initial == "Hoho, world!");
     remove_all_substrings(initial, ", world");
     EXPECT(initial == "Hoho!");

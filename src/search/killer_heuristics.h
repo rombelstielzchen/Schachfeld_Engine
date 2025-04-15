@@ -14,7 +14,7 @@
 constexpr int MAX_KILLER_DEPTH = 128;
 
 // For initialization and testing, a nearly-valid move that does not harm
-constexpr SMove DUMMY_KILLER = { E1, F6, MOVE_TYPE_NORMAL, EMPTY_SQUARE };
+constexpr SMove DUMMY_KILLER = { E1, F6, MOVE_TYPE_NORMAL, '\0', 0 };
 
 class CKillerHeuristic {
    public:

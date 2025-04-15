@@ -12,7 +12,7 @@ bool CTestKillerHeuristic::test_everything() {
     EXPECT(killer_heuristic.get_killer(0) == DUMMY_KILLER);
     EXPECT(killer_heuristic.get_killer(1) == DUMMY_KILLER);
     EXPECT(killer_heuristic.get_killer(MAX_KILLER_DEPTH - 1) == DUMMY_KILLER);
-    SMove best_of_all = { G1, H3, MOVE_TYPE_NORMAL, EMPTY_SQUARE };
+    SMove best_of_all = { G1, H3, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 };
     killer_heuristic.store_killer(42, best_of_all);
     EXPECT(killer_heuristic.get_killer(42) == best_of_all);
     return true;
