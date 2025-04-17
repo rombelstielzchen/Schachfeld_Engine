@@ -22,7 +22,7 @@ CFLAGS=$(DEBUGFLAGS)
 
 default:
 	make engine
-	#make test
+	make test
 	@echo "=============================="
 	@ls -o engine
 
