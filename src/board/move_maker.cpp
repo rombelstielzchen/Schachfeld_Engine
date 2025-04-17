@@ -149,7 +149,8 @@ void CMoveMaker::unmake_move() {
         case MOVE_TYPE_ENG_PASSENG:
             {
                 char opponent_pawn = (move.target.rank == RANK_6) ? BLACK_POWER : WHITE_POWER;
-                board.put_piece(move.target, opponent_pawn);
+                SSquare opponent_pawn_square = { move.target.file, move.source.rank };
+                board.put_piece(opponent_pawn_square, opponent_pawn);
             }
             break;
         case WHITE_QUEEN:
