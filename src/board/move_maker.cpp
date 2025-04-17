@@ -81,6 +81,7 @@ bool CMoveMaker::make_move(SMove move) {
             assert(THIS_MUST_NOT_HAPPEN);
             break;
     }
+    assert(board.square_is_empty(move.target.file, move.target.rank) == false);
     board.flip_side_to_move();
     move_history.push_back(move);
     return true;

@@ -24,6 +24,6 @@ class CStringTokenizer {
   private:
     std::istringstream input_stream;
     // Any reasonable parser uses one-token-lookahead
-    std::string pushed_back_token;;
+    std::string pushed_back_token;
 };
 
