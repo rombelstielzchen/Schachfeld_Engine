@@ -8,6 +8,7 @@
 #include"board_logic.h"
 #include "board.h"
 #include "square_constants.h"
+#include "../move_generator/move_generator.h"
 
 constexpr bool UNEXPECTED_MOVE_TYPE = false;
 
@@ -110,11 +111,18 @@ SSquare CBoardLogic::king_square(bool white_or_black) {
     return NULL_SQUARE;
 }
 
-bool CBoardLogic::square_attacked_by_side_to_move(const SSquare squarre) {
-    return false;
+bool CBoardLogic::square_attacked_by_side_to_move(const SSquare square) {
+    CMoveGenerator response_generator;
+    response_generator.generate_all();
+    response_generator.move_list.prune_silent_moves();
+    response_generator.move_list.filter_captures_by_target_square(square);
+    return (response_generator.move_list.list_size() > 0);
 }
 
-bool CBoardLogic::square_attacked_by_opponent(const SSquare squarre) {
-    return false;
+bool CBoardLogic::square_attacked_by_side_not_to_move(const SSquare square) {
+    board.move_maker.make_null_move();
+    bool result = square_attacked_by_side_to_move(square);
+    board.move_maker.unmake_null_move();
+    return result;
 }
 
