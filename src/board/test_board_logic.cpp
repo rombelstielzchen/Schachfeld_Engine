@@ -13,7 +13,7 @@
 bool CTestBoardLogic::test_everything() {
     BEGIN_TESTSUITE("CTestBoardLogic");
     EXPECT(test_king_squares());
-    EXPECT(test_square_attack());
+    EXPECT(test_piece_attack());
     return true;
 }
 
@@ -28,19 +28,19 @@ bool CTestBoardLogic::test_king_squares() {
     return true;
 }
 
-bool CTestBoardLogic::test_square_attack() {
+bool CTestBoardLogic::test_piece_attack() {
     TEST_FUNCTION();
     board.set_start_position();
     board.move_maker.play_variation("e2e4");
-    EXPECT(CBoardLogic::square_attacked_by_side_to_move(D5) == false);
-    EXPECT(CBoardLogic::square_attacked_by_side_to_move(E4) == false);
+    EXPECT(CBoardLogic::piece_attacked_by_side_to_move(D5) == false);
+    EXPECT(CBoardLogic::piece_attacked_by_side_to_move(E4) == false);
     board.move_maker.play_variation("d7d5");
-    EXPECT(CBoardLogic::square_attacked_by_side_not_to_move(E4) == true);
-    EXPECT(CBoardLogic::square_attacked_by_side_to_move(F7) == false);
-    EXPECT(CBoardLogic::square_attacked_by_side_to_move(H7) == false);
+    EXPECT(CBoardLogic::piece_attacked_by_side_not_to_move(E4) == true);
+    EXPECT(CBoardLogic::piece_attacked_by_side_to_move(F7) == false);
+    EXPECT(CBoardLogic::piece_attacked_by_side_to_move(H7) == false);
     board.move_maker.play_variation("d1h5");
-    EXPECT(CBoardLogic::square_attacked_by_side_not_to_move(F7) == true);
-    EXPECT(CBoardLogic::square_attacked_by_side_not_to_move(H7) == true);
+    EXPECT(CBoardLogic::piece_attacked_by_side_not_to_move(F7) == true);
+    EXPECT(CBoardLogic::piece_attacked_by_side_not_to_move(H7) == true);
     return true;
 }
 

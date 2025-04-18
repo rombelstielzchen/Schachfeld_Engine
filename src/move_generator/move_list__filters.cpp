@@ -26,7 +26,7 @@ void CMoveList::prune_illegal_moves() {
     while (move != NULL_MOVE) {
         board.move_maker.make_move(move);
         SSquare my_king_square = CBoardLogic::king_square(my_colour);
-        if (CBoardLogic::square_attacked_by_side_to_move(my_king_square)) {
+        if (CBoardLogic::piece_attacked_by_side_to_move(my_king_square)) {
             SMove illegal_move = move;
             remove(illegal_move);
         }
@@ -103,7 +103,7 @@ void CMoveList::prune_illegal_castlings() {
         if (!move_on_list("e1d1") && move_on_list("e1c1")) {
             remove("e1c1");
         }
-        if (CBoardLogic::square_attacked_by_side_not_to_move(king_square)) {
+        if (CBoardLogic::piece_attacked_by_side_not_to_move(king_square)) {
             remove("e1g1");
             remove("e1c1");
         }
@@ -115,7 +115,7 @@ void CMoveList::prune_illegal_castlings() {
     if (!move_on_list("e8d8") && move_on_list("e8c8")) {
         remove("e8c8");
     }
-        if (CBoardLogic::square_attacked_by_side_not_to_move(king_square)) {
+        if (CBoardLogic::piece_attacked_by_side_not_to_move(king_square)) {
             remove("e8g8");
             remove("e8c8");
         }
