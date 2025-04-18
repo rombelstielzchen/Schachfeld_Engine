@@ -27,5 +27,9 @@ class CBoardLogic {
   public:
     // Simple and slow, meant for the root-node onlyy
     static SSquare king_square(bool white_or_black);
+  public:
+    static bool square_attacked_by_side_to_move();
+   static bool square_attacked_by_opponent(); 
+
 };
 

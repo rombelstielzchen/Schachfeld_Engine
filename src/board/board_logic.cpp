@@ -110,3 +110,11 @@ SSquare CBoardLogic::king_square(bool white_or_black) {
     return NULL_SQUARE;
 }
 
+bool CBoardLogic::square_attacked_by_side_to_move() {
+    return false;
+}
+
+bool CBoardLogic::square_attacked_by_opponent() {
+    return false;
+}
+

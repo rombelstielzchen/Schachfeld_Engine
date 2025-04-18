@@ -13,206 +13,206 @@
 #include "../technical_functions/engine_test.h"
 #include "../technical_functions/standard_headers.h"
 
-const std::string ENGINE_ID = "Schachfeld_Engine_0.eee
-eeeeeeeeeeeeeeeeeeeeeeeee
+const std::string ENGINE_ID = "Schachfeld_Engine_0.e";
+static_assert('a' > '9');
 
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-e
+CUciProtocol::CUciProtocol() {
+    // Use std::cerr here; std::cout is reserved for the protocol
+    std::cerr << ENGINE_ID << "\n";
+    std::cerr << "'help' or '?' for some guidance\n";
+}
 
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-e
+/* static */ void CUciProtocol::send_message(const std::string &message) {
+    // Used by both UCI-thread and calculator-thread, therefore mutex-protected
+        std::mutex message_mutex;
+        std::lock_guard<std::mutex> lock(message_mutex);
+    // UCI standard says:
+    //   * communication via text-IO
+    //   * every message should end with a new-line, "\n"
+    // To be on the safe side. we use endl, which also flushes the buffer.
+    // TODO: 2 functions, with and wirhout flush
+    std::cout << message << std::endl;
+}
 
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-e
+void CUciProtocol::identify_engine() const {
+        std::string id_message = "id name " + ENGINE_ID;
+        send_message(id_message);
+    send_message("id autor Rombelstielzchen");
+}
 
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-e
+void CUciProtocol::send_list_of_options() const {
+	send_message("option name book type combo default solid_mix var broad_GM var tabijas var solid_mix");
+    send_message("option name UCI_EngineAbout type string default Schachfeld-engine by Rombelstielzchen. Protocol: UCI. Licensed as open-source under GPLv3. Contact:  https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby. Source-code: https://github.com/rombelstielzchen/Schachfeld_Engine");
+}
 
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-e
+void CUciProtocol::send_info(const std::string &information) {
+    std::string full_message = "info " + information;
+    send_message(full_message);
+}
 
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-e
+void CUciProtocol::send_error(const std::string &error_messag) {
+    std::string full_message = "error: " + error_messag + "\n";
+    std::cerr << full_message;
+}
 
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeee
-eeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-e
+void CUciProtocol::preprocess_message(std::string &message) const {
+    trim(message);
+    size_t phpbb_fen_pos = message.find("[FEN]");
+    if (phpbb_fen_pos == std::string::npos) {
+        return;
+    }
+    if (phpbb_fen_pos == 0) {
+        replace_substring(message, "[FEN]", "position fen ", true);
+    }
+    remove_all_substrings(message, "[FEN]");
+    remove_all_substrings(message, "[/FEN]");
+}
 
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeee
-eeeee
-e
+void CUciProtocol::process_message(const std::string &message) {
+    string_tokenizer.set_input(message);
+    if (string_tokenizer.next_token_is_one_of("go", "g")) {
+        process_go_command(string_tokenizer);
+    } else if (string_tokenizer.next_token_is_one_of("setoption", "so")) {
+        process_option(string_tokenizer);
+    } else if (string_tokenizer.next_token_is("isready")) {
+        // Our first version is always and immediately ready
+        send_message("readyok");
+    } else if (string_tokenizer.next_token_is_one_of("position", "p")) {
+        std::string fen_position = string_tokenizer.get_the_rest();
+        if (!command_interface.set_position(fen_position)) {
+            send_error("invalid position received via UCI");
+        }
+    } else if (string_tokenizer.next_token_is_one_of("stop", "s")) {
+        command_interface.stop();
+    } else if (string_tokenizer.next_token_is("test")) {
+            CEngineTest::test_everything(); 
+    } else if (string_tokenizer.next_token_is("uci")) {
+         identify_engine();
+         send_list_of_options(); 
+         send_message("uciok");
+    } else if (string_tokenizer.next_token_is_one_of("ucinewgame", "ng")) {
+        command_interface.new_game();
+    } else if (string_tokenizer.next_token_is_one_of("help", "?")) {
+        display_help();
+    } else if (string_tokenizer.next_token_is("perft")) {
+        (void)command_interface.test_move_generator();
+    } else {
+        // "quit" already gets handled by the message_loop().
+        // So this is an unknown token. According to the UCI-standard
+        // we should try to continue with the rest of the line.
+        (void)string_tokenizer.next_token(); 
+        std::string remaining_message = string_tokenizer.get_the_rest();
+        if (remaining_message != "") {
+            // One non-empty token got consumed, so the recursion will terminate
+            assert(remaining_message.length() < message.length());
+            process_message(remaining_message);
+        }
+    }
+}
 
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeee
-eeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeee
-eeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeee
-eeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeee
-eeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeee
-eeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeee
-eeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeee
-eeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-e
+void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
+    if (string_tokenizer.next_token_is_one_of("infinite", "i", "")) {
+        command_interface.go_infinite();
+        return;
+    } 
+    if (string_tokenizer.next_token_is_one_of("depth", "d")) {
+        int  depth = string_tokenizer.get_integer_token(1);
+        command_interface.go_depth(depth);
+        return;
+    }
+    if (string_tokenizer.next_token_is_one_of("nodes", "n")) {
+        int64_t nodes = string_tokenizer.get_integer_token(1);
+       command_interface.go_nodes(nodes);
+       return;
+    }
+    if (string_tokenizer.next_token_is_one_of("mate", "m")) {
+        int depth_in_moves = string_tokenizer.get_integer_token(1);
+        command_interface.go_mate(depth_in_moves);
+        return;
+    }
+    if (string_tokenizer.next_token_is_one_of("movetime", "mt")) {
+        uint64_t move_time_ms = string_tokenizer.get_integer_token(1);
+       command_interface.go_movetime(move_time_ms);
+       return;
+    }
+    if (string_tokenizer.next_token_is_one_of("ponder", "p")) {
+        command_interface.go_ponder();
+        return;
+    }
+    uint64_t white_time_ms = 0;
+    uint64_t black_time_ms = 0;
+    uint64_t white_increment_ms = 0;
+    uint64_t black_incrementt_ms = 0;
+    uint64_t moves_to_go = 0;
+    std::string next_token = string_tokenizer.next_token();
+    while (next_token != "") {
+        if (next_token == "wtime") {
+            white_time_ms = string_tokenizer.get_integer_token(1);
+        } else if (next_token == "btime") {
+            black_time_ms = string_tokenizer.get_integer_token(1);
+        } else if (next_token == "winc") {
+            white_increment_ms = string_tokenizer.get_integer_token(1);
+        } else if (next_token == "binc") {
+            black_incrementt_ms = string_tokenizer.get_integer_token(1);
+        } else if (next_token == "movestogo") {
+            moves_to_go = string_tokenizer.get_integer_token(1);
+        } else {
+            send_error("unexpected tokeen in go-command");
+            return;
+        }
+        next_token = string_tokenizer.next_token();
+    }
+    command_interface.go_time(white_time_ms, black_time_ms, white_increment_ms, black_incrementt_ms, moves_to_go);
+}
 
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeee
-eeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeee
-e
+void CUciProtocol::message_loop() {
+    while (true) {
+        std::string message;
+        getline(std::cin, message);
+        trim(message);
+        // Exit handling here in order to decouple
+        // message_loop, string_tokenizer and process_message for better testability
+        if  ((message == "quit") || (message == "exit") || (message == "x")) {
+            break;
+        }
+        process_message(message);
+        dynamic_sleep(message);
+    }
+}
 
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-e
+void CUciProtocol::dynamic_sleep(const std::string &last_message) const {
+    static int delay_in_ms = 0;
+    constexpr int max_delay = 500;
+    constexpr int delta_delay = 50;
+    delay_in_ms += (last_message != "") ? delta_delay : 0;
+    delay_in_ms = std::min(delay_in_ms, max_delay);
+    delay_in_ms = (last_message != "") ? delay_in_ms : 0;
+    std::this_thread::sleep_for(std::chrono::milliseconds(delay_in_ms));
+}
 
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-e
+void CUciProtocol::display_help() const {
+    send_message("This chess-engine is meant to be used with any modern graphical user-interface,");
+    send_message("communicating via the UCI protocol.");
+    send_message("If you are curious, you might try the command-line:");
+    send_message("    * 'position startpos moves g2g4' or 'p s m g2g4'");
+    send_message("    * Alternatively: 'position fen ....'");
+    send_message("    * 'go depth 7' or 'g d 7' to search");
+    send_message("    * 'go movetime 20000' or ' g mt 20000'");
+    send_message("    * 'go infinite' or 'go' or 'g'");
+    send_message("    * 'stop' to force a move");
+    send_message("    * 'test' for the self-test");
+    send_message("    * 'perft' for a looong test of the move_generator");
+    send_message("    * 'quit' or 'x'to terminate");
+}
 
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeee
-eeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"); 
+void CUciProtocol::process_option(CStringTokenizer &string_tokenizer) {
+    if (string_tokenizer.next_token_is_one_of( "name", "n") == false) {
+       send_error("malformed option command"); 
+        return;
+    }
+    std::string name = string_tokenizer.next_token();
+    if (string_tokenizer.next_token_is_one_of( "value", "v") == false) {
+       send_error("malformed option command"); 
         return;
     }
     std::string value = string_tokenizer.next_token();
