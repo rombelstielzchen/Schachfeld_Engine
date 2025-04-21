@@ -22,8 +22,6 @@ class CTestEvaluator {
     static bool test_decided_positions();
     static bool test_move_sequence();
     static bool test_black_advantage();
-    // TODO: later, for incremental updates
-    static bool test_make_unmake_moves();
     static bool test_pawn_values();
     static bool test_positions();
   private:
