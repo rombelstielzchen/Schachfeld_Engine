@@ -18,6 +18,7 @@
 
 #ifndef DEBUG_LOG_ENABLE
 
+#define DEBUG_ALWAYS_FLUSH_BUFFER()
 #define DEBUG_SET_STREAM(stream) 
 #define DEBUG_LOG_TO_FILE()
 #define DEBUG_METHOD()
@@ -31,18 +32,24 @@
 #include <string>
 #include <time.h>    
 
+#define DEBUG_ALWAYS_FLUSH_BUFFER() { always_flush_buffer(); }
 #define DEBUG_SET_STREAM(stream) {  set_stream(stream); }
 #define DEBUG_LOG_TO_FILE() { log_to_file(); }
 #define DEBUG_METHOD() CLog _debugLog(__FUNCTION__);
 #define DEBUG_MESSAGE(debug_message) { message(debug_message); }
 #define DEBUG_VALUE_OF(variable) { value_of(#variable, variable); }
 
+inline bool flush_buffer = false;
 inline int indentation = 0;
 // Do not use these streams directly, use the wrapper!
 // At startup they can be undefined due to initialization order!
 // std::cout is only known at runtime!
 inline std::ostream* debug_stream = &std::cout;
 inline std::ofstream debug_file_stream;
+
+inline void always_flush_buffer() {
+    flush_buffer = true;
+}
 
 inline std::ostream* safe_output_stream() {
     if (debug_stream != nullptr) {
@@ -109,7 +116,9 @@ inline void message(const std::string& message) {
     int indentation_width = 2 * indentation;
     std::string indented_message = std::string(indentation_width, ' ') + message + "\n";
 	*safe_output_stream() << indented_message;
-    std::flush(*safe_output_stream());
+    if (flush_buffer) {
+        std::flush(*safe_output_stream());
+    }
 }
 
 template<class T> void value_of(const std::string& name, const T& value) {
