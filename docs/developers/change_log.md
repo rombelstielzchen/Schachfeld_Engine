@@ -3,6 +3,7 @@ Major Changes
 
 Version 0.e
 -----------
+* Detecting and avoiding stalemates
 * A second opening book "tabijas" with some dozen main-lines. The user can now choose between "broad_GM", "tabijas" and "solid_mix".
 
 Version 0.d
