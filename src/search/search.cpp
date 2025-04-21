@@ -19,6 +19,7 @@ inline int CSearch::losing_score(bool losing_side) {
 
 int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWindow alpha_beta_window) {
     assert(remaining_depth >= 0);
+    // TODO: Revisit this, related to stalemate-detection
 ///    assert(alpha_beta_window.alpha <= alpha_beta_window.beta);
     int score = board.evaluator.evaluate();
     if (remaining_depth <= 0) {
@@ -32,13 +33,10 @@ int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWind
     CMoveGenerator move_generator;
     move_generator.generate_all();
     if ((distace_to_root == 1) && no_legal_moves()) {
-        std::cerr << board.as_is() << "\n";
-        std::cerr << "No legal moves\n";
         if (CBoardLogic::piece_attacked_by_side_not_to_move(CBoardLogic::king_square(side_to_move)) == false) {
             std::cerr << "not in check, draw\n";
             return SCORE_DRAW;
         } else {
-            std::cerr << "Mate!\n";
             return losing_score(side_to_move);
         }
     }
@@ -90,6 +88,7 @@ int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWind
 
 int CSearch::static_exchange_evaluation(const SSquare &target_square, const SAlphaBetaWindow alpha_beta_window) {
     assert(square_in_range(target_square));
+    // TODO: Revisit this, related to stalemate-detection
 ///    assert(alpha_beta_window.alpha <= alpha_beta_window.beta);
     int score = board.evaluator.evaluate();
     if (board.get_side_to_move() == WHITE_PLAYER) {
@@ -129,9 +128,7 @@ inline bool CSearch::black_score_way_too_good(const int score, const  SAlphaBeta
 bool CSearch::no_legal_moves() {
     CMoveGenerator move_generator;
     move_generator.generate_all();
-            std::cerr << move_generator.move_list.as_text() << "\n";
         move_generator.move_list.prune_illegal_moves();
-            std::cerr << move_generator.move_list.as_text() << "\n";
         return (move_generator.move_list.list_size() ==  0);
 }
 
