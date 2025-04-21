@@ -118,7 +118,6 @@ void CMoveMaker::unmake_move() {
     former_eng_passeng_files.pop_back();
     assert(move_history.size() > 0);
     SMove move = move_history.back();
-    DEBUG_MESSAGE(move_as_text(move));
     move_history.pop_back();
     assert(move_in_range(move));
     char moving_piece = board.get_square(move.target.file, move.target.rank);
