@@ -19,5 +19,6 @@ class CTestSearch {
   public:
       static bool test_everything();
   private:
+      static bool test_no_legal_moves();
       static bool test_position(const STestcaseSearch &testcase);
 };
