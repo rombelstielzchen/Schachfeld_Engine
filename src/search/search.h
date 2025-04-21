@@ -15,6 +15,10 @@ constexpr int32_t BLACK_MIN_SCORE = INT32_MAX - 1000;
 #pragma pack(push)
 #pragma pack(1)
 
+constexpr int SCORE_WHITE_WIN = INT_MAX;
+constexpr int SCORE_BLACK_WIN = INT_MIN;
+constexpr int SCORE_DRAW = 0;
+
 typedef struct {
      int32_t alpha;
      int32_t beta;
@@ -27,6 +31,7 @@ static_assert(sizeof(SAlphaBetaWindow) <= sizeof(int64_t));
 constexpr SAlphaBetaWindow INFINIE_ALPHA_BETA_WINDOW = { WHITE_MIN_SCORE, BLACK_MIN_SCORE };
 
 class CSearch {
+    friend class CTestSearch;
   public:
     int alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWindow alpha_beta_window);
   private:
@@ -34,6 +39,8 @@ class CSearch {
   private:
     inline bool white_score_way_too_good(const int score, const SAlphaBetaWindow alpha_beta_window) const;
     inline bool black_score_way_too_good(const int score, const SAlphaBetaWindow alpha_beta_window) const;
+    inline int losing_score(bool losing_side);
+    bool no_legal_moves();
   private:
     uint64_t nodes_calculated;
 };
