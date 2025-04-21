@@ -30,7 +30,6 @@ CUciProtocol::CUciProtocol() {
     //   * communication via text-IO
     //   * every message should end with a new-line, "\n"
     // To be on the safe side. we use endl, which also flushes the buffer.
-    // TODO: 2 functions, with and wirhout flush
     std::cout << message << std::endl;
 }
 

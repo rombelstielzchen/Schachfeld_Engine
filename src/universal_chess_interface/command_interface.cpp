@@ -121,7 +121,7 @@ void CCommandInterface::stop() {
 }
 
 bool CCommandInterface::set_position(const std::string &fen_position) {
-    // TODO: DOBB?
+    stop();
     return board.set_fen_position(fen_position);
 }
 
