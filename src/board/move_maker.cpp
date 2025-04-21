@@ -58,7 +58,6 @@ bool CMoveMaker::make_move(SMove move) {
             break;
         case MOVE_TYPE_ENG_PASSENG:
             assert(toupper(moving_piece) == WHITE_POWER);
-            // TODO: proper initialization
            SSquare eng_passeng_square;
            eng_passeng_square.file = board.get_eng_passeng_file();
            eng_passeng_square.rank = CBoardLogic::eng_passeng_pawn_rank();

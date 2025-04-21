@@ -62,17 +62,16 @@ bool CTestMoveList::test_filter_by_target_square() {
 
 bool CTestMoveList::test_reuse_list() {
     TEST_FUNCTION(); 
-    // TODO: new test-case
-///    assert(testcases.size() > 42);
-///    SILENT_EXPECT(board.set_fen_position(testcases[42].fen_position));
-///    CMoveGenerator move_generator;
-///    move_generator.generate_all();
-///    SMove first_move = move_generator.move_list.get_next();
-///    move_generator.move_list.reuse_list();
-//    SMove first_move_again = move_generator.move_list.get_next();
-///    EXPECT(first_move == first_move_again);
+    board.set_start_position();
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    SMove first_move = move_generator.move_list.get_next();
+    move_generator.move_list.reuse_list();
+    SMove first_move_again = move_generator.move_list.get_next();
+    EXPECT(first_move == first_move_again);
     return true;
 }
+
 bool CTestMoveList::test_shift_current_move_to_top() {
     TEST_FUNCTION(); 
     const std::string position = "k1K w";

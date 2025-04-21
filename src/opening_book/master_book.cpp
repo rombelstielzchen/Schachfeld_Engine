@@ -33,7 +33,7 @@ std::string CMasterBook::get_move(const std::string &moves_from_startpos_in_uci_
             book_move = tabijas.get_move(moves_from_startpos_in_uci_format);
             break;
         case BOOK_OPTIONS_WONDER_WEAPONS:
-            // TODO
+            // TODO: wonder-weapons
             break;
         default: 
            assert(THIS_MUST_NOT_HAPPEN); 
