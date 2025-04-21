@@ -9,7 +9,7 @@
 #include "../universal_chess_interface/command_interface.h"
 #include "../universal_chess_interface/uci_protocol.h"
 
-constexpr int min_meaningful_depth_to_avoid_illegal_moves = 2;
+constexpr int minimum_search_depth = 1;
 
 CIterativeDeepening::CIterativeDeepening() {
     best_move = NULL_MOVE;
@@ -18,7 +18,7 @@ CIterativeDeepening::CIterativeDeepening() {
 
 SMove CIterativeDeepening::search(int depth) {
     assert(depth >= 0);
-    depth = std::max(depth,  min_meaningful_depth_to_avoid_illegal_moves);
+    depth = std::max(depth,  minimum_search_depth);
     search_statistics.reset_all();
     best_move = NULL_MOVE;
     move_generator.generate_all();
@@ -27,7 +27,7 @@ SMove CIterativeDeepening::search(int depth) {
         return only_move();
     }
     std::string root_position = board.get_fen_position();
-    for (int current_depth = min_meaningful_depth_to_avoid_illegal_moves; current_depth <= depth; ++current_depth) {
+    for (int current_depth = minimum_search_depth; current_depth <= depth; ++current_depth) {
         if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
             break;
         }
@@ -45,7 +45,7 @@ void CIterativeDeepening::root_node_search(int depth) {
    //   * Sorting and reusing the move-list, therefore...
    //     - no hash-moves here
    //     - no killer-moves here
-    assert(depth >= min_meaningful_depth_to_avoid_illegal_moves);
+    assert(depth >= minimum_search_depth);
     CSearch search;
     search_statistics.on_new_depth(depth);
     bool side_to_move = board.get_side_to_move();
@@ -99,7 +99,7 @@ SMove CIterativeDeepening::search_nodes(int64_t nodes) {
     if (only_one_legal_move()) {
         return only_move();
     }
-    int current_depth = min_meaningful_depth_to_avoid_illegal_moves;
+    int current_depth = minimum_search_depth;
     do {
         root_node_search(current_depth);
         ++current_depth;
@@ -115,7 +115,7 @@ SMove CIterativeDeepening::search_movetime(const int64_t movetime_ms) {
     if (only_one_legal_move()) {
         return only_move();
     }
-    int current_depth = min_meaningful_depth_to_avoid_illegal_moves;
+    int current_depth = minimum_search_depth;
     do {
         root_node_search(current_depth);
         ++current_depth;

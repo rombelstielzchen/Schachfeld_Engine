@@ -11,13 +11,13 @@
 
 const std::vector<STestcaseSearch> testcases = {
     // Capturing the king
-///    { 1, "g7g8", "6k1/6Q1/6K1 w" },
+    { 1, "g7g8", "6k1/6Q1/6K1 w" },
     // Capturing the queen with royal fork and perpetual
-///    { 1, "f4g6", "2q2rk1/4qn1n/6q1/8/5N1q/8/8/8/1K6 q w" },
+    { 1, "f4g6", "2q2rk1/4qn1n/6q1/8/5N1q/8/8/8/1K6 q w" },
     // Capturing the queen with mate
-///    { 1, "a1h1", "7k/8/8/8/8/8/6R1/R6q w" },
+    { 1, "a1h1", "7k/8/8/8/8/8/6R1/R6q w" },
     // Black to move: capturing the queen with mate
-///    { 1, "a1h1", "7K/8/8/8/8/8/6r1/r6Q b" },
+    { 1, "a1h1", "7K/8/8/8/8/8/6r1/r6Q b" },
     // Two pawns under attack, one protected by recapture
     { 3, "d5e6", "8/1p6/2p1p3/3P3K w" },
     // Two knights under attack, one protected by recapture
@@ -30,17 +30,17 @@ const std::vector<STestcaseSearch> testcases = {
     { 3, "d4c2", "8/8/8/8/3n4/8/8/Q3K2k b" },
     // Smothered mate, very basic
     { 5, "a2g8", "5r1k/6pp/7N/8/8/8/Q7/7K w" },
-    // Requires static exchange evaluation 
-    { 1, "e6a6", "8/5k2/n3R1b1/8/8/8/8/7K w" },
-    { 1, "b8c8", "RRb/p2b w" },
-    { 1, "a8a7", "RRb/p2b/4b w" },
-    { 1, "d5e4", "q/Bq/2q/3q/4R/5Q/6Q/7Q b" },
-    { 1, "b7a7", "q/Bq/2q/3R/4Q/5Q/6Q/7Q b" },
-    { 1, "b7a7", "8/Bq/2q/3q/4R/5Q/6Q/7Q b" },
-    { 1, "b7a7", "q/Bq/2q/3q/4R/5Q/6B/7Q b" },
-    { 1, "c8d8", "rrrQRRR b" },
-    { 1, "b8c8", "RRnq/2k w" },
-    { 1, "c6b6", "B/1B/1pQ/3b/4b w" },
+    // Requires static exchange evaluation and depth >= 2, more than root-node
+    { 2, "e6a6", "8/5k2/n3R1b1/8/8/8/8/7K w" },
+    { 2, "b8c8", "RRb/p2b w" },
+    { 2, "a8a7", "RRb/p2b/4b w" },
+    { 2, "d5e4", "q/Bq/2q/3q/4R/5Q/6Q/7Q b" },
+    { 2, "b7a7", "q/Bq/2q/3R/4Q/5Q/6Q/7Q b" },
+    { 2, "b7a7", "8/Bq/2q/3q/4R/5Q/6Q/7Q b" },
+    { 2, "b7a7", "q/Bq/2q/3q/4R/5Q/6B/7Q b" },
+    { 2, "c8d8", "rrrQRRR b" },
+    { 2, "b8c8", "RRnq/2k w" },
+    { 2, "c6b6", "B/1B/1pQ/3b/4b w" },
     // Former bug: counter-attacks in check
     { 4, "h8g8", "5q1k/1q3pp1/8/8/8/8/7Q/K6R b" },
     // Avoid stalemate
