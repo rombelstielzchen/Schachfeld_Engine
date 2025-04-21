@@ -7,6 +7,11 @@
 
 #include "../move_generator/move.h"
  
+constexpr int SCORE_WHITE_WIN = INT_MAX;
+constexpr int SCORE_BLACK_WIN = INT_MIN;
+constexpr int SCORE_DRAW = 0;
+constexpr int SCORE_HALF_PAWN  = 50;
+
 class CEvaluator {
     friend class CTestEvaluator;
   public:
@@ -17,12 +22,7 @@ class CEvaluator {
     void incremental_clear_square(const SSquare square);
     int evaluate() const { return value; }
   public:
-    // TODO: private?
     int evaluate_square(const SSquare &square) const;
-  private:
-    // For testing purposes
-    // TODO: move to test?
-    bool evaluates_approximately_to(const int score) const;
   private:
     int evaluate_square(const int file, const int rank) const;
     static int evaluate_white_pawn(const SSquare square);

@@ -104,7 +104,7 @@ bool CTestEvaluator::test_everything() {
 bool CTestEvaluator::test_equal_positions() {
     TEST_FUNCTION();
     board.set_start_position();
-    EXPECT(board.evaluator.evaluates_approximately_to(0));
+    EXPECT(evaluates_approximately_to(0));
     return true;
 }
 
@@ -212,5 +212,10 @@ bool CTestEvaluator::first_pawn_better(const SSquare first, const SSquare second
     int first_value = CEvaluator::evaluate_white_pawn(first);
     int second_value = CEvaluator::evaluate_white_pawn(second);
     return (first_value > second_value);
+}
+
+bool CTestEvaluator::evaluates_approximately_to(const int score) {
+    int real_score = board.evaluator.evaluate();
+    return (abs(real_score - score) < SCORE_HALF_PAWN);
 }
 

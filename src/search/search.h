@@ -15,10 +15,6 @@ constexpr int32_t BLACK_MIN_SCORE = INT32_MAX - 1000;
 #pragma pack(push)
 #pragma pack(1)
 
-constexpr int SCORE_WHITE_WIN = INT_MAX;
-constexpr int SCORE_BLACK_WIN = INT_MIN;
-constexpr int SCORE_DRAW = 0;
-
 typedef struct {
      int32_t alpha;
      int32_t beta;

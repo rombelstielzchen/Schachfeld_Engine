@@ -29,5 +29,6 @@ class CTestEvaluator {
   private:
     static bool first_position_better(const STestcaseEvaluator &testcase);
     static bool first_pawn_better(const SSquare first, const SSquare second);
+    static bool evaluates_approximately_to(const int score);
 };
 
