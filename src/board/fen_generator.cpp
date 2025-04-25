@@ -4,6 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "fen_generator.h"
+
 std::string CFenGenerator::get_fen_position()
 {
     const std::string separator = " ";

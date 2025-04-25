@@ -9,6 +9,7 @@
 #include "board.h"
 #include "square_constants.h"
 #include "../move_generator/move_generator.h"
+#include "../technical_functions/standard_headers.h"
 
 constexpr bool UNEXPECTED_MOVE_TYPE = false;
 
@@ -47,7 +48,7 @@ bool CBoardLogic::castling_squares_empty(const char move_type) {
         case MOVE_TYPE_BLACK_LONG_CASTLING:
             return (board.square_is_empty(FILE_D, RANK_8) && board.square_is_empty(FILE_C, RANK_8) && board.square_is_empty(FILE_B, RANK_8));
         default:
-            assert(false);
+            assert(UNEXPECTED_MOVE_TYPE);
             return false;
     }
 }

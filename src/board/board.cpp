@@ -30,7 +30,7 @@ void CBoard::init_garden_fence() {
 }
 
 void CBoard::clear() {
-    for (int j = FILE_A; j<= FILE_H; ++j) {
+    for (int j = FILE_A; j <= FILE_H; ++j) {
         for (int k = RANK_1; k <= RANK_8; ++k) {
             squares[j][k] = EMPTY_SQUARE;
         }
@@ -62,7 +62,7 @@ const char*  CBoard::as_is() const {
 }
 
 TSquare CBoard::get_square(const int file, const int rank) const {
-    // We might access th fence here, so no chech for in_range()
+    // We might access the fence here, so no check for in_range()
     assert(file >= 0);
     assert(file <= FILE_LAST);
     assert(rank >= 0);

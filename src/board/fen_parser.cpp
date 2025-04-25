@@ -91,7 +91,7 @@ bool CFenParser::parse_piece_placement(const std::string &partial_input) {
                 }
             }
             break;
-     default:
+        default:
             // Unexpected character, non recoverable
             return false;
         }

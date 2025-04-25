@@ -5,8 +5,8 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-//CFenGenerator: utility class that generates a FEN-string for the current position,
-//mainly for testing purposes
+// CFenGenerator: utility class that generates a FEN-string for the current position,
+// mainly for testing purposes
 //
 // https://www.chessprogramming.org/Forsyth-Edwards_Notation
 

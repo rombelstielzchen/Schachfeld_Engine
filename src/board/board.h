@@ -8,6 +8,7 @@
 // Board representation of the Schachfeld_Engine for playing standard chess,
 // Using a two-dimensional, piece-centric "mailbox"-approach with 8x8 slots
 // representing empty squares and pieces. 
+
 #include "move_maker.h"
 #include "../evaluator/evaluator.h"
 #include "../move_generator/move.h"
