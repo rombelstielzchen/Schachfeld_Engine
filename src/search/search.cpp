@@ -86,6 +86,12 @@ int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWind
     return best_score;
 }
 
+int CSearch::quiescence(int remaining_depth, int distace_to_root, SAlphaBetaWindow alpha_beta_window) {
+    //!!!
+    SSquare target_square = NULL_SQUARE;
+    return static_exchange_evaluation(target_square, alpha_beta_window);
+}
+
 int CSearch::static_exchange_evaluation(const SSquare &target_square, const SAlphaBetaWindow alpha_beta_window) {
     assert(square_in_range(target_square));
     // TODO: Revisit this, related to stalemate-detection
