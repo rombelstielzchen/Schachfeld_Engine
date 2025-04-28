@@ -101,6 +101,7 @@ int CSearch::static_exchange_evaluation(const SSquare &target_square, const SAlp
         }
     }
     CMoveGenerator move_generator;
+    // TODO: special function, generate_captures (temp)
     move_generator.generate_all();
     move_generator.move_list.filter_captures_by_target_square(target_square);
     SMove recapture = move_generator.move_list.get_least_valuable_aggressor();

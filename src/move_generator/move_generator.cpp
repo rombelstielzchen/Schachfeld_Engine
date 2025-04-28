@@ -22,6 +22,13 @@ void CMoveGenerator::generate_all() {
     }
 }
 
+void CMoveGenerator::generate_captures() {
+    // TODO: special move-generator, just for captures.
+    assert(move_list.list_size() == 0);
+    generate_all();
+    move_list.prune_silent_moves();
+}
+
 void CMoveGenerator::generate_all_white_moves() {
     for (int j = FILE_A; j <= FILE_H; ++j) {
         for (int k = RANK_1; k <= RANK_8; ++k) {
