@@ -58,10 +58,9 @@ int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWind
                 return score_does_not_matter_wont_get_used;
             }
             candidate_score = alpha_beta(remaining_depth - 1, distace_to_root + 1, alpha_beta_window);
-        } else if (is_any_capture(move_candidate)) {
-            candidate_score = static_exchange_evaluation(move_candidate.target, alpha_beta_window);
         } else {
-            candidate_score = board.evaluator.evaluate();
+            // TODO: remaining deoth needed, except for habdicap-mode?
+            candidate_score = quiescence(42, distace_to_root + 1, alpha_beta_window);
         }
         board.move_maker.unmake_move();
         if ((side_to_move == WHITE_PLAYER) && (candidate_score > best_score)) {
@@ -87,9 +86,61 @@ int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWind
 }
 
 int CSearch::quiescence(int remaining_depth, int distace_to_root, SAlphaBetaWindow alpha_beta_window) {
-    //!!!
-    SSquare target_square = NULL_SQUARE;
-    return static_exchange_evaluation(target_square, alpha_beta_window);
+    assert(remaining_depth >= 0);
+    int score = board.evaluator.evaluate();
+    if (remaining_depth <= 0) {
+        return score;
+    }
+    if (abs(score) > HALF_KING) {
+        return score;
+    }
+    bool side_to_move = board.get_side_to_move();
+    int best_score = score; 
+    CMoveGenerator move_generator;
+    // TODO: generate_captures
+    move_generator.generate_all();
+    move_generator.move_list.prune_silent_moves();
+    int n_moves = move_generator.move_list.list_size();
+    if (n_moves <= 0) {
+        // position is quiet
+        return best_score;
+    }
+    for (int j = 0; j < n_moves; ++j) {
+        SMove move_candidate = move_generator.move_list.get_next__capture_killer_silent(distace_to_root);
+        board.move_maker.make_move(move_candidate);
+        int candidate_score;
+//        if (remaining_depth > 1) {
+//            if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
+//                board.move_maker.unmake_move();
+//                constexpr int score_does_not_matter_wont_get_used = 314159;
+//                return score_does_not_matter_wont_get_used;
+//            }
+            candidate_score = quiescence(remaining_depth - 1, distace_to_root + 1, alpha_beta_window);
+//        } else {
+//            // TODO: remaining deoth needed, except for habdicap-mode?
+//            candidate_score = quiescence(42, distace_to_root + 1, alpha_beta_window);
+//        }
+        board.move_maker.unmake_move();
+        if ((side_to_move == WHITE_PLAYER) && (candidate_score > best_score)) {
+            if (white_score_way_too_good(candidate_score, alpha_beta_window)) {
+                search_statistics.add_nodes(j + 1);
+//                killer_heuristic.store_killer(distace_to_root, move_candidate);
+                return alpha_beta_window.beta;
+            }
+            best_score = candidate_score;
+            alpha_beta_window.alpha = std::max(alpha_beta_window.alpha, best_score);
+        } else if ((side_to_move == BLACK_PLAYER) && (candidate_score < best_score)) {
+            if (black_score_way_too_good(candidate_score, alpha_beta_window)) {
+                search_statistics.add_nodes(j + 1);
+//                killer_heuristic.store_killer(distace_to_root,move_candidate);
+                return alpha_beta_window.alpha;
+            }
+            best_score = candidate_score;
+            alpha_beta_window.beta = std::min(alpha_beta_window.beta, best_score);
+        }
+    }
+//    search_statistics.add_nodes(n_moves);
+    return best_score;
 }
 
 int CSearch::static_exchange_evaluation(const SSquare &target_square, const SAlphaBetaWindow alpha_beta_window) {
