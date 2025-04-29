@@ -32,8 +32,10 @@ SMove CMoveList::get_next() {
 }
 
 SMove CMoveList::get_next__capture_killer_silent(int distance_to_root) {
+    // TODO: this function does not respect end of list,
+    // in case it got filtered for captures
     if (consumer_position < LIST_ORIGIN) {
-        return get_next__best_captire();
+        return get_next__best_capture();
     }
     if (consumer_position == LIST_ORIGIN) {
         integrate_killer(distance_to_root);
@@ -41,7 +43,7 @@ SMove CMoveList::get_next__capture_killer_silent(int distance_to_root) {
     return get_next();
 }
 
-SMove CMoveList::get_next__best_captire() {
+SMove CMoveList::get_next__best_capture() {
     assert(consumer_position < LIST_ORIGIN);
     int best_index = consumer_position;
     int best_score = bidirectional_move_list[best_index].potential_gain;
