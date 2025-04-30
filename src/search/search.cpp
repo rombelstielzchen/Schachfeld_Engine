@@ -18,6 +18,8 @@ inline int CSearch::losing_score(bool losing_side) {
 }
 
 int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWindow alpha_beta_window) {
+        DEBUG_METHOD();
+        DEBUG_MESSAGE(std::to_string(remaining_depth));
     assert(remaining_depth >= 0);
     // TODO: Revisit this, related to stalemate-detection
 ///    assert(alpha_beta_window.alpha <= alpha_beta_window.beta);
@@ -59,7 +61,7 @@ int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWind
             }
             candidate_score = alpha_beta(remaining_depth - 1, distace_to_root + 1, alpha_beta_window);
         } else {
-            // TODO: remaining deoth needed, except for habdicap-mode?
+            // TODO: remaining depth needed, except for habdicap-mode?
             candidate_score = quiescence(42, distace_to_root + 1, alpha_beta_window);
         }
         board.move_maker.unmake_move();
@@ -94,19 +96,24 @@ int CSearch::quiescence(int remaining_depth, int distace_to_root, SAlphaBetaWind
     if (abs(score) > HALF_KING) {
         return score;
     }
+    DEBUG_MESSAGE(std::to_string(distace_to_root));
     bool side_to_move = board.get_side_to_move();
     int best_score = score; 
     CMoveGenerator move_generator;
     // TODO: generate_captures
     move_generator.generate_all();
+    DEBUG_MESSAGE("moves");
+    DEBUG_MESSAGE(std::to_string(move_generator.move_list.list_size()));
     move_generator.move_list.prune_silent_moves();
+    DEBUG_MESSAGE(std::to_string(move_generator.move_list.list_size()));
     int n_moves = move_generator.move_list.list_size();
     if (n_moves <= 0) {
         // position is quiet
         return best_score;
     }
     for (int j = 0; j < n_moves; ++j) {
-        SMove move_candidate = move_generator.move_list.get_next__capture_killer_silent(distace_to_root);
+        SMove move_candidate = move_generator.move_list.get_next__best_capture();
+        DEBUG_MESSAGE(move_as_text(move_candidate));
         board.move_maker.make_move(move_candidate);
         int candidate_score;
 //        if (remaining_depth > 1) {
