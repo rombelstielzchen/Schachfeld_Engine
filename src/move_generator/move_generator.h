@@ -21,6 +21,7 @@ class CMoveGenerator {
     CMoveGenerator();
   public:
     void generate_all();
+    void generate_captures();
   public:
     CMoveList move_list;
   private:

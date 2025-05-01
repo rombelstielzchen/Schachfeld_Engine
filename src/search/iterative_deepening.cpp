@@ -9,7 +9,7 @@
 #include "../universal_chess_interface/command_interface.h"
 #include "../universal_chess_interface/uci_protocol.h"
 
-constexpr int minimum_search_depth = 1;
+constexpr int minimum_search_depth = 1u;
 
 CIterativeDeepening::CIterativeDeepening() {
     best_move = NULL_MOVE;
