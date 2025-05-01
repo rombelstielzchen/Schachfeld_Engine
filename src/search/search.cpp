@@ -89,40 +89,26 @@ int CSearch::quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWin
     }
     bool side_to_move = board.get_side_to_move();
     CMoveGenerator move_generator;
-    // TODO: generate_captures
-//    move_generator.generate_all();
-//    DEBUG_MESSAGE("moves");
-//    DEBUG_MESSAGE(std::to_string(move_generator.move_list.list_size()));
-//    move_generator.move_list.prune_silent_moves();
-//    DEBUG_MESSAGE(std::to_string(move_generator.move_list.list_size()));
     move_generator.generate_captures();
     int n_moves = move_generator.move_list.list_size();
     if (n_moves <= 0) {
         // position is quiet
         return best_score;
     }
-    if (remaining_depth <= 0) {
-        //return best_score;
-     //   return static_exchange_evaluation():
-    }
     for (int j = 0; j < n_moves; ++j) {
         SMove move_candidate = move_generator.move_list.get_next__best_capture();
         assert(move_candidate.move_type != MOVE_TYPE_NORMAL);
-        DEBUG_MESSAGE(move_as_text(move_candidate));
         board.move_maker.make_move(move_candidate);
         int candidate_score;
         if (remaining_depth > 1) {
             candidate_score = quiescence(remaining_depth - 1, distance_to_root + 1, alpha_beta_window);
         } else {
-//            // TODO: remaining deoth needed, except for habdicap-mode?
-//            candidate_score = quiescence(42, distance_to_root + 1, alpha_beta_window);
             candidate_score = static_exchange_evaluation(move_candidate.target, alpha_beta_window);            
         }
         board.move_maker.unmake_move();
         if ((side_to_move == WHITE_PLAYER) && (candidate_score > best_score)) {
             if (white_score_way_too_good(candidate_score, alpha_beta_window)) {
                 search_statistics.add_nodes(j + 1);
-//                killer_heuristic.store_killer(distance_to_root, move_candidate);
                 return alpha_beta_window.beta;
             }
             best_score = candidate_score;
@@ -130,14 +116,13 @@ int CSearch::quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWin
         } else if ((side_to_move == BLACK_PLAYER) && (candidate_score < best_score)) {
             if (black_score_way_too_good(candidate_score, alpha_beta_window)) {
                 search_statistics.add_nodes(j + 1);
-//                killer_heuristic.store_killer(distance_to_root,move_candidate);
                 return alpha_beta_window.alpha;
             }
             best_score = candidate_score;
             alpha_beta_window.beta = std::min(alpha_beta_window.beta, best_score);
         }
     }
-//    search_statistics.add_nodes(n_moves);
+    search_statistics.add_nodes(n_moves);
     return best_score;
 }
 
@@ -156,8 +141,8 @@ int CSearch::static_exchange_evaluation(const SSquare &target_square, const SAlp
         }
     }
     CMoveGenerator move_generator;
-    // TODO: special function, generate_captures (temp)
-    move_generator.generate_all();
+    // TODO: special function
+    move_generator.generate_captures();
     move_generator.move_list.filter_captures_by_target_square(target_square);
     SMove recapture = move_generator.move_list.get_least_valuable_aggressor();
     if (is_null_move(recapture)) {
