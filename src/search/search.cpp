@@ -62,7 +62,7 @@ int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWind
             candidate_score = alpha_beta(remaining_depth - 1, distace_to_root + 1, alpha_beta_window);
         } else {
             // TODO: remaining depth needed, except for habdicap-mode?
-            candidate_score = quiescence(42, distace_to_root + 1, alpha_beta_window);
+            candidate_score = quiescence(2, distace_to_root + 1, alpha_beta_window);
         }
         board.move_maker.unmake_move();
         if ((side_to_move == WHITE_PLAYER) && (candidate_score > best_score)) {
@@ -88,11 +88,9 @@ int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWind
 }
 
 int CSearch::quiescence(int remaining_depth, int distace_to_root, SAlphaBetaWindow alpha_beta_window) {
-    assert(remaining_depth >= 0);
+        DEBUG_METHOD();
+    assert(remaining_depth > 0);
     int score = board.evaluator.evaluate();
-    if (remaining_depth <= 0) {
-        return score;
-    }
     if (abs(score) > HALF_KING) {
         return score;
     }
@@ -111,22 +109,23 @@ int CSearch::quiescence(int remaining_depth, int distace_to_root, SAlphaBetaWind
         // position is quiet
         return best_score;
     }
+    if (remaining_depth <= 0) {
+        //return best_score;
+     //   return static_exchange_evaluation():
+    }
     for (int j = 0; j < n_moves; ++j) {
         SMove move_candidate = move_generator.move_list.get_next__best_capture();
+        assert(move_candidate.move_type != MOVE_TYPE_NORMAL);
         DEBUG_MESSAGE(move_as_text(move_candidate));
         board.move_maker.make_move(move_candidate);
         int candidate_score;
-//        if (remaining_depth > 1) {
-//            if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
-//                board.move_maker.unmake_move();
-//                constexpr int score_does_not_matter_wont_get_used = 314159;
-//                return score_does_not_matter_wont_get_used;
-//            }
+        if (remaining_depth > 1) {
             candidate_score = quiescence(remaining_depth - 1, distace_to_root + 1, alpha_beta_window);
-//        } else {
+        } else {
 //            // TODO: remaining deoth needed, except for habdicap-mode?
 //            candidate_score = quiescence(42, distace_to_root + 1, alpha_beta_window);
-//        }
+            candidate_score = static_exchange_evaluation(move_candidate.target, alpha_beta_window);            
+        }
         board.move_maker.unmake_move();
         if ((side_to_move == WHITE_PLAYER) && (candidate_score > best_score)) {
             if (white_score_way_too_good(candidate_score, alpha_beta_window)) {
