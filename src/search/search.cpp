@@ -20,7 +20,7 @@ inline int CSearch::losing_score(bool losing_side) {
 int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWindow alpha_beta_window) {
     assert(remaining_depth >= 0);
     // TODO: Revisit this, related to stalemate-detection
-///    assert(alpha_beta_window.alpha <= alpha_beta_window.beta);
+    assert(is_valid_alpha_beta_window(alpha_beta_window)); 
     int score = board.evaluator.evaluate();
     if (remaining_depth <= 0) {
         return score;
@@ -57,6 +57,7 @@ int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWind
                 constexpr int score_does_not_matter_wont_get_used = 314159;
                 return score_does_not_matter_wont_get_used;
             }
+            assert(is_valid_alpha_beta_window(alpha_beta_window)); 
             candidate_score = alpha_beta(remaining_depth - 1, distace_to_root + 1, alpha_beta_window);
         } else if (is_any_capture(move_candidate)) {
             candidate_score = static_exchange_evaluation(move_candidate.target, alpha_beta_window);
@@ -89,7 +90,7 @@ int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWind
 int CSearch::static_exchange_evaluation(const SSquare &target_square, const SAlphaBetaWindow alpha_beta_window) {
     assert(square_in_range(target_square));
     // TODO: Revisit this, related to stalemate-detection
-///    assert(alpha_beta_window.alpha <= alpha_beta_window.beta);
+    assert(is_valid_alpha_beta_window(alpha_beta_window)); 
     int score = board.evaluator.evaluate();
     if (board.get_side_to_move() == WHITE_PLAYER) {
         if (white_score_way_too_good(score, alpha_beta_window)) {
