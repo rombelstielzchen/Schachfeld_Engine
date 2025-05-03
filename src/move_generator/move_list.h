@@ -25,9 +25,11 @@ class CMoveList {
   public:
     CMoveList();
     int list_size() const;
+    // TODO: is_empty()
     SMove get_random() const;
+    SMove get_next__best_capture();
     SMove get_next();
-SMove get_next__capture_killer_silent(int dis);
+    SMove get_next__capture_killer_silent(int dis);
     SMove get_least_valuable_aggressor() const;
     SMove lookup_move(const std::string &text_move) const;
   public:
@@ -61,8 +63,6 @@ SMove get_next__capture_killer_silent(int dis);
   private:
     void store_silent_move(const SMove &move);
     inline void store_capture(const SMove &move);
-  private:
-    SMove get_next__best_captire();
   private:
     /// ???
     inline unsigned int last_move_index() const { return next_empty_slot - 1; }

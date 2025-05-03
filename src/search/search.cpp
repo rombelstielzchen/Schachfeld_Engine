@@ -1,5 +1,4 @@
-// Project: Schachfeld_Engine
-// Author: Rombelstielzchen
+// Project: Schachfeld_Engine // Author: Rombelstielzchen
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
@@ -12,27 +11,31 @@
 #include "../universal_chess_interface/command_interface.h"
 
 constexpr int HALF_KING = 10000;
+// TODO: danamic quiescence-depth, handicap-mode
+constexpr int QUIESCENCE_DEPTH = 2;
 
 inline int CSearch::losing_score(bool losing_side) {
     return (losing_side == WHITE_PLAYER) ? SCORE_BLACK_WIN : SCORE_WHITE_WIN;
 }
 
-int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWindow alpha_beta_window) {
+int CSearch::alpha_beta(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window) {
     assert(remaining_depth >= 0);
     // TODO: Revisit this, related to stalemate-detection
     assert(is_valid_alpha_beta_window(alpha_beta_window)); 
-    int score = board.evaluator.evaluate();
+///    int score = board.evaluator.evaluate();
     if (remaining_depth <= 0) {
-        return score;
+        return quiescence(QUIESCENCE_DEPTH, distance_to_root, alpha_beta_window);
     }
-    if (abs(score) > HALF_KING) {
-        return score;
+    int best_score = board.evaluator.evaluate();
+    if (abs(best_score) > HALF_KING) {
+        return best_score;
     }
     bool side_to_move = board.get_side_to_move();
-    int best_score = (side_to_move == WHITE_PLAYER) ? WHITE_MIN_SCORE : BLACK_MIN_SCORE;
+    best_score = (side_to_move == WHITE_PLAYER) ? WHITE_MIN_SCORE : BLACK_MIN_SCORE;
     CMoveGenerator move_generator;
     move_generator.generate_all();
-    if ((distace_to_root == 1) && no_legal_moves()) {
+    // TODO: replace bad stalemate-logic below
+    if ((distance_to_root == 1) && no_legal_moves()) {
         if (CBoardLogic::piece_attacked_by_side_not_to_move(CBoardLogic::king_square(side_to_move)) == false) {
             std::cerr << "not in check, draw\n";
             return SCORE_DRAW;
@@ -40,15 +43,16 @@ int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWind
             return losing_score(side_to_move);
         }
     }
+    // TODO: replace bad stalemate-logic above
     int n_moves = move_generator.move_list.list_size();
-    if (n_moves <= 0) {
-        best_score = board.evaluator.evaluate();
-        // TODO: fluctuations of best_score ruin the logic
+///    if (n_moves <= 0) {
+///        best_score = board.evaluator.evaluate();
+///        // TODO: fluctuations of best_score ruin the logic
 ///        best_score += (side_to_move == WHITE_PLAYER) ? - remaining_depth : remaining_depth;
-        return best_score;
-    }
+///        return best_score;
+///    }
     for (int j = 0; j < n_moves; ++j) {
-        SMove move_candidate = move_generator.move_list.get_next__capture_killer_silent(distace_to_root);
+        SMove move_candidate = move_generator.move_list.get_next__capture_killer_silent(distance_to_root);
         board.move_maker.make_move(move_candidate);
         int candidate_score;
         if (remaining_depth > 1) {
@@ -58,17 +62,15 @@ int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWind
                 return score_does_not_matter_wont_get_used;
             }
             assert(is_valid_alpha_beta_window(alpha_beta_window)); 
-            candidate_score = alpha_beta(remaining_depth - 1, distace_to_root + 1, alpha_beta_window);
-        } else if (is_any_capture(move_candidate)) {
-            candidate_score = static_exchange_evaluation(move_candidate.target, alpha_beta_window);
+            candidate_score = alpha_beta(remaining_depth - 1, distance_to_root + 1, alpha_beta_window);
         } else {
-            candidate_score = board.evaluator.evaluate();
+            candidate_score = quiescence(QUIESCENCE_DEPTH, distance_to_root + 1, alpha_beta_window);
         }
         board.move_maker.unmake_move();
         if ((side_to_move == WHITE_PLAYER) && (candidate_score > best_score)) {
             if (white_score_way_too_good(candidate_score, alpha_beta_window)) {
                 search_statistics.add_nodes(j + 1);
-                killer_heuristic.store_killer(distace_to_root, move_candidate);
+                killer_heuristic.store_killer(distance_to_root, move_candidate);
                 return alpha_beta_window.beta;
             }
             best_score = candidate_score;
@@ -76,7 +78,52 @@ int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWind
         } else if ((side_to_move == BLACK_PLAYER) && (candidate_score < best_score)) {
             if (black_score_way_too_good(candidate_score, alpha_beta_window)) {
                 search_statistics.add_nodes(j + 1);
-                killer_heuristic.store_killer(distace_to_root,move_candidate);
+                killer_heuristic.store_killer(distance_to_root,move_candidate);
+                return alpha_beta_window.alpha;
+            }
+            best_score = candidate_score;
+            alpha_beta_window.beta = std::min(alpha_beta_window.beta, best_score);
+        }
+    }
+    search_statistics.add_nodes(n_moves);
+    return best_score;
+}
+
+int CSearch::quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window) {
+    assert(remaining_depth > 0);
+    int best_score = board.evaluator.evaluate();
+    if (abs(best_score) > HALF_KING) {
+        return best_score;
+    }
+    bool side_to_move = board.get_side_to_move();
+    CMoveGenerator move_generator;
+    move_generator.generate_captures();
+    int n_moves = move_generator.move_list.list_size();
+    if (n_moves <= 0) {
+        // position is quiet
+        return best_score;
+    }
+    for (int j = 0; j < n_moves; ++j) {
+        SMove move_candidate = move_generator.move_list.get_next__best_capture();
+        assert(move_candidate.move_type != MOVE_TYPE_NORMAL);
+        board.move_maker.make_move(move_candidate);
+        int candidate_score;
+        if (remaining_depth > 1) {
+            candidate_score = quiescence(remaining_depth - 1, distance_to_root + 1, alpha_beta_window);
+        } else {
+            candidate_score = static_exchange_evaluation(move_candidate.target, alpha_beta_window);            
+        }
+        board.move_maker.unmake_move();
+        if ((side_to_move == WHITE_PLAYER) && (candidate_score > best_score)) {
+            if (white_score_way_too_good(candidate_score, alpha_beta_window)) {
+                search_statistics.add_nodes(j + 1);
+                return alpha_beta_window.beta;
+            }
+            best_score = candidate_score;
+            alpha_beta_window.alpha = std::max(alpha_beta_window.alpha, best_score);
+        } else if ((side_to_move == BLACK_PLAYER) && (candidate_score < best_score)) {
+            if (black_score_way_too_good(candidate_score, alpha_beta_window)) {
+                search_statistics.add_nodes(j + 1);
                 return alpha_beta_window.alpha;
             }
             best_score = candidate_score;
@@ -102,8 +149,8 @@ int CSearch::static_exchange_evaluation(const SSquare &target_square, const SAlp
         }
     }
     CMoveGenerator move_generator;
-    // TODO: special function, generate_captures (temp)
-    move_generator.generate_all();
+    // TODO: special function
+    move_generator.generate_captures();
     move_generator.move_list.filter_captures_by_target_square(target_square);
     SMove recapture = move_generator.move_list.get_least_valuable_aggressor();
     if (is_null_move(recapture)) {

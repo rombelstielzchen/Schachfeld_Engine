@@ -39,8 +39,9 @@ static_assert(is_valid_alpha_beta_window(INFINIE_ALPHA_BETA_WINDOW));
 class CSearch {
     friend class CTestSearch;
   public:
-    int alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWindow alpha_beta_window);
+    int alpha_beta(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window);
   private:
+    int quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window);
     int static_exchange_evaluation(const SSquare &target_square, SAlphaBetaWindow alpha_beta_window);
   private:
     inline bool white_score_way_too_good(const int score, const SAlphaBetaWindow alpha_beta_window) const;
