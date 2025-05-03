@@ -50,6 +50,7 @@ void CIterativeDeepening::root_node_search(int depth) {
     search_statistics.on_new_depth(depth);
     bool side_to_move = board.get_side_to_move();
     SAlphaBetaWindow alpha_beta_window = INFINIE_ALPHA_BETA_WINDOW;
+    assert(is_valid_alpha_beta_window(alpha_beta_window));
     int best_score = (side_to_move == WHITE_PLAYER) ? WHITE_MIN_SCORE : BLACK_MIN_SCORE;
     move_generator.move_list.reuse_list();
     int n_moves = move_generator.move_list.list_size();
@@ -64,6 +65,7 @@ void CIterativeDeepening::root_node_search(int depth) {
         assert(move_in_range(move_candidate));
         board.move_maker.make_move(move_candidate);
         constexpr int distance_to_first_children = 1;
+        assert(is_valid_alpha_beta_window(alpha_beta_window));
         int candidate_score = search.alpha_beta(depth - 1, distance_to_first_children, alpha_beta_window); 
         if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
             // Break HERE. Do not update bestmove based on potentially crappy data
@@ -74,13 +76,18 @@ void CIterativeDeepening::root_node_search(int depth) {
         if ((side_to_move == WHITE_PLAYER) && (candidate_score > best_score)) {
             best_move = move_candidate;
             best_score = candidate_score;
-            alpha_beta_window.alpha = candidate_score;
+            alpha_beta_window.alpha = std::max(alpha_beta_window.alpha, candidate_score);
+            ///alpha_beta_window.alpha = candidate_score;
+            std::cerr << alpha_beta_window.alpha << "," << alpha_beta_window.beta << "\n";
+            assert(is_valid_alpha_beta_window(alpha_beta_window));
             move_generator.move_list.shift_current_move_to_top();
             search_statistics.set_best_move(best_move, best_score);
         } else if ((side_to_move == BLACK_PLAYER) && (candidate_score < best_score)) {
             best_move = move_candidate;
             best_score = candidate_score;
-            alpha_beta_window.beta = candidate_score;
+            alpha_beta_window.beta = std::min(alpha_beta_window.beta,candidate_score);
+            ///alpha_beta_window.beta = candidate_score;
+            assert(is_valid_alpha_beta_window(alpha_beta_window));
             move_generator.move_list.shift_current_move_to_top();
             search_statistics.set_best_move(best_move, best_score);
         }

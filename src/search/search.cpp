@@ -21,7 +21,8 @@ inline int CSearch::losing_score(bool losing_side) {
 int CSearch::alpha_beta(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window) {
     assert(remaining_depth >= 0);
     // TODO: Revisit this, related to stalemate-detection
-///    assert(alpha_beta_window.alpha <= alpha_beta_window.beta);
+    assert(is_valid_alpha_beta_window(alpha_beta_window)); 
+///    int score = board.evaluator.evaluate();
     if (remaining_depth <= 0) {
         return quiescence(QUIESCENCE_DEPTH, distance_to_root, alpha_beta_window);
     }
@@ -44,6 +45,12 @@ int CSearch::alpha_beta(int remaining_depth, int distance_to_root, SAlphaBetaWin
     }
     // TODO: replace bad stalemate-logic above
     int n_moves = move_generator.move_list.list_size();
+///    if (n_moves <= 0) {
+///        best_score = board.evaluator.evaluate();
+///        // TODO: fluctuations of best_score ruin the logic
+///        best_score += (side_to_move == WHITE_PLAYER) ? - remaining_depth : remaining_depth;
+///        return best_score;
+///    }
     for (int j = 0; j < n_moves; ++j) {
         SMove move_candidate = move_generator.move_list.get_next__capture_killer_silent(distance_to_root);
         board.move_maker.make_move(move_candidate);
@@ -54,6 +61,7 @@ int CSearch::alpha_beta(int remaining_depth, int distance_to_root, SAlphaBetaWin
                 constexpr int score_does_not_matter_wont_get_used = 314159;
                 return score_does_not_matter_wont_get_used;
             }
+            assert(is_valid_alpha_beta_window(alpha_beta_window)); 
             candidate_score = alpha_beta(remaining_depth - 1, distance_to_root + 1, alpha_beta_window);
         } else {
             candidate_score = quiescence(QUIESCENCE_DEPTH, distance_to_root + 1, alpha_beta_window);
@@ -129,7 +137,7 @@ int CSearch::quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWin
 int CSearch::static_exchange_evaluation(const SSquare &target_square, const SAlphaBetaWindow alpha_beta_window) {
     assert(square_in_range(target_square));
     // TODO: Revisit this, related to stalemate-detection
-///    assert(alpha_beta_window.alpha <= alpha_beta_window.beta);
+    assert(is_valid_alpha_beta_window(alpha_beta_window)); 
     int score = board.evaluator.evaluate();
     if (board.get_side_to_move() == WHITE_PLAYER) {
         if (white_score_way_too_good(score, alpha_beta_window)) {
