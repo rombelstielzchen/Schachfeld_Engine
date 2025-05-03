@@ -7,10 +7,14 @@
 
 #include"../move_generator/move.h"
 
+// TODO: use constants from evaluator.h
+// TODO: stalemate, proper distance to mate
 // We need some range here in order to distinguish different depths to mate,
 // avoiding nonsense moves to longer nates or worse
-constexpr int32_t WHITE_MIN_SCORE = INT32_MIN + 1000;
-constexpr int32_t BLACK_MIN_SCORE = INT32_MAX - 1000;
+///constexpr int32_t WHITE_MIN_SCORE = INT32_MIN + 1000;
+///constexpr int32_t BLACK_MIN_SCORE = INT32_MAX - 1000;
+constexpr int32_t WHITE_MIN_SCORE = INT32_MIN; 
+constexpr int32_t BLACK_MIN_SCORE = INT32_MAX;
 
 #pragma pack(push)
 #pragma pack(1)

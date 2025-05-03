@@ -44,7 +44,7 @@ int CSearch::alpha_beta(int remaining_depth, int distace_to_root, SAlphaBetaWind
     if (n_moves <= 0) {
         best_score = board.evaluator.evaluate();
         // TODO: fluctuations of best_score ruin the logic
-        best_score += (side_to_move == WHITE_PLAYER) ? - remaining_depth : remaining_depth;
+///        best_score += (side_to_move == WHITE_PLAYER) ? - remaining_depth : remaining_depth;
         return best_score;
     }
     for (int j = 0; j < n_moves; ++j) {
