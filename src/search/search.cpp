@@ -106,7 +106,7 @@ int CSearch::quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWin
     for (int j = 0; j < n_moves; ++j) {
         SMove move_candidate = move_generator.move_list.get_next__best_capture();
         assert(move_candidate.move_type != MOVE_TYPE_NORMAL);
-        assert(is_null_move(move_candidate) != false);
+        assert(is_null_move(move_candidate) == false);
         board.move_maker.make_move(move_candidate);
         int candidate_score;
         if (remaining_depth > 1) {
