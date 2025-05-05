@@ -48,14 +48,20 @@ SMove CMoveList::get_next__best_capture() {
     int best_index = consumer_position;
     int best_score = bidirectional_move_list[best_index].potential_gain;
     for (unsigned int j = consumer_position + 1; j < LIST_ORIGIN; ++j) {
+        assert(is_null_move(bidirectional_move_list[j]) == false);
         int score = bidirectional_move_list[j].potential_gain;
+        assert(score > 0);
         if (score > best_score) {
             best_index = j;
+            best_score = score;
         }
     }
+    assert(best_index >= consumer_position);
+    assert(best_index < LIST_ORIGIN);
     SMove best_move = bidirectional_move_list[best_index];
     assert(best_move.move_type != MOVE_TYPE_NORMAL);
-//    assert(best_move.potential_gain > 0);
+    assert(is_null_move(best_move) == false);
+    assert(best_move.potential_gain > 0);
     bidirectional_move_list[best_index] = bidirectional_move_list[consumer_position];
      ++consumer_position;
     return best_move;
