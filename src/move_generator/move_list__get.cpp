@@ -40,11 +40,10 @@ SMove CMoveList::get_next__capture_killer_silent(int distance_to_root) {
     if (consumer_position == LIST_ORIGIN) {
         integrate_killer(distance_to_root);
     }
+    std::cerr << consumer_position << "\n";
     SMove move = get_next();
-// TODO: assertion fails, because we swap a silent killer with a caoture.
-// Leave the capture untouched
-//    std::cerr << move.move_type << "\n";
-//    assert(is_silent_move(move));
+    std::cerr << move_as_text(move) << move.move_type << "\n";
+    assert(is_silent_move(move));
     return move;
 }
 
