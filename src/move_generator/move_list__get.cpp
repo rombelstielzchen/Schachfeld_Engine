@@ -40,7 +40,12 @@ SMove CMoveList::get_next__capture_killer_silent(int distance_to_root) {
     if (consumer_position == LIST_ORIGIN) {
         integrate_killer(distance_to_root);
     }
-    return get_next();
+    SMove move = get_next();
+// TODO: assertion fails, because we swap a silent killer with a caoture.
+// Leave the capture untouched
+//    std::cerr << move.move_type << "\n";
+//    assert(is_silent_move(move));
+    return move;
 }
 
 SMove CMoveList::get_next__best_capture() {
@@ -59,8 +64,8 @@ SMove CMoveList::get_next__best_capture() {
     assert(best_index >= consumer_position);
     assert(best_index < LIST_ORIGIN);
     SMove best_move = bidirectional_move_list[best_index];
-    assert(best_move.move_type != MOVE_TYPE_NORMAL);
     assert(is_null_move(best_move) == false);
+    assert(is_any_capture(best_move));
     assert(best_move.potential_gain > 0);
     bidirectional_move_list[best_index] = bidirectional_move_list[consumer_position];
      ++consumer_position;
