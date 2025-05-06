@@ -31,18 +31,54 @@ bool is_null_move(const SMove move) {
 }
 
 bool is_any_capture(const SMove &move) {
+    return (is_capture(move) || is_promotion(move));
+}
+
+bool is_capture(const SMove &move) {
+    return ((move.move_type == MOVE_TYPE_CAPTURE)
+        || is_eng_passeng(move)); 
+}
+
+bool is_castling(const SMove &move) {
     switch (move.move_type) {
-        case MOVE_TYPE_NORMAL:
-        case MOVE_TYPE_DOUBLE_JUMP:
         case MOVE_TYPE_WHITE_SHORT_CASTLING:
-        case MOVE_TYPE_WHITE_LONG_CASTLING:
+       case MOVE_TYPE_WHITE_LONG_CASTLING:
         case MOVE_TYPE_BLACK_SHORT_CASTLING:
         case MOVE_TYPE_BLACK_LONG_CASTLING:
-            return false;
-        default:
-            // captures, eng-passeng, promotions
             return true;
+        default:
+            return false;
     }
+}
+
+bool is_eng_passeng(const SMove &move) {
+    return (move.move_type == MOVE_TYPE_ENG_PASSENG);
+}
+
+bool is_promotion(const SMove &move) {
+    switch (move.move_type) {
+        case WHITE_POWER:
+        case WHITE_KNIGHT:
+        case WHITE_BISHOP:
+        case WHITE_ROOK:
+                case WHITE_QUEEN:
+        case WHITE_KING:
+        case BLACK_POWER:
+        case BLACK_KNIGHT:
+        case BLACK_BISHOP:
+        case BLACK_ROOK:
+        case BLACK_QUEEN:
+        case BLACK_KING:
+            return true;
+        default:
+            return false;
+    }
+}
+
+bool is_silent_move(const SMove &move) {
+    return ((move.move_type == MOVE_TYPE_NORMAL)
+        || (move.move_type == MOVE_TYPE_DOUBLE_JUMP)
+        || is_castling(move));
 }
 
 bool is_any_piece(char square_or_move_type) {
