@@ -93,7 +93,7 @@ bool CBoardLogic::square_occupied_by_opponent(const int file, const int rank) {
 }
 
 bool CBoardLogic::is_valid_target_square(const int file, const int rank) {
-    if (board.get_square(file, rank) == EMPTY_SQUARE) {
+    if (board.square_is_empty(file, rank)) {
         return true;
     }
     return square_occupied_by_opponent(file, rank);

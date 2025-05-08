@@ -128,8 +128,8 @@ class CBoard {
     CEvaluator evaluator;
     CMoveMaker move_maker;
   private:
-    void init_garden_fence();
     void clear();
+    void init_garden_fence();
   private:
     // Using std::array instead of old-style C arrays.
     // Advantages:

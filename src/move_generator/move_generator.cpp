@@ -105,11 +105,11 @@ void CMoveGenerator::generate_pawn_forward_moves(const int file, const int rank,
     assert(rank <= RANK_7);
     assert((positive_negative_direction == DIRECTION_NORTH) || (positive_negative_direction == DIRECTION_SOUTH));
     const int next_rank = rank + positive_negative_direction;
-    if (board.get_square(file, next_rank) == EMPTY_SQUARE) {
+    if (board.square_is_empty(file, next_rank)) {
         move_list.store_pawn_move(file, rank, file, next_rank);
         const int second_next_rank = next_rank + positive_negative_direction;
         if (((rank == RANK_2) || (rank == RANK_7))
-            && (board.get_square(file, second_next_rank) == EMPTY_SQUARE)) {
+            && (board.square_is_empty(file, second_next_rank))) {
             move_list.store_silent_move(file, rank, file, second_next_rank, MOVE_TYPE_DOUBLE_JUMP);
         }
     }
@@ -218,7 +218,7 @@ void CMoveGenerator::generate_potential_eng_passeng() {
     int next_rank = CBoardLogic::eng_passeng_forward_rank();
     const char my_pawn = CBoardLogic::my_pawn();
     assert(toupper(board.get_square(eng_passeng_file, rank)) == WHITE_POWER);
-    assert(board.get_square(eng_passeng_file, next_rank) == EMPTY_SQUARE);
+    assert(board.square_is_empty(eng_passeng_file, next_rank));
     int left = eng_passeng_file - 1;
     int right = eng_passeng_file + 1;
     if (board.get_square(left, rank) == my_pawn) {
