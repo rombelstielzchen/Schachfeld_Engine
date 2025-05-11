@@ -13,7 +13,7 @@
 
 CC=g++
 
-DEBUGFLAGS=-D DEBUG_LOG_ENABLE -std=c++17 -Wall -Wextra -Wpedantic -O0 -c $^
+DEBUGFLAGS=-D DEBUG_LOG_ENABLE -std=c++17 -Wall -Wextra -Wpedantic -fmax-errors=1 -O0 -c $^
 OPTIMIZEDFLAGS=-std=c++17 -Wall -O2  -c $^
 ANALYSISFLAGS==-std=c++17 -Wall -Wextra -Wpedantic -O0  -c $^
 CFLAGS=$(DEBUGFLAGS)

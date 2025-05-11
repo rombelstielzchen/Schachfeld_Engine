@@ -23,6 +23,8 @@ void CMoveList::store_silent_move(const int source_file, const int source_rank, 
     new_move.target.rank = target_rank;
     new_move.move_type = move_type;
     new_move.potential_gain = 0;
+    assert(move_in_range(new_move));
+    assert(is_silent_move(new_move));
     store_silent_move(new_move);
 }
 
@@ -115,9 +117,11 @@ void CMoveList::store_black_promotions(const int source_file, const int source_r
 }
 
 void CMoveList::store_silent_move(const SMove &move) {
+    assert(is_silent_move(move));
     bidirectional_move_list[next_empty_slot] = move; 
     ++next_empty_slot;
    assert(next_empty_slot < LIST_SIZE);
+   assert(is_silent_move(bidirectional_move_list[LIST_ORIGIN]));
 }
 
 void CMoveList::store_capture(const SMove &move) {
@@ -128,6 +132,7 @@ void CMoveList::store_capture(const SMove &move) {
     --consumer_position;
     assert(move.potential_gain > 0);
     bidirectional_move_list[first_capture] = move;
+   assert(is_silent_move(bidirectional_move_list[LIST_ORIGIN]));
  }
 
 void CMoveList::store_castling(const char move_type) {
