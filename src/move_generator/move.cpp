@@ -5,6 +5,7 @@
 
 #include "move.h"
 #include "../board/board.h"
+#include "../board/square_constants.h"
 #include "../technical_functions/standard_headers.h"
 
 bool file_in_range(const int file) {
@@ -152,6 +153,9 @@ char rank_as_text(const int rank) {
 }
 
 std::string square_as_text(const SSquare square) {
+    if (square == NULL_SQUARE) {
+        return "00";
+    }
     assert(square_in_range(square));
     std::string result{
         file_as_text(square.file),
