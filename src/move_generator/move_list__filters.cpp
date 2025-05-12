@@ -38,14 +38,24 @@ void CMoveList::prune_illegal_moves() {
 }
 
 void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
+///        assert(target_square == NULL_SQUARE == false);
     prune_silent_moves();
-    for (unsigned int j = first_capture; j < LIST_ORIGIN; ++j) {
-        SMove move = bidirectional_move_list[j];
+    int pos = LIST_ORIGIN - 1;
+    while (pos >= consumer_position) {
+        SMove move = bidirectional_move_list[pos];
+        // TODO: SSquare operators
         if ((move.target.file == target_square.file) && (move.target.rank == target_square.rank)) {
-            store_silent_move(move);
+            --pos;
+        } else {
+            bidirectional_move_list[pos] = get_next();
         }
     }
-    first_capture = LIST_ORIGIN;
+    // TODO: revisit consumer_position in case of no captures, LIST_ORIGIN + 1?
+    consumer_position = std::min(consumer_position, LIST_ORIGIN);
+    first_capture = consumer_position;
+    assert(valid_list_origin());
+    // TODO: != operatpr
+    assert(valid_list_origin());
 }
 
 void CMoveList::reuse_list() {
