@@ -71,6 +71,7 @@ class CMoveList {
     void remove(const SMove move);
     void remove(const std::string &move_text);
     void prune_illegal_castlings();
+    bool valid_list_origin() const;
   private:
     // Using array instead of vector due to its known size and for better performance
     std::array<SMove,LIST_SIZE> bidirectional_move_list;
