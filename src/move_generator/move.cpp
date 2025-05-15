@@ -236,8 +236,17 @@ bool operator ==(const SMove a, const std::string &b) {
     return (move_as_text(a) == b);
 }
 
+bool operator != (const SSquare a, const SSquare b) {
+    return !(a == b);
+}
+
 bool operator !=(const SMove a, const SMove b) {
     return !(a == b);
+}
+
+std::ostream& operator <<(std::ostream &os, const SSquare square) {
+    os << square_as_text(square);
+    return os;
 }
 
 std::ostream& operator <<(std::ostream &os, const SMove move) {
