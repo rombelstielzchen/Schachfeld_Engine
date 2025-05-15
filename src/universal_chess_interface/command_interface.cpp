@@ -46,6 +46,7 @@ void CCommandInterface::go_mate(const int depth_in_moves) {
     // * depth: 1, 3, 5, ...?
     // * increased alpha or beta
     // * consider only final checks
+    //  * restrict quiescence.search
     assert(depth_in_moves > 0);
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     int64_t depth_in_plies = 2 * depth_in_moves - 1;
