@@ -25,10 +25,7 @@ bool move_in_range(const SMove move) {
 }
 
 bool is_null_move(const SMove move) {
-    return ((move.source.file == NULL_MOVE.source.file)
-        && (move.source.rank == NULL_MOVE.source.rank)
-        && (move.target.file == NULL_MOVE.target.file)
-        && (move.target.rank == NULL_MOVE.target.rank));
+    return (move == NULL_MOVE);
 }
 
 bool is_any_capture(const SMove &move) {

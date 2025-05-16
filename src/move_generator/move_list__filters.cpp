@@ -44,7 +44,7 @@ void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
     while (pos >= consumer_position) {
         SMove move = bidirectional_move_list[pos];
         // TODO: SSquare operators
-        if ((move.target.file == target_square.file) && (move.target.rank == target_square.rank)) {
+        if (move.target == target_square) {
             --pos;
         } else {
             bidirectional_move_list[pos] = get_next();
