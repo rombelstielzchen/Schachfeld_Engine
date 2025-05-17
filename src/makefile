@@ -243,6 +243,9 @@ stats:
 	@grep TODO *.cpp */*.cpp */*/*.cpp | wc -l
 	@ls -o engine
 
+todo:
+	grep -A1 -B1 TODO *.cpp */*.cpp */*.h
+
 standard_headers: technical_functions/standard_headers.h.gch
 
 technical_functions/standard_headers.h.gch: technical_functions/standard_headers.h
