@@ -38,12 +38,13 @@ void CMoveList::prune_illegal_moves() {
 }
 
 void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
-///        assert(target_square == NULL_SQUARE == false);
+    // NULL_SQUARE possible in case of simple testcases without king
+    assert(square_in_range(target_square) || (target_square == NULL_SQUARE));
     prune_silent_moves();
     int pos = LIST_ORIGIN - 1;
+    // while-loop guaranteed to terminate; either pos decreases or consumer_position increases
     while (pos >= consumer_position) {
         SMove move = bidirectional_move_list[pos];
-        // TODO: SSquare operators
         if (move.target == target_square) {
             --pos;
         } else {
