@@ -79,3 +79,15 @@ bool CMoveList::valid_list_origin() const {
     return is_valid;
 }
 
+bool CMoveList::valid_consumer_position() const {
+    return ((consumer_position >= first_capture) && (consumer_position <= next_empty_slot));
+}
+
+bool CMoveList::valid_list() const {
+    return (valid_list_origin() && valid_consumer_position() && (first_capture <= LIST_ORIGIN));
+}
+
+bool CMoveList::unused_list() const {
+    return (consumer_position == first_capture);
+}
+

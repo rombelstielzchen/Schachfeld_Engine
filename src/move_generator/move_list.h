@@ -64,14 +64,22 @@ class CMoveList {
     void store_silent_move(const SMove &move);
     inline void store_capture(const SMove &move);
   private:
-    /// ???
     inline unsigned int last_move_index() const { return next_empty_slot - 1; }
     unsigned int get_index(const SMove basic_move) const;
     bool move_on_list(const std::string &move_text) const;
+  private:
+    // Use remove() only on unused_list(), no get_next()
     void remove(const SMove move);
     void remove(const std::string &move_text);
+    void remove(unsigned int position);
+    void remove_capture(unsigned int position);
+    void remove_silent_move(unsigned int position);
     void prune_illegal_castlings();
+  private:
     bool valid_list_origin() const;
+    bool valid_consumer_position() const;
+    bool valid_list() const;
+    bool unused_list() const;
   private:
     // Using array instead of vector due to its known size and for better performance
     std::array<SMove,LIST_SIZE> bidirectional_move_list;
@@ -80,4 +88,4 @@ class CMoveList {
     unsigned int next_empty_slot_before_pruning_silent_moves;
     unsigned int consumer_position;
 };
-
+ 
