@@ -176,6 +176,7 @@ bool CTestMoveGenerator::test(const STestcaseMoveGenerator &testcase) {
     move_generator.generate_all();
     move_generator.move_list.prune_illegal_moves();
    int strictly_legal_moves = move_generator.move_list.list_size();
+   CTEST << "Expected legal moves: " << int(testcase.expected_legal_moves) << "\n";
     CTEST << "Legal moves: " << strictly_legal_moves << "\n";
     SILENT_EXPECT(strictly_legal_moves == testcase.expected_legal_moves);
     return true;

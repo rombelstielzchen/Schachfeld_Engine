@@ -108,9 +108,12 @@ bool CTestMoveList::test_remove() {
     SILENT_EXPECT(board.set_fen_position(nearly_stalemaze));
     CMoveGenerator move_generator;
     move_generator.generate_all();
+    EXPECT(move_generator.move_list.consumer_position <= LIST_ORIGIN);
     SILENT_EXPECT(move_generator.move_list.list_size() == 5);
-   constexpr SMove illegal_move = {{FILE_B, RANK_8}, C8, MOVE_TYPE_NORMAL, EMPTY_SQUARE,0};
+    constexpr SMove illegal_move = {{FILE_B, RANK_8}, C8, MOVE_TYPE_NORMAL, EMPTY_SQUARE,0};
+    EXPECT(move_generator.move_list.consumer_position <= LIST_ORIGIN);
    move_generator.move_list.remove(illegal_move);
+    EXPECT(move_generator.move_list.consumer_position <= LIST_ORIGIN);
     EXPECT(move_generator.move_list.list_size() == 4);
     move_generator.move_list.filter_captures_by_target_square(C8);
     EXPECT(move_generator.move_list.list_size() == 0);
