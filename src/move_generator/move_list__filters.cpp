@@ -115,15 +115,17 @@ void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
 
 void CMoveList::reuse_list() {
     DEBUG_METHOD();
-    assert(valid_list());
-     assert(consumer_position >= first_capture);
+    // No assert(valid_list(); here, as shift_current_move_to_top() "ruins" pre-sortedness
+    assert(valid_consumer_position());
     consumer_position = first_capture;
-    assert(valid_list());
 }
 
 void CMoveList::shift_current_move_to_top() {
     DEBUG_METHOD();
-    assert(valid_list());
+    // No assert(valid_list_origin());
+    // and therefore no  assert(valid_list());
+    // because we may shift captures into the silent part of the list.
+    assert(valid_consumer_position());
     unsigned int former_consumer_position = consumer_position - 1;
     assert(former_consumer_position >= first_capture);
     assert(former_consumer_position < next_empty_slot);
@@ -133,7 +135,7 @@ void CMoveList::shift_current_move_to_top() {
        bidirectional_move_list[j] = bidirectional_move_list[j - 1];;
     }
     bidirectional_move_list[first_capture] = new_top_move;
-    assert(valid_list());
+    assert(valid_consumer_position());
 }
 
 void CMoveList::remove(const SMove move) {

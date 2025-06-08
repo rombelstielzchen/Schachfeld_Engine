@@ -50,8 +50,12 @@ class CMoveList {
     void prune_illegal_moves();
   public:
     // For root-node ordering
-    void reuse_list();
+    // This function "ruins" the pre-sortedness of the list,
+    // therefore to be used at the root-node only,  where we analyze all moves
+    // and don't depend on a separation of captures and silent moves.
     void shift_current_move_to_top();
+    void reuse_list();
+  public:
     void integrate_killer(int distance_to_root); 
   public:
     std::string as_text() const;
