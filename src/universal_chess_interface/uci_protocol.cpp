@@ -21,6 +21,8 @@ CUciProtocol::CUciProtocol() {
     // Use std::cerr here; std::cout is reserved for the protocol
     std::cerr << ENGINE_ID << "\n";
     std::cerr << "'help' or '?' for some guidance\n";
+    // Init the one and obly info_thread immediately for convenience
+    CInfoThread info_thread;
 }
 
 /* static */ void CUciProtocol::send_message(const std::string &message) {
@@ -90,10 +92,6 @@ void CUciProtocol::process_message(const std::string &message) {
          identify_engine();
          send_list_of_options(); 
          send_message("uciok");
-         // TODO: function to init everything
-         // TODO: automatic initialization in console mode
-         // TODO: avoid multiple initialization
-         CInfoThread info_thread;
     } else if (string_tokenizer.next_token_is_one_of("ucinewgame", "ng")) {
         command_interface.new_game();
     } else if (string_tokenizer.next_token_is_one_of("help", "?")) {
