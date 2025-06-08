@@ -9,6 +9,6 @@ class CInfoThread {
   public:
     CInfoThread();
   private:
-    void thread_function();
+    static void thread_function();
 };
 

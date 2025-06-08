@@ -10,6 +10,7 @@
 
 #include "uci_protocol.h"
 #include "command_interface.h"
+#include "info_thread.h"
 #include "../technical_functions/engine_test.h"
 #include "../technical_functions/standard_headers.h"
 
@@ -89,6 +90,10 @@ void CUciProtocol::process_message(const std::string &message) {
          identify_engine();
          send_list_of_options(); 
          send_message("uciok");
+         // TODO: function to init everything
+         // TODO: automatic initialization in console mode
+         // TODO: avoid multiple initialization
+         CInfoThread info_thread;
     } else if (string_tokenizer.next_token_is_one_of("ucinewgame", "ng")) {
         command_interface.new_game();
     } else if (string_tokenizer.next_token_is_one_of("help", "?")) {
