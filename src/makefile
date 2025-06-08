@@ -36,6 +36,7 @@ engine: \
 	fen_generator.o \
 	fen_parser.o \
 	gm_book.o \
+	info_thread.o \
 	iterative_deepening.o \
 	killer_heuristics.o \
 	main.o \
@@ -163,6 +164,9 @@ test_search.o: search/test_search.cpp
 	$(CC) $(CFLAGS) 
 
 search_statistics.o: search/search_statistics.cpp
+	$(CC) $(CFLAGS) 
+
+info_thread.o: universal_chess_interface/info_thread.cpp
 	$(CC) $(CFLAGS) 
 
 iterative_deepening.o: search/iterative_deepening.cpp
