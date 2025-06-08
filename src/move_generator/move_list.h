@@ -81,7 +81,7 @@ class CMoveList {
     void prune_illegal_castlings();
   private:
     bool valid_list_origin() const;
-    bool valid_consumer_position() const;
+    bool valid_positions() const;
     bool valid_list() const;
     bool unused_list() const;
   private:

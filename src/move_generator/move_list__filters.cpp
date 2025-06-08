@@ -11,7 +11,6 @@
 
 void CMoveList::prune_silent_moves() {
     assert(valid_list());
-    assert(next_empty_slot >= LIST_ORIGIN);
     next_empty_slot_before_pruning_silent_moves = std::max(next_empty_slot, next_empty_slot_before_pruning_silent_moves);
     next_empty_slot = LIST_ORIGIN;
     assert(valid_list());
@@ -75,11 +74,8 @@ void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
     assert(valid_list());
     // NULL_SQUARE possible in case of simple testcases without king
     assert(square_in_range(target_square) || (target_square == NULL_SQUARE));
-    assert(valid_list_origin());
-    assert(consumer_position <= LIST_ORIGIN);
     prune_silent_moves();
-    assert(valid_list_origin());
-    assert(consumer_position <= LIST_ORIGIN);
+    assert(valid_list());
     int pos = LIST_ORIGIN - 1;
     // while-loop guaranteed to terminate; either pos decreases or consumer_position increases
     while (pos >= consumer_position) {
@@ -95,24 +91,23 @@ void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
         ++pos;
     }
     consumer_position == pos;
-    // TODO: revisit consumer_position in case of no captures, LIST_ORIGIN + 1?
     consumer_position = std::min(consumer_position, LIST_ORIGIN);
     first_capture = consumer_position;
-    assert(valid_list_origin());
     assert(valid_list());
 }
 
 void CMoveList::reuse_list() {
     // No assert(valid_list(); here, as shift_current_move_to_top() "ruins" pre-sortedness
-    assert(valid_consumer_position());
+    assert(valid_positions());
     consumer_position = first_capture;
+    assert(valid_positions());
 }
 
 void CMoveList::shift_current_move_to_top() {
     // No assert(valid_list_origin());
     // and therefore no  assert(valid_list());
     // because we may shift captures into the silent part of the list.
-    assert(valid_consumer_position());
+    assert(valid_positions());
     unsigned int former_consumer_position = consumer_position - 1;
     assert(former_consumer_position >= first_capture);
     assert(former_consumer_position < next_empty_slot);
@@ -122,12 +117,11 @@ void CMoveList::shift_current_move_to_top() {
        bidirectional_move_list[j] = bidirectional_move_list[j - 1];;
     }
     bidirectional_move_list[first_capture] = new_top_move;
-    assert(valid_consumer_position());
+    assert(valid_positions());
 }
 
 void CMoveList::remove(const SMove move) {
     assert(valid_list());
-    assert(valid_list_origin());
     unsigned int position = get_index(move);
     if (position == MOVE_NOT_ON_LIST) {
         return;
@@ -207,12 +201,10 @@ void CMoveList::remove_capture(unsigned int position) {
     int former_list_size = list_size();
     bidirectional_move_list[position] = bidirectional_move_list[first_capture];
     assert(consumer_position == first_capture);
-        ++first_capture;
-        ++consumer_position;
-        assert(valid_list_origin());
-        assert(valid_consumer_position());
-        assert(valid_list());
+    ++first_capture;
+    ++consumer_position;
     assert(former_list_size > list_size());
+    assert(valid_list());
 }
 
 void CMoveList::remove_silent_move(unsigned int position) {
@@ -220,8 +212,8 @@ void CMoveList::remove_silent_move(unsigned int position) {
     int former_list_size = list_size();
     bidirectional_move_list[position] = bidirectional_move_list[last_move_index()];
     --next_empty_slot;
+    assert(former_list_size > list_size());
     assert(valid_list());
     assert(unused_list());
-    assert(former_list_size > list_size());
 }
 
