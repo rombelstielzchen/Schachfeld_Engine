@@ -13,7 +13,6 @@
 #include "../technical_functions/testing.h"
 
 CCommandInterface::CCommandInterface() {
-    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
 }
 
 void CCommandInterface::go_depth(const int depth_in_plies) {

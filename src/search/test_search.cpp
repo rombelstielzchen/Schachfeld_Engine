@@ -8,6 +8,7 @@
 #include "search.h"
 #include "../board/board.h"
 #include "../technical_functions/testing.h"
+#include "../universal_chess_interface/command_interface.h"
 
 const std::vector<STestcaseSearch> testcases = {
     // Capturing the king
@@ -49,10 +50,13 @@ const std::vector<STestcaseSearch> testcases = {
 
 bool CTestSearch::test_everything() {
     BEGIN_TESTSUITE("CTestSearch");
+    bool former_dobb_dobb_dobb = DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop;
+    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     EXPECT(test_no_legal_moves());
     for (const STestcaseSearch &testcase : testcases) {
         SILENT_EXPECT(test_position(testcase));
     }
+    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = former_dobb_dobb_dobb;
     return true;
 }
 

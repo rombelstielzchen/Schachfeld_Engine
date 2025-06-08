@@ -5,6 +5,7 @@
 
 #include "info_thread.h"
 #include "command_interface.h"
+#include "uci_protocol.h"
 #include "../technical_functions/standard_headers.h"
 
 CInfoThread::CInfoThread() {
@@ -17,7 +18,7 @@ void CInfoThread::thread_function() {
         constexpr int one_second_1000_ms = 1000;
         std::this_thread::sleep_for(std::chrono::milliseconds(one_second_1000_ms));
         if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop == false) {
-            std::cout << "huhu\n";
+                CUciProtocol::send_message("huhu");
         }
     }
 }
