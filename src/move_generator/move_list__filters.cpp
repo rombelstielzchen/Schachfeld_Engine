@@ -10,7 +10,6 @@
 #include "../board/square_constants.h"
 
 void CMoveList::prune_silent_moves() {
-    DEBUG_METHOD();
     assert(valid_list());
     assert(next_empty_slot >= LIST_ORIGIN);
     next_empty_slot_before_pruning_silent_moves = std::max(next_empty_slot, next_empty_slot_before_pruning_silent_moves);
@@ -19,7 +18,6 @@ void CMoveList::prune_silent_moves() {
 }
 
 void CMoveList::unprune_silent_moves() {
-    DEBUG_METHOD();
     assert(valid_list());
     next_empty_slot = next_empty_slot_before_pruning_silent_moves;
     assert(valid_list());
@@ -47,26 +45,18 @@ bool illegal_move(SMove move) {
 }
 
 void CMoveList::prune_illegal_moves() {
-    DEBUG_METHOD();
     assert(valid_list());
-    std::cerr << "List size: " << list_size() << "\n";
     unsigned int pos = first_capture;
     while (pos < next_empty_slot) {
         assert(pos >= first_capture);
-        std::cerr << "pos: " << pos << "\n";
-        std::cerr << "next_empty_slot: " << next_empty_slot << "\n";
         assert(valid_list());
         SMove move = bidirectional_move_list[pos];
-        std::cerr  << move << "\n";
         if (illegal_move(move)) {
-            std::cerr << "Removing illegal\n";
-            std::cerr << "List size: " << list_size() << "\n";
             assert(valid_list());
             int former_list_size = list_size();
             assert(pos >= first_capture);
             remove(pos);
             pos = std::max(pos, first_capture);
-            std::cerr << "List size: " << list_size() << "\n";
             assert(list_size() < former_list_size);
             assert(valid_list());
         } else {
@@ -82,7 +72,6 @@ void CMoveList::prune_illegal_moves() {
 }
 
 void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
-    DEBUG_METHOD();
     assert(valid_list());
     // NULL_SQUARE possible in case of simple testcases without king
     assert(square_in_range(target_square) || (target_square == NULL_SQUARE));
@@ -114,14 +103,12 @@ void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
 }
 
 void CMoveList::reuse_list() {
-    DEBUG_METHOD();
     // No assert(valid_list(); here, as shift_current_move_to_top() "ruins" pre-sortedness
     assert(valid_consumer_position());
     consumer_position = first_capture;
 }
 
 void CMoveList::shift_current_move_to_top() {
-    DEBUG_METHOD();
     // No assert(valid_list_origin());
     // and therefore no  assert(valid_list());
     // because we may shift captures into the silent part of the list.
@@ -139,7 +126,6 @@ void CMoveList::shift_current_move_to_top() {
 }
 
 void CMoveList::remove(const SMove move) {
-    DEBUG_METHOD();
     assert(valid_list());
     assert(valid_list_origin());
     unsigned int position = get_index(move);
@@ -153,9 +139,6 @@ void CMoveList::remove(const SMove move) {
 }
 
 void CMoveList::remove(unsigned int position) {
-    DEBUG_METHOD();
-    std::cerr << "position: " << position << "\n";
-    std::cerr << "first_capture: " << first_capture << "\n";
     assert(valid_list());
     assert(unused_list());
     assert(position >= first_capture);
@@ -177,7 +160,6 @@ void CMoveList::remove(unsigned int position) {
 }
 
 void CMoveList::remove(const std::string &move_text) {
-    DEBUG_METHOD();
     assert(valid_list());
     SMove move = text_to_basic_move(move_text);
     remove(move);
@@ -185,7 +167,6 @@ void CMoveList::remove(const std::string &move_text) {
 }
 
 void CMoveList::prune_illegal_castlings() {
-    DEBUG_METHOD();
     assert(valid_list());
     // TODO: refactoring
     SSquare king_square = CBoardLogic::king_square(board.get_side_to_move());
@@ -222,7 +203,6 @@ void CMoveList::prune_illegal_castlings() {
 }
 
 void CMoveList::remove_capture(unsigned int position) {
-    DEBUG_METHOD();
     assert(valid_list());
     int former_list_size = list_size();
     bidirectional_move_list[position] = bidirectional_move_list[first_capture];
@@ -236,7 +216,6 @@ void CMoveList::remove_capture(unsigned int position) {
 }
 
 void CMoveList::remove_silent_move(unsigned int position) {
-    DEBUG_METHOD();
     assert(valid_list());
     int former_list_size = list_size();
     bidirectional_move_list[position] = bidirectional_move_list[last_move_index()];
