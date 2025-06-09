@@ -10,5 +10,8 @@ class CInfoThread {
     CInfoThread();
   private:
     static void thread_function();
+  private:
+    static void send_hash_statistics();
+    static void send_principal_variation();
 };
 
