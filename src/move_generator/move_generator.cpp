@@ -229,6 +229,7 @@ void CMoveGenerator::generate_potential_eng_passeng() {
     }       
 }
 
+// TODO: move to CBoardLogic
 bool CMoveGenerator::castling_possible(const int move_type) const {
     assert((move_type == MOVE_TYPE_WHITE_SHORT_CASTLING) 
         || (move_type == MOVE_TYPE_WHITE_LONG_CASTLING)

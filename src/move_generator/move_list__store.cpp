@@ -127,6 +127,7 @@ void CMoveList::store_black_promotions(const int source_file, const int target_f
 }
 
 void CMoveList::store_silent_move(const SMove &move) {
+    assert(move_in_range(move));
     assert(is_silent_move(move));
     bidirectional_move_list[next_empty_slot] = move; 
     ++next_empty_slot;
@@ -135,6 +136,8 @@ void CMoveList::store_silent_move(const SMove &move) {
 }
 
 void CMoveList::store_capture(const SMove &move) {
+    assert(move_in_range(move));
+    assert(is_any_capture(move));
     assert(move.potential_gain > 0);
     // If this assertion fails, then we need to adjust MAX_CAPTURES_IN_CHESS_POSITION
     assert(first_capture > 0);
