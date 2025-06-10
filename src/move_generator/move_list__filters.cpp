@@ -189,10 +189,10 @@ void CMoveList::prune_illegal_castlings() {
     if (!move_on_list("e8d8") && move_on_list("e8c8")) {
         remove("e8c8");
     }
-        if (CBoardLogic::piece_attacked_by_side_not_to_move(king_square)) {
-            remove("e8g8");
-            remove("e8c8");
-        }
+    if (CBoardLogic::piece_attacked_by_side_not_to_move(king_square)) {
+        remove("e8g8");
+        remove("e8c8");
+    }
     assert(valid_list());
 }
 
