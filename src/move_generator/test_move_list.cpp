@@ -38,6 +38,7 @@ bool CTestMoveList::test_prune_silent_moves() {
     EXPECT(move_generator.move_list.list_size() == n_moves_in_startpos);
     move_generator.move_list.prune_silent_moves();
     EXPECT(move_generator.move_list.list_size() == 0);
+    EXPECT(move_generator.move_list.get_next() == NULL_MOVE);
     move_generator.move_list.unprune_silent_moves();
     EXPECT(move_generator.move_list.list_size() == n_moves_in_startpos);
     return true;
