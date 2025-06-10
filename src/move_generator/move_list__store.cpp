@@ -26,11 +26,12 @@ void CMoveList::store_silent_move(const int source_file, const int source_rank, 
     assert(move_in_range(new_move));
     assert(is_silent_move(new_move));
     store_silent_move(new_move);
-    assert(valid_list_origin());
+    assert(valid_list());
 }
 
 void CMoveList::store_pawn_move(const int source_file, const int source_rank, const int target_file, const int target_rank) {
     if (target_rank == RANK_8) {
+        // TODO: remove_superfluous parameters
         store_white_promotions(source_file, RANK_7, target_file, RANK_8);
     } else if (target_rank == RANK_1) {
         store_black_promotions(source_file, RANK_2, target_file, RANK_1);
@@ -39,7 +40,7 @@ void CMoveList::store_pawn_move(const int source_file, const int source_rank, co
     } else { 
         store_silent_move(source_file, source_rank, target_file, target_rank);
     }
-    assert(valid_list_origin());
+    assert(valid_list());
 }
 
 void CMoveList::store_capture(const int source_file, const int source_rank, const int target_file, const int target_rank) {
@@ -52,7 +53,7 @@ void CMoveList::store_capture(const int source_file, const int source_rank, cons
     new_move.potential_gain = abs(board.evaluator.evaluate_square(new_move.target));
     assert(new_move.potential_gain > 0);
     store_capture(new_move);
-    assert(valid_list_origin());
+    assert(valid_list());
 }
 
 void CMoveList::store_pawn_capture(const int source_file, const int source_rank, const int target_file, const int target_rank) {
@@ -63,7 +64,7 @@ void CMoveList::store_pawn_capture(const int source_file, const int source_rank,
     } else {
         store_capture(source_file, source_rank, target_file, target_rank);
     }
-    assert(valid_list_origin());
+    assert(valid_list());
 }
 
 void CMoveList::store_eng_passeng(const int source_file, const int source_rank, const int target_file, const int target_rank) {
@@ -76,7 +77,7 @@ void CMoveList::store_eng_passeng(const int source_file, const int source_rank, 
     // Do not evaluate the empty target-square to estimate the gain
     new_move.potential_gain = potential_gain_eng_passeng; 
     store_capture(new_move);
-    assert(valid_list_origin());
+    assert(valid_list());
 }
 
 void CMoveList::store_white_promotions(const int source_file, const int source_rank, const int target_file, const int target_rank) {
@@ -87,6 +88,7 @@ void CMoveList::store_white_promotions(const int source_file, const int source_r
     new_move.source.rank = source_rank;
     new_move.target.file = target_file;
     new_move.target.rank = target_rank;
+    // TODO: reverse order!
     new_move.move_type = WHITE_QUEEN;
     new_move.potential_gain = potential_gain_queen_promotion;
     store_capture(new_move);
@@ -99,7 +101,7 @@ void CMoveList::store_white_promotions(const int source_file, const int source_r
     new_move.move_type = WHITE_BISHOP;
     new_move.potential_gain = potential_gain_bishop_promotion;
     store_capture(new_move);
-    assert(valid_list_origin());
+    assert(valid_list());
 }
 
 void CMoveList::store_black_promotions(const int source_file, const int source_rank, const int target_file, const int target_rank) {
@@ -108,6 +110,7 @@ void CMoveList::store_black_promotions(const int source_file, const int source_r
     new_move.source.rank = source_rank;
     new_move.target.file = target_file;
     new_move.target.rank = target_rank;
+    // TODO: reverse order
     new_move.move_type = BLACK_QUEEN;
     new_move.potential_gain = potential_gain_queen_promotion;
     store_capture(new_move);
@@ -120,7 +123,7 @@ void CMoveList::store_black_promotions(const int source_file, const int source_r
     new_move.move_type = BLACK_BISHOP;
     new_move.potential_gain = potential_gain_bishop_promotion;
     store_capture(new_move);
-    assert(valid_list_origin());
+    assert(valid_list());
 }
 
 void CMoveList::store_silent_move(const SMove &move) {
@@ -128,16 +131,16 @@ void CMoveList::store_silent_move(const SMove &move) {
     bidirectional_move_list[next_empty_slot] = move; 
     ++next_empty_slot;
    assert(next_empty_slot < LIST_SIZE);
-    assert(valid_list_origin());
+    assert(valid_list());
 }
 
 void CMoveList::store_capture(const SMove &move) {
+    assert(move.potential_gain > 0);
     // If this assertion fails, then we need to adjust MAX_CAPTURES_IN_CHESS_POSITION
     assert(first_capture > 0);
-    assert(consumer_position >= first_capture);
+    assert(valid_list());
     --first_capture;
     --consumer_position;
-    assert(move.potential_gain > 0);
     bidirectional_move_list[first_capture] = move;
     assert(valid_list_origin());
  }
@@ -168,8 +171,12 @@ void CMoveList::store_castling(const char move_type) {
             new_move.target.file = FILE_G;
             new_move.target.rank = RANK_8;
             break;
+        default:
+            constexpr bool invalid_move_type = false;
+            assert(invalid_move_type);
+            break;
     }
     store_silent_move(new_move);
-    assert(valid_list_origin());
+    assert(valid_list());
 }
 
