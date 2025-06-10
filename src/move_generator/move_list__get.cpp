@@ -10,6 +10,7 @@
 #include "../technical_functions/standard_headers.h"
 
 SMove CMoveList::get_random() const {
+     assert(valid_list());
     if (list_size() <= 0) {
         return NULL_MOVE;
     }
@@ -21,35 +22,37 @@ SMove CMoveList::get_random() const {
 }
 
 SMove CMoveList::get_next() {
-    assert(consumer_position >= first_capture);
+      // No assert(valid_list()); as this function is used on re-ordered root-node-lists
+      assert(valid_positions());
     if (consumer_position >= next_empty_slot) {
         return NULL_MOVE;
     }
     SMove result = bidirectional_move_list[consumer_position];
     ++consumer_position;
+     assert(valid_positions());
     assert(move_in_range(result));
     return result;
 }
 
 SMove CMoveList::get_next__capture_killer_silent(int distance_to_root) {
-    // TODO: this function does not respect end of list,
-    // in case it got filtered for captures
-    assert(valid_list_origin());
+    assert(valid_list());
     if (consumer_position < LIST_ORIGIN) {
         return get_next__best_capture();
     }
-    assert(valid_list_origin());
     if (consumer_position == LIST_ORIGIN) {
         integrate_killer(distance_to_root);
     }
-    assert(valid_list_origin());
+    assert(valid_list());
     SMove move = get_next();
     assert(is_silent_move(move));
+    // Check for null_move if the list got pruned
+    assert((next_empty_slot > LIST_ORIGIN) || is_null_move(move));
+    assert((next_empty_slot == LIST_ORIGIN) || move_in_range(move));
     return move;
 }
 
 SMove CMoveList::get_next__best_capture() {
-    assert(consumer_position < LIST_ORIGIN);
+    assert(valid_list());
     int best_index = consumer_position;
     int best_score = bidirectional_move_list[best_index].potential_gain;
     for (unsigned int j = consumer_position + 1; j < LIST_ORIGIN; ++j) {
@@ -65,14 +68,17 @@ SMove CMoveList::get_next__best_capture() {
     assert(best_index < LIST_ORIGIN);
     SMove best_move = bidirectional_move_list[best_index];
     assert(is_null_move(best_move) == false);
+    assert(move_in_range(best_move));
     assert(is_any_capture(best_move));
     assert(best_move.potential_gain > 0);
     bidirectional_move_list[best_index] = bidirectional_move_list[consumer_position];
      ++consumer_position;
+     assert(valid_list());
     return best_move;
 }
 
 SMove CMoveList::get_least_valuable_aggressor() const {
+    assert(valid_list());
     int least_value = INT_MAX;
     SMove best_move = NULL_MOVE;
     for (unsigned int j = first_capture; j < next_empty_slot; ++j) {
@@ -82,28 +88,30 @@ SMove CMoveList::get_least_valuable_aggressor() const {
             best_move = bidirectional_move_list[j];
         }
     }
+    assert((move_in_range(best_move)) || is_null_move(best_move));
     return best_move;
 }
 
 void CMoveList::integrate_killer(int distance_to_root) {
     assert(distance_to_root > 0);
-    assert(valid_list_origin());
+    assert(valid_list());
     SMove killer_move = killer_heuristic.get_killer(distance_to_root);
+    assert(move_in_range(killer_move));
     // We ignore rare killer-castlings here 
     assert(killer_move.move_type == MOVE_TYPE_NORMAL);
     unsigned int position = get_index(killer_move);
     if (position == MOVE_NOT_ON_LIST) {
         return;
     }
-    assert(consumer_position == LIST_ORIGIN);
+    assert(position >=  first_capture);
+    assert(position < next_empty_slot);
     if (position < LIST_ORIGIN) {
         // Silent killer-move got found as capture; already handled
         return;
     }
-        assert(position >=  first_capture);
-        assert(position < next_empty_slot);
     assert(valid_list_origin());
-        std::swap(bidirectional_move_list[LIST_ORIGIN], bidirectional_move_list[position]);
-    assert(valid_list_origin());
+    assert(consumer_position == LIST_ORIGIN);
+    std::swap(bidirectional_move_list[LIST_ORIGIN], bidirectional_move_list[position]);
+    assert(valid_list());
 }
 
