@@ -43,12 +43,12 @@ void CUciProtocol::identify_engine() const {
 }
 
 void CUciProtocol::send_list_of_options() const {
-	send_message("option name book type combo "
+	send_message(std::string("option name book type combo ")
         + "default solid_mix "
         + "var broad_GM "
         + "var tabijas "
         + "var solid_mix");
-    send_message("option name UCI_EngineAbout type string "
+    send_message(std::string("option name UCI_EngineAbout type string ")
         + "default Schachfeld-engine by Rombelstielzchen. "
         + "Protocol: UCI. "
         + "Licensed as open-source under GPLv3. "
