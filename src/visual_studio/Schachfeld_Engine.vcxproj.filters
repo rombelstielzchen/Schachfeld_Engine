@@ -149,6 +149,9 @@
     <ClCompile Include="..\opening_book\book_data\tabijas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\universal_chess_interface\info_thread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\universal_chess_interface\uci_protocol.h">

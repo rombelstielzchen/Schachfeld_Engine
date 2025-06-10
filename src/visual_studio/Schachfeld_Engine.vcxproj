@@ -172,6 +172,7 @@
     <ClCompile Include="..\technical_functions\test_math_functions.cpp" />
     <ClCompile Include="..\technical_functions\test_technical_functions.cpp" />
     <ClCompile Include="..\universal_chess_interface\command_interface.cpp" />
+    <ClCompile Include="..\universal_chess_interface\info_thread.cpp" />
     <ClCompile Include="..\universal_chess_interface\uci_protocol.cpp" />
   </ItemGroup>
   <ItemGroup>
