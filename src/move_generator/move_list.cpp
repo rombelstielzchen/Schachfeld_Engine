@@ -18,10 +18,9 @@ void CMoveList::clear() {
     next_empty_slot = LIST_ORIGIN;
     next_empty_slot_before_pruning_silent_moves = LIST_ORIGIN;
     consumer_position = LIST_ORIGIN;
-    assert(list_size() == 0);
+    assert(is_empty());
 }
 
-// TODO: rename index_of
 unsigned int CMoveList::get_index(const SMove basic_move) const {
     assert(move_in_range(basic_move));
     assert(next_empty_slot >= first_capture);

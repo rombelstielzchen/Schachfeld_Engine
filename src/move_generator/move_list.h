@@ -25,7 +25,7 @@ class CMoveList {
   public:
     CMoveList();
     int list_size() const;
-    // TODO: is_empty()
+    bool is_empty() const { return (list_size() == 0); }
     SMove get_random() const;
     SMove get_next__best_capture();
     SMove get_next();

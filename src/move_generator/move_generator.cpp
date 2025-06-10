@@ -12,7 +12,7 @@ CMoveGenerator::CMoveGenerator() {
 }
 
 void CMoveGenerator::generate_all() {
-    assert(move_list.list_size() == 0);
+    assert(move_list.is_empty());
     bool side_to_move = board.get_side_to_move();
     if (side_to_move == WHITE_PLAYER) {
         generate_all_white_moves();
@@ -24,7 +24,7 @@ void CMoveGenerator::generate_all() {
 
 void CMoveGenerator::generate_captures() {
     // TODO: special move-generator, just for captures.
-    assert(move_list.list_size() == 0);
+    assert(move_list.is_empty());
     generate_all();
     move_list.prune_silent_moves();
 }
