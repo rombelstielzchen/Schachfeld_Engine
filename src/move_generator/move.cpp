@@ -199,6 +199,7 @@ SMove text_to_basic_move(const std::string &text) {
        // Not long algebraic notation
         return NULL_MOVE;
     }
+    constexpr uint8_t no_estimated_gain = 0;
     SMove move = {
         text_to_file(text[0]),
         text_to_rank(text[1]),
@@ -206,7 +207,7 @@ SMove text_to_basic_move(const std::string &text) {
         text_to_rank(text[3]),
         MOVE_TYPE_NORMAL,
         EMPTY_SQUARE,
-        0
+        no_estimated_gain
     };
     if (!move_in_range(move)) {
         return NULL_MOVE;
@@ -233,7 +234,7 @@ bool operator ==(const SMove a, const std::string &b) {
     return (move_as_text(a) == b);
 }
 
-bool operator != (const SSquare a, const SSquare b) {
+bool operator !=(const SSquare a, const SSquare b) {
     return !(a == b);
 }
 
