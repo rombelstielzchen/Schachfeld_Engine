@@ -151,9 +151,7 @@ int CSearch::static_exchange_evaluation(const SSquare &target_square, const SAlp
         }
     }
     CMoveGenerator move_generator;
-    // TODO: special function
-    move_generator.generate_captures();
-    move_generator.move_list.filter_captures_by_target_square(target_square);
+    move_generator.generate_recaptures(target_square);
     SMove recapture = move_generator.move_list.get_least_valuable_aggressor();
     if (is_null_move(recapture)) {
         return score;

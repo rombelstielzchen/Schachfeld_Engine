@@ -22,6 +22,7 @@ class CMoveGenerator {
   public:
     void generate_all();
     void generate_captures();
+    void generate_recaptures(const SSquare target_square);
   public:
     CMoveList move_list;
   private:

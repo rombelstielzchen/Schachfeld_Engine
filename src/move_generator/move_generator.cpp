@@ -29,6 +29,13 @@ void CMoveGenerator::generate_captures() {
     move_list.prune_silent_moves();
 }
 
+void CMoveGenerator::generate_recaptures(const SSquare target_square) {
+    // TODO: special move-generator, just for re-captures.
+    assert(square_in_range(target_square));
+    generate_captures();
+    move_list.filter_captures_by_target_square(target_square);
+}
+
 void CMoveGenerator::generate_all_white_moves() {
     for (int j = FILE_A; j <= FILE_H; ++j) {
         for (int k = RANK_1; k <= RANK_8; ++k) {
