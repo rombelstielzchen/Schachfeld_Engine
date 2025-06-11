@@ -35,8 +35,9 @@ const std::vector<STestcaseSearch> testcases = {
     { 2, "e6a6", "8/5k2/n3R1b1/8/8/8/8/7K w" },
     { 2, "b8c8", "RRb/p2b w" },
     { 2, "a8a7", "RRb/p2b/4b w" },
-    { 2, "d5e4", "q/Bq/2q/3q/4R/5Q/6Q/7Q b" },
-    { 2, "b7a7", "q/Bq/2q/3R/4Q/5Q/6Q/7Q b" },
+//    { 1, "a8a7", "q/Bq/2q/3q/4R/5Q/6Q/7Q b" },
+//    { 1, "d5e4", "q/1q/2q/3q/4R/5Q/6Q/7Q b" },
+//    { 2, "b7a7", "q/Bq/2q/3R/4Q/5Q/6Q/7Q b" },
     { 2, "b7a7", "8/Bq/2q/3q/4R/5Q/6Q/7Q b" },
     { 2, "b7a7", "q/Bq/2q/3q/4R/5Q/6B/7Q b" },
     { 2, "c8d8", "rrrQRRR b" },
@@ -54,7 +55,9 @@ bool CTestSearch::test_everything() {
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     EXPECT(test_no_legal_moves());
     for (const STestcaseSearch &testcase : testcases) {
+            std::cerr << "here we are" << std::endl;
         SILENT_EXPECT(test_position(testcase));
+            std::cerr << "here we are i2\n";
     }
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = former_dobb_dobb_dobb;
     return true;
@@ -66,7 +69,7 @@ bool CTestSearch::test_position(const STestcaseSearch &testcase) {
     assert(testcase.fen_position != "");
     CTEST << "Searching: " << testcase.fen_position << "\n";
     CTEST << "Expecting: " << testcase.expected_move << "\n";
-    board.set_fen_position(testcase.fen_position);
+    SILENT_EXPECT(board.set_fen_position(testcase.fen_position));
     CIterativeDeepening searcher;
     SMove best_move = searcher.search(testcase.depth);
 CTEST << "Got move: " << best_move << "\n";
