@@ -92,8 +92,11 @@ int CSearch::alpha_beta(int remaining_depth, int distance_to_root, SAlphaBetaWin
 
 int CSearch::quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window) {
     assert(remaining_depth > 0);
+    assert(distance_to_root > 0);
+    assert(is_valid_alpha_beta_window(alpha_beta_window));
     int best_score = board.evaluator.evaluate();
     if (abs(best_score) > HALF_KING) {
+        // TODO: needed? Alredy handled or needed to prevent situations with 2 captured kings?
         return best_score;
     }
     bool side_to_move = board.get_side_to_move();
@@ -161,16 +164,18 @@ int CSearch::static_exchange_evaluation(const SSquare &target_square, const SAlp
     board.move_maker.make_move(recapture);
     search_statistics.add_nodes(1);
     // Recursion guaranteed to terminate, as recaptures are limited
-    score = static_exchange_evaluation(target_square,alpha_beta_window);
+    score = static_exchange_evaluation(target_square, alpha_beta_window);
     board.move_maker.unmake_move();
     return score;
 }
 
 inline bool CSearch::white_score_way_too_good(const int score, const SAlphaBetaWindow alpha_beta_window) const {
+    assert(is_valid_alpha_beta_window(alpha_beta_window)); 
     return (score >= alpha_beta_window.beta);
 }
 
 inline bool CSearch::black_score_way_too_good(const int score, const  SAlphaBetaWindow alpha_beta_window) const {
+    assert(is_valid_alpha_beta_window(alpha_beta_window)); 
     return (score <= alpha_beta_window.alpha);
 }
 

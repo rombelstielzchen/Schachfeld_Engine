@@ -16,6 +16,7 @@ CMoveMaker::CMoveMaker() {
 }
 
 bool CMoveMaker::make_move(SMove move) {
+    // TODO: use or remove result
     assert(move_in_range(move));
     char moving_piece = board.squares[move.source.file][move.source.rank];
     assert(is_any_piece(moving_piece));
