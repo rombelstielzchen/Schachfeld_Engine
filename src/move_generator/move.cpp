@@ -173,6 +173,17 @@ std::string move_as_text(const SMove move) {
     return result;
 }
 
+std::string move_as_long_text(const SMove move) {
+    if (is_null_move(move)) {
+        return NULL_MOVE_AS_TEXT;
+    }
+    assert(move_in_range(move));
+    std::string result = std::to_string(board.get_square(move.source.file, move.source.rank));
+    result += move_as_text(move);
+    result += move.move_type;
+    return result;
+}
+
 uint8_t text_to_file(const char file_character) {
     // No assertions here; the input comes from the outside world
     if ((file_character < 'a') || (file_character > 'h')) {
