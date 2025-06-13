@@ -74,6 +74,10 @@ bool CBoard::square_is_empty(const int file, const int rank) const {
     return (get_square(file, rank) == EMPTY_SQUARE);
 }
 
+bool CBoard::square_is_empty(const SSquare square) const {
+    return square_is_empty(square.file, square.rank);
+}
+
 int CBoard::get_eng_passeng_file() const {
     assert((eng_passeng_file == NO_ENG_PASSENG_POSSIBLE) || file_in_range(eng_passeng_file));
     return eng_passeng_file;
