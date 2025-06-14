@@ -178,7 +178,7 @@ std::string move_as_long_text(const SMove move) {
         return NULL_MOVE_AS_TEXT;
     }
     assert(move_in_range(move));
-    std::string result = std::to_string(board.get_square(move.source.file, move.source.rank));
+    std::string result(1, board.get_square(move.source.file, move.source.rank));
     result += move_as_text(move);
     result += move.move_type;
     return result;
