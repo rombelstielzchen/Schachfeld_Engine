@@ -18,6 +18,7 @@ bool CTestMoveList::test_everything() {
     EXPECT(test_shift_current_move_to_top());
     EXPECT(test_remove());
     EXPECT(test_extremes());
+    EXPECT(test_get_best_capture());
     return true;
 }
 
@@ -147,6 +148,26 @@ bool CTestMoveList::test_extremes() {
     CTEST << move_generator.move_list.list_size() << "\n";
     // TODO
 //    EXPECT(move_generator.move_list.list_size() == 74);
+    return true;
+}
+
+bool CTestMoveList::test_get_best_capture() {
+    TEST_FUNCTION();
+    const std::string test_position = "5Q1K/4R3/6n1/4B3/5N1P/8/1p6/8 b - - 0 1";
+    SILENT_EXPECT(board.set_fen_position(test_position));
+    CMoveGenerator move_generator;
+    move_generator.generate_captures();
+    EXPECT(move_generator.move_list.list_size() == 10);
+    EXPECT(move_generator.move_list.get_next__best_capture() == "g6h8");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "b2b1q");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "g6f8");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "g6e7");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "b2b1n");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "b2b1r");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "g6e5");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "g6f4");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "b2b1b");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "g6h4");
     return true;
 }
 
