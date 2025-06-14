@@ -18,6 +18,7 @@ bool CTestMoveList::test_everything() {
     EXPECT(test_shift_current_move_to_top());
     EXPECT(test_remove());
     EXPECT(test_extremes());
+    EXPECT(test_get_best_capture());
     return true;
 }
 
@@ -147,6 +148,13 @@ bool CTestMoveList::test_extremes() {
     CTEST << move_generator.move_list.list_size() << "\n";
     // TODO
 //    EXPECT(move_generator.move_list.list_size() == 74);
+    return true;
+}
+
+bool CTestMoveList::test_get_best_capture() {
+    TEST_FUNCTION();
+    const std::string test_position = "";
+    SILENT_EXPECT(board.set_fen_position(test_position));
     return true;
 }
 
