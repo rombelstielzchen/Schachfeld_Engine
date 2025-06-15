@@ -11,9 +11,8 @@
 #include "../universal_chess_interface/command_interface.h"
 
 constexpr int HALF_KING = 10000;
-// TODO: dynamic quiescence-depth, handicap-mode
-// TODO: depth 4 fails the self-test
-constexpr int QUIESCENCE_DEPTH = 31;
+// TODO: limited quiescence-depth for handicap-mode
+constexpr int QUIESCENCE_DEPTH = 4;
 
 inline int CSearch::losing_score(bool losing_side) {
     return (losing_side == WHITE_PLAYER) ? SCORE_BLACK_WIN : SCORE_WHITE_WIN;
