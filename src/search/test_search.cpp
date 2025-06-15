@@ -54,9 +54,7 @@ bool CTestSearch::test_everything() {
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     EXPECT(test_no_legal_moves());
     for (const STestcaseSearch &testcase : testcases) {
-            std::cerr << "here we are" << std::endl;
         SILENT_EXPECT(test_position(testcase));
-            std::cerr << "here we are i2\n";
     }
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = former_dobb_dobb_dobb;
     return true;

@@ -78,7 +78,6 @@ void CIterativeDeepening::root_node_search(int depth) {
             best_score = candidate_score;
             alpha_beta_window.alpha = std::max(alpha_beta_window.alpha, candidate_score);
             ///alpha_beta_window.alpha = candidate_score;
-            std::cerr << alpha_beta_window.alpha << "," << alpha_beta_window.beta << "\n";
             assert(is_valid_alpha_beta_window(alpha_beta_window));
             move_generator.move_list.shift_current_move_to_top();
             search_statistics.set_best_move(best_move, best_score);
