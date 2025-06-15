@@ -98,6 +98,16 @@ int CSearch::quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWin
     }
     bool side_to_move = board.get_side_to_move();
     CMoveGenerator move_generator;
+    if (side_to_move == WHITE_PLAYER) {
+        if (white_score_way_too_good(best_score, alpha_beta_window)) {
+            return best_score;
+        }
+    } else {
+        assert(side_to_move == BLACK_PLAYER);
+        if (black_score_way_too_good(best_score, alpha_beta_window)) {
+            return best_score;
+        }
+    }
     move_generator.generate_captures();
     int n_moves = move_generator.move_list.list_size();
     std::cerr << "list_size: " << n_moves << "\n";
@@ -108,7 +118,6 @@ int CSearch::quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWin
         assert(move_in_range(move_candidate));
         assert(is_any_capture(move_candidate));
         assert(move_candidate.potential_gain > 0);
-        assert(board.square_is_empty(move_candidate.target) == false); // TODO: eng-passeng
         std::string new_capture_sequence = capture_sequence + " " + move_as_long_text(move_candidate);
         std::cerr << "CS: " << new_capture_sequence << "\n";
         board.move_maker.make_move(move_candidate);
