@@ -25,7 +25,7 @@ int CSearch::alpha_beta(int remaining_depth, int distance_to_root, SAlphaBetaWin
     assert(is_valid_alpha_beta_window(alpha_beta_window)); 
     // TODO: Revisit this, related to stalemate-detection
     if (remaining_depth <= 0) {
-        return quiescence(QUIESCENCE_DEPTH, distance_to_root, alpha_beta_window, board.get_fen_position());
+        return quiescence(QUIESCENCE_DEPTH, distance_to_root, alpha_beta_window);
     }
     int best_score = board.evaluator.evaluate();
     if (abs(best_score) > HALF_KING) {
@@ -60,7 +60,7 @@ int CSearch::alpha_beta(int remaining_depth, int distance_to_root, SAlphaBetaWin
             assert(is_valid_alpha_beta_window(alpha_beta_window)); 
             candidate_score = alpha_beta(remaining_depth - 1, distance_to_root + 1, alpha_beta_window);
         } else {
-            candidate_score = quiescence(QUIESCENCE_DEPTH, distance_to_root + 1, alpha_beta_window, board.get_fen_position());
+            candidate_score = quiescence(QUIESCENCE_DEPTH, distance_to_root + 1, alpha_beta_window);
         }
         board.move_maker.unmake_move();
         if ((side_to_move == WHITE_PLAYER) && (candidate_score > best_score)) {
@@ -85,9 +85,7 @@ int CSearch::alpha_beta(int remaining_depth, int distance_to_root, SAlphaBetaWin
     return best_score;
 }
 
-int CSearch::quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window, std::string capture_sequence) {
-        std::cerr << "DTR: " << distance_to_root << "\n";
-        std::cerr << "RD: " << remaining_depth << "\n";
+int CSearch::quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window) {
     assert(remaining_depth > 0);
     assert(distance_to_root > 0);
     assert(is_valid_alpha_beta_window(alpha_beta_window));
@@ -110,21 +108,17 @@ int CSearch::quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWin
     }
     move_generator.generate_captures();
     int n_moves = move_generator.move_list.list_size();
-    std::cerr << "list_size: " << n_moves << "\n";
     for (int j = 0; j < n_moves; ++j) {
         SMove move_candidate = move_generator.move_list.get_next__best_capture();
-        std::cerr << move_as_long_text(move_candidate) << "\n";
         assert(is_null_move(move_candidate) == false);
         assert(move_in_range(move_candidate));
         assert(is_any_capture(move_candidate));
         assert(move_candidate.potential_gain > 0);
-        std::string new_capture_sequence = capture_sequence + " " + move_as_long_text(move_candidate);
-        std::cerr << "CS: " << new_capture_sequence << "\n";
         board.move_maker.make_move(move_candidate);
         int candidate_score;
         // TODO: > 0?
         if (remaining_depth > 1) {
-            candidate_score = quiescence(remaining_depth - 1, distance_to_root + 1, alpha_beta_window, new_capture_sequence);
+            candidate_score = quiescence(remaining_depth - 1, distance_to_root + 1, alpha_beta_window);
         } else {
             candidate_score = static_exchange_evaluation(move_candidate.target, alpha_beta_window);            
         }
