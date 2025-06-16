@@ -1,5 +1,4 @@
 // Project: Schachfeld_Engine
-// 
 // Author: Rombelstielzchen
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
@@ -126,8 +125,8 @@ bool CCommandInterface::set_position(const std::string &fen_position) {
 }
 
 void CCommandInterface::send_best_move(const std::string &best_move){
-    std::string message = "bestmove " + best_move;
-    CUciProtocol::send_message(message);
+    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = true;
+    CUciProtocol::send_best_move(best_move);
 }
 
 void CCommandInterface::send_best_move(SMove best_move){

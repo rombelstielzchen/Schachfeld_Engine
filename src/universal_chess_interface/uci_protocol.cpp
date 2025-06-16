@@ -15,8 +15,9 @@
 const std::string ENGINE_ID = "Schachfeld_Engine_0.f";
 static_assert('a' > '9');
 
+bool CUciProtocol::interactive_console_mode = false;
+
 CUciProtocol::CUciProtocol() {
-        interactive_console_mode = false;
     // Use std::cerr here; std::cout is reserved for the protocol
     std::cerr << ENGINE_ID << "\n";
     std::cerr << "'help' or '?' for some guidance\n";
@@ -63,6 +64,14 @@ void CUciProtocol::send_info(const std::string &information) {
 void CUciProtocol::send_error(const std::string &error_messag) {
     std::string full_message = "error: " + error_messag + "\n";
     std::cerr << full_message;
+}
+
+void CUciProtocol::send_best_move(const std::string best_move) {
+    if (interactive_console_mode) {
+        display_board();
+    }
+    std::string message = "bestmove " + best_move;
+    send_message(message);
 }
 
 void CUciProtocol::preprocess_message(std::string &message) const {
@@ -249,7 +258,7 @@ void CUciProtocol::process_option(CStringTokenizer &string_tokenizer) {
     }
 }
 
-void CUciProtocol::display_board() const {
+void CUciProtocol::display_board() {
     send_message(board.get_fen_position());
     send_message(board.as_is());
 }
