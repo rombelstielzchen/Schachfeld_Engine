@@ -249,3 +249,8 @@ void CUciProtocol::process_option(CStringTokenizer &string_tokenizer) {
     }
 }
 
+void CUciProtocol::display_board() const {
+    send_message(board.get_fen_position());
+    send_message(board.as_is());
+}
+
