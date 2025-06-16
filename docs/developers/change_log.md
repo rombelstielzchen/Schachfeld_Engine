@@ -1,6 +1,12 @@
 Major Changes
 =============
 
+Version 0.f
+-----------
+* Quiescense-search, i.e. better evaluation of captures at the end of a variation.
+* Improved console-interface. It is now more easy to make and take nack moves.
+  Use the help-command for more info.
+
 Version 0.e
 -----------
 * Detecting and avoiding stalemates
@@ -62,7 +68,7 @@ Version 0.2
 
 Version 0.5
 -----------
-* A very vasic opening-book, implemented as an internal list of vaeiations in text-form
+* A very vasic opening-book, implemented as an internal list of variations in text-form
 
 Version 0.4
 -----------
