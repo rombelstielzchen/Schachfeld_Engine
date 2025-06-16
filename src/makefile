@@ -233,18 +233,22 @@ clean:
 	rm -f *.o */*.o
 
 stats:
-	@echo -n "LOC total:  "
+	@echo -n "LOC total:      "
 	@cat *.cpp */*.cpp */*.h */*/*.cpp */*/*.h makefile */*/*.sh */*/*/*.sh ../*/*.pl ../*/*.sh | wc -l
-	@echo -n "Book-lines:  "
+	@echo -n "Book-lines:      "
 	@grep "\"," opening_book/book_data/*.cpp | wc -l
-	@echo -n "LOC tests:   "
+	@echo -n "LOC tests:       "
 	@cat */*test*.cpp */*test*.h | wc -l
-	@echo -n "Assertions:   "
+	@echo -n "Assertions:       "
 	@cat *.cpp */*.cpp */*.h */*/*.cpp */*/*.h */*/*/*.cpp | grep -s assert | wc -l
-	@echo -n "LOC tools:    "
+	@echo -n "LOC tools:        "
 	@cat makefile ../*/*.sh ../*/*.pl */*/*.sh */*/*/*.sh | wc -l
-	@echo -n "TODO items:    "
+	@echo -n "TODO items:        "
 	@grep TODO *.cpp */*.cpp */*/*.cpp | wc -l
+	@echo -n "Longest header: " 
+	@wc -l */*.h | sort | tail -n 2 | head -n 1
+	@echo -n "Longest source:" 
+	@wc -l */*.cpp | sort | tail -n 2 | head -n 1
 	@ls -o engine
 
 todo:
