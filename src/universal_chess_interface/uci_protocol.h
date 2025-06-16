@@ -27,8 +27,10 @@ class CUciProtocol {
     void process_unknown_token_potential_move(const std::string &token);
     void dynamic_sleep(const std::string &last_message) const;
     void display_help() const;
+    void display_board() const;
   private:
     CCommandInterface command_interface;
     CStringTokenizer string_tokenizer;
+    bool interactive_console_mode;
 };
 

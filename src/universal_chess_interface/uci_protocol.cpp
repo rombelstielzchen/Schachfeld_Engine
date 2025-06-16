@@ -16,6 +16,7 @@ const std::string ENGINE_ID = "Schachfeld_Engine_0.f";
 static_assert('a' > '9');
 
 CUciProtocol::CUciProtocol() {
+        interactive_console_mode = false;
     // Use std::cerr here; std::cout is reserved for the protocol
     std::cerr << ENGINE_ID << "\n";
     std::cerr << "'help' or '?' for some guidance\n";
@@ -80,16 +81,19 @@ void CUciProtocol::preprocess_message(std::string &message) const {
 void CUciProtocol::process_message(const std::string &message) {
     string_tokenizer.set_input(message);
     if (string_tokenizer.next_token_is_one_of("back", "b")) {
+        interactive_console_mode = true;
         // TODO: prevent impossible take-backs
        command_interface.takeback(); 
     } else if (string_tokenizer.next_token_is_one_of("go", "g")) {
         process_go_command(string_tokenizer);
     } else if (string_tokenizer.next_token_is_one_of("help", "?")) {
+        interactive_console_mode = true;
         display_help();
     } else if (string_tokenizer.next_token_is("isready")) {
         // Our first version is always and immediately ready
         send_message("readyok");
     } else if (string_tokenizer.next_token_is("perft")) {
+        interactive_console_mode = true;
         (void)command_interface.test_move_generator();
     } else if (string_tokenizer.next_token_is_one_of("position", "p")) {
         std::string fen_position = string_tokenizer.get_the_rest();
@@ -101,7 +105,8 @@ void CUciProtocol::process_message(const std::string &message) {
     } else if (string_tokenizer.next_token_is_one_of("stop", "s")) {
         command_interface.stop();
     } else if (string_tokenizer.next_token_is("test")) {
-            CEngineTest::test_everything(); 
+        interactive_console_mode = true;
+        CEngineTest::test_everything(); 
     } else if (string_tokenizer.next_token_is("uci")) {
          identify_engine();
          send_list_of_options(); 
@@ -123,8 +128,10 @@ void CUciProtocol::process_message(const std::string &message) {
 
 void CUciProtocol::process_unknown_token_potential_move(const std::string &token) {
     // Try to execute a move.
-    // Ignore the result, as make_move() will fire a message on error
-    (void)board.move_maker.make_move(token);
+    // No error-handling needed, as make_move() will care about that.
+    if (board.move_maker.make_move(token)) {
+        interactive_console_mode = true;
+    }
 }
 
 void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
