@@ -80,9 +80,8 @@ void CUciProtocol::preprocess_message(std::string &message) const {
 void CUciProtocol::process_message(const std::string &message) {
     string_tokenizer.set_input(message);
     if (string_tokenizer.next_token_is_one_of("back", "b")) {
-        // TODO: move to command_interface
         // TODO: prevent impossible take-backs
-        board.move_maker.unmake_move();
+       command_interface.takeback(); 
     } else if (string_tokenizer.next_token_is_one_of("go", "g")) {
         process_go_command(string_tokenizer);
     } else if (string_tokenizer.next_token_is_one_of("help", "?")) {

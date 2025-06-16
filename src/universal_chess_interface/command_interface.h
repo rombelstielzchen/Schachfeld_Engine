@@ -36,6 +36,7 @@ class CCommandInterface {
         const int64_t moves_to_go);
   public:
     void go_searchmoves(std::string &moves);
+    void takeback();
   public:
     bool test_move_generator();
   private:
