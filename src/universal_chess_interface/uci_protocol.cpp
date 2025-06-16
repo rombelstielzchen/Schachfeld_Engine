@@ -1,6 +1,4 @@
 // Project: Schachfeld_Engine
-// 
-// 
 // Author: Rombelstielzchen
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
@@ -94,7 +92,11 @@ void CUciProtocol::process_message(const std::string &message) {
             send_error("invalid position received via UCI");
         }
     } else if (string_tokenizer.next_token_is_one_of("stop", "s")) {
-        command_interface.stop();
+        command_interface.stop();}
+    else if (string_tokenizer.next_token_is_one_of("back", "b")) {
+        // TODO: move to command_interface
+        // TODO: prevent impossible take-backs
+        board.move_maker.unmake_move();
     } else if (string_tokenizer.next_token_is("test")) {
             CEngineTest::test_everything(); 
     } else if (string_tokenizer.next_token_is("uci")) {
@@ -108,10 +110,9 @@ void CUciProtocol::process_message(const std::string &message) {
     } else if (string_tokenizer.next_token_is("perft")) {
         (void)command_interface.test_move_generator();
     } else {
-        // "quit" already gets handled by the message_loop().
-        // So this is an unknown token. According to the UCI-standard
-        // we should try to continue with the rest of the line.
-        (void)string_tokenizer.next_token(); 
+        std::string next_token = string_tokenizer.next_token();
+        process_unknown_token_potential_move(next_token);
+        // UCI specification says: continue gracefully
         std::string remaining_message = string_tokenizer.get_the_rest();
         if (remaining_message != "") {
             // One non-empty token got consumed, so the recursion will terminate
@@ -119,6 +120,12 @@ void CUciProtocol::process_message(const std::string &message) {
             process_message(remaining_message);
         }
     }
+}
+
+void CUciProtocol::process_unknown_token_potential_move(const std::string &token) {
+    // Try to execute a move.
+    // Ignore the result, as make_move() will fire a message on error
+    (void)board.move_maker.make_move(token);
 }
 
 void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
@@ -213,6 +220,8 @@ void CUciProtocol::display_help() const {
     send_message("    * 'stop' to force a move");
     send_message("    * 'test' for the self-test");
     send_message("    * 'perft' for a looong test of the move_generator");
+    send_message("    * e2e4 to execute a move at the console interface");
+    send_message("    * back or b to take back a move");
     send_message("    * 'quit' or 'x'to terminate");
 }
 
