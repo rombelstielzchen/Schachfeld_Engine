@@ -13,6 +13,7 @@ x64/
 *.exe
 *.gch
 *.hpp
+*.lnk
 *.o
 *.swp
 *.tmp
