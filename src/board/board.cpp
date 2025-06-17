@@ -30,6 +30,7 @@ void CBoard::init_garden_fence() {
 }
 
 void CBoard::clear() {
+        initial_position_was_startpos = false;
     for (int j = FILE_A; j <= FILE_H; ++j) {
         for (int k = RANK_1; k <= RANK_8; ++k) {
             squares[j][k] = EMPTY_SQUARE;
@@ -39,14 +40,18 @@ void CBoard::clear() {
 
 void CBoard::set_start_position() {
     set_fen_position(START_POSITION);
+    initial_position_was_startpos = true;
     assert(get_fen_position() == START_POSITION);
     assert(get_side_to_move() == WHITE_PLAYER);
     assert(get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
+    assert(moves_from_startpos() == "");
 }
 
 bool CBoard::set_fen_position(const std::string &position) {
     clear();
+    initial_position_was_startpos = false;
     bool success = CFenParser::parse(position);
+///    assert(moves_from_startpos() == NO_MOVES_FROM_STARTPOS);
     return success;
 }
 
@@ -132,6 +137,6 @@ std::string CBoard::moves_from_startpos() const {
     if (initial_position_was_startpos) {
         return move_maker.moves_from_initial_position();
     }
-    return "TODO";
+    return NO_MOVES_FROM_STARTPOS; 
 }
 

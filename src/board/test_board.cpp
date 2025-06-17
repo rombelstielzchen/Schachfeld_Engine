@@ -101,7 +101,6 @@ bool CTestBoard::test_moves_from_startpos() {
     TEST_FUNCTION(); 
     CTEST << "Start-position without moves ...\n";
     board.set_start_position();
-    std::cerr << board.moves_from_startpos();
     EXPECT(board.moves_from_startpos() == "");
     CTEST << "Start-position with moves ...\n";
     SILENT_EXPECT(board.set_fen_position(startpos_with_moves));
@@ -109,15 +108,10 @@ bool CTestBoard::test_moves_from_startpos() {
     EXPECT(board.moves_from_startpos() == "e2e4 e7e5 f2f4 ");
     CTEST << "FEN-positionon without moves ...\n";
     SILENT_EXPECT(board.set_fen_position(fen_with_no_moves));
-    // TODO
-///    EXPECT(board.moves_from_startpos() != "");
-    // TODO: line below nakes no sense
-///    EXPECT(board.move_maker.play_variation(board.moves_from_startpos()) == false);
+    EXPECT(board.moves_from_startpos() == NO_MOVES_FROM_STARTPOS);
     CTEST << "FEN-positionon with moves ...\n";
     SILENT_EXPECT(board.set_fen_position(fen_with_no_moves));
-    EXPECT(board.moves_from_startpos() != "e2e4 e7e5 ");
-    // TODO: makes no sense either
-///    EXPECT(board.move_maker.play_variation(board.moves_from_startpos()) == false);
+    EXPECT(board.moves_from_startpos() == NO_MOVES_FROM_STARTPOS);
     return true;
 }
 

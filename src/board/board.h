@@ -14,6 +14,8 @@
 #include "../move_generator/move.h"
 #include "../technical_functions/standard_headers.h"
 
+const std::string NO_MOVES_FROM_STARTPOS = "NO_MOVES_FROM_STARTPOS";
+
 // Size of the board used for calculation:
 //    * 8 squarres in both directions
 //    * 2 squares garden-fence at all borders to detect out-of-board moves
