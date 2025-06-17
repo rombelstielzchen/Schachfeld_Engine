@@ -22,12 +22,14 @@ class CMoveMaker {
     void make_null_move();
     void unmake_null_move();
   public:
-    std::string moves_from_startpos() const;
+    std::string moves_from_initial_position() const;
   private:
     void update_castling_rights(const std::string &textual_move) const;
     void update_castling_rights(const SSquare source_or_target_square) const;
   private:
     std::vector<SMove> move_history;
     std::vector <int> former_eng_passeng_files;
+    bool initial_position_was_startpos;
 };
+
 

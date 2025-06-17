@@ -106,6 +106,7 @@ class CBoard {
     void set_start_position();
     bool set_fen_position(const std::string &position);
     std::string get_fen_position() const;
+    std::string moves_from_startpos() const;
      const char* as_is() const;
   public:
     inline void flip_side_to_move() { side_to_move = !side_to_move; }
@@ -142,6 +143,8 @@ class CBoard {
     int _100_ply_draw_counter;
     // Some over-size supports easy access via MOVE_TYPE (char)
     std::array<bool, MOVE_TYPE_BLACK_SHORT_CASTLING + 1> castling_rights;
+  private:
+    bool initial_position_was_startpos;
 };
 
 // Global board, as "everybody" needs easy access to it

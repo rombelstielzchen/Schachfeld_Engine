@@ -128,3 +128,10 @@ void CBoard::put_piece(const SSquare square, char piece) {
     squares[square.file][square.rank] = piece;
 }
 
+std::string CBoard::moves_from_startpos() const {
+    if (initial_position_was_startpos) {
+        return move_maker.moves_from_initial_position();
+    }
+    return "TODO";
+}
+

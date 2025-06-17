@@ -16,5 +16,6 @@ class CTestBoard {
     static bool test_as_is();
     static bool test_accessors();
     static bool test_modifiers();
+    static bool test_moves_from_startpos();
 };
 

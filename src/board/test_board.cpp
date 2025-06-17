@@ -29,6 +29,7 @@ bool CTestBoard::test_set_start_position() {
     CTEST << "CTestBoard::test_set_start_position() ..." << std::endl;
     board.set_start_position();
     EXPECT(board.get_fen_position() == START_POSITION);
+    EXPECT(test_moves_from_startpos());
     return true;
 }
 
@@ -93,6 +94,29 @@ bool CTestBoard::test_modifiers() {
     EXPECT(board.square_is_empty(FILE_E, RANK_2));
     EXPECT(board.get_square(FILE_E, RANK_4) == WHITE_POWER);
     EXPECT(board.get_side_to_move() == BLACK_PLAYER);
+    return true;
+}
+
+bool CTestBoard::test_moves_from_startpos() {
+   TEST_FUNCTION(); 
+    CTEST << "Start-position without moves ...\n";
+    board.set_start_position();
+    EXPECT(board.moves_from_startpos() == "");
+    CTEST << "Start-position with moves ...\n";
+    SILENT_EXPECT(board.set_fen_position(startpos_with_moves));
+    CTEST << "moves_from_startpos(): " << board.moves_from_startpos() << "\n";
+    EXPECT(board.moves_from_startpos() == "e2e4 e7e5 f2f4 ");
+    CTEST << "FEN-positionon without moves ...\n";
+    SILENT_EXPECT(board.set_fen_position(fen_with_no_moves));
+    // TODO
+///    EXPECT(board.moves_from_startpos() != "");
+    // TODO: line below nakes no sense
+///    EXPECT(board.move_maker.play_variation(board.moves_from_startpos()) == false);
+    CTEST << "FEN-positionon with moves ...\n";
+    SILENT_EXPECT(board.set_fen_position(fen_with_no_moves));
+    EXPECT(board.moves_from_startpos() != "e2e4 e7e5 ");
+    // TODO: makes no sense either
+///    EXPECT(board.move_maker.play_variation(board.moves_from_startpos()) == false);
     return true;
 }
 

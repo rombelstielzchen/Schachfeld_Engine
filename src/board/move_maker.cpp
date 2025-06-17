@@ -219,8 +219,7 @@ void CMoveMaker::update_castling_rights(const SSquare source_or_target_square) c
     }
 }
 
-std::string CMoveMaker::moves_from_startpos() const {
-    // TODO: handle the case, where initial position is not the startpos
+std::string CMoveMaker::moves_from_initial_position() const {
     std::string result = "";
     for (const SMove move : move_history) {
         assert(move_in_range(move));
