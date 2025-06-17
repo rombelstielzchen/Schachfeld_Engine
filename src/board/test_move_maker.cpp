@@ -43,7 +43,7 @@ bool CTestMoveMaker::test_make_unmake_combinations(const std::string &position) 
 }
 
 bool CTestMoveMaker::test_algebraic_game() {
-    CTEST << "CTestMoveMaker::test_algebraic_game() ...\n";
+    TEST_FUNCTION(); 
     CTEST << "Move-history: " <<board.move_maker.move_history.size() << "\n";
     board.set_fen_position("startpos moves g1f3 d7d5 g2g3 c7c6 f1g2 g8f6 e1g1 e7e6 a2a4 f8e7 a4a5 b7b5 a5b6 e8g8 b6b7 b8d7 b7a8b");
     CTEST << "Move-history: " <<board.move_maker.move_history.size() << "\n";
@@ -65,7 +65,7 @@ bool CTestMoveMaker::test_algebraic_game() {
 }
 
 bool CTestMoveMaker::test_eng_passeng_rights() {
-    CTEST << "CTestMoveMaker::test_eng_passeng_rights() ...\n";
+   TEST_FUNCTION(); 
     board.set_start_position();
     EXPECT(board.eng_passeng_possible() == false);
     board.move_maker.make_move("a2a4");
@@ -84,7 +84,7 @@ bool CTestMoveMaker::test_eng_passeng_rights() {
 }
 
 bool CTestMoveMaker::test_castling_rights() {
-    CTEST << "CTestMoveMaker::test_castling_rights() ...\n";
+    TEST_FUNCTION(); 
     SILENT_EXPECT(board.set_fen_position("startpos moves g2g3 g8f6 f1g2 h8g8 e1f1"));
     EXPECT(board.get_castling_rights(MOVE_TYPE_BLACK_LONG_CASTLING) == true);
     EXPECT(board.get_castling_rights(MOVE_TYPE_BLACK_SHORT_CASTLING) == false);

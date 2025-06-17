@@ -26,7 +26,7 @@ bool CTestBoard::test_everything() {
 }
 
 bool CTestBoard::test_set_start_position() {
-    CTEST << "CTestBoard::test_set_start_position() ..." << std::endl;
+   TEST_FUNCTION(); 
     board.set_start_position();
     EXPECT(board.get_fen_position() == START_POSITION);
     EXPECT(test_moves_from_startpos());
@@ -34,7 +34,7 @@ bool CTestBoard::test_set_start_position() {
 }
 
 bool CTestBoard::test_set_fen_position() {
-     CTEST << "CTestBoard::test_set_fen_position() ...\n";
+    TEST_FUNCTION(); 
      SILENT_EXPECT(board.set_fen_position(startpos_with_no_moves));
      EXPECT(board.get_fen_position() == START_POSITION);
      SILENT_EXPECT(board.set_fen_position(startpos_with_moves));
@@ -48,7 +48,7 @@ bool CTestBoard::test_set_fen_position() {
 } 
 
 bool CTestBoard::test_as_is() {
-   CTEST << "CTestBoard::test_as_is() ... " << std::endl;
+    TEST_FUNCTION(); 
     const std::string expected_result = std::string("")
         + "############\n"
         + "############\n"
@@ -72,7 +72,7 @@ bool CTestBoard::test_as_is() {
 }
 
 bool CTestBoard::test_accessors() {
-   CTEST  << "CTestBoard::test_accessors() ..." << std::endl;
+   TEST_FUNCTION(); 
     board.set_start_position();
     EXPECT(board.get_side_to_move() == WHITE_PLAYER);
     EXPECT(board.get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
@@ -86,7 +86,7 @@ bool CTestBoard::test_accessors() {
 }
 
 bool CTestBoard::test_modifiers() {
-    CTEST << "CTestBoard::test_put_piece() ...\n";
+   TEST_FUNCTION(); 
     board.set_start_position();
     board.clear_square(E2);
     board.put_piece(E4, WHITE_POWER);
@@ -98,9 +98,10 @@ bool CTestBoard::test_modifiers() {
 }
 
 bool CTestBoard::test_moves_from_startpos() {
-   TEST_FUNCTION(); 
+    TEST_FUNCTION(); 
     CTEST << "Start-position without moves ...\n";
     board.set_start_position();
+    std::cerr << board.moves_from_startpos();
     EXPECT(board.moves_from_startpos() == "");
     CTEST << "Start-position with moves ...\n";
     SILENT_EXPECT(board.set_fen_position(startpos_with_moves));
