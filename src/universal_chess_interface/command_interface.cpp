@@ -177,8 +177,8 @@ bool CCommandInterface::test_move_generator() {
 void CCommandInterface::takeback() {
     if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop == false) {
         CUciProtocol::send_error("Can not take back while calculating");
-    return;
+        return;
     }
-    board.move_maker.unmake_move();
+    board.move_maker.takeback();
 }
 

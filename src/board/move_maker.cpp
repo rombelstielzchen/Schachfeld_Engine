@@ -177,6 +177,12 @@ void CMoveMaker::unmake_all() {
     }
 }
 
+void CMoveMaker::takeback() {
+    if (move_history.size() > 0) {
+        unmake_move();
+    }
+}
+
 bool CMoveMaker::play_variation(const std::string &variation) {
     CStringTokenizer tokenizer(variation);
     std::string next_move = tokenizer.next_token();
