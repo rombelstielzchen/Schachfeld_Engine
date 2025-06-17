@@ -76,7 +76,7 @@ void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
     assert(square_in_range(target_square) || (target_square == NULL_SQUARE));
     prune_silent_moves();
     assert(valid_list());
-    int pos = LIST_ORIGIN - 1;
+    unsigned int pos = LIST_ORIGIN - 1;
     // while-loop guaranteed to terminate; either pos decreases or consumer_position increases
     while (pos >= consumer_position) {
         SMove move = bidirectional_move_list[pos];
@@ -90,7 +90,8 @@ void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
     if (bidirectional_move_list[pos].target != target_square) {
         ++pos;
     }
-    consumer_position == pos;
+    // TODO: check and remuve this statement
+//    consumer_position == pos;
     consumer_position = std::min(consumer_position, LIST_ORIGIN);
     first_capture = consumer_position;
     assert(valid_list());
