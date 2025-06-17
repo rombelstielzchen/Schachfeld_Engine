@@ -124,7 +124,7 @@ class CBoard {
     void clear_castling_rights();
     void set_castling_rights(const char move_type, bool yes_no);
     bool get_castling_rights(char move_type) const;
-    inline std::string get_moves_from_startpos() const { return moves_from_startpos; }
+//    inline std::string get_moves_from_startpos() const { return moves_from_startpos; }
   public:
     CEvaluator evaluator;
     CMoveMaker move_maker;
