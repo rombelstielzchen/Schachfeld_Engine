@@ -11,8 +11,10 @@
 
 void CMoveList::prune_silent_moves() {
     assert(valid_list());
+    // Remember old position, even in case of repeated pruning
     next_empty_slot_before_pruning_silent_moves = std::max(next_empty_slot, next_empty_slot_before_pruning_silent_moves);
     next_empty_slot = LIST_ORIGIN;
+    assert(next_empty_slot <= next_empty_slot_before_pruning_silent_moves);
     assert(valid_list());
 }
 
@@ -87,13 +89,9 @@ void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
         }
     }
     assert(pos == consumer_position - 1);
-    if (bidirectional_move_list[pos].target != target_square) {
-        ++pos;
-    }
-    // TODO: check and remuve this statement
-//    consumer_position == pos;
-    consumer_position = std::min(consumer_position, LIST_ORIGIN);
+    assert(consumer_position <= LIST_ORIGIN);
     first_capture = consumer_position;
+    assert((bidirectional_move_list[first_capture].target == target_square) || (first_capture == LIST_ORIGIN));
     assert(valid_list());
 }
 
