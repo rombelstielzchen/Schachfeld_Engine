@@ -52,8 +52,19 @@ void CUciProtocol::send_list_of_options() const {
         + "default Schachfeld-engine by Rombelstielzchen. "
         + "Protocol: UCI. "
         + "Licensed as open-source under GPLv3. "
-        + "Contact:  https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby. "
+        + "Contact:  https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby "
         + "Source-code: https://github.com/rombelstielzchen/Schachfeld_Engine");
+    // Options for the future
+    send_message(std::string("option name hash type spin ")
+        + "default 1 "
+        + "min 1 "
+        + "max " + std::to_string(INT16_MAX) + " ");
+    send_message(std::string("option name UCI_LimitStrength type check ")
+         + "default false ");
+    send_message(std::string("option name UCI_Elo type spin ")
+        + "default 3456 "
+        + "min 1 "
+        + "max 3456 ");
 }
 
 void CUciProtocol::send_info(const std::string &information) {
