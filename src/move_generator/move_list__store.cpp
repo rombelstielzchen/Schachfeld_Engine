@@ -87,18 +87,18 @@ void CMoveList::store_white_promotions(const int source_file, const int target_f
     new_move.source.rank = RANK_7;
     new_move.target.file = target_file;
     new_move.target.rank = RANK_8;
-    // TODO: reverse order!
-    new_move.move_type = WHITE_QUEEN;
-    new_move.potential_gain = potential_gain_queen_promotion;
-    store_capture(new_move);
-    new_move.move_type = WHITE_KNIGHT;
-    new_move.potential_gain = potential_gain_knight_promotion;
+    // Reversed order of likelihood, as the list is LIFO
+    new_move.move_type = WHITE_BISHOP;
+    new_move.potential_gain = potential_gain_bishop_promotion;
     store_capture(new_move);
     new_move.move_type = WHITE_ROOK;
     new_move.potential_gain = potential_gain_rook_promotion;
     store_capture(new_move);
-    new_move.move_type = WHITE_BISHOP;
-    new_move.potential_gain = potential_gain_bishop_promotion;
+    new_move.move_type = WHITE_KNIGHT;
+    new_move.potential_gain = potential_gain_knight_promotion;
+    store_capture(new_move);
+    new_move.move_type = WHITE_QUEEN;
+    new_move.potential_gain = potential_gain_queen_promotion;
     store_capture(new_move);
     assert(valid_list());
 }
@@ -109,18 +109,18 @@ void CMoveList::store_black_promotions(const int source_file, const int target_f
     new_move.source.rank = RANK_2;
     new_move.target.file = target_file;
     new_move.target.rank = RANK_1;
-    // TODO: reverse order
-    new_move.move_type = BLACK_QUEEN;
-    new_move.potential_gain = potential_gain_queen_promotion;
-    store_capture(new_move);
-    new_move.move_type = BLACK_KNIGHT;
-    new_move.potential_gain = potential_gain_knight_promotion;
+    // Reversed order of likelihood, as the list is LIFO
+    new_move.move_type = BLACK_BISHOP;
+    new_move.potential_gain = potential_gain_bishop_promotion;
     store_capture(new_move);
     new_move.move_type = BLACK_ROOK;
     new_move.potential_gain = potential_gain_rook_promotion;
     store_capture(new_move);
-    new_move.move_type = BLACK_BISHOP;
-    new_move.potential_gain = potential_gain_bishop_promotion;
+    new_move.move_type = BLACK_KNIGHT;
+    new_move.potential_gain = potential_gain_knight_promotion;
+    store_capture(new_move);
+    new_move.move_type = BLACK_QUEEN;
+    new_move.potential_gain = potential_gain_queen_promotion;
     store_capture(new_move);
     assert(valid_list());
 }

@@ -61,8 +61,8 @@ void CCommandInterface::go_infinite() {
 }
  
 void CCommandInterface::go_ponder() {
+    // TODO: ponder
     // Assume the "best" opponents move while it s his turn, then calculate.
-    // TODO
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     ///go_infinite();
 }
