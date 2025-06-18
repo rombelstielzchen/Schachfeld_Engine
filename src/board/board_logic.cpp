@@ -151,10 +151,10 @@ bool CBoardLogic::king_in_check() {
 }
 
 bool CBoardLogic::illegal_move(SMove move) {
+    // TODO? check if move on ist?
     assert(move_in_range(move));
-   bool result = board.move_maker.make_move(move);
-   assert(result);
-    result &= king_in_check();
+    board.move_maker.make_move(move);
+    bool result = king_in_check();
     board.move_maker.unmake_move();
     return result;
 }

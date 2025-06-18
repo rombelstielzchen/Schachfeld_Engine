@@ -121,6 +121,7 @@ class CBoard {
     int get_move_counter() const;
     int get_100_ply_draw_counter() const;
     TSquare get_square(const int file, const int rank) const;
+    inline TSquare get_square(const SSquare square) const { return get_square(square.file, square.rank); }
     bool square_is_empty(const int file, const int rank) const;
     bool square_is_empty(const SSquare square) const;
   public:

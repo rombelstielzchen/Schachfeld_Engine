@@ -15,13 +15,12 @@ CMoveMaker::CMoveMaker() {
     reset_history();
 }
 
-bool CMoveMaker::make_move(SMove move) {
-    // TODO: use or remove result
+void CMoveMaker::make_move(SMove move) {
     assert(move_in_range(move));
-    char moving_piece = board.squares[move.source.file][move.source.rank];
+    char moving_piece = board.get_square(move.source);
     assert(is_any_piece(moving_piece));
     board.clear_square(move.source);
-    move.captured_piece = board.get_square(move.target.file, move.target.rank);
+    move.captured_piece = board.get_square(move.target);
     board.put_piece(move.target, moving_piece);
     former_eng_passeng_files.push_back(board.get_eng_passeng_file());
     switch (move.move_type) {
@@ -81,10 +80,9 @@ bool CMoveMaker::make_move(SMove move) {
             assert(THIS_MUST_NOT_HAPPEN);
             break;
     }
-    assert(board.square_is_empty(move.target.file, move.target.rank) == false);
+    assert(board.square_is_empty(move.target) == false);
     board.flip_side_to_move();
     move_history.push_back(move);
-    return true;
 }
 
 void CMoveMaker::make_null_move() {
@@ -94,6 +92,7 @@ void CMoveMaker::make_null_move() {
 }
 
 bool CMoveMaker::make_move(const std::string &long_algebraic_uci_move) {
+    // TODO: better error-handling for textual moves
     CMoveGenerator move_generator;
     move_generator.generate_all();
     SMove move = move_generator.move_list.lookup_move(long_algebraic_uci_move);
@@ -101,7 +100,8 @@ bool CMoveMaker::make_move(const std::string &long_algebraic_uci_move) {
             std::cerr << "ERROR: invalid move " << long_algebraic_uci_move << "\n";
         return false;
     }
-    return make_move(move);
+    make_move(move);
+    return true;
 }
 
 void CMoveMaker::unmake_null_move() {
