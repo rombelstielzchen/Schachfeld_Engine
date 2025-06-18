@@ -22,6 +22,7 @@ class CBoardLogic {
   public:
     static bool castling_squares_empty(const char move_type);
     static bool rook_on_castling_square(const char move_type);
+    static bool castling_possible(const int move_type);
     static bool square_occupied_by_opponent(const int file, const int rank);
     static bool is_valid_target_square(const int file, const int rank);
   public:
@@ -30,6 +31,8 @@ class CBoardLogic {
   public:
     static bool piece_attacked_by_side_to_move(const SSquare square);
    static bool piece_attacked_by_side_not_to_move(const SSquare square); 
-
+    static bool illegal_move(SMove move);
+  private:
+    static bool king_in_check();
 };
 

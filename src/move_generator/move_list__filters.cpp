@@ -24,27 +24,6 @@ void CMoveList::unprune_silent_moves() {
     assert(valid_list());
 }
 
-bool king_in_check() {
-    // TODO: move to CBoardLogic
-    bool my_colour = !board.get_side_to_move();
-    SSquare my_king_square = CBoardLogic::king_square(my_colour);
-    if (my_king_square == NULL_SQUARE) {
-        // No king, probably simplified test-case
-        return false;
-    }
-    assert(square_in_range(my_king_square));
-    return (CBoardLogic::piece_attacked_by_side_to_move(my_king_square));
-}
-
-bool illegal_move(SMove move) {
-    // TODO: move to CBoardLogic
-    assert(move_in_range(move));
-    board.move_maker.make_move(move);
-    bool result = king_in_check();
-    board.move_maker.unmake_move();
-    return result;
-}
-
 void CMoveList::prune_illegal_moves() {
     assert(valid_list());
     unsigned int pos = first_capture;
@@ -52,7 +31,7 @@ void CMoveList::prune_illegal_moves() {
         assert(pos >= first_capture);
         assert(valid_list());
         SMove move = bidirectional_move_list[pos];
-        if (illegal_move(move)) {
+        if (CBoardLogic::illegal_move(move)) {
             assert(valid_list());
             int former_list_size = list_size();
             assert(pos >= first_capture);

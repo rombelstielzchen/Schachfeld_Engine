@@ -126,3 +126,35 @@ bool CBoardLogic::piece_attacked_by_side_not_to_move(const SSquare square) {
     return result;
 }
 
+bool CBoardLogic::castling_possible(const int move_type) {
+    assert((move_type == MOVE_TYPE_WHITE_SHORT_CASTLING) 
+        || (move_type == MOVE_TYPE_WHITE_LONG_CASTLING)
+        || (move_type == MOVE_TYPE_BLACK_SHORT_CASTLING)
+        || (move_type == MOVE_TYPE_BLACK_LONG_CASTLING));
+    return (board.get_castling_rights(move_type)
+        && rook_on_castling_square(move_type)
+        && (castling_squares_empty(move_type)));
+    // TODO (or not, maybe): keep track of moving pieces when calculating variations
+    // in order to prevent variation with castling of moved pieces.
+}
+
+bool CBoardLogic::king_in_check() {
+    // TODO: error-prone and confusing; this assumes we already moved
+    bool my_colour = !board.get_side_to_move();
+    SSquare my_king_square = CBoardLogic::king_square(my_colour);
+    if (my_king_square == NULL_SQUARE) {
+        // No king, probably simplified test-case
+        return false;
+    }
+    assert(square_in_range(my_king_square));
+    return (CBoardLogic::piece_attacked_by_side_to_move(my_king_square));
+}
+
+bool CBoardLogic::illegal_move(SMove move) {
+    assert(move_in_range(move));
+   bool result = board.move_maker.make_move(move);
+   assert(result);
+    result &= king_in_check();
+    board.move_maker.unmake_move();
+    return result;
+}

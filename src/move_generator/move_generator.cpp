@@ -152,10 +152,10 @@ void CMoveGenerator::generate_castlings(const int file, const int rank) {
         my_short = MOVE_TYPE_BLACK_SHORT_CASTLING;
         my_long = MOVE_TYPE_BLACK_LONG_CASTLING;
     }
-    if (castling_possible(my_short)) {
+    if (CBoardLogic::castling_possible(my_short)) {
         move_list.store_castling(my_short);
     }
-    if (castling_possible(my_long)) {
+    if (CBoardLogic::castling_possible(my_long)) {
         move_list.store_castling(my_long);
     }
 }
@@ -234,17 +234,5 @@ void CMoveGenerator::generate_potential_eng_passeng() {
     if (board.get_square(right, rank) == my_pawn) {
         move_list.store_eng_passeng(right, rank, eng_passeng_file, next_rank);
     }       
-}
-
-// TODO: move to CBoardLogic
-bool CMoveGenerator::castling_possible(const int move_type) const {
-    assert((move_type == MOVE_TYPE_WHITE_SHORT_CASTLING) 
-        || (move_type == MOVE_TYPE_WHITE_LONG_CASTLING)
-        || (move_type == MOVE_TYPE_BLACK_SHORT_CASTLING)
-        || (move_type == MOVE_TYPE_BLACK_LONG_CASTLING));
-    return (board.get_castling_rights(move_type)
-        && CBoardLogic::rook_on_castling_square(move_type)
-        && (CBoardLogic::castling_squares_empty(move_type)));
-    // TODO (or not, maybe): keep track of moving pieces when calculating variations
 }
 
