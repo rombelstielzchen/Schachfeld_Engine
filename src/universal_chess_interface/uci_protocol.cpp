@@ -99,6 +99,9 @@ void CUciProtocol::preprocess_message(std::string &message) const {
 }
 
 void CUciProtocol::process_message(const std::string &message) {
+    if (message == "") {
+        return;
+    }
     string_tokenizer.set_input(message);
     if (string_tokenizer.next_token_is_one_of("back", "b")) {
         interactive_console_mode = true;
