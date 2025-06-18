@@ -31,7 +31,6 @@ void CMoveList::store_silent_move(const int source_file, const int source_rank, 
 
 void CMoveList::store_pawn_move(const int source_file, const int source_rank, const int target_file, const int target_rank) {
     if (target_rank == RANK_8) {
-        // TODO: remove_superfluous parameters
         store_white_promotions(source_file, target_file);
     } else if (target_rank == RANK_1) {
         store_black_promotions(source_file, target_file);
