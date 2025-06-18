@@ -12,7 +12,7 @@
 
 constexpr int HALF_KING = 10000;
 // TODO: limited quiescence-depth for handicap-mode
-constexpr int QUIESCENCE_DEPTH = 4;
+constexpr int QUIESCENCE_DEPTH = 31;
 
 inline int CSearch::losing_score(bool losing_side) {
     return (losing_side == WHITE_PLAYER) ? SCORE_BLACK_WIN : SCORE_WHITE_WIN;
