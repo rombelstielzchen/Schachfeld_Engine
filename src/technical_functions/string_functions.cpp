@@ -30,8 +30,7 @@ void trim(std::string &in_out_string) {
 }
 
 size_t find_substring(const std::string &text, const std::string substring, bool case_insensitive) {
-    // TODO: insensitive + test
-    assert(case_insensitive == false);
+    assert((case_insensitive == false) || NOT_YET_IMPLEMENTED);
     return text.find(substring);
 }
 
@@ -47,7 +46,8 @@ void replace_all_substrings(std::string &source, const std::string &substring, c
     if ((substring == "") || (substring == by_what)) {
         return;
     }
-    // TODO: replace naive implementation, searching N times from the beginning
+    // I,plementation is a bit baive,  searching multiple times from the beginning,
+    // but OK for typical string sizes and few occurances of the sub-string.
     size_t pos = 0;
     while (pos != std::string::npos) {
         pos = replace_substring(source, substring, by_what, case_insensitive);
