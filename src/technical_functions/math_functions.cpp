@@ -15,7 +15,7 @@ bool approximately_equal(const double a, const double b) {
     if (fabs(a) < 1) {
         // Near 1: absolute_error and relative_error are of same magnitude,
         // already handled above.
-        // Near 0: div0, orecision problems.
+        // Near 0: div0, precision problems.
         return false;
     }
     double relative_error = 1 - b / a;
@@ -23,12 +23,12 @@ bool approximately_equal(const double a, const double b) {
 }
 
 double root(const double radikant, const double exponent) {
-   // TODO: proper implementation
    if (radikant < 0) {
+        assert(NOT_YET_IMPLEMENTED);
        return -1;
    }
    if (approximately_equal(exponent, 0)) {
-        return -1;
+        return std::numeric_limits<double>::infinity();
    }
     return exp(log(radikant) / exponent);
 }
