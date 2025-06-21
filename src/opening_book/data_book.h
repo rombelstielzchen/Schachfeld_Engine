@@ -15,6 +15,8 @@
 #include "../move_generator/move.h"
 #include "../technical_functions/standard_headers.h"
 
+constexpr int length_of_text_move = 4;
+
 typedef std::vector<std::string> TSortedVariationCollection;
 
 class CDataBook {

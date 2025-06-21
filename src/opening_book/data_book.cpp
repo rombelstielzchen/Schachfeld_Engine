@@ -25,8 +25,7 @@ std::string CDataBook::get_move(const std::string &moves_from_startpos_in_uci_fo
    if (moves_from_startpos_in_uci_format != "") {
        first_char = moves_from_startpos_in_uci_format.length() + 1;
    }
-   constexpr int length_of_move = 4;
-   std::string next_move = sorted_variation_collection[index].substr(first_char, length_of_move);
+   std::string next_move = sorted_variation_collection[index].substr(first_char, length_of_text_move);
    const std::string bokelmann_gambit_for_testability = "x2x1";
    if (next_move == bokelmann_gambit_for_testability) {
         return "e2e4";

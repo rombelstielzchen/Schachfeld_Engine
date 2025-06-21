@@ -98,6 +98,8 @@ bool CTestOpeningBook::lookup_returns_exact_move(const std::string &variation, c
 std::string CTestOpeningBook::verbose_move_lookup(const std::string &variation) {
     CMasterBook master_book;
     std::string move = master_book.get_move(variation);
+    assert(move.length() == length_of_text_move);
+    assert((move == NULL_MOVE_AS_TEXT)  || (move_in_range(text_to_basic_move(move))));
     CTEST << "[" << variation << "] -> [" << move << "]" << std::endl;
     return move; 
 }
