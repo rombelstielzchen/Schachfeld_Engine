@@ -134,8 +134,6 @@ bool CBoardLogic::castling_possible(const int move_type) {
     return (board.get_castling_rights(move_type)
         && rook_on_castling_square(move_type)
         && (castling_squares_empty(move_type)));
-    // TODO (or not, maybe): keep track of moving pieces when calculating variations
-    // in order to prevent variation with castling of moved pieces.
 }
 
 bool CBoardLogic::king_in_check() {
@@ -151,10 +149,10 @@ bool CBoardLogic::king_in_check() {
 }
 
 bool CBoardLogic::illegal_move(SMove move) {
-    // TODO? check if move on ist?
     assert(move_in_range(move));
     board.move_maker.make_move(move);
     bool result = king_in_check();
     board.move_maker.unmake_move();
     return result;
 }
+

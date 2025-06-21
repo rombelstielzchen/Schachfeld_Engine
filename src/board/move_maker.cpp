@@ -92,7 +92,6 @@ void CMoveMaker::make_null_move() {
 }
 
 bool CMoveMaker::make_move(const std::string &long_algebraic_uci_move) {
-    // TODO: better error-handling for textual moves
     CMoveGenerator move_generator;
     move_generator.generate_all();
     SMove move = move_generator.move_list.lookup_move(long_algebraic_uci_move);
