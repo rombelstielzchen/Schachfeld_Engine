@@ -14,6 +14,8 @@ How To Download
 ---------------
 [version_0.f.zip](https://github.com/rombelstielzchen/Schachfeld_Engine/raw/refs/heads/main/release/archives/Schachfeld_Engine_0.f.zip) (Windows, 64 Bit)
 
+[Older versions](release/archives)
+
 
 How to Use
 ----------
