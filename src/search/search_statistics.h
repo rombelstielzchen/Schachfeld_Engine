@@ -29,7 +29,6 @@ class CSearchStatistics {
         nodes_total += nodes;
     }
   public:
-    // TODO
     int expected_branching_factor_for_next_iteration() const;
   public:
     // Use direct access only for incrementing the couners.

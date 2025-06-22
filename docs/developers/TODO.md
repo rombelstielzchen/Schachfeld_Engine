@@ -14,6 +14,7 @@ TODO
     increased alpha or beta
     consider only final checks
     restrict quiescence.search
+* better time-management and estimated branching-facror    
 * clown-mates and undie-promoter
 * advanced PVS
 * lazy eval
