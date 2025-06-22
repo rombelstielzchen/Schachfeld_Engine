@@ -140,7 +140,6 @@ void CMoveList::remove(const std::string &move_text) {
 
 void CMoveList::prune_illegal_castlings() {
     assert(valid_list());
-    // TODO: refactoring
     SSquare king_square = CBoardLogic::king_square(board.get_side_to_move());
     if (king_square.file != FILE_E) {
         return;
@@ -159,8 +158,11 @@ void CMoveList::prune_illegal_castlings() {
             remove("e1g1");
             remove("e1c1");
         }
+        // We leave attacked target-square to the search for better performance,
+        // as most often we won't try castling at all
         return;
     }
+    assert(board.get_side_to_move() == BLACK_PLAYER);
     if (!move_on_list("e8f8") && move_on_list("e8g8")) {
         remove("e8g8");
     }
