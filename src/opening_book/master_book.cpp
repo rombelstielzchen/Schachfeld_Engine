@@ -43,14 +43,12 @@ std::string CMasterBook::get_move(const std::string &moves_from_startpos_in_uci_
        book_move = gm_book.get_move(moves_from_startpos_in_uci_format);
     }
     assert(book_move.length() == length_of_text_move);
-    std::cerr << "\"" << book_move << "\"\n";
     assert((book_move == NULL_MOVE_AS_TEXT) || move_in_range(text_to_basic_move(book_move)));
     return book_move;
 }
 
 void CMasterBook::set_option(EBookOptions option) {
     boook_option = option;
-    std::cerr << "boook_option: " << boook_option << "\n";
     on_new_game();
 }
 
@@ -83,7 +81,6 @@ void CMasterBook::randomize_book_for_this_game() {
     } else {
         boook_option_for_this_game = BOOK_OPTIONS_BROAD_GM;
     }
-    std::cerr << "boook_option_for_this_game: " << boook_option_for_this_game << "\n";
 }
 
 void CMasterBook::on_new_game() {
