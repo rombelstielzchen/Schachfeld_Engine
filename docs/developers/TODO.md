@@ -8,6 +8,12 @@ TODO
 * vector-attacks
 * hash-tables
 * extensions and reductions
+* pondering
+* special mate-search:
+     depth: 1, 3, 5, ...?
+    increased alpha or beta
+    consider only final checks
+    restrict quiescence.search
 * clown-mates and undie-promoter
 * advanced PVS
 * lazy eval
