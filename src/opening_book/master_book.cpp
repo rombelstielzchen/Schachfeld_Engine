@@ -43,6 +43,7 @@ std::string CMasterBook::get_move(const std::string &moves_from_startpos_in_uci_
        book_move = gm_book.get_move(moves_from_startpos_in_uci_format);
     }
     assert(book_move.length() == length_of_text_move);
+    std::cerr << "\"" << book_move << "\"\n";
     assert((book_move == NULL_MOVE_AS_TEXT) || move_in_range(text_to_basic_move(book_move)));
     return book_move;
 }

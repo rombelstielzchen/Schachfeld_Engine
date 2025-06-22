@@ -15,21 +15,30 @@ CDataBook::CDataBook(const TSortedVariationCollection &sorted_variation_collecti
 }
 
 std::string CDataBook::get_move(const std::string &moves_from_startpos_in_uci_format) {
+    // moves_from_startpos_in_uci_format usually ends with a space;
+    // The space might be missing in case of test-cases amd human input
+    constexpr int length_of_text_move_plus_space = length_of_text_move + 1;
+    assert((moves_from_startpos_in_uci_format.length() % length_of_text_move_plus_space == 0) || (moves_from_startpos_in_uci_format.length() % length_of_text_move_plus_space == length_of_text_move));
+     assert(((moves_from_startpos_in_uci_format.length() == 0) || moves_from_startpos_in_uci_format.back() == ' ') || isdigit(moves_from_startpos_in_uci_format.back()));
     size_t index = random_matching_index(sorted_variation_collection, moves_from_startpos_in_uci_format);
     if (index == VARIATION_NOT_FOUND) {
         last_lookup_successful = false;
         return NULL_MOVE_AS_TEXT;
     }
    assert(sorted_variation_collection[index].length() > moves_from_startpos_in_uci_format.length());
-   size_t first_char = 0;
-   if (moves_from_startpos_in_uci_format != "") {
-       first_char = moves_from_startpos_in_uci_format.length() + 1;
-   }
-   std::string next_move = sorted_variation_collection[index].substr(first_char, length_of_text_move);
+    size_t first_char_pos = moves_from_startpos_in_uci_format.length();
+    if (isdigit(moves_from_startpos_in_uci_format.back())) {
+        ++first_char_pos;
+    }
+    assert(first_char_pos % length_of_text_move_plus_space == 0);
+   std::string next_move = sorted_variation_collection[index].substr(first_char_pos, length_of_text_move);
+   assert(isalpha(next_move[0]));
+   assert(isdigit(next_move.back()));
    const std::string bokelmann_gambit_for_testability = "x2x1";
    if (next_move == bokelmann_gambit_for_testability) {
         return "e2e4";
    }
+   assert(move_in_range(text_to_basic_move(next_move)));
     return next_move;
 }
 
