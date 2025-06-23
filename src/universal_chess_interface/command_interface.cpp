@@ -40,16 +40,11 @@ void CCommandInterface::go_nodes(const int64_t nodes) {
 
 void CCommandInterface::go_mate(const int depth_in_moves) {
     // ATM we search "normally" with the necessary depth.
-    // TODO: special mate-search 
-    // * depth: 1, 3, 5, ...?
-    // * increased alpha or beta
-    // * consider only final checks
-    //  * restrict quiescence.search
     assert(depth_in_moves > 0);
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     int64_t depth_in_plies = 2 * depth_in_moves - 1;
-    constexpr int64_t extra_depth_until_king_gets_captured = 2;
-    int64_t required_depth_in_plies = depth_in_plies + extra_depth_until_king_gets_captured;
+    constexpr int64_t extra_depth_until_king_gets_captured_by_final_quiescence = 1;
+    int64_t required_depth_in_plies = depth_in_plies + extra_depth_until_king_gets_captured_by_final_quiescence;
     std::thread worker_thread(worker_go_depth, required_depth_in_plies);
     worker_thread.detach();
 }
@@ -61,10 +56,8 @@ void CCommandInterface::go_infinite() {
 }
  
 void CCommandInterface::go_ponder() {
-    // TODO: ponder
-    // Assume the "best" opponents move while it s his turn, then calculate.
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
-    ///go_infinite();
+   assert(NOT_YET_IMPLEMENTED); 
 }
 
 void ponder_hit() {

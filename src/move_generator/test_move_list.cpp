@@ -142,12 +142,10 @@ bool CTestMoveList::test_extremes() {
     std::string position_with_74_captures = "r1n1n1b/1P1P21P21P/1N1N1N/2RnQrRq/2pKp/3BNQbQ/k/4Bq w";
     SILENT_EXPECT(board.set_fen_position(position_with_74_captures));
     move_generator.move_list.clear();
-    move_generator.generate_all();
-    CTEST << move_generator.move_list.list_size() << "\n";
-    move_generator.move_list.prune_silent_moves();
+    move_generator.generate_captures();
     CTEST << move_generator.move_list.list_size() << "\n";
     // TODO
-//    EXPECT(move_generator.move_list.list_size() == 74);
+///    EXPECT(move_generator.move_list.list_size() == 68);
     return true;
 }
 

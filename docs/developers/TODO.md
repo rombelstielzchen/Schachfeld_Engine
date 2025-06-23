@@ -8,6 +8,13 @@ TODO
 * vector-attacks
 * hash-tables
 * extensions and reductions
+* pondering
+* special mate-search:
+     depth: 1, 3, 5, ...?
+    increased alpha or beta
+    consider only final checks
+    restrict quiescence.search
+* better time-management and estimated branching-facror    
 * clown-mates and undie-promoter
 * advanced PVS
 * lazy eval
@@ -28,7 +35,7 @@ system-test, PERL-script
 
 https://www.eventhelix.com/embedded/optimizing-c-and-cpp-code/
 
+https://medium.com/@burso/c-production-ready-187b243f6a73
 
-
-
+https://www.linkedin.com/pulse/mastering-c-11-production-tips-techniques-excellence-code-writing
 

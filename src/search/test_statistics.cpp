@@ -13,7 +13,6 @@ bool CTestStatistics::test_everything() {
     EXPECT(test_anti_adjudication_score());
     EXPECT(test_expected_branching_factor());
     search_statistics.reset_all();
-    // TODO
     return true;
 }
 
