@@ -13,7 +13,7 @@ CEvaluator::CEvaluator() {
 }
 
 void CEvaluator::initial_full_evaluation() {
-   value = 0; 
+    value = 0; 
     for (int j = FILE_A; j <= FILE_H; ++j) {
         for (int k = RANK_1; k <= RANK_8; ++k) {
             value += evaluate_square(j, k);
@@ -31,7 +31,6 @@ int CEvaluator::evaluate_square(const int file, const int rank) const {
     char square_content = board.get_square(file, rank);
     assert(square_content <= LAST_PIECE_TYPE);
     int result = main_piece_square_value_table_set[square_content][file][rank];
-//    std::cout << square_content << ": " << result << "\n";
     assert((square_content != EMPTY_SQUARE) || (result == 0));
     assert((square_content == EMPTY_SQUARE) || (result != 0));
     return result;
