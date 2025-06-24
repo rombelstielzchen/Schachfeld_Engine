@@ -21,7 +21,7 @@ CUciProtocol::CUciProtocol() {
     // Use std::cerr here; std::cout is reserved for the protocol
     std::cerr << ENGINE_ID << "\n";
     std::cerr << "'help' or '?' for some guidance\n";
-    // Init the one and obly info_thread immediately for convenience
+    // Init the one and only info_thread immediately for convenience
     CInfoThread info_thread;
 }
 
@@ -203,7 +203,7 @@ void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
         } else if (next_token == "movestogo") {
             moves_to_go = string_tokenizer.get_integer_token(1);
         } else {
-            send_error("unexpected tokeen in go-command");
+            send_error("unexpected token in go-command");
             return;
         }
         next_token = string_tokenizer.next_token();

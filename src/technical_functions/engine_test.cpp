@@ -37,7 +37,7 @@
     EXPECT(CTestKillerHeuristic::test_everything());
     EXPECT(CTestSearch::test_everything());
     EXPECT(CTestOpeningBook::test_everything());
-    CTEST << "[OK] CEngineTest::test_everything(): all " << testcase_counter  << " cheks passed with success." << std::endl;
+    CTEST << "[OK] CEngineTest::test_everything(): all " << testcase_counter  << " checks passed with success." << std::endl;
     board.set_start_position();
     return true;
 }

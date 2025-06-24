@@ -16,7 +16,7 @@ CDataBook::CDataBook(const TSortedVariationCollection &sorted_variation_collecti
 
 std::string CDataBook::get_move(const std::string &moves_from_startpos_in_uci_format) {
     // moves_from_startpos_in_uci_format usually ends with a space;
-    // The space might be missing in case of test-cases amd human input
+    // The space might be missing in case of test-cases and human input
     constexpr int length_of_text_move_plus_space = length_of_text_move + 1;
     assert((moves_from_startpos_in_uci_format.length() % length_of_text_move_plus_space == 0) || (moves_from_startpos_in_uci_format.length() % length_of_text_move_plus_space == length_of_text_move));
      assert(((moves_from_startpos_in_uci_format.length() == 0) || moves_from_startpos_in_uci_format.back() == ' ') || isdigit(moves_from_startpos_in_uci_format.back()));
@@ -70,10 +70,10 @@ size_t CDataBook::random_matching_index(const TSortedVariationCollection &book, 
     size_t last_index = last_matching_index(book, moves_from_startpos_in_uci_format);
     assert(last_index != VARIATION_NOT_FOUND);
     assert(last_index >= first_index);
-    // rand() would be good ebough, Undortunately it did not work with Gcc,
+    // rand() would be good enough, Unfortunately it did not work with Gcc,
     // (only with Visual Studio) despite prorper srand(time(NULL)),
     // always returning 41 (rhe 42th positive number!).
-    // So we go for an overkill random-number-generatir.
+    // So we go for an overkill random-number-generator.
     std::random_device random_seed;
     std::mt19937 mersenne_twister(random_seed());
     std::uniform_int_distribution<> int_distribution(first_index, last_index);

@@ -41,7 +41,7 @@ SMove CIterativeDeepening::search(int depth) {
 
 void CIterativeDeepening::root_node_search(int depth) {
    // Top-level search
-   //   * managing alpha-beta-wibdows, but no cutoffs here ("all-node")
+   //   * managing alpha-beta-windows, but no cutoffs here ("all-node")
    //   * Sorting and reusing the move-list, therefore...
    //     - no hash-moves here
    //     - no killer-moves here

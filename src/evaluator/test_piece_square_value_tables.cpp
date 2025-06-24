@@ -67,7 +67,7 @@ bool CTestPieceSquareValueTables::test_plausibility(const TPieceSquareValueTable
 
 bool CTestPieceSquareValueTables::test_positions() {
     TEST_FUNCTION();
-    // All tests hard-cvoded for simplicity and good error-messages.
+    // All tests hard-coded for simplicity and good error-messages.
     // First: trivial test, proof of concept
     EXPECT(first_position_better("B w", "w"));
     EXPECT(first_position_better("w", "b w"));

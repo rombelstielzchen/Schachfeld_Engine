@@ -81,7 +81,7 @@ void CMoveList::store_eng_passeng(const int source_file, const int source_rank, 
 
 void CMoveList::store_white_promotions(const int source_file, const int target_file) {
     // Promotions in the order of likelihood.
-    // Promotions get treated as "captures", they chamge the material balance
+    // Promotions get treated as "captures", they change the material balance
     SMove new_move;
     new_move.source.file = source_file;
     new_move.source.rank = RANK_7;

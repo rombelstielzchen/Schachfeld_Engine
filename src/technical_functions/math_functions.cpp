@@ -7,9 +7,9 @@
 #include "standard_headers.h"
 
 bool approximately_equal(const double a, const double b) {
-    constexpr double eosilon = 0.0001;
+    constexpr double epsilon = 0.0001;
     double absolute_error = b - a;
-    if (fabs(absolute_error) < eosilon) {
+    if (fabs(absolute_error) < epsilon) {
         return true;
     }
     if (fabs(a) < 1) {
@@ -19,7 +19,7 @@ bool approximately_equal(const double a, const double b) {
         return false;
     }
     double relative_error = 1 - b / a;
-    return (fabs(relative_error) < eosilon);
+    return (fabs(relative_error) < epsilon);
 }
 
 double root(const double radikant, const double exponent) {

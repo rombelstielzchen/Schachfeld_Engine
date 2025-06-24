@@ -84,7 +84,7 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     // Pawn on d3 better then d2 for bettter development
    { "/////3P w", "//////3Pw" },
    // Knights on the king-side more worth than on the queen-side:
-   // Preparing castling, attacking / defending the kingA
+   // Preparing castling, attacking / defending the king
    { "/////5N w", "/////2N w" },
    { "//5N w", "//2N w" },
     { "////4N w", "////3N w" },
@@ -147,7 +147,7 @@ bool CTestEvaluator::test_black_advantage() {
 
 bool CTestEvaluator::test_pawn_values() {
     TEST_FUNCTION();
-    // Logical consequences from more comples tests
+    // Logical consequences from more complex tests
     // 1) avoid bad central advances
     EXPECT(first_pawn_better(C4, C5));
     EXPECT(first_pawn_better(D4, D5));

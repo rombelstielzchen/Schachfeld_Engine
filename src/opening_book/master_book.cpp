@@ -9,7 +9,7 @@
 #include "book_data/tabijas.h"
 #include "../technical_functions/string_functions.h"
 
-// Probabilities for randomozing "solid_mix"
+// Probabilities for randomizing "solid_mix"
 constexpr float probability_tabijas = 0.80;
 constexpr float probability_wonder_weapons = 0.00;
 constexpr float remaining_probability_broad_GM = 1.00 - probability_tabijas - probability_wonder_weapons;

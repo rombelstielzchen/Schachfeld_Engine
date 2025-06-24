@@ -106,10 +106,10 @@ bool CTestBoard::test_moves_from_startpos() {
     SILENT_EXPECT(board.set_fen_position(startpos_with_moves));
     CTEST << "moves_from_startpos(): " << board.moves_from_startpos() << "\n";
     EXPECT(board.moves_from_startpos() == "e2e4 e7e5 f2f4 ");
-    CTEST << "FEN-positionon without moves ...\n";
+    CTEST << "FEN-position without moves ...\n";
     SILENT_EXPECT(board.set_fen_position(fen_with_no_moves));
     EXPECT(board.moves_from_startpos() == NO_MOVES_FROM_STARTPOS);
-    CTEST << "FEN-positionon with moves ...\n";
+    CTEST << "FEN-position with moves ...\n";
     SILENT_EXPECT(board.set_fen_position(fen_with_no_moves));
     EXPECT(board.moves_from_startpos() == NO_MOVES_FROM_STARTPOS);
     return true;

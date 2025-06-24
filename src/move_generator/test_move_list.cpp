@@ -106,8 +106,8 @@ bool CTestMoveList::test_shift_current_move_to_top() {
 
 bool CTestMoveList::test_remove() {
     TEST_FUNCTION(); 
-    std::string nearly_stalemaze = "1k/3Q b";
-    SILENT_EXPECT(board.set_fen_position(nearly_stalemaze));
+    std::string nearly_stalemate = "1k/3Q b";
+    SILENT_EXPECT(board.set_fen_position(nearly_stalemate));
     CMoveGenerator move_generator;
     move_generator.generate_all();
     EXPECT(move_generator.move_list.consumer_position <= LIST_ORIGIN);
