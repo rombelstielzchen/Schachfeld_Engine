@@ -26,7 +26,7 @@ class CBoardLogic {
     static bool square_occupied_by_opponent(const int file, const int rank);
     static bool is_valid_target_square(const int file, const int rank);
   public:
-    // Simple and slow, meant for the root-node onlyy
+    // Simple and slow, meant for the root-node only
     static SSquare king_square(bool white_or_black);
   public:
     static bool piece_attacked_by_side_to_move(const SSquare square);

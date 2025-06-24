@@ -9,7 +9,7 @@
 // A very simple, built-in opening book,
 // based on a sorted list of textual lines,
 // just to get some fun and variation.
-// Nowadays we have muktiple data-books (broadd_FM tabijas, wonder_weapons);
+// Nowadays we have multiple data-books (broad_GM tabijas, wonder_weapons);
 // they get managed by the master_book.
 
 #include "../move_generator/move.h"

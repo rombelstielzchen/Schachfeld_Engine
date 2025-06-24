@@ -31,7 +31,7 @@ class CSearchStatistics {
   public:
     int expected_branching_factor_for_next_iteration() const;
   public:
-    // Use direct access only for incrementing the couners.
+    // Use direct access only for incrementing the counters.
     // Resets and evaluations through methods.
     int64_t killers_stored;
     int64_t killers_stored_tqual;

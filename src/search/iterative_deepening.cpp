@@ -49,7 +49,7 @@ void CIterativeDeepening::root_node_search(int depth) {
     CSearch search;
     search_statistics.on_new_depth(depth);
     bool side_to_move = board.get_side_to_move();
-    SAlphaBetaWindow alpha_beta_window = INFINIE_ALPHA_BETA_WINDOW;
+    SAlphaBetaWindow alpha_beta_window = INFINITE_ALPHA_BETA_WINDOW;
     assert(is_valid_alpha_beta_window(alpha_beta_window));
     int best_score = (side_to_move == WHITE_PLAYER) ? WHITE_MIN_SCORE : BLACK_MIN_SCORE;
     move_generator.move_list.reuse_list();

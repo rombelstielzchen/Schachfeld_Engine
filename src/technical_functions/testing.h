@@ -26,7 +26,7 @@ if ((condition)) { \
 #define SILENT_EXPECT(condition) \
 ++testcase_counter; \
 if ((condition) == false) { \
-    /* Do not naiuvely call EXPECT here(). This would execute the condition again. */ \
+    /* Do not naively call EXPECT here(). This would execute the condition again. */ \
     CTEST << "[ERROR] ID " << testcase_counter << ": " << #condition << std::endl; \
     return false; \
 }

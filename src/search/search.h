@@ -32,9 +32,9 @@ constexpr bool is_valid_alpha_beta_window(const SAlphaBetaWindow alpha_beta_wind
     return alpha_beta_window.alpha <= alpha_beta_window.beta;
 }
 
-constexpr SAlphaBetaWindow INFINIE_ALPHA_BETA_WINDOW = { WHITE_MIN_SCORE, BLACK_MIN_SCORE };
+constexpr SAlphaBetaWindow INFINITE_ALPHA_BETA_WINDOW = { WHITE_MIN_SCORE, BLACK_MIN_SCORE };
 
-static_assert(is_valid_alpha_beta_window(INFINIE_ALPHA_BETA_WINDOW));
+static_assert(is_valid_alpha_beta_window(INFINITE_ALPHA_BETA_WINDOW));
 
 class CSearch {
     friend class CTestSearch;

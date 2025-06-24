@@ -12,7 +12,7 @@ class CMoveMaker {
   public:
     CMoveMaker();
   public:
-    // unmake_move() is for calculation, tabkeback() for the consoe-interface
+    // unmake_move() is for calculation, takeback() for the console-interface
     void make_move(const SMove move);
     bool make_move(const std::string &long_algebraic_uci_move);
     void unmake_move();

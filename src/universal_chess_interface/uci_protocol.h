@@ -16,7 +16,7 @@ class CUciProtocol {
     void message_loop();
     static void send_message(const std::string &message);
     static void send_info(const std::string &information);
-    static void send_error(const std::string &error_messag);
+    static void send_error(const std::string &error_message);
     static void send_best_move(const std::string best_move);
   private:
     void identify_engine() const;

@@ -72,8 +72,8 @@ void CUciProtocol::send_info(const std::string &information) {
     send_message(full_message);
 }
 
-void CUciProtocol::send_error(const std::string &error_messag) {
-    std::string full_message = "error: " + error_messag + "\n";
+void CUciProtocol::send_error(const std::string &error_message) {
+    std::string full_message = "error: " + error_message + "\n";
     std::cerr << full_message;
 }
 

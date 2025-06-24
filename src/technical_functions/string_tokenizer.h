@@ -17,7 +17,7 @@ class CStringTokenizer {
     std::string get_the_rest();
     void push_back(const std::string &token);
   public:
-    // The functions below consmue one token only on success
+    // The functions below consume one token only on success
     bool next_token_is(const std::string &token);
     bool next_token_is_one_of(const std::string &token1, const std::string &token2);
     bool next_token_is_one_of(const std::string &token1, const std::string &token2, const std::string &token3);
