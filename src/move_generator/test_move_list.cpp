@@ -19,6 +19,7 @@ bool CTestMoveList::test_everything() {
     EXPECT(test_remove());
     EXPECT(test_extremes());
     EXPECT(test_get_best_capture());
+    EXPECT(test_move_lookup());
     return true;
 }
 
@@ -166,6 +167,23 @@ bool CTestMoveList::test_get_best_capture() {
     EXPECT(move_generator.move_list.get_next__best_capture() == "g6f4");
     EXPECT(move_generator.move_list.get_next__best_capture() == "b2b1b");
     EXPECT(move_generator.move_list.get_next__best_capture() == "g6h4");
+    return true;
+}
+
+bool CTestMoveList::test_move_lookup() {
+    std::string position = "k/2P/K w";
+    SILENT_EXPECT(board.set_fen_position(position));
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    EXPECT(move_generator.move_list.lookup_move("g1f3") == NULL_MOVE);
+    SMove stupid_king_move = { A6, A5, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 };
+    std::cerr << move_generator.move_list.as_text() << "\n";
+    EXPECT(move_generator.move_list.lookup_move("a6a5") != NULL_MOVE);
+    EXPECT(move_generator.move_list.lookup_move("a6a5") == stupid_king_move);
+    SMove queen_promotion = { C7, C8, WHITE_QUEEN, EMPTY_SQUARE, 0 };
+    EXPECT(move_generator.move_list.lookup_move("c7c8Q") == queen_promotion);
+    SMove rook_promotion = { C7, C8, WHITE_ROOK, EMPTY_SQUARE, 0 };
+    EXPECT(move_generator.move_list.lookup_move("c7c8R") == rook_promotion);
     return true;
 }
 
