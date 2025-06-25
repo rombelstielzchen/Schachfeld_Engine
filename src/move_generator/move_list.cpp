@@ -1,10 +1,10 @@
-//
 // Project: Schachfeld_Engine
 // Author: Rombelstielzchen
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "move_list.h"
+#include "move.h"
 #include "move_generator.h"
 #include "../board/board.h"
 #include "../board/board_logic.h"
@@ -45,8 +45,17 @@ SMove CMoveList::lookup_move(const std::string &text_move) const {
     if (index == MOVE_NOT_ON_LIST) {
         return NULL_MOVE;
     }
-    assert(index <  LIST_SIZE); //???
-    return bidirectional_move_list[index];
+    assert(index >= first_capture);
+    assert(index < next_empty_slot);
+    SMove result = bidirectional_move_list[index];
+    if (text_move.length() == length_of_text_move_with_promotion) {
+        if (is_any_piece(text_move.back()) && is_any_piece(result.move_type)) {
+            result.move_type = text_move.back();
+        } else {
+            return NULL_MOVE;
+        }
+    }
+    return result;
 }
 
 int CMoveList::list_size() const {

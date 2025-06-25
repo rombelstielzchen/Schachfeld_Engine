@@ -8,9 +8,6 @@
 #include "../board/square_constants.h"
 #include "../technical_functions/standard_headers.h"
 
-constexpr int length_of_text_move = 4;
-constexpr int length_of_text_move_with_promotion = length_of_text_move + 1;
-
 bool file_in_range(const int file) {
     return ((file >= FILE_A) && (file <= FILE_H));
 }
