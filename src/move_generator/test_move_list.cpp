@@ -171,7 +171,7 @@ bool CTestMoveList::test_get_best_capture() {
 }
 
 bool CTestMoveList::test_move_lookup() {
-    std::string position = "k/2P/K w";
+    std::string position = "k/2P4R/K w";
     SILENT_EXPECT(board.set_fen_position(position));
     CMoveGenerator move_generator;
     move_generator.generate_all();
@@ -183,7 +183,16 @@ bool CTestMoveList::test_move_lookup() {
     SMove queen_promotion = { C7, C8, WHITE_QUEEN, EMPTY_SQUARE, 0 };
     EXPECT(move_generator.move_list.lookup_move("c7c8Q") == queen_promotion);
     SMove rook_promotion = { C7, C8, WHITE_ROOK, EMPTY_SQUARE, 0 };
-    EXPECT(move_generator.move_list.lookup_move("c7c8R") == rook_promotion);
+    EXPECT(move_generator.move_list.lookup_move("c7c8R").source == C7);
+    EXPECT(move_generator.move_list.lookup_move("c7c8R").target == C8);
+    EXPECT(move_generator.move_list.lookup_move("c7c8R").move_type == WHITE_ROOK);
+///    EXPECT(move_generator.move_list.lookup_move("c7c8R") == rook_promotion);
+    SMove rook_mate = { G7, G8, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 };
+    EXPECT(move_generator.move_list.lookup_move("h7h8").source == H7);
+    EXPECT(move_generator.move_list.lookup_move("h7h8").target == H8);
+    EXPECT(move_generator.move_list.lookup_move("h7h8").move_type == MOVE_TYPE_NORMAL);
+///    EXPECT(move_generator.move_list.lookup_move("h7h8") == rook_mate);
+    EXPECT(move_generator.move_list.lookup_move("h7h8R") == NULL_MOVE);
     return true;
 }
 
