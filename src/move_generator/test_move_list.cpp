@@ -186,12 +186,12 @@ bool CTestMoveList::test_move_lookup() {
     EXPECT(move_generator.move_list.lookup_move("c7c8R").source == C7);
     EXPECT(move_generator.move_list.lookup_move("c7c8R").target == C8);
     EXPECT(move_generator.move_list.lookup_move("c7c8R").move_type == WHITE_ROOK);
+    SMove looked_up_move = move_generator.move_list.lookup_move("c7c8R");
+    EXPECT(looked_up_move == rook_promotion);
 ///    EXPECT(move_generator.move_list.lookup_move("c7c8R") == rook_promotion);
-    SMove rook_mate = { G7, G8, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 };
-    EXPECT(move_generator.move_list.lookup_move("h7h8").source == H7);
-    EXPECT(move_generator.move_list.lookup_move("h7h8").target == H8);
-    EXPECT(move_generator.move_list.lookup_move("h7h8").move_type == MOVE_TYPE_NORMAL);
-///    EXPECT(move_generator.move_list.lookup_move("h7h8") == rook_mate);
+    SMove rook_mate = { H7, H8, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 };
+    EXPECT(move_generator.move_list.lookup_move("h7h8") == rook_mate);
+    EXPECT(looked_up_move == rook_mate);
     EXPECT(move_generator.move_list.lookup_move("h7h8R") == NULL_MOVE);
     return true;
 }
