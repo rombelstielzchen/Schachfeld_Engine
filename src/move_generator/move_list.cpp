@@ -40,12 +40,7 @@ SMove CMoveList::lookup_move(const std::string &text_move) const {
      if (basic_move == NULL_MOVE) {
          return NULL_MOVE;
      }
-     // TODO: make this part of text_to_basic_move
-    assert(basic_move.move_type == MOVE_TYPE_NORMAL);
-    if (text_move.length() > 4) {
-        basic_move.move_type = text_move[4];
-        assert(is_any_piece(basic_move.move_type));
-    }
+    assert((basic_move.move_type == MOVE_TYPE_NORMAL) || is_any_piece(basic_move.move_type));
     unsigned int index = get_index(basic_move);
     if (index == MOVE_NOT_ON_LIST) {
         return NULL_MOVE;
