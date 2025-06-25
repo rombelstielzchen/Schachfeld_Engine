@@ -145,7 +145,7 @@ bool CTestMoveList::test_extremes() {
     move_generator.move_list.clear();
     move_generator.generate_captures();
     CTEST << move_generator.move_list.list_size() << "\n";
-    // TODO
+    // TODO: weird result: 32 insted of 74 (official) or 68 (counted on my own)
 ///    EXPECT(move_generator.move_list.list_size() == 68);
     return true;
 }

@@ -1,0 +1,6 @@
+3 technical (log for windows)
+2 ,ove_generator (weird tests)
+1 board (conusing implementation: king in check?)
+
+----
+14 total
