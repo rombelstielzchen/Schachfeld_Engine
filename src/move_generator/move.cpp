@@ -8,6 +8,9 @@
 #include "../board/square_constants.h"
 #include "../technical_functions/standard_headers.h"
 
+constexpr int length_of_text_move = 4;
+constexpr int length_of_text_move_with_promotion = length_of_text_move + 1;
+
 bool file_in_range(const int file) {
     return ((file >= FILE_A) && (file <= FILE_H));
 }
@@ -206,8 +209,7 @@ uint8_t text_to_rank(const char rank_character) {
 
 SMove text_to_basic_move(const std::string &text) {
     // No assertions here; the input comes from the outside world
-    if (text.length() < 4) {
-       // Not long algebraic notation
+    if (text.length() < length_of_text_move) {
         return NULL_MOVE;
     }
     constexpr uint8_t no_estimated_gain = 0;
@@ -222,6 +224,11 @@ SMove text_to_basic_move(const std::string &text) {
     };
     if (!move_in_range(move)) {
         return NULL_MOVE;
+    }
+    if (text.length() == length_of_text_move_with_promotion) {
+        if (is_any_piece(text.back())) {
+            move.move_type = text.back();
+        }
     }
     return move;
 }
