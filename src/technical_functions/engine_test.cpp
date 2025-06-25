@@ -12,6 +12,7 @@
 #include "../board/test_move_maker.h"
 #include "../evaluator/test_evaluator.h"
 #include "../evaluator/test_piece_square_value_tables.h"
+#include "../move_generator/test_move.h"
 #include "../move_generator/test_move_list.h"
 #include "../move_generator/test_move_generator.h"
 #include "../move_generator/test_perft.h"
@@ -27,6 +28,7 @@
      EXPECT(CTestTechnicalFunctions::test_everything());
     EXPECT(CTestBoard::test_everything());
     EXPECT(CTestBoardLogic::test_everything());
+    EXPECT(CTestMove::test_everything());
     EXPECT(CTestMoveList::test_everything());
     EXPECT(CTestMoveGenerator::test_everything());
     EXPECT(CTestPerft::test_everything());

@@ -60,6 +60,7 @@ engine: \
 	test_evaluator.o \
 	test_killer_heuristics.o \
 	test_math_functions.o \
+	test_move.o \
 	test_move_generator.o \
 	test_move_list.o \
 	test_move_maker.o \
@@ -101,6 +102,9 @@ move_generator.o: move_generator/move_generator.cpp
 	$(CC) $(CFLAGS) 
 
 move.o: move_generator/move.cpp
+	$(CC) $(CFLAGS) 
+
+test_move.o: move_generator/test_move.cpp 
 	$(CC) $(CFLAGS) 
 
 test_move_generator.o: move_generator/test_move_generator.cpp
