@@ -18,6 +18,12 @@ bool CTestMove::test_everything() {
 bool CTestMove::test_text_to_basic_move() {
     SMove expected_knigh_move = { G1, F3, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 };
     EXPECT(text_to_basic_move("g1f3") == expected_knigh_move);
+    SMove expected_promotion = { B7, B8, WHITE_KNIGHT,EMPTY_SQUARE, 0 };
+    SMove converted_ove = text_to_basic_move("b7b8N");
+    EXPECT(converted_ove.source == B7);
+    EXPECT(converted_ove.target == B8);
+    EXPECT(converted_ove.move_type == WHITE_KNIGHT);
+    EXPECT(text_to_basic_move("b7b8N") == expected_promotion);
     return true;
 }
 
