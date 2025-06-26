@@ -1,8 +1,0 @@
-1 board (conusing implementation: king in check?)
-5! evaluator
-2 move_generator (weird tests)
-0 opening
-3 technical (log for windows)
-0 uci
-----
-14 total
