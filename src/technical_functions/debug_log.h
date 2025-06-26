@@ -84,10 +84,9 @@ inline std::wstring const debug_filename() {
         debug_path = p_desktop_path;
     }
     // The calling process is responsible for freeing this resource once it is no longer needed 
-    // by calling CoTaskMemFree, whether SHGetKnownFolderPath succeeds or not. 
-    // TODO: it terminates here
-    ///CoTaskMemFree(&p_desktop_path);
-        debug_path += L"/debug-txt";
+    // by calling CoTaskMemFree, whether SHGetKnownFolderPath succeeded or not. 
+    CoTaskMemFree(p_desktop_path);
+    debug_path += L"/debug-txt";
     return debug_path;
 }
 
