@@ -248,7 +248,7 @@ stats:
 	@echo -n "LOC tools:        "
 	@cat makefile ../*/*.sh ../*/*.pl */*/*.sh */*/*/*.sh | wc -l
 	@echo -n "TODO items:        "
-	@grep TODO *.cpp */*.cpp */*/*.cpp | wc -l
+	@grep TODO *.cpp */*.cpp */*.h */*/*.cpp | wc -l
 	@echo -n "Longest header: " 
 	@wc -l */*.h | sort | tail -n 2 | head -n 1
 	@echo -n "Longest source:" 
