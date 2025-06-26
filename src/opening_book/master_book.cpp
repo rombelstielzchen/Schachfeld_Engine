@@ -39,7 +39,12 @@ std::string CMasterBook::get_move(const std::string &moves_from_startpos_in_uci_
             book_move = tabijas.get_move(moves_from_startpos_in_uci_format);
             break;
         case BOOK_OPTIONS_WONDER_WEAPONS:
-            // TODO: wonder-weapons
+            // TODO integrate wonder-weapons
+            if (white_to_move(moves_from_startpos_in_uci_format))  {
+               return "g1h3";
+            } else {
+                return "g8h6";
+            }
             break;
         default: 
            assert(THIS_MUST_NOT_HAPPEN); 
@@ -99,9 +104,9 @@ bool CMasterBook::white_to_move(const std::string moves_from_startpos_in_uci_for
     constexpr int length_of_text_move_plus_space = length_of_text_move + 1;
    int length_in_chars = moves_from_startpos_in_uci_format.length();
    assert((length_in_chars % length_of_text_move_plus_space == 0) || (length_in_chars % length_of_text_move_plus_space == length_of_text_move));
-   assert((length_in_chars == 0) || (moves_from_startpos_in_uci_format.back() == ' ') || rank_in_range(moves_from_startpos_in_uci_format.back()));
+   assert((length_in_chars == 0) || (moves_from_startpos_in_uci_format.back() == ' ') || rank_in_range(text_to_rank(moves_from_startpos_in_uci_format.back())));
    static_assert(length_of_text_move_plus_space > 0);
    int n_plies_from_startpos = (length_in_chars + 1) / length_of_text_move_plus_space;
-   return (n_plies_from_startpos & 1);
+   return (n_plies_from_startpos % 2 == 0);
 }
 
