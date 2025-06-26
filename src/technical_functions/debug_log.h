@@ -72,17 +72,10 @@ class CLog {
     clock_t start_time;
 };
 
-// TODO: independent of system and compiler
 #ifdef _WIN32
 
-// TODO: all headers needed?
 #include <windows.h>
-#include "pathcch.h"
 #include "shlobj_core.h"
-#include <wchar.h>
-#include <winuser.h>
-
-#pragma comment(lib, "pathcch.lib")
 
 inline std::wstring const debug_filename() {
     std::wstring debug_path = L".";
