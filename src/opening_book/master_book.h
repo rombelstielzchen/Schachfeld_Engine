@@ -33,6 +33,8 @@ class CMasterBook {
     void randomize_book_for_this_game();
     void set_option(EBookOptions option);
   private:
+    bool white_to_move(const std::string moves_from_startpos_in_uci_format) const;
+  private:
     CDataBook gm_book;
     CDataBook tabijas;
 //    CDataBook wonder_weapons_black;

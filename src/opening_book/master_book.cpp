@@ -93,3 +93,15 @@ void CMasterBook::on_new_game() {
     randomize_book_for_this_game();
 }
 
+bool CMasterBook::white_to_move(const std::string moves_from_startpos_in_uci_format) const {
+    // We calculate side to move on our own
+    // im oder to decouple CAMasterBook from the board-state and leep it reusable.
+    constexpr int length_of_text_move_plus_space = length_of_text_move + 1;
+   int length_in_chars = moves_from_startpos_in_uci_format.length();
+   assert((length_in_chars % length_of_text_move_plus_space == 0) || (length_in_chars % length_of_text_move_plus_space == length_of_text_move));
+   assert((length_in_chars == 0) || (moves_from_startpos_in_uci_format.back() == ' ') || rank_in_range(moves_from_startpos_in_uci_format.back()));
+   static_assert(length_of_text_move_plus_space > 0);
+   int n_plies_from_startpos = (length_in_chars + 1) / length_of_text_move_plus_space;
+   return (n_plies_from_startpos & 1);
+}
+
