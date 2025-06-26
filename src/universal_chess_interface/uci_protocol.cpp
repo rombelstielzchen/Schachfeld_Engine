@@ -47,6 +47,7 @@ void CUciProtocol::send_list_of_options() const {
         + "default solid_mix "
         + "var broad_GM "
         + "var tabijas "
+        + "var wonder_weapons"
         + "var solid_mix");
     send_message(std::string("option name UCI_EngineAbout type string ")
         + "default Schachfeld-engine by Rombelstielzchen. "
