@@ -40,6 +40,7 @@ engine: \
 	iterative_deepening.o \
 	killer_heuristics.o \
 	main.o \
+	master_book.o \
 	math_functions.o \
 	move.o \
 	move_generator.o \
@@ -48,7 +49,7 @@ engine: \
 	move_list__get.o \
 	move_list__store.o \
 	move_maker.o \
-	master_book.o \
+	oracle.o \
 	piece_square_value_tables.o \
 	search.o \
 	search_statistics.o \
@@ -200,6 +201,9 @@ test_board_logic.o: board/test_board_logic.cpp
 	$(CC) $(CFLAGS) 
 
 test_piece_square_value_tables.o: evaluator/test_piece_square_value_tables.cpp
+	$(CC) $(CFLAGS) 
+
+oracle.o: evaluator/oracle.cpp
 	$(CC) $(CFLAGS) 
 
 piece_square_value_tables.o: evaluator/piece_square_value_tables.cpp
