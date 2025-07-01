@@ -136,7 +136,6 @@ void clone_from_white_to_black(char black_piece_type) {
 }
 
 int average(const TPieceSquareValueTable psv_table) {
-        DEBUG_METHOD();
     int64_t sum = 0;
     for (int j = FILE_A; j <= FILE_H; ++j) {
         for (int k = RANK_1; k <= RANK_8; ++k) {
@@ -150,7 +149,6 @@ int average(const TPieceSquareValueTable psv_table) {
 }
 
 void normalize_average(TPieceSquareValueTable &psv_table, int target_average) {
-    DEBUG_METHOD();
     int average_value = average(psv_table);
     int delta = target_average - average_value;
     for (int j = FILE_A; j <= FILE_H; ++j) {

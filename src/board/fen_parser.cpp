@@ -33,7 +33,7 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
         lack_of_errors &= parse_move_counter(tokenizer.next_token());
     }
     board.move_maker.reset_history();
-    board.evaluator.initial_full_evaluation();
+    board.evaluator.init();
     lack_of_errors = board.move_maker.play_variation(extra_moves);
     return lack_of_errors;
 }

@@ -5,6 +5,7 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
+#include "oracle.h"
 #include "../move_generator/move.h"
  
 constexpr int SCORE_WHITE_WIN = INT_MAX;
@@ -17,7 +18,7 @@ class CEvaluator {
   public:
     CEvaluator();
   public:
-    void initial_full_evaluation();
+    void init();
     void incremental_add(char piece, const SSquare square);
     void incremental_clear_square(const SSquare square);
     int evaluate() const { return value; }
@@ -28,5 +29,6 @@ class CEvaluator {
     static int evaluate_white_pawn(const SSquare square);
   private:
     int value;
+    COracle oracle;
 };
 
