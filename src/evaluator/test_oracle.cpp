@@ -34,7 +34,7 @@ bool CTestOracle::test_reasonable_initialization() {
     EXPECT(main_piece_square_value_table_set[BLACK_ROOK][FILE_E][RANK_5] < 0);
     EXPECT(main_piece_square_value_table_set[BLACK_QUEEN][FILE_E][RANK_5] < 0);
     EXPECT(main_piece_square_value_table_set[BLACK_KING][FILE_E][RANK_5] < 0);
-    EXPECT(main_piece_square_value_table_set[EMPTY_SQUARE][FILE_E][RANK_5]==  0);
+    EXPECT(main_piece_square_value_table_set[EMPTY_SQUARE][FILE_E][RANK_5] ==  0);
     return true;
 }
 
@@ -43,6 +43,9 @@ bool CTestOracle::test_endgame_king() {
     std::string middlegame_Kg1 = "4k2r/2p1p2r/1pPpPp1r/pP1P1Pp1/P5Pp/R6P/R7/R5K1 w - - 0 1";
     std::string middlegame_Ke3 = "4k2r/2p1p2r/1pPpPp1r/pP1P1Pp1/P5Pp/R3K2P/R7/R7 w - - 0 1";
     EXPECT(first_position_better(middlegame_Kg1, middlegame_Ke3));
+    std::string endgame_Kg1 = "4k3/2p1p3/1pPpPp2/pP1P1Pp1/P5Pp/7P/8/6K1 w - - 0 1";
+    std::string endgame_Ke3 = "4k3/2p1p3/1pPpPp2/pP1P1Pp1/P5Pp/4K2P/8/8 w - - 0 1";
+    EXPECT(first_position_better(endgame_Ke3, endgame_Kg1));
     return true;
 }
 
