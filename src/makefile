@@ -66,6 +66,7 @@ engine: \
 	test_move_list.o \
 	test_move_maker.o \
 	test_opening_book.o \
+	test_oracle.o \
 	test_perft.o \
 	test_piece_square_value_tables.o \
 	test_search.o \
@@ -130,6 +131,9 @@ master_book.o: opening_book/master_book.cpp
 	$(CC) $(CFLAGS) 
 
 data_book.o: opening_book/data_book.cpp
+	$(CC) $(CFLAGS) 
+
+test_oracle.o: evaluator/test_oracle.cpp
 	$(CC) $(CFLAGS) 
 
 test_opening_book.o: opening_book/test_opening_book.cpp
