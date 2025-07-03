@@ -11,7 +11,7 @@ class CTestOracle {
   public:
     static bool test_everything();
   private:
-    static bool test_basic_initialization();
+    static bool test_reasonable_initialization();
     static bool test_endgame_king();
 };
 
