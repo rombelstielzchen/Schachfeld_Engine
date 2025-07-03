@@ -25,7 +25,8 @@ static_assert(LAST_PIECE_TYPE > EMPTY_SQUARE);
 typedef std::array<TPieceSquareValueTable, N_PIECE_SQUARE_VALUE_TABLES> TPieceSquareValueTableSet;
 
 inline TPieceSquareValueTableSet main_piece_square_value_table_set;
-inline TPieceSquareValueTable endgame_king_psv_table;
+//inline TPieceSquareValueTable endgame_king_psv_table;
+extern TPieceSquareValueTable endgame_king_psv_table;
 
 // TODO: create a class, once things work
 

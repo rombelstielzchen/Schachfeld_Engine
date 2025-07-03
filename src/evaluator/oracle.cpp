@@ -27,7 +27,8 @@ bool is_endgame() {
             }
         }
     }
-    assert(n_officers <= 14);
+    constexpr int n_possible_officers_after_promotion = 30;
+    assert(n_officers <= n_possible_officers_after_promotion);
     return (n_officers <= 4);
 }
 
