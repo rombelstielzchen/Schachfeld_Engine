@@ -221,3 +221,11 @@ bool CTestEvaluator::evaluates_approximately_to(const int score) {
     return (abs(real_score - score) < SCORE_HALF_PAWN);
 }
 
+bool first_position_better(const std::string &first_fen, const std::string &second_fen) {
+    SILENT_EXPECT(board.set_fen_position(first_fen));
+    int first_value = board.evaluator.evaluate();
+    SILENT_EXPECT(board.set_fen_position(second_fen));
+    int second_value = board.evaluator.evaluate();
+    return first_value > second_value;
+}
+

@@ -9,6 +9,8 @@
 
 #include "../move_generator/move.h"
 
+bool first_position_better(const std::string &first_fen, const std::string &second_fen);
+
 struct STestcaseEvaluator {
     std::string better_position;
     std::string worse_position;

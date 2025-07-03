@@ -4,6 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "test_piece_square_value_tables.h"
+#include "test_evaluator.h"
 #include "../technical_functions/testing.h"
           
 bool CTestPieceSquareValueTables::test_everything() {
@@ -74,13 +75,5 @@ bool CTestPieceSquareValueTables::test_positions() {
     // Bad exchange B + N against R + P
     EXPECT(first_position_better("8/8/8/3BN w", "////4P/5P/6R w"));
     return true;
-}
-
-bool CTestPieceSquareValueTables::first_position_better(const std::string &first_fen, const std::string &second_fen) {
-    SILENT_EXPECT(board.set_fen_position(first_fen));
-    int first_value = board.evaluator.evaluate();
-    SILENT_EXPECT(board.set_fen_position(second_fen));
-    int second_value = board.evaluator.evaluate();
-    return first_value > second_value;
 }
 
