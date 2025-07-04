@@ -138,14 +138,14 @@ SMove CIterativeDeepening::search_time(
         const int64_t white_time_milliseconds,
         const int64_t black_time_milliseconds,
         const int64_t white_increment_milliseconds,
-        const int64_t blacl_increment_milliseconds,
+        const int64_t black_increment_milliseconds,
         const int64_t moves_to_go) {
    // TODO: extra class, move to CCommandInterface
     int64_t total_time_ms;
     if (board.get_side_to_move() == WHITE_PLAYER) {
         total_time_ms = white_time_milliseconds + moves_to_go * white_increment_milliseconds;
     } else {
-        total_time_ms = black_time_milliseconds + moves_to_go * blacl_increment_milliseconds;
+        total_time_ms = black_time_milliseconds + moves_to_go * black_increment_milliseconds;
     }
     assert(total_time_ms > 0);
     int estimated_moves_to_go = (moves_to_go > 0) ? moves_to_go : 30;

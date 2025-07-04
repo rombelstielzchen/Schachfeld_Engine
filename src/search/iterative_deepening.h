@@ -21,7 +21,7 @@ class CIterativeDeepening {
         const int64_t white_time_milliseconds,
         const int64_t black_time_milliseconds,
         const int64_t white_increment_milliseconds,
-        const int64_t blacl_increment_milliseconds,
+        const int64_t black_increment_milliseconds,
         const int64_t moves_to_go);
   private:
     void root_node_search(int depth);
