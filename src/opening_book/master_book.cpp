@@ -15,6 +15,8 @@ constexpr float probability_wonder_weapons = 0.00;
 constexpr float remaining_probability_broad_GM = 1.00 - probability_tabijas - probability_wonder_weapons;
 static_assert(remaining_probability_broad_GM >= 0.00);
 
+const std::string NO_MOVES_FROM_STARTPOS = "NO_MOVES_FROM_STARTPOS";
+
 CMasterBook::CMasterBook() : gm_book(sorted_variation_collection_gm_book),
         tabijas(sorted_variation_collection_tabijas) {
     assert(rand() != rand());
@@ -22,6 +24,10 @@ CMasterBook::CMasterBook() : gm_book(sorted_variation_collection_gm_book),
 }
 
 std::string CMasterBook::get_move(const std::string &moves_from_startpos_in_uci_format) {
+    if (moves_from_startpos_in_uci_format == NO_MOVES_FROM_STARTPOS) {
+        // Engine received a FEN-position instead of a move-sequence
+        return NULL_MOVE_AS_TEXT;
+    }
     assert(boook_option_for_this_game != BOOK_OPTIONS_SOLID_MIX);
     std::string book_move = NULL_MOVE_AS_TEXT;
     switch (boook_option_for_this_game) {

@@ -70,6 +70,7 @@
 
  bool CTestOpeningBook::test_move_lookup() {
      TEST_FUNCTION();
+     EXPECT(lookup_returns_null_move(NO_MOVES_FROM_STARTPOS));
     EXPECT(lookup_returns_any_move(""));
     EXPECT(lookup_returns_any_move("e2e4"));
     EXPECT(lookup_returns_any_move("e2e4 c7c5"));
