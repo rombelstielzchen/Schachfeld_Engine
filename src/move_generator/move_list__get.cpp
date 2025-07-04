@@ -53,8 +53,8 @@ SMove CMoveList::get_next__capture_killer_silent(int distance_to_root) {
 
 SMove CMoveList::get_next__best_capture() {
     assert(valid_list());
-    int best_index = consumer_position;
-    unsigned int best_score = bidirectional_move_list[best_index].potential_gain;
+    unsigned int best_index = consumer_position;
+    int best_score = bidirectional_move_list[best_index].potential_gain;
     for (unsigned int j = consumer_position + 1; j < LIST_ORIGIN; ++j) {
         assert(is_null_move(bidirectional_move_list[j]) == false);
         int score = bidirectional_move_list[j].potential_gain;
