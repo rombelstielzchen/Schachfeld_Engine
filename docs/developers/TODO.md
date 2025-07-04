@@ -1,6 +1,5 @@
 TODO
 ====
-* endgame PSV for the king
 * handling stalemates
 * wonder-weapons
 * better move-ordering by delta
