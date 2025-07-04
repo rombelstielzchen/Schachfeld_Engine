@@ -70,6 +70,7 @@ size_t CDataBook::random_matching_index(const TSortedVariationCollection &book, 
     size_t last_index = last_matching_index(book, moves_from_startpos_in_uci_format);
     assert(last_index != VARIATION_NOT_FOUND);
     assert(last_index >= first_index);
+    assert(last_index < book.size());
     // rand() would be good enough, Unfortunately it did not work with Gcc,
     // (only with Visual Studio) despite prorper srand(time(NULL)),
     // always returning 41 (rhe 42th positive number!).

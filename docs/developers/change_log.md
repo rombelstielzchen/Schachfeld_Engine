@@ -1,6 +1,13 @@
 Major Changes
 =============
 
+Version 0.g
+-----------
+* An oracle / preprocessor that analyses the position at the start of the search
+  and adapts the piece-square-value-tables in order to provide
+  position-specific knowledge. ATM only endgame-activity of the king supported.
+  More to come.
+
 Version 0.f
 -----------
 * Quiescense-search, i.e. better evaluation of captures at the end of a variation.
@@ -62,9 +69,6 @@ Version 0.6
 -----------
 * A very basic search-function (1 ply)
 * A very basic democtatic evaluation-function. All men are equal.
-
-Version 0.2
-----------
 
 Version 0.5
 -----------

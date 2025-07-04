@@ -32,7 +32,7 @@ std::string CMasterBook::get_move(const std::string &moves_from_startpos_in_uci_
     std::string book_move = NULL_MOVE_AS_TEXT;
     switch (boook_option_for_this_game) {
         case BOOK_OPTIONS_BROAD_GM:
-           // Nothing to be done here in order to avoid double lookups.
+           // Nothing to be done here in order to avoid double work.
            // Broad_GM is our backup for failed lookups.
             break;
         case BOOK_OPTIONS_TABIJAS:
@@ -77,12 +77,12 @@ void CMasterBook::randomize_book_for_this_game() {
         boook_option_for_this_game = boook_option;
         return;
     }
-    float random = float(rand()) / RAND_MAX;
-    assert(random >= 0.0);
-    assert(random <= 1.0);
-    if (random < probability_tabijas) {
+    float random_0_1 = float(rand()) / RAND_MAX;
+    assert(random_0_1 >= 0.0);
+    assert(random_0_1 <= 1.0);
+    if (random_0_1 < probability_tabijas) {
         boook_option_for_this_game = BOOK_OPTIONS_TABIJAS;
-    } else if (random < (probability_tabijas + probability_wonder_weapons)) {
+    } else if (random_0_1 < (probability_tabijas + probability_wonder_weapons)) {
         boook_option_for_this_game = BOOK_OPTIONS_WONDER_WEAPONS;
     } else {
         boook_option_for_this_game = BOOK_OPTIONS_BROAD_GM;
