@@ -98,8 +98,8 @@ EXPECT("bestmove a8a7");
 # Testing immediate response on only move
 send_message("go depth 123456789");
 EXPECT("bestmove a8a7");
-send_message("quit");
 # Done!
+send_message("quit");
 print "All tests passed successfully\n";
 
 ### Clean-up ###########################
