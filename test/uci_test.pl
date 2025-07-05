@@ -64,16 +64,20 @@ sub EXPECT {
 # Start engine, control via outputi_pipe, redirect to intermediate_file
 my $engine_PID = open($output_pipe, '|-', "$engine_command > $intermediate_file")
     or die "open() failed $!";
-print "started engine. PID: ", $engine_PID, " \n";
-#print "Going to test...\n"
-#
-sleep(40);
+print "started engine. PID: $engine_PID\n";
+print "Going to test soon...\n";
+# Wait some time. Initialization and potential self-test
+sleep(30);
+# iTesting startup
 send_message("uci");
 EXPECT("uciok");
 send_message("isready");
-print simple_tail();
 EXPECT("readyok");
-#
+# Testing opening book
+send_message("position startpos moves e2e4 e7e5 d2d4");
+send_message("go depth 123456789");
+EXPECT("bestmove e5d4");
+# Done!
 print "All tests passed successfully\n";
 
 ### Clean-up ###########################
