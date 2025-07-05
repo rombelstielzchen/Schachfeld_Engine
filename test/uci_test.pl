@@ -77,6 +77,28 @@ EXPECT("readyok");
 send_message("position startpos moves e2e4 e7e5 d2d4");
 send_message("go depth 123456789");
 EXPECT("bestmove e5d4");
+# Testing go-commands
+send_message("position startpos moves f2f3 e7e5 g2g4");
+send_message("go depth 2");
+EXPECT("bestmove d8h4");
+send_message("go mate 1");
+EXPECT("bestmove d8h4");
+send_message("go movetime 1000");
+EXPECT("bestmove d8h4");
+send_message("go time btime 2000 binc 2000 movestogo 39");
+EXPECT("bestmove d8h4");
+send_message("go infinite");
+sleep(3);
+send_message("stop");
+EXPECT("bestmove d8h4");
+# Testing FEN position
+send_message("position fen K1k w");
+send_message("go depth 3");
+EXPECT("bestmove a8a7");
+# Testing immediate response on only move
+send_message("go depth 123456789");
+EXPECT("bestmove a8a7");
+send_message("quit");
 # Done!
 print "All tests passed successfully\n";
 
