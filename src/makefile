@@ -249,8 +249,10 @@ stats:
 	@cat *.cpp */*.cpp */*.h */*/*.cpp */*/*.h makefile */*/*.sh */*/*/*.sh ../*/*.pl ../*/*.sh | wc -l
 	@echo -n "Book-lines:      "
 	@grep "\"," opening_book/book_data/*.cpp | wc -l
-	@echo -n "LOC tests:       "
+	@echo -n "Unit-tests:      "
 	@cat */*test*.cpp */*test*.h | wc -l
+	@echo -n "UCI-test:         "
+	@cat ../test/*.pl ../test/*.sh | wc -l
 	@echo -n "Assertions:       "
 	@cat *.cpp */*.cpp */*.h */*/*.cpp */*/*.h */*/*/*.cpp | grep -s assert | wc -l
 	@echo -n "LOC tools:        "
