@@ -24,6 +24,13 @@ my $timeout_sec = 10;
 
 ### Functions ##########################
 
+sub send_message {
+    my $message = shift(@_);
+    chomp($message);
+    print ">> $message\n";
+    print $output_pipe "$message\n";
+}
+
 sub simple_tail {
     # A proper implementation of this test-script
     # should simply pipe commands to and results from the engine.
@@ -60,11 +67,10 @@ my $engine_PID = open($output_pipe, '|-', "$engine_command > $intermediate_file"
 print "started engine. PID: ", $engine_PID, " \n";
 #print "Going to test...\n"
 #
-print $output_pipe "uci\n";
-#
-print $output_pipe "isready\n";
 sleep(40);
-
+send_message("uci");
+EXPECT("uciok");
+send_message("isready");
 print simple_tail();
 EXPECT("readyok");
 #
