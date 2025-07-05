@@ -34,27 +34,6 @@ print $output_pipe "isready\n";
 
 sleep(40);
 
-system("bash", "./poor_mans_tail.sh");
-sleep(1);
-print "---\n";
-open(my $fh, "<", $result_file) or die '$1+!';
-print <$fh>, "\n";
-print simple_tail(), "\n";
+print simple_tail();
 exit;
 
-#my $tail_PID = open($input_pipe, '-|', "tail -n 1  < $intermediate_file")
-#    or die "open() failed $!";
-#print "started tail. PID:: ", $tail_PID, "\n";
-#
-#sleep(3);
-#while (my $x = <$input_pipe>) {
-#print $x;
-#}
-
-
-#print "Going to send message: 12345\n";
-#print $output_pipe "12345\n";
-#print "Alive after sending\n";
-#my $result = <$input_pipe>;
-#print "Alive after reading result\n";
-#print "Result: ", $result, "\n";
