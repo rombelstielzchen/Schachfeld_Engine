@@ -1,5 +1,18 @@
 #!/usr/bin/perl
 
+# Project: Schachfeld_Engine
+# Author: Rombelstielzchen
+# License: GPLv3
+# Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
+#
+# Requirements:
+#   * a Linux-like command-line with bash, perl and tail
+#   * the script poor_mans_tail.sh in this directory
+#   * an executable "engine" in ../src
+#
+# This script does ATM not work  with Windows-executables, but propably will do
+# if you redefine $engine_command below and use a shell like Git-Bash.
+
 use strict;
 use warnings; 
 
@@ -12,6 +25,10 @@ my $timeout_sec => 10;
 ### Functions ##########################
 
 sub simple_tail {
+    # A proper implementation of this test-script
+    # should simply pipe commands to and results from the engine.
+    # This fails, probably due to too much output and too small buffers.
+    # So we take the ugöy route with temp-files.
     system("bash", "./poor_mans_tail.sh");
     open(my $fh, "<", $result_file)
         or die "open() failed $!";
@@ -35,5 +52,9 @@ print $output_pipe "isready\n";
 sleep(40);
 
 print simple_tail();
+
+### Clean-up ###########################
+unlink $intermediate_file;
+unlink $result_file;
 exit;
 
