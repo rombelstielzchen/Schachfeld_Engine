@@ -9,6 +9,19 @@ my $result_file = 'temp2.txt';
 my $engine_command = '../src/engine';
 my $timeout_sec => 10;
 
+### Functions ##########################
+
+sub simple_tail {
+    system("bash", "./poor_mans_tail.sh");
+    open(my $fh, "<", $result_file)
+        or die "open() failed $!";
+    my $result = <$fh>;
+    close ($fh);
+    return $result;
+}
+
+### BOMP ### Begin Of Main Program #####
+
 # Start engine, control via outputi_pipe, redirect to intermediate_file
 my $engine_PID = open($output_pipe, '|-', "$engine_command > $intermediate_file")
     or die "open() failed $!";
@@ -24,9 +37,9 @@ sleep(40);
 system("bash", "./poor_mans_tail.sh");
 sleep(1);
 print "---\n";
-open(my $fh, "<", $result_file) or die '$#1+!';
+open(my $fh, "<", $result_file) or die '$1+!';
 print <$fh>, "\n";
-
+print simple_tail(), "\n";
 exit;
 
 #my $tail_PID = open($input_pipe, '-|', "tail -n 1  < $intermediate_file")
