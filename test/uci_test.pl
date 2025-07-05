@@ -20,7 +20,7 @@ my $output_pipe;
 my $intermediate_file = 'temp.txt';
 my $result_file = 'temp2.txt';
 my $engine_command = '../src/engine';
-my $timeout_sec => 10;
+my $timeout_sec = 10;
 
 ### Functions ##########################
 
@@ -37,6 +37,21 @@ sub simple_tail {
     return $result;
 }
 
+sub EXPECT {
+   my $expected_result = shift(@_);
+   my $tail_result = "";
+   for (my $j = 0; $j < $timeout_sec; ++$j) {
+        sleep(1);
+        $tail_result = simple_tail();
+        chomp($tail_result);
+        if ($tail_result eq $expected_result) {
+            print "<< ", $tail_result, "\n";
+            return;
+        }
+   }
+    die "Unexpected result: $tail_result\n";
+}
+
 ### BOMP ### Begin Of Main Program #####
 
 # Start engine, control via outputi_pipe, redirect to intermediate_file
@@ -48,10 +63,12 @@ print "started engine. PID: ", $engine_PID, " \n";
 print $output_pipe "uci\n";
 #
 print $output_pipe "isready\n";
-
 sleep(40);
 
 print simple_tail();
+EXPECT("readyok");
+#
+print "All tests passed successfully\n";
 
 ### Clean-up ###########################
 unlink $intermediate_file;
