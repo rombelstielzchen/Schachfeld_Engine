@@ -98,6 +98,20 @@ EXPECT("bestmove a8a7");
 # Testing immediate response on only move
 send_message("go depth 123456789");
 EXPECT("bestmove a8a7");
+# Testing console extension
+send_message("help");
+EXPECT("    * 'quit' or 'x'to terminate");
+send_message("p s m e2e4");
+send_message("d7d5");
+send_message("f1c4");
+send_message("g d 2");
+EXPECT("bestmove d5c4");
+send_message("back");
+send_message("d2d4");
+send_message("g");
+sleep(2);
+send_message("s");
+EXPECT("bestmove d5e4");
 # Done!
 send_message("quit");
 print "All tests passed successfully\n";
