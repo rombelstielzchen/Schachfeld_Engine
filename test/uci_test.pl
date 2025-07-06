@@ -35,7 +35,7 @@ sub simple_tail {
     # A proper implementation of this test-script
     # should simply pipe commands to and results from the engine.
     # This fails, probably due to too much output and too small buffers.
-    # So we take the ugöy route with temp-files.
+    # So we take the ugly route with temp-files.
     system("bash", "./poor_mans_tail.sh");
     open(my $fh, "<", $result_file)
         or die "open() failed $!";
@@ -52,7 +52,7 @@ sub EXPECT {
         $tail_result = simple_tail();
         chomp($tail_result);
         if ($tail_result eq $expected_result) {
-            print "<< ", $tail_result, "\n";
+            print "<< $tail_result\n";
             return;
         }
    }
@@ -61,14 +61,14 @@ sub EXPECT {
 
 ### BOMP ### Begin Of Main Program #####
 
-# Start engine, control via outputi_pipe, redirect to intermediate_file
+# Start engine, control via output_pipe, redirect to intermediate_file
 my $engine_PID = open($output_pipe, '|-', "$engine_command > $intermediate_file")
     or die "open() failed $!";
 print "started engine. PID: $engine_PID\n";
 print "Going to test soon...\n";
 # Wait some time. Initialization and potential self-test
 sleep(30);
-# iTesting startup
+# Testing UCI startup
 send_message("uci");
 EXPECT("uciok");
 send_message("isready");
