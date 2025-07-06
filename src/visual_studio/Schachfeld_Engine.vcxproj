@@ -140,8 +140,10 @@
     <ClCompile Include="..\board\test_board_logic.cpp" />
     <ClCompile Include="..\board\test_move_maker.cpp" />
     <ClCompile Include="..\evaluator\evaluator.cpp" />
+    <ClCompile Include="..\evaluator\oracle.cpp" />
     <ClCompile Include="..\evaluator\piece_square_value_tables.cpp" />
     <ClCompile Include="..\evaluator\test_evaluator.cpp" />
+    <ClCompile Include="..\evaluator\test_oracle.cpp" />
     <ClCompile Include="..\evaluator\test_piece_square_value_tables.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\move_generator\move.cpp" />
