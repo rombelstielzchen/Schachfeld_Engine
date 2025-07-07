@@ -9,10 +9,17 @@
 #   * Linux-engine built and tested, simply "make"
 #   * Windows engine built with MiSo ViStu in Release-mode
 #   * Windows-executable renamed with version-number, e.g. Schachfeld_Engine_3.1
-#   * Execztable moved to binaries-directory. see below ...
+#   * Executable moved to binaries-directory. see below ...
 
 BIN_DIR='../older_versions'
 
+echo "### Testing UCI ########"
+if  ../test/uci_test.pl; then
+    echo "UCI-test passed"
+else
+    echo "UCI-test failed. Aborting build."
+    exit
+fi
 echo "### Packaing Release ###"
 # Get path to "last" executable, alphabetically
 BINARY=$(ls -d -1 $BIN_DIR/* | tail -1)
