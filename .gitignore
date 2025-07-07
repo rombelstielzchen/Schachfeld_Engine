@@ -23,6 +23,7 @@ engine*
 files.txt
 msbuild
 strings.txt
+temp*.*
 x
 y
 z
