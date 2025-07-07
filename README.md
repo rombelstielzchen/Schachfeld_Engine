@@ -12,7 +12,7 @@ The engine supports the universal-chess-interface for communication with your fa
 
 How To Download
 ---------------
-[version_0.f.zip](https://github.com/rombelstielzchen/Schachfeld_Engine/raw/refs/heads/main/release/archives/Schachfeld_Engine_0.f.zip) (Windows, 64 Bit)
+[version_0.g.zip](https://github.com/rombelstielzchen/Schachfeld_Engine/raw/refs/heads/main/release/archives/Schachfeld_Engine_0.g.zip) (Windows, 64 Bit)
 
 [Older versions](release/archives)
 
