@@ -7,7 +7,6 @@
 #
 # Requirements:
 #   * a Linux-like command-line with bash, perl and tail
-#   * the script poor_mans_tail.sh in this directory
 #   * an executable "engine" in ../src
 #
 # This script does ATM not work  with Windows-executables, but propably will do
@@ -15,6 +14,7 @@
 
 use strict;
 use warnings; 
+use File::Basename;
 
 my $output_pipe;
 my $intermediate_file = 'temp.txt';
@@ -36,7 +36,7 @@ sub simple_tail {
     # should simply pipe commands to and results from the engine.
     # This fails, probably due to too much output and too small buffers.
     # So we take the ugly route with temp-files.
-    system("bash", "./poor_mans_tail.sh");
+        `tail -n 1 < $intermediate_file > $result_file`;
     open(my $fh, "<", $result_file)
         or die "open() failed $!";
     my $result = <$fh>;
@@ -60,6 +60,7 @@ sub EXPECT {
 }
 
 ### BOMP ### Begin Of Main Program #####
+
 
 # Start engine, control via output_pipe, redirect to intermediate_file
 my $engine_PID = open($output_pipe, '|-', "$engine_command > $intermediate_file")
