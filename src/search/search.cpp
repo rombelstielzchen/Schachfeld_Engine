@@ -118,7 +118,7 @@ int CSearch::quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWin
         if (remaining_depth > 1) {
             candidate_score = quiescence(remaining_depth - 1, distance_to_root + 1, alpha_beta_window);
         } else {
-            candidate_score = static_exchange_evaluation(move_candidate.target, alpha_beta_window);            
+            candidate_score = static_exchange_evaluation_minimax(move_candidate.target, alpha_beta_window);            
         }
         board.move_maker.unmake_move();
         if ((side_to_move == WHITE_PLAYER) && (candidate_score > best_score)) {
@@ -141,7 +141,7 @@ int CSearch::quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWin
     return best_score;
 }
 
-int CSearch::static_exchange_evaluation(const SSquare &target_square, const SAlphaBetaWindow alpha_beta_window) {
+int CSearch::static_exchange_evaluation_minimax(const SSquare &target_square, const SAlphaBetaWindow alpha_beta_window) {
     assert(square_in_range(target_square));
     // TODO: Revisit this, related to stalemate-detection
     assert(is_valid_alpha_beta_window(alpha_beta_window)); 
@@ -166,7 +166,7 @@ int CSearch::static_exchange_evaluation(const SSquare &target_square, const SAlp
     board.move_maker.make_move(recapture);
     search_statistics.add_nodes(1);
     // Recursion guaranteed to terminate, as recaptures are limited
-    score = static_exchange_evaluation(target_square, alpha_beta_window);
+    score = static_exchange_evaluation_minimax(target_square, alpha_beta_window);
     board.move_maker.unmake_move();
     return score;
 }

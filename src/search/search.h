@@ -42,7 +42,7 @@ class CSearch {
     int alpha_beta(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window);
   private:
     int quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window);
-    int static_exchange_evaluation(const SSquare &target_square, SAlphaBetaWindow alpha_beta_window);
+    int static_exchange_evaluation_minimax(const SSquare &target_square, SAlphaBetaWindow alpha_beta_window);
   private:
     inline bool white_score_way_too_good(const int score, const SAlphaBetaWindow alpha_beta_window) const;
     inline bool black_score_way_too_good(const int score, const SAlphaBetaWindow alpha_beta_window) const;
