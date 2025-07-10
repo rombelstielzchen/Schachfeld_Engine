@@ -7,10 +7,22 @@
 #include "iterative_deepening.h"
 #include "search.h"
 #include "../board/board.h"
+#include "../board/square_constants.h"
 #include "../technical_functions/testing.h"
 #include "../universal_chess_interface/command_interface.h"
 
-const std::vector<STestcaseSearch> testcases = {
+const std::vector<STestcaseStaticExchangeEvaluation> testcases_search_static_exchange_evaluation = {
+//    { "rR w", A8, true },
+//    { "rRr", A8, false },
+//    { "8/5ppp/5n/8/8/8/2B/1Q w", H7, true },
+//    { "8/5ppp/5n/8/8/8/2Q/1B w", H7, false },
+    { "8/5pppp/5n/5B2////7R w", H7, true },
+    { "8/5pppp/5n////7R/7R w", H7, false },
+//    { "8/5pppp/5n/5B2////7Q w", H7, true },
+//    { "8/5pppp/5n/5B1Q w", H7, true },
+};
+
+const std::vector<STestcaseSearch> testcases_search = {
     // Capturing the king
     { 1, "g7g8", "6k1/6Q1/6K1 w" },
     // Capturing the queen with royal fork and perpetual
@@ -53,7 +65,8 @@ bool CTestSearch::test_everything() {
     bool former_dobb_dobb_dobb = DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop;
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     EXPECT(test_no_legal_moves());
-    for (const STestcaseSearch &testcase : testcases) {
+    EXPECT(test_static_exchange_evaluation());
+    for (const STestcaseSearch &testcase : testcases_search) {
         SILENT_EXPECT(test_position(testcase));
     }
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = former_dobb_dobb_dobb;
@@ -81,6 +94,20 @@ bool CTestSearch::test_no_legal_moves() {
     EXPECT(search.no_legal_moves() == false);
     board.move_maker.make_null_move();
     EXPECT(search.no_legal_moves() == true);
+    return true;
+}
+
+bool CTestSearch::test_static_exchange_evaluation() {
+    TEST_FUNCTION();
+    CSearch searcher;
+    for (const STestcaseStaticExchangeEvaluation &testcase : testcases_search_static_exchange_evaluation) {
+        std::cerr << testcase.fen_position << "\n";
+        SILENT_EXPECT(board.set_fen_position(testcase.fen_position));int initial_evaluation = board.evaluator.evaluate();
+        int evaluation_after_capture = searcher.static_exchange_evaluation_minimax(testcase.capture_square, INFINITE_ALPHA_BETA_WINDOW);
+        std::cerr << evaluation_after_capture << "\n";
+        std::cerr << initial_evaluation << "\n";
+        EXPECT((evaluation_after_capture > initial_evaluation) == testcase.favorable_capture);
+    }
     return true;
 }
 
