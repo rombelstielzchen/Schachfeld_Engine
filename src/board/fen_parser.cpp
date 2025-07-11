@@ -39,6 +39,7 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
 }
 
 bool CFenParser::parse_piece_placement(const std::string &partial_input) {
+    constexpr bool non_recoverable_error = false;
     board.clear();
     // FEN traverses the board row by row from A8 to H1
     int x = FILE_A;
@@ -50,11 +51,11 @@ bool CFenParser::parse_piece_placement(const std::string &partial_input) {
             continue;
          }
         if (x > FILE_H) {
-            // Non-recoverable error, bad input from the outside world
-            return false;
+            // Bbad input from the outside world
+            return non_recoverable_error;
         }
         if (y < RANK_1) {
-            return false;
+            return non_recoverable_error;
         }
         switch (c) {
             case WHITE_KING:
@@ -85,13 +86,13 @@ bool CFenParser::parse_piece_placement(const std::string &partial_input) {
                 if (x > FILE_GARDEN_FENCE_RIGHT_1) {
                     // Extra check that catches "harmless" extra empty squares,
                     // mostly detecting erroneous test-cases
-                    return false;
+                    return non_recoverable_error;
                 }
             }
             break;
         default:
             // Unexpected character, non recoverable
-            return false;
+            return non_recoverable_error;
         }
     }
      return true;
