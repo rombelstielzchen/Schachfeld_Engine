@@ -34,7 +34,14 @@ bool CTestBoard::test_set_start_position() {
 }
 
 bool CTestBoard::test_set_fen_position() {
-    TEST_FUNCTION(); 
+    TEST_FUNCTION();
+    // Incorrect positions first
+    EXPECT(board.set_fen_position("////////R") == false);
+    EXPECT(board.set_fen_position("p") == false);
+    EXPECT(board.set_fen_position("8/ppppppppp") == false);
+    EXPECT(board.set_fen_position("81") == false);
+    EXPECT(board.set_fen_position("qwerty") == false);
+    // Valid positions below
      SILENT_EXPECT(board.set_fen_position(startpos_with_no_moves));
      EXPECT(board.get_fen_position() == START_POSITION);
      SILENT_EXPECT(board.set_fen_position(startpos_with_moves));
