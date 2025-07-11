@@ -34,7 +34,7 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
     }
     board.move_maker.reset_history();
     board.evaluator.init();
-    lack_of_errors = board.move_maker.play_variation(extra_moves);
+    lack_of_errors &= board.move_maker.play_variation(extra_moves);
     return lack_of_errors;
 }
 
