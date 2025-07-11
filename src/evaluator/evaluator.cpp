@@ -24,6 +24,20 @@ void CEvaluator::init() {
     }
 }
 
+void CEvaluator::log_board_evaluation() const {
+    for (int j = FILE_A; j <= FILE_H; ++j) {
+        for (int k = RANK_1; k <= RANK_8; ++k) {
+            if (!board.square_is_empty(j, k)) {
+                char piece = board.get_square(j, k);
+                assert(is_any_piece(piece));
+                int value = evaluate_square(j, k);
+                assert(value != 0);
+                std::cerr << piece << file_as_text(j) << rank_as_text(k) << ": " << value <<"\n";
+            }
+        }
+    }
+}
+
 int CEvaluator::evaluate_square(const SSquare &square) const {
     return evaluate_square(square.file, square.rank);
 }
