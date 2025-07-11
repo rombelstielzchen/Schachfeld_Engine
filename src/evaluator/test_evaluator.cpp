@@ -70,7 +70,7 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     { "8/8/8/8/8/5NP/5PKP w", "8/8/8/8/8/5NP/5P1P/6K w" },
     { "8/8/8/8/8/8/5PPP/6K w", "8/8/8/8/8/6P/5P1P/6K w" },
     { "8/8/8/8/8/6P/5PBP/6K w", "8/8/8/8/2B/8/6P/5PKP w" },
-    { "8/8/8/8/2B/8/5PPP/6K w", "8/8/8/8/8/8/6P/5PBP/6K w" },
+    { "8/8/8/8/2B/8/5PPP/6K w", "8/8/8/8/8/6P/5PBP/6K w" },
     // Bad exchange, protecting Bc4 by b3 instead of playing Bb3
     { "8/8/8/8/2B/1P/2P w", "8/8/8/8/8/1b/1PP w" },
     { "8/8/8/8/8/1P/1PP w", "8/8/8/8/2P/8/P1P w "},
@@ -82,7 +82,7 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     { "/////2P/PPP w", "/////2P/P1PP w" },
     { "/////5P/5PPP w", "/////5P/4P1PP w" },
     // Pawn on d3 better then d2 for bettter development
-   { "/////3P w", "//////3Pw" },
+   { "/////3P w", "//////3P w" },
    // Knights on the king-side more worth than on the queen-side:
    // Preparing castling, attacking / defending the king
    { "/////5N w", "/////2N w" },

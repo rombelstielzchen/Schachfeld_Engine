@@ -12,21 +12,21 @@
 #include "../universal_chess_interface/command_interface.h"
 
 const std::vector<STestcaseStaticExchangeEvaluation> testcases_search_static_exchange_evaluation = {
-//    { "rR w", A8, true },
-//    { "rRr", A8, false },
-//    { "8/5ppp/5n/8/8/8/2B/1Q w", H7, true },
-//    { "8/5ppp/5n/8/8/8/2Q/1B w", H7, false },
-    { "8/5pppp/5n/5B2////7R w", H7, true },
-    { "8/5pppp/5n////7R/7R w", H7, false },
-//    { "8/5pppp/5n/5B2////7Q w", H7, true },
-//    { "8/5pppp/5n/5B1Q w", H7, true },
+    { "rR w", A8, true },
+    { "rRr w", A8, false },
+    { "8/5ppp/5n/8/8/8/2B/1Q w", H7, true },
+    { "8/5ppp/5n/8/8/8/2Q/1B w", H7, false },
+    { "8/5ppp/5n/5B2////7R w", H7, true },
+//    { "8/5ppp/5n////7R/7R w", H7, false },
+    { "8/5ppp/5n/5B2////7Q w", H7, true },
+    { "8/5ppp/5n/5B1Q w", H7, true },
 };
 
 const std::vector<STestcaseSearch> testcases_search = {
     // Capturing the king
     { 1, "g7g8", "6k1/6Q1/6K1 w" },
     // Capturing the queen with royal fork and perpetual
-    { 1, "f4g6", "2q2rk1/4qn1n/6q1/8/5N1q/8/8/8/1K6 q w" },
+    { 1, "f4g6", "2q2rk1/4qn1n/6q1/8/5N1q/8/8/1K5q w" },
     // Capturing the queen with mate
     { 1, "a1h1", "7k/8/8/8/8/8/6R1/R6q w" },
     // Black to move: capturing the queen with mate
@@ -90,7 +90,7 @@ CTEST << "Got move: " << best_move << "\n";
 bool CTestSearch::test_no_legal_moves() {
     TEST_FUNCTION();
     CSearch search;
-    board.set_fen_position("1k//K1Q w");
+    SILENT_EXPECT(board.set_fen_position("1k//K1Q w"));
     EXPECT(search.no_legal_moves() == false);
     board.move_maker.make_null_move();
     EXPECT(search.no_legal_moves() == true);
@@ -102,10 +102,16 @@ bool CTestSearch::test_static_exchange_evaluation() {
     CSearch searcher;
     for (const STestcaseStaticExchangeEvaluation &testcase : testcases_search_static_exchange_evaluation) {
         std::cerr << testcase.fen_position << "\n";
-        SILENT_EXPECT(board.set_fen_position(testcase.fen_position));int initial_evaluation = board.evaluator.evaluate();
+        board.set_start_position();
+        std::cerr << board.as_is();
+        SILENT_EXPECT(board.set_fen_position(testcase.fen_position));
+        int initial_evaluation = board.evaluator.evaluate();
+        std::cerr << board.as_is();
         int evaluation_after_capture = searcher.static_exchange_evaluation_minimax(testcase.capture_square, INFINITE_ALPHA_BETA_WINDOW);
         std::cerr << evaluation_after_capture << "\n";
         std::cerr << initial_evaluation << "\n";
+        std::cerr << board.as_is();
+        board.evaluator.log_board_evaluation();
         EXPECT((evaluation_after_capture > initial_evaluation) == testcase.favorable_capture);
     }
     return true;
