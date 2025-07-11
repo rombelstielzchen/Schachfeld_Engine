@@ -70,8 +70,8 @@ bool CTestPieceSquareValueTables::test_positions() {
     TEST_FUNCTION();
     // All tests hard-coded for simplicity and good error-messages.
     // First: trivial test, proof of concept
-    EXPECT(first_position_better("B w", "w"));
-    EXPECT(first_position_better("w", "b w"));
+    EXPECT(first_position_better("B w", "/ w"));
+    EXPECT(first_position_better("/ w", "b w"));
     // Bad exchange B + N against R + P
     EXPECT(first_position_better("8/8/8/3BN w", "////4P/5P/6R w"));
     return true;

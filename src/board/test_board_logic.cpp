@@ -22,7 +22,7 @@ bool CTestBoardLogic::test_king_squares() {
     board.set_start_position();
     EXPECT(CBoardLogic::king_square(WHITE_PLAYER) == E1);
     EXPECT(CBoardLogic::king_square(BLACK_PLAYER) == E8);
-    const std::string empty_board = "w";
+    const std::string empty_board = "/ w";
     SILENT_EXPECT(board.set_fen_position(empty_board));
     EXPECT(CBoardLogic::king_square(WHITE_PLAYER) == NULL_SQUARE);
     return true;

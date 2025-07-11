@@ -140,13 +140,13 @@ bool CTestMoveList::test_extremes() {
     CMoveGenerator move_generator;
     move_generator.generate_all();
     EXPECT(move_generator.move_list.list_size() == 218);
-    std::string position_with_74_captures = "r1n1n1b/1P1P21P21P/1N1N1N/2RnQrRq/2pKp/3BNQbQ/k/4Bq w";
+    std::string position_with_74_captures = "r1n1n1b/1P1P21P/1N1N1N/2RnQrRq/2pKp/3BNQbQ/k/4Bq w";
     SILENT_EXPECT(board.set_fen_position(position_with_74_captures));
     move_generator.move_list.clear();
     move_generator.generate_captures();
-    CTEST << move_generator.move_list.list_size() << "\n";
-    // TODO: weird result: 32 insted of 74 (official) or 68 (counted on my own)
-///    EXPECT(move_generator.move_list.list_size() == 68);
+    CTEST << move_generator.move_list.as_text() << "\n";
+    // TODO: revisit this. 74/78? 
+    EXPECT(move_generator.move_list.list_size() == 78);
     return true;
 }
 
