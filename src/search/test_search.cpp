@@ -17,7 +17,7 @@ const std::vector<STestcaseStaticExchangeEvaluation> testcases_search_static_exc
     { "8/5ppp/5n/8/8/8/2B/1Q w", H7, true },
     { "8/5ppp/5n/8/8/8/2Q/1B w", H7, false },
     { "8/5ppp/5n/5B2////7R w", H7, true },
-//    { "8/5ppp/5n////7R/7R w", H7, false },
+    { "8/8/5ppp/5n///7R/7R w", H7, false },
     { "8/5ppp/5n/5B2////7Q w", H7, true },
     { "8/5ppp/5n/5B1Q w", H7, true },
 };
