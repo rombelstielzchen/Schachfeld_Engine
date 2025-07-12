@@ -11,10 +11,13 @@
 // TODO: stalemate, proper distance to mate
 // We need some range here in order to distinguish different depths to mate,
 // avoiding nonsense moves to longer nates or worse
-///constexpr int32_t WHITE_MIN_SCORE = INT32_MIN + 1000;
-///constexpr int32_t BLACK_MIN_SCORE = INT32_MAX - 1000;
-constexpr int32_t WHITE_MIN_SCORE = INT32_MIN; 
+//
+// Caveat! INT32_MIN and INT32_MAX are not symmetric.
+// Naively used, this causes an overflow when doing negamax.
 constexpr int32_t BLACK_MIN_SCORE = INT32_MAX;
+constexpr int32_t WHITE_MIN_SCORE = -BLACK_MIN_SCORE;
+static_assert(-WHITE_MIN_SCORE > 0);
+static_assert(-BLACK_MIN_SCORE < 0);
 
 #pragma pack(push)
 #pragma pack(1)
@@ -44,6 +47,7 @@ class CSearch {
     int quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window);
     int static_exchange_evaluation_minimax(const SSquare &target_square, SAlphaBetaWindow alpha_beta_window);
   private:
+    int static_exchange_evaluation_negamax(const SSquare &target_square, int alpha, int beta);
     inline bool white_score_way_too_good(const int score, const SAlphaBetaWindow alpha_beta_window) const;
     inline bool black_score_way_too_good(const int score, const SAlphaBetaWindow alpha_beta_window) const;
     inline int losing_score(bool losing_side);

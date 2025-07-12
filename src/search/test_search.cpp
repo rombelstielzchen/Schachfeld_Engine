@@ -14,6 +14,7 @@
 const std::vector<STestcaseStaticExchangeEvaluation> testcases_search_static_exchange_evaluation = {
     // White to move
     { "rR w", A8, true },
+{ "rR b", B8, true },
     { "rRr w", A8, false },
     { "8/5ppp/5n/8/8/8/2B/1Q w", H7, true },
     { "8/5ppp/5n/8/8/8/2Q/1B w", H7, false },
@@ -113,14 +114,11 @@ bool CTestSearch::test_static_exchange_evaluation() {
     for (const STestcaseStaticExchangeEvaluation &testcase : testcases_search_static_exchange_evaluation) {
         std::cerr << testcase.fen_position << "\n";
         board.set_start_position();
-        std::cerr << board.as_is();
         SILENT_EXPECT(board.set_fen_position(testcase.fen_position));
         int initial_evaluation = board.evaluator.evaluate();
-        std::cerr << board.as_is();
         int evaluation_after_capture = searcher.static_exchange_evaluation_minimax(testcase.capture_square, INFINITE_ALPHA_BETA_WINDOW);
         std::cerr << evaluation_after_capture << "\n";
         std::cerr << initial_evaluation << "\n";
-        std::cerr << board.as_is();
         board.evaluator.log_board_evaluation();
         EXPECT((evaluation_after_capture > initial_evaluation) == testcase.favorable_capture);
     }

@@ -142,33 +142,49 @@ int CSearch::quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWin
 }
 
 int CSearch::static_exchange_evaluation_minimax(const SSquare &target_square, const SAlphaBetaWindow alpha_beta_window) {
+     std::cerr << "a, b: " << alpha_beta_window.alpha << ", " << alpha_beta_window.beta << "\n";
     assert(square_in_range(target_square));
-    // TODO: Revisit this, related to stalemate-detection
     assert(is_valid_alpha_beta_window(alpha_beta_window)); 
-    int score = board.evaluator.evaluate();
     if (board.get_side_to_move() == WHITE_PLAYER) {
-        if (white_score_way_too_good(score, alpha_beta_window)) {
-            return alpha_beta_window.beta;
-        }
+            int score = static_exchange_evaluation_negamax(target_square, alpha_beta_window.alpha, alpha_beta_window.beta);
+            std::cerr << "min_storei: " << score << "\n";
+        return static_exchange_evaluation_negamax(target_square, alpha_beta_window.alpha, alpha_beta_window.beta);
     } else {
-        if (black_score_way_too_good(score, alpha_beta_window)) {
-            return alpha_beta_window.alpha;
-        }
+        return static_exchange_evaluation_negamax(target_square, - alpha_beta_window.beta, -alpha_beta_window.alpha);
+    }
+}
+
+int nega_Score() {
+     int score = board.evaluator.evaluate();
+    if (board.get_side_to_move() == WHITE_PLAYER) {
+        return score;
+    }
+    return -score;
+}
+
+int CSearch::static_exchange_evaluation_negamax(const SSquare &target_square, int alpha, int beta) {
+     std::cerr << "a, b nega: " << alpha << ", " << beta << "\n";
+    assert(square_in_range(target_square));
+    assert(alpha <= beta);
+    int score =nega_Score(); 
+//    if (white_score_way_too_good(score, alpha_beta_window)) {
+    if (score >= beta) {
+        return -beta;
     }
     CMoveGenerator move_generator;
     move_generator.generate_recaptures(target_square);
     SMove recapture = move_generator.move_list.get_least_valuable_aggressor();
     if (is_null_move(recapture)) {
-        return score;
+        return -score;
     }
     assert(move_in_range(recapture));
     assert(recapture.target == target_square);
     board.move_maker.make_move(recapture);
     search_statistics.add_nodes(1);
     // Recursion guaranteed to terminate, as recaptures are limited
-    score = static_exchange_evaluation_minimax(target_square, alpha_beta_window);
+    score = static_exchange_evaluation_negamax(target_square, -beta, -alpha);
     board.move_maker.unmake_move();
-    return score;
+    return -score;
 }
 
 inline bool CSearch::white_score_way_too_good(const int score, const SAlphaBetaWindow alpha_beta_window) const {
