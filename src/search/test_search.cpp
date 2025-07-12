@@ -12,6 +12,7 @@
 #include "../universal_chess_interface/command_interface.h"
 
 const std::vector<STestcaseStaticExchangeEvaluation> testcases_search_static_exchange_evaluation = {
+    // White to move
     { "rR w", A8, true },
     { "rRr w", A8, false },
     { "8/5ppp/5n/8/8/8/2B/1Q w", H7, true },
@@ -25,6 +26,10 @@ const std::vector<STestcaseStaticExchangeEvaluation> testcases_search_static_exc
     { "rRrrRRR w", A8, false },
     { "rRrRrRrR/r/R/r/R/r/R w", A8, true },
     { "rRrRrRrR/r/R/r/R/r/R/r w", A8,false  },
+    // Black to move
+    { "rR b", B8, true },
+    { "rRr b", B8, false },
+    { "3q/3Q/3q/4Q/3q b", D7, true },
 };
 
 const std::vector<STestcaseSearch> testcases_search = {
