@@ -22,6 +22,7 @@ class CEvaluator {
     void incremental_add(char piece, const SSquare square);
     void incremental_clear_square(const SSquare square);
     int evaluate() const { return value; }
+    int nega_score() const;
   public:
     int evaluate_square(const SSquare &square) const;
     void log_board_evaluation() const;

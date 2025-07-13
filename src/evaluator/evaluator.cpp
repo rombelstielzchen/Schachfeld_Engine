@@ -70,3 +70,11 @@ int CEvaluator::evaluate_white_pawn(const SSquare square) {
     value -= evaluate_square(square);
  }
 
+int CEvaluator::nega_score() const {
+    int score = evaluate();
+    if (board.get_side_to_move() == BLACK_PLAYER) {
+        score = -score;
+    }
+    return score;
+}
+
