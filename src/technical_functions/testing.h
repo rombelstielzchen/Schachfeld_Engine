@@ -9,6 +9,7 @@
 
 inline int testcase_counter = 0;
 static std::string classname_testsuite = "noname";
+inline bool all_tests_OK = true;
 
 #define CTEST std::cerr
 
@@ -19,6 +20,7 @@ static std::string classname_testsuite = "noname";
 if ((condition)) { \
     CTEST << "[OK] " << #condition << std::endl; \
 } else { \
+    log_first_error_separator(); \
     CTEST << "[ERROR] ID " << testcase_counter << ": " << #condition << std::endl; \
     return false; \
 }
@@ -27,6 +29,7 @@ if ((condition)) { \
 ++testcase_counter; \
 if ((condition) == false) { \
     /* Do not naively call EXPECT here(). This would execute the condition again. */ \
+    log_first_error_separator(); \
     CTEST << "[ERROR] ID " << testcase_counter << ": " << #condition << std::endl; \
     return false; \
 }
@@ -38,3 +41,9 @@ if ((condition) == false) { \
 #define TEST_FUNCTION() \
     CTEST << classname_testsuite << "::" <<  __func__ << "() ...\n";
 
+inline void log_first_error_separator() {
+    if (all_tests_OK) {
+        all_tests_OK = false;
+        CTEST << "### First Failed Test ##################\n";
+    }
+}
