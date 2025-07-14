@@ -7,10 +7,6 @@
 
 #include "standard_headers.h"
 
-inline int testcase_counter = 0;
-static std::string classname_testsuite = "noname";
-inline bool all_tests_OK = true;
-
 #define CTEST std::cerr
 
 #define ACCUMULATE(pointer_to_bool, additional_condition) pointer_to_bool &= (additional_condition)
@@ -41,9 +37,16 @@ if ((condition) == false) { \
 #define TEST_FUNCTION() \
     CTEST << classname_testsuite << "::" <<  __func__ << "() ...\n";
 
+// Variables and functions for internal use below. Do not use directly.
+
+inline int testcase_counter = 0;
+static std::string classname_testsuite = "noname";
+inline bool all_tests_OK = true;
+
 inline void log_first_error_separator() {
     if (all_tests_OK) {
         all_tests_OK = false;
         CTEST << "### First Failed Test ##################\n";
     }
 }
+
