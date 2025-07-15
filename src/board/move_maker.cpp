@@ -10,6 +10,7 @@
 #include "../move_generator/move_generator.h"
 #include "../technical_functions/string_functions.h"
 #include "../technical_functions/string_tokenizer.h"
+#include "../universal_chess_interface/uci_protocol.h"
 
 CMoveMaker::CMoveMaker() {
     reset_history();
@@ -96,7 +97,8 @@ bool CMoveMaker::make_move(const std::string &long_algebraic_uci_move) {
     move_generator.generate_all();
     SMove move = move_generator.move_list.lookup_move(long_algebraic_uci_move);
     if (is_null_move(move)) {
-            std::cerr << "ERROR: invalid move " << long_algebraic_uci_move << "\n";
+        std::string message = std::string(" invalid move ") + move_as_text(move);
+        CUciProtocol::send_error(message);
         return false;
     }
     make_move(move);
