@@ -74,6 +74,9 @@ bool CTestPieceSquareValueTables::test_positions() {
     EXPECT(first_position_better("/ w", "b w"));
     // Bad exchange B + N against R + P
     EXPECT(first_position_better("8/8/8/3BN w", "////4P/5P/6R w"));
+    // Over-confident exchange-sacrifice due to formerly zoo large 7th-rank-bonus
+    EXPECT(first_position_better("8/ppp/2n////R/R w", "8/Rpp b"));
+    EXPECT(first_position_better("8/5ppp/5n////7R/7R w", "8/5ppR b"));
     return true;
 }
 
