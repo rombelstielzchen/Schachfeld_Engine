@@ -9,6 +9,7 @@
 // Using a two-dimensional, piece-centric "mailbox"-approach with 8x8 slots
 // representing empty squares and pieces. 
 
+#include "game_saver.h"
 #include "move_maker.h"
 #include "../evaluator/evaluator.h"
 #include "../move_generator/move.h"
@@ -130,6 +131,7 @@ class CBoard {
     bool get_castling_rights(char move_type) const;
   public:
     CEvaluator evaluator;
+    CGameSaver game_saver;
     CMoveMaker move_maker;
   private:
     void clear();

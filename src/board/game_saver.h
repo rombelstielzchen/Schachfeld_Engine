@@ -1,3 +1,5 @@
+#pragma once
+
 // Project: Schachfeld_Engine
 // Author: Rombelstielzchen
 // License: GPLv3
@@ -8,12 +10,13 @@
 class CGameSaver {
   public:
     CGameSaver();
+    ~CGameSaver();
   public:
     void save_game();
   private:
     void open_pgn_file();
     void close_pgn_file();
-    void append_PGN_header();
+    void append_pgn_header();
     void append_moves();
   private:
     void append_pgn_tag(const std::string &name, const std::string value);

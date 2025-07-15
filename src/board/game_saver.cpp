@@ -4,11 +4,21 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "game_saver.h"
+#include "board.h"
+#include "move_maker.h"
 
 CGameSaver::CGameSaver() {
 }
 
+CGameSaver::~CGameSaver() {
+    save_game();
+}
+
 void CGameSaver::save_game() {
+    open_pgn_file();
+    append_pgn_header();
+    append_moves();
+    close_pgn_file();
 }
 
 void CGameSaver::open_pgn_file() {
@@ -17,7 +27,7 @@ void CGameSaver::open_pgn_file() {
 void CGameSaver::close_pgn_file() {
 }
 
-void CGameSaver::append_PGN_header() {
+void CGameSaver::append_pgn_header() {
     // Mandatory PGN-tags, most info not known
     append_pgn_tag("Event", "FIDE Waldmeisterschaft of Universe");
     append_pgn_tag("Site", "Milkyway");
@@ -29,6 +39,7 @@ void CGameSaver::append_PGN_header() {
 }
 
 void CGameSaver::append_moves() {
+    std::cout << board.move_maker.moves_from_initial_position() << "\n";
 }
 
 void CGameSaver::append_line_of_text(const std::string &text) {
@@ -36,6 +47,7 @@ void CGameSaver::append_line_of_text(const std::string &text) {
 }
 
 std::string CGameSaver::pgn_filename() {
+    return "";
 }
 
 void CGameSaver::append_pgn_tag(const std::string &name, const std::string value) {
