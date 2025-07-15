@@ -11,8 +11,11 @@
 #include "../technical_functions/testing.h"
 #include "../universal_chess_interface/command_interface.h"
 
-const std::vector<STestcaseStaticExchangeEvaluation> testcases_search_static_exchange_evaluation = {
+const std::vector<STestcaseStaticExchangeEvaluation> testcases_static_exchange_evaluation = {
     // White to move
+    { "/ w", A8, false },
+    { "1R w", A8, false },
+    { "1r w", A8, false },
     { "rR w", A8, true },
 { "rR b", B8, true },
     { "rRr w", A8, false },
@@ -26,10 +29,13 @@ const std::vector<STestcaseStaticExchangeEvaluation> testcases_search_static_exc
     { "rRrRrRr w", A8, false },
     { "rRrrRRR w", A8, false },
     { "rRrRrRrR/r/R/r/R/r/R w", A8, true },
-    { "rRrRrRrR/r/R/r/R/r/R/r w", A8,false  },
+    { "rRrRrRrR/r/R/r/R/r/R/r w", A8, false  },
     // Black to move
+    { "/ b", A8, false },
+    { "1R b", A8, false },
+    { "1r b", A8, false },
     { "rR b", B8, true },
-    { "rRr b", B8, false },
+    { "rRr b", B8, true },
     { "3q/3Q/3q/4Q/3q b", D7, true },
 };
 
@@ -111,16 +117,20 @@ bool CTestSearch::test_no_legal_moves() {
 bool CTestSearch::test_static_exchange_evaluation() {
     TEST_FUNCTION();
     CSearch searcher;
-    for (const STestcaseStaticExchangeEvaluation &testcase : testcases_search_static_exchange_evaluation) {
-        std::cerr << testcase.fen_position << "\n";
-        board.set_start_position();
+    for (const STestcaseStaticExchangeEvaluation &testcase : testcases_static_exchange_evaluation) {
+        CTEST << "Testcase: " << testcase.fen_position << testcase.capture_square << testcase.favorable_capture << "\n";
         SILENT_EXPECT(board.set_fen_position(testcase.fen_position));
         int initial_evaluation = board.evaluator.evaluate();
-        int evaluation_after_capture = searcher.static_exchange_evaluation_minimax(testcase.capture_square, INFINITE_ALPHA_BETA_WINDOW);
-        std::cerr << evaluation_after_capture << "\n";
-        std::cerr << initial_evaluation << "\n";
-        board.evaluator.log_board_evaluation();
-        EXPECT((evaluation_after_capture > initial_evaluation) == testcase.favorable_capture);
+        int initial_negascore = board.evaluator.nega_score();
+        int negamax_evaluation_after_capture = searcher.static_exchange_evaluation_negamax(testcase.capture_square, INFINITE_ALPHA_BETA_WINDOW.alpha, INFINITE_ALPHA_BETA_WINDOW.beta);
+        EXPECT((negamax_evaluation_after_capture > initial_negascore) == testcase.favorable_capture);
+        int minimax_evaluation_after_capture = searcher.static_exchange_evaluation_minimax(testcase.capture_square, INFINITE_ALPHA_BETA_WINDOW);
+        if (board.get_side_to_move() == WHITE_PLAYER) {
+            EXPECT((minimax_evaluation_after_capture > initial_evaluation) == testcase.favorable_capture);
+
+        } else {
+            EXPECT((minimax_evaluation_after_capture < initial_evaluation) == testcase.favorable_capture);
+        }
     }
     return true;
 }
