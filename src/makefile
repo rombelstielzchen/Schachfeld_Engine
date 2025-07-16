@@ -35,6 +35,7 @@ engine: \
 	evaluator.o \
 	fen_generator.o \
 	fen_parser.o \
+	game_saver.o \
 	gm_book.o \
 	info_thread.o \
 	iterative_deepening.o \
@@ -95,6 +96,9 @@ uci_protocol.o: universal_chess_interface/uci_protocol.cpp
 	$(CC) $(CFLAGS) 
 
 fen_parser.o: board/fen_parser.cpp
+	$(CC) $(CFLAGS) 
+
+game_saver.o: board/game_saver.cpp
 	$(CC) $(CFLAGS) 
 
 command_interface.o: universal_chess_interface/command_interface.cpp

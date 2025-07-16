@@ -6,6 +6,7 @@
 #include "command_interface.h"
 #include "uci_protocol.h"
 #include "../board/board.h"
+#include "../board/game_saver.h"
 #include "../move_generator/test_perft.h"
 #include "../search/iterative_deepening.h"
 #include "../technical_functions/standard_headers.h"
@@ -103,7 +104,8 @@ void CCommandInterface::go_time(
 }
 
 void CCommandInterface::new_game() {
-    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
+    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = true;
+    board.game_saver.save_game();
     board.set_start_position();
     master_book.on_new_game();
 }
@@ -175,3 +177,9 @@ void CCommandInterface::takeback() {
     board.move_maker.takeback();
 }
 
+void CCommandInterface::on_exit() {
+    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = true;
+    // Potential race condition here.
+    // If we quit in the middle of a calculation, the lasz engine-move will not be saved, most probably
+    board.game_saver.save_game();
+}
