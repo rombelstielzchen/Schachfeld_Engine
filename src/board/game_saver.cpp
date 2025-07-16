@@ -11,7 +11,6 @@ CGameSaver::CGameSaver() {
 }
 
 CGameSaver::~CGameSaver() {
-    save_game();
 }
 
 void CGameSaver::save_game() {

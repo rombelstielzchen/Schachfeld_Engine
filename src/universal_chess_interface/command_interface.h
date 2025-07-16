@@ -16,6 +16,7 @@ class CCommandInterface {
     CCommandInterface();
   public:
     void new_game();
+    void on_exit();
     bool set_position(const std::string &fen_position);
     void stop();
   public:
