@@ -8,12 +8,6 @@
 #include "move_maker.h"
 #include "../universal_chess_interface/uci_protocol.h"
 
-CGameSaver::CGameSaver() {
-}
-
-CGameSaver::~CGameSaver() {
-}
-
 void CGameSaver::save_game() {
     if (open_pgn_file()) {
         append_pgn_header();
@@ -21,7 +15,7 @@ void CGameSaver::save_game() {
         append_line_of_text("");
         close_pgn_file();
     } else {
-        CUciProtocol::send_error("Inable to open PGN-file for writing");
+        CUciProtocol::send_error("Unable to open PGN-file for writing");
     }
 }
 
@@ -39,32 +33,34 @@ void CGameSaver::close_pgn_file() {
 
 void CGameSaver::append_pgn_header() {
     // Mandatory PGN-tags, most info not known
-    append_pgn_tag("Event", "FIDE Waldmeisterschaft of Universe");
+    append_pgn_tag("Event", "FIDE Waldmeisterschaft of the Universe");
     append_pgn_tag("Site", "Milkyway");
     append_pgn_tag("Date", "TODO");
     append_pgn_tag("Round", "?");
     append_pgn_tag("White", "White");
     append_pgn_tag("Black", "Black");
     append_pgn_tag("Result", "*");
-    // TODO: FEN, if game was not fom startpos
+    // TODO: FEN, if game was not from startpos
 }
 
 void CGameSaver::append_moves() {
-    std::cout << board.move_maker.moves_from_initial_position() << "\n";
+    append_line_of_text(board.move_maker.moves_from_initial_position());
 }
 
 void CGameSaver::append_line_of_text(const std::string &text) {
     assert(pgn_file != nullptr);
     int total_length = text.length() + 1;
-    std::fwrite(text.c_str(), total_length, 1, pgn_file);
-    std::fwrite("\n", 2, 1, pgn_file);
+    constexpr int once = 1;
+    std::fwrite(text.c_str(), total_length, once, pgn_file);
+    total_length = 1 + 1;
+    std::fwrite("\n", total_length, once, pgn_file);
 }
 
 std::string CGameSaver::pgn_filename() {
     return "schachfeld_games.pgn";
 }
 
-void CGameSaver::append_pgn_tag(const std::string &name, const std::string value) {
+void CGameSaver::append_pgn_tag(const std::string &name, const std::string &value) {
     std::string full_line = std::string("[") + name + " \"" + value + "\"]";
     append_line_of_text(full_line);
 }
