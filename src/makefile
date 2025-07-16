@@ -252,7 +252,7 @@ stats:
 	@echo -n "Unit-tests:      "
 	@cat */*test*.cpp */*test*.h | wc -l
 	@echo -n "UCI-test:         "
-	@cat ../test/*.pl ../test/*.sh | wc -l
+	@cat ../test/*.pl | wc -l
 	@echo -n "Assertions:       "
 	@cat *.cpp */*.cpp */*.h */*/*.cpp */*/*.h */*/*/*.cpp | grep -s assert | wc -l
 	@echo -n "LOC tools:        "
