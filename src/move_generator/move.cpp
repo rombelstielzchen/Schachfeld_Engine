@@ -99,6 +99,12 @@ bool is_any_piece(char square_or_move_type) {
     }
 }
 
+bool is_any_officer(char square_or_move_type) {
+    return (is_any_piece(square_or_move_type)
+        && (square_or_move_type != WHITE_POWER)
+        && (square_or_move_type != BLACK_POWER));
+}
+
 char file_as_text(const int file) {
     assert(file_in_range(file));
     switch (file) {

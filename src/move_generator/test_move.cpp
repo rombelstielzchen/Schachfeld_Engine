@@ -12,6 +12,7 @@
 bool CTestMove::test_everything() {
     BEGIN_TESTSUITE("CTestMove");
     EXPECT(test_text_to_basic_move());
+    EXPECT(test_evaluators());
     EXPECT(test_reversed_move());
     return true;
 }
@@ -38,6 +39,18 @@ bool CTestMove::test_reversed_move() {
     EXPECT(is_reversed_move(g5f3, f3g5) == true);
     EXPECT(is_reversed_move(f3xg5, g5f3) == false);
     EXPECT(is_reversed_move(f3g5, e2e4) == false);
+    return true;
+}
+
+bool CTestMove::test_evaluators() {
+    EXPECT(is_any_piece(WHITE_KNIGHT));
+    EXPECT(is_any_piece(WHITE_POWER));
+    EXPECT(is_any_piece(BLACK_POWER));
+    EXPECT(is_any_piece(EMPTY_SQUARE) == false);
+    EXPECT(is_any_piece(GARDEN_FENCE) == false);
+    EXPECT(is_any_officer(WHITE_KNIGHT));
+    EXPECT(is_any_officer(WHITE_POWER) == false);
+    EXPECT(is_any_officer(BLACK_POWER) == false);
     return true;
 }
 
