@@ -1,6 +1,10 @@
 Major Changes
 =============
 
+Version 0.h
+-----------
+* automatically saving games to *"schachfeld_games.pgn"*
+
 Version 0.g
 -----------
 * An oracle / preprocessor that analyses the position at the start of the search
