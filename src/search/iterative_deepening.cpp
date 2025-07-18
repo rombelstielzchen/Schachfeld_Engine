@@ -148,7 +148,7 @@ SMove CIterativeDeepening::search_time(
         total_time_ms = black_time_milliseconds + moves_to_go * black_increment_milliseconds;
     }
     assert(total_time_ms > 0);
-    int estimated_moves_to_go = (moves_to_go > 0) ? moves_to_go : 30;
+    int64_t estimated_moves_to_go = (moves_to_go > 0) ? moves_to_go : 30;
     constexpr int time_trouble_reserve = 1;
     estimated_moves_to_go += time_trouble_reserve;
     int64_t time_for_next_move_ms = total_time_ms / estimated_moves_to_go;

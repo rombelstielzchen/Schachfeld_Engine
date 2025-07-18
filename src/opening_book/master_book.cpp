@@ -10,9 +10,9 @@
 #include "../technical_functions/string_functions.h"
 
 // Probabilities for randomizing "solid_mix"
-constexpr float probability_tabijas = 0.80;
-constexpr float probability_wonder_weapons = 0.00;
-constexpr float remaining_probability_broad_GM = 1.00 - probability_tabijas - probability_wonder_weapons;
+constexpr double probability_tabijas = 0.80;
+constexpr double probability_wonder_weapons = 0.00;
+constexpr double remaining_probability_broad_GM = 1.00 - probability_tabijas - probability_wonder_weapons;
 static_assert(remaining_probability_broad_GM >= 0.00);
 
 const std::string NO_MOVES_FROM_STARTPOS = "NO_MOVES_FROM_STARTPOS";
@@ -77,7 +77,7 @@ void CMasterBook::randomize_book_for_this_game() {
         boook_option_for_this_game = boook_option;
         return;
     }
-    float random_0_1 = float(rand()) / RAND_MAX;
+    double random_0_1 = double(rand()) / RAND_MAX;
     assert(random_0_1 >= 0.0);
     assert(random_0_1 <= 1.0);
     if (random_0_1 < probability_tabijas) {
