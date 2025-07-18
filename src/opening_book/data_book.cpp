@@ -53,8 +53,10 @@ size_t CDataBook::first_matching_index(const TSortedVariationCollection &book, c
 }
 
 size_t CDataBook::last_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const {
-    size_t last_element = book.size() - 1;
-    // HERE: conversion size_t -> int
+    assert(book.size() >= 1);
+    size_t last_element_size_t = book.size() - 1;
+    assert(last_element_size_t <= INT_MAX);
+    int last_element = static_cast<int>(last_element_size_t);
     for (int j = last_element; j >= 0; --j) {
          if (is_prefix_of(moves_from_startpos_in_uci_format, book[j], true)) {
             return j;
@@ -77,7 +79,7 @@ size_t CDataBook::random_matching_index(const TSortedVariationCollection &book, 
     // always returning 41 (rhe 42th positive number!).
     // So we go for an overkill random-number-generator.
     std::random_device random_seed;
-    //HERE: argument size_t -> _Ty
+    //TODO:warning  argument size_t -> _Ty
     std::mt19937 mersenne_twister(random_seed());
     std::uniform_int_distribution<> int_distribution(first_index, last_index);
     size_t random_index = int_distribution(mersenne_twister);
