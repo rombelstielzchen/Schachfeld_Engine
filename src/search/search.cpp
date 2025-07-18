@@ -102,12 +102,11 @@ int CSearch::quiescence_negamax(int remaining_depth, int distance_to_root, int a
         // TODO: needed? Alredy handled or needed to prevent situations with 2 captured kings?
         return best_score;
     }
-    bool side_to_move = board.get_side_to_move(); // needed?
-    CMoveGenerator move_generator;
 //        if (white_score_way_too_good(best_score, alpha_beta_window)) {
     if (best_score >= beta) {
         return best_score;
     }
+    CMoveGenerator move_generator;
     move_generator.generate_captures();
     int n_moves = move_generator.move_list.list_size();
     for (int j = 0; j < n_moves; ++j) {
