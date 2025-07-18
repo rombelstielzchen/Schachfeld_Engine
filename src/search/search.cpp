@@ -21,20 +21,33 @@ int CSearch::alpha_beta_minimax(int remaining_depth, int distance_to_root, SAlph
     assert(remaining_depth >= 0);
     assert(distance_to_root > 0);
     assert(is_valid_alpha_beta_window(alpha_beta_window)); 
+    if (board.get_side_to_move() == WHITE_PLAYER) {
+        int score = alpha_beta_negamax(remaining_depth, distance_to_root, alpha_beta_window.alpha, alpha_beta_window.beta);
+        return score;
+    }
+    assert(board.get_side_to_move() == BLACK_PLAYER);
+    int score = alpha_beta_negamax(remaining_depth, distance_to_root, -alpha_beta_window.beta, -alpha_beta_window.alpha);
+    return -score;
+}
+
+int CSearch::alpha_beta_negamax(int remaining_depth, int distance_to_root, int alpha, int beta) {
+    assert(remaining_depth >= 0);
+    assert(distance_to_root > 0);
+    assert(alpha <= beta);
     // TODO: Revisit this, related to stalemate-detection
     if (remaining_depth <= 0) {
-        return quiescence_minimax(QUIESCENCE_DEPTH, distance_to_root, alpha_beta_window);
+        return -quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root, alpha, beta);
     }
-    int best_score = board.evaluator.evaluate();
+    int best_score = board.evaluator.nega_score();
     if (abs(best_score) > HALF_KING) {
         return best_score;
     }
-    bool side_to_move = board.get_side_to_move();
-    best_score = (side_to_move == WHITE_PLAYER) ? WHITE_MIN_SCORE : BLACK_MIN_SCORE;
+    best_score = WHITE_MIN_SCORE;
     CMoveGenerator move_generator;
     move_generator.generate_all();
     // TODO: replace bad stalemate-logic below
     if ((distance_to_root == 1) && no_legal_moves()) {
+        bool side_to_move = board.get_side_to_move();
         if (CBoardLogic::piece_attacked_by_side_not_to_move(CBoardLogic::king_square(side_to_move)) == false) {
             return SCORE_DRAW;
         } else {
@@ -55,28 +68,20 @@ int CSearch::alpha_beta_minimax(int remaining_depth, int distance_to_root, SAlph
                 constexpr int score_does_not_matter_wont_get_used = 314159;
                 return score_does_not_matter_wont_get_used;
             }
-            assert(is_valid_alpha_beta_window(alpha_beta_window)); 
-            candidate_score = alpha_beta_minimax(remaining_depth - 1, distance_to_root + 1, alpha_beta_window);
+            assert(alpha > beta); 
+            candidate_score = -alpha_beta_negamax(remaining_depth - 1, distance_to_root + 1, -beta, -alpha);
         } else {
-            candidate_score = quiescence_minimax(QUIESCENCE_DEPTH, distance_to_root + 1, alpha_beta_window);
+            candidate_score = -quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root + 1, -beta, -alpha);
         }
         board.move_maker.unmake_move();
-        if ((side_to_move == WHITE_PLAYER) && (candidate_score > best_score)) {
-            if (white_score_way_too_good(candidate_score, alpha_beta_window)) {
+        if (candidate_score > best_score) {
+            if (candidate_score >= beta) {
                 search_statistics.add_nodes(j + 1);
                 killer_heuristic.store_killer(distance_to_root, move_candidate);
-                return alpha_beta_window.beta;
+                return beta;
             }
             best_score = candidate_score;
-            alpha_beta_window.alpha = std::max(alpha_beta_window.alpha, best_score);
-        } else if ((side_to_move == BLACK_PLAYER) && (candidate_score < best_score)) {
-            if (black_score_way_too_good(candidate_score, alpha_beta_window)) {
-                search_statistics.add_nodes(j + 1);
-                killer_heuristic.store_killer(distance_to_root,move_candidate);
-                return alpha_beta_window.alpha;
-            }
-            best_score = candidate_score;
-            alpha_beta_window.beta = std::min(alpha_beta_window.beta, best_score);
+            alpha = std::max(alpha, best_score);
         }
     }
     search_statistics.add_nodes(n_moves);
