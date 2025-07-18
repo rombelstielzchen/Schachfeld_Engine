@@ -17,7 +17,7 @@ inline int CSearch::losing_score(bool losing_side) {
     return (losing_side == WHITE_PLAYER) ? SCORE_BLACK_WIN : SCORE_WHITE_WIN;
 }
 
-int CSearch::alpha_beta(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window) {
+int CSearch::alpha_beta_minimax(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window) {
     assert(remaining_depth >= 0);
     assert(distance_to_root > 0);
     assert(is_valid_alpha_beta_window(alpha_beta_window)); 
@@ -56,7 +56,7 @@ int CSearch::alpha_beta(int remaining_depth, int distance_to_root, SAlphaBetaWin
                 return score_does_not_matter_wont_get_used;
             }
             assert(is_valid_alpha_beta_window(alpha_beta_window)); 
-            candidate_score = alpha_beta(remaining_depth - 1, distance_to_root + 1, alpha_beta_window);
+            candidate_score = alpha_beta_minimax(remaining_depth - 1, distance_to_root + 1, alpha_beta_window);
         } else {
             candidate_score = quiescence_minimax(QUIESCENCE_DEPTH, distance_to_root + 1, alpha_beta_window);
         }

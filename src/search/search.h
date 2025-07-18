@@ -42,7 +42,7 @@ static_assert(is_valid_alpha_beta_window(INFINITE_ALPHA_BETA_WINDOW));
 class CSearch {
     friend class CTestSearch;
   public:
-    int alpha_beta(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window);
+    int alpha_beta_minimax(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window);
   private:
     // Minimax interface-functions. 
     // Used for the transition to negamax, still used for testing
