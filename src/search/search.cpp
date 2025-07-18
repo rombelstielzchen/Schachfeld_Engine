@@ -23,7 +23,7 @@ int CSearch::alpha_beta(int remaining_depth, int distance_to_root, SAlphaBetaWin
     assert(is_valid_alpha_beta_window(alpha_beta_window)); 
     // TODO: Revisit this, related to stalemate-detection
     if (remaining_depth <= 0) {
-        return quiescence(QUIESCENCE_DEPTH, distance_to_root, alpha_beta_window);
+        return quiescence_minimax(QUIESCENCE_DEPTH, distance_to_root, alpha_beta_window);
     }
     int best_score = board.evaluator.evaluate();
     if (abs(best_score) > HALF_KING) {
@@ -58,7 +58,7 @@ int CSearch::alpha_beta(int remaining_depth, int distance_to_root, SAlphaBetaWin
             assert(is_valid_alpha_beta_window(alpha_beta_window)); 
             candidate_score = alpha_beta(remaining_depth - 1, distance_to_root + 1, alpha_beta_window);
         } else {
-            candidate_score = quiescence(QUIESCENCE_DEPTH, distance_to_root + 1, alpha_beta_window);
+            candidate_score = quiescence_minimax(QUIESCENCE_DEPTH, distance_to_root + 1, alpha_beta_window);
         }
         board.move_maker.unmake_move();
         if ((side_to_move == WHITE_PLAYER) && (candidate_score > best_score)) {
@@ -83,7 +83,7 @@ int CSearch::alpha_beta(int remaining_depth, int distance_to_root, SAlphaBetaWin
     return best_score;
 }
 
-int CSearch::quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window) {
+int CSearch::quiescence_minimax(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window) {
     assert(remaining_depth > 0);
     assert(distance_to_root > 0);
     assert(is_valid_alpha_beta_window(alpha_beta_window));
@@ -116,7 +116,7 @@ int CSearch::quiescence(int remaining_depth, int distance_to_root, SAlphaBetaWin
         int candidate_score;
         // TODO: > 0?
         if (remaining_depth > 1) {
-            candidate_score = quiescence(remaining_depth - 1, distance_to_root + 1, alpha_beta_window);
+            candidate_score = quiescence_minimax(remaining_depth - 1, distance_to_root + 1, alpha_beta_window);
         } else {
             candidate_score = static_exchange_evaluation_minimax(move_candidate.target, alpha_beta_window);            
         }
