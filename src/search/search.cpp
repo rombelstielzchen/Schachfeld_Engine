@@ -36,7 +36,8 @@ int CSearch::alpha_beta_negamax(int remaining_depth, int distance_to_root, int a
     assert(alpha <= beta);
     // TODO: Revisit this, related to stalemate-detection
     if (remaining_depth <= 0) {
-        return -quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root, alpha, beta);
+        // No negamax-negation here. We did not yet make a move; still same side to act
+        return quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root, alpha, beta);
     }
     int best_score = board.evaluator.nega_score();
     if (abs(best_score) > HALF_KING) {
@@ -68,7 +69,7 @@ int CSearch::alpha_beta_negamax(int remaining_depth, int distance_to_root, int a
                 constexpr int score_does_not_matter_wont_get_used = 314159;
                 return score_does_not_matter_wont_get_used;
             }
-            assert(alpha > beta); 
+            assert(alpha <= beta); 
             candidate_score = -alpha_beta_negamax(remaining_depth - 1, distance_to_root + 1, -beta, -alpha);
         } else {
             candidate_score = -quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root + 1, -beta, -alpha);
