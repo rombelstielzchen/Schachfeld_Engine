@@ -26,6 +26,9 @@ SMove CIterativeDeepening::search(int depth) {
     if (only_one_legal_move() && (depth < INFINITE_DEPTH)) {
         return only_move();
     }
+    if (move_generator.move_list.list_size() == 0) {
+        return NULL_MOVE;
+    }
     std::string root_position = board.get_fen_position();
     for (int current_depth = minimum_search_depth; current_depth <= depth; ++current_depth) {
         if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
