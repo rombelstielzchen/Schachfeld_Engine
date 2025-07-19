@@ -54,7 +54,7 @@ class CSearch {
     int static_exchange_evaluation_negamax(const SSquare &target_square, int alpha, int beta);
     inline bool white_score_way_too_good(const int score, const SAlphaBetaWindow alpha_beta_window) const;
     inline bool black_score_way_too_good(const int score, const SAlphaBetaWindow alpha_beta_window) const;
-    inline int losing_score(bool losing_side);
+    inline int losing_score_minimax(bool losing_side);
     bool no_legal_moves();
   private:
     uint64_t nodes_calculated;
