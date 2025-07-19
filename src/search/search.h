@@ -42,19 +42,22 @@ static_assert(is_valid_alpha_beta_window(INFINITE_ALPHA_BETA_WINDOW));
 class CSearch {
     friend class CTestSearch;
   public:
-    int alpha_beta(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window);
-  private:
-    // Minimax interface-functions. 
-    // Used for the transition to negamax, still used for testing
-    int quiescence_minimax(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window);
-    int static_exchange_evaluation_minimax(const SSquare &target_square, SAlphaBetaWindow alpha_beta_window);
+    int alpha_beta_negamax(int remaining_depth, int distance_to_root, int alpha, int beta);
   private:
     int quiescence_negamax(int remaining_depth, int distance_to_root, int alpha, int beta);
     int static_exchange_evaluation_negamax(const SSquare &target_square, int alpha, int beta);
+  private:
     inline bool white_score_way_too_good(const int score, const SAlphaBetaWindow alpha_beta_window) const;
     inline bool black_score_way_too_good(const int score, const SAlphaBetaWindow alpha_beta_window) const;
-    inline int losing_score(bool losing_side);
     bool no_legal_moves();
+  private:
+    // Minimax interface-functions. 
+    // Used for the transition to negamax, still used for testing
+  public: // TODO: remove
+    int alpha_beta_minimax(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window);
+    int quiescence_minimax(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window);
+    int static_exchange_evaluation_minimax(const SSquare &target_square, SAlphaBetaWindow alpha_beta_window);
+    inline int losing_score_minimax(bool losing_side);
   private:
     uint64_t nodes_calculated;
 };

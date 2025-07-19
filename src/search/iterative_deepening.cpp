@@ -66,7 +66,7 @@ void CIterativeDeepening::root_node_search(int depth) {
         board.move_maker.make_move(move_candidate);
         constexpr int distance_to_first_children = 1;
         assert(is_valid_alpha_beta_window(alpha_beta_window));
-        int candidate_score = search.alpha_beta(depth - 1, distance_to_first_children, alpha_beta_window); 
+        int candidate_score = search.alpha_beta_minimax(depth - 1, distance_to_first_children, alpha_beta_window); 
         if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
             // Break HERE. Do not update bestmove based on potentially crappy data
             board.move_maker.unmake_move();
