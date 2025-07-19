@@ -28,4 +28,5 @@ class CTestSearch {
       static bool test_no_legal_moves();
       static bool test_position(const STestcaseSearch &testcase);
       static bool test_static_exchange_evaluation();
+      static bool test_early_exit();
 };
