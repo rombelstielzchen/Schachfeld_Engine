@@ -5,9 +5,9 @@
 #include "search.h"
 #include "killer_heuristics.h"
 #include "search_statistics.h"
+#include "../board/board_logic.h"
 #include "../evaluator/evaluator.h"
 #include "../move_generator/move_generator.h"
-#include "../board/board_logic.h"
 #include "../universal_chess_interface/command_interface.h"
 
 constexpr int HALF_KING = 10000;
@@ -24,7 +24,7 @@ int CSearch::alpha_beta_negamax(int remaining_depth, int distance_to_root, int a
     }
     int best_score = board.evaluator.nega_score();
     if (abs(best_score) > HALF_KING) {
-        //  TODO: cn this happen?
+        //  TODO: can this happen?
         return best_score;
     }
     best_score = WHITE_MIN_SCORE;
@@ -62,7 +62,7 @@ int CSearch::alpha_beta_negamax(int remaining_depth, int distance_to_root, int a
         }
         board.move_maker.unmake_move();
         if (candidate_score > best_score) {
-            if (candidate_score >= beta) {
+            if (score_causes_beta_cutoff(candidate_score, beta)) {
                 search_statistics.add_nodes(j + 1);
                 killer_heuristic.store_killer(distance_to_root, move_candidate);
                 return beta;
@@ -84,8 +84,7 @@ int CSearch::quiescence_negamax(int remaining_depth, int distance_to_root, int a
         // TODO: needed? Alredy handled or needed to prevent situations with 2 captured kings?
         return best_score;
     }
-//        if (white_score_way_too_good(best_score, alpha_beta_window)) {
-    if (best_score >= beta) {
+    if (score_causes_beta_cutoff(best_score, beta)) {
         return best_score;
     }
     CMoveGenerator move_generator;
@@ -107,8 +106,7 @@ int CSearch::quiescence_negamax(int remaining_depth, int distance_to_root, int a
         }
         board.move_maker.unmake_move();
         if (candidate_score > best_score) {
-//            if (white_score_way_too_good(candidate_score, alpha_beta_window)) {
-            if (candidate_score >= beta) {
+            if (score_causes_beta_cutoff(candidate_score, beta)) {
                 search_statistics.add_nodes(j + 1);
                 return beta;
             }
@@ -125,8 +123,7 @@ int CSearch::static_exchange_evaluation_negamax(const SSquare &target_square, in
     assert(square_in_range(target_square));
     assert(alpha <= beta);
     int score = board.evaluator.nega_score(); 
-//    if (white_score_way_too_good(score, alpha_beta_window)) {
-    if (score >= beta) {
+    if (score_causes_beta_cutoff(score, beta)) {
         return -beta;
     }
     CMoveGenerator move_generator;
@@ -187,15 +184,5 @@ int CSearch::static_exchange_evaluation_minimax(const SSquare &target_square, co
     assert(board.get_side_to_move() == BLACK_PLAYER);
     int score = static_exchange_evaluation_negamax(target_square, -alpha_beta_window.beta, -alpha_beta_window.alpha);
     return -score;
-}
-
-inline bool CSearch::white_score_way_too_good(const int score, const SAlphaBetaWindow alpha_beta_window) const {
-    assert(is_valid_alpha_beta_window(alpha_beta_window)); 
-    return (score >= alpha_beta_window.beta);
-}
-
-inline bool CSearch::black_score_way_too_good(const int score, const  SAlphaBetaWindow alpha_beta_window) const {
-    assert(is_valid_alpha_beta_window(alpha_beta_window)); 
-    return (score <= alpha_beta_window.alpha);
 }
 
