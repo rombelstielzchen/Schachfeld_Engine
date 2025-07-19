@@ -146,17 +146,17 @@ bool CTestSearch::test_early_exit() {
     TEST_FUNCTION();
     CTEST << "Testing some trivial positions for early exiti.\n";
     CTEST << "If we get stuck, something went wrong.\n";
-    CIterativeDeepening searcher;
+    CIterativeDeepening searcher, searcher2;
     constexpr int really_deep = 666;
     std::string no_legal_moves = "k/2QK b";
-    SILENT_EXPECT(board.set_fen_position(no_legal_moves));
+    EXPECT(board.set_fen_position(no_legal_moves));
     EXPECT(searcher.search(really_deep) == NULL_MOVE);
     std::string only_one_legal_move = "k/3QK b";
-    SILENT_EXPECT(board.set_fen_position(only_one_legal_move));
+    EXPECT(board.set_fen_position(only_one_legal_move));
     EXPECT(searcher.search(really_deep) == "a8b8");
     std::string mate_in_one = "k/3R/K w";
-    SILENT_EXPECT(board.set_fen_position(mate_in_one));
-    EXPECT(searcher.search(really_deep) == "d7d8");
+    EXPECT(board.set_fen_position(mate_in_one));
+    EXPECT(searcher2.search(really_deep) == "d7d8");
     return true;
 }
 
