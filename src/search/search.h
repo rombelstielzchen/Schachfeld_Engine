@@ -57,7 +57,6 @@ class CSearch {
     int alpha_beta_minimax(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window);
     int quiescence_minimax(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window);
     int static_exchange_evaluation_minimax(const SSquare &target_square, SAlphaBetaWindow alpha_beta_window);
-    inline int losing_score_minimax(bool losing_side);
   private:
     uint64_t nodes_calculated;
 };

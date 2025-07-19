@@ -154,10 +154,6 @@ bool CSearch::no_legal_moves() {
 
 //### Old minimax funczions, still used for testing ########
 
-inline int CSearch::losing_score_minimax(bool losing_side) {
-    return (losing_side == WHITE_PLAYER) ? SCORE_BLACK_WIN : SCORE_WHITE_WIN;
-}
-
 int CSearch::alpha_beta_minimax(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window) {
     assert(remaining_depth >= 0);
     assert(distance_to_root > 0);
