@@ -40,9 +40,8 @@ int CSearch::alpha_beta_negamax(int remaining_depth, int distance_to_root, int a
         return quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root, alpha, beta);
     }
     int best_score = board.evaluator.nega_score();
-    std::cerr << "score " << best_score << "\n";
     if (abs(best_score) > HALF_KING) {
-        std::cerr << "mate: " << best_score << "\n";
+        //  TODO: cn this happen?
         return best_score;
     }
     best_score = WHITE_MIN_SCORE;
@@ -50,15 +49,12 @@ int CSearch::alpha_beta_negamax(int remaining_depth, int distance_to_root, int a
     move_generator.generate_all();
     // TODO: replace bad stalemate-logic below
     if ((distance_to_root == 1) && no_legal_moves()) {
-            std::cerr << "no legal moves\n";
         bool side_to_move = board.get_side_to_move();
         if (CBoardLogic::piece_attacked_by_side_not_to_move(CBoardLogic::king_square(side_to_move)) == false) {
-                std::cerr << "draw\n1";
             return SCORE_DRAW;
         } else {
-                std::cerr << "loss\n";
-///            return losing_score(side_to_move);
-          return -2 * HALF_KING;            
+          constexpr side_to_move_loses = BLACK_MIN_SCORE;
+          return side_to_move_loses;
         }
     }
     // TODO: replace bad stalemate-logic above
