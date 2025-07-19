@@ -41,6 +41,7 @@ int CSearch::alpha_beta_negamax(int remaining_depth, int distance_to_root, int a
     }
     int best_score = board.evaluator.nega_score();
     if (abs(best_score) > HALF_KING) {
+        std::cerr << "mate: " << best_score << "\n";
         return best_score;
     }
     best_score = WHITE_MIN_SCORE;
