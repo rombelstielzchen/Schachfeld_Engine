@@ -53,6 +53,7 @@ class CSearch {
   private:
     // Minimax interface-functions. 
     // Used for the transition to negamax, still used for testing
+  public: // TODO: remove
     int alpha_beta_minimax(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window);
     int quiescence_minimax(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window);
     int static_exchange_evaluation_minimax(const SSquare &target_square, SAlphaBetaWindow alpha_beta_window);
