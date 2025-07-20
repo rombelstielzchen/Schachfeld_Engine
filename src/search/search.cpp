@@ -13,7 +13,9 @@
 constexpr int HALF_KING = 10000;
 constexpr int QUIESCENCE_DEPTH = 31;
 
-int CSearch::alpha_beta_negamax(int remaining_depth, int distance_to_root, int alpha, int beta) {
+inline bool CSearch::score_causes_beta_cutoff(const int score, const int beta) const { return (score >= beta); }
+
+int CSearch::alpha_beta_negamax(const int remaining_depth, const int distance_to_root, int alpha, const int beta) {
     assert(remaining_depth >= 0);
     assert(distance_to_root > 0);
     assert(alpha <= beta);
@@ -75,7 +77,7 @@ int CSearch::alpha_beta_negamax(int remaining_depth, int distance_to_root, int a
     return best_score;
 }
 
-int CSearch::quiescence_negamax(int remaining_depth, int distance_to_root, int alpha, int beta) {
+int CSearch::quiescence_negamax(const int remaining_depth, const int distance_to_root, int alpha, const int beta) {
     assert(remaining_depth > 0);
     assert(distance_to_root > 0);
     assert(alpha <= beta);
@@ -119,13 +121,14 @@ int CSearch::quiescence_negamax(int remaining_depth, int distance_to_root, int a
     return best_score;
 }
 
-int CSearch::static_exchange_evaluation_negamax(const SSquare &target_square, int alpha, int beta) {
+int CSearch::static_exchange_evaluation_negamax(const SSquare &target_square, int alpha, const int beta) {
     assert(square_in_range(target_square));
     assert(alpha <= beta);
     int score = board.evaluator.nega_score(); 
     if (score_causes_beta_cutoff(score, beta)) {
         return -beta;
     }
+    // TODO: can score raise alpha or would this have caused a beta-cutoff earlier?
     CMoveGenerator move_generator;
     move_generator.generate_recaptures(target_square);
     SMove recapture = move_generator.move_list.get_least_valuable_aggressor();
@@ -142,7 +145,7 @@ int CSearch::static_exchange_evaluation_negamax(const SSquare &target_square, in
     return score;
 }
 
-bool CSearch::no_legal_moves() {
+bool CSearch::no_legal_moves() const {
     CMoveGenerator move_generator;
     move_generator.generate_all();
         move_generator.move_list.prune_illegal_moves();
