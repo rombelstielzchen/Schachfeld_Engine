@@ -55,21 +55,21 @@ void CIterativeDeepening::root_node_search(int depth) {
     assert(is_valid_alpha_beta_window(alpha_beta_window));
     int best_score = WHITE_MIN_SCORE;
     move_generator.move_list.reuse_list();
-    int n_moves = move_generator.move_list.list_size();
+    int const n_moves = move_generator.move_list.list_size();
     assert(n_moves >= 0);
     constexpr int uci_first_movenumber = 1;
     for (int j = uci_first_movenumber; j <= n_moves; ++j) {
         // No alpha-beta-cutoffs here. Top-level search has to examine all moves,
         // but feed the recursive search with the current alpha-beta values.
         search_statistics.on_new_move();
-        SMove move_candidate = move_generator.move_list.get_next();
+        SMove const move_candidate = move_generator.move_list.get_next();
         assert(move_candidate != NULL_MOVE);
         assert(move_in_range(move_candidate));
         board.move_maker.make_move(move_candidate);
         constexpr int distance_to_first_children = 1;
         assert(is_valid_alpha_beta_window(alpha_beta_window));
         // Caareful here, once the window becoms asammetric
-        int candidate_score = -search.alpha_beta_negamax(depth - 1, distance_to_first_children, -alpha_beta_window.beta, -alpha_beta_window.alpha); 
+        int const candidate_score = -search.alpha_beta_negamax(depth - 1, distance_to_first_children, -alpha_beta_window.beta, -alpha_beta_window.alpha); 
         if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
             // Break HERE. Do not update bestmove based on potentially crappy data
             board.move_maker.unmake_move();

@@ -13,13 +13,13 @@
 constexpr int HALF_KING = 10000;
 constexpr int QUIESCENCE_DEPTH = 31;
 
-inline bool CSearch::score_causes_beta_cutoff(const int score, const int beta) const { return (score >= beta); }
+inline bool CSearch::score_causes_beta_cutoff(int const score, int const beta) const { return (score >= beta); }
 
-inline bool CSearch::one_king_missing(const int score) const {
+inline bool CSearch::one_king_missing(int const score) const {
     return (score >= abs(HALF_KING));
 }
 
-int CSearch::alpha_beta_negamax(const int remaining_depth, const int distance_to_root, int alpha, const int beta) {
+int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to_root, int alpha, int const beta) {
     assert(remaining_depth >= 0);
     assert(distance_to_root > 0);
     assert(alpha <= beta);
@@ -46,8 +46,7 @@ int CSearch::alpha_beta_negamax(const int remaining_depth, const int distance_to
           return WHITE_MIN_SCORE;
         }
     }
-    // TODO: replace bad stalemate-logic above
-    int n_moves = move_generator.move_list.list_size();
+    int const n_moves = move_generator.move_list.list_size();
     for (int j = 0; j < n_moves; ++j) {
         SMove move_candidate = move_generator.move_list.get_next__capture_killer_silent(distance_to_root);
         assert(is_null_move(move_candidate) == false);
@@ -80,7 +79,7 @@ int CSearch::alpha_beta_negamax(const int remaining_depth, const int distance_to
     return best_score;
 }
 
-int CSearch::quiescence_negamax(const int remaining_depth, const int distance_to_root, int alpha, const int beta) {
+int CSearch::quiescence_negamax(int const remaining_depth, int const distance_to_root, int alpha, int const beta) {
     assert(remaining_depth > 0);
     assert(distance_to_root > 0);
     assert(alpha <= beta);
@@ -93,7 +92,7 @@ int CSearch::quiescence_negamax(const int remaining_depth, const int distance_to
     }
     CMoveGenerator move_generator;
     move_generator.generate_captures();
-    int n_moves = move_generator.move_list.list_size();
+    int const n_moves = move_generator.move_list.list_size();
     for (int j = 0; j < n_moves; ++j) {
         SMove move_candidate = move_generator.move_list.get_next__best_capture();
         assert(is_null_move(move_candidate) == false);
@@ -123,10 +122,10 @@ int CSearch::quiescence_negamax(const int remaining_depth, const int distance_to
     return best_score;
 }
 
-int CSearch::static_exchange_evaluation_negamax(const SSquare &target_square, int alpha, const int beta) {
+int CSearch::static_exchange_evaluation_negamax(const SSquare &target_square, int alpha, int const beta) {
     assert(square_in_range(target_square));
     assert(alpha <= beta);
-    int initial_score = board.evaluator.nega_score(); 
+    int const initial_score = board.evaluator.nega_score(); 
     if (score_causes_beta_cutoff(initial_score, beta)) {
         return -beta;
     }
@@ -142,9 +141,9 @@ int CSearch::static_exchange_evaluation_negamax(const SSquare &target_square, in
     board.move_maker.make_move(recapture);
     search_statistics.add_nodes(1);
     // Recursion guaranteed to terminate, as recaptures are limited
-    int score_after_icapture = -static_exchange_evaluation_negamax(target_square, -beta, -alpha);
+    int const score_after_icapture = -static_exchange_evaluation_negamax(target_square, -beta, -alpha);
     board.move_maker.unmake_move();
-   int final_Score = std::max(initial_score, score_after_icapture);
+   int const final_Score = std::max(initial_score, score_after_icapture);
     return final_Score;
 }
 
@@ -162,21 +161,21 @@ int CSearch::alpha_beta_minimax(int remaining_depth, int distance_to_root, SAlph
     assert(distance_to_root > 0);
     assert(is_valid_alpha_beta_window(alpha_beta_window)); 
     if (board.get_side_to_move() == WHITE_PLAYER) {
-        int score = alpha_beta_negamax(remaining_depth, distance_to_root, alpha_beta_window.alpha, alpha_beta_window.beta);
+        int const score = alpha_beta_negamax(remaining_depth, distance_to_root, alpha_beta_window.alpha, alpha_beta_window.beta);
         return score;
     }
     assert(board.get_side_to_move() == BLACK_PLAYER);
-    int score = alpha_beta_negamax(remaining_depth, distance_to_root, -alpha_beta_window.beta, -alpha_beta_window.alpha);
+    int const score = alpha_beta_negamax(remaining_depth, distance_to_root, -alpha_beta_window.beta, -alpha_beta_window.alpha);
     return -score;
 }
 
-int CSearch::quiescence_minimax(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window) {
+int CSearch::quiescence_minimax(int const remaining_depth, int const distance_to_root, SAlphaBetaWindow alpha_beta_window) {
     if (board.get_side_to_move() == WHITE_PLAYER) {
-        int score = quiescence_negamax(remaining_depth, distance_to_root, alpha_beta_window.alpha, alpha_beta_window.beta);
+        int const score = quiescence_negamax(remaining_depth, distance_to_root, alpha_beta_window.alpha, alpha_beta_window.beta);
         return score;
     }
     assert(board.get_side_to_move() == BLACK_PLAYER);
-    int score = quiescence_negamax(remaining_depth, distance_to_root, -alpha_beta_window.beta, -alpha_beta_window.alpha);
+    int const score = quiescence_negamax(remaining_depth, distance_to_root, -alpha_beta_window.beta, -alpha_beta_window.alpha);
     return -score;
 }
 
@@ -184,11 +183,11 @@ int CSearch::static_exchange_evaluation_minimax(const SSquare &target_square, co
     assert(square_in_range(target_square));
     assert(is_valid_alpha_beta_window(alpha_beta_window)); 
     if (board.get_side_to_move() == WHITE_PLAYER) {
-        int score = static_exchange_evaluation_negamax(target_square, alpha_beta_window.alpha, alpha_beta_window.beta);
+        int const score = static_exchange_evaluation_negamax(target_square, alpha_beta_window.alpha, alpha_beta_window.beta);
         return score;
     }
     assert(board.get_side_to_move() == BLACK_PLAYER);
-    int score = static_exchange_evaluation_negamax(target_square, -alpha_beta_window.beta, -alpha_beta_window.alpha);
+    int const score = static_exchange_evaluation_negamax(target_square, -alpha_beta_window.beta, -alpha_beta_window.alpha);
     return -score;
 }
 
