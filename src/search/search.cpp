@@ -15,6 +15,10 @@ constexpr int QUIESCENCE_DEPTH = 31;
 
 inline bool CSearch::score_causes_beta_cutoff(const int score, const int beta) const { return (score >= beta); }
 
+inline bool CSearch::one_king_missing(const int score) const {
+    return (score >= abs(HALF_KING));
+}
+
 int CSearch::alpha_beta_negamax(const int remaining_depth, const int distance_to_root, int alpha, const int beta) {
     assert(remaining_depth >= 0);
     assert(distance_to_root > 0);
@@ -22,10 +26,11 @@ int CSearch::alpha_beta_negamax(const int remaining_depth, const int distance_to
     // TODO: Revisit this, related to stalemate-detection
     if (remaining_depth <= 0) {
         // No negamax-negation here. We did not yet make a move; still same side to act
+        // TODO: can this even happen. as we check recursion-depth later too?
         return quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root, alpha, beta);
     }
     int best_score = board.evaluator.nega_score();
-    if (abs(best_score) > HALF_KING) {
+    if (one_king_missing(best_score)) {
         //  TODO: can this happen?
         return best_score;
     }
@@ -82,11 +87,12 @@ int CSearch::quiescence_negamax(const int remaining_depth, const int distance_to
     assert(distance_to_root > 0);
     assert(alpha <= beta);
     int best_score = board.evaluator.nega_score();
-    if (abs(best_score) > HALF_KING) {
+    if (one_king_missing(best_score)) {
         // TODO: needed? Alredy handled or needed to prevent situations with 2 captured kings?
         return best_score;
     }
     if (score_causes_beta_cutoff(best_score, beta)) {
+       // Again: can this happen?
         return best_score;
     }
     CMoveGenerator move_generator;
@@ -152,7 +158,7 @@ bool CSearch::no_legal_moves() const {
         return (move_generator.move_list.list_size() ==  0);
 }
 
-//### Old minimax funczions, still used for testing ########
+//### Old minimax functions, still used for testing ########
 
 int CSearch::alpha_beta_minimax(int remaining_depth, int distance_to_root, SAlphaBetaWindow alpha_beta_window) {
     assert(remaining_depth >= 0);

@@ -6,7 +6,6 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "iterative_deepening.h"
-#include"../move_generator/move.h"
 
 class CSearch {
     friend class CTestSearch;
@@ -17,6 +16,7 @@ class CSearch {
     int static_exchange_evaluation_negamax(const SSquare &target_square, int alpha, const int beta);
   private:
     bool score_causes_beta_cutoff(const int score, const int beta) const;
+    bool one_king_missing(const int score) const;
     bool no_legal_moves() const;
   private:
     // Minimax interface-functions. 
