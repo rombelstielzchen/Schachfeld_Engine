@@ -26,12 +26,10 @@ int CSearch::alpha_beta_negamax(const int remaining_depth, const int distance_to
     // TODO: Revisit this, related to stalemate-detection
     if (remaining_depth <= 0) {
         // No negamax-negation here. We did not yet make a move; still same side to act
-        // TODO: can this even happen. as we check recursion-depth later too?
         return quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root, alpha, beta);
     }
     int best_score = board.evaluator.nega_score();
     if (one_king_missing(best_score)) {
-        //  TODO: can this happen?
         return best_score;
     }
     best_score = WHITE_MIN_SCORE;
@@ -88,11 +86,9 @@ int CSearch::quiescence_negamax(const int remaining_depth, const int distance_to
     assert(alpha <= beta);
     int best_score = board.evaluator.nega_score();
     if (one_king_missing(best_score)) {
-        // TODO: needed? Alredy handled or needed to prevent situations with 2 captured kings?
         return best_score;
     }
     if (score_causes_beta_cutoff(best_score, beta)) {
-       // Again: can this happen?
         return best_score;
     }
     CMoveGenerator move_generator;
@@ -130,25 +126,26 @@ int CSearch::quiescence_negamax(const int remaining_depth, const int distance_to
 int CSearch::static_exchange_evaluation_negamax(const SSquare &target_square, int alpha, const int beta) {
     assert(square_in_range(target_square));
     assert(alpha <= beta);
-    int score = board.evaluator.nega_score(); 
-    if (score_causes_beta_cutoff(score, beta)) {
+    int initial_score = board.evaluator.nega_score(); 
+    if (score_causes_beta_cutoff(initial_score, beta)) {
         return -beta;
     }
-    // TODO: can score raise alpha or would this have caused a beta-cutoff earlier?
+    alpha = std::max(alpha, initial_score);
     CMoveGenerator move_generator;
     move_generator.generate_recaptures(target_square);
     SMove recapture = move_generator.move_list.get_least_valuable_aggressor();
     if (is_null_move(recapture)) {
-        return score;
+        return initial_score;
     }
     assert(move_in_range(recapture));
     assert(recapture.target == target_square);
     board.move_maker.make_move(recapture);
     search_statistics.add_nodes(1);
     // Recursion guaranteed to terminate, as recaptures are limited
-    score = -static_exchange_evaluation_negamax(target_square, -beta, -alpha);
+    int score_after_icapture = -static_exchange_evaluation_negamax(target_square, -beta, -alpha);
     board.move_maker.unmake_move();
-    return score;
+   int final_Score = std::max(initial_score, score_after_icapture);
+    return final_Score;
 }
 
 bool CSearch::no_legal_moves() const {
