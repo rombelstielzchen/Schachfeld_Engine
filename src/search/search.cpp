@@ -75,6 +75,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
             alpha = std::max(alpha, best_score);
         }
     }
+    assert(move_generator.move_list.get_next() == NULL_MOVE);
     search_statistics.add_nodes(n_moves);
     return best_score;
 }
@@ -118,6 +119,7 @@ int CSearch::quiescence_negamax(int const remaining_depth, int const distance_to
             alpha = std::max(alpha, best_score);
         }
     }
+    assert(is_any_capture(move_generator.move_list.get_next()) == false);
     search_statistics.add_nodes(n_moves);
     return best_score;
 }

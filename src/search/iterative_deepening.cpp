@@ -87,6 +87,7 @@ void CIterativeDeepening::root_node_search(int depth) {
         }
         board.move_maker.unmake_move();
     }
+    assert(move_generator.move_list.get_next() == NULL_MOVE);
     search_statistics.add_nodes(n_moves);
     CUciProtocol::send_info(move_generator.move_list.as_text());
     search_statistics.on_finished();
