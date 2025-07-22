@@ -107,6 +107,13 @@ bool CMoveList::unused_list() const {
 
 // TODO: here?
 bool CMoveList::king_capture_on_list() const {
+    // TODO: move to extra file
+    constexpr int HALF_KING = 10000;
+    for (unsigned int j = first_capture; j < LIST_ORIGIN; ++j) {
+        if (bidirectional_move_list[j].potential_gain > HALF_KING) {
+            return true;
+        }
+    }
     return false;
 }
 
