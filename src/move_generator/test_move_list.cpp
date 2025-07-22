@@ -198,6 +198,18 @@ bool CTestMoveList::test_move_lookup() {
 
 bool CTestMoveList::test_king_capture() {
     TEST_FUNCTION();
+    CMoveGenerator move_generator;
+    std::string const black_king_can_be_captured = "k1QK w";
+   SILENT_EXPECT(board.set_fen_position(black_king_can_be_captured));
+    EXPECT(move_generator.move_list.king_capture_on_list() == true);
+    std::string const white_king_can_be_captured = "Ktk b";
+   SILENT_EXPECT(board.set_fen_position(white_king_can_be_captured));
+    EXPECT(move_generator.move_list.king_capture_on_list() == true);
+    std::string const white_king_only_in_check = "Ktk w";
+   SILENT_EXPECT(board.set_fen_position(white_king_only_in_check));
+    EXPECT(move_generator.move_list.king_capture_on_list() == false);
+    board.set_start_position();
+    EXPECT(move_generator.move_list.king_capture_on_list() == false);
     return true;
 }
 
