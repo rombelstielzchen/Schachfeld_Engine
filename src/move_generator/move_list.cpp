@@ -105,3 +105,8 @@ bool CMoveList::unused_list() const {
     return (consumer_position == first_capture);
 }
 
+// TODO: here?
+bool CMoveList::king_capture_on_list() const {
+    return false;
+}
+

@@ -59,6 +59,7 @@ class CMoveList {
     void integrate_killer(int distance_to_root); 
   public:
     std::string as_text() const;
+    bool king_capture_on_list() const;
   private:
     void clear();
   private:

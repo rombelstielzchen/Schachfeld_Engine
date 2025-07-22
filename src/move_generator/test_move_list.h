@@ -20,5 +20,6 @@ class CTestMoveList {
     static bool test_remove();
     static bool test_get_best_capture();
     static bool test_move_lookup();
+    static bool test_king_capture();
 };
 

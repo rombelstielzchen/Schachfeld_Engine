@@ -20,6 +20,7 @@ bool CTestMoveList::test_everything() {
     EXPECT(test_extremes());
     EXPECT(test_get_best_capture());
     EXPECT(test_move_lookup());
+    EXPECT(test_king_capture());
     return true;
 }
 
@@ -192,6 +193,11 @@ bool CTestMoveList::test_move_lookup() {
     SMove rook_mate = { H7, H8, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 };
     EXPECT(move_generator.move_list.lookup_move("h7h8") == rook_mate);
     EXPECT(move_generator.move_list.lookup_move("h7h8R") == NULL_MOVE);
+    return true;
+}
+
+bool CTestMoveList::test_king_capture() {
+    TEST_FUNCTION();
     return true;
 }
 
