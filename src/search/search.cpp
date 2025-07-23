@@ -7,6 +7,7 @@
 #include "search_statistics.h"
 #include "../board/board_logic.h"
 #include "../evaluator/evaluator.h"
+#include "../evaluator/score_constants.h"
 #include "../move_generator/move_generator.h"
 #include "../universal_chess_interface/command_interface.h"
 
@@ -32,7 +33,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     if (one_king_missing(best_score)) {
         return best_score;
     }
-    best_score = WHITE_MIN_SCORE;
+    best_score = SCORE_HERO_LOSES;
     CMoveGenerator move_generator;
     move_generator.generate_all();
     // TODO: replace bad stalemate-logic below
@@ -42,9 +43,12 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
             return SCORE_DRAW;
         } else {
             // Losing for the side whose moves we intend to analyze.
-            // As we did not yet make a move, this is "winning" -- for th opponent.
-          return WHITE_MIN_SCORE;
+            // As we did not yet make a move, this is "winning" -- for the opponent.
+          return SCORE_HERO_LOSES;
         }
+    }
+    if (move_generator.move_list.king_capture_on_list()) {
+    return SCORE_VILLAINS_KING_CAPTUREVILLAINS_KING_CAPTUREDD;
     }
     int const n_moves = move_generator.move_list.list_size();
     for (int j = 0; j < n_moves; ++j) {

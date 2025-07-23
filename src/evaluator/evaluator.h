@@ -7,11 +7,6 @@
 
 #include "oracle.h"
 #include "../move_generator/move.h"
- 
-constexpr int SCORE_WHITE_WIN = INT_MAX;
-constexpr int SCORE_BLACK_WIN = INT_MIN;
-constexpr int SCORE_DRAW = 0;
-constexpr int SCORE_HALF_PAWN  = 50;
 
 class CEvaluator {
     friend class CTestEvaluator;

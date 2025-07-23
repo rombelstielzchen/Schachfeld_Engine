@@ -53,7 +53,7 @@ void CIterativeDeepening::root_node_search(int depth) {
     search_statistics.on_new_depth(depth);
     SAlphaBetaWindow alpha_beta_window = INFINITE_ALPHA_BETA_WINDOW;
     assert(is_valid_alpha_beta_window(alpha_beta_window));
-    int best_score = WHITE_MIN_SCORE;
+    int best_score = SCORE_HERO_LOSES;
     move_generator.move_list.reuse_list();
     int const n_moves = move_generator.move_list.list_size();
     assert(n_moves >= 0);
