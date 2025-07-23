@@ -32,7 +32,6 @@ class CBoardLogic {
     static bool piece_attacked_by_side_to_move(const SSquare square);
    static bool piece_attacked_by_side_not_to_move(const SSquare square); 
     static bool illegal_move(SMove move);
-  private:
     static bool king_in_check();
 };
 

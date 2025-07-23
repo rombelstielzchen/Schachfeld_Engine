@@ -17,6 +17,7 @@ static_assert(SCORE_HERO_LOSES < 0);
 static_assert(-SCORE_HERO_LOSES > 0);
 
 constexpr int32_t SCORE_DRAW = 0;
+constexpr int32_t SCORE_STALEMATE = SCORE_DRAW;
 
 constexpr int32_t SCORE_HALF_PAWN  = 50;
 constexpr int32_t SCORE_KING = 20000;

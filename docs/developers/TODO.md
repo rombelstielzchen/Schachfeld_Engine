@@ -1,6 +1,5 @@
 TODO
 ====
-* handling stalemates
 * wonder-weapons
 * better move-ordering by delta
 * move-generator for (re)captures
