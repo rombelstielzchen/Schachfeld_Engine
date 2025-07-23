@@ -56,7 +56,9 @@ sub EXPECT {
             return;
         }
    }
-    die "Unexpected result: $tail_result\n";
+    print "Unexpected result: $tail_result\n";
+    send_message("quit");
+   die  "UCI-Test failed\n";
 }
 
 ### BOMP ### Begin Of Main Program #####
