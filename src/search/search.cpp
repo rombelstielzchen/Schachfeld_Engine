@@ -11,13 +11,12 @@
 #include "../move_generator/move_generator.h"
 #include "../universal_chess_interface/command_interface.h"
 
-constexpr int HALF_KING = 10000;
 constexpr int QUIESCENCE_DEPTH = 31;
 
 inline bool CSearch::score_causes_beta_cutoff(int const score, int const beta) const { return (score >= beta); }
 
 inline bool CSearch::one_king_missing(int const score) const {
-    return (score >= abs(HALF_KING));
+    return (score >= abs(SCORE_HALF_KING));
 }
 
 int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to_root, int alpha, int const beta) {
@@ -48,7 +47,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
         }
     }
     if (move_generator.move_list.king_capture_on_list()) {
-    return SCORE_VILLAINS_KING_CAPTUREVILLAINS_KING_CAPTUREDD;
+    return SCORE_KING_CAPTURED;
     }
     int const n_moves = move_generator.move_list.list_size();
     for (int j = 0; j < n_moves; ++j) {
