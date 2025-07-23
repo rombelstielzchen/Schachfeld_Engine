@@ -23,7 +23,6 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     assert(remaining_depth >= 0);
     assert(distance_to_root > 0);
     assert(alpha <= beta);
-    // TODO: Revisit this, related to stalemate-detection
     if (remaining_depth <= 0) {
         // No negamax-negation here. We did not yet make a move; still same side to act
         return quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root, alpha, beta);
