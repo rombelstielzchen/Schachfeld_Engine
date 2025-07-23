@@ -35,17 +35,6 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     best_score = SCORE_HERO_LOSES;
     CMoveGenerator move_generator;
     move_generator.generate_all();
-    // TODO: replace bad stalemate-logic below
-    if ((distance_to_root == 1) && no_legal_moves()) {
-        bool side_to_move = board.get_side_to_move();
-        if (CBoardLogic::piece_attacked_by_side_not_to_move(CBoardLogic::king_square(side_to_move)) == false) {
-            return SCORE_DRAW;
-        } else {
-            // Losing for the side whose moves we intend to analyze.
-            // As we did not yet make a move, this is "winning" -- for the opponent.
-          return SCORE_HERO_LOSES;
-        }
-    }
     if (move_generator.move_list.king_capture_on_list()) {
     return SCORE_KING_CAPTURED;
     }
@@ -80,6 +69,12 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     }
     assert(move_generator.move_list.get_next() == NULL_MOVE);
     search_statistics.add_nodes(n_moves);
+    if (best_score == SCORE_OWN_KING_WILL_GET_CAPTURED) {
+        if (CBoardLogic::king_in_check()) {
+            return SCORE_HERO_LOSES;
+        }
+        return SCORE_STALEMATE;
+    }
     return best_score;
 }
 
