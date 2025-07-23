@@ -65,7 +65,7 @@ const std::vector<STestcaseSearch> testcases_search = {
     // Royal fork for black, no capture at first move
     { 3, "d4c2", "8/8/8/8/3n4/8/8/Q3K2k b" },
     // Smothered mate, very basic
-    { 5, "a2g8", "5r1k/6pp/7N/8/8/8/Q7/7K w" },
+    { 4, "a2g8", "5r1k/6pp/7N/8/8/8/Q7/7K w" },
     // Requires static exchange evaluation and depth >= 2, more than root-node
     { 2, "e6a6", "8/5k2/n3R1b1/8/8/8/8/7K w" },
     { 2, "b8c8", "RRb/p2b w" },
@@ -80,7 +80,7 @@ const std::vector<STestcaseSearch> testcases_search = {
     // Former bug: counter-attacks in check
     { 4, "h8g8", "5q1k/1q3pp1/8/8/8/8/7Q/K6R b" },
     // Avoid stalemate
-    { 2, "d4b6", "/k/p//3q//5Q/7K b" },
+    { 3, "d4b6", "/k/p//3q//5Q/7K b" },
 };
 
 bool CTestSearch::test_everything() {
