@@ -22,6 +22,10 @@ constexpr int32_t SCORE_HALF_PAWN  = 50;
 constexpr int32_t SCORE_KING = 20000;
 constexpr int32_t SCORE_HALF_KING = SCORE_KING / 2;
 
+// A captured king (illegal) might be caused by either mate or stalemate.
+// The score must be positive, but worse than a mate.
 constexpr int32_t SCORE_KING_CAPTURED = SCORE_HERO_WINS - 1000;
 static_assert(SCORE_KING_CAPTURED > 0);
+constexpr int32_t SCORE_OWN_KING_WILL_GET_CAPTURED = -SCORE_KING_CAPTURED;
+static_assert(SCORE_OWN_KING_WILL_GET_CAPTURED > SCORE_HERO_LOSES);
 
