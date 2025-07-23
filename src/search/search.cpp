@@ -99,7 +99,6 @@ int CSearch::quiescence_negamax(int const remaining_depth, int const distance_to
         assert(move_candidate.potential_gain > 0);
         board.move_maker.make_move(move_candidate);
         int candidate_score;
-        // TODO: > 0?
         if (remaining_depth > 1) {
             candidate_score = -quiescence_negamax(remaining_depth - 1, distance_to_root + 1, -beta, -alpha);
         } else {
@@ -112,7 +111,6 @@ int CSearch::quiescence_negamax(int const remaining_depth, int const distance_to
                 return beta;
             }
             best_score = candidate_score;
-            // TODO: revisit this
             alpha = std::max(alpha, best_score);
         }
     }
