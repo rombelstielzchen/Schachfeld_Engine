@@ -29,7 +29,9 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     }
     int best_score = board.evaluator.nega_score();
     if (one_king_missing(best_score)) {
-        return best_score;
+            // TODO: this should only happen with incomplete test-cases
+//        assert(false);
+//        return best_score;
     }
     best_score = SCORE_HERO_LOSES;
     CMoveGenerator move_generator;
@@ -68,10 +70,13 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     }
     assert(move_generator.move_list.get_next() == NULL_MOVE);
     search_statistics.add_nodes(n_moves);
+    std::cerr << "best: " << best_score << "\n";
     if (best_score == SCORE_OWN_KING_WILL_GET_CAPTURED) {
-        if (CBoardLogic::king_in_check()) {
+        if (CBoardLogic::own_king_in_check()) {
+            std::cerr << "check\n";
             return SCORE_HERO_LOSES;
         }
+            std::cerr << "No check\n";
         return SCORE_STALEMATE;
     }
     return best_score;

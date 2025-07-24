@@ -82,6 +82,15 @@ const std::vector<STestcaseSearch> testcases_search = {
     { 4, "h8g8", "5q1k/1q3pp1/8/8/8/8/7Q/K6R b" },
     // Avoid stalemate
     { 3, "d4b6", "/k/p//3q//5Q/7K b" },
+    // Various forms of "mate in 1", "loss in 1.5", "mate in 2", ...
+    { 2, "h1h8", "k/pp//////K6R w" },
+    { 3, "g2g8", "k6R/pp/////6r/K6R b" },
+    { 4, "h1h8", "k/pp/////6r/K6R w" },
+    { 5, "f3f8", "k5RR/pp////5r/5r/K b" },
+    // "Too much depth" for mate
+    { 3, "h1h8", "k/pp//////K6R w" },
+    // Preventing pawn-peomotion, own stalemate
+   { 3, "b8a8", "1k/P/1K b" },
 };
 
 bool CTestSearch::test_everything() {
