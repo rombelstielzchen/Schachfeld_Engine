@@ -57,10 +57,10 @@ const std::vector<STestcaseSearch> testcases_search = {
     { 1, "h8b8", "1k5R/5R2//////K w" },
     { 1, "f7a7", "7R/k4R2//////K w" },
     { 1, "f7b7", "7R/1k3R2//////K w" },
-    // TODO: depths 2 and  3 fail
+    // Mate in 1, higher depths formerly failed
     { 1, "h6h8", "k6q/5R2/7R/8/8/8/8/K7 w" },
-//    { 2, "h6h8", "k6q/5R2/7R/8/8/8/8/K7 w" },
-///    { 3, "h6h8", "k6q/5R2/7R/8/8/8/8/K7 w" },
+    { 2, "h6h8", "k6q/5R2/7R/8/8/8/8/K7 w" },
+    { 3, "h6h8", "k6q/5R2/7R/8/8/8/8/K7 w" },
     // Skewer
      { 3, "d8a5", "k2b4/8/8/8/8/2K5/8/4Q3 b" },
     // Royal fork for black, no capture at first move
@@ -89,8 +89,10 @@ const std::vector<STestcaseSearch> testcases_search = {
     { 5, "f3f8", "k5RR/pp////5r/5r/K b" },
     // "Too much depth" for mate
     { 3, "h1h8", "k/pp//////K6R w" },
+    // Stalemate-sacrifice
+    { 4, "h4f2", "/k/1q//7B///7K w" },
     // Preventing pawn-peomotion, own stalemate
-   { 3, "b8a8", "1k/P/1K b" },
+   { 4, "b8a8", "1k/P/1K b" },
 };
 
 bool CTestSearch::test_everything() {
@@ -166,8 +168,7 @@ bool CTestSearch::test_early_exit() {
     EXPECT(searcher.search(really_deep) == "a8b8");
     std::string mate_in_one = "k/3R/K w";
     EXPECT(board.set_fen_position(mate_in_one));
-    // TODO: implement this and simplify root.node.search
-//    EXPECT(searcher2.search(really_deep) == "d7d8");
+    EXPECT(searcher2.search(really_deep) == "d7d8");
     return true;
 }
 
