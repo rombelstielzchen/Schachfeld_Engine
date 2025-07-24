@@ -136,22 +136,28 @@ bool CBoardLogic::castling_possible(const int move_type) {
         && (castling_squares_empty(move_type)));
 }
 
-bool CBoardLogic::king_in_check() {
-    // TODO: error-prone and confusing; this assumes we already moved
-    bool my_colour = !board.get_side_to_move();
-    SSquare my_king_square = CBoardLogic::king_square(my_colour);
-    if (my_king_square == NULL_SQUARE) {
+bool CBoardLogic::own_king_in_check() {
+    board.move_maker.make_null_move();
+    bool result = opponents_king_in_check();
+    board.move_maker.unmake_null_move();
+    return result;
+}
+
+bool CBoardLogic::opponents_king_in_check() {
+    bool opponent_colour = !board.get_side_to_move();
+    SSquare opponent_king_square = CBoardLogic::king_square(opponent_colour);
+    if (opponent_king_square == NULL_SQUARE) {
         // No king, probably simplified test-case
         return false;
     }
-    assert(square_in_range(my_king_square));
-    return (CBoardLogic::piece_attacked_by_side_to_move(my_king_square));
+    assert(square_in_range(opponent_king_square));
+    return (CBoardLogic::piece_attacked_by_side_to_move(opponent_king_square));
 }
 
 bool CBoardLogic::illegal_move(SMove move) {
     assert(move_in_range(move));
     board.move_maker.make_move(move);
-    bool result = king_in_check();
+    bool result = opponents_king_in_check();
     board.move_maker.unmake_move();
     return result;
 }
