@@ -37,7 +37,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     CMoveGenerator move_generator;
     move_generator.generate_all();
     if (move_generator.move_list.king_capture_on_list()) {
-    return SCORE_KING_CAPTURED;
+        return SCORE_KING_CAPTURED;
     }
     int const n_moves = move_generator.move_list.list_size();
     for (int j = 0; j < n_moves; ++j) {
@@ -70,13 +70,10 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     }
     assert(move_generator.move_list.get_next() == NULL_MOVE);
     search_statistics.add_nodes(n_moves);
-    std::cerr << "best: " << best_score << "\n";
     if (best_score == SCORE_OWN_KING_WILL_GET_CAPTURED) {
         if (CBoardLogic::own_king_in_check()) {
-            std::cerr << "check\n";
             return SCORE_HERO_LOSES;
         }
-            std::cerr << "No check\n";
         return SCORE_STALEMATE;
     }
     return best_score;
