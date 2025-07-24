@@ -21,7 +21,7 @@ static_assert(sizeof(SAlphaBetaWindow) <= sizeof(int64_t));
 
 #pragma pack(pop)
 
-constexpr bool is_valid_alpha_beta_window(const SAlphaBetaWindow alpha_beta_window) {
+constexpr bool [[nodiscard]] is_valid_alpha_beta_window(const SAlphaBetaWindow alpha_beta_window) {
     return alpha_beta_window.alpha <= alpha_beta_window.beta;
 }
 
@@ -35,10 +35,10 @@ class CIterativeDeepening {
   public:
     CIterativeDeepening();
   public:
-    SMove search(int depth);
-    SMove search_nodes(int64_t nodes);
-    SMove search_movetime(const int64_t movetime_ms);
-    SMove search_time(
+    SMove [[nodiscard]] search(int depth);
+    SMove [[nodiscard]] search_nodes(int64_t nodes);
+    SMove [[nodiscard]] search_movetime(const int64_t movetime_ms);
+    SMove [[nodiscard]] search_time(
         const int64_t white_time_milliseconds,
         const int64_t black_time_milliseconds,
         const int64_t white_increment_milliseconds,
@@ -46,9 +46,9 @@ class CIterativeDeepening {
         const int64_t moves_to_go);
   private:
     void root_node_search(int depth);
-    bool enough_time_left_for_one_more_iteration(const int64_t available_movetime) const;
-    bool only_one_legal_move() const;
-    SMove only_move();
+    bool [[nodiscard]] enough_time_left_for_one_more_iteration(const int64_t available_movetime) const;
+    bool [[nodiscard]] only_one_legal_move() const;
+    SMove [[nodiscard]] only_move();
   private:
     // Long-living move-list at the root-node for better move-ordering
     CMoveGenerator move_generator;
