@@ -35,7 +35,7 @@ void CGameSaver::append_pgn_header() {
     // Mandatory PGN-tags, most info not known
     append_pgn_tag("Event", "FIDE Waldmeisterschaft of the Universe");
     append_pgn_tag("Site", "Milkyway");
-    append_pgn_tag("Date", "TODO");
+    append_pgn_tag("Date", "????.??.??");
     append_pgn_tag("Round", "?");
     append_pgn_tag("White", "White");
     append_pgn_tag("Black", "Black");
