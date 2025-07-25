@@ -73,6 +73,7 @@ engine: \
 	test_search.o \
 	test_statistics.o \
 	test_technical_functions.o \
+	time_functions.o \
 	uci_protocol.o 
 	make semi_clean 
 	make standard_headers
@@ -126,6 +127,9 @@ test_board.o: board/test_board.cpp
 	$(CC) $(CFLAGS) 
 
 test_technical_functions.o: technical_functions/test_technical_functions.cpp
+	$(CC) $(CFLAGS) 
+
+time_functions.o: technical_functions/time_functions.cpp
 	$(CC) $(CFLAGS) 
 
 board_logic.o: board/board_logic.cpp

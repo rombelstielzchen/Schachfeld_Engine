@@ -6,25 +6,8 @@
 #include "game_saver.h"
 #include "board.h"
 #include "move_maker.h"
+#include "../technical_functions/time_functions.h"
 #include "../universal_chess_interface/uci_protocol.h"
-
-#include <cstring>
-
-std::string const TIME_FORMAT_YYYY_MM_DD = "%Y.%n.%d";
-
-// TODO: move to technical functions
-std::string time_string(const std::string &format) {
-    char buffer[] = "tis is a long buffer a long buffer tis is";
-    int const buffer_size = strlen(buffer);
-    std::time_t now = std::time(nullptr);
-    int const stored_bytes = std::strftime(buffer, buffer_size, format.c_str(), std::localtime(&now));
-    assert(stored_bytes > 0);
-    assert(stored_bytes <= buffer_size);
-    // Year-3000-bug ;-)
-    assert(buffer[0] == '2');
-    std::string result(buffer);
-    return result;
-}
 
 void CGameSaver::save_game() {
     if (open_pgn_file()) {
