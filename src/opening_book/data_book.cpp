@@ -10,6 +10,7 @@
 constexpr size_t VARIATION_NOT_FOUND = std::string::npos;
 
 CDataBook::CDataBook(const TSortedVariationCollection &sorted_variation_collection) : sorted_variation_collection(sorted_variation_collection) {
+    assert(sorted_variation_collection.size() <= INT_MAX);
     last_looked_up_moves_from_startpos = "";
     last_lookup_successful = true;
 }
@@ -66,23 +67,25 @@ size_t CDataBook::last_matching_index(const TSortedVariationCollection &book, co
 }
 
 size_t CDataBook::random_matching_index(const TSortedVariationCollection &book, const std::string &moves_from_startpos_in_uci_format) const {
-    size_t first_index = first_matching_index(book, moves_from_startpos_in_uci_format);
-    if (first_index == VARIATION_NOT_FOUND) {
+    size_t st_first_index = first_matching_index(book, moves_from_startpos_in_uci_format);
+    if (st_first_index == VARIATION_NOT_FOUND) {
         return VARIATION_NOT_FOUND;
     }
-    size_t last_index = last_matching_index(book, moves_from_startpos_in_uci_format);
-    assert(last_index != VARIATION_NOT_FOUND);
-    assert(last_index >= first_index);
-    assert(last_index < book.size());
+    size_t st_last_index = last_matching_index(book, moves_from_startpos_in_uci_format);
+    assert(st_last_index != VARIATION_NOT_FOUND);
+    assert(st_last_index >= st_first_index);
+    assert(st_last_index < book.size());
+    assert(st_last_index <= INT_MAX);
+    int first_index = static_cast<int>(st_first_index);
+    int last_index = static_cast<int>(st_last_index);
     // rand() would be good enough, Unfortunately it did not work with Gcc,
     // (only with Visual Studio) despite prorper srand(time(NULL)),
     // always returning 41 (rhe 42th positive number!).
     // So we go for an overkill random-number-generator.
     std::random_device random_seed;
-    //TODO:warning  argument size_t -> _Ty
     std::mt19937 mersenne_twister(random_seed());
     std::uniform_int_distribution<> int_distribution(first_index, last_index);
-    size_t random_index = int_distribution(mersenne_twister);
+    int random_index = int_distribution(mersenne_twister);
     assert(random_index >= first_index);
     assert(random_index <= last_index);
     return random_index;
