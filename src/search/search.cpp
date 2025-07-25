@@ -27,13 +27,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
         // No negamax-negation here. We did not yet make a move; still same side to act
         return quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root, alpha, beta);
     }
-    int best_score = board.evaluator.nega_score();
-    if (one_king_missing(best_score)) {
-            // TODO: this should only happen with incomplete test-cases
-//        assert(false);
-//        return best_score;
-    }
-    best_score = SCORE_HERO_LOSES;
+    int best_score = SCORE_HERO_LOSES;
     CMoveGenerator move_generator;
     move_generator.generate_all();
     if (move_generator.move_list.king_capture_on_list()) {
