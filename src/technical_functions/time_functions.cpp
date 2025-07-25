@@ -15,8 +15,6 @@ std::string time_string(const std::string &format) {
     int const stored_bytes = std::strftime(buffer, buffer_size, format.c_str(), std::localtime(&now));
     assert(stored_bytes > 0);
     assert(stored_bytes <= buffer_size);
-    // Year-3000-bug ;-)
-    assert(buffer[0] == '2');
     std::string result(buffer);
     return result;
 }
