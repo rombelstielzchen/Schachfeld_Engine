@@ -13,5 +13,6 @@ class CTestBoardLogic {
   private:
     static bool test_king_squares();
     static bool test_piece_attack();
+    static bool test_is_endgame();
 };
 

@@ -14,6 +14,7 @@ bool CTestBoardLogic::test_everything() {
     BEGIN_TESTSUITE("CTestBoardLogic");
     EXPECT(test_king_squares());
     EXPECT(test_piece_attack());
+    EXPECT(test_is_endgame());
     return true;
 }
 
@@ -41,6 +42,19 @@ bool CTestBoardLogic::test_piece_attack() {
     board.move_maker.play_variation("d1h5");
     EXPECT(CBoardLogic::piece_attacked_by_side_not_to_move(F7) == true);
     EXPECT(CBoardLogic::piece_attacked_by_side_not_to_move(H7) == true);
+    return true;
+}
+
+bool CTestBoardLogic::test_is_endgame() {
+    TEST_FUNCTION();
+    board.set_start_position();
+    EXPECT(CBoardLogic::is_endgame() == false);
+   EXPECT(board.set_fen_position("kqqqQQK w"));
+    EXPECT(CBoardLogic::is_endgame() == false);
+   EXPECT(board.set_fen_position("kqqQQK w"));
+    EXPECT(CBoardLogic::is_endgame());
+   EXPECT(board.set_fen_position("4k/pppppppp/////PPPPPPPP/RNBQK w"));
+    EXPECT(CBoardLogic::is_endgame());
     return true;
 }
 
