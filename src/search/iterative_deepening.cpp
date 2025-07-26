@@ -22,6 +22,13 @@ SMove CIterativeDeepening::search(int depth) {
     search_statistics.reset_all();
     best_move = NULL_MOVE;
     move_generator.generate_all();
+    if (move_generator.move_list.king_capture_on_list()) {
+        // This should happen only in case of some test-cases and fixed depth
+        constexpr int no_killer_distance_to_root = 0;
+        SMove king_capture = move_generator.move_list.get_next__capture_killer_silent(no_killer_distance_to_root);
+        assert(king_capture.potential_gain >= SCORE_HALF_KING);
+        return king_capture;
+    }
     move_generator.move_list.prune_illegal_moves();
     if (only_one_legal_move() && (depth < INFINITE_DEPTH)) {
         return only_move();
