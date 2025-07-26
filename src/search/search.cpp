@@ -76,14 +76,15 @@ int CSearch::quiescence_negamax(int const remaining_depth, int const distance_to
     assert(distance_to_root > 0);
     assert(alpha <= beta);
     int best_score = board.evaluator.nega_score();
-    if (CBoardLogic::one_king_missing()) {
-        return best_score;
-    }
     if (score_causes_beta_cutoff(best_score, beta)) {
         return best_score;
     }
     CMoveGenerator move_generator;
     move_generator.generate_captures();
+    if (move_generator.move_list.king_capture_on_list()) {
+        // TODO: limit this to first level of quiescence?
+        return SCORE_KING_CAPTURED;
+    }
     int const n_moves = move_generator.move_list.list_size();
     for (int j = 0; j < n_moves; ++j) {
         SMove move_candidate = move_generator.move_list.get_next__best_capture();
