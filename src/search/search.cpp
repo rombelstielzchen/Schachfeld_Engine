@@ -13,10 +13,8 @@
 
 constexpr int QUIESCENCE_DEPTH = 31;
 
-inline bool CSearch::score_causes_beta_cutoff(int const score, int const beta) const { return (score >= beta); }
-
-inline bool CSearch::one_king_missing(int const score) const {
-    return (score >= abs(SCORE_HALF_KING));
+inline bool CSearch::score_causes_beta_cutoff(int const score, int const beta) const {
+    return (score >= beta);
 }
 
 int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to_root, int alpha, int const beta) {
@@ -78,7 +76,7 @@ int CSearch::quiescence_negamax(int const remaining_depth, int const distance_to
     assert(distance_to_root > 0);
     assert(alpha <= beta);
     int best_score = board.evaluator.nega_score();
-    if (one_king_missing(best_score)) {
+    if (CBoardLogic::one_king_missing()) {
         return best_score;
     }
     if (score_causes_beta_cutoff(best_score, beta)) {

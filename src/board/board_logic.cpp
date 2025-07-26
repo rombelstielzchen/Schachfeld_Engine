@@ -8,6 +8,7 @@
 #include"board_logic.h"
 #include "board.h"
 #include "square_constants.h"
+#include "../evaluator/score_constants.h"
 #include "../move_generator/move_generator.h"
 #include "../technical_functions/standard_headers.h"
 
@@ -184,5 +185,9 @@ bool CBoardLogic::is_endgame() {
     constexpr int n_possible_officers_after_promotion = 30;
     assert(n_officers <= n_possible_officers_after_promotion);
     return (n_officers <= max_officers_to_be_considered_endgame);
+}
+
+bool CBoardLogic::one_king_missing() {
+    return abs((board.evaluator.evaluate()) >= SCORE_HALF_KING);
 }
 

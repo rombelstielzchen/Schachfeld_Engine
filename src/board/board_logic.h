@@ -34,6 +34,7 @@ class CBoardLogic {
     static bool illegal_move(SMove move);
     static bool own_king_in_check();
     static bool opponents_king_in_check();
+    static bool one_king_missing();
     static bool is_endgame();
 };
 
