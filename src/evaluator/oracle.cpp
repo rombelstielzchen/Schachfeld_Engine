@@ -5,32 +5,7 @@
 
 #include "oracle.h"
 #include "piece_square_value_tables.h"
-
-bool is_endgame() {
-    // TODO: move to CBoardLogic
-    // TODO: proper implementation
-    // TODO: test
-    int n_officers = 0;
-    for (int j = FILE_A; j <= FILE_H; ++j) {
-        for (int k = RANK_1; k <= RANK_8; ++k) {
-            switch (board.get_square(j, k)) {
-                case WHITE_KNIGHT:
-                case WHITE_BISHOP:
-                case WHITE_ROOK:
-                case WHITE_QUEEN:
-                case BLACK_KNIGHT:
-                case BLACK_BISHOP:
-                case BLACK_ROOK:
-                case BLACK_QUEEN:
-                    ++n_officers;
-                    break;
-            }
-        }
-    }
-    constexpr int n_possible_officers_after_promotion = 30;
-    assert(n_officers <= n_possible_officers_after_promotion);
-    return (n_officers <= 4);
-}
+#include "../board/board_logic.h"
 
 void init_endgame_king() {
     // TODO: move to own class
@@ -45,7 +20,7 @@ COracle::COracle() {
 
 void COracle::configure_knowledge() {
     init_main_psv_set();
-    if (is_endgame()) {
+    if (CBoardLogic::is_endgame()) {
         init_endgame_king();
     }
 }
