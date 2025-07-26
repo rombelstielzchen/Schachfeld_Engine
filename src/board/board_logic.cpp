@@ -162,3 +162,27 @@ bool CBoardLogic::illegal_move(SMove move) {
     return result;
 }
 
+bool CBoardLogic::is_endgame() {
+   constexpr int max_officers_to_be_considered_endgame = 4; 
+    int n_officers = 0;
+    for (int j = FILE_A; j <= FILE_H; ++j) {
+        for (int k = RANK_1; k <= RANK_8; ++k) {
+            switch (board.get_square(j, k)) {
+                case WHITE_KNIGHT:
+                case WHITE_BISHOP:
+                case WHITE_ROOK:
+                case WHITE_QUEEN:
+                case BLACK_KNIGHT:
+                case BLACK_BISHOP:
+                case BLACK_ROOK:
+                case BLACK_QUEEN:
+                    ++n_officers;
+                    break;
+            }
+        }
+    }
+    constexpr int n_possible_officers_after_promotion = 30;
+    assert(n_officers <= n_possible_officers_after_promotion);
+    return (n_officers <= max_officers_to_be_considered_endgame);
+}
+
