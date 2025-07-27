@@ -135,6 +135,7 @@
     <ClCompile Include="..\board\board_logic.cpp" />
     <ClCompile Include="..\board\fen_generator.cpp" />
     <ClCompile Include="..\board\fen_parser.cpp" />
+    <ClCompile Include="..\board\game_saver.cpp" />
     <ClCompile Include="..\board\move_maker.cpp" />
     <ClCompile Include="..\board\test_board.cpp" />
     <ClCompile Include="..\board\test_board_logic.cpp" />
