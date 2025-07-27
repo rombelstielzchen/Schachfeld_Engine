@@ -75,6 +75,7 @@ engine: \
 	test_technical_functions.o \
 	time_functions.o \
 	uci_protocol.o \
+	virtual_expert.o \
 	wonder_weapons_black.o \
 	wonder_weapons_white.o
 	make semi_clean 
@@ -98,13 +99,14 @@ string_functions.o: technical_functions/string_functions.cpp
 uci_protocol.o: universal_chess_interface/uci_protocol.cpp
 	$(CC) $(CFLAGS) 
 
+virtual_expert.o: evaluator/knowledge/virtual_expert.cpp
+	$(CC) $(CFLAGS) 
+
+fen_parser.o: board/fen_parser.cpp
 wonder_weapons_black.o: opening_book/book_data/wonder_weapons_black.cpp
 	$(CC) $(CFLAGS) 
 
 wonder_weapons_white.o: opening_book/book_data/wonder_weapons_white.cpp
-	$(CC) $(CFLAGS) 
-
-fen_parser.o: board/fen_parser.cpp
 	$(CC) $(CFLAGS) 
 
 game_saver.o: board/game_saver.cpp
