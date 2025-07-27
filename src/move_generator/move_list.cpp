@@ -106,9 +106,7 @@ bool CMoveList::unused_list() const {
     return (consumer_position == first_capture);
 }
 
-// TODO: here?
 bool CMoveList::king_capture_on_list() const {
-    // TODO: move to extra file
     for (unsigned int j = first_capture; j < LIST_ORIGIN; ++j) {
         if (bidirectional_move_list[j].potential_gain > SCORE_HALF_KING) {
             return true;
