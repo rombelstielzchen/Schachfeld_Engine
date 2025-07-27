@@ -9,6 +9,10 @@
 #include "../technical_functions/time_functions.h"
 #include "../universal_chess_interface/uci_protocol.h"
 
+// Disable warning open "unsecure" fopen in Visual Studio.
+// The "secure" fopen_s is not available for g++.
+#define _CRT_SECURE_NO_DEPRECATE
+
 void CGameSaver::save_game() {
     if (open_pgn_file()) {
         append_pgn_header();
@@ -50,7 +54,7 @@ void CGameSaver::append_moves() {
 
 void CGameSaver::append_line_of_text(const std::string &text) {
     assert(pgn_file != nullptr);
-    int total_length = text.length() + 1;
+    size_t total_length = text.length() + 1;
     constexpr int once = 1;
     std::fwrite(text.c_str(), total_length, once, pgn_file);
     total_length = 1 + 1;

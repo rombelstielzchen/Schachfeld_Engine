@@ -162,7 +162,7 @@ void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
         return;
     } 
     if (string_tokenizer.next_token_is_one_of("depth", "d")) {
-        int  depth = string_tokenizer.get_integer_token(1);
+        int depth = static_cast<int>(string_tokenizer.get_integer_token(1));
         command_interface.go_depth(depth);
         return;
     }
