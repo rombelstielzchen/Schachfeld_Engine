@@ -9,7 +9,7 @@
 
 class CExpertGeneral : public CVirtualExpert {
   public:
-    virtual bool is_responsible() const;
-    virtual void apply_knowledge();
+    virtual bool is_responsible() const override;
+    virtual void apply_knowledge() override;
 };
 

@@ -19,6 +19,7 @@ COracle::COracle() {
 }
 
 void COracle::configure_knowledge() {
+    assert(expert_collection.size() > 0);
     for (CVirtualExpert* const p_expert: expert_collection) {
         p_expert->configure();
     }

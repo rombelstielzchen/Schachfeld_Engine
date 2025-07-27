@@ -5,6 +5,7 @@
 
 #include "virtual_expert.h"
 #include "../../technical_functions/debug_log.h"
+#include "../../technical_functions/standard_headers.h"
 
 CVirtualExpert::~CVirtualExpert() {
 }
