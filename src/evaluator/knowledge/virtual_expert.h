@@ -7,10 +7,12 @@
 
 class CVirtualExpert {
   public:
+    virtual ~CVirtualExpert();
+  public:
     void configure();
   public:
     // Mandatory methods, to be implemented by derived knowledge-experts
-    virtual bool is_responsible() const;
-    virtual void apply_knowledge();
+    virtual bool is_responsible() const = 0;
+    virtual void apply_knowledge() = 0;
 };
 

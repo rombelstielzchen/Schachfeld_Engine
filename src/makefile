@@ -33,6 +33,7 @@ engine: \
 	data_book.o \
 	engine_test.o \
 	evaluator.o \
+	expert_general.o \
 	fen_generator.o \
 	fen_parser.o \
 	game_saver.o \
@@ -182,6 +183,9 @@ search.o: search/search.cpp
 	$(CC) $(CFLAGS)
 
 evaluator.o: evaluator/evaluator.cpp
+	$(CC) $(CFLAGS)
+
+expert_general.o: evaluator/knowledge/general/expert_general.cpp
 	$(CC) $(CFLAGS)
 
 test_evaluator.o: evaluator/test_evaluator.cpp

@@ -3,14 +3,13 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-#include "virtual_expert.h"
+#include "expert_general.h"
 
-CVirtualExpert::~CVirtualExpert() {
+
+bool CExpertGeneral::is_responsible() const {
+    return true;
 }
 
-void CVirtualExpert::configure() {
-    if (is_responsible()) {
-        apply_knowledge();
-    }
+void CExpertGeneral::apply_knowledge() {
 }
 
