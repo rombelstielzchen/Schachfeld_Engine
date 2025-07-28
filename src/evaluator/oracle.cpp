@@ -5,7 +5,11 @@
 
 #include "oracle.h"
 #include "piece_square_value_tables.h"
+#include "knowledge/general/expert_general.h"
 #include "../board/board_logic.h"
+
+CExpertGeneral expert_general;
+std::vector<CVirtualExpert*>expert_collection;
 
 void init_endgame_king() {
     // TODO: move to own class
@@ -16,12 +20,17 @@ void init_endgame_king() {
 }
 
 COracle::COracle() {
+    expert_collection.push_back(&expert_general);
 }
 
 void COracle::configure_knowledge() {
+    for (CVirtualExpert* const p_expert: expert_collection) {
+        p_expert->configure();
+    }
     init_main_psv_set();
     if (CBoardLogic::is_endgame()) {
         init_endgame_king();
     }
+//    assert(0);
 }
 
