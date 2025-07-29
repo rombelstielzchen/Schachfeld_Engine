@@ -25,13 +25,9 @@ static_assert(LAST_PIECE_TYPE > EMPTY_SQUARE);
 typedef std::array<TPieceSquareValueTable, N_PIECE_SQUARE_VALUE_TABLES> TPieceSquareValueTableSet;
 
 inline TPieceSquareValueTableSet main_piece_square_value_table_set;
-extern TPieceSquareValueTable endgame_king_psv_table;
 
 class CPsvModifier {
   public:
-    // TODO: move this
-    static void init_main_psv_set();
-    // TODO: public / private?
     static void assign_psv_table(TPieceSquareValueTable &target_psv, const TPieceSquareValueTable &source_psv);
     static void assign_psv_table(char piece_type, const TPieceSquareValueTable &source_psv);
     static void flip_vertically(TPieceSquareValueTable &psv_table);
