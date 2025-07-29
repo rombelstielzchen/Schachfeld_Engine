@@ -3,7 +3,10 @@ Major Changes
 
 Version 0.h
 -----------
-* automatically saving games to *"schachfeld_games.pgn"*
+* Stalemate-detection at all levels of the search-tree
+* Switching from minimax to negamax to simplify the search-function.
+As a bonus we got a small speed-ip along the way.
+* Automatically saving games to *"schachfeld_games.pgn"*
 
 Version 0.g
 -----------
