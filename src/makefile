@@ -33,6 +33,7 @@ engine: \
 	data_book.o \
 	engine_test.o \
 	evaluator.o \
+	expert_endgame_king_activity.o \
 	expert_general.o \
 	fen_generator.o \
 	fen_parser.o \
@@ -183,6 +184,10 @@ search.o: search/search.cpp
 	$(CC) $(CFLAGS)
 
 evaluator.o: evaluator/evaluator.cpp
+	$(CC) $(CFLAGS)
+
+expert_endgame_king_activity.o: evaluator/knowledge/endgame/expert_endgame_king_activity.cpp
+	echo huhu
 	$(CC) $(CFLAGS)
 
 expert_general.o: evaluator/knowledge/general/expert_general.cpp
