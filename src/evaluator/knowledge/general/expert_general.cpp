@@ -5,7 +5,15 @@
 
 #include "expert_general.h"
 #include "../../piece_square_value_tables.h"
+#include "../../score_constants.h"
 #include "../../../technical_functions/standard_headers.h"
+
+constexpr int score_average_power = 100;
+constexpr int score_average_knight = 290;
+constexpr int score_average_bishop = 320;
+constexpr int score_average_rook = 470;
+constexpr int score_average_queen = 890;
+constexpr int delta_score_kings_and_queens_bishop = 15;
 
 TPieceSquareValueTable psv_white_king = {{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
@@ -43,19 +51,19 @@ TPieceSquareValueTable psv_white_rook = {{
     { 0,   0, 100, 100, 100, 100, 100, 100, 135, 120 }}};
 
 // The kings bishop is worth more in general, but offensive and defensive.
-// Therefore the values are not symmetric, difference 15
-// TODO
+// Therefore the values are not symmetric.
+// The black-squared values will be configured by a function.
 TPieceSquareValueTable psv_white_bishop = {{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
-    { 0,   0, 100, 120, 120, 120, 120, 120, 120, 100 },
-    { 0,   0, 100, 100, 130, 130, 130, 130, 100, 100 },
-    { 0,   0, 100, 100, 130, 150, 150, 140, 100, 100 },
-    { 0,   0, 100, 100, 130, 150, 150, 140, 100, 100 },
-    { 0,   0, 100, 100, 130, 130, 130, 130, 100, 100 },
-    { 0,   0, 100, 120, 120, 120, 120, 120, 120, 100 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 }}};
+    { 0,   0,   0, 100,   0, 100,   0, 100,   0, 100 },
+    { 0,   0, 100,   0, 120,   0, 120,   0, 120,   0 },
+    { 0,   0,   0, 100,   0, 130,   0, 130,   0, 100 },
+    { 0,   0, 100,   0, 130,   0, 150,   0, 100,   0 },
+    { 0,   0,   0, 100,   0, 150,   0, 140,   0, 100 },
+    { 0,   0, 100,   0, 130,   0, 130,   0, 100,   0 },
+    { 0,   0,   0, 120,   0, 120,   0, 120,   0, 100 },
+    { 0,   0, 100,   0, 100,   0, 100,   0, 100,   0 }}};
 TPieceSquareValueTable psv_white_knight = {{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
@@ -86,17 +94,18 @@ bool CExpertGeneral::is_responsible() const {
 
 void CExpertGeneral::apply_knowledge() {
    DEBUG_METHOD(); 
-   CPsvModifier::normalize_average(psv_white_power, 100);
+   CPsvModifier::normalize_average(psv_white_power, score_average_power);
     CPsvModifier::assign_psv_table(WHITE_POWER, psv_white_power);
-    CPsvModifier::normalize_average(psv_white_knight, 290);
+    CPsvModifier::normalize_average(psv_white_knight, score_average_knight);
     CPsvModifier::assign_psv_table(WHITE_KNIGHT, psv_white_knight);
-    CPsvModifier::normalize_average(psv_white_bishop, 320);
+    CPsvModifier::clone_from_kings_to_queens_bishop(psv_white_bishop, delta_score_kings_and_queens_bishop);
+    CPsvModifier::normalize_average(psv_white_bishop, score_average_bishop);
     CPsvModifier::assign_psv_table(WHITE_BISHOP, psv_white_bishop);
-    CPsvModifier::normalize_average(psv_white_rook, 470);
+    CPsvModifier::normalize_average(psv_white_rook, score_average_rook);
     CPsvModifier::assign_psv_table(WHITE_ROOK, psv_white_rook);
-    CPsvModifier::normalize_average(psv_white_queen, 890);
+    CPsvModifier::normalize_average(psv_white_queen, score_average_queen);
     CPsvModifier::assign_psv_table(WHITE_QUEEN, psv_white_queen);
-    CPsvModifier::normalize_average(psv_white_king, 20000);
+    CPsvModifier::normalize_average(psv_white_king, SCORE_KING);
     CPsvModifier::assign_psv_table(WHITE_KING, psv_white_king);
     CPsvModifier::clone_from_white_to_black(BLACK_POWER);
     CPsvModifier::clone_from_white_to_black(BLACK_KNIGHT);
@@ -104,5 +113,8 @@ void CExpertGeneral::apply_knowledge() {
     CPsvModifier::clone_from_white_to_black(BLACK_ROOK);
     CPsvModifier::clone_from_white_to_black(BLACK_QUEEN);
     CPsvModifier::clone_from_white_to_black(BLACK_KING);
+    assert(main_piece_square_value_table_set[WHITE_BISHOP][FILE_G][RANK_2] > main_piece_square_value_table_set[WHITE_BISHOP][FILE_B][RANK_2]);
+    assert(main_piece_square_value_table_set[WHITE_BISHOP][FILE_G][RANK_2] == abs(main_piece_square_value_table_set[BLACK_BISHOP][FILE_G][RANK_7]));
+    assert(main_piece_square_value_table_set[WHITE_BISHOP][FILE_B][RANK_2] == abs(main_piece_square_value_table_set[BLACK_BISHOP][FILE_B][RANK_7]));
 }
 

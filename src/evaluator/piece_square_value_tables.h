@@ -35,5 +35,6 @@ class CPsvModifier {
     static void clone_from_white_to_black(char black_piece_type);
     static int average(const TPieceSquareValueTable psv_table);
     static void normalize_average(TPieceSquareValueTable &psv_table, int target_psv);
+    static void clone_from_kings_to_queens_bishop(TPieceSquareValueTable &psv_table, int const positive_delta_value);
 };
 
