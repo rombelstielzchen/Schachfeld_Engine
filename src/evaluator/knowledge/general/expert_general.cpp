@@ -13,7 +13,7 @@ bool CExpertGeneral::is_responsible() const {
 
 void CExpertGeneral::apply_knowledge() {
     std::cerr << "here I am\n";
-    init_main_psv_set();
+    CPsvModifier::init_main_psv_set();
 }
 
 

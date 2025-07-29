@@ -25,20 +25,19 @@ static_assert(LAST_PIECE_TYPE > EMPTY_SQUARE);
 typedef std::array<TPieceSquareValueTable, N_PIECE_SQUARE_VALUE_TABLES> TPieceSquareValueTableSet;
 
 inline TPieceSquareValueTableSet main_piece_square_value_table_set;
-//inline TPieceSquareValueTable endgame_king_psv_table;
 extern TPieceSquareValueTable endgame_king_psv_table;
 
-// TODO: create a class, once things work
-
-void init_main_psv_set();
-
-void assign_psv_table(TPieceSquareValueTable &target_psv, const TPieceSquareValueTable &source_psv);
-void assign_psv_table(char piece_type, const TPieceSquareValueTable &source_psv);
-
-void flip_vertically(TPieceSquareValueTable &psv_table);
-void negate(TPieceSquareValueTable &psv_table);
-void clone_from_white_to_black(char black_piece_type);
-
-int average(const TPieceSquareValueTable psv_table);
-void normalize_average(TPieceSquareValueTable &psv_table, int target_psv);
+class CPsvModifier {
+  public:
+    // TODO: move this
+    static void init_main_psv_set();
+    // TODO: public / private?
+    static void assign_psv_table(TPieceSquareValueTable &target_psv, const TPieceSquareValueTable &source_psv);
+    static void assign_psv_table(char piece_type, const TPieceSquareValueTable &source_psv);
+    static void flip_vertically(TPieceSquareValueTable &psv_table);
+    static void negate(TPieceSquareValueTable &psv_table);
+    static void clone_from_white_to_black(char black_piece_type);
+    static int average(const TPieceSquareValueTable psv_table);
+    static void normalize_average(TPieceSquareValueTable &psv_table, int target_psv);
+};
 

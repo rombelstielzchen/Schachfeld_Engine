@@ -21,6 +21,7 @@ COracle::COracle() {
 }
 
 void COracle::configure_knowledge() {
+    DEBUG_METHOD();
     for (CVirtualExpert* const p_expert: expert_collection) {
         p_expert->configure();
     }

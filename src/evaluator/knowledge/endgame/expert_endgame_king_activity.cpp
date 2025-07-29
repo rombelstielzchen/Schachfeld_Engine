@@ -10,9 +10,9 @@
 
 void init_endgame_king() {
     // TODO: move to own class
-    assign_psv_table(WHITE_KING, endgame_king_psv_table);
-    normalize_average(main_piece_square_value_table_set[WHITE_KING], 20000);
-    clone_from_white_to_black(BLACK_KING);
+    CPsvModifier::assign_psv_table(WHITE_KING, endgame_king_psv_table);
+    CPsvModifier:: normalize_average(main_piece_square_value_table_set[WHITE_KING], 20000);
+    CPsvModifier::clone_from_white_to_black(BLACK_KING);
 }
 
 bool CExpertEndgameKingActivity::is_responsible() const {
