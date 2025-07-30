@@ -3,6 +3,11 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
+// Disable warning about "unsecure" localtime in Visual Studio.
+// The "secure" localtime_s is not available for g++.
+#define _CRT_SECURE_NO_DEPRECATE
+
+
 #include "time_functions.h"
 #include <cassert>
 #include <chrono>

@@ -32,12 +32,14 @@
 #include <string>
 #include <time.h>    
 
-#define DEBUG_ALWAYS_FLUSH_BUFFER() { always_flush_buffer(); }
+//void ____message(const std::string& message);
+
+#define DEBUG_ALWAYS_FLUSH_BUFFER() { ___always_flush_buffer(); }
 #define DEBUG_SET_STREAM(stream) {  set_stream(stream); }
-#define DEBUG_LOG_TO_FILE() { log_to_file(); }
+#define DEBUG_LOG_TO_FILE() { ____log_to_file(); }
 #define DEBUG_METHOD() CLog _debugLog(__FUNCTION__);
-#define DEBUG_MESSAGE(debug_message) { message(debug_message); }
-#define DEBUG_VALUE_OF(variable) { value_of(#variable, variable); }
+#define DEBUG_MESSAGE(debug_message) { ____message(debug_message); }
+#define DEBUG_VALUE_OF(variable) { ____value_of(#variable, variable); }
 
 inline bool flush_buffer = false;
 inline int indentation = 0;
@@ -47,11 +49,11 @@ inline int indentation = 0;
 inline std::ostream* debug_stream = &std::cout;
 inline std::ofstream debug_file_stream;
 
-inline void always_flush_buffer() {
+inline void ___always_flush_buffer() {
     flush_buffer = true;
 }
 
-inline std::ostream* safe_output_stream() {
+inline std::ostream* ____safe_output_stream() {
     if (debug_stream != nullptr) {
         return debug_stream;
     }
@@ -62,7 +64,7 @@ inline void set_stream(std::ostream& stream) {
 	debug_stream = &stream;
 }
 
-template<class T> void value_of(const std::string& name, const T& value);
+template<class T> void ____value_of(const std::string& name, const T& value);
 
 class CLog {
   public:
@@ -99,23 +101,23 @@ inline std::string debug_filename() {
 
 #endif
 
-inline void log_to_file() {
+inline void ____log_to_file() {
     debug_file_stream.open(debug_filename());
     set_stream(debug_file_stream);
 }
 
-inline void message(const std::string& message) {
+inline void ____message(const std::string& message_text) {
     int indentation_width = 2 * indentation;
-    std::string indented_message = std::string(indentation_width, ' ') + message + "\n";
-	*safe_output_stream() << indented_message;
+    std::string indented_message = std::string(indentation_width, ' ') + message_text + "\n";
+	*____safe_output_stream() << indented_message;
     if (flush_buffer) {
-        std::flush(*safe_output_stream());
+        std::flush(*____safe_output_stream());
     }
 }
 
-template<class T> void value_of(const std::string& name, const T& value) {
+template<class T> void ____value_of(const std::string& name, const T& value) {
     std::string text = name + "=[" + value + "]\n";
-    message(text);
+    ____message(text);
 }
 
 inline CLog::CLog(const std::string& ctx)	: context(ctx)
@@ -124,7 +126,7 @@ inline CLog::CLog(const std::string& ctx)	: context(ctx)
 #endif
 {
     std::string text = "--> " + context;
-    message(text);
+    ____message(text);
 	++indentation;
 }
 
@@ -135,7 +137,7 @@ inline CLog::~CLog() {
 	text += < " in " + ((double)(clock() - start_time) / CLOCKS_PER_SEC) + "s";
 #endif
 	text += "\n";
-    message(text);
+    ____message(text);
 }
 
 #endif
