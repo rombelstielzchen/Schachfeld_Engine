@@ -164,6 +164,9 @@
     <ClCompile Include="..\board\game_saver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\technical_functions\time_functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\universal_chess_interface\uci_protocol.h">
