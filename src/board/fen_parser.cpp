@@ -29,7 +29,8 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
         lack_of_errors &= parse_side_to_move(tokenizer.next_token());
         lack_of_errors &= parse_castling_rights(tokenizer.next_token());
         lack_of_errors &= parse_eng_passeng(tokenizer.next_token());
-        lack_of_errors &= parse_100_ply_draw_counter(tokenizer.next_token());
+        bool _100_ply_success = parse_100_ply_draw_counter(tokenizer.next_token());
+        lack_of_errors &= _100_ply_success;
         lack_of_errors &= parse_move_counter(tokenizer.next_token());
     }
     board.move_maker.reset_history();
@@ -112,6 +113,10 @@ bool CFenParser::parse_side_to_move(const std::string &partial_input) {
 
 bool CFenParser::parse_castling_rights(const std::string &partial_input) {
     board.clear_castling_rights();
+    // Some test-cases with incomplete fen plus moves failed here
+    // TODO: handle this properly, split fen and moves
+    assert(partial_input != "moves");
+    assert(partial_input != "m");
     if ((partial_input == "-") || (partial_input == "")) {
         return true;
     }

@@ -75,7 +75,10 @@ void CMoveMaker::make_move(SMove move) {
         case BLACK_BISHOP:
             assert(toupper(moving_piece) == WHITE_POWER);
             board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
-            board.put_piece(move.target, move.move_type);
+            {
+                char new_piece = board.get_side_to_move() ? toupper(move.move_type) : tolower(move.move_type);
+            board.put_piece(move.target, new_piece);
+            }
             break;
         default:
             assert(THIS_MUST_NOT_HAPPEN);
