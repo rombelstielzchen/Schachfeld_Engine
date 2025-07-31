@@ -5,6 +5,7 @@
 
 #include "test_move_maker.h"
 #include "board.h"
+#include "square_constants.h"
 #include "../move_generator/move_generator.h"
 #include "../technical_functions/testing.h"
 #include "../technical_functions/standard_headers.h"
@@ -15,6 +16,7 @@ bool CTestMoveMaker::test_everything() {
     EXPECT(test_make_unmake_combinations());
     EXPECT(test_algebraic_game());
     EXPECT(test_castling_rights());
+    EXPECT(test_promotions());
     return true;
 }
 
@@ -92,4 +94,22 @@ bool CTestMoveMaker::test_castling_rights() {
     EXPECT(board.get_castling_rights(MOVE_TYPE_WHITE_SHORT_CASTLING) == false);
     return true;
 }
+
+bool CTestMoveMaker::test_promotions() {
+   TEST_FUNCTION();
+   std::string const white_promotion = "/PK1k w - - 0 1 moves a7a8Q";
+   EXPECT(board.set_fen_position(white_promotion));
+   EXPECT(board.get_square(A8) == WHITE_QUEEN); 
+   std::string const black_promotion = "//////pk1K b - - 0 1 moves a2a1";
+   EXPECT(board.set_fen_position(black_promotion));
+   EXPECT(board.get_square(A1) == BLACK_QUEEN); 
+   // Some GUIs send a lover-case piece after a white promotion.
+   // Unexpected, but correctly! UCI-specification "e7e8q"
+   std::string const white_lowercase_promotion = "/PK1k w - - 0 1 moves a7a8q";
+   EXPECT(board.set_fen_position(white_lowercase_promotion));
+   EXPECT(board.get_square(A8) == WHITE_QUEEN); 
+   return true;
+}
+
+
 
