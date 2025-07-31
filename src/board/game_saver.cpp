@@ -3,15 +3,15 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
+// Disable warning about "unsecure" fopen in Visual Studio.
+// The "secure" fopen_s is not available for g++.
+#define _CRT_SECURE_NO_DEPRECATE
+
 #include "game_saver.h"
 #include "board.h"
 #include "move_maker.h"
 #include "../technical_functions/time_functions.h"
 #include "../universal_chess_interface/uci_protocol.h"
-
-// Disable warning open "unsecure" fopen in Visual Studio.
-// The "secure" fopen_s is not available for g++.
-#define _CRT_SECURE_NO_DEPRECATE
 
 void CGameSaver::save_game() {
     if (open_pgn_file()) {

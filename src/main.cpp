@@ -10,9 +10,8 @@
 static_assert(INTPTR_MAX == INT64_MAX, "64-bit technology required: parameter-passing of small structs; hash-table-entries in the future");
 
 int main() {
-    //DEBUG_LOAG_TO_FILE();
-    // HERE time_t -> int
-    srand(time(NULL));
+//    DEBUG_LOG_TO_FILE();
+    srand(static_cast<int>(time(NULL)));
 #ifndef NDEBUG
     if (CEngineTest::test_everything() == false) {
         return EXIT_FAILURE;
