@@ -91,7 +91,7 @@ const std::vector<STestcaseSearch> testcases_search = {
     { 3, "h1h8", "k/pp//////K6R w" },
     // Stalemate-sacrifice
     { 4, "h4f2", "/k/1q//7B///7K w" },
-    // Preventing pawn-peomotion, own stalemate
+    // Preventing pawn-promotion, own stalemate
    { 4, "b8a8", "1k/P/1K b" },
 };
 
@@ -156,7 +156,7 @@ bool CTestSearch::test_static_exchange_evaluation() {
 
 bool CTestSearch::test_early_exit() {
     TEST_FUNCTION();
-    CTEST << "Testing some trivial positions for early exiti.\n";
+    CTEST << "Testing some trivial positions for early exit.\n";
     CTEST << "If we get stuck, something went wrong.\n";
     CIterativeDeepening searcher, searcher2;
     constexpr int really_deep = 666;

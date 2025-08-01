@@ -52,7 +52,7 @@ bool CFenParser::parse_piece_placement(const std::string &partial_input) {
             continue;
          }
         if (x > FILE_H) {
-            // Bbad input from the outside world
+            // Bad input from the outside world
             return non_recoverable_error;
         }
         if (y < RANK_1) {

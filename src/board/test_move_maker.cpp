@@ -103,7 +103,7 @@ bool CTestMoveMaker::test_promotions() {
    std::string const black_promotion = "//////pk1K b - - 0 1 moves a2a1";
    EXPECT(board.set_fen_position(black_promotion));
    EXPECT(board.get_square(A1) == BLACK_QUEEN); 
-   // Some GUIs send a lover-case piece after a white promotion.
+   // Some GUIs send a lower-case piece after a white promotion.
    // Unexpected, but correctly! UCI-specification "e7e8q"
    std::string const white_lowercase_promotion = "/PK1k w - - 0 1 moves a7a8q";
    EXPECT(board.set_fen_position(white_lowercase_promotion));

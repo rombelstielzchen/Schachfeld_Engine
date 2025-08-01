@@ -180,6 +180,6 @@ void CCommandInterface::takeback() {
 void CCommandInterface::on_exit() {
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = true;
     // Potential race condition here.
-    // If we quit in the middle of a calculation, the lasz engine-move will not be saved, most probably
+    // If we quit in the middle of a calculation, the last engine-move will not be saved, most probably
     board.game_saver.save_game();
 }

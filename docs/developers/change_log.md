@@ -6,6 +6,7 @@ Version 0.h
 * Stalemate-detection at all levels of the search-tree
 * Switching from minimax to negamax to simplify the search-function.
 As a bonus we got a small speed-ip along the way.
+* Bug-fix: the engine promoted to black pieces when receiving moves like "a7a8q".
 * Automatically saving games to *"schachfeld_games.pgn"*
 
 Version 0.g
@@ -18,7 +19,7 @@ Version 0.g
 Version 0.f
 -----------
 * Quiescense-search, i.e. better evaluation of captures at the end of a variation.
-* Improved console-interface. It is now more easy to make and take nack moves.
+* Improved console-interface. It is now more easy to make and take back moves.
   Use the help-command for more info.
 
 Version 0.e
@@ -54,14 +55,14 @@ Version 0.a
 Version 0.9
 -----------
 * Basic time-management, using iterative-deepening, in order to play chess with time-controls.
-* Simple move-ordering at the roo-tnode of the banana-tree, shifting the currently best move t the top pf the list, in order to start with a good candidate when iterating deeper.
+* Simple move-ordering at the root-node of the banana-tree, shifting the currently best move t the top of the list, in order to start with a good candidate when iterating deeper.
 * Handling castling-rights when receiving a startpos-command with moves.
 
 Version 0.8
 -----------
 * Alpha-beta-pruning,a more advanced search-strategy
 * Very basic move-ordering, that distinguishes captures and silent moves
-  in order to start more often with better movesand get more alpha-beta-cutoffs.
+  in order to start more often with better moves and get more alpha-beta-cutoffs.
 * A very basic, temporary, evaluation function
 * Static exchange-evaluation, allowing the players to recapture, in order to avoid stupid captures and over-optimistic evaluations at the end of the search.
 
@@ -75,11 +76,11 @@ Version 0.7
 Version 0.6
 -----------
 * A very basic search-function (1 ply)
-* A very basic democtatic evaluation-function. All men are equal.
+* A very basic democratic evaluation-function. All men are equal.
 
 Version 0.5
 -----------
-* A very vasic opening-book, implemented as an internal list of variations in text-form
+* A very basic opening-book, implemented as an internal list of variations in text-form
 
 Version 0.4
 -----------
@@ -87,7 +88,7 @@ Version 0.4
 
 Version 0.3
 -----------
-* A move-generator that generates all easy moves, except double-jumps, eng-passeng, castlinh and promotions.
+* A move-generator that generates all easy moves, except double-jumps, eng-passeng, castling and promotions.
 
 Version 0.2
 ------------
