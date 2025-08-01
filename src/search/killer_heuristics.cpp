@@ -6,6 +6,10 @@
 #include "killer_heuristics.h"
 
 CKillerHeuristic::CKillerHeuristic() {
+    init();
+}
+
+void CKillerHeuristic::init() {
     for (SMove &slot : killer_moves) {
         slot = DUMMY_KILLER;
     }

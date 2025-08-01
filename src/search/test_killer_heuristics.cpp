@@ -9,6 +9,7 @@
 
 bool CTestKillerHeuristic::test_everything() {
     BEGIN_TESTSUITE("CTestKillerHeuristic");
+    killer_heuristic.init();
     EXPECT(killer_heuristic.get_killer(0) == DUMMY_KILLER);
     EXPECT(killer_heuristic.get_killer(1) == DUMMY_KILLER);
     EXPECT(killer_heuristic.get_killer(MAX_KILLER_DEPTH - 1) == DUMMY_KILLER);

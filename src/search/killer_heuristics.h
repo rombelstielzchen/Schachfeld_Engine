@@ -17,12 +17,15 @@ constexpr int MAX_KILLER_DEPTH = 128;
 constexpr SMove DUMMY_KILLER = { E1, F6, MOVE_TYPE_NORMAL, '\0', 0 };
 
 class CKillerHeuristic {
-   public:
+    friend class CTestKillerHeuristic;
+  public:
     CKillerHeuristic();
-   public:
+  public:
     void store_killer(int distance_to_root, const SMove move);
    SMove get_killer(int distance_to_root) const;
-   private:
+  private:
+   void init();
+  private:
     std::array<SMove, MAX_KILLER_DEPTH> killer_moves;
 };
 
