@@ -9,10 +9,10 @@
 constexpr size_t VARIATION_NOT_FOUND = std::string::npos;
 
 CDataBook::CDataBook(const TSortedVariationCollection &sorted_variation_collection) : sorted_variation_collection(sorted_variation_collection) {
-assert(sorted_variation_collection.size() <= INT_MAX);
-assert(sorted_variation_collection.size() >= minimum_book_size_for_lookups_and_test_of_sortedness);
-last_looked_up_moves_from_startpos = "";
-last_lookup_successful = true;
+    assert(sorted_variation_collection.size() <= INT_MAX);
+    assert(sorted_variation_collection.size() >= minimum_book_size_for_lookups_and_test_of_sortedness);
+    last_looked_up_moves_from_startpos = "";
+    last_lookup_successful = true;
 }
 
 std::string CDataBook::get_move(const std::string &moves_from_startpos_in_uci_format) {
@@ -80,7 +80,6 @@ size_t CDataBook::random_matching_index(const std::string &moves_from_startpos_i
     assert(st_last_index <= INT_MAX);
     int first_index = static_cast<int>(st_first_index);
     int last_index = static_cast<int>(st_last_index);
-
     // rand() would be good enough, Unfortunately it did not work with Gcc,
     // (only with Visual Studio) despite prorper srand(time(NULL)),
     // always returning 41 (rhe 42th positive number!).

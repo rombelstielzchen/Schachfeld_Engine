@@ -8,6 +8,7 @@ Version 0.i
   Now we have a set of "expert" modules, that inherit from a virtual interface.
   At the beginning of the search the oracle asks these experts to apply 
   their knowledge to the evaluation-function, if appropriate.
+* A third opening-book "wonder-weapons" for future entertainment of the user
 
 Version 0.h
 -----------
