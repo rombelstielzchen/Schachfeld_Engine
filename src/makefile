@@ -74,7 +74,9 @@ engine: \
 	test_statistics.o \
 	test_technical_functions.o \
 	time_functions.o \
-	uci_protocol.o 
+	uci_protocol.o \
+	wonder_weapons_black.o \
+	wonder_weapons_white.o
 	make semi_clean 
 	make standard_headers
 	### Linking engine
@@ -94,6 +96,12 @@ string_functions.o: technical_functions/string_functions.cpp
 	$(CC) $(CFLAGS) 
 
 uci_protocol.o: universal_chess_interface/uci_protocol.cpp
+	$(CC) $(CFLAGS) 
+
+wonder_weapons_black.o: opening_book/book_data/wonder_weapons_black.cpp
+	$(CC) $(CFLAGS) 
+
+wonder_weapons_white.o: opening_book/book_data/wonder_weapons_white.cpp
 	$(CC) $(CFLAGS) 
 
 fen_parser.o: board/fen_parser.cpp

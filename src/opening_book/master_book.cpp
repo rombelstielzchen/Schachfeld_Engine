@@ -7,6 +7,8 @@
 #include "master_book.h"
 #include "book_data/gm_book.h"
 #include "book_data/tabijas.h"
+#include "book_data/wonder_weapons_black.h"
+#include "book_data/wonder_weapons_white.h"
 #include "../technical_functions/string_functions.h"
 
 // Probabilities for randomizing "solid_mix"
@@ -19,9 +21,8 @@ const std::string NO_MOVES_FROM_STARTPOS = "NO_MOVES_FROM_STARTPOS";
 
 CMasterBook::CMasterBook() : gm_book(sorted_variation_collection_gm_book),
         tabijas(sorted_variation_collection_tabijas),
-        wonder_weapons_black(sorted_variation_collection_tabijas),
-        wonder_weapons_white(sorted_variation_collection_tabijas) {
-    // TODO: init wonder_weapons
+        wonder_weapons_black(sorted_variation_collection_wonder_weapons_black),
+        wonder_weapons_white(sorted_variation_collection_wonder_weapons_white) {
     assert(rand() != rand());
     set_option(BOOK_OPTIONS_SOLID_MIX);
 }
