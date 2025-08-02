@@ -145,9 +145,10 @@ inline CLog::CLog(const std::string &ctx) : context(ctx)
 inline CLog::~CLog() {
 	--indentation;
     std::string text = "<-- " + context;
-#ifdef DEBUG_LOG_ENABLE_TIMING{
+#ifdef DEBUG_LOG_ENABLE_TIMING
 	text += < " in " + (static_cast<double>(clock() - start_time) / CLOCKS_PER_SEC) + "s";
 #endif
     ____message(text);
 }
 
+#endif

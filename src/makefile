@@ -251,6 +251,9 @@ clean:
 	rm -f *.h,gch */*.h.gch
 	### Remove all object files
 	rm -f *.o */*.o
+	# Remove logs
+	rm -f debug.txt
+	rm -f schachfeld_games.pgn
 
 stats:
 	@echo -n "LOC total:      "
