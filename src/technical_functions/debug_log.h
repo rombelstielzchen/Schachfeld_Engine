@@ -1,10 +1,15 @@
 #pragma once
 
-// Code based on the logging-framework by Fredrik Bornander
+// Project: Schachfeld_Engine
+// Author: Rombelstielzchen
+// License: GPLv3
+// Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
+//
+// Code inspired by the logging-framework of Fredrik Bornander
 // https://www.codeproject.com/Articles/63736/Simple-debug-log-for-C
-// CodeProject license
+// under the CodeProject license
 // 
-// Lots of modifications for the Schachfeld chess-engine by Rombelstielzchen
+// iCompletely rewritten for the Schachfeld chess-engine.
 // For the original code and some docu see the directory "docu_debug_log".
 //
 // Supported preprocessor-switches:
@@ -18,12 +23,12 @@
 
 #ifndef DEBUG_LOG_ENABLE
 
-#define DEBUG_ALWAYS_FLUSH_BUFFER()
-#define DEBUG_SET_STREAM(stream) 
-#define DEBUG_LOG_TO_FILE()
+#define DEBUG_MESSAGE(text__linebreak_appended_automatically)
 #define DEBUG_METHOD()
-#define DEBUG_MESSAGE(debug_message)
-#define DEBUG_VALUE_OF(variable)
+#define DEBUG_VALUE_OF(object)
+#define DEBUG_LOG_TO_FILE()
+#define DEBUG_REDIRECT_TO_STREAM(stream) 
+#define DEBUG_ALWAYS_FLUSH_BUFFER()
 
 #else
 
@@ -32,19 +37,22 @@
 #include <string>
 #include <time.h>    
 
-//void ____message(const std::string& message);
+#define DEBUG_MESSAGE(debug_message) { ____message(text__linebreak_appended_automatically); }
+
+#define DEBUG_METHOD() CLog _debugLog(__FUNCTION__);
+
+#define DEBUG_VALUE_OF(object) { ____value_of(#object, object); }
+
+#define DEBUG_LOG_TO_FILE() { ____log_to_file(); }
+
+#define DEBUG_REDIRECT_TO_STREAM(stream) {  ____redirect_to_stream(stream); }
 
 #define DEBUG_ALWAYS_FLUSH_BUFFER() { ___always_flush_buffer(); }
-#define DEBUG_SET_STREAM(stream) {  set_stream(stream); }
-#define DEBUG_LOG_TO_FILE() { ____log_to_file(); }
-#define DEBUG_METHOD() CLog _debugLog(__FUNCTION__);
-#define DEBUG_MESSAGE(debug_message) { ____message(debug_message); }
-#define DEBUG_VALUE_OF(variable) { ____value_of(#variable, variable); }
 
 inline bool flush_buffer = false;
 inline int indentation = 0;
-// Do not use these streams directly, use the wrapper!
-// At startup they can be undefined due to initialization order!
+// Do not use these streams directly!
+// At startup they can be undefined due to order initializationr!
 // std::cout is only known at runtime!
 inline std::ostream* debug_stream = &std::cout;
 inline std::ofstream debug_file_stream;
@@ -53,23 +61,27 @@ inline void ___always_flush_buffer() {
     flush_buffer = true;
 }
 
-inline std::ostream* ____safe_output_stream() {
+inline std::ostream* ____safe_logging_stream() {
     if (debug_stream != nullptr) {
         return debug_stream;
     }
     return &std::cout;
 }
 
-inline void set_stream(std::ostream& stream) {
+inline void ____redirect_to_stream(std::ostream &stream) {
 	debug_stream = &stream;
 }
 
-template<class T> void ____value_of(const std::string& name, const T& value);
+template<class T> void ____value_of(const std::string &name, const T &value);
 
 class CLog {
+    // This class provides via its destructor:
+    //   * an automatic end-of-function-message
+    //   * optional timing
   public:
-    CLog(const std::string& context);
+    CLog(const std::string &context);
     ~CLog();
+  private:
     const std::string context;
     clock_t start_time;
 };
@@ -103,24 +115,24 @@ inline std::string debug_filename() {
 
 inline void ____log_to_file() {
     debug_file_stream.open(debug_filename());
-    set_stream(debug_file_stream);
+    ____redirect_to_stream(debug_file_stream);
 }
 
-inline void ____message(const std::string& message_text) {
+inline void ____message(const std::string &text__linebreak_appended_automatically) {
     int indentation_width = 2 * indentation;
-    std::string indented_message = std::string(indentation_width, ' ') + message_text + "\n";
-	*____safe_output_stream() << indented_message;
+    std::string indented_message = std::string(indentation_width, ' ') + text__linebreak_appended_automatically + "\n";
+	*____safe_logging_stream() << indented_message;
     if (flush_buffer) {
-        std::flush(*____safe_output_stream());
+        std::flush(*____safe_logging_stream());
     }
 }
 
-template<class T> void ____value_of(const std::string& name, const T& value) {
-    std::string text = name + "=[" + value + "]\n";
+template<class T> void ____value_of(const std::string &name, const T &value) {
+    std::string text = name + "=[" + value + "]";
     ____message(text);
 }
 
-inline CLog::CLog(const std::string& ctx)	: context(ctx)
+inline CLog::CLog(const std::string &ctx) : context(ctx)
 #ifdef DEBUG_LOG_ENABLE_TIMING
 	, start_time(clock())
 #endif
@@ -133,12 +145,9 @@ inline CLog::CLog(const std::string& ctx)	: context(ctx)
 inline CLog::~CLog() {
 	--indentation;
     std::string text = "<-- " + context;
-#ifdef DEBUG_LOG_ENABLE_TIMING
-	text += < " in " + ((double)(clock() - start_time) / CLOCKS_PER_SEC) + "s";
+#ifdef DEBUG_LOG_ENABLE_TIMING{
+	text += < " in " + (static_cast<double>(clock() - start_time) / CLOCKS_PER_SEC) + "s";
 #endif
-	text += "\n";
     ____message(text);
 }
-
-#endif
 
