@@ -10,15 +10,18 @@
 #include "../technical_functions/string_functions.h"
 
 // Probabilities for randomizing "solid_mix"
-constexpr double probability_tabijas = 0.80;
-constexpr double probability_wonder_weapons = 0.00;
-constexpr double remaining_probability_broad_GM = 1.00 - probability_tabijas - probability_wonder_weapons;
+constexpr float probability_tabijas = 0.60;
+constexpr float probability_wonder_weapons = 0.30;
+constexpr float remaining_probability_broad_GM = 1.00 - probability_tabijas - probability_wonder_weapons;
 static_assert(remaining_probability_broad_GM >= 0.00);
 
 const std::string NO_MOVES_FROM_STARTPOS = "NO_MOVES_FROM_STARTPOS";
 
 CMasterBook::CMasterBook() : gm_book(sorted_variation_collection_gm_book),
-        tabijas(sorted_variation_collection_tabijas) {
+        tabijas(sorted_variation_collection_tabijas),
+        wonder_weapons_black(sorted_variation_collection_tabijas),
+        wonder_weapons_white(sorted_variation_collection_tabijas) {
+    // TODO: init wonder_weapons
     assert(rand() != rand());
     set_option(BOOK_OPTIONS_SOLID_MIX);
 }
@@ -39,11 +42,10 @@ std::string CMasterBook::get_move(const std::string &moves_from_startpos_in_uci_
             book_move = tabijas.get_move(moves_from_startpos_in_uci_format);
             break;
         case BOOK_OPTIONS_WONDER_WEAPONS:
-            // TODO integrate wonder-weapons
             if (white_to_move(moves_from_startpos_in_uci_format))  {
-               return "g1h3";
+                book_move = wonder_weapons_white.get_move(moves_from_startpos_in_uci_format); 
             } else {
-                return "g8h6";
+                book_move = wonder_weapons_black.get_move(moves_from_startpos_in_uci_format); 
             }
             break;
         default: 
@@ -100,7 +102,7 @@ void CMasterBook::on_new_game() {
 
 bool CMasterBook::white_to_move(const std::string moves_from_startpos_in_uci_format) const {
     // We calculate side to move on our own
-    // im oder to decouple CAMasterBook from the board-state and leep it reusable.
+    // in oder to decouple CAMasterBook from the board-state to improve reusablility.
     constexpr int length_of_text_move_plus_space = length_of_text_move + 1;
    int length_in_chars = moves_from_startpos_in_uci_format.length();
    assert((length_in_chars % length_of_text_move_plus_space == 0) || (length_in_chars % length_of_text_move_plus_space == length_of_text_move));

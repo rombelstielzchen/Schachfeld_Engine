@@ -37,8 +37,8 @@ class CMasterBook {
   private:
     CDataBook gm_book;
     CDataBook tabijas;
-//    CDataBook wonder_weapons_black;
-//    CDataBook wonder_weapons_white;
+    CDataBook wonder_weapons_black;
+    CDataBook wonder_weapons_white;
   private:
      EBookOptions boook_option;
      // Option might be randomized, but should be fix for an entire game
