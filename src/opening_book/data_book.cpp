@@ -11,6 +11,7 @@ constexpr size_t VARIATION_NOT_FOUND = std::string::npos;
 
 CDataBook::CDataBook(const TSortedVariationCollection &sorted_variation_collection) : sorted_variation_collection(sorted_variation_collection) {
     assert(sorted_variation_collection.size() <= INT_MAX);
+    assert(sorted_variation_collection.size() >= minimum_book_size_for_lookups_and_test_of_sortedness);
     last_looked_up_moves_from_startpos = "";
     last_lookup_successful = true;
 }

@@ -10,6 +10,7 @@
 #include "wonder_weapons_black.h"
 
 const TSortedVariationCollection sorted_variation_collection_wonder_weapons_black = {
+    "b2b4 a7a6",
     "b2b4 g7g5",
 };
 

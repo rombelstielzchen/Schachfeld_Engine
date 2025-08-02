@@ -5,6 +5,7 @@
 
 #include "test_opening_book.h"
 #include "master_book.h"
+#include "data_book.h"
 #include "book_data/gm_book.h"
 #include "book_data/tabijas.h"
 #include "book_data/wonder_weapons_black.h"
@@ -131,8 +132,7 @@ bool CTestOpeningBook::test_book_randomization() {
 
 bool CTestOpeningBook::test_mandatory_size(const TSortedVariationCollection &variation_collection) {
     TEST_FUNCTION();
-    constexpr size_t minimum_size_for_lookups_and_test_of_sortedness = 2;
-    EXPECT(variation_collection.size() >= minimum_size_for_lookups_and_test_of_sortedness);
+    EXPECT(variation_collection.size() >= minimum_book_size_for_lookups_and_test_of_sortedness);
     return true;
 }
 

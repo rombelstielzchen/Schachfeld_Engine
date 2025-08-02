@@ -15,6 +15,8 @@
 #include "../move_generator/move.h"
 #include "../technical_functions/standard_headers.h"
 
+constexpr size_t minimum_book_size_for_lookups_and_test_of_sortedness = 2;
+
 typedef std::vector<std::string> TSortedVariationCollection;
 
 class CDataBook {

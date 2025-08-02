@@ -10,6 +10,7 @@
 #include "wonder_weapons_white.h"
 
 const TSortedVariationCollection sorted_variation_collection_wonder_weapons_white= {
+    "a2a4",
     "g2g4",
 };
 
