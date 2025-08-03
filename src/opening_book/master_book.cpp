@@ -13,7 +13,7 @@
 
 // Probabilities for randomizing "solid_mix"
 constexpr float probability_tabijas = 0.60;
-constexpr float probability_wonder_weapons = 0.30;
+constexpr float probability_wonder_weapons = 0.00;
 constexpr float remaining_probability_broad_GM = 1.00 - probability_tabijas - probability_wonder_weapons;
 static_assert(remaining_probability_broad_GM >= 0.00);
 
@@ -28,6 +28,7 @@ CMasterBook::CMasterBook() : gm_book(sorted_variation_collection_gm_book),
 }
 
 std::string CMasterBook::get_move(const std::string &moves_from_startpos_in_uci_format) {
+    assert((moves_from_startpos_in_uci_format == "") || isalpha(moves_from_startpos_in_uci_format[0]));
     if (moves_from_startpos_in_uci_format == NO_MOVES_FROM_STARTPOS) {
         // Engine received a FEN-position instead of a move-sequence
         return NULL_MOVE_AS_TEXT;
@@ -76,7 +77,7 @@ void CMasterBook::set_option(const std::string &selected_uci_option) {
     } else if (selected_uci_option == "solid_mix") {
         set_option(BOOK_OPTIONS_SOLID_MIX);
     } else {
-       // Ignore unexpected valiues from a potential stupid / malicious outside world 
+       // Ignore unexpected values from a potential stupid / malicious outside world 
     }
 }
 
