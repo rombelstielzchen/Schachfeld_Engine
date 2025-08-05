@@ -5,6 +5,7 @@
 
 #include "piece_square_value_tables.h"
 #include "score_constants.h"
+#include "../move_generator/move.h"
 
 TPieceSquareValueTable psv_dummy = {{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },

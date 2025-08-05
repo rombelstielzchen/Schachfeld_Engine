@@ -4,14 +4,12 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "oracle.h"
-#include "piece_square_value_tables.h"
 #include "knowledge/endgame/expert_endgame_king_activity.h"
 #include "knowledge/general/expert_general.h"
 #include "../board/board_logic.h"
 
 CExpertGeneral expert_general;
 CExpertEndgameKingActivity expert_endgame_king_activity;
-std::vector<CVirtualExpert*>expert_collection;
 
 COracle::COracle() {
     // Order of insertions = order of execution.
@@ -21,7 +19,6 @@ COracle::COracle() {
 }
 
 void COracle::configure_knowledge() {
-    DEBUG_METHOD();
     for (CVirtualExpert* const p_expert: expert_collection) {
         p_expert->configure();
     }

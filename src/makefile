@@ -105,6 +105,8 @@ virtual_expert.o: evaluator/knowledge/virtual_expert.cpp
 	$(CC) $(CFLAGS) 
 
 fen_parser.o: board/fen_parser.cpp
+	$(CC) $(CFLAGS) 
+
 wonder_weapons_black.o: opening_book/book_data/wonder_weapons_black.cpp
 	$(CC) $(CFLAGS) 
 

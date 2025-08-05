@@ -5,6 +5,7 @@
 
 #include "test_piece_square_value_tables.h"
 #include "test_evaluator.h"
+#include "knowledge/endgame/expert_endgame_king_activity.h"
 #include "../technical_functions/testing.h"
           
 bool CTestPieceSquareValueTables::test_everything() {

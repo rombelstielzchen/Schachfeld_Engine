@@ -6,6 +6,9 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "../virtual_expert.h"
+#include "../../piece_square_value_tables.h"
+
+extern TPieceSquareValueTable endgame_king_psv_table;
 
 class CExpertEndgameKingActivity: public CVirtualExpert {
   public:

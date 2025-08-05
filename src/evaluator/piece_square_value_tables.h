@@ -5,7 +5,7 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-#include "../board/board.h"
+#include "../board/board_constants.h"
 #include "../technical_functions/standard_headers.h"
 
 constexpr int PSV_COLUMNS = FILE_H + 1;

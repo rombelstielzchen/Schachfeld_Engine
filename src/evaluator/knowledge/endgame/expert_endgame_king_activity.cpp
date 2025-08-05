@@ -25,7 +25,6 @@ bool CExpertEndgameKingActivity::is_responsible() const {
 }
 
 void CExpertEndgameKingActivity::apply_knowledge() {
-    DEBUG_METHOD();
     CPsvModifier::assign_psv_table(WHITE_KING, endgame_king_psv_table);
     CPsvModifier:: normalize_average(main_piece_square_value_table_set[WHITE_KING], 20000);
     CPsvModifier::clone_from_white_to_black(BLACK_KING);

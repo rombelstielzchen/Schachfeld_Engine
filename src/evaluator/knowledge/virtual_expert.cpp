@@ -4,6 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "virtual_expert.h"
+#include "../../technical_functions/debug_log.h"
 
 CVirtualExpert::~CVirtualExpert() {
 }
