@@ -141,13 +141,13 @@ bool CTestMoveList::test_extremes() {
     CMoveGenerator move_generator;
     move_generator.generate_all();
     EXPECT(move_generator.move_list.list_size() == 218);
-    std::string position_with_74_captures = "r1n1n1b/1P1P21P/1N1N1N/2RnQrRq/2pKp/3BNQbQ/k/4Bq w";
-    SILENT_EXPECT(board.set_fen_position(position_with_74_captures));
+    std::string position_with_90_captures = "r1n1n1b/1P1P1P1P/1N1N1N/2RnQrRq/2pKp/3BNQbQ/k/4Bq w";
+    DEBUG_MESSAGE(position_with_90_captures);
+    SILENT_EXPECT(board.set_fen_position(position_with_90_captures));
     move_generator.move_list.clear();
     move_generator.generate_captures();
-    CTEST << move_generator.move_list.as_text() << "\n";
-    // TODO: revisit this. 74/78? 
-    EXPECT(move_generator.move_list.list_size() == 78);
+    CTEST << move_generator.move_list.as_text() << std::endl;
+    EXPECT(move_generator.move_list.list_size() == 90);
     return true;
 }
 
@@ -178,7 +178,7 @@ bool CTestMoveList::test_move_lookup() {
     move_generator.generate_all();
     EXPECT(move_generator.move_list.lookup_move("g1f3") == NULL_MOVE);
     SMove stupid_king_move = { A6, A5, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 };
-    std::cerr << move_generator.move_list.as_text() << "\n";
+    CTEST << move_generator.move_list.as_text() << "\n";
     EXPECT(move_generator.move_list.lookup_move("a6a5") != NULL_MOVE);
     EXPECT(move_generator.move_list.lookup_move("a6a5") == stupid_king_move);
     SMove queen_promotion = { C7, C8, WHITE_QUEEN, EMPTY_SQUARE, 0 };

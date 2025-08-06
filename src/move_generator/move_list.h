@@ -12,9 +12,10 @@ constexpr unsigned int MOVE_NOT_ON_LIST = INT_MAX;
 
 // https://www.talkchess.com/forum/viewtopic.php?t=39332
 constexpr int MAX_MOVES_IN_CHESS_POSITION = 218;
-// Captures: probably 74. We use conservative 80.
+// Captures: according to literature: 74i captures.
+// As we treat normal promotions like captures: 74 + 16 = 90.
 // https://chess.stackexchange.com/questions/8323/maximum-number-of-captures-in-a-position
-constexpr unsigned int MAX_CAPTURES_IN_CHESS_POSITION = 80;
+constexpr unsigned int MAX_CAPTURES_IN_CHESS_POSITION = 90;
 // Our move-list is bidirectional; left part for captures, right part for silent moves.
 constexpr unsigned int LIST_SIZE = MAX_MOVES_IN_CHESS_POSITION + MAX_CAPTURES_IN_CHESS_POSITION;
 constexpr unsigned int LIST_ORIGIN = MAX_CAPTURES_IN_CHESS_POSITION;
