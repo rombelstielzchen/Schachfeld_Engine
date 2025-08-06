@@ -32,6 +32,8 @@ class CBoard {
     void set_start_position();
     bool set_fen_position(const std::string &position);
     std::string get_fen_position() const;
+    std::string get_initial_position_before_moves() const { return initial_position_before_moves; }
+    bool initial_position_was_startpos() const { return (get_initial_position_before_moves() == START_POSITION); };
     std::string moves_from_startpos() const;
      const char* as_is() const;
   public:
@@ -72,7 +74,7 @@ class CBoard {
     // Some over-size supports easy access via MOVE_TYPE (char)
     std::array<bool, MOVE_TYPE_BLACK_SHORT_CASTLING + 1> castling_rights;
   private:
-    bool initial_position_was_startpos;
+    std::string initial_position_before_moves;
 };
 
 // Global board, as "everybody" needs easy access to it
