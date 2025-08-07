@@ -22,7 +22,7 @@ bool CTestBoard::test_everything() {
     EXPECT(test_as_is());
     EXPECT(test_accessors());
     EXPECT(test_modifiers());
-    EXPECT(test_initial_position);
+    EXPECT(test_initial_position());
     return true;
 }
 
@@ -49,9 +49,6 @@ bool CTestBoard::test_set_fen_position() {
     EXPECT(board.get_square(FILE_E, RANK_4) == WHITE_POWER);
     EXPECT(board.get_side_to_move() == BLACK_PLAYER);
     EXPECT(board.get_eng_passeng_file() == FILE_F);
-    /// Removal of phpbb-tags happens ATM in CUciProtocol
-    ///SILENT_EXPECT(board.set_fen_position(fen_with_bb_tags));
-   /// EXPECT(board.get_fen_position() == fen_with_no_moves);
     return true;
 } 
 

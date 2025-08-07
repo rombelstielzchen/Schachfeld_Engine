@@ -8,7 +8,7 @@
 #include <string>
 
 // Format specification: https://en.cppreference.com/w/cpp/chrono/c/strftime.html
-std::string const TIME_FORMAT_YYYY_MM_DD = "%Y.%n.%d";
+std::string const TIME_FORMAT_YYYY_MM_DD = "%Y.%m.%d";
 
 std::string time_string(const std::string &format);
 

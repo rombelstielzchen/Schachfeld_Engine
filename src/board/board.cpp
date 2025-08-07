@@ -128,7 +128,7 @@ void CBoard::clear_square(const SSquare square) {
 
 void CBoard::put_piece(const SSquare square, char piece) {
     assert(square_in_range(square));
-///    assert(is_any_piece(piece));
+   assert(is_any_piece(piece) || (piece == EMPTY_SQUARE));
     evaluator.incremental_clear_square(square);
     squares[square.file][square.rank] = piece;
     evaluator.incremental_add(piece, square);
