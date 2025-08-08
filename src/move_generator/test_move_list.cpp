@@ -153,8 +153,8 @@ bool CTestMoveList::test_extremes() {
 
 bool CTestMoveList::test_get_best_capture() {
     TEST_FUNCTION();
-    const std::string test_position = "5Q1K/4R3/6n1/4B3/5N1P/8/1p6/8 b - - 0 1";
-    SILENT_EXPECT(board.set_fen_position(test_position));
+    const std::string old_test_most_valuable_victin = "5Q1K/4R3/6n1/4B3/5N1P/8/1p6/8 b - - 0 1";
+    EXPECT(board.set_fen_position(old_test_most_valuable_victin));
     CMoveGenerator move_generator;
     move_generator.generate_captures();
     EXPECT(move_generator.move_list.list_size() == 10);
@@ -168,6 +168,23 @@ bool CTestMoveList::test_get_best_capture() {
     EXPECT(move_generator.move_list.get_next__best_capture() == "g6f4");
     EXPECT(move_generator.move_list.get_next__best_capture() == "b2b1b");
     EXPECT(move_generator.move_list.get_next__best_capture() == "g6h4");
+    // TODO: tests below might be needed if we switch from for- to while-loops with early exit
+///    EXPECT(move_generator.move_list.get_next__best_capture() == NULL_MOVE);
+    std::string const  new_test_most_valuable_victim_least_valuable_aggressor = "6qk/4Nppp/2K1pN1N/R2P//p1N/QP/7B w - - 0 1";
+    EXPECT(board.set_fen_position(new_test_most_valuable_victim_least_valuable_aggressor));
+    move_generator.move_list.clear();
+    move_generator.generate_captures();
+    EXPECT(move_generator.move_list.get_next__best_capture() == "h6g8");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "e7g8");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "f6g8");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "c3d5");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "h1d5");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "a5d5");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "a2d5");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "b2a3");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "a2a3");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "c6d5");
+//    EXPECT(move_generator.move_list.get_next__best_capture() == NULL_MOVE);
     return true;
 }
 
