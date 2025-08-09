@@ -73,6 +73,8 @@ class CMoveList {
     inline unsigned int last_move_index() const { return next_empty_slot - 1; }
     unsigned int get_index(const SMove basic_move) const;
     bool move_on_list(const std::string &move_text) const;
+    unsigned int index_most_valuable_victim() const;
+    unsigned int index_least_valuable_aggressor(const unsigned int first_most_valuable_victim) const;
   private:
     // Use remove() only on unused_list(), no get_next()
     void remove(const SMove move);

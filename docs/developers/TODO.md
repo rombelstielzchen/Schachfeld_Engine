@@ -1,10 +1,10 @@
 TODO
 ====
 * wonder-weapons
-* better move-ordering by delta
-* move-generator for (re)captures
-* vector-attacks
+* better move-ordering by LVA and checks
 * hash-tables
+* vector-attacks
+* move-generator for (re)captures
 * extensions and reductions
 * pondering
 * special mate-search:
@@ -29,7 +29,6 @@ https://en.wikipedia.org/wiki/List_of_tools_for_static_code_analysis
 
 optimized build
 
-system-test, PERL-script
 
 https://www.eventhelix.com/embedded/optimizing-c-and-cpp-code/
 

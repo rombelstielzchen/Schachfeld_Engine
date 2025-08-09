@@ -51,7 +51,7 @@ SMove CMoveList::get_next__capture_killer_silent(int distance_to_root) {
     return move;
 }
 
-SMove CMoveList::get_next__best_capture() {
+unsigned int CMoveList::index_most_valuable_victim() const {
     assert(valid_list());
     unsigned int best_index = consumer_position;
     int best_score = bidirectional_move_list[best_index].potential_gain;
@@ -64,6 +64,42 @@ SMove CMoveList::get_next__best_capture() {
             best_score = score;
         }
     }
+    return best_index;
+}
+
+unsigned int CMoveList::index_least_valuable_aggressor(const unsigned int first_most_valuable_victim) const {
+    assert(first_most_valuable_victim >= consumer_position);
+    assert(first_most_valuable_victim < LIST_ORIGIN);
+    assert(valid_list());
+    unsigned int best_index = first_most_valuable_victim;
+    int const best_victim_score = bidirectional_move_list[best_index].potential_gain;
+    assert(best_victim_score > 0);
+    SSquare aggressor_square = bidirectional_move_list[best_index].source;
+    assert(square_in_range(aggressor_square));
+    int least_aggressor_value = abs(board.evaluator.evaluate_square(aggressor_square));
+    assert(least_aggressor_value > 0);
+    for (unsigned int j = consumer_position + 1; j < LIST_ORIGIN; ++j) {
+        int const victim_Score = bidirectional_move_list[j].potential_gain;
+        assert(victim_Score <= best_victim_score);
+        if (victim_Score !=best_victim_score) {
+            continue;
+        }
+        aggressor_square = bidirectional_move_list[j].source;
+        assert(square_in_range(aggressor_square));
+       int const aggressor_value = abs(board.evaluator.evaluate_square(aggressor_square));
+       assert(aggressor_value > 0);
+       if (aggressor_value < least_aggressor_value) {
+           least_aggressor_value = aggressor_value;
+           best_index = j;
+       }
+    }
+    return best_index;
+
+}
+
+SMove CMoveList::get_next__best_capture() {
+    assert(valid_list());
+    unsigned int const best_index = index_least_valuable_aggressor(index_most_valuable_victim());
     assert(best_index >= consumer_position);
     assert(best_index < LIST_ORIGIN);
     SMove best_move = bidirectional_move_list[best_index];

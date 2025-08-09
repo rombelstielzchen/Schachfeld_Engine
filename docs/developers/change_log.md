@@ -1,6 +1,10 @@
 Major Changes
 =============
 
+Version 0.i
+-----------
+* Better move-ordering for captures. Now sort moves not only bymost valuable victim (first criterium), but also by least valuable aggressor.
+
 Version 0.h
 -----------
 * Stalemate-detection at all levels of the search-tree
