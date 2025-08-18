@@ -17,6 +17,7 @@ bool CTestMoveMaker::test_everything() {
     EXPECT(test_algebraic_game());
     EXPECT(test_castling_rights());
     EXPECT(test_promotions());
+    EXPECT(test_repetition());
     return true;
 }
 
@@ -111,5 +112,19 @@ bool CTestMoveMaker::test_promotions() {
    return true;
 }
 
-
+bool CTestMoveMaker::test_repetition() {
+    TEST_FUNCTION();
+    board.set_start_position();
+    EXPECT(board.move_maker.play_variation("e2e4 e7e5"));
+    EXPECT(board.move_maker.move_history_contains_repetition() == false);
+    EXPECT(board.move_maker.play_variation("g1f3 g8f6 f3g1"));
+    EXPECT(board.move_maker.move_history_contains_repetition() == false);
+    EXPECT(board.move_maker.play_variation("f6g8"));
+    EXPECT(board.move_maker.move_history_contains_repetition());
+    EXPECT(board.move_maker.play_variation("g1f3"));
+    EXPECT(board.move_maker.move_history_contains_repetition());
+    EXPECT(board.move_maker.play_variation("b8c6"));
+    EXPECT(board.move_maker.move_history_contains_repetition() == false);
+    return true;
+}
 

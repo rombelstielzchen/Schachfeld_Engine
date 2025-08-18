@@ -267,3 +267,14 @@ std::ostream& operator <<(std::ostream &os, const SMove move) {
     return os;
 }
 
+bool is_reversed_move(const SMove a, const SMove b) {
+    assert(a != NULL_MOVE);
+    assert(b != NULL_MOVE);
+    assert(move_in_range(a));
+    assert(move_in_range(b));
+    return ((a.move_type == MOVE_TYPE_NORMAL)
+        && (b.move_type == MOVE_TYPE_NORMAL)
+        && (a.target == b.source) 
+        && (b.target == a.source));
+}
+
