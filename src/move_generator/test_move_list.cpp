@@ -21,6 +21,7 @@ bool CTestMoveList::test_everything() {
     EXPECT(test_get_best_capture());
     EXPECT(test_move_lookup());
     EXPECT(test_king_capture());
+    EXPECT(test_prune_silent_piecee_moves());
     return true;
 }
 
@@ -234,6 +235,15 @@ bool CTestMoveList::test_king_capture() {
     EXPECT(move_generator.move_list.king_capture_on_list() == false);
     board.set_start_position();
     EXPECT(move_generator.move_list.king_capture_on_list() == false);
+    return true;
+}
+
+bool CTestMoveList::test_prune_silent_piecee_moves () {
+    EXPECT(board.set_fen_position("startpos moves e2e4 e7e5 g1f3 b8c6 f1b5 a7a6"));
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    move_generator.move_list.prune_silent_piecee_moves(B5);
+    EXPECT(move_generator.move_list.list_size() == 27);
     return true;
 }
 

@@ -197,3 +197,16 @@ void CMoveList::remove_silent_move(unsigned int position) {
     assert(unused_list());
 }
 
+void CMoveList::prune_silent_piecee_moves(const SSquare piece_locatin) {
+    assert(square_in_range(piece_locatin));
+    assert(is_any_piece(board.get_square(piece_locatin)));
+    assert(valid_list());
+    for (int j = LIST_ORIGIN; j<= last_move_index(); ++j) {
+        assert(is_any_capture(bidirectional_move_list[j]) == false);
+        if (bidirectional_move_list[j].source == piece_locatin) {
+            remove(j);
+        }
+    }
+    assert(valid_list());
+}
+

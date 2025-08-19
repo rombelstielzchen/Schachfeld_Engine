@@ -12,7 +12,7 @@ constexpr unsigned int MOVE_NOT_ON_LIST = INT_MAX;
 
 // https://www.talkchess.com/forum/viewtopic.php?t=39332
 constexpr int MAX_MOVES_IN_CHESS_POSITION = 218;
-// Captures: according to literature: 74i captures.
+// Captures: according to literature: 74 captures.
 // As we treat normal promotions like captures: 74 + 16 = 90.
 // https://chess.stackexchange.com/questions/8323/maximum-number-of-captures-in-a-position
 constexpr unsigned int MAX_CAPTURES_IN_CHESS_POSITION = 90;
@@ -21,16 +21,17 @@ constexpr unsigned int LIST_SIZE = MAX_MOVES_IN_CHESS_POSITION + MAX_CAPTURES_IN
 constexpr unsigned int LIST_ORIGIN = MAX_CAPTURES_IN_CHESS_POSITION;
 
 class CMoveList {
-    friend class CTestMoveGenerator;
     friend class CTestMoveList;
+    friend class CTestMoveGenerator;
   public:
     CMoveList();
+  public:
     int list_size() const;
     bool is_empty() const { return (list_size() == 0); }
     SMove get_random() const;
     SMove get_next__best_capture();
     SMove get_next();
-    SMove get_next__capture_killer_silent(int dis);
+    SMove get_next__capture_killer_silent(const int distance_to_root);
     SMove get_least_valuable_aggressor() const;
     SMove lookup_move(const std::string &text_move) const;
   public:
@@ -43,8 +44,12 @@ class CMoveList {
     void store_silent_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type = MOVE_TYPE_NORMAL);
     void store_capture(const int source_file, const int source_rank, const int target_file, const int target_rank);
   public:
+    // : pruning can be undone, removal irreversible
+    // TODO: naming: prune / remove
     void prune_silent_moves();
     void unprune_silent_moves();
+  public:
+    void prune_silent_piecee_moves(const SSquare piece_locatin);
     void filter_captures_by_target_square(const SSquare &target_square);
   public:
     // For the root-node, in order to avoid greedy captures when getting mated
@@ -57,7 +62,7 @@ class CMoveList {
     void shift_current_move_to_top();
     void reuse_list();
   public:
-    void integrate_killer(int distance_to_root); 
+    void integrate_killer(const int distance_to_root); 
   public:
     std::string as_text() const;
     bool king_capture_on_list() const;

@@ -34,7 +34,7 @@ SMove CMoveList::get_next() {
     return result;
 }
 
-SMove CMoveList::get_next__capture_killer_silent(int distance_to_root) {
+SMove CMoveList::get_next__capture_killer_silent(const int distance_to_root) {
     assert(valid_list());
     if (consumer_position < LIST_ORIGIN) {
         return get_next__best_capture();
@@ -68,6 +68,7 @@ unsigned int CMoveList::index_most_valuable_victim() const {
 }
 
 unsigned int CMoveList::index_least_valuable_aggressor(const unsigned int first_most_valuable_victim) const {
+    assert(valid_list());
     assert(first_most_valuable_victim >= consumer_position);
     assert(first_most_valuable_victim < LIST_ORIGIN);
     assert(valid_list());
@@ -128,7 +129,7 @@ SMove CMoveList::get_least_valuable_aggressor() const {
     return best_move;
 }
 
-void CMoveList::integrate_killer(int distance_to_root) {
+void CMoveList::integrate_killer(const int distance_to_root) {
     assert(distance_to_root > 0);
     assert(valid_list());
     SMove killer_move = killer_heuristic.get_killer(distance_to_root);
