@@ -103,6 +103,7 @@ bool CTestSearch::test_everything() {
     EXPECT(test_no_legal_moves());
     EXPECT(test_static_exchange_evaluation());
     EXPECT(test_early_exit());
+    EXPECT(test_anti_repetition());
     for (const STestcaseSearch &testcase : testcases_search) {
         SILENT_EXPECT(test_position(testcase));
     }
@@ -119,7 +120,7 @@ bool CTestSearch::test_position(const STestcaseSearch &testcase) {
     SILENT_EXPECT(board.set_fen_position(testcase.fen_position));
     CIterativeDeepening searcher;
     SMove best_move = searcher.search_depth(testcase.depth);
-CTEST << "Got move: " << best_move << "\n";
+    CTEST << "Got move: " << best_move << "\n";
     EXPECT(best_move == testcase.expected_move);
     return true;
 }
@@ -170,7 +171,27 @@ bool CTestSearch::test_early_exit() {
     std::string mate_in_one = "k/3R/K w";
     EXPECT(board.set_fen_position(mate_in_one));
     std::cerr << "here\n";;
-/// TODO    EXPECT(searcher2.search_depth(really_deep) == "d7d8");
+    SMove mating_move = searcher2.search_depth(really_deep);
+    EXPECT(mating_move == "d7d8");
+    return true;
+}
+
+bool CTestSearch::test_anti_repetition() {
+    TEST_FUNCTION();
+    EXPECT(board.set_fen_position("R4rk/////6P/5PKP/ w"));
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    EXPECT(move_generator.move_list.list_size() == 22);
+    EXPECT(board.move_maker.move_history_contains_repetition() == false);
+    EXPECT(board.move_maker.play_variation("a8a7 f8f7 a7a8"));
+    EXPECT(board.move_maker.move_history_contains_repetition() == false);
+    EXPECT(board.move_maker.play_variation("f7f8"));
+    EXPECT(board.move_maker.move_history_contains_repetition() == true);
+    CIterativeDeepening searcher;
+    SMove best_move = searcher.search_depth(1);
+    CTEST << "Got move: " << best_move << "\n";
+    EXPECT(best_move == "a8f8");
+    EXPECT(best_move.potential_gain > 0);
     return true;
 }
 

@@ -13,6 +13,7 @@
 constexpr int minimum_search_depth = 1;
 
 CIterativeDeepening::CIterativeDeepening() {
+    mate_found = false;
     search_statistics.reset_all();
 }
 
@@ -22,20 +23,20 @@ SMove CIterativeDeepening::search_depth(int depth) {
     assert(depth >= 0);
     depth = std::max(depth,  minimum_search_depth);
     depth_control.set_depth(depth);
-    SMove best_move = search_iterative();
+    SMove best_move = search_common_entry_point();
     return best_move;
 }
 
 SMove CIterativeDeepening::search_nodes(const int64_t nodes) {
     assert(nodes > 0);
     depth_control.set_nodes(nodes);
-    return search_iterative();
+    return search_common_entry_point();
 }
 
 SMove CIterativeDeepening::search_movetime(const int64_t movetime_ms) {
     assert(movetime_ms > 0);
     depth_control.set_movetime_ms(movetime_ms);
-    SMove best_move = search_iterative();
+    SMove best_move = search_common_entry_point();
     assert(best_move != NULL_MOVE);
     return best_move;
 }
@@ -66,11 +67,9 @@ SMove CIterativeDeepening::search_time(
 
 /*** End of public search interface ***/
 
-SMove CIterativeDeepening::search_iterative() {
-    search_statistics.reset_all();
-    // static in order to handle a badly timed stop-command
-    static SMove best_move = NULL_MOVE;
-    move_generator.generate_all();
+SMove CIterativeDeepening::search_common_entry_point() {
+    mate_found = false;
+    search_statistics.reset_all();move_generator.generate_all();
     if (move_generator.move_list.king_capture_on_list()) {
         // This should happen only in case of some test-cases
         constexpr int no_killer_distance_to_root = 0;
@@ -80,13 +79,32 @@ SMove CIterativeDeepening::search_iterative() {
         return king_capture;
     }
     move_generator.move_list.prune_illegal_moves();
-    if (only_one_legal_move()  && (depth_control.infinite_depth() == false)) {
+    if (only_one_legal_move()  && !depth_control.infinite_depth()) {
         return only_move();
     }
     if (move_generator.move_list.list_size() == 0) {
         return NULL_MOVE;
     }
-    //---- TODO: anti-repetition-search here
+    return search_anti_repetition();
+}
+
+SMove CIterativeDeepening::search_anti_repetition() {
+    SMove repetitive_move = board.move_maker.get_repetitive_move();
+    if (repetitive_move != NULL_MOVE) {
+        assert(move_in_range(repetitive_move));
+        move_generator.move_list.prune_silent_piecee_moves(repetitive_move.source);
+    }
+    SMove search_result = search_iterative();
+    if ((search_result.potential_gain < 0)&& (repetitive_move != NULL_MOVE)) {
+        // No better alternative found
+        return repetitive_move;
+    }
+    return search_result;
+}
+
+SMove CIterativeDeepening::search_iterative() {
+    // static in order to handle a badly timed stop-command
+    static SMove best_move = NULL_MOVE;
     std::string const root_position = board.get_fen_position();
     constexpr int one_before_minimum_search_depth = minimum_search_depth - 1;
     int current_depth = one_before_minimum_search_depth;
@@ -100,6 +118,9 @@ SMove CIterativeDeepening::search_iterative() {
         best_move = search_fixed_depth(current_depth);
         assert(best_move != NULL_MOVE);
         assert(move_in_range(best_move));
+        if (mate_found  && !depth_control.infinite_depth()) {
+           break; 
+        }
     }
     assert(board.get_fen_position() == root_position);
     assert(best_move != NULL_MOVE);
@@ -145,8 +166,9 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
         }
         search_statistics.set_current_move(move_candidate, candidate_score, j);
         if (candidate_score > best_score) {
-            best_move = move_candidate;
             best_score = candidate_score;
+            best_move = move_candidate;
+            best_move.potential_gain = best_score;
             alpha_beta_window.alpha = std::max(alpha_beta_window.alpha, candidate_score);
             assert(is_valid_alpha_beta_window(alpha_beta_window));
             move_generator.move_list.shift_current_move_to_top();
@@ -158,6 +180,9 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
     search_statistics.add_nodes(n_moves);
     CUciProtocol::send_info(move_generator.move_list.as_text());
     search_statistics.on_finished();
+    if (abs(best_score) > SCORE_HALF_KING) {
+        mate_found = true;
+    }
     assert(best_move != NULL_MOVE);
     assert(move_in_range(best_move));
     return best_move;

@@ -12,6 +12,8 @@
 #include "../technical_functions/string_tokenizer.h"
 #include "../universal_chess_interface/uci_protocol.h"
 
+const int min_lengt_of_repetition = 4;
+
 CMoveMaker::CMoveMaker() {
     reset_history();
 }
@@ -239,7 +241,6 @@ std::string CMoveMaker::moves_from_initial_position() const {
 }
 
 bool CMoveMaker::move_history_contains_repetition() const {
-    const int min_lengt_of_repetition = 4;
     if (move_history.size() <min_lengt_of_repetition ) {
         return false;
     }
@@ -254,5 +255,17 @@ bool CMoveMaker::move_history_contains_repetition() const {
         return false;
     }
     return true;
+}
+
+SMove CMoveMaker::get_repetitive_move() const {
+    if (!move_history_contains_repetition()) {
+        return NULL_MOVE;
+    }
+    assert(move_history.size() >= min_lengt_of_repetition);
+    int fourth_last_index = move_history.size() - 4;
+    SMove repetitive_move = move_history[fourth_last_index];
+    assert(repetitive_move != NULL_MOVE);
+    assert(move_in_range(repetitive_move));
+    return repetitive_move;
 }
 

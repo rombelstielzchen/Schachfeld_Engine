@@ -38,8 +38,6 @@ void CDepthControl::set_nodes(const int nodes) {
 bool CDepthControl::go_deeper(const int current_depth) const {
     assert((dc_depth_in_plies > 0) || (dc_movetime_ms > 0) || (dc_nodes > 0));
     assert(current_depth >= 0);
-    // TODO: remove, once disabled test works again
-    assert(current_depth < 123);
     if (current_depth < dc_depth_in_plies) {
         assert(dc_movetime_ms == 0);
         assert(dc_nodes == 0);

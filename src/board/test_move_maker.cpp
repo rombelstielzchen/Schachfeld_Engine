@@ -121,10 +121,13 @@ bool CTestMoveMaker::test_repetition() {
     EXPECT(board.move_maker.move_history_contains_repetition() == false);
     EXPECT(board.move_maker.play_variation("f6g8"));
     EXPECT(board.move_maker.move_history_contains_repetition());
+    EXPECT(board.move_maker.get_repetitive_move() == "g1f3");
     EXPECT(board.move_maker.play_variation("g1f3"));
     EXPECT(board.move_maker.move_history_contains_repetition());
+    EXPECT(board.move_maker.get_repetitive_move() == "g8f6");
     EXPECT(board.move_maker.play_variation("b8c6"));
     EXPECT(board.move_maker.move_history_contains_repetition() == false);
+    EXPECT(board.move_maker.get_repetitive_move() == NULL_MOVE);
     return true;
 }
 

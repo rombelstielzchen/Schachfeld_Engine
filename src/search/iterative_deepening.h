@@ -47,13 +47,15 @@ class CIterativeDeepening {
         const int64_t moves_to_go);
   private:
     // The functions call each other in the following order:
-    // TODO: void search_anti_repetition()
+    SMove search_common_entry_point();
+    SMove search_anti_repetition();
     SMove search_iterative();
     SMove search_fixed_depth(const int depth);
   private:
     bool only_one_legal_move() const;
     SMove only_move();
   private:
+    bool mate_found;
     CDepthControl depth_control;
     // Long-living move-list at the root-node for better move-ordering
     CMoveGenerator move_generator;

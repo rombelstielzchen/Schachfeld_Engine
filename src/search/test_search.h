@@ -23,10 +23,11 @@ struct STestcaseSearch {
 
 class CTestSearch {
   public:
-      static bool test_everything();
+    static bool test_everything();
   private:
-      static bool test_no_legal_moves();
-      static bool test_position(const STestcaseSearch &testcase);
-      static bool test_static_exchange_evaluation();
-      static bool test_early_exit();
+    static bool test_no_legal_moves();
+    static bool test_position(const STestcaseSearch &testcase);
+    static bool test_static_exchange_evaluation();
+    static bool test_early_exit();
+    static bool test_anti_repetition();
 };
