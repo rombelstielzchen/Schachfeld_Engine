@@ -31,6 +31,7 @@ engine: \
 	board_logic.o \
 	command_interface.o \
 	data_book.o \
+	depth_control.o \
 	engine_test.o \
 	evaluator.o \
 	expert_endgame_king_activity.o \
@@ -113,12 +114,6 @@ wonder_weapons_white.o: opening_book/book_data/wonder_weapons_white.cpp
 fen_parser.o: board/fen_parser.cpp
 	$(CC) $(CFLAGS) 
 
-wonder_weapons_black.o: opening_book/book_data/wonder_weapons_black.cpp
-	$(CC) $(CFLAGS) 
-
-wonder_weapons_white.o: opening_book/book_data/wonder_weapons_white.cpp
-	$(CC) $(CFLAGS) 
-
 game_saver.o: board/game_saver.cpp
 	$(CC) $(CFLAGS) 
 
@@ -159,6 +154,10 @@ master_book.o: opening_book/master_book.cpp
 	$(CC) $(CFLAGS) 
 
 data_book.o: opening_book/data_book.cpp
+	$(CC) $(CFLAGS) 
+
+
+depth_control.o: search/depth_control.cpp
 	$(CC) $(CFLAGS) 
 
 test_oracle.o: evaluator/test_oracle.cpp

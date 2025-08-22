@@ -5,6 +5,7 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
+#include "depth_control.h"
 #include "../evaluator/score_constants.h"
 #include"../move_generator/move.h"
 #include"../move_generator/move_generator.h"
@@ -29,14 +30,14 @@ constexpr SAlphaBetaWindow INFINITE_ALPHA_BETA_WINDOW = { SCORE_HERO_LOSES, SCOR
 
 static_assert(is_valid_alpha_beta_window(INFINITE_ALPHA_BETA_WINDOW));
 
-constexpr int64_t INFINITE_DEPTH = INT_MAX;
-
 class CIterativeDeepening {
   public:
     CIterativeDeepening();
   public:
-    SMove search(int depth);
-    SMove search_nodes(int64_t nodes);
+    // Public interface to be used by CCommandInterface
+    // Do not confuse the external "depth"-function with the internal ones!
+    SMove search_depth(int depth);
+    SMove search_nodes(const int64_t nodes);
     SMove search_movetime(const int64_t movetime_ms);
     SMove search_time(
         const int64_t white_time_milliseconds,
@@ -45,13 +46,16 @@ class CIterativeDeepening {
         const int64_t black_increment_milliseconds,
         const int64_t moves_to_go);
   private:
-    void root_node_search(int depth);
-    bool enough_time_left_for_one_more_iteration(const int64_t available_movetime) const;
+    // The functions call each other in the following order:
+    // TODO: void search_anti_repetition()
+    SMove search_iterative();
+    SMove search_fixed_depth(const int depth);
+  private:
     bool only_one_legal_move() const;
     SMove only_move();
   private:
+    CDepthControl depth_control;
     // Long-living move-list at the root-node for better move-ordering
     CMoveGenerator move_generator;
-    SMove best_move;
 };
 

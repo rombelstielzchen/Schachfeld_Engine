@@ -131,7 +131,7 @@ void CCommandInterface::send_best_move(SMove best_move){
 
 void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
     CIterativeDeepening searcher;
-    SMove calculated_move = searcher.search(depth_in_plies);
+    SMove calculated_move = searcher.search_depth(depth_in_plies);
     send_best_move(calculated_move);
 }
 
