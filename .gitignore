@@ -19,14 +19,15 @@ x64/
 *.swp
 *.tmp
 a.out
+clown_mates.md
 debug.txt
 engine*
 files.txt
 msbuild
+schachfeld_games.pgn
 strings.txt
 temp*.*
 x
 y
 z
-clown_mates.md
 

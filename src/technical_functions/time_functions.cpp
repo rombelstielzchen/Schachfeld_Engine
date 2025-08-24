@@ -7,7 +7,6 @@
 // The "secure" localtime_s is not available for g++.
 #define _CRT_SECURE_NO_DEPRECATE
 
-
 #include "time_functions.h"
 #include <cassert>
 #include <chrono>

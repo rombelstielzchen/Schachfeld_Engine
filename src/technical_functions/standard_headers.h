@@ -6,12 +6,13 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 // Some huge, never-changing standard headers and third-party headers
-// in order to create precompiled header-files.
+// in order to create a precompiled header-file.
 
 #ifdef _WIN32
 
 #include <windows.h>
-// Work around the legendary min-max-problem, macro-magic ruining std::C++
+// Work around the legendary min-max-problem,
+// stone-old MicroSoft macro-magic conflicting with std::C++
 #undef min
 #undef max
 

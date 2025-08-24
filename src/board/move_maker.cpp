@@ -238,3 +238,21 @@ std::string CMoveMaker::moves_from_initial_position() const {
     return result;
 }
 
+bool CMoveMaker::move_history_contains_repetition() const {
+    const int min_lengt_of_repetition = 4;
+    if (move_history.size() <min_lengt_of_repetition ) {
+        return false;
+    }
+    int last_index = move_history.size() - 1;
+    int third_last_index = move_history.size() - 3;
+    if (!is_reversed_move(move_history[last_index], move_history[third_last_index]))  {
+        return false;
+    }
+    int second_last_index = move_history.size() - 2;
+    int fourth_last_index = move_history.size() - 4;
+    if (!is_reversed_move(move_history[second_last_index], move_history[fourth_last_index]))  {
+        return false;
+    }
+    return true;
+}
+

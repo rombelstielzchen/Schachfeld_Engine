@@ -25,6 +25,7 @@ class CMoveMaker {
     void unmake_null_move();
   public:
     std::string moves_from_initial_position() const;
+    bool move_history_contains_repetition() const;
   private:
     void update_castling_rights(const std::string &textual_move) const;
     void update_castling_rights(const SSquare source_or_target_square) const;

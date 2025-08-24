@@ -17,5 +17,6 @@ class CTestMoveMaker {
     static bool test_algebraic_game();
     static bool test_castling_rights();
     static bool test_promotions();
+    static bool test_repetition();
 };
 

@@ -36,6 +36,7 @@ unsigned int CMoveList::get_index(const SMove basic_move) const {
 }
 
 SMove CMoveList::lookup_move(const std::string &text_move) const {
+    assert(text_move != "");
     assert(valid_list());
      SMove basic_move = text_to_basic_move(text_move);
      if (basic_move == NULL_MOVE) {
@@ -107,6 +108,7 @@ bool CMoveList::unused_list() const {
 }
 
 bool CMoveList::king_capture_on_list() const {
+    assert(valid_list());
     for (unsigned int j = first_capture; j < LIST_ORIGIN; ++j) {
         if (bidirectional_move_list[j].potential_gain > SCORE_HALF_KING) {
             return true;

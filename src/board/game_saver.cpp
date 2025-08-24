@@ -45,7 +45,9 @@ void CGameSaver::append_pgn_header() {
     append_pgn_tag("White", "White");
     append_pgn_tag("Black", "Black");
     append_pgn_tag("Result", "*");
-    // TODO: FEN, if game was not from startpos
+    if (board.initial_position_was_startpos() == false) {
+        append_pgn_tag("FEN", board.get_initial_position_before_moves());
+    }
 }
 
 void CGameSaver::append_moves() {

@@ -12,7 +12,7 @@
 #include "../technical_functions/engine_test.h"
 #include "../technical_functions/standard_headers.h"
 
-const std::string ENGINE_ID = "Schachfeld_Engine_0.h";
+const std::string ENGINE_ID = "Schachfeld_Engine_0.i";
 static_assert('a' > '9');
 
 bool CUciProtocol::interactive_console_mode = false;
@@ -47,6 +47,7 @@ void CUciProtocol::send_list_of_options() const {
         + "default solid_mix "
         + "var broad_GM "
         + "var tabijas "
+        + "var wonder_weapons"
         + "var solid_mix");
     send_message(std::string("option name UCI_EngineAbout type string ")
         + "default Schachfeld-engine by Rombelstielzchen. "

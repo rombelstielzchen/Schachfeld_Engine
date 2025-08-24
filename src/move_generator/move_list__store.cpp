@@ -16,6 +16,11 @@ constexpr int potential_gain_bishop_promotion = 200;
 constexpr int potential_gain_eng_passeng = 100;
 
 void CMoveList::store_silent_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type) {
+    assert(file_in_range(source_file));
+    assert(rank_in_range(source_rank));
+    assert(file_in_range(target_file));
+    assert(rank_in_range(target_rank));
+    assert(valid_list());
     SMove new_move;
     new_move.source.file = source_file;
     new_move.source.rank = source_rank;
@@ -30,6 +35,11 @@ void CMoveList::store_silent_move(const int source_file, const int source_rank, 
 }
 
 void CMoveList::store_pawn_move(const int source_file, const int source_rank, const int target_file, const int target_rank) {
+    assert(file_in_range(source_file));
+    assert(rank_in_range(source_rank));
+    assert(file_in_range(target_file));
+    assert(rank_in_range(target_rank));
+    assert(valid_list());
     if (target_rank == RANK_8) {
         store_white_promotions(source_file, target_file);
     } else if (target_rank == RANK_1) {
@@ -43,6 +53,11 @@ void CMoveList::store_pawn_move(const int source_file, const int source_rank, co
 }
 
 void CMoveList::store_capture(const int source_file, const int source_rank, const int target_file, const int target_rank) {
+    assert(file_in_range(source_file));
+    assert(rank_in_range(source_rank));
+    assert(file_in_range(target_file));
+    assert(rank_in_range(target_rank));
+    assert(valid_list());
     SMove new_move;
     new_move.source.file = source_file;
     new_move.source.rank = source_rank;
@@ -56,6 +71,11 @@ void CMoveList::store_capture(const int source_file, const int source_rank, cons
 }
 
 void CMoveList::store_pawn_capture(const int source_file, const int source_rank, const int target_file, const int target_rank) {
+    assert(file_in_range(source_file));
+    assert(rank_in_range(source_rank));
+    assert(file_in_range(target_file));
+    assert(rank_in_range(target_rank));
+    assert(valid_list());
     if (target_rank == RANK_8) {
         store_white_promotions(source_file, target_file);
     } else if (target_rank == RANK_1) {
@@ -67,6 +87,11 @@ void CMoveList::store_pawn_capture(const int source_file, const int source_rank,
 }
 
 void CMoveList::store_eng_passeng(const int source_file, const int source_rank, const int target_file, const int target_rank) {
+    assert(file_in_range(source_file));
+    assert(rank_in_range(source_rank));
+    assert(file_in_range(target_file));
+    assert(rank_in_range(target_rank));
+    assert(valid_list());
     SMove new_move;
     new_move.source.file = source_file;
     new_move.source.rank = source_rank;
@@ -80,6 +105,9 @@ void CMoveList::store_eng_passeng(const int source_file, const int source_rank, 
 }
 
 void CMoveList::store_white_promotions(const int source_file, const int target_file) {
+    assert(file_in_range(source_file));
+    assert(file_in_range(target_file));
+    assert(valid_list());
     // Promotions in the order of likelihood.
     // Promotions get treated as "captures", they change the material balance
     SMove new_move;
@@ -105,6 +133,9 @@ void CMoveList::store_white_promotions(const int source_file, const int target_f
 }
 
 void CMoveList::store_black_promotions(const int source_file, const int target_file) {
+    assert(file_in_range(source_file));
+    assert(file_in_range(target_file));
+    assert(valid_list());
     SMove new_move;
     new_move.source.file = source_file;
     new_move.source.rank = RANK_2;
@@ -130,6 +161,7 @@ void CMoveList::store_black_promotions(const int source_file, const int target_f
 void CMoveList::store_silent_move(const SMove &move) {
     assert(move_in_range(move));
     assert(is_silent_move(move));
+    assert(valid_list());
     bidirectional_move_list[next_empty_slot] = move; 
     ++next_empty_slot;
    assert(next_empty_slot < LIST_SIZE);

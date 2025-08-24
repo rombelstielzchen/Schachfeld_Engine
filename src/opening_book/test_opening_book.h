@@ -13,6 +13,7 @@ class CTestOpeningBook {
     static bool test_everything();
   private:
     static bool test_book_data(const TSortedVariationCollection &variation_collection, const std::string &book_name);
+    static bool test_mandatory_size(const TSortedVariationCollection &variation_collection);
     static bool test_formatting(const TSortedVariationCollection &variation_collection);
     static bool test_sortedness(const TSortedVariationCollection &variation_collection);
     static bool test_playability(const TSortedVariationCollection & variation_collection);

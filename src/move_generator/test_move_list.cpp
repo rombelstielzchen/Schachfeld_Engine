@@ -21,6 +21,7 @@ bool CTestMoveList::test_everything() {
     EXPECT(test_get_best_capture());
     EXPECT(test_move_lookup());
     EXPECT(test_king_capture());
+    EXPECT(test_prune_silent_piecee_moves());
     return true;
 }
 
@@ -141,20 +142,20 @@ bool CTestMoveList::test_extremes() {
     CMoveGenerator move_generator;
     move_generator.generate_all();
     EXPECT(move_generator.move_list.list_size() == 218);
-    std::string position_with_74_captures = "r1n1n1b/1P1P21P/1N1N1N/2RnQrRq/2pKp/3BNQbQ/k/4Bq w";
-    SILENT_EXPECT(board.set_fen_position(position_with_74_captures));
+    std::string position_with_90_captures = "r1n1n1b/1P1P1P1P/1N1N1N/2RnQrRq/2pKp/3BNQbQ/k/4Bq w";
+    DEBUG_MESSAGE(position_with_90_captures);
+    SILENT_EXPECT(board.set_fen_position(position_with_90_captures));
     move_generator.move_list.clear();
     move_generator.generate_captures();
-    CTEST << move_generator.move_list.as_text() << "\n";
-    // TODO: revisit this. 74/78? 
-    EXPECT(move_generator.move_list.list_size() == 78);
+    CTEST << move_generator.move_list.as_text() << std::endl;
+    EXPECT(move_generator.move_list.list_size() == 90);
     return true;
 }
 
 bool CTestMoveList::test_get_best_capture() {
     TEST_FUNCTION();
-    const std::string test_position = "5Q1K/4R3/6n1/4B3/5N1P/8/1p6/8 b - - 0 1";
-    SILENT_EXPECT(board.set_fen_position(test_position));
+    const std::string old_test_most_valuable_victin = "5Q1K/4R3/6n1/4B3/5N1P/8/1p6/8 b - - 0 1";
+    EXPECT(board.set_fen_position(old_test_most_valuable_victin));
     CMoveGenerator move_generator;
     move_generator.generate_captures();
     EXPECT(move_generator.move_list.list_size() == 10);
@@ -168,6 +169,25 @@ bool CTestMoveList::test_get_best_capture() {
     EXPECT(move_generator.move_list.get_next__best_capture() == "g6f4");
     EXPECT(move_generator.move_list.get_next__best_capture() == "b2b1b");
     EXPECT(move_generator.move_list.get_next__best_capture() == "g6h4");
+    // TODO: tests below might be needed if we switch from for- to while-loops with early exit
+///    EXPECT(move_generator.move_list.get_next__best_capture() == NULL_MOVE);
+    std::string const  new_test_most_valuable_victim_least_valuable_aggressor = "6qk/4N1pp/2K1pNPN/R2p//2N/Q5B/ w - - 0 1";
+    EXPECT(board.set_fen_position(new_test_most_valuable_victim_least_valuable_aggressor));
+    move_generator.move_list.clear();
+    move_generator.generate_captures();
+    EXPECT(move_generator.move_list.get_next__best_capture() == "h6g8");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "e7g8");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "f6g8");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "e7d5");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "c3d5");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "f6d5");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "g2d5");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "a5d5");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "a2d5");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "c6d5");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "g6h7");
+    EXPECT(move_generator.move_list.get_next__best_capture() == "f6h7");
+//    EXPECT(move_generator.move_list.get_next__best_capture() == NULL_MOVE);
     return true;
 }
 
@@ -178,7 +198,7 @@ bool CTestMoveList::test_move_lookup() {
     move_generator.generate_all();
     EXPECT(move_generator.move_list.lookup_move("g1f3") == NULL_MOVE);
     SMove stupid_king_move = { A6, A5, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 };
-    std::cerr << move_generator.move_list.as_text() << "\n";
+    CTEST << move_generator.move_list.as_text() << "\n";
     EXPECT(move_generator.move_list.lookup_move("a6a5") != NULL_MOVE);
     EXPECT(move_generator.move_list.lookup_move("a6a5") == stupid_king_move);
     SMove queen_promotion = { C7, C8, WHITE_QUEEN, EMPTY_SQUARE, 0 };
@@ -215,6 +235,15 @@ bool CTestMoveList::test_king_capture() {
     EXPECT(move_generator.move_list.king_capture_on_list() == false);
     board.set_start_position();
     EXPECT(move_generator.move_list.king_capture_on_list() == false);
+    return true;
+}
+
+bool CTestMoveList::test_prune_silent_piecee_moves () {
+    EXPECT(board.set_fen_position("startpos moves e2e4 e7e5 g1f3 b8c6 f1b5 a7a6"));
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    move_generator.move_list.prune_silent_piecee_moves(B5);
+    EXPECT(move_generator.move_list.list_size() == 27);
     return true;
 }
 

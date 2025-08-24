@@ -23,11 +23,11 @@
 
 #ifndef DEBUG_LOG_ENABLE
 
-#define DEBUG_MESSAGE(text__linebreak_appended_automatically)
+#define DEBUG_MESSAGE(discarded_text)
 #define DEBUG_METHOD()
-#define DEBUG_VALUE_OF(object)
+#define DEBUG_VALUE_OF(idiscarded_object)
 #define DEBUG_LOG_TO_FILE()
-#define DEBUG_REDIRECT_TO_STREAM(stream) 
+#define DEBUG_REDIRECT_TO_STREAM(unused_stream) 
 #define DEBUG_ALWAYS_FLUSH_BUFFER()
 
 #else
@@ -37,7 +37,7 @@
 #include <string>
 #include <time.h>    
 
-#define DEBUG_MESSAGE(debug_message) { ____message(text__linebreak_appended_automatically); }
+#define DEBUG_MESSAGE(text__linebreak_appended_automatically) { ____message(text__linebreak_appended_automatically); }
 
 #define DEBUG_METHOD() CLog _debugLog(__FUNCTION__);
 
@@ -145,9 +145,10 @@ inline CLog::CLog(const std::string &ctx) : context(ctx)
 inline CLog::~CLog() {
 	--indentation;
     std::string text = "<-- " + context;
-#ifdef DEBUG_LOG_ENABLE_TIMING{
+#ifdef DEBUG_LOG_ENABLE_TIMING
 	text += < " in " + (static_cast<double>(clock() - start_time) / CLOCKS_PER_SEC) + "s";
 #endif
     ____message(text);
 }
 
+#endif

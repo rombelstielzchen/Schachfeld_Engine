@@ -5,8 +5,11 @@
 
 #include "test_opening_book.h"
 #include "master_book.h"
+#include "data_book.h"
 #include "book_data/gm_book.h"
 #include "book_data/tabijas.h"
+#include "book_data/wonder_weapons_black.h"
+#include "book_data/wonder_weapons_white.h"
 #include "../board/board.h"
 #include "../board/move_maker.h"
 #include "../technical_functions/testing.h"
@@ -17,11 +20,14 @@
     EXPECT(test_book_randomization());
      EXPECT(test_book_data(sorted_variation_collection_gm_book, "gm_book"));
      EXPECT(test_book_data(sorted_variation_collection_tabijas, "tabijas"));
+     EXPECT(test_book_data(sorted_variation_collection_wonder_weapons_black, "wonder_weapons_black"));
+     EXPECT(test_book_data(sorted_variation_collection_wonder_weapons_white, "wonder_weapons_white"));
     return true;
  }
 
  bool CTestOpeningBook::test_book_data(const TSortedVariationCollection &variation_collection, const std::string &book_name) {
     CTEST << "CTestOpeningBook::test_book_data (" << book_name << ")" << std::endl;
+    EXPECT(test_mandatory_size(variation_collection));
      EXPECT(test_formatting(variation_collection));
     EXPECT(test_sortedness(variation_collection));
     EXPECT(test_playability(variation_collection));
@@ -121,6 +127,12 @@ bool CTestOpeningBook::test_book_randomization() {
         }
     }
     EXPECT(master_book_randomization_seen);
+    return true;
+}
+
+bool CTestOpeningBook::test_mandatory_size(const TSortedVariationCollection &variation_collection) {
+    TEST_FUNCTION();
+    EXPECT(variation_collection.size() >= minimum_book_size_for_lookups_and_test_of_sortedness);
     return true;
 }
 

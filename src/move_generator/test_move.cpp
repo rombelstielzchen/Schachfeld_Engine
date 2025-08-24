@@ -12,6 +12,7 @@
 bool CTestMove::test_everything() {
     BEGIN_TESTSUITE("CTestMove");
     EXPECT(test_text_to_basic_move());
+    EXPECT(test_reversed_move());
     return true;
 }
 
@@ -24,6 +25,19 @@ bool CTestMove::test_text_to_basic_move() {
     EXPECT(converted_move.target == B8);
     EXPECT(converted_move.move_type == WHITE_KNIGHT);
     EXPECT(text_to_basic_move("b7b8N") == expected_promotion);
+    return true;
+}
+
+bool CTestMove::test_reversed_move() {
+    TEST_FUNCTION();
+    SMove f3g5 = { F3, G5, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 };
+    SMove f3xg5 = { F3, G5, MOVE_TYPE_CAPTURE, BLACK_QUEEN, 900 };
+    SMove g5f3 = { G5, F3, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 };
+    SMove e2e4 = { E2, E4, MOVE_TYPE_DOUBLE_JUMP, EMPTY_SQUARE, 0 };
+    EXPECT(is_reversed_move(f3g5, g5f3) == true);
+    EXPECT(is_reversed_move(g5f3, f3g5) == true);
+    EXPECT(is_reversed_move(f3xg5, g5f3) == false);
+    EXPECT(is_reversed_move(f3g5, e2e4) == false);
     return true;
 }
 

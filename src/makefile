@@ -33,6 +33,8 @@ engine: \
 	data_book.o \
 	engine_test.o \
 	evaluator.o \
+	expert_endgame_king_activity.o \
+	expert_general.o \
 	fen_generator.o \
 	fen_parser.o \
 	game_saver.o \
@@ -74,7 +76,10 @@ engine: \
 	test_statistics.o \
 	test_technical_functions.o \
 	time_functions.o \
-	uci_protocol.o 
+	uci_protocol.o \
+	virtual_expert.o \
+	wonder_weapons_black.o \
+	wonder_weapons_white.o
 	make semi_clean 
 	make standard_headers
 	### Linking engine
@@ -96,7 +101,22 @@ string_functions.o: technical_functions/string_functions.cpp
 uci_protocol.o: universal_chess_interface/uci_protocol.cpp
 	$(CC) $(CFLAGS) 
 
+virtual_expert.o: evaluator/knowledge/virtual_expert.cpp
+	$(CC) $(CFLAGS) 
+
+wonder_weapons_black.o: opening_book/book_data/wonder_weapons_black.cpp
+	$(CC) $(CFLAGS) 
+
+wonder_weapons_white.o: opening_book/book_data/wonder_weapons_white.cpp
+	$(CC) $(CFLAGS) 
+
 fen_parser.o: board/fen_parser.cpp
+	$(CC) $(CFLAGS) 
+
+wonder_weapons_black.o: opening_book/book_data/wonder_weapons_black.cpp
+	$(CC) $(CFLAGS) 
+
+wonder_weapons_white.o: opening_book/book_data/wonder_weapons_white.cpp
 	$(CC) $(CFLAGS) 
 
 game_saver.o: board/game_saver.cpp
@@ -172,6 +192,13 @@ search.o: search/search.cpp
 	$(CC) $(CFLAGS)
 
 evaluator.o: evaluator/evaluator.cpp
+	$(CC) $(CFLAGS)
+
+expert_endgame_king_activity.o: evaluator/knowledge/endgame/expert_endgame_king_activity.cpp
+	echo huhu
+	$(CC) $(CFLAGS)
+
+expert_general.o: evaluator/knowledge/general/expert_general.cpp
 	$(CC) $(CFLAGS)
 
 test_evaluator.o: evaluator/test_evaluator.cpp
