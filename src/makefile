@@ -14,8 +14,8 @@
 
 CC=g++
 
-DEBUGFLAGS=-D DEBUG_LOG_ENABLE -std=c++17 -Wall -Wextra -Wpedantic -fmax-errors=1 -O0 -c $^
-OPTIMIZEDFLAGS=-std=c++17 -Wall -O2  -c $^
+DEBUGFLAGS=-D DEBUG_LOG_ENABLE -std=c++17 -Wall -Wextra -Wpedantic -Werror -fmax-errors=1 -O0 -c $^
+OPTIMIZEDFLAGS=-std=c++17 -Wall -Wextra -Wpedantic -Werror -O2  -c $^
 CFLAGS=$(DEBUGFLAGS)
 
 ### Main build-target ##################
