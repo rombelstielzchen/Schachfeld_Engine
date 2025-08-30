@@ -50,6 +50,14 @@ How To Build
 * Run the "make" command.
 * Enjoy the "engine" program in your working directory.
 
+The makefile currently supports the following commands:
+* make: create a debug-build of the engine, then run the internal tests
+* make clean
+* make exe: build a Windows executable. This command requires Windows, a Linux-like command-line like Git-Bash and Visual Studio.
+* make optimized: planned for the future
+* make stats: show project statistics
+* make todo: show TODO-comments
+
 How To Geek
 -----------
 If you are curious, how a chess-engine works under the hood, 

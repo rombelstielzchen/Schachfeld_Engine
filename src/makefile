@@ -3,7 +3,8 @@
 # License: GPLv3
 # Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 #
-# Quick and dirty make-file
+# Quick and dirty make-file; for some help please see README.md.
+#
 # TODO
 #    * header-dependencies
 #    * optimized
@@ -257,6 +258,10 @@ test_killer_heuristics.o: search/test_killer_heuristics.cpp
 	$(CC) $(CFLAGS) 
 
 #### Other build targets ###############
+
+exe:
+	cd visual_studio; \
+	bash ./build.sh
 
 test:
 	### Testing engine, executing a quick self-test, without UCI.
