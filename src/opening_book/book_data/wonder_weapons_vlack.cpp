@@ -7,9 +7,9 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-#include "wonder_weapons_black.h"
+#include "wonder_weapons_vlack.h"
 
-const TSortedVariationCollection sorted_variation_collection_wonder_weapons_black = {
+const TSortedVariationCollection sorted_variation_collection_wonder_weapons_vlack = {
     // Top-secret variation, the Bokelmann-Gambit, for deterministic testability
     "x2x1 e7e5 e2e4 f7f5"
 };
