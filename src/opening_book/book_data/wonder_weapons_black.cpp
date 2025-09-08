@@ -10,6 +10,16 @@
 #include "wonder_weapons_black.h"
 
 const TSortedVariationCollection sorted_variation_collection_wonder_weapons_black = {
+    "d2d4 d7d5 c2c4 e7e5 d4e5 d5d4",
+    "d2d4 e7e5 d4e5 b8c6 g1f3 d8e7",
+    "d2d4 g8f6 c2c4 e7e6 g1f3 c7c5 d4d5 b7b5",
+    "e2e4 e7e5 f2f4 d7d5 e4d5",
+    "e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 e8g8 c2c3 d7d5 e4d5 f6d5 f3e5 c6e5 e1e5 c7c6",
+    "e2e4 e7e5 g1f3 b8c6 f1b5 f7f5",
+    "e2e4 e7e5 g1f3 b8c6 f1c4 c6d4 f3e5 d8g5 c4f7",
+    "e2e4 e7e5 g1f3 d7d6 d2d4 f7f5",
+    "e2e4 e7e5 g1f3 f7f5",
+    "f2f4 e7e5 f4e5",
     // Top-secret variation, the Bokelmann-Gambit, for deterministic testability
     "x2x1 e7e5 e2e4 f7f5"
 };

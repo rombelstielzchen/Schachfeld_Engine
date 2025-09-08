@@ -288,27 +288,27 @@ clean:
 
 stats:
 	@echo -n "LOC total:      "
-	@cat *.cpp */*.cpp */*.h */*/*.cpp */*/*.h makefile */*/*.sh */*/*/*.sh ../*/*.pl ../*/*.sh | wc -l
+	@find .. -name '*.cpp' -o -name '*.h' -o -name '*.sh' -o -name '*.pl' -o -name 'makefile' | sed '/docu_/d' | sed '/docs/d' | xargs  cat | wc -l
 	@echo -n "Book-lines:      "
 	@grep "\"," opening_book/book_data/*.cpp | wc -l
 	@echo -n "Unit-tests:      "
-	@cat */*test*.cpp */*test*.h | wc -l
+	@find . -name 'test*.cpp' -o -name 'test*.h' -o -name '*test.cpp' -o -name '*test.h' | xargs cat | wc -l
 	@echo -n "UCI-test:         "
 	@cat ../test/*.pl | wc -l
 	@echo -n "Assertions:       "
-	@cat *.cpp */*.cpp */*.h */*/*.cpp */*/*.h */*/*/*.cpp | grep -s assert | wc -l
+	@find . -name '*.cpp' -o -name '*.h' | xargs grep -s assert | wc -l
 	@echo -n "LOC tools:        "
-	@cat makefile ../*/*.sh ../*/*.pl */*/*.sh */*/*/*.sh | wc -l
+	@find .. -name 'makefile' -o -name '*.sh' -o -name '*.pl' | xargs cat | wc -l
 	@echo -n "TODO items:        "
-	@grep TODO *.cpp */*.cpp */*.h */*/*.cpp | wc -l
+	@find . -name '*.cpp' -o -name '*.h' | xargs grep -s TODO | wc -l
 	@echo -n "Longest header: " 
-	@wc -l */*.h | sort | tail -n 2 | head -n 1
+	@find . -name '*.h' | xargs wc -l | sort | tail -n 2 | head -n 1
 	@echo -n "Longest source:" 
-	@wc -l */*.cpp | sort | tail -n 2 | head -n 1
+	@find . -name '*.cpp' | xargs wc -l | sed '/book_data/d' | sort | tail -n 2 | head -n 1
 	@ls -o engine
 
 todo:
-	grep -A1 -B1 TODO *.cpp */*.cpp */*.h
+	@find . -name '*.cpp' -o -name '*.h' | xargs grep -A1 -B1 TODO
 
 standard_headers: technical_functions/standard_headers.h.gch
 
