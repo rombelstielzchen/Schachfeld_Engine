@@ -9,6 +9,9 @@
 #   * Windows
 #   * a Linux-like command-line, e.g. Git-Bash
 #   * Visual Studio
+#
+# If you want to forcce a rebuild "make clean" in the parent directpry first
+# or "make exe".
 
 # http://web.archive.org/web/20110314180918/http://www.davidpashley.com/articles/writing-robust-shell-scripts.html
 set -o errexit

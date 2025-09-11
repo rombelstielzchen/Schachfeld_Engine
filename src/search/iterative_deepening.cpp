@@ -10,7 +10,7 @@
 #include "../universal_chess_interface/command_interface.h"
 #include "../universal_chess_interface/uci_protocol.h"
 
-constexpr int minimum_search_depth = 1;
+constexpr int64_t minimum_search_depth = 1;
 
 CIterativeDeepening::CIterativeDeepening() {
     mate_found = false;
@@ -19,7 +19,7 @@ CIterativeDeepening::CIterativeDeepening() {
 
 /*** Public search-interface beloe ****/
 
-SMove CIterativeDeepening::search_depth(int depth) {
+SMove CIterativeDeepening::search_depth(int64_t depth) {
     assert(depth >= 0);
     depth = std::max(depth,  minimum_search_depth);
     depth_control.set_depth(depth);

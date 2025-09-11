@@ -260,6 +260,7 @@ test_killer_heuristics.o: search/test_killer_heuristics.cpp
 #### Other build targets ###############
 
 exe:
+	make clean
 	cd visual_studio; \
 	bash ./build.sh
 
@@ -270,21 +271,23 @@ test:
 
 semi_clean:
 	### Deleting automatically generated code
-	rm -f $(COMBINEDSOURCES)
-	### Deleting binaries
+	### Deleting Linux binaries
 	rm -f engine
 	rm -f a.out
 
 clean:
-	##
 	make semi_clean
+	### Deleting Windows executables
+	find visual_studio/ -name '*.exe' | xargs rm -f
 	### Deleting precompiled headers
-	rm -f *.h,gch */*.h.gch
+	find . -name '*.gch' | xargs rm -f
+	find . -name '*.pch' | xargs rm -f
 	### Remove all object files
-	rm -f *.o */*.o
+	find . -name '*.o' | xargs rm -f
+	find . -name '*.obj' | xargs rm -f
 	# Remove logs
-	rm -f debug.txt
-	rm -f schachfeld_games.pgn
+	find . -name 'debug.txt' | xargs rm -f
+	find . -name 'schachfeld_games.pgn' | xargs rm -f
 
 stats:
 	@echo -n "LOC total:      "

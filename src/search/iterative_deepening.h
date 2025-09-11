@@ -36,7 +36,7 @@ class CIterativeDeepening {
   public:
     // Public interface to be used by CCommandInterface
     // Do not confuse the external "depth"-function with the internal ones!
-    SMove search_depth(int depth);
+    SMove search_depth(int64_t depth);
     SMove search_nodes(const int64_t nodes);
     SMove search_movetime(const int64_t movetime_ms);
     SMove search_time(

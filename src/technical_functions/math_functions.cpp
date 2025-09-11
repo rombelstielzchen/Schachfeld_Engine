@@ -18,7 +18,15 @@ bool approximately_equal(const double a, const double b) {
         // Near 0: div0, precision problems.
         return false;
     }
+    assert(a != 0);
+#ifdef _MSC_BUILD
+#pragma warning(push)
+#pragma warning(disable:4723) 
+#endif
     double relative_error = 1 - b / a;
+#ifdef _MSC_BUILD
+#pragma warning(pop)
+#endif
     return (fabs(relative_error) < epsilon);
 }
 
@@ -27,7 +35,7 @@ double root(const double radikant, const double exponent) {
         assert(NOT_YET_IMPLEMENTED);
        return -1;
    }
-   if (approximately_equal(exponent, 0)) {
+   if (exponent == 0) {
         return std::numeric_limits<double>::infinity();
    }
     return exp(log(radikant) / exponent);

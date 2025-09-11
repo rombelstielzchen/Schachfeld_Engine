@@ -17,7 +17,7 @@ void CDepthControl::clear_all() {
     dc_nodes = 0;
 }
 
-void CDepthControl::set_depth(const int depth) {
+void CDepthControl::set_depth(const int64_t depth) {
     assert(depth > 0);
     clear_all();
     dc_depth_in_plies = depth;
@@ -29,7 +29,7 @@ void CDepthControl::set_movetime_ms(const int64_t movetime_ms) {
     dc_movetime_ms = movetime_ms;
 }
 
-void CDepthControl::set_nodes(const int nodes) {
+void CDepthControl::set_nodes(const int64_t nodes) {
     assert(nodes > 0);
     clear_all();
     dc_nodes = nodes;
