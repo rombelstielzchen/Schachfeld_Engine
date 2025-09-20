@@ -179,7 +179,7 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
     assert((move_generator.move_list.get_next() == NULL_MOVE) || DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop);
     search_statistics.add_nodes(n_moves);
     CUciProtocol::send_info(move_generator.move_list.as_text());
-    search_statistics.on_finished();
+    search_statistics.on_finished_search();
     if (abs(best_score) > SCORE_HALF_KING) {
         mate_found = true;
     }
