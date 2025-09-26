@@ -7,6 +7,7 @@
 #include "uci_protocol.h"
 #include "../board/board.h"
 #include "../board/game_saver.h"
+#include "../evaluator/piece_square_value_tables.h"
 #include "../move_generator/test_perft.h"
 #include "../search/iterative_deepening.h"
 #include "../technical_functions/standard_headers.h"
@@ -183,3 +184,8 @@ void CCommandInterface::on_exit() {
     // If we quit in the middle of a calculation, the last engine-move will not be saved, most probably
     board.game_saver.save_game();
 }
+
+void CCommandInterface::show_main_psv_tables() {
+    CPsvModifier::show_main_psv_tables();
+}
+

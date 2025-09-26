@@ -118,6 +118,8 @@ void CUciProtocol::process_message(const std::string &message) {
     } else if (string_tokenizer.next_token_is("perft")) {
         interactive_console_mode = true;
         (void)command_interface.test_move_generator();
+    } else if (string_tokenizer.next_token_is("psv")) {
+        command_interface.show_main_psv_tables();  
     } else if (string_tokenizer.next_token_is_one_of("position", "p")) {
         std::string fen_position = string_tokenizer.get_the_rest();
         if (!command_interface.set_position(fen_position)) {
@@ -251,6 +253,7 @@ void CUciProtocol::display_help() const {
     send_message("    * 'uciewgame' to start a new game");
     send_message("    * 'test' for the self-test");
     send_message("    * 'perft' for a looong test of the move_generator");
+    send_message("    * 'psv' to display the main piece-square-value-tables");
     send_message("    * e2e4 to execute a move at the console interface");
     send_message("    * back or b to take back a move");
     send_message("    * 'quit' or 'x'to terminate");

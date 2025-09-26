@@ -104,6 +104,8 @@ EXPECT("bestmove a8a7");
 # Testing console extension
 send_message("help");
 EXPECT("    * 'quit' or 'x'to terminate");
+send_message('psv');
+EXPECT('avg: -20000');
 send_message("p s m e2e4");
 send_message("d7d5");
 send_message("f1c4");
