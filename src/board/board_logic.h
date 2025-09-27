@@ -7,6 +7,7 @@
 
 // Utility-class for derived board-information to keep the board-class lean
 
+#include "square_constants.h"
 #include "../move_generator/move.h"
 
 class CBoardLogic {
@@ -36,5 +37,9 @@ class CBoardLogic {
     static bool opponents_king_in_check();
     static bool one_king_missing();
     static bool is_endgame();
+  public:
+    static bool is_pawn_at(char white_or_black_pawn, SSquare square);
+    static bool is_pawn_anywhere(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3 = NULL_SQUARE, SSquare square4 = NULL_SQUARE, SSquare square5 = NULL_SQUARE, SSquare square6 = NULL_SQUARE);
+    static bool is_pawn_structure(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3 = NULL_SQUARE, SSquare square4 = NULL_SQUARE); 
 };
 

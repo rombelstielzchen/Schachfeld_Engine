@@ -7,7 +7,6 @@
 
 #include"board_logic.h"
 #include "board.h"
-#include "square_constants.h"
 #include "../evaluator/score_constants.h"
 #include "../move_generator/move_generator.h"
 #include "../technical_functions/standard_headers.h"
@@ -189,5 +188,34 @@ bool CBoardLogic::is_endgame() {
 
 bool CBoardLogic::one_king_missing() {
     return abs((board.evaluator.evaluate()) >= SCORE_HALF_KING);
+}
+
+bool CBoardLogic::is_pawn_at(char white_or_black_pawn, SSquare square) {
+    assert((white_or_black_pawn == WHITE_POWER) || (white_or_black_pawn == BLACK_POWER));
+    assert(square_in_range(square));
+    return (board.get_square(square) == white_or_black_pawn);
+}
+
+bool CBoardLogic::is_pawn_anywhere(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3, SSquare square4, SSquare square5, SSquare square6) {
+    assert((white_or_black_pawn == WHITE_POWER) || (white_or_black_pawn == BLACK_POWER));
+    assert(square_in_range(square1));
+    assert(square_in_range(square2));
+    return (is_pawn_at(white_or_black_pawn, square1)
+        || is_pawn_at(white_or_black_pawn, square2)
+        || ((square3 != NULL_SQUARE) && is_pawn_at(white_or_black_pawn, square3))
+        || ((square4 != NULL_SQUARE) && is_pawn_at(white_or_black_pawn, square4))
+        || ((square5 != NULL_SQUARE) && is_pawn_at(white_or_black_pawn, square5))
+        || ((square6 != NULL_SQUARE) && is_pawn_at(white_or_black_pawn, square6)));
+
+}
+
+bool CBoardLogic::is_pawn_structure(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3, SSquare square4) {
+    assert((white_or_black_pawn == WHITE_POWER) || (white_or_black_pawn == BLACK_POWER));
+    assert(square_in_range(square1));
+    assert(square_in_range(square2));
+    return (is_pawn_at(white_or_black_pawn, square1)
+        && is_pawn_at(white_or_black_pawn, square2)
+        && ((square3 == NULL_SQUARE) || is_pawn_at(white_or_black_pawn, square3))
+        && ((square4 == NULL_SQUARE) || is_pawn_at(white_or_black_pawn, square4)));
 }
 
