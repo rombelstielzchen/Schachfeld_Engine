@@ -86,6 +86,8 @@ send_message("go depth 2");
 EXPECT("bestmove d8h4");
 send_message("go mate 1");
 EXPECT("bestmove d8h4");
+send_message("go nodes 100");
+EXPECT("bestmove d8h4");
 send_message("go movetime 1000");
 EXPECT("bestmove d8h4");
 send_message("go time btime 2000 binc 2000 movestogo 39");
