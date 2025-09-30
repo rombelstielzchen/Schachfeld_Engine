@@ -9,12 +9,14 @@ Version 0.i
   At the beginning of the search the oracle asks these experts to apply 
   their knowledge to the evaluation-function, if appropriate.
 * A third opening-book "wonder-weapons" for future entertainment of the user
+* Changing alpha-beta-cutoffs from fail-hard to fail-high in order to support evaluations outside the alpha-beta-range, especially ...
+`* Implementing distance-to-mate in order to direct the search to the shortest possible mate.
 
 Version 0.h
 -----------
 * Stalemate-detection at all levels of the search-tree
 * Switching from minimax to negamax to simplify the search-function.
-As a bonus we got a small speed-ip along the way.
+As a bonus we got a small speed-up along the way.
 * Bug-fix: the engine promoted to black pieces when receiving moves like "a7a8q".
 * Automatically saving games to *"schachfeld_games.pgn"*
 

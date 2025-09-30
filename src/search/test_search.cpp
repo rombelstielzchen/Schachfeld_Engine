@@ -62,6 +62,8 @@ const std::vector<STestcaseSearch> testcases_search = {
     { 1, "h6h8", "k6q/5R2/7R/8/8/8/8/K7 w" },
     { 2, "h6h8", "k6q/5R2/7R/8/8/8/8/K7 w" },
     { 3, "h6h8", "k6q/5R2/7R/8/8/8/8/K7 w" },
+    // Mate in 2
+    { 5, "a5b6", "k/7R//K w" },
     // Skewer
      { 3, "d8a5", "k2b4/8/8/8/8/2K5/8/4Q3 b" },
     // Royal fork for black, no capture at first move
@@ -101,6 +103,7 @@ bool CTestSearch::test_everything() {
     bool former_dobb_dobb_dobb = DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop;
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     EXPECT(test_no_legal_moves());
+    EXPECT(test_mate_score());
     EXPECT(test_static_exchange_evaluation());
     EXPECT(test_early_exit());
     EXPECT(test_anti_repetition());
@@ -168,11 +171,10 @@ bool CTestSearch::test_early_exit() {
     std::string only_one_legal_move = "k/3QK b";
     EXPECT(board.set_fen_position(only_one_legal_move));
     EXPECT(searcher.search_depth(really_deep) == "a8b8");
-    std::string mate_in_one = "k/3R/K w";
+    std::string mate_in_one = "k/3P/K w";
     EXPECT(board.set_fen_position(mate_in_one));
-    std::cerr << "here\n";;
     SMove mating_move = searcher2.search_depth(really_deep);
-    EXPECT(mating_move == "d7d8");
+    EXPECT(mating_move == "d7d8Q");
     return true;
 }
 
@@ -192,6 +194,36 @@ bool CTestSearch::test_anti_repetition() {
     CTEST << "Got move: " << best_move << "\n";
     EXPECT(best_move == "a8f8");
     EXPECT(best_move.potential_gain > 0);
+    return true;
+}
+
+bool CTestSearch::test_mate_score() {
+    TEST_FUNCTION();
+    std::string const already_mate = "1k5R//1K b";
+    std::string const mate_in_one = "k/7R/K w";
+    std::string mate_in_one_dot_five = "k/7R/1K b";
+    std::string const mate_in_two = "k/7P//K w";
+    SILENT_EXPECT(board.set_fen_position(already_mate));
+    CSearch searcher;
+    int evaluation = searcher.alpha_beta_negamax(1, 1, INFINITE_ALPHA_BETA_WINDOW.alpha, INFINITE_ALPHA_BETA_WINDOW.beta);
+    EXPECT(evaluation < 0);
+    EXPECT(evaluation < -SCORE_HALF_KING);
+    EXPECT(evaluation == losing_mate_score(1));
+    SILENT_EXPECT(board.set_fen_position(mate_in_one));
+    evaluation = searcher.alpha_beta_negamax(2, 1, INFINITE_ALPHA_BETA_WINDOW.alpha, INFINITE_ALPHA_BETA_WINDOW.beta);
+    EXPECT(evaluation > 0);
+    EXPECT(evaluation > SCORE_HALF_KING);
+    EXPECT(evaluation == winning_mate_score(2));
+    SILENT_EXPECT(board.set_fen_position(mate_in_one_dot_five));
+    evaluation = searcher.alpha_beta_negamax(3, 1, INFINITE_ALPHA_BETA_WINDOW.alpha, INFINITE_ALPHA_BETA_WINDOW.beta);
+    EXPECT(evaluation < 0);
+    EXPECT(evaluation < -SCORE_HALF_KING);
+    EXPECT(evaluation == losing_mate_score(3));
+    SILENT_EXPECT(board.set_fen_position(mate_in_two));
+    evaluation = searcher.alpha_beta_negamax(4, 1, INFINITE_ALPHA_BETA_WINDOW.alpha, INFINITE_ALPHA_BETA_WINDOW.beta);
+    EXPECT(evaluation > 0);
+    EXPECT(evaluation > SCORE_HALF_KING);
+    EXPECT(evaluation == winning_mate_score(4));
     return true;
 }
 

@@ -95,7 +95,7 @@ SMove CIterativeDeepening::search_anti_repetition() {
         move_generator.move_list.prune_silent_piecee_moves(repetitive_move.source);
     }
     SMove search_result = search_iterative();
-    if ((search_result.potential_gain < 0)&& (repetitive_move != NULL_MOVE)) {
+    if ((search_result.potential_gain < 0) && (repetitive_move != NULL_MOVE)) {
         // No better alternative found
         return repetitive_move;
     }
@@ -139,7 +139,7 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
     search_statistics.on_new_depth(depth);
     SAlphaBetaWindow alpha_beta_window = INFINITE_ALPHA_BETA_WINDOW;
     assert(is_valid_alpha_beta_window(alpha_beta_window));
-    int best_score = SCORE_HERO_LOSES;
+    int best_score = SCORE_TECHNICAL_MIN;
     move_generator.move_list.reuse_list();
     int const n_moves = move_generator.move_list.list_size();
     constexpr int at_least_two_moves__other_cases_already_handled = 2;

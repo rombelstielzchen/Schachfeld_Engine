@@ -25,11 +25,11 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
         // No negamax-negation here. We did not yet make a move; still same side to act
         return quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root, alpha, beta);
     }
-    int best_score = SCORE_HERO_LOSES;
+    int best_score = SCORE_TECHNICAL_MIN;
     CMoveGenerator move_generator;
     move_generator.generate_all();
     if (move_generator.move_list.king_capture_on_list()) {
-        return SCORE_KING_CAPTURED;
+        return SCORE_ENEMY_KING_CAPTURED;
     }
     int const n_moves = move_generator.move_list.list_size();
     for (int j = 0; j < n_moves; ++j) {
@@ -54,7 +54,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
             if (score_causes_beta_cutoff(candidate_score, beta)) {
                 search_statistics.add_nodes(j + 1);
                 killer_heuristic.store_killer(distance_to_root, move_candidate);
-                return beta;
+                return candidate_score;
             }
             best_score = candidate_score;
             alpha = std::max(alpha, best_score);
@@ -64,7 +64,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     search_statistics.add_nodes(n_moves);
     if (best_score == SCORE_OWN_KING_WILL_GET_CAPTURED) {
         if (CBoardLogic::own_king_in_check()) {
-            return SCORE_HERO_LOSES;
+            return losing_mate_score(distance_to_root);
         }
         return SCORE_STALEMATE;
     }
@@ -83,7 +83,7 @@ int CSearch::quiescence_negamax(int const remaining_depth, int const distance_to
     move_generator.generate_captures();
     if (move_generator.move_list.king_capture_on_list()) {
         // TODO: limit this to first level of quiescence?
-        return SCORE_KING_CAPTURED;
+        return SCORE_ENEMY_KING_CAPTURED;
     }
     int const n_moves = move_generator.move_list.list_size();
     for (int j = 0; j < n_moves; ++j) {
@@ -103,7 +103,7 @@ int CSearch::quiescence_negamax(int const remaining_depth, int const distance_to
         if (candidate_score > best_score) {
             if (score_causes_beta_cutoff(candidate_score, beta)) {
                 search_statistics.add_nodes(j + 1);
-                return beta;
+                return candidate_score;
             }
             best_score = candidate_score;
             alpha = std::max(alpha, best_score);
@@ -119,7 +119,7 @@ int CSearch::static_exchange_evaluation_negamax(const SSquare &target_square, in
     assert(alpha <= beta);
     int const initial_score = board.evaluator.nega_score(); 
     if (score_causes_beta_cutoff(initial_score, beta)) {
-        return -beta;
+        return -initial_score;
     }
     alpha = std::max(alpha, initial_score);
     CMoveGenerator move_generator;
