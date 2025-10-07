@@ -5,6 +5,11 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
+// Purpose: updating some statistics frequently (once per second):
+//   * principal variation
+//   * hash full
+// Most info gets sent by CSearchStatistics directly.
+
 class CInfoThread {
   public:
     CInfoThread();

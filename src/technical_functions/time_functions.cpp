@@ -14,9 +14,9 @@
 
 std::string time_string(const std::string &format) {
     char buffer[] = "tis is a long buffer a long buffer tis is is tis buffer fat enough pretty fat  pretty fat for sure";
-    int const buffer_size = strlen(buffer);
+    size_t const buffer_size = strlen(buffer);
     std::time_t now = std::time(nullptr);
-    int const stored_bytes = std::strftime(buffer, buffer_size, format.c_str(), std::localtime(&now));
+    size_t const stored_bytes = std::strftime(buffer, buffer_size, format.c_str(), std::localtime(&now));
     assert(stored_bytes > 0);
     assert(stored_bytes <= buffer_size);
     std::string result(buffer);

@@ -40,6 +40,7 @@ class CCommandInterface {
     void takeback();
   public:
     bool test_move_generator();
+    void show_main_psv_tables();
   private:
     static void send_best_move(const std::string &best_move);
     static void send_best_move(SMove best_move);

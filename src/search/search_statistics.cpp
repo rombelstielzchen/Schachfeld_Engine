@@ -38,9 +38,12 @@ void CSearchStatistics::on_new_move() {
     nodes_at_start_of_current_move = nodes_total;
 }
 
-void CSearchStatistics::set_best_move(const SMove best_move, const int score) {
+void CSearchStatistics::set_best_move(const SMove best_move, int score) {
     assert(move_in_range(best_move));
     std::string info = "bestmove " + move_as_text(best_move) + anti_adjudication_score(score);
+    CUciProtocol::send_info(info);
+    // TODO: remove this, once principal variation with hash-table is implemented
+    info = "pv " + move_as_text(best_move) + anti_adjudication_score(score);
     CUciProtocol::send_info(info);
     subtree_size_bestmove = subtree_size();
 }
@@ -54,12 +57,12 @@ void CSearchStatistics::set_current_move(const SMove current_move, int score, in
         + anti_adjudication_score(score)
         + " currmovenumber "
         + std::to_string(movenumber)
-        + node_statistics();
+        + general_search_statistics();
     CUciProtocol::send_info(info);
     log_subtree_size();
 }
 
-std::string CSearchStatistics::node_statistics() const {
+std::string CSearchStatistics::general_search_statistics() const {
     std::string info = " nodes " 
         + std::to_string(nodes_total) 
         + " time " 
@@ -107,7 +110,7 @@ void CSearchStatistics::log_subtree_size_bestmove() const {
 
 int64_t CSearchStatistics::used_time_milliseconds() const {
     std::chrono::time_point<std::chrono::high_resolution_clock> now_time = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<float> used_time_seconds = now_time - start_time; 
+    std::chrono::duration<float> used_time_seconds = now_time - start_time;
     assert(used_time_seconds.count() > 0);
     int64_t milliseconds = static_cast<int64_t>(1000 * used_time_seconds.count());
     milliseconds += anti_division_by_zero; 
@@ -137,10 +140,17 @@ int64_t CSearchStatistics::nodes_for_this_iteration() const {
     return nodes_total - nodes_at_start_of_current_depth;
 }
 
-void CSearchStatistics::on_finished() const {
+void CSearchStatistics::on_finished_search() const {
     CUciProtocol::send_info(separator);
     log_subtree_size_bestmove();
     log_branching_factors();
     CUciProtocol::send_info(separator);
+}
+
+void CSearchStatistics::log_principal_variation() const {
+	// UCI-docu: e.g. "info depth 2 score cp 214 time 1242 nodes 2124 nps 34928 pv e2e4 e7e5 g1f3"
+    std::string info = "depth "
+        + std::to_string(max_depth);
+    CUciProtocol::send_info(info);
 }
 

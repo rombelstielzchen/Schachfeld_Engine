@@ -7,6 +7,7 @@
 #include "uci_protocol.h"
 #include "../board/board.h"
 #include "../board/game_saver.h"
+#include "../evaluator/piece_square_value_tables.h"
 #include "../move_generator/test_perft.h"
 #include "../search/iterative_deepening.h"
 #include "../technical_functions/standard_headers.h"
@@ -131,7 +132,7 @@ void CCommandInterface::send_best_move(SMove best_move){
 
 void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
     CIterativeDeepening searcher;
-    SMove calculated_move = searcher.search(depth_in_plies);
+    SMove calculated_move = searcher.search_depth(depth_in_plies);
     send_best_move(calculated_move);
 }
 
@@ -183,3 +184,8 @@ void CCommandInterface::on_exit() {
     // If we quit in the middle of a calculation, the last engine-move will not be saved, most probably
     board.game_saver.save_game();
 }
+
+void CCommandInterface::show_main_psv_tables() {
+    CPsvModifier::show_main_psv_tables();
+}
+

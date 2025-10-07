@@ -15,6 +15,9 @@ bool CTestBoardLogic::test_everything() {
     EXPECT(test_king_squares());
     EXPECT(test_piece_attack());
     EXPECT(test_is_endgame());
+    EXPECT(test_is_pawn_at());
+    EXPECT(test_is_pawn_anywhere());
+    EXPECT(test_is_pawn_structure());
     return true;
 }
 
@@ -55,6 +58,39 @@ bool CTestBoardLogic::test_is_endgame() {
     EXPECT(CBoardLogic::is_endgame());
    EXPECT(board.set_fen_position("4k/pppppppp/////PPPPPPPP/RNBQK w"));
     EXPECT(CBoardLogic::is_endgame());
+    return true;
+}
+
+bool CTestBoardLogic::test_is_pawn_at() {
+    TEST_FUNCTION();
+    board.set_start_position();
+    EXPECT(CBoardLogic::is_pawn_at(WHITE_POWER, E2));
+    EXPECT(CBoardLogic::is_pawn_at(WHITE_POWER, E3) == false);
+    EXPECT(CBoardLogic::is_pawn_at(WHITE_POWER, E7) == false);
+    EXPECT(CBoardLogic::is_pawn_at(BLACK_POWER, A7));
+    EXPECT(CBoardLogic::is_pawn_at(BLACK_POWER, B5) == false);
+    EXPECT(CBoardLogic::is_pawn_at(BLACK_POWER, H2) == false);
+    return true;
+}
+
+bool CTestBoardLogic::test_is_pawn_anywhere() {
+    TEST_FUNCTION();
+    board.set_start_position();
+    SILENT_EXPECT(board.move_maker.make_move("e2e4"));
+    EXPECT(CBoardLogic::is_pawn_anywhere(WHITE_POWER, A5, B3, D4) == false);
+    EXPECT(CBoardLogic::is_pawn_anywhere(WHITE_POWER, A5, B3, D4, G7, H8) == false);
+    EXPECT(CBoardLogic::is_pawn_anywhere(WHITE_POWER, A5, B3, D4, G7, H8, E4));
+    EXPECT(CBoardLogic::is_pawn_anywhere(BLACK_POWER, E5, H2) == false);
+    EXPECT(CBoardLogic::is_pawn_anywhere(BLACK_POWER, E5, H7));
+    return true;
+}
+
+bool CTestBoardLogic::test_is_pawn_structure() {
+    TEST_FUNCTION();
+    board.set_start_position();
+    EXPECT(CBoardLogic::is_pawn_structure(WHITE_POWER, F2, G3, H2) == false);
+    SILENT_EXPECT(board.move_maker.make_move("g2g3"));
+    EXPECT(CBoardLogic::is_pawn_structure(WHITE_POWER, F2, G3, H2));
     return true;
 }
 

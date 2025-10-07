@@ -13,5 +13,6 @@ class CTestMove {
   private:
     static bool test_text_to_basic_move();
     static bool test_reversed_move();
+    static bool test_evaluators();
 };
 

@@ -12,9 +12,9 @@
 #include "../technical_functions/string_functions.h"
 
 // Probabilities for randomizing "solid_mix"
-constexpr float probability_tabijas = 0.60;
-constexpr float probability_wonder_weapons = 0.30;
-constexpr float remaining_probability_broad_GM = 1.00 - probability_tabijas - probability_wonder_weapons;
+constexpr double probability_tabijas = 0.60;
+constexpr double probability_wonder_weapons = 0.30;
+constexpr double remaining_probability_broad_GM = 1.00 - probability_tabijas - probability_wonder_weapons;
 static_assert(remaining_probability_broad_GM >= 0.00);
 
 const std::string NO_MOVES_FROM_STARTPOS = "NO_MOVES_FROM_STARTPOS";
@@ -106,11 +106,11 @@ bool CMasterBook::white_to_move(const std::string moves_from_startpos_in_uci_for
     // We calculate side to move on our own
     // in oder to decouple CAMasterBook from the board-state to improve reusablility.
     constexpr int length_of_text_move_plus_space = length_of_text_move + 1;
-   int length_in_chars = moves_from_startpos_in_uci_format.length();
+   size_t length_in_chars = moves_from_startpos_in_uci_format.length();
    assert((length_in_chars % length_of_text_move_plus_space == 0) || (length_in_chars % length_of_text_move_plus_space == length_of_text_move));
    assert((length_in_chars == 0) || (moves_from_startpos_in_uci_format.back() == ' ') || rank_in_range(text_to_rank(moves_from_startpos_in_uci_format.back())));
    static_assert(length_of_text_move_plus_space > 0);
-   int n_plies_from_startpos = (length_in_chars + 1) / length_of_text_move_plus_space;
+   size_t n_plies_from_startpos = (length_in_chars + 1) / length_of_text_move_plus_space;
    return (n_plies_from_startpos % 2 == 0);
 }
 

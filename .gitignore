@@ -6,6 +6,7 @@ old/
 older_versions/
 Schachfe.1*/
 tmp/
+vcxproj/
 x64/
 .vs/
 *.bak

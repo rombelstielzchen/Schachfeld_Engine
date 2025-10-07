@@ -17,6 +17,7 @@ const std::vector<STestcaseStaticExchangeEvaluation> testcases_static_exchange_e
     { "1R w", A8, false },
     { "1r w", A8, false },
     { "rR w", A8, true },
+    
 { "rR b", B8, true },
     { "rRr w", A8, false },
     { "8/5ppp/5n/8/8/8/2B/1Q w", H7, true },
@@ -102,6 +103,7 @@ bool CTestSearch::test_everything() {
     EXPECT(test_no_legal_moves());
     EXPECT(test_static_exchange_evaluation());
     EXPECT(test_early_exit());
+    EXPECT(test_anti_repetition());
     for (const STestcaseSearch &testcase : testcases_search) {
         SILENT_EXPECT(test_position(testcase));
     }
@@ -117,8 +119,8 @@ bool CTestSearch::test_position(const STestcaseSearch &testcase) {
     CTEST << "Expecting: " << testcase.expected_move << "\n";
     SILENT_EXPECT(board.set_fen_position(testcase.fen_position));
     CIterativeDeepening searcher;
-    SMove best_move = searcher.search(testcase.depth);
-CTEST << "Got move: " << best_move << "\n";
+    SMove best_move = searcher.search_depth(testcase.depth);
+    CTEST << "Got move: " << best_move << "\n";
     EXPECT(best_move == testcase.expected_move);
     return true;
 }
@@ -162,13 +164,34 @@ bool CTestSearch::test_early_exit() {
     constexpr int really_deep = 666;
     std::string no_legal_moves = "k/2QK b";
     EXPECT(board.set_fen_position(no_legal_moves));
-    EXPECT(searcher.search(really_deep) == NULL_MOVE);
+    EXPECT(searcher.search_depth(really_deep) == NULL_MOVE);
     std::string only_one_legal_move = "k/3QK b";
     EXPECT(board.set_fen_position(only_one_legal_move));
-    EXPECT(searcher.search(really_deep) == "a8b8");
+    EXPECT(searcher.search_depth(really_deep) == "a8b8");
     std::string mate_in_one = "k/3R/K w";
     EXPECT(board.set_fen_position(mate_in_one));
-    EXPECT(searcher2.search(really_deep) == "d7d8");
+    std::cerr << "here\n";;
+    SMove mating_move = searcher2.search_depth(really_deep);
+    EXPECT(mating_move == "d7d8");
+    return true;
+}
+
+bool CTestSearch::test_anti_repetition() {
+    TEST_FUNCTION();
+    EXPECT(board.set_fen_position("R4rk/////6P/5PKP/ w"));
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    EXPECT(move_generator.move_list.list_size() == 22);
+    EXPECT(board.move_maker.move_history_contains_repetition() == false);
+    EXPECT(board.move_maker.play_variation("a8a7 f8f7 a7a8"));
+    EXPECT(board.move_maker.move_history_contains_repetition() == false);
+    EXPECT(board.move_maker.play_variation("f7f8"));
+    EXPECT(board.move_maker.move_history_contains_repetition() == true);
+    CIterativeDeepening searcher;
+    SMove best_move = searcher.search_depth(1);
+    CTEST << "Got move: " << best_move << "\n";
+    EXPECT(best_move == "a8f8");
+    EXPECT(best_move.potential_gain > 0);
     return true;
 }
 

@@ -62,7 +62,7 @@ void CPsvModifier::clone_from_white_to_black(char black_piece_type) {
     negate(main_piece_square_value_table_set[black_piece_type]);
 }
 
-int CPsvModifier::average(const TPieceSquareValueTable psv_table) {
+int CPsvModifier::average(const TPieceSquareValueTable &psv_table) {
     int64_t sum = 0;
     for (int j = FILE_A; j <= FILE_H; ++j) {
         for (int k = RANK_1; k <= RANK_8; ++k) {
@@ -103,5 +103,32 @@ void CPsvModifier::clone_from_kings_to_queens_bishop(TPieceSquareValueTable &psv
     psv_table[FILE_H][next_rank] = psv_table[FILE_A][next_rank] - positive_delta_value;
     }
     assert(psv_table[FILE_C][RANK_8] == psv_table[FILE_F][RANK_8] + positive_delta_value);
+}
+
+void CPsvModifier::show_psv_table(char piece_type) {
+    assert(is_any_piece(piece_type));
+    std::cout << "*** " <<piece_type << " **************\n";
+    for (int j = FILE_A; j <= FILE_H; ++j) {
+        for (int k = RANK_8; k >= RANK_1; --k) {
+            std::cout << main_piece_square_value_table_set[piece_type][j][k] << " ";
+        }
+        std::cout << "\n"; 
+    }
+    std::cout << "avg: " << average(main_piece_square_value_table_set[piece_type]) << "\n";
+}
+
+void CPsvModifier::show_main_psv_tables() {
+    show_psv_table(WHITE_POWER);
+    show_psv_table(WHITE_KNIGHT);
+    show_psv_table(WHITE_BISHOP);
+    show_psv_table(WHITE_ROOK);
+    show_psv_table(WHITE_QUEEN);
+    show_psv_table(WHITE_KING);
+    show_psv_table(BLACK_POWER);
+    show_psv_table(BLACK_KNIGHT);
+    show_psv_table(BLACK_BISHOP);
+    show_psv_table(BLACK_ROOK);
+    show_psv_table(BLACK_QUEEN);
+    show_psv_table(BLACK_KING);
 }
 

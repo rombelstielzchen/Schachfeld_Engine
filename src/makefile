@@ -3,7 +3,8 @@
 # License: GPLv3
 # Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 #
-# Quick and dirty make-file
+# Quick and dirty make-file; for some help please see README.md.
+#
 # TODO
 #    * header-dependencies
 #    * optimized
@@ -14,8 +15,8 @@
 
 CC=g++
 
-DEBUGFLAGS=-D DEBUG_LOG_ENABLE -std=c++17 -Wall -Wextra -Wpedantic -fmax-errors=1 -O0 -c $^
-OPTIMIZEDFLAGS=-std=c++17 -Wall -O2  -c $^
+DEBUGFLAGS=-D DEBUG_LOG_ENABLE -std=c++17 -Wall -Wextra -Wpedantic -Werror -fmax-errors=1 -O0 -c $^
+OPTIMIZEDFLAGS=-std=c++17 -Wall -Wextra -Wpedantic -Werror -O2  -c $^
 CFLAGS=$(DEBUGFLAGS)
 
 ### Main build-target ##################
@@ -31,6 +32,7 @@ engine: \
 	board_logic.o \
 	command_interface.o \
 	data_book.o \
+	depth_control.o \
 	engine_test.o \
 	evaluator.o \
 	expert_endgame_king_activity.o \
@@ -113,12 +115,6 @@ wonder_weapons_white.o: opening_book/book_data/wonder_weapons_white.cpp
 fen_parser.o: board/fen_parser.cpp
 	$(CC) $(CFLAGS) 
 
-wonder_weapons_black.o: opening_book/book_data/wonder_weapons_black.cpp
-	$(CC) $(CFLAGS) 
-
-wonder_weapons_white.o: opening_book/book_data/wonder_weapons_white.cpp
-	$(CC) $(CFLAGS) 
-
 game_saver.o: board/game_saver.cpp
 	$(CC) $(CFLAGS) 
 
@@ -159,6 +155,10 @@ master_book.o: opening_book/master_book.cpp
 	$(CC) $(CFLAGS) 
 
 data_book.o: opening_book/data_book.cpp
+	$(CC) $(CFLAGS) 
+
+
+depth_control.o: search/depth_control.cpp
 	$(CC) $(CFLAGS) 
 
 test_oracle.o: evaluator/test_oracle.cpp
@@ -259,6 +259,11 @@ test_killer_heuristics.o: search/test_killer_heuristics.cpp
 
 #### Other build targets ###############
 
+exe:
+	make clean
+	cd visual_studio; \
+	bash ./build.sh
+
 test:
 	### Testing engine, executing a quick self-test, without UCI.
 	# For more tests see the "test" directory.
@@ -266,45 +271,47 @@ test:
 
 semi_clean:
 	### Deleting automatically generated code
-	rm -f $(COMBINEDSOURCES)
-	### Deleting binaries
+	### Deleting Linux binaries
 	rm -f engine
 	rm -f a.out
 
 clean:
-	##
 	make semi_clean
+	### Deleting Windows executables
+	find visual_studio/ -name '*.exe' | xargs rm -f
 	### Deleting precompiled headers
-	rm -f *.h,gch */*.h.gch
+	find . -name '*.gch' | xargs rm -f
+	find . -name '*.pch' | xargs rm -f
 	### Remove all object files
-	rm -f *.o */*.o
+	find . -name '*.o' | xargs rm -f
+	find . -name '*.obj' | xargs rm -f
 	# Remove logs
-	rm -f debug.txt
-	rm -f schachfeld_games.pgn
+	find . -name 'debug.txt' | xargs rm -f
+	find . -name 'schachfeld_games.pgn' | xargs rm -f
 
 stats:
 	@echo -n "LOC total:      "
-	@cat *.cpp */*.cpp */*.h */*/*.cpp */*/*.h makefile */*/*.sh */*/*/*.sh ../*/*.pl ../*/*.sh | wc -l
+	@find .. -name '*.cpp' -o -name '*.h' -o -name '*.sh' -o -name '*.pl' -o -name 'makefile' | sed '/docu_/d' | sed '/docs/d' | xargs  cat | wc -l
 	@echo -n "Book-lines:      "
 	@grep "\"," opening_book/book_data/*.cpp | wc -l
 	@echo -n "Unit-tests:      "
-	@cat */*test*.cpp */*test*.h | wc -l
+	@find . -name 'test*.cpp' -o -name 'test*.h' -o -name '*test.cpp' -o -name '*test.h' | xargs cat | wc -l
 	@echo -n "UCI-test:         "
 	@cat ../test/*.pl | wc -l
 	@echo -n "Assertions:       "
-	@cat *.cpp */*.cpp */*.h */*/*.cpp */*/*.h */*/*/*.cpp | grep -s assert | wc -l
+	@find . -name '*.cpp' -o -name '*.h' | xargs grep -s assert | wc -l
 	@echo -n "LOC tools:        "
-	@cat makefile ../*/*.sh ../*/*.pl */*/*.sh */*/*/*.sh | wc -l
+	@find .. -name 'makefile' -o -name '*.sh' -o -name '*.pl' | xargs cat | wc -l
 	@echo -n "TODO items:        "
-	@grep TODO *.cpp */*.cpp */*.h */*/*.cpp | wc -l
+	@find . -name '*.cpp' -o -name '*.h' | xargs grep -s TODO | wc -l
 	@echo -n "Longest header: " 
-	@wc -l */*.h | sort | tail -n 2 | head -n 1
+	@find . -name '*.h' | xargs wc -l | sort | tail -n 2 | head -n 1
 	@echo -n "Longest source:" 
-	@wc -l */*.cpp | sort | tail -n 2 | head -n 1
+	@find . -name '*.cpp' | xargs wc -l | sed '/book_data/d' | sort | tail -n 2 | head -n 1
 	@ls -o engine
 
 todo:
-	grep -A1 -B1 TODO *.cpp */*.cpp */*.h
+	@find . -name '*.cpp' -o -name '*.h' | xargs grep -A1 -B1 TODO
 
 standard_headers: technical_functions/standard_headers.h.gch
 

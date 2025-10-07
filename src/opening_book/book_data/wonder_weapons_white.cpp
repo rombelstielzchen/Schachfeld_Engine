@@ -9,8 +9,24 @@
 
 #include "wonder_weapons_white.h"
 
-const TSortedVariationCollection sorted_variation_collection_wonder_weapons_white= {
-    "a2a4",
-    "g2g4",
+const TSortedVariationCollection sorted_variation_collection_wonder_weapons_white = {
+    "d2d4 d7d5 c2c4 e7e5 d4e5 d5d4",
+    "d2d4 d7d5 e2e4 d5e4 b1c3 g8f6 f2f3",
+    "d2d4 f7f5 e2e4 f5e4 b1c3 g8f6",
+    "e2e4 c7c5 b2b4 c5b4",
+    "e2e4 c7c5 d2d4 c5d4 c2c3 d4c3 b1c3",
+    "e2e4 e7e5 b1c3 g8f6 f1c4 f6e4 d1h5 e4d6 c4b3 b8c6 c3b5 g7g6 h5f3 f7f5",
+    "e2e4 e7e5 b1c3 g8f6 f2f4",
+    "e2e4 e7e5 d2d4 e5d4 c2c3 d4c3 b1c3",
+    "e2e4 e7e5 f1c4 g8f6 d2d4 e5d4 g1f3",
+    "e2e4 e7e5 f2f4 e5f4 g1f3 g7g5 f1c4",
+    "e2e4 e7e5 f2f4 e5f4 g1f3 g7g5 f1c4 g5g4 e1g1 g4f3 d1f3",
+    "e2e4 e7e5 g1f3 b8c6 b1c3 g8f6 f3e5",
+    "e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 c2c3 d4c3 b1c3",
+    "e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 b2b4 c5b4 c2c3",
+    "e2e4 e7e5 g1f3 g8f6 f3e5 d7d6 e5f7 e8f7",
+    "g1f3 f7f5 e2e4",
+    // Top-secret variation, the Bokelmann-Gambit, for deterministic testability
+    "x2x1 e7e5 e2e4 f7f5"
 };
 
