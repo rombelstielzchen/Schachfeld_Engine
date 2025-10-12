@@ -13,7 +13,7 @@ CExpertEndgameKingActivity expert_endgame_king_activity;
 
 COracle::COracle() {
     // Order of insertions = order of execution.
-    // Basic exoerts first, more specialized experts later
+    // Basic experts first, more specialized experts later
     expert_collection.push_back(&expert_general);
     expert_collection.push_back(&expert_endgame_king_activity);
 }

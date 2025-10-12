@@ -36,8 +36,8 @@ void CDepthControl::set_nodes(const int64_t nodes) {
 }
 
 bool CDepthControl::go_deeper(const int current_depth) const {
-    assert((dc_depth_in_plies > 0) || (dc_movetime_ms > 0) || (dc_nodes > 0));
     assert(current_depth >= 0);
+    assert((dc_depth_in_plies > 0) || (dc_movetime_ms > 0) || (dc_nodes > 0));
     if (current_depth < dc_depth_in_plies) {
         assert(dc_movetime_ms == 0);
         assert(dc_nodes == 0);
@@ -57,7 +57,8 @@ bool CDepthControl::go_deeper(const int current_depth) const {
 }
 
 bool CDepthControl::enough_time_left_for_one_more_iteration() const {
-   constexpr int estimated_branching_factor = 6;
+    constexpr int estimated_branching_factor = 6;
+    assert(search_statistics.used_time_milliseconds() >= 0);
     return (dc_movetime_ms > estimated_branching_factor * search_statistics.used_time_milliseconds());
 }
 

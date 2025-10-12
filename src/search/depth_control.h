@@ -15,7 +15,7 @@ class CDepthControl {
     CDepthControl();
   public:
     bool go_deeper(const int current_depth) const;
-    bool infinite_depth() const { return (dc_depth_in_plies == INFINITE_DEPTH); };
+    inline bool infinite_depth() const { return (dc_depth_in_plies == INFINITE_DEPTH); };
   public:
     void set_depth(const int64_t depth);
     void set_movetime_ms(const int64_t movetime_ms);

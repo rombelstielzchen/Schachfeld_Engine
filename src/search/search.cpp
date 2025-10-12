@@ -13,7 +13,7 @@
 
 constexpr int QUIESCENCE_DEPTH = 31;
 
-inline bool CSearch::score_causes_beta_cutoff(int const score, int const beta) const {
+constexpr bool CSearch::score_causes_beta_cutoff(int const score, int const beta) const {
     return (score >= beta);
 }
 
@@ -47,6 +47,8 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
             assert(alpha <= beta); 
             candidate_score = -alpha_beta_negamax(remaining_depth - 1, distance_to_root + 1, -beta, -alpha);
         } else {
+            // TODO: one of tzhe 2 calls t oquiescense might be superfluous.
+            // This might change with fractional deepening
             candidate_score = -quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root + 1, -beta, -alpha);
         }
         board.move_maker.unmake_move();
@@ -62,13 +64,13 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     }
     assert(move_generator.move_list.get_next() == NULL_MOVE);
     search_statistics.add_nodes(n_moves);
-    if (best_score == SCORE_OWN_KING_WILL_GET_CAPTURED) {
-        if (CBoardLogic::own_king_in_check()) {
-            return losing_mate_score(distance_to_root);
-        }
-        return SCORE_STALEMATE;
+    if (best_score != SCORE_OWN_KING_WILL_GET_CAPTURED) {
+        return best_score;
     }
-    return best_score;
+    if (CBoardLogic::own_king_in_check()) {
+        return losing_mate_score(distance_to_root);
+    }
+    return SCORE_STALEMATE;
 }
 
 int CSearch::quiescence_negamax(int const remaining_depth, int const distance_to_root, int alpha, int const beta) {
@@ -133,17 +135,17 @@ int CSearch::static_exchange_evaluation_negamax(const SSquare &target_square, in
     board.move_maker.make_move(recapture);
     search_statistics.add_nodes(1);
     // Recursion guaranteed to terminate, as recaptures are limited
-    int const score_after_icapture = -static_exchange_evaluation_negamax(target_square, -beta, -alpha);
+    int const score_after_capture = -static_exchange_evaluation_negamax(target_square, -beta, -alpha);
     board.move_maker.unmake_move();
-   int const final_Score = std::max(initial_score, score_after_icapture);
+   int const final_Score = std::max(initial_score, score_after_capture);
     return final_Score;
 }
 
 bool CSearch::no_legal_moves() const {
     CMoveGenerator move_generator;
     move_generator.generate_all();
-        move_generator.move_list.prune_illegal_moves();
-        return (move_generator.move_list.list_size() ==  0);
+    move_generator.move_list.prune_illegal_moves();
+    return (move_generator.move_list.list_size() ==  0);
 }
 
 //### Old minimax functions, still used for testing ########

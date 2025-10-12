@@ -9,7 +9,7 @@
 // https://www.codeproject.com/Articles/63736/Simple-debug-log-for-C
 // under the CodeProject license
 // 
-// iCompletely rewritten for the Schachfeld chess-engine.
+// Completely rewritten for the Schachfeld chess-engine.
 // For the original code and some docu see the directory "docu_debug_log".
 //
 // Supported preprocessor-switches:
@@ -25,7 +25,7 @@
 
 #define DEBUG_MESSAGE(discarded_text)
 #define DEBUG_METHOD()
-#define DEBUG_VALUE_OF(idiscarded_object)
+#define DEBUG_VALUE_OF(discarded_object)
 #define DEBUG_LOG_TO_FILE()
 #define DEBUG_REDIRECT_TO_STREAM(unused_stream) 
 #define DEBUG_ALWAYS_FLUSH_BUFFER()
@@ -52,7 +52,7 @@
 inline bool flush_buffer = false;
 inline int indentation = 0;
 // Do not use these streams directly!
-// At startup they can be undefined due to order initializationr!
+// At startup they can be undefined due to order initialization!
 // std::cout is only known at runtime!
 inline std::ostream* debug_stream = &std::cout;
 inline std::ofstream debug_file_stream;

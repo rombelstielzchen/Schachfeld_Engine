@@ -79,10 +79,16 @@ std::string CMoveList::as_text() const {
     return info;
 }
 
+bool CMoveList:: move_on_list(const SMove move) const {
+    assert(move_in_range(move));
+    assert(valid_list());
+    return (get_index(move) != MOVE_NOT_ON_LIST);
+}
+
 bool CMoveList::move_on_list(const std::string &text_move) const {
     assert(valid_list());
     SMove move = text_to_basic_move(text_move);
-    return (get_index(move) != MOVE_NOT_ON_LIST);
+    return move_on_list(move);
 }
 
 bool CMoveList::valid_list_origin() const {

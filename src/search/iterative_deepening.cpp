@@ -17,7 +17,7 @@ CIterativeDeepening::CIterativeDeepening() {
     search_statistics.reset_all();
 }
 
-/*** Public search-interface beloe ****/
+/*** Public search-interface below ****/
 
 SMove CIterativeDeepening::search_depth(int64_t depth) {
     assert(depth >= 0);
@@ -47,6 +47,11 @@ SMove CIterativeDeepening::search_time(
         const int64_t white_increment_milliseconds,
         const int64_t black_increment_milliseconds,
         const int64_t moves_to_go) {
+    assert(white_time_milliseconds >= 0);
+    assert(black_time_milliseconds >= 0);
+    assert(white_increment_milliseconds >= 0);
+    assert(black_increment_milliseconds >= 0);
+    assert(moves_to_go >= 0);
     int64_t total_time_ms;
     if (board.get_side_to_move() == WHITE_PLAYER) {
         total_time_ms = white_time_milliseconds + moves_to_go * white_increment_milliseconds;
@@ -92,7 +97,10 @@ SMove CIterativeDeepening::search_anti_repetition() {
     SMove repetitive_move = board.move_maker.get_repetitive_move();
     if (repetitive_move != NULL_MOVE) {
         assert(move_in_range(repetitive_move));
-        move_generator.move_list.prune_silent_piecee_moves(repetitive_move.source);
+        assert(board.get_square(repetitive_move.source) != EMPTY_SQUARE);
+        assert(move_generator.move_list.move_on_list(repetitive_move));
+        move_generator.move_list.prune_silent_piece_moves(repetitive_move.source);
+        assert(move_generator.move_list.move_on_list(repetitive_move) == false);
     }
     SMove search_result = search_iterative();
     if ((search_result.potential_gain < 0) && (repetitive_move != NULL_MOVE)) {
@@ -119,6 +127,7 @@ SMove CIterativeDeepening::search_iterative() {
         assert(best_move != NULL_MOVE);
         assert(move_in_range(best_move));
         if (mate_found  && !depth_control.infinite_depth()) {
+           // TODO: this might need to be changed, when we look for better mates
            break; 
         }
     }

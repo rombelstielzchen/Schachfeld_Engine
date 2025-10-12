@@ -49,7 +49,7 @@ class CMoveList {
     void prune_silent_moves();
     void unprune_silent_moves();
   public:
-    void prune_silent_piecee_moves(const SSquare piece_locatin);
+    void prune_silent_piece_moves(const SSquare piece_location);
     void filter_captures_by_target_square(const SSquare &target_square);
   public:
     // For the root-node, in order to avoid greedy captures when getting mated
@@ -65,6 +65,7 @@ class CMoveList {
     void integrate_killer(const int distance_to_root); 
   public:
     std::string as_text() const;
+    bool move_on_list(const SMove move) const;
     bool king_capture_on_list() const;
   private:
     void clear();

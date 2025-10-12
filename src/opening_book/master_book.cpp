@@ -104,7 +104,7 @@ void CMasterBook::on_new_game() {
 
 bool CMasterBook::white_to_move(const std::string moves_from_startpos_in_uci_format) const {
     // We calculate side to move on our own
-    // in oder to decouple CAMasterBook from the board-state to improve reusablility.
+    // in order to decouple CAMasterBook from the board-state to improve reusablility.
     constexpr int length_of_text_move_plus_space = length_of_text_move + 1;
    size_t length_in_chars = moves_from_startpos_in_uci_format.length();
    assert((length_in_chars % length_of_text_move_plus_space == 0) || (length_in_chars % length_of_text_move_plus_space == length_of_text_move));
