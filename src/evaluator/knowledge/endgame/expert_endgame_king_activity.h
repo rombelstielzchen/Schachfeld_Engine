@@ -14,8 +14,9 @@ extern TPieceSquareValueTable endgame_king_psv_table;
 extern TPieceSquareValueTable endgame_king_psv_table;
 
 class CExpertEndgameKingActivity: public CVirtualExpert {
-  public:
+  private:
     virtual bool is_responsible() const override;
     virtual void apply_knowledge() override;
+    virtual std::string get_name() const override { return "CExpertEndgameKingActivity"; }
 };
 

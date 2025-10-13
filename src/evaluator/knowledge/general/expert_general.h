@@ -8,8 +8,9 @@
 #include "../virtual_expert.h"
 
 class CExpertGeneral : public CVirtualExpert {
-  public:
+  private:
     virtual bool is_responsible() const override;
     virtual void apply_knowledge() override;
+    virtual std::string get_name() const override { return "CExpertGeneral"; }
 };
 
