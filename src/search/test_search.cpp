@@ -56,11 +56,11 @@ const std::vector<STestcaseSearch> testcases_search = {
     // King in check, must not capture
     { 1, "h8h7", "KR4Rk b" },
     // Capturing the queen with mate
-    { 1, "a1h1", "7k/8/8/8/8/8/6R1/R6q w" },
+    { 1, "b1h1", "7k/8/8/8/8/8/6R1/KR5q w" },
     // Black to move: capturing the queen with mate
-    { 1, "a1h1", "7K/8/8/8/8/8/6r1/r6Q b" },
+    { 1, "c1h1", "7K/8/8/8/8/8/6r1/k1r4Q b" },
     // Two pawns under attack, one protected by recapture
-    { 3, "d5e6", "8/1p6/2p1p3/3P3K w" },
+    { 3, "d5e6", "8/1p6/2p1p3/3P3K////k w" },
     // Two knights under attack, one protected by recapture
     { 4, "a6a4", "8/6k1/R6n/8/n7/8/8/K7 w" }, 
     // Mate in 1, capturing the king in 3 plies
@@ -89,12 +89,12 @@ const std::vector<STestcaseSearch> testcases_search = {
     { 2, "b7a7", "8/Bq/2q/3q/4R/5Q/6Q/7Q b" },
     { 2, "b7a7", "q/Bq/2q/3q/4R/5Q/6B/7Q b" },
     { 2, "c8d8", "rrrQRRR b" },
-    { 2, "b8c8", "RRnq/2k w" },
+    { 2, "b8c8", "RRnq/2k4K w" },
     { 2, "c6b6", "B/1B/1pQ/3b/4b w" },
     // Former bug: counter-attacks in check
     { 4, "h8g8", "5q1k/1q3pp1/8/8/8/8/7Q/K6R b" },
     // Avoid stalemate
-    { 3, "d4b6", "/k/p//3q//5Q/7K b" },
+    { 4, "d4b6", "/k/p//3q//5Q/7K b" },
     // Various forms of "mate in 1", "loss in 1.5", "mate in 2", ...
     { 2, "h1h8", "k/pp//////K6R w" },
     { 3, "g2g8", "k6R/pp/////6r/K6R b" },
@@ -106,6 +106,16 @@ const std::vector<STestcaseSearch> testcases_search = {
     { 4, "h4f2", "/k/1q//7B///7K w" },
     // Preventing pawn-promotion, own stalemate
    { 4, "b8a8", "1k/P/1K b" },
+   // Better mates: shorter
+   { 4, "a6c8", "k/p1p/Qp/3K w" },
+   // Better mates: less greedy
+    { 2, "a1a8", "r3k2q/3ppp//////R3K2R w" },
+    { 2, "h1h8", "q3k2r/3ppp//////R3K2R w" },
+    // Better mates: sacrificing material, white and black to move
+    { 4, "h2b8", "k6r/pp/N////6KQ w" },
+    { 2, "f8f1", "1k3r2/8/7q/8/8/8/PP4B1/K7 b - - 0 1" },
+    // Better mates: under-promotion
+    { 2, "h7h8R", "k/3Q3P//////K w" },
 };
 
 bool CTestSearch::test_everything() {
@@ -114,6 +124,7 @@ bool CTestSearch::test_everything() {
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     EXPECT(test_no_legal_moves());
     EXPECT(test_scores());
+    EXPECT(test_non_greedy_mate_scores());
     EXPECT(test_static_exchange_evaluation());
     EXPECT(test_early_exit());
     EXPECT(test_anti_repetition());
@@ -170,7 +181,7 @@ bool CTestSearch::test_early_exit() {
     std::string mate_in_one = "k/3P/K w";
     EXPECT(board.set_fen_position(mate_in_one));
     SMove mating_move = searcher2.search_depth(really_deep);
-    EXPECT(mating_move == "d7d8Q");
+    EXPECT((mating_move == "d7d8Q") || (mating_move == "d7d8R"));
     return true;
 }
 
@@ -199,35 +210,43 @@ bool CTestSearch::test_scores() {
     std::string illegal_position = "///////// w";
     EXPECT(searcher.search_position(illegal_position) == SCORE_TECHNICAL_MIN);
     std::string draw = "k1K b";
-    EXPECT(searcher.search_position(draw) < SCORE_HALF_PAWN);
-    std::string mate_with_rook = "k6R//K b";
-    std::string mate_with_queen = "k6Q//K b";
-    // TODO: once "better mates" work
-//    EXPECT(searcher.search_position(mate_with_queen) > searcher.search_position(mate_with_rook));
-    std::string const already_mate = "1k5R//1K b";
+    EXPECT(abs(searcher.search_position(draw)) < SCORE_HALF_PAWN);
+    EXPECT(searcher.search_position(draw) == SCORE_DRAW);
+       std::string const already_mate = "1k5R//1K b";
     std::string const mate_in_one = "k/7R/K w";
     std::string mate_in_one_dot_five = "k/7R/1K b";
     std::string const mate_in_two = "k/7P//K w";
-    SILENT_EXPECT(board.set_fen_position(already_mate));
+    EXPECT(board.set_fen_position(already_mate));
     int evaluation = searcher.alpha_beta_negamax(1, 1, INFINITE_ALPHA_BETA_WINDOW.alpha, INFINITE_ALPHA_BETA_WINDOW.beta);
     EXPECT(evaluation < 0);
-    EXPECT(evaluation < -SCORE_HALF_KING);
-    EXPECT(evaluation == losing_mate_score(1));
-    SILENT_EXPECT(board.set_fen_position(mate_in_one));
+    EXPECT(evaluation < -SCORE_KING);
+    EXPECT(board.set_fen_position(mate_in_one));
     evaluation = searcher.alpha_beta_negamax(2, 1, INFINITE_ALPHA_BETA_WINDOW.alpha, INFINITE_ALPHA_BETA_WINDOW.beta);
     EXPECT(evaluation > 0);
-    EXPECT(evaluation > SCORE_HALF_KING);
-    EXPECT(evaluation == winning_mate_score(2));
-    SILENT_EXPECT(board.set_fen_position(mate_in_one_dot_five));
+    EXPECT(evaluation > SCORE_KING);
+    EXPECT(board.set_fen_position(mate_in_one_dot_five));
     evaluation = searcher.alpha_beta_negamax(3, 1, INFINITE_ALPHA_BETA_WINDOW.alpha, INFINITE_ALPHA_BETA_WINDOW.beta);
     EXPECT(evaluation < 0);
-    EXPECT(evaluation < -SCORE_HALF_KING);
-    EXPECT(evaluation == losing_mate_score(3));
-    SILENT_EXPECT(board.set_fen_position(mate_in_two));
+    EXPECT(evaluation < -SCORE_KING);
+    EXPECT(board.set_fen_position(mate_in_two));
     evaluation = searcher.alpha_beta_negamax(4, 1, INFINITE_ALPHA_BETA_WINDOW.alpha, INFINITE_ALPHA_BETA_WINDOW.beta);
     EXPECT(evaluation > 0);
-    EXPECT(evaluation > SCORE_HALF_KING);
-    EXPECT(evaluation == winning_mate_score(4));
+    EXPECT(evaluation > SCORE_KING);
+    return true;
+}
+
+bool CTestSearch::test_non_greedy_mate_scores() {
+    TEST_FUNCTION();
+    CSearch searcher;
+     std::string mate_with_rook = "k6R//K b";
+    std::string mate_with_queen = "k6Q//K b";
+    CTEST << "mate_with_queen: " << searcher.search_position(mate_with_queen) << "\n";
+    CTEST << "mate_with_rook: " << searcher.search_position(mate_with_rook) << "\n";
+    // Attention! The losing side is on the move, 
+    // so the mate with the queen is better, worse for the enemy!
+    EXPECT(searcher.search_position(mate_with_queen) > searcher.search_position(mate_with_rook));
+
+
     return true;
 }
 
@@ -246,8 +265,11 @@ bool CTestSearch::test_position(const STestcaseSearch &testcase) {
     CTEST << "Searching: " << testcase.fen_position << "\n";
     CTEST << "Expecting: " << testcase.expected_move << "\n";
     SILENT_EXPECT(board.set_fen_position(testcase.fen_position));
+    assert((board.evaluator.nega_score()) < SCORE_HALF_KING);
     CIterativeDeepening searcher;
     SMove best_move = searcher.search_depth(testcase.depth);
+    CTEST << "Searching: " << testcase.fen_position << "\n";
+    CTEST << "Expecting: " << testcase.expected_move << "\n";
     CTEST << "Got move: " << best_move << "\n";
     EXPECT(best_move == testcase.expected_move);
     return true;

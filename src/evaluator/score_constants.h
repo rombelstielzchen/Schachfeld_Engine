@@ -32,24 +32,11 @@ constexpr int32_t SCORE_ENEMY_KING_CAPTURED = -SCORE_OWN_KING_WILL_GET_CAPTURED;
 static_assert(SCORE_ENEMY_KING_CAPTURED > 0);
 static_assert(SCORE_ENEMY_KING_CAPTURED < SCORE_TECHNICAL_MAX);
 
-constexpr int32_t SCORE_LOSING_MATE = SCORE_OWN_KING_WILL_GET_CAPTURED + 1;
+// We need so,e room to adapt mate scores, by distance-to-mate and material,
+// therefore / 2
+constexpr int32_t SCORE_LOSING_MATE = SCORE_OWN_KING_WILL_GET_CAPTURED / 2;
+static_assert(SCORE_LOSING_MATE < 0);
+static_assert(SCORE_LOSING_MATE < -SCORE_KING);
+static_assert(SCORE_LOSING_MATE > SCORE_OWN_KING_WILL_GET_CAPTURED);
 constexpr int32_t SCORE_WINNING_MATE = -SCORE_LOSING_MATE;
-
-inline constexpr int losing_mate_score(int distance_to_root_in_plies) {
-    assert(distance_to_root_in_plies >= 0);
-    return (SCORE_LOSING_MATE + distance_to_root_in_plies);
-}
-
-static_assert(losing_mate_score(0) > SCORE_TECHNICAL_MIN);
-static_assert(losing_mate_score(0) > SCORE_OWN_KING_WILL_GET_CAPTURED);
-static_assert(losing_mate_score(1) > losing_mate_score(0));
-static_assert(losing_mate_score(2) > losing_mate_score(1));
-static_assert(losing_mate_score(2) < 0);
-
-inline constexpr int winning_mate_score(int distance_to_root_in_plies) {
-    assert(distance_to_root_in_plies >= 0);
-    return -losing_mate_score(distance_to_root_in_plies);
-}
-
-static_assert(winning_mate_score(0) > 0);
 

@@ -9,6 +9,8 @@
 #include "../technical_functions/string_functions.h"
 #include "../technical_functions/string_tokenizer.h"
 
+constexpr int uci_first_movenumber = 1;
+
 class CUciProtocol {
   public:
     CUciProtocol();

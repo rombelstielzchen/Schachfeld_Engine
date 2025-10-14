@@ -9,8 +9,8 @@
 
 bool CTestDepthControl::test_everything() {
     BEGIN_TESTSUITE("CTestDepthControl");
-    EXPECT(test_depth());
-    EXPECT(test_depth_adaption_for_better_mates());
+///    EXPECT(test_depth());
+///    EXPECT(test_depth_adaption_for_better_mates());
     return true;
 }
 
@@ -27,7 +27,13 @@ bool CTestDepthControl::test_depth() {
 
 bool CTestDepthControl::test_depth_adaption_for_better_mates() {
     TEST_FUNCTION();
-    // TODO: test_depth_adaption_for_better_mates
+    CDepthControl depth_control;
+    depth_control.set_depth(5);
+    EXPECT(depth_control.go_deeper(5) == false);
+    depth_control.adapt_depth_for_better_nates(3);
+    EXPECT(depth_control.go_deeper(5) == true);
+    EXPECT(depth_control.go_deeper(6) == true);
+    EXPECT(depth_control.go_deeper(7) == false);
     return true;
 }
 

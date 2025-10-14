@@ -5,6 +5,7 @@ Version 0.m
 -----------
 * An evaluation expert for pawns in the endgame
 * An option"debug on | off" to toggle extended logging
+* Searching for "better" mates when completely winning, i.e. mates with less material
 
 Version 0.k
 -----------

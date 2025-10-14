@@ -9,7 +9,7 @@
 #include <cstdint>
 
 constexpr int64_t INFINITE_DEPTH = INT_MAX;
-constexpr int64_t MAX_ADDITIONAL_DEPTH_FOR_BETTER_MATES = 6;
+constexpr int64_t MAX_ADDITIONAL_DEPTH_FOR_BETTER_MATES = 4;
 
 class CDepthControl {
   public:

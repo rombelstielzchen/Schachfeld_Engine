@@ -51,7 +51,6 @@ void CSearchStatistics::set_best_move(const SMove best_move, int score) {
 void CSearchStatistics::set_current_move(const SMove current_move, int score, int movenumber) {
     assert(move_in_range(current_move));
 #ifndef NDEBUG
-    constexpr int uci_first_movenumber = 1;
 #endif
     assert(movenumber >= uci_first_movenumber);
     std::string info = "currmove " 

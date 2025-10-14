@@ -71,11 +71,13 @@ bool CDepthControl::enough_time_left_for_one_more_iteration() const {
 void CDepthControl::adapt_depth_for_better_nates(int64_t current_depth_in_plies) {
     assert(current_depth_in_plies > 0);
     assert(dc_max_depth_for_better_mates > 0);
-    if (dc_max_depth_for_better_mates < INT_MAX) {
+    assert(dc_depth_in_plies > 0);
+    if (dc_max_depth_for_better_mates < INFINITE_DEPTH) {
         // depth already dapted
         return;
     }
     dc_max_depth_for_better_mates = current_depth_in_plies + MAX_ADDITIONAL_DEPTH_FOR_BETTER_MATES;
+    dc_depth_in_plies = dc_max_depth_for_better_mates;
     assert(dc_max_depth_for_better_mates > 0);
 } 
 

@@ -3,6 +3,8 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
+#undef DEBUG_ENABLE_LOGGING
+
 #include "iterative_deepening.h"
 #include "depth_control.h"
 #include "search.h"
@@ -135,8 +137,7 @@ SMove CIterativeDeepening::search_iterative() {
         assert(best_move != NULL_MOVE);
         assert(move_in_range(best_move));
         if (mate_found  && !depth_control.infinite_depth()) {
-           // TODO: this might need to be changed, when we look for better mates
-           break; 
+            depth_control.adapt_depth_for_better_nates(current_depth);
         }
     }
     assert(board.get_fen_position() == root_position);
@@ -164,7 +165,6 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
     constexpr int at_least_two_moves__other_cases_already_handled = 2;
 #endif
     assert(n_moves >= at_least_two_moves__other_cases_already_handled);
-    constexpr int uci_first_movenumber = 1;
     // static in order to handle a badly timed stop-command
     static SMove best_move = NULL_MOVE;
     for (int j = uci_first_movenumber; j <= n_moves; ++j) {

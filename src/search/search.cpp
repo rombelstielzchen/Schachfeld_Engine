@@ -2,8 +2,11 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
+#undef DEBUG_ENABLE_LOGGING
+
 #include "search.h"
 #include "killer_heuristics.h"
+#include "mate_score.h"
 #include "search_statistics.h"
 #include "../board/board_logic.h"
 #include "../evaluator/evaluator.h"
@@ -49,7 +52,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
             assert(alpha <= beta); 
             candidate_score = -alpha_beta_negamax(remaining_depth - 1, distance_to_root + 1, -beta, -alpha);
         } else {
-            // TODO: one of tzhe 2 calls t oquiescense might be superfluous.
+            // TODO: one of the 2 calls t oquiescense might be superfluous.
             // This might change with fractional deepening
             candidate_score = -quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root + 1, -beta, -alpha);
         }
@@ -70,7 +73,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
         return best_score;
     }
     if (CBoardLogic::own_king_in_check()) {
-        return losing_mate_score(distance_to_root);
+        return CMateScore::losing_mate_score(distance_to_root);
     }
     return SCORE_STALEMATE;
 }

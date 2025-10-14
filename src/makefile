@@ -1,3 +1,4 @@
+#
 # Project: Schachfeld_Engine
 # Author: Rombelstielzchen
 # License: GPLv3
@@ -70,6 +71,7 @@ OBJECT_FILES :=  \
 	killer_heuristics.o \
 	main.o \
 	master_book.o \
+	mate_score.o \
 	math_functions.o \
 	move.o \
 	move_generator.o \
@@ -262,6 +264,9 @@ test_statistics.o: search/test_statistics.cpp
 
 test_math_functions.o: technical_functions/test_math_functions.cpp
 	$(CXX) $(CXXFLAGS) $^ 
+
+mate_score.o: search/mate_score.cpp
+	$(CXX) $(CXXFLAGS) $^
 
 math_functions.o: technical_functions/math_functions.cpp
 	$(CXX) $(CXXFLAGS) $^ 
