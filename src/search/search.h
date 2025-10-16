@@ -12,7 +12,12 @@ class CSearch {
   public:
     int alpha_beta_negamax(const int remaining_depth, const int distance_to_root, int alpha, const int beta);
   private:
+    // Use the first function as entry-point. It supports 
+    // mate- and stalemate-detection for regular search.
+    // The latter one is for imtermal recursive calculations.
     int quiescence_negamax(const int remaining_depth, const int distance_to_root, int alpha, const int beta);
+    int quiescence_negamax_recursive_no_stalemate_detection(const int remaining_depth, const int distance_to_root, int alpha, const int beta);
+  private:
     int static_exchange_evaluation_negamax(const SSquare &target_square, int alpha, const int beta);
   private:
     constexpr bool score_causes_beta_cutoff(const int score, const int beta) const;

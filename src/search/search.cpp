@@ -82,11 +82,29 @@ int CSearch::quiescence_negamax(int const remaining_depth, int const distance_to
         return best_score;
     }
     CMoveGenerator move_generator;
+    // TODO: on the first level of quiescence we generate the moves twice
     move_generator.generate_captures();
     if (move_generator.move_list.king_capture_on_list()) {
-        // TODO: limit this to first level of quiescence?
+        // Last move of regular search was  illegal.
         return SCORE_ENEMY_KING_CAPTURED;
     }
+    best_score = quiescence_negamax_recursive_no_stalemate_detection(remaining_depth, distance_to_root, alpha, beta);
+    // Quiescense assumes, that both players can stand pat / "sit out" if all else fails.
+    // Therefore no mate and stalemate scores possible.
+    assert(abs(best_score) < SCORE_KING);
+    return best_score;
+}
+
+int CSearch::quiescence_negamax_recursive_no_stalemate_detection(int const remaining_depth, int const distance_to_root, int alpha, int const beta) {
+    assert(remaining_depth > 0);
+    assert(distance_to_root > 0);
+    assert(alpha <= beta);
+    int best_score = board.evaluator.nega_score();
+    if (score_causes_beta_cutoff(best_score, beta)) {
+        return best_score;
+    }
+    CMoveGenerator move_generator;
+    move_generator.generate_captures();
     int const n_moves = move_generator.move_list.list_size();
     for (int j = 0; j < n_moves; ++j) {
         SMove move_candidate = move_generator.move_list.get_next__best_capture();
