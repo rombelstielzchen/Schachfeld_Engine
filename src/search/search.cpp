@@ -203,3 +203,14 @@ int CSearch::static_exchange_evaluation_minimax(const SSquare &target_square, co
     return -score;
 }
 
+int CSearch::search_position(const std::string fen_position, int remaining_depth) {
+    assert(fen_position != "");
+    assert(remaining_depth >= 0);
+    bool valid_postion = board.set_fen_position(fen_position);
+    if (!valid_postion) {
+        return SCORE_TECHNICAL_MIN;
+    }
+    constexpr int initial_distance_to_root = 1;
+    return alpha_beta_negamax(remaining_depth, initial_distance_to_root, INFINITE_ALPHA_BETA_WINDOW.alpha, INFINITE_ALPHA_BETA_WINDOW.beta);
+}
+

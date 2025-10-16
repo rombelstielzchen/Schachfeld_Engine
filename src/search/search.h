@@ -23,6 +23,10 @@ class CSearch {
     constexpr bool score_causes_beta_cutoff(const int score, const int beta) const;
     bool no_legal_moves() const;
   private:
+    // For testing.
+    // Returns SCORE_TECHNICAL_MIN in ase of incorrect fen_position
+    int search_position(const std::string fen_position, int remaining_depth = 1);
+  private:
     // Minimax interface-functions. 
     // Used for the transition to negamax, still used for testing
     int alpha_beta_minimax(const int remaining_depth, const int distance_to_root, SAlphaBetaWindow alpha_beta_window);

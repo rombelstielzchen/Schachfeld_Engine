@@ -103,7 +103,7 @@ bool CTestSearch::test_everything() {
     bool former_dobb_dobb_dobb = DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop;
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     EXPECT(test_no_legal_moves());
-    EXPECT(test_mate_score());
+    EXPECT(test_scores());
     EXPECT(test_static_exchange_evaluation());
     EXPECT(test_early_exit());
     EXPECT(test_anti_repetition());
@@ -197,14 +197,22 @@ bool CTestSearch::test_anti_repetition() {
     return true;
 }
 
-bool CTestSearch::test_mate_score() {
+bool CTestSearch::test_scores() {
     TEST_FUNCTION();
+    CSearch searcher;
+    std::string illegal_position = "///////// w";
+    EXPECT(searcher.search_position(illegal_position) == SCORE_TECHNICAL_MIN);
+    std::string draw = "k1K b";
+    EXPECT(searcher.search_position(draw) < SCORE_HALF_PAWN);
+    std::string mate_with_rook = "k6R//K b";
+    std::string mate_with_queen = "k6Q//K b";
+    // TODO: once "better mates" work
+//    EXPECT(searcher.search_position(mate_with_queen) > searcher.search_position(mate_with_rook));
     std::string const already_mate = "1k5R//1K b";
     std::string const mate_in_one = "k/7R/K w";
     std::string mate_in_one_dot_five = "k/7R/1K b";
     std::string const mate_in_two = "k/7P//K w";
     SILENT_EXPECT(board.set_fen_position(already_mate));
-    CSearch searcher;
     int evaluation = searcher.alpha_beta_negamax(1, 1, INFINITE_ALPHA_BETA_WINDOW.alpha, INFINITE_ALPHA_BETA_WINDOW.beta);
     EXPECT(evaluation < 0);
     EXPECT(evaluation < -SCORE_HALF_KING);
