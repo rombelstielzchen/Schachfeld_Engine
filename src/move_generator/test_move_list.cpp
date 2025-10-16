@@ -21,7 +21,7 @@ bool CTestMoveList::test_everything() {
     EXPECT(test_get_best_capture());
     EXPECT(test_move_lookup());
     EXPECT(test_king_capture());
-    EXPECT(test_prune_silent_piecee_moves());
+    EXPECT(test_prune_silent_piece_moves());
     return true;
 }
 
@@ -154,8 +154,8 @@ bool CTestMoveList::test_extremes() {
 
 bool CTestMoveList::test_get_best_capture() {
     TEST_FUNCTION();
-    const std::string old_test_most_valuable_victin = "5Q1K/4R3/6n1/4B3/5N1P/8/1p6/8 b - - 0 1";
-    EXPECT(board.set_fen_position(old_test_most_valuable_victin));
+    const std::string old_test_most_valuable_victim = "5Q1K/4R3/6n1/4B3/5N1P/8/1p6/8 b - - 0 1";
+    EXPECT(board.set_fen_position(old_test_most_valuable_victim));
     CMoveGenerator move_generator;
     move_generator.generate_captures();
     EXPECT(move_generator.move_list.list_size() == 10);
@@ -238,11 +238,11 @@ bool CTestMoveList::test_king_capture() {
     return true;
 }
 
-bool CTestMoveList::test_prune_silent_piecee_moves () {
+bool CTestMoveList::test_prune_silent_piece_moves () {
     EXPECT(board.set_fen_position("startpos moves e2e4 e7e5 g1f3 b8c6 f1b5 a7a6"));
     CMoveGenerator move_generator;
     move_generator.generate_all();
-    move_generator.move_list.prune_silent_piecee_moves(B5);
+    move_generator.move_list.prune_silent_piece_moves(B5);
     EXPECT(move_generator.move_list.list_size() == 27);
     return true;
 }

@@ -1,7 +1,7 @@
 Major Changes
 =============
 
-Version 0.i
+Version 0.k
 -----------
 * Better move-ordering for captures. Now sort moves not only bymost valuable victim (first criterium), but also by least valuable aggressor.
 * Changed the oracle to a modular object-oriented implementation.
@@ -9,12 +9,15 @@ Version 0.i
   At the beginning of the search the oracle asks these experts to apply 
   their knowledge to the evaluation-function, if appropriate.
 * A third opening-book "wonder-weapons" for future entertainment of the user
+  ATM the book contains few short lines, needs to be filled with gambits and similar.
+* Changing alpha-beta-cutoffs from fail-hard to fail-high in order to support evaluations outside the alpha-beta-range, especially ...
+`* Implementing distance-to-mate in order to direct the search to the shortest possible mate.
 
 Version 0.h
 -----------
 * Stalemate-detection at all levels of the search-tree
 * Switching from minimax to negamax to simplify the search-function.
-As a bonus we got a small speed-ip along the way.
+As a bonus we got a small speed-up along the way.
 * Bug-fix: the engine promoted to black pieces when receiving moves like "a7a8q".
 * Automatically saving games to *"schachfeld_games.pgn"*
 
@@ -40,7 +43,7 @@ Version 0.d
 -----------
 * Basic killer-heuristic, trying a silent killer-move from a neighbour-variation first -- after all captures, before the other silent moves.  Improvement: 10x - 12x less nodes needed at typical blitz depths.
 * Even more move-ordering: most valuable victim first, when using a capture-move. Improvement: 3x - 4x less nodes needed at typical blitz depths.
-* Incremental updates of the eveluation-function when making / unmaking moves. Improvement: 20 % to 50 % more nodes calculated per second.
+* Incremental updates of the evaluation-function when making / unmaking moves. Improvement: 20 % to 50 % more nodes calculated per second.
 
 Version 0.c
 -----------
@@ -48,7 +51,7 @@ Version 0.c
 
 Version 0.b
 -----------
-* Pruning illegal moves at the root-node. Illegal moves usualy get sorted out by the search, but in completely lost positions the king could become gready. A dead man may it everything.
+* Pruning illegal moves at the root-node. Illegal moves usualy get sorted out by the search, but in completely lost positions the king could become greedy. A dead man may it everything.
 * Now acting a tempo, if there is only one legal move.
 * A perft-function that enumerates all follow-up positions in a given
   position up to a fixed depth in order to test the move-generator

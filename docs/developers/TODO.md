@@ -35,4 +35,4 @@ https://www.eventhelix.com/embedded/optimizing-c-and-cpp-code/
 https://medium.com/@burso/c-production-ready-187b243f6a73
 
 https://www.linkedin.com/pulse/mastering-c-11-production-tips-techniques-excellence-code-writing
-
+* maybe a profiler-class for counting branches

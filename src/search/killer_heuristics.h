@@ -30,3 +30,4 @@ class CKillerHeuristic {
 };
 
 inline CKillerHeuristic killer_heuristic;
+

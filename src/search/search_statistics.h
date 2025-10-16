@@ -34,16 +34,6 @@ class CSearchStatistics {
     int64_t used_time_milliseconds() const;
     // For time-management
     int expected_branching_factor_for_next_iteration() const;
-  public:
-    /* TODO: killer-statistics currently unused
-     * TODO: should be moved to a profiler-class, if needed at all
-    // Use direct access only for incrementing the counters.
-    // Resets and evaluations through methods.
-    int64_t killers_stored;
-    int64_t killers_stored_equal;
-    int64_t killers_queried_total;
-    int64_t killers_queried_legal;
-    */
   private:
     int64_t nodes_for_this_iteration() const;
     int64_t nodes_per_second() const;

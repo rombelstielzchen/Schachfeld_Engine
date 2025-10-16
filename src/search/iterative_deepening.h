@@ -26,7 +26,7 @@ constexpr bool is_valid_alpha_beta_window(const SAlphaBetaWindow alpha_beta_wind
     return alpha_beta_window.alpha <= alpha_beta_window.beta;
 }
 
-constexpr SAlphaBetaWindow INFINITE_ALPHA_BETA_WINDOW = { SCORE_HERO_LOSES, SCORE_HERO_WINS }; 
+constexpr SAlphaBetaWindow INFINITE_ALPHA_BETA_WINDOW = { SCORE_TECHNICAL_MIN, SCORE_TECHNICAL_MAX }; 
 
 static_assert(is_valid_alpha_beta_window(INFINITE_ALPHA_BETA_WINDOW));
 

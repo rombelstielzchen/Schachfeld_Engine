@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Tests">
+      <UniqueIdentifier>{a2a6a97c-0151-4950-9c02-afdc51bec767}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tests">
+      <UniqueIdentifier>{ce2e65f8-b48e-49e5-ae34-e5600899ecbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UCI">
+      <UniqueIdentifier>{d6ad2d2d-b801-46bb-ab2c-0a5f29fbd7b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NewFilter1">
+      <UniqueIdentifier>{decb1e6a-5192-4078-9818-f66777eb788d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\main.cpp">
+    </ClCompile>
+    <ClCompile Include="..\technical_functions\string_functions.cpp">
+    </ClCompile>
+    <ClCompile Include="..\universal_chess_interface\uci_protocol.cpp">
+    </ClCompile>
+    <ClCompile Include="..\board\board.cpp">
+    </ClCompile>
+    <ClCompile Include="..\board\fen_parser.cpp">
+    </ClCompile>
+    <ClCompile Include="..\universal_chess_interface\command_interface.cpp">
+    </ClCompile>
+    <ClCompile Include="..\move_generator\move_generator.cpp">
+    </ClCompile>
+    <ClCompile Include="..\move_generator\move.cpp">
+    </ClCompile>
+    <ClCompile Include="..\board\fen_generator.cpp">
+    </ClCompile>
+    <ClCompile Include="..\board\board_logic.cpp">
+    </ClCompile>
+    <ClCompile Include="..\opening_book\book_data\gm_book.cpp">
+    </ClCompile>
+    <ClCompile Include="..\technical_functions\engine_test.cpp">
+    </ClCompile>
+    <ClCompile Include="..\board\test_board.cpp">
+    </ClCompile>
+    <ClCompile Include="..\move_generator\test_move_generator.cpp">
+    </ClCompile>
+    <ClCompile Include="..\opening_book\test_opening_book.cpp">
+    </ClCompile>
+    <ClCompile Include="..\technical_functions\test_technical_functions.cpp">
+    </ClCompile>
+    <ClCompile Include="..\move_generator\move_list.cpp">
+    </ClCompile>
+    <ClCompile Include="..\board\move_maker.cpp">
+    </ClCompile>
+    <ClCompile Include="..\board\test_move_maker.cpp">
+    </ClCompile>
+    <ClCompile Include="..\search\test_search.cpp">
+    </ClCompile>
+    <ClCompile Include="..\search\test_statistics.cpp">
+    </ClCompile>
+    <ClCompile Include="..\search\search.cpp">
+    </ClCompile>
+    <ClCompile Include="..\search\search_statistics.cpp">
+    </ClCompile>
+    <ClCompile Include="..\evaluator\evaluator.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\search\iterative_deepening.cpp">
+      <Filter>Source Files\NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\technical_functions\string_tokenizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\board\test_board_logic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\move_generator\test_move_list.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\move_generator\test_perft.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\technical_functions\test_math_functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\technical_functions\math_functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\evaluator\piece_square_value_tables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\evaluator\test_piece_square_value_tables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\move_generator\move_list__filters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\move_generator\move_list__get.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\move_generator\move_list__store.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\search\killer_heuristics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\search\test_killer_heuristics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\opening_book\data_book.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\opening_book\master_book.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\opening_book\book_data\tabijas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\universal_chess_interface\info_thread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\move_generator\test_move.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\evaluator\oracle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\evaluator\test_oracle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\board\game_saver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\technical_functions\time_functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\universal_chess_interface\uci_protocol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\board\board.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\universal_chess_interface\command_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\move_generator\move.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\move_generator\move_generator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\technical_functions\standard_headers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\technical_functions\debug_log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\board\fen_parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\board\board_logic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\opening_book\opening_book.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\opening_book\book_data\gm_book.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\technical_functions\engine_test.h">
+      <Filter>Header Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\board\fen_generator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\technical_functions\string_functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\board\test_board.h">
+      <Filter>Header Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\opening_book\test_opening_book.h">
+      <Filter>Header Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\move_generator\move_list.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\board\move_maker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\board\test_move_maker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\move_generator\test_move_generator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\technical_functions\test_technical_functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\search\search.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\search\test_search.h">
+      <Filter>Header Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\search\test_statistics.h">
+      <Filter>Header Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\search\search_statistics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\evaluator\evaluator.h">
+      <Filter>Source Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\evaluator\test_evaluator.h">
+      <Filter>Header Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\search\iterative_deepening.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\technical_functions\string_tokenizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\evaluator\.piece_square_value_tables.h.swp">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -15,7 +15,7 @@ class CSearch {
     int quiescence_negamax(const int remaining_depth, const int distance_to_root, int alpha, const int beta);
     int static_exchange_evaluation_negamax(const SSquare &target_square, int alpha, const int beta);
   private:
-    bool score_causes_beta_cutoff(const int score, const int beta) const;
+    constexpr bool score_causes_beta_cutoff(const int score, const int beta) const;
     bool no_legal_moves() const;
   private:
     // Minimax interface-functions. 

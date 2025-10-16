@@ -50,9 +50,7 @@ void CBoard::set_start_position() {
 bool CBoard::set_fen_position(const std::string &position) {
     clear();
     initial_position_before_moves = position;
-    std::cerr << initial_position_before_moves << "\n";
     bool success = CFenParser::parse(position);
-    std::cerr << initial_position_before_moves << "\n";
     return success;
 }
 

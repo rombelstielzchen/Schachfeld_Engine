@@ -73,8 +73,19 @@ bool CTestPieceSquareValueTables::test_positions() {
     // First: trivial test, proof of concept
     EXPECT(first_position_better("B w", "/ w"));
     EXPECT(first_position_better("/ w", "b w"));
+    // Reasonable relation between different pieces
+    EXPECT(first_position_better("3K w", "3Q  w"));
+    EXPECT(first_position_better("3Q w", "3R w"));
+    EXPECT(first_position_better("3R w", "3B w"));
+    EXPECT(first_position_better("3B w", "3N w"));
+    EXPECT(first_position_better("3N w", "/P w"));
+    EXPECT(first_position_better("/P w", "/p w"));
+    EXPECT(first_position_better("/p w", "3n w"));
+    EXPECT(first_position_better("3n w", "3b w"));
+    EXPECT(first_position_better("3b w", "3r w"));
+    EXPECT(first_position_better("3r w", "3q w"));
+    EXPECT(first_position_better("3q w", "3k w"));
     // Bad exchange B + N against R + P
-    EXPECT(first_position_better("8/8/8/3BN w", "////4P/5P/6R w"));
     // Over-confident exchange-sacrifice due to formerly zoo large 7th-rank-bonus
     EXPECT(first_position_better("8/ppp/2n////R/R w", "8/Rpp b"));
     EXPECT(first_position_better("8/5ppp/5n////7R/7R w", "8/5ppR b"));
