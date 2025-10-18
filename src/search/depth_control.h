@@ -9,6 +9,7 @@
 #include <cstdint>
 
 constexpr int64_t INFINITE_DEPTH = INT_MAX;
+constexpr int64_t MAX_ADDITIONAL_DEPTH_FOR_BETTER_MATES = 6;
 
 class CDepthControl {
   public:
@@ -20,6 +21,8 @@ class CDepthControl {
     void set_depth(const int64_t depth);
     void set_movetime_ms(const int64_t movetime_ms);
     void set_nodes(const int64_t nodes);
+  public:
+    void adapt_depth_for_better_nates(int64_t current_depth_in_plies);
   private:
     void clear_all();
     bool enough_time_left_for_one_more_iteration() const;
@@ -27,5 +30,7 @@ class CDepthControl {
     int64_t dc_depth_in_plies;
     int64_t dc_movetime_ms;
     int64_t dc_nodes;
+  private:
+    int64_t dc_max_depth_for_better_mates;
 };
 

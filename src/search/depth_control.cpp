@@ -15,6 +15,7 @@ void CDepthControl::clear_all() {
     dc_depth_in_plies = 0;
     dc_movetime_ms = 0;
     dc_nodes = 0;
+    dc_max_depth_for_better_mates = INT_MAX;
 }
 
 void CDepthControl::set_depth(const int64_t depth) {
@@ -38,6 +39,11 @@ void CDepthControl::set_nodes(const int64_t nodes) {
 bool CDepthControl::go_deeper(const int current_depth) const {
     assert(current_depth >= 0);
     assert((dc_depth_in_plies > 0) || (dc_movetime_ms > 0) || (dc_nodes > 0));
+    assert(dc_max_depth_for_better_mates > 0);
+    if (current_depth > dc_max_depth_for_better_mates) {
+        // Mate found and max depth reached
+        return false;
+    }
     if (current_depth < dc_depth_in_plies) {
         assert(dc_movetime_ms == 0);
         assert(dc_nodes == 0);
@@ -61,4 +67,15 @@ bool CDepthControl::enough_time_left_for_one_more_iteration() const {
     assert(search_statistics.used_time_milliseconds() >= 0);
     return (dc_movetime_ms > estimated_branching_factor * search_statistics.used_time_milliseconds());
 }
+
+void CDepthControl::adapt_depth_for_better_nates(int64_t current_depth_in_plies) {
+    assert(current_depth_in_plies > 0);
+    assert(dc_max_depth_for_better_mates > 0);
+    if (dc_max_depth_for_better_mates < INT_MAX) {
+        // depth already dapted
+        return;
+    }
+    dc_max_depth_for_better_mates = current_depth_in_plies + MAX_ADDITIONAL_DEPTH_FOR_BETTER_MATES;
+    assert(dc_max_depth_for_better_mates > 0);
+} 
 
