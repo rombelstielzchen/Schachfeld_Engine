@@ -63,6 +63,7 @@ engine: \
 	tabijas.o \
 	test_board.o \
 	test_board_logic.o \
+	test_depth_control.o \
 	test_evaluator.o \
 	test_killer_heuristics.o \
 	test_math_functions.o \
@@ -237,6 +238,9 @@ test_move_list.o: move_generator/test_move_list.cpp
 	$(CC) $(CFLAGS) 
 
 test_board_logic.o: board/test_board_logic.cpp
+	$(CC) $(CFLAGS) 
+
+test_depth_control.o:	search/test_depth_control.cpp
 	$(CC) $(CFLAGS) 
 
 test_piece_square_value_tables.o: evaluator/test_piece_square_value_tables.cpp

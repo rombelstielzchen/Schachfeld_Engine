@@ -18,7 +18,7 @@
 #include "../move_generator/test_move_generator.h"
 #include "../move_generator/test_perft.h"
 #include "../opening_book/test_opening_book.h"
-
+#include "../search/test_depth_control.h"
 #include "../search/test_killer_heuristics.h"
 #include "../search/test_search.h"
 #include "../search/test_statistics.h"
@@ -38,6 +38,7 @@
     EXPECT(CTestOracle::test_everything());
     EXPECT(CTestEvaluator::test_everything());
     EXPECT(CTestStatistics::test_everything());
+    EXPECT(CTestDepthControl::test_everything());
     EXPECT(CTestKillerHeuristic::test_everything());
     EXPECT(CTestSearch::test_everything());
     EXPECT(CTestOpeningBook::test_everything());
