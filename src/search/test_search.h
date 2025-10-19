@@ -31,5 +31,6 @@ class CTestSearch {
     static bool test_early_exit();
     static bool test_anti_repetition();
     static bool test_scores();
+    static bool test_positions();
 };
 
