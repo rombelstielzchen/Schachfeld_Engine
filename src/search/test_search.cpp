@@ -38,6 +38,10 @@ const std::vector<STestcaseStaticExchangeEvaluation> testcases_static_exchange_e
     { "rR b", B8, true },
     { "rRr b", B8, true },
     { "3q/3Q/3q/4Q/3q b", D7, true },
+    // King in check, can capture
+    { "K5Rk b", G8, true },
+    // King in check, can not capture
+    { "KR4Rk b", G8, false },
 };
 
 const std::vector<STestcaseSearch> testcases_search = {
@@ -45,6 +49,12 @@ const std::vector<STestcaseSearch> testcases_search = {
     { 1, "g7g8", "6k1/6Q1/6K1 w" },
     // Capturing the queen with royal fork and perpetual
     { 1, "f4g6", "2q2rk1/4qn1n/6q1/8/5N1q/8/7q/K w" },
+    // King in check, must capture
+    { 1, "h8g8", "K5Qk b" },
+    // King in check, can and should capture
+    { 1, "h8g8", "K5Rk b" },
+    // King in check, must not capture
+    { 1, "h8h7", "KR4Rk b" },
     // Capturing the queen with mate
     { 1, "a1h1", "7k/8/8/8/8/8/6R1/R6q w" },
     // Black to move: capturing the queen with mate
@@ -107,24 +117,8 @@ bool CTestSearch::test_everything() {
     EXPECT(test_static_exchange_evaluation());
     EXPECT(test_early_exit());
     EXPECT(test_anti_repetition());
-    for (const STestcaseSearch &testcase : testcases_search) {
-        SILENT_EXPECT(test_position(testcase));
-    }
+    EXPECT(test_positions());
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = former_dobb_dobb_dobb;
-    return true;
-}
-
-bool CTestSearch::test_position(const STestcaseSearch &testcase) {
-    assert(testcase.depth > 0);
-    assert(testcase.expected_move != "");
-    assert(testcase.fen_position != "");
-    CTEST << "Searching: " << testcase.fen_position << "\n";
-    CTEST << "Expecting: " << testcase.expected_move << "\n";
-    SILENT_EXPECT(board.set_fen_position(testcase.fen_position));
-    CIterativeDeepening searcher;
-    SMove best_move = searcher.search_depth(testcase.depth);
-    CTEST << "Got move: " << best_move << "\n";
-    EXPECT(best_move == testcase.expected_move);
     return true;
 }
 
@@ -135,6 +129,8 @@ bool CTestSearch::test_no_legal_moves() {
     EXPECT(search.no_legal_moves() == false);
     board.move_maker.make_null_move();
     EXPECT(search.no_legal_moves() == true);
+    board.move_maker.unmake_null_move();
+    EXPECT(search.no_legal_moves() == false);
     return true;
 }
 
@@ -232,6 +228,28 @@ bool CTestSearch::test_scores() {
     EXPECT(evaluation > 0);
     EXPECT(evaluation > SCORE_HALF_KING);
     EXPECT(evaluation == winning_mate_score(4));
+    return true;
+}
+
+bool CTestSearch::test_positions() {
+    TEST_FUNCTION();
+    for (const STestcaseSearch &testcase : testcases_search) {
+        SILENT_EXPECT(test_position(testcase));
+    }
+    return true;
+}
+
+bool CTestSearch::test_position(const STestcaseSearch &testcase) {
+    assert(testcase.depth > 0);
+    assert(testcase.expected_move != "");
+    assert(testcase.fen_position != "");
+    CTEST << "Searching: " << testcase.fen_position << "\n";
+    CTEST << "Expecting: " << testcase.expected_move << "\n";
+    SILENT_EXPECT(board.set_fen_position(testcase.fen_position));
+    CIterativeDeepening searcher;
+    SMove best_move = searcher.search_depth(testcase.depth);
+    CTEST << "Got move: " << best_move << "\n";
+    EXPECT(best_move == testcase.expected_move);
     return true;
 }
 
