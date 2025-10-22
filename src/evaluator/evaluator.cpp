@@ -59,10 +59,14 @@ int CEvaluator::evaluate_white_pawn(const SSquare square) {
     assert(square_in_range(square));
     return main_piece_square_value_table_set[WHITE_POWER][square.file][square.rank];
 }
- void CEvaluator::incremental_add(char piece, const SSquare square) {
+ 
+void CEvaluator::incremental_add(char piece, const SSquare square) {
      assert(square_in_range(square));
      assert(is_any_piece(piece) || (piece == EMPTY_SQUARE));
      value += evaluate_square(square);
+     // TODO: this function does nothing?
+     // TODO: handle complaint about unused variable properly: piece
+     ++piece;
  }
 
  void CEvaluator::incremental_clear_square(const SSquare square) {

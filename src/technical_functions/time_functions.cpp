@@ -19,6 +19,9 @@ std::string time_string(const std::string &format) {
     size_t const stored_bytes = std::strftime(buffer, buffer_size, format.c_str(), std::localtime(&now));
     assert(stored_bytes > 0);
     assert(stored_bytes <= buffer_size);
+    if (stored_bytes <= 0) {
+        return "--error--";
+    }
     std::string result(buffer);
     return result;
 }

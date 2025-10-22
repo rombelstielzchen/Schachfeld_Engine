@@ -31,6 +31,7 @@ void trim(std::string &in_out_string) {
 
 size_t find_substring(const std::string &text, const std::string substring, bool case_insensitive) {
     assert((case_insensitive == false) || NOT_YET_IMPLEMENTED);
+    case_insensitive = !!!!case_insensitive;
     return text.find(substring);
 }
 

@@ -3,31 +3,54 @@
 # License: GPLv3
 # Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 #
-# Quick and dirty make-file; for some help please see README.md.
+# Build targets:
+#   * make: build a Linux debug executable and run the self-test (default)
+#   * make optimized: build an optimized Linux executable
+#   * make exe: build a Windows executable (Visual Studio required)
+#   * make clean: remove all executables and intermediate files
+#   * make stats: display project statistics
+#   * make todo: display TODO comments
+#
+# https://makefiletutorial.com/
+# https://www.gnu.org/software/make/manual/make.html
 #
 # TODO
 #    * header-dependencies
-#    * optimized
+#    * maybe change optimized zo O3
+#    * have a look, why "optimized" Linux is not even half as fast as Windows
+
+### Default shell and automatic rules ##
+
+SHELL := /bin/sh
+.SUFFIXES:
+.SUFFIXES: .c .cpp .o
 
 ### Compiler cnfiguration ##############
 #
 # GCC warning options: https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
 
-CC=g++
+CXX := g++
 
-DEBUGFLAGS=-D DEBUG_LOG_ENABLE -std=c++17 -Wall -Wextra -Wpedantic -Werror -fmax-errors=1 -O0 -c $^
-OPTIMIZEDFLAGS=-std=c++17 -Wall -Wextra -Wpedantic -Werror -O2  -c $^
-CFLAGS=$(DEBUGFLAGS)
+GENERAL_FLAGS := -std=c++17 -Wall -Wextra -Wpedantic -Werror -fmax-errors=1 
+GENERAL_FLAGS := -std=c++17 -Wall -Wextra -Wpedantic -Werror -fmax-errors=1 
+DEBUG_FLAGS := -D DEBUG_LOG_ENABLE -O0
+OPTIMIZED_FLAGS := -D NDEBUG -O2
 
-### Main build-target ##################
+CXXFLAGS := $(GENERAL_FLAGS)
 
-default:
-	make engine
-	make test
-	@echo "=============================="
-	@ls -o engine
+.PHONY: debug
+debug: CXXFLAGS += $(DEBUG_FLAGS)
 
-engine: \
+.PHONY: optimized
+optimized: CXXFLAGS += $(OPTIMIZED_FLAGS)
+
+CXXFLAGS += -c $^
+
+EXECUTABLE = engine
+
+### File lists #########################
+
+OBJECT_FILES :=  \
 	board.o \
 	board_logic.o \
 	command_interface.o \
@@ -83,202 +106,198 @@ engine: \
 	virtual_expert.o \
 	wonder_weapons_black.o \
 	wonder_weapons_white.o
+
+### Main build-target (Linux debug) ####
+
+.PHONY: "debug
+debug: engine
+
+engine: $(OBJECT_FILES)
 	make semi_clean 
 	make standard_headers
-	### Linking engine
-	$(CC) -o $@ $^ 
-	@echo "=============================="
-	@ls -o engine
+	$(CXX) -o $@ $^ 
+	make test
+	make build_summary
 
 ### Object files #######################
 
 main.o: main.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 board.o: board/board.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 string_functions.o: technical_functions/string_functions.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 uci_protocol.o: universal_chess_interface/uci_protocol.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 virtual_expert.o: evaluator/knowledge/virtual_expert.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 wonder_weapons_black.o: opening_book/book_data/wonder_weapons_black.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 wonder_weapons_white.o: opening_book/book_data/wonder_weapons_white.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 fen_parser.o: board/fen_parser.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 game_saver.o: board/game_saver.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 command_interface.o: universal_chess_interface/command_interface.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 move_generator.o: move_generator/move_generator.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 move.o: move_generator/move.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 test_move.o: move_generator/test_move.cpp 
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 test_move_generator.o: move_generator/test_move_generator.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 fen_generator.o: board/fen_generator.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 engine_test.o: technical_functions/engine_test.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 test_board.o: board/test_board.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 test_technical_functions.o: technical_functions/test_technical_functions.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 time_functions.o: technical_functions/time_functions.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 board_logic.o: board/board_logic.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ $^
 
 master_book.o: opening_book/master_book.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 data_book.o: opening_book/data_book.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 
 depth_control.o: search/depth_control.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 test_oracle.o: evaluator/test_oracle.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 test_opening_book.o: opening_book/test_opening_book.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 gm_book.o: opening_book/book_data/gm_book.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 move_maker.o: board/move_maker.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 test_move_maker.o: board/test_move_maker.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 move_list.o: move_generator/move_list.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 move_list__filters.o: move_generator/move_list__filters.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 move_list__get.o: move_generator/move_list__get.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 move_list__store.o: move_generator/move_list__store.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 search.o: search/search.cpp
-	$(CC) $(CFLAGS)
+	$(CXX) $(CXXFLAGS) $^
 
 evaluator.o: evaluator/evaluator.cpp
-	$(CC) $(CFLAGS)
+	$(CXX) $(CXXFLAGS) $^
 
 expert_endgame_king_activity.o: evaluator/knowledge/endgame/expert_endgame_king_activity.cpp
 	echo huhu
-	$(CC) $(CFLAGS)
+	$(CXX) $(CXXFLAGS) $^
 
 expert_general.o: evaluator/knowledge/general/expert_general.cpp
-	$(CC) $(CFLAGS)
+	$(CXX) $(CXXFLAGS) $^
 
 test_evaluator.o: evaluator/test_evaluator.cpp
-	$(CC) $(CFLAGS)
+	$(CXX) $(CXXFLAGS) $^
 
 test_search.o: search/test_search.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 search_statistics.o: search/search_statistics.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 info_thread.o: universal_chess_interface/info_thread.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 iterative_deepening.o: search/iterative_deepening.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 string_tokenizer.o: technical_functions/string_tokenizer.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 tabijas.o: opening_book/book_data/tabijas.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 test_piece_square_value_tables.o: evaluator/test_piece_square_value_tables.cpp
 
 test_statistics.o: search/test_statistics.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 test_math_functions.o: technical_functions/test_math_functions.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 math_functions.o: technical_functions/math_functions.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 test_move_list.o: move_generator/test_move_list.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 test_board_logic.o: board/test_board_logic.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 test_depth_control.o:	search/test_depth_control.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 test_piece_square_value_tables.o: evaluator/test_piece_square_value_tables.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 oracle.o: evaluator/oracle.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 piece_square_value_tables.o: evaluator/piece_square_value_tables.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 test_perft.o: move_generator/test_perft.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 killer_heuristics.o: search/killer_heuristics.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 test_killer_heuristics.o: search/test_killer_heuristics.cpp
-	$(CC) $(CFLAGS) 
+	$(CXX) $(CXXFLAGS) $^ 
 
 #### Other build targets ###############
 
-exe:
-	make clean
-	cd visual_studio; \
-	bash ./build.sh
+.PHONY: "build_summary
+build_summary:
+	@echo "=============================="
+	@ls -o engine
 
-test:
-	### Testing engine, executing a quick self-test, without UCI.
-	# For more tests see the "test" directory.
-	echo "quit" | ./engine
-
-semi_clean:
-	### Deleting automatically generated code
-	### Deleting Linux binaries
-	rm -f engine
-	rm -f a.out
-
+.PHONY: "clean
 clean:
 	make semi_clean
 	### Deleting Windows executables
@@ -293,6 +312,30 @@ clean:
 	find . -name 'debug.txt' | xargs rm -f
 	find . -name 'schachfeld_games.pgn' | xargs rm -f
 
+.PHONY: "exe
+exe:
+	make clean
+	cd visual_studio; \
+	bash ./build.sh
+
+.PHONY: "optimized
+optimized:	engine
+
+.PHONY: "semi_clean
+semi_clean:
+	### Deleting automatically generated code
+	### Deleting Linux binaries
+	rm -f engine
+	rm -f a.out
+
+.PHONY: "standard_headers
+standard_headers: technical_functions/standard_headers.h.gch
+
+technical_functions/standard_headers.h.gch: technical_functions/standard_headers.h
+	### Building precompiled headers
+	$(CXX) technical_functions/standard_headers.h
+
+.PHONY: "stats
 stats:
 	@echo -n "LOC total:      "
 	@find .. -name '*.cpp' -o -name '*.h' -o -name '*.sh' -o -name '*.pl' -o -name 'makefile' | sed '/docu_/d' | sed '/docs/d' | xargs  cat | wc -l
@@ -314,12 +357,13 @@ stats:
 	@find . -name '*.cpp' | xargs wc -l | sed '/book_data/d' | sort | tail -n 2 | head -n 1
 	@ls -o engine
 
+.PHONY: test
+test:
+	### Testing engine, executing a quick self-test, without UCI.
+	# For more tests see the "test" directory.
+	echo "quit" | ./engine
+
+.PHONY: todo
 todo:
 	@find . -name '*.cpp' -o -name '*.h' | xargs grep -A1 -B1 TODO
-
-standard_headers: technical_functions/standard_headers.h.gch
-
-technical_functions/standard_headers.h.gch: technical_functions/standard_headers.h
-	### Building precompiled headers
-	$(CC) technical_functions/standard_headers.h
 
