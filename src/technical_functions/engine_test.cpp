@@ -23,8 +23,12 @@
 #include "../search/test_search.h"
 #include "../search/test_statistics.h"
 #include "standard_headers.h"
-/* static */ bool CEngineTest::test_everything() {
+
+bool CEngineTest::testing = false;
+
+bool CEngineTest::test_everything() {
     BEGIN_TESTSUITE("CEngineTest");
+    testing = true;
     EXPECT(CTestMathFunctions::test_everything());
      EXPECT(CTestTechnicalFunctions::test_everything());
     EXPECT(CTestBoard::test_everything());
@@ -44,6 +48,7 @@
     EXPECT(CTestOpeningBook::test_everything());
     CTEST << "[OK] CEngineTest::test_everything(): all " << testcase_counter  << " checks passed with success." << std::endl;
     board.set_start_position();
+    testing = false;
     return true;
 }
 

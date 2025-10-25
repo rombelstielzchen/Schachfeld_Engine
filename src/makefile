@@ -59,6 +59,7 @@ OBJECT_FILES :=  \
 	engine_test.o \
 	evaluator.o \
 	expert_endgame_king_activity.o \
+	expert_endgame_pawn.o \
 	expert_general.o \
 	fen_generator.o \
 	fen_parser.o \
@@ -225,7 +226,9 @@ evaluator.o: evaluator/evaluator.cpp
 	$(CXX) $(CXXFLAGS) $^
 
 expert_endgame_king_activity.o: evaluator/knowledge/endgame/expert_endgame_king_activity.cpp
-	echo huhu
+	$(CXX) $(CXXFLAGS) $^
+
+expert_endgame_pawn.o: evaluator/knowledge/endgame/expert_endgame_pawn.cpp
 	$(CXX) $(CXXFLAGS) $^
 
 expert_general.o: evaluator/knowledge/general/expert_general.cpp

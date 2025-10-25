@@ -18,6 +18,7 @@ bool CTestBoardLogic::test_everything() {
     EXPECT(test_is_pawn_at());
     EXPECT(test_is_pawn_anywhere());
     EXPECT(test_is_pawn_structure());
+    EXPECT(test_is_simplified_testcase());
     return true;
 }
 
@@ -91,6 +92,19 @@ bool CTestBoardLogic::test_is_pawn_structure() {
     EXPECT(CBoardLogic::is_pawn_structure(WHITE_POWER, F2, G3, H2) == false);
     SILENT_EXPECT(board.move_maker.make_move("g2g3"));
     EXPECT(CBoardLogic::is_pawn_structure(WHITE_POWER, F2, G3, H2));
+    return true;
+}
+
+bool CTestBoardLogic::test_is_simplified_testcase() {
+    TEST_FUNCTION();
+    board.set_start_position();
+    EXPECT(CBoardLogic::is_simplified_testcase() == false);
+    EXPECT(board.set_fen_position("K1k w"));
+    EXPECT(CBoardLogic::is_simplified_testcase() == false);
+    EXPECT(board.set_fen_position("KBk w"));
+    EXPECT(CBoardLogic::is_simplified_testcase() == false);
+    EXPECT(board.set_fen_position("Bb b"));
+    EXPECT(CBoardLogic::is_simplified_testcase() == true);
     return true;
 }
 

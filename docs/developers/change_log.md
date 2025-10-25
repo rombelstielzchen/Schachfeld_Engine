@@ -1,6 +1,10 @@
 Major Changes
 =============
 
+Version 0.m
+-----------
+* An evaluation expert for pawns in the endgame
+
 Version 0.k
 -----------
 * Better move-ordering for captures. Now sort moves not only bymost valuable victim (first criterium), but also by least valuable aggressor.

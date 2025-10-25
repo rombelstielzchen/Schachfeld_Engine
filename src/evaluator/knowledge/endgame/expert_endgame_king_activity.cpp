@@ -31,4 +31,3 @@ void CExpertEndgameKingActivity::apply_knowledge() {
     CPsvModifier::clone_from_white_to_black(BLACK_KING);
 }
 
-

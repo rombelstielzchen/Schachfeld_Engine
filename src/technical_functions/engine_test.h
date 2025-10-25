@@ -7,6 +7,9 @@
 
 class CEngineTest {
   public:
-    static bool test_everything();
+     static bool test_everything();
+     inline static bool is_testing() { return testing; }
+  private:
+     static bool testing;
 };
 
