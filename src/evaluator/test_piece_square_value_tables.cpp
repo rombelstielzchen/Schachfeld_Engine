@@ -6,6 +6,7 @@
 #include "test_piece_square_value_tables.h"
 #include "test_evaluator.h"
 #include "knowledge/endgame/expert_endgame_king_activity.h"
+#include "knowledge/endgame/expert_endgame_pawn.h"
 #include "../technical_functions/testing.h"
           
 bool CTestPieceSquareValueTables::test_everything() {
@@ -19,6 +20,7 @@ bool CTestPieceSquareValueTables::test_plausibility() {
     TEST_FUNCTION();
     EXPECT(test_plausibility(main_piece_square_value_table_set));
     EXPECT(test_plausibility(endgame_king_psv_table));
+    EXPECT(test_plausibility(endgame_pawn_psv_table));
     return true;
 }
 
