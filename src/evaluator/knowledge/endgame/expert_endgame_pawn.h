@@ -9,12 +9,13 @@
 #include "../virtual_expert.h"
 #include "../../piece_square_value_tables.h"
 
-extern TPieceSquareValueTable endgame_king_psv_table;
+// TODO: extern needed
+extern TPieceSquareValueTable endgame_pawn_psv_table;
 
-class CExpertEndgameKingActivity: public CVirtualExpert {
+class CExpertEndgamePawn: public CVirtualExpert {
   private:
     virtual bool is_responsible() const override;
     virtual void apply_knowledge() override;
-    virtual std::string get_name() const override { return "CExpertEndgameKingActivity"; }
+    virtual std::string get_name() const override { return "CExpertEndgamePawn"; }
 };
 

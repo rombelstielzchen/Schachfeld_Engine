@@ -5,17 +5,20 @@
 
 #include "oracle.h"
 #include "knowledge/endgame/expert_endgame_king_activity.h"
+#include "knowledge/endgame/expert_endgame_pawn.h"
 #include "knowledge/general/expert_general.h"
 #include "../board/board_logic.h"
 
 CExpertGeneral expert_general;
 CExpertEndgameKingActivity expert_endgame_king_activity;
+CExpertEndgamePawn expert_endgame_pawn;
 
 COracle::COracle() {
     // Order of insertions = order of execution.
     // Basic experts first, more specialized experts later
     expert_collection.push_back(&expert_general);
     expert_collection.push_back(&expert_endgame_king_activity);
+    expert_collection.push_back(&expert_endgame_pawn);
 }
 
 void COracle::configure_knowledge() {

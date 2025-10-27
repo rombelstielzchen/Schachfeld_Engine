@@ -49,3 +49,15 @@ echo 'Going to build project ...'
 "${DEVENV}" "${VCXPROJ}" -build
 ls -o x64/Release/*.exe
 
+# Copying executable to new destination
+EXE="./x64/Release/Schachfeld_Engine.exe"
+ENGINE_VERSION=$(printf "uci\nquit\n" | ("$EXE" 2> /dev/null) | grep "id name" | sed "{ s/id name //; }")
+echo "Found engine version: $ENGINE_VERSION"
+NEW_NAME="${ENGINE_VERSION}.exe"
+NEW_PATH="../../older_versions/${NEW_NAME}"
+echo "Copying from $EXE"
+ls -o $EXE
+echo "Copying to $NEW_PATH"
+cp -f "$EXE" "$NEW_PATH"
+ls -o "$NEW_PATH"
+

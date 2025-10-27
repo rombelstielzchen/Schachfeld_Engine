@@ -181,7 +181,9 @@ bool CBoardLogic::is_endgame() {
             }
         }
     }
+#ifndef NDEBUG
     constexpr int n_possible_officers_after_promotion = 30;
+#endif
     assert(n_officers <= n_possible_officers_after_promotion);
     return (n_officers <= max_officers_to_be_considered_endgame);
 }
@@ -217,5 +219,10 @@ bool CBoardLogic::is_pawn_structure(char white_or_black_pawn, SSquare square1, S
         && is_pawn_at(white_or_black_pawn, square2)
         && ((square3 == NULL_SQUARE) || is_pawn_at(white_or_black_pawn, square3))
         && ((square4 == NULL_SQUARE) || is_pawn_at(white_or_black_pawn, square4)));
+}
+
+bool CBoardLogic::is_simplified_testcase() {
+    // Both kings missing
+    return ((king_square(WHITE_PLAYER) == NULL_SQUARE) && abs(board.evaluator.nega_score() < SCORE_HALF_KING));
 }
 

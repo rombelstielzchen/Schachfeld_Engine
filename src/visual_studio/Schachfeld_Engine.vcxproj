@@ -143,6 +143,7 @@
 <clCompile Include="../board/test_move_maker.cpp"/>
 <clCompile Include="../evaluator/evaluator.cpp"/>
 <clCompile Include="../evaluator/knowledge/endgame/expert_endgame_king_activity.cpp"/>
+<clCompile Include="../evaluator/knowledge/endgame/expert_endgame_pawn.cpp"/>
 <clCompile Include="../evaluator/knowledge/general/expert_general.cpp"/>
 <clCompile Include="../evaluator/knowledge/virtual_expert.cpp"/>
 <clCompile Include="../evaluator/oracle.cpp"/>
@@ -173,6 +174,7 @@
 <clCompile Include="../search/killer_heuristics.cpp"/>
 <clCompile Include="../search/search.cpp"/>
 <clCompile Include="../search/search_statistics.cpp"/>
+<clCompile Include="../search/test_depth_control.cpp"/>
 <clCompile Include="../search/test_killer_heuristics.cpp"/>
 <clCompile Include="../search/test_search.cpp"/>
 <clCompile Include="../search/test_statistics.cpp"/>
@@ -201,6 +203,7 @@
 <clInclude Include="../board/test_move_maker.h"/>
 <clInclude Include="../evaluator/evaluator.h"/>
 <clInclude Include="../evaluator/knowledge/endgame/expert_endgame_king_activity.h"/>
+<clInclude Include="../evaluator/knowledge/endgame/expert_endgame_pawn.h"/>
 <clInclude Include="../evaluator/knowledge/general/expert_general.h"/>
 <clInclude Include="../evaluator/knowledge/virtual_expert.h"/>
 <clInclude Include="../evaluator/oracle.h"/>
@@ -228,6 +231,7 @@
 <clInclude Include="../search/killer_heuristics.h"/>
 <clInclude Include="../search/search.h"/>
 <clInclude Include="../search/search_statistics.h"/>
+<clInclude Include="../search/test_depth_control.h"/>
 <clInclude Include="../search/test_killer_heuristics.h"/>
 <clInclude Include="../search/test_search.h"/>
 <clInclude Include="../search/test_statistics.h"/>

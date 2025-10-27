@@ -17,5 +17,6 @@ class CTestBoardLogic {
     static bool test_is_pawn_at();
     static bool test_is_pawn_anywhere();
     static bool test_is_pawn_structure();
+    static bool test_is_simplified_testcase();
 };
 

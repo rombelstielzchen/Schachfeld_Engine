@@ -18,7 +18,9 @@ CDataBook::CDataBook(const TSortedVariationCollection &sorted_variation_collecti
 std::string CDataBook::get_move(const std::string &moves_from_startpos_in_uci_format) {
 // moves_from_startpos_in_uci_format usually ends with a space;
 // The space might be missing in case of test-cases and human input
+#ifndef NDEBUG
     constexpr int length_of_text_move_plus_space = length_of_text_move + 1;
+#endif
     assert((moves_from_startpos_in_uci_format.length() % length_of_text_move_plus_space == 0) || (moves_from_startpos_in_uci_format.length() % length_of_text_move_plus_space == length_of_text_move));
     assert(((moves_from_startpos_in_uci_format.length() == 0) || moves_from_startpos_in_uci_format.back() == ' ') || isdigit(moves_from_startpos_in_uci_format.back()));
     size_t index = random_matching_index(moves_from_startpos_in_uci_format);

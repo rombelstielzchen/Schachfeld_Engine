@@ -19,7 +19,7 @@
 // Provided macros: see below!
 //
 // DO NOT USE ANYTHING ELSE DIRECTLY!
-// You would break macro-magic or initialization-order.
+// You would break macro-magic or mess up the order of initializationr.
 
 #ifndef DEBUG_LOG_ENABLE
 
@@ -37,47 +37,50 @@
 #include <string>
 #include <time.h>    
 
-#define DEBUG_MESSAGE(text__linebreak_appended_automatically) { ____message(text__linebreak_appended_automatically); }
+#define DEBUG_MESSAGE(...) { rombel::message(__VA_ARGS__); }
 
-#define DEBUG_METHOD() CLog _debugLog(__FUNCTION__);
+#define DEBUG_METHOD() CLog helper_object(__FUNCTION__);
 
-#define DEBUG_VALUE_OF(object) { ____value_of(#object, object); }
+#define DEBUG_VALUE_OF(object) { rombel::value_of(#object, object); }
 
-#define DEBUG_LOG_TO_FILE() { ____log_to_file(); }
+#define DEBUG_LOG_TO_FILE() { rombel::log_to_file(); }
 
-#define DEBUG_REDIRECT_TO_STREAM(stream) {  ____redirect_to_stream(stream); }
+#define DEBUG_REDIRECT_TO_STREAM(stream) { rombel::redirect_to_stream(&stream); }
 
-#define DEBUG_ALWAYS_FLUSH_BUFFER() { ___always_flush_buffer(); }
+#define DEBUG_ALWAYS_FLUSH_BUFFER() { rombel::always_flush_buffer(); }
+
+namespace rombel {
 
 inline bool flush_buffer = false;
 inline int indentation = 0;
 // Do not use these streams directly!
 // At startup they can be undefined due to order initialization!
 // std::cout is only known at runtime!
-inline std::ostream* debug_stream = &std::cout;
+inline std::ostream *debug_stream = &std::cout;
 inline std::ofstream debug_file_stream;
 
-inline void ___always_flush_buffer() {
+inline void always_flush_buffer() {
     flush_buffer = true;
 }
 
-inline std::ostream* ____safe_logging_stream() {
+inline std::ostream* safe_logging_stream() {
     if (debug_stream != nullptr) {
         return debug_stream;
     }
     return &std::cout;
 }
 
-inline void ____redirect_to_stream(std::ostream &stream) {
+inline void redirect_to_stream(std::ostream &stream) {
 	debug_stream = &stream;
 }
 
-template<class T> void ____value_of(const std::string &name, const T &value);
+template<class T> void value_of(const std::string &name, const T &value);
 
 class CLog {
     // This class provides via its destructor:
     //   * an automatic end-of-function-message
     //   * optional timing
+    //   * decreased indentation
   public:
     CLog(const std::string &context);
     ~CLog();
@@ -113,23 +116,34 @@ inline std::string debug_filename() {
 
 #endif
 
-inline void ____log_to_file() {
+inline void log_to_file() {
     debug_file_stream.open(debug_filename());
-    ____redirect_to_stream(debug_file_stream);
+    redirect_to_stream(debug_file_stream);
 }
 
-inline void ____message(const std::string &text__linebreak_appended_automatically) {
+inline void log_variadic_helper() {}
+
+template<typename First, typename ...Rest>
+inline void log_variadic_helper(First && first, Rest && ...rest) {
+    // Sending varidadic argunebts to the output stream, bit by bit
+    // https://stackoverflow.com/questions/29326460/how-to-make-a-variadic-macro-for-stdcout
+    *safe_logging_stream() << std::forward<First>(first);
+    log_variadic_helper(std::forward<Rest>(rest)...);
+}
+
+template<typename First, typename ...Rest>
+inline void message(First && first, Rest && ...rest) {
     int indentation_width = 2 * indentation;
-    std::string indented_message = std::string(indentation_width, ' ') + text__linebreak_appended_automatically + "\n";
-	*____safe_logging_stream() << indented_message;
+    std::string leadung_spaces = std::string(indentation_width, ' ');
+    log_variadic_helper(leadung_spaces, first, std::forward<Rest>(rest)..., "\n");
     if (flush_buffer) {
-        std::flush(*____safe_logging_stream());
+        std::flush(*rombel::safe_logging_stream());
     }
 }
 
-template<class T> void ____value_of(const std::string &name, const T &value) {
+template<class T> void rombel::value_of(const std::string &name, const T &value) {
     std::string text = name + "=[" + value + "]";
-    ____message(text);
+    message(text);
 }
 
 inline CLog::CLog(const std::string &ctx) : context(ctx)
@@ -138,7 +152,7 @@ inline CLog::CLog(const std::string &ctx) : context(ctx)
 #endif
 {
     std::string text = "--> " + context;
-    ____message(text);
+    message(text);
 	++indentation;
 }
 
@@ -148,7 +162,10 @@ inline CLog::~CLog() {
 #ifdef DEBUG_LOG_ENABLE_TIMING
 	text += < " in " + (static_cast<double>(clock() - start_time) / CLOCKS_PER_SEC) + "s";
 #endif
-    ____message(text);
+    message(text);
 }
 
+};
+
 #endif
+
