@@ -4,6 +4,7 @@ Major Changes
 Version 0.m
 -----------
 * An evaluation expert for pawns in the endgame
+* An option"debug on | off" to toggle extended logging
 
 Version 0.k
 -----------
