@@ -23,6 +23,7 @@
 
 #ifndef DEBUG_LOG_ENABLE
 
+#define  SWITCH_DEBUG_ON(discarded_bool);
 #define DEBUG_MESSAGE(discarded_text)
 #define DEBUG_METHOD()
 #define DEBUG_VALUE_OF(discarded_object)
@@ -35,11 +36,13 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <time.h>    
+#include <time.h>
+
+#define SWITCH_DEBUG_ON(on_off) { rombel::switch_debug_on(on_off); }
 
 #define DEBUG_MESSAGE(...) { rombel::message(__VA_ARGS__); }
 
-#define DEBUG_METHOD() CLog helper_object(__FUNCTION__);
+#define DEBUG_METHOD() rombel::CLog helper_object(__FUNCTION__);
 
 #define DEBUG_VALUE_OF(object) { rombel::value_of(#object, object); }
 
@@ -51,6 +54,7 @@
 
 namespace rombel {
 
+inline bool debug_on_off = false;
 inline bool flush_buffer = false;
 inline int indentation = 0;
 // Do not use these streams directly!
@@ -58,6 +62,10 @@ inline int indentation = 0;
 // std::cout is only known at runtime!
 inline std::ostream *debug_stream = &std::cout;
 inline std::ofstream debug_file_stream;
+
+inline void switch_debug_on(bool on_off) {
+    debug_on_off = on_off;
+}
 
 inline void always_flush_buffer() {
     flush_buffer = true;
@@ -133,6 +141,9 @@ inline void log_variadic_helper(First && first, Rest && ...rest) {
 
 template<typename First, typename ...Rest>
 inline void message(First && first, Rest && ...rest) {
+    if (debug_on_off == false) {
+        return;
+    }
     int indentation_width = 2 * indentation;
     std::string leadung_spaces = std::string(indentation_width, ' ');
     log_variadic_helper(leadung_spaces, first, std::forward<Rest>(rest)..., "\n");
@@ -142,6 +153,9 @@ inline void message(First && first, Rest && ...rest) {
 }
 
 template<class T> void rombel::value_of(const std::string &name, const T &value) {
+    if (debug_on_off == false) {
+        return;
+    }
     std::string text = name + "=[" + value + "]";
     message(text);
 }
@@ -151,12 +165,18 @@ inline CLog::CLog(const std::string &ctx) : context(ctx)
 	, start_time(clock())
 #endif
 {
+    if (debug_on_off == false) {
+        return;
+    }
     std::string text = "--> " + context;
     message(text);
 	++indentation;
 }
 
 inline CLog::~CLog() {
+    if (debug_on_off == false) {
+        return;
+    }
 	--indentation;
     std::string text = "<-- " + context;
 #ifdef DEBUG_LOG_ENABLE_TIMING

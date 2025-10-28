@@ -107,6 +107,9 @@ void CUciProtocol::process_message(const std::string &message) {
     if (string_tokenizer.next_token_is_one_of("back", "b")) {
         interactive_console_mode = true;
        command_interface.takeback(); 
+    } else if (string_tokenizer.next_token_is("debug")) { 
+        interactive_console_mode = true;
+        SWITCH_DEBUG_ON(string_tokenizer.next_token() == "on");
     } else if (string_tokenizer.next_token_is_one_of("go", "g")) {
         process_go_command(string_tokenizer);
     } else if (string_tokenizer.next_token_is_one_of("help", "?")) {
@@ -253,6 +256,7 @@ void CUciProtocol::display_help() const {
     send_message("    * 'uciewgame' to start a new game");
     send_message("    * 'test' for the self-test");
     send_message("    * 'perft' for a looong test of the move_generator");
+    send_message("    * 'debug on | off' to toggle extended logging");
     send_message("    * 'psv' to display the main piece-square-value-tables");
     send_message("    * e2e4 to execute a move at the console interface");
     send_message("    * back or b to take back a move");
