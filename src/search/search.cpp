@@ -37,6 +37,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
         SMove move_candidate = move_generator.move_list.get_next__capture_killer_silent(distance_to_root);
         assert(is_null_move(move_candidate) == false);
         assert(move_in_range(move_candidate));
+        DEBUG_MESSAGE("make_move: ", move_as_text(move_candidate));
         board.move_maker.make_move(move_candidate);
         int candidate_score;
         if (remaining_depth > 1) {
@@ -115,6 +116,7 @@ int CSearch::quiescence_negamax_recursive_no_stalemate_detection(int const remai
         assert(move_in_range(move_candidate));
         assert(is_any_capture(move_candidate));
         assert(move_candidate.potential_gain > 0);
+        DEBUG_MESSAGE("make_move: ", move_as_text(move_candidate));
         board.move_maker.make_move(move_candidate);
         int candidate_score;
         if (remaining_depth > 1) {
@@ -153,6 +155,7 @@ int CSearch::static_exchange_evaluation_negamax(const SSquare &target_square, in
     }
     assert(move_in_range(recapture));
     assert(recapture.target == target_square);
+        DEBUG_MESSAGE("make_move: ", move_as_text(recapture));
     board.move_maker.make_move(recapture);
     search_statistics.add_nodes(1);
     // Recursion guaranteed to terminate, as recaptures are limited

@@ -174,6 +174,7 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
         SMove const move_candidate = move_generator.move_list.get_next();
         assert(move_candidate != NULL_MOVE);
         assert(move_in_range(move_candidate));
+        DEBUG_MESSAGE("make_move: ", move_as_text(move_candidate));
         board.move_maker.make_move(move_candidate);
         constexpr int distance_to_first_children = 1;
         assert(is_valid_alpha_beta_window(alpha_beta_window));
