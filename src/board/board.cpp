@@ -129,7 +129,7 @@ void CBoard::put_piece(const SSquare square, char piece) {
    assert(is_any_piece(piece) || (piece == EMPTY_SQUARE));
     evaluator.incremental_clear_square(square);
     squares[square.file][square.rank] = piece;
-    evaluator.incremental_add(piece, square);
+    evaluator.incremental_add(square);
 }
 
 std::string CBoard::moves_from_startpos() const {

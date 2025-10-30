@@ -14,7 +14,7 @@ class CEvaluator {
     CEvaluator();
   public:
     void init();
-    void incremental_add(char piece, const SSquare square);
+    void incremental_add(const SSquare square);
     void incremental_clear_square(const SSquare square);
     int evaluate() const { return value; }
     int nega_score() const;

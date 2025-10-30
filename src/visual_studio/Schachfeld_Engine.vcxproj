@@ -172,6 +172,7 @@
 <clCompile Include="../search/depth_control.cpp"/>
 <clCompile Include="../search/iterative_deepening.cpp"/>
 <clCompile Include="../search/killer_heuristics.cpp"/>
+<clCompile Include="../search/mate_score.cpp"/>
 <clCompile Include="../search/search.cpp"/>
 <clCompile Include="../search/search_statistics.cpp"/>
 <clCompile Include="../search/test_depth_control.cpp"/>
@@ -229,6 +230,7 @@
 <clInclude Include="../search/depth_control.h"/>
 <clInclude Include="../search/iterative_deepening.h"/>
 <clInclude Include="../search/killer_heuristics.h"/>
+<clInclude Include="../search/mate_score.h"/>
 <clInclude Include="../search/search.h"/>
 <clInclude Include="../search/search_statistics.h"/>
 <clInclude Include="../search/test_depth_control.h"/>
