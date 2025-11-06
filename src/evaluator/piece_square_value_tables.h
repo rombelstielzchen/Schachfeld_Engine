@@ -6,6 +6,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "../board/board_constants.h"
+#include "../move_generator/move.h"
 #include "../technical_functions/standard_headers.h"
 
 constexpr int PSV_COLUMNS = FILE_H + 1;
@@ -28,14 +29,29 @@ inline TPieceSquareValueTableSet main_piece_square_value_table_set;
 
 class CPsvModifier {
   public:
+    // TODO
+    static void clear_psv_table(TPieceSquareValueTable &psv_rable);
     static void assign_psv_table(TPieceSquareValueTable &target_psv, const TPieceSquareValueTable &source_psv);
     static void assign_psv_table(char piece_type, const TPieceSquareValueTable &source_psv);
     static void flip_vertically(TPieceSquareValueTable &psv_table);
     static void negate(TPieceSquareValueTable &psv_table);
     static void clone_from_white_to_black(char black_piece_type);
+  public:
     static int average(const TPieceSquareValueTable &psv_table);
     static void normalize_average(TPieceSquareValueTable &psv_table, int target_psv);
     static void clone_from_kings_to_queens_bishop(TPieceSquareValueTable &psv_table, int const positive_delta_value);
+  public:
+    // TODO
+    static void add_bonus_to_square(SSquare square, int bonus);
+    void add_bonus_to_area(SSquare bottom_left, SSquare top_right, int bonus);
+    void add_bonus_to_diagonal(SSquare left_most_square, int bonus);
+    void add_bonus_to_anti_diagonal(SSquare left_most_square, int bonus);
+  public:
+    // TODO:
+    void add_bonus_to_center(int bonus);
+    void add_bonus_to_extended_center(int bonus);
+    void add_bonus_to_kindside(int bonus);
+    void add_bonus_to_queenside(int bonus);
   public:
     static void show_psv_table(char piece_type);
     static void show_main_psv_tables();
