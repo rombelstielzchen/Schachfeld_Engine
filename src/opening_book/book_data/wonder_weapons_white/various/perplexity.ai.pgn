@@ -1,0 +1,140 @@
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Silver Gambit Suite"]
+[Black "Lisitsin Gambit"]
+[Result "*"]
+[Opening "King's Gambit"]
+1.e4 e5 2.f4 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Silver Gambit Suite"]
+[Black "Lisitsin Gambit"]
+[Result "*"]
+[Opening "Queen's Gambit"]
+1.d4 d5 2.c4 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Silver Gambit Suite"]
+[Black "Lisitsin Gambit"]
+[Result "*"]
+[Opening "Evans Gambit"]
+1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.b4 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Silver Gambit Suite"]
+[Black "Lisitsin Gambit"]
+[Result "*"]
+[Opening "Danish Gambit"]
+1.e4 e5 2.d4 exd4 3.c3 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Silver Gambit Suite"]
+[Black "Lisitsin Gambit"]
+[Result "*"]
+[Opening "Scotch Gambit"]
+1.e4 e5 2.Nf3 Nc6 3.d4 exd4 4.Bc4 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Silver Gambit Suite"]
+[Black "Lisitsin Gambit"]
+[Result "*"]
+[Opening "Vienna Gambit"]
+1.e4 e5 2.Nc3 Nf6 3.f4 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Silver Gambit Suite"]
+[Black "Lisitsin Gambit"]
+[Result "*"]
+[Opening "Smith-Morra Gambit"]
+1.e4 c5 2.d4 cxd4 3.c3 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Silver Gambit Suite"]
+[Black "Lisitsin Gambit"]
+[Result "*"]
+[Opening "Blackmar–Diemer Gambit"]
+1.d4 d5 2.e4 dxe4 3.Nc3 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Silver Gambit Suite"]
+[Black "Lisitsin Gambit"]
+[Result "*"]
+[Opening "Wing Gambit (Sicilian)"]
+1.e4 c5 2.b4 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Silver Gambit Suite"]
+[Black "Lisitsin Gambit"]
+[Result "*"]
+[Opening "Wing Gambit (English)"]
+1.c4 c5 2.b4 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Silver Gambit Suite"]
+[Black "Lisitsin Gambit"]
+[Result "*"]
+[Opening "Queen’s Gambit Accepted"]
+1.d4 d5 2.c4 dxc4 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Silver Gambit Suite"]
+[Black "Lisitsin Gambit"]
+[Result "*"]
+[Opening "Staunton Gambit"]
+1.d4 f5 2.e4 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Silver Gambit Suite"]
+[Black "Lisitsin Gambit"]
+[Result "*"]
+[Opening "Milner-Barry Gambit"]
+1.e4 e6 2.d4 d5 3.e5 c5 4.c3 Nc6 5.Nf3 Qb6 6.Bd3 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Silver Gambit Suite"]
+[Black "Lisitsin Gambit"]
+[Result "*"]
+[Opening "Halasz Gambit"]
+[Nonsense "1.d4 d5 2.c4 Bg4 3.cxd5 Qxd5 4.Nc3 Qa5 5.f3"]
+

@@ -16,7 +16,6 @@ x64/
 *.hpp
 *.lnk
 *.o
-*.pgn
 *.swp
 *.tmp
 a.out

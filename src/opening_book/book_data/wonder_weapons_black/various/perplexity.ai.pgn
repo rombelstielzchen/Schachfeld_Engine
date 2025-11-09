@@ -1,0 +1,110 @@
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "NN"]
+[Black "NN"]
+[Result "*"]
+[Opening "Benko Gambit (Volga Gambit)"]
+1.d4 Nf6 2.c4 c5 3.d5 b5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "NN"]
+[Black "NN"]
+[Result "*"]
+[Opening "Albin Countergambit"]
+1.d4 d5 2.c4 e5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "NN"]
+[Black "NN"]
+[Result "*"]
+[Opening "Budapest Gambit"]
+1.d4 Nf6 2.c4 e5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "NN"]
+[Black "NN"]
+[Result "*"]
+[Opening "Bird's Gambit"]
+1.f4 e5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "NN"]
+[Black "NN"]
+[Result "*"]
+[Opening "From's Gambit"]
+[Nonsense "1.f4 e5 2.g4"]
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "NN"]
+[Black "NN"]
+[Result "*"]
+[Opening "Marshall Gambit"]
+1.d4 d5 2.c4 c6 3.Nc3 e5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "NN"]
+[Black "NN"]
+[Result "*"]
+[Opening "Latvian Gambit"]
+1.e4 e5 2.Nf3 f5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "NN"]
+[Black "NN"]
+[Result "*"]
+[Opening "Englund Gambit"]
+1.d4 e5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "NN"]
+[Black "NN"]
+[Result "*"]
+[Opening "Falkbeer Countergambit"]
+1.e4 e5 2.f4 d5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "NN"]
+[Black "NN"]
+[Result "*"]
+[Opening "Philidor Countergambit"]
+1.e4 e5 2.Nf3 d6 3.d4 f5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "NN"]
+[Black "NN"]
+[Result "*"]
+[Opening "Staunton Gambit"]
+1.d4 f5 2.e4 *
+
