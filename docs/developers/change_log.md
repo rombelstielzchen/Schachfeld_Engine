@@ -4,8 +4,9 @@ Major Changes
 Version 0.m
 -----------
 * An evaluation expert for pawns in the endgame
-* An option"debug on | off" to toggle extended logging
+* An option "debug on | off" to toggle extended logging
 * Searching for "better" mates when completely winning, i.e. mates with less material
+* Some dozen more gambit-lines for the opening-book "wonder-weapons" in order to entertain the user.
 
 Version 0.k
 -----------
