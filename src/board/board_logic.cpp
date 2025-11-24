@@ -226,3 +226,9 @@ bool CBoardLogic::is_simplified_testcase() {
     return ((king_square(WHITE_PLAYER) == NULL_SQUARE) && abs(board.evaluator.nega_score() < SCORE_HALF_KING));
 }
 
+bool CBoardLogic::is_pawn_missing(char white_or_black_pawn, SSquare square) {
+    assert((white_or_black_pawn == WHITE_POWER) || (white_or_black_pawn == BLACK_POWER));
+    assert(square_in_range(square));
+    return(is_pawn_at(white_or_black_pawn, square) == false);
+}
+

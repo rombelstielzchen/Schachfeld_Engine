@@ -43,6 +43,7 @@ class CPsvModifier {
     static int average(const TPieceSquareValueTable &psv_table);
     static void normalize_average(TPieceSquareValueTable &psv_table, int target_psv);
     static void clone_from_kings_to_queens_bishop(TPieceSquareValueTable &psv_table, int const positive_delta_value);
+    static void set_psv_row(char piece_type, const int rank, const int value);
   public:
     // TODO
     static void add_bonus_to_square(TPieceSquareValueTable &psv_table, SSquare square, int bonus);
@@ -58,7 +59,9 @@ class CPsvModifier {
   public:
     static void show_psv_table(char piece_type);
     static void show_main_psv_tables();
+    static void set_psv_row(TPieceSquareValueTable &psv_table, const int rank, const int value);
   private:
+    // TODO: needed?
     TPieceSquareValueTable &psv_table;
 };
 

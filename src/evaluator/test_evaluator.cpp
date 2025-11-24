@@ -90,9 +90,12 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
    { "//5N w", "//2N w" },
     { "////4N w", "////3N w" },
     { "///4N w", "///3N w" },
-    // Castling direction
+    // Castling direction (white)
     { "k/////BBB/PPP/2KR3R w", "k/////BBB/PPP/R4RK w" },
     { "k/////BBB/5PPP/R4RK w", "k/////BBB/5PPP/2KR3R w",  },
+    // Castling direction (black)
+    { "r4rk1/PPP/BBB/////4K b", "2kr3r/ppp/BBB/////4K b" },
+    { "2kr3r/5ppp/5bbb/////7K b", "r4rk/5ppp/5bbb/////7K b" },
 };
 
 bool CTestEvaluator::test_everything() {
@@ -209,7 +212,7 @@ bool CTestEvaluator::first_position_better(const STestcaseEvaluator &testcase) {
     int better_Score = board.evaluator.evaluate();
     SILENT_EXPECT(board.set_fen_position(testcase.worse_position));
     int worse_score = board.evaluator.evaluate();
-    std::cout << better_Score << " >? " << worse_score << "\n";
+    CTEST << better_Score << " >? " << worse_score << "\n";
     SILENT_EXPECT(better_Score > worse_score);
     return true;
  }

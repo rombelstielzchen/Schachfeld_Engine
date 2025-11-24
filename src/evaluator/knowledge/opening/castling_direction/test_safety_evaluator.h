@@ -5,12 +5,8 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-class CTestPsvModifiers {
+class CTestSafetyEvaluator {
   public:
     static bool test_everything();
-  private:
-    static bool test_square();
-    static bool test_area();
-    static bool auto_cleanup_on_new_position();
 };
 

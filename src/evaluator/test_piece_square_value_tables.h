@@ -16,5 +16,6 @@ class CTestPieceSquareValueTables {
     static bool test_plausibility(const TPieceSquareValueTable &psv_table);
   private:
     static bool test_positions();
+    static bool test_modifiers();
 };
 

@@ -111,7 +111,8 @@ void CPsvModifier::show_psv_table(char piece_type) {
     assert(is_any_piece(piece_type));
     std::cout << "*** " <<piece_type << " **************\n";
     for (int j = FILE_A; j <= FILE_H; ++j) {
-        for (int k = RANK_8; k >= RANK_1; --k) {
+        std::cout << file_as_text(j) << ": ";
+        for (int k = RANK_1; k <= RANK_8; ++k) {
             std::cout << main_piece_square_value_table_set[piece_type][j][k] << " ";
         }
         std::cout << "\n"; 
@@ -132,5 +133,42 @@ void CPsvModifier::show_main_psv_tables() {
     show_psv_table(BLACK_ROOK);
     show_psv_table(BLACK_QUEEN);
     show_psv_table(BLACK_KING);
+}
+
+void CPsvModifier::set_psv_row(TPieceSquareValueTable &psv_table, const int rank, const int value) {
+    assert(rank_in_range(rank));
+    assert(abs(value) <= SCORE_KING);
+    for (int j = FILE_A; j<= FILE_H; ++j) {
+        psv_table[j][rank] = value;
+    }
+}
+
+void CPsvModifier::set_psv_row(char piece_type, const int rank, const int value) {
+    assert(is_any_piece(piece_type));
+    assert(rank_in_range(rank));
+    assert(abs(value) <= SCORE_KING);
+    set_psv_row(main_piece_square_value_table_set[piece_type], rank, value);
+}
+
+void CPsvModifier::add_bonus_to_square(TPieceSquareValueTable &psv_table, SSquare square, int bonus) {
+    assert(square_in_range(square));
+    assert(abs(bonus) <= SCORE_KING);
+    psv_table[square.file][square.rank] += bonus;
+}
+
+void CPsvModifier::add_bonus_to_area(TPieceSquareValueTable &psv_table, SSquare bottom_left, SSquare top_right, int bonus) {
+    assert(square_in_range(bottom_left));
+    assert(square_in_range(top_right));
+    assert(abs(bonus) <= SCORE_KING);
+    uint8_t left = std::min(bottom_left.file, top_right.file);
+    uint8_t right = std::max(bottom_left.file, top_right.file);
+    uint8_t bottom = std::min(bottom_left.rank, top_right.rank);
+    uint8_t top = std::max(bottom_left.rank, top_right.rank);
+    for (uint8_t j = left; j <= right; ++j) {
+        for (uint8_t k = bottom; k <= top; ++k) {
+            SSquare to_be_modified = {j, k};
+            add_bonus_to_square(psv_table, to_be_modified, bonus);
+        }
+    }
 }
 

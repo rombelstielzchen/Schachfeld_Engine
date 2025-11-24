@@ -7,7 +7,6 @@
 
 #include "../../piece_square_value_tables.h"
 #include "../virtual_expert.h"
-#include "../../piece_square_value_tables.h"
 
 extern TPieceSquareValueTable endgame_king_psv_table;
 

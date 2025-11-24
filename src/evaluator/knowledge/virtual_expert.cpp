@@ -12,15 +12,15 @@ CVirtualExpert::~CVirtualExpert() {
 }
 
 void CVirtualExpert::configure() {
-    // TODO: disable / remove logging in production
-    std::string message = get_name();
-    if (is_responsible()) {
+    bool responsible = is_responsible();
+    if (responsible) {
         apply_knowledge();
-        message += " responsible";
-    } else { 
-        message += " not responsible";
     }
+#ifndef NDEBUG
+    std::string message = get_name();
+    message += responsible ? "" : " not";
+    message += " responsible";
     CUciProtocol::send_info(message);
-//    std::cerr << message << "\n";
+#endif
 }
 
