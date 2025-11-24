@@ -10,6 +10,7 @@
 
 class CEvaluator {
     friend class CTestEvaluator;
+    friend class CTestPsvModifiers;
   public:
     CEvaluator();
   public:

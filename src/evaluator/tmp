@@ -6,6 +6,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "../board/board_constants.h"
+#include "../board/square_constants.h"
 #include "../move_generator/move.h"
 #include "../technical_functions/standard_headers.h"
 
@@ -28,9 +29,7 @@ typedef std::array<TPieceSquareValueTable, N_PIECE_SQUARE_VALUE_TABLES> TPieceSq
 inline TPieceSquareValueTableSet main_piece_square_value_table_set;
 
 class CPsvModifier {
-  public:
     CPsvModifier(TPieceSquareValueTable &psv_table_to_be_modified);
-    CPsvModifier(char piece_type);
   public:
     // TODO
     static void clear_psv_table(TPieceSquareValueTable &psv_rable);
@@ -45,16 +44,23 @@ class CPsvModifier {
     static void clone_from_kings_to_queens_bishop(TPieceSquareValueTable &psv_table, int const positive_delta_value);
   public:
     // TODO
-    static void add_bonus_to_square(TPieceSquareValueTable &psv_table, SSquare square, int bonus);
-    static void add_bonus_to_area(TPieceSquareValueTable &psv_table, SSquare bottom_left, SSquare top_right, int bonus);
-    static void add_bonus_to_diagonal(TPieceSquareValueTable &psv_table, SSquare left_most_square, int bonus);
-    static void add_bonus_to_anti_diagonal(TPieceSquareValueTable psv_table, SSquare left_most_square, int bonus);
+    static void add_bonus_to_square(SSquare square, int bonus);
+    static void add_bonus_to_squares(const SSquare square1,
+        const SSquare square2 /*= NULL_SQUARE*/,
+        const SSquare square3 /*= NULL_SQUARE*/,
+        const SSquare square4 /*= NULL_SQUARE*/,
+        const SSquare square5 /*= NULL_SQUARE*/,
+        const SSquare square6 /*= NULL_SQUARE*/);
+  public:
+    void add_bonus_to_area(SSquare bottom_left, SSquare top_right, int bonus);
+    void add_bonus_to_diagonal(SSquare left_most_square, int bonus);
+    void add_bonus_to_anti_diagonal(SSquare left_most_square, int bonus);
   public:
     // TODO:
-    static void add_bonus_to_center(TPieceSquareValueTable &psv_table, int bonus);
-    static void add_bonus_to_extended_center(TPieceSquareValueTable &psv_table, int bonus);
-    static void add_bonus_to_kindside(TPieceSquareValueTable &psv_table, int bonus);
-    static void add_bonus_to_queenside(TPieceSquareValueTable &psv_table, int bonus);
+    void add_bonus_to_center(int bonus);
+    void add_bonus_to_extended_center(int bonus);
+    void add_bonus_to_kindside(int bonus);
+    void add_bonus_to_queenside(int bonus);
   public:
     static void show_psv_table(char piece_type);
     static void show_main_psv_tables();

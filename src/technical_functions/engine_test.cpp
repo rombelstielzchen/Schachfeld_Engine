@@ -13,6 +13,7 @@
 #include "../evaluator/test_evaluator.h"
 #include "../evaluator/test_oracle.h"
 #include "../evaluator/test_piece_square_value_tables.h"
+#include "../evaluator/test_psv_modifiers.h"
 #include "../move_generator/test_move.h"
 #include "../move_generator/test_move_list.h"
 #include "../move_generator/test_move_generator.h"
@@ -39,6 +40,7 @@ bool CEngineTest::test_everything() {
     EXPECT(CTestPerft::test_everything());
     EXPECT(CTestMoveMaker::test_everything());
     EXPECT(CTestPieceSquareValueTables::test_everything());
+    EXPECT(CTestPsvModifiers::test_everything());
     EXPECT(CTestOracle::test_everything());
     EXPECT(CTestEvaluator::test_everything());
     EXPECT(CTestStatistics::test_everything());

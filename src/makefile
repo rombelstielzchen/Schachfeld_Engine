@@ -1,4 +1,3 @@
-#
 # Project: Schachfeld_Engine
 # Author: Rombelstielzchen
 # License: GPLv3
@@ -101,6 +100,7 @@ OBJECT_FILES :=  \
 	test_oracle.o \
 	test_perft.o \
 	test_piece_square_value_tables.o \
+	test_psv_modifiers.o \
 	test_search.o \
 	test_statistics.o \
 	test_technical_functions.o \
@@ -281,7 +281,10 @@ test_depth_control.o:	search/test_depth_control.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
 test_piece_square_value_tables.o: evaluator/test_piece_square_value_tables.cpp
-	$(CXX) $(CXXFLAGS) $^ 
+	$(CXX) $(CXXFLAGS) $^
+
+test_psv_modifiers.o: evaluator/test_psv_modifiers.cpp
+	$(CXX) $(CXXFLAGS) $^
 
 oracle.o: evaluator/oracle.cpp
 	$(CXX) $(CXXFLAGS) $^ 
