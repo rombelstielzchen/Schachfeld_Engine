@@ -145,12 +145,16 @@
 <clCompile Include="../evaluator/knowledge/endgame/expert_endgame_king_activity.cpp"/>
 <clCompile Include="../evaluator/knowledge/endgame/expert_endgame_pawn.cpp"/>
 <clCompile Include="../evaluator/knowledge/general/expert_general.cpp"/>
+<clCompile Include="../evaluator/knowledge/opening/castling_direction/expert_castling_direction.cpp"/>
+<clCompile Include="../evaluator/knowledge/opening/castling_direction/safety_evaluator.cpp"/>
+<clCompile Include="../evaluator/knowledge/opening/castling_direction/test_safety_evaluator.cpp"/>
 <clCompile Include="../evaluator/knowledge/virtual_expert.cpp"/>
 <clCompile Include="../evaluator/oracle.cpp"/>
 <clCompile Include="../evaluator/piece_square_value_tables.cpp"/>
 <clCompile Include="../evaluator/test_evaluator.cpp"/>
 <clCompile Include="../evaluator/test_oracle.cpp"/>
 <clCompile Include="../evaluator/test_piece_square_value_tables.cpp"/>
+<clCompile Include="../evaluator/test_psv_modifiers.cpp"/>
 <clCompile Include="../main.cpp"/>
 <clCompile Include="../move_generator/move.cpp"/>
 <clCompile Include="../move_generator/move_generator.cpp"/>
@@ -206,6 +210,9 @@
 <clInclude Include="../evaluator/knowledge/endgame/expert_endgame_king_activity.h"/>
 <clInclude Include="../evaluator/knowledge/endgame/expert_endgame_pawn.h"/>
 <clInclude Include="../evaluator/knowledge/general/expert_general.h"/>
+<clInclude Include="../evaluator/knowledge/opening/castling_direction/expert_castling_direction.h"/>
+<clInclude Include="../evaluator/knowledge/opening/castling_direction/safety_evaluator.h"/>
+<clInclude Include="../evaluator/knowledge/opening/castling_direction/test_safety_evaluator.h"/>
 <clInclude Include="../evaluator/knowledge/virtual_expert.h"/>
 <clInclude Include="../evaluator/oracle.h"/>
 <clInclude Include="../evaluator/piece_square_value_tables.h"/>
@@ -213,6 +220,7 @@
 <clInclude Include="../evaluator/test_evaluator.h"/>
 <clInclude Include="../evaluator/test_oracle.h"/>
 <clInclude Include="../evaluator/test_piece_square_value_tables.h"/>
+<clInclude Include="../evaluator/test_psv_modifiers.h"/>
 <clInclude Include="../move_generator/move.h"/>
 <clInclude Include="../move_generator/move_generator.h"/>
 <clInclude Include="../move_generator/move_list.h"/>
