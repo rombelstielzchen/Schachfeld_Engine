@@ -58,6 +58,7 @@ OBJECT_FILES :=  \
 	depth_control.o \
 	engine_test.o \
 	evaluator.o \
+	expert_castling_direction.o \
 	expert_endgame_king_activity.o \
 	expert_endgame_pawn.o \
 	expert_general.o \
@@ -81,6 +82,7 @@ OBJECT_FILES :=  \
 	move_maker.o \
 	oracle.o \
 	piece_square_value_tables.o \
+	safety_evaluator.o \
 	search.o \
 	search_statistics.o \
 	string_functions.o  \
@@ -101,6 +103,7 @@ OBJECT_FILES :=  \
 	test_perft.o \
 	test_piece_square_value_tables.o \
 	test_psv_modifiers.o \
+	test_safety_evaluator.o \
 	test_search.o \
 	test_statistics.o \
 	test_technical_functions.o \
@@ -227,6 +230,9 @@ search.o: search/search.cpp
 evaluator.o: evaluator/evaluator.cpp
 	$(CXX) $(CXXFLAGS) $^
 
+expert_castling_direction.o: evaluator/knowledge/opening/castling_direction/expert_castling_direction.cpp
+	$(CXX) $(CXXFLAGS) $^
+
 expert_endgame_king_activity.o: evaluator/knowledge/endgame/expert_endgame_king_activity.cpp
 	$(CXX) $(CXXFLAGS) $^
 
@@ -237,6 +243,9 @@ expert_general.o: evaluator/knowledge/general/expert_general.cpp
 	$(CXX) $(CXXFLAGS) $^
 
 test_evaluator.o: evaluator/test_evaluator.cpp
+	$(CXX) $(CXXFLAGS) $^
+
+test_safety_evaluator.o: evaluator/knowledge/opening/castling_direction/test_safety_evaluator.cpp
 	$(CXX) $(CXXFLAGS) $^
 
 test_search.o: search/test_search.cpp
@@ -291,6 +300,9 @@ oracle.o: evaluator/oracle.cpp
 
 piece_square_value_tables.o: evaluator/piece_square_value_tables.cpp
 	$(CXX) $(CXXFLAGS) $^ 
+
+safety_evaluator.o: evaluator/knowledge/opening/castling_direction/safety_evaluator.cpp
+	$(CXX) $(CXXFLAGS) $^
 
 test_perft.o: move_generator/test_perft.cpp
 	$(CXX) $(CXXFLAGS) $^ 

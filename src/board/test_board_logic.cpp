@@ -16,6 +16,7 @@ bool CTestBoardLogic::test_everything() {
     EXPECT(test_piece_attack());
     EXPECT(test_is_endgame());
     EXPECT(test_is_pawn_at());
+    EXPECT(test_is_pawn_missing());
     EXPECT(test_is_pawn_anywhere());
     EXPECT(test_is_pawn_structure());
     EXPECT(test_is_simplified_testcase());
@@ -105,6 +106,19 @@ bool CTestBoardLogic::test_is_simplified_testcase() {
     EXPECT(CBoardLogic::is_simplified_testcase() == false);
     EXPECT(board.set_fen_position("Bb b"));
     EXPECT(CBoardLogic::is_simplified_testcase() == true);
+    return true;
+}
+
+bool CTestBoardLogic::test_is_pawn_missing() {
+    TEST_FUNCTION();
+    board.set_start_position();
+    EXPECT(CBoardLogic::is_pawn_missing(WHITE_POWER, E1));
+    EXPECT(CBoardLogic::is_pawn_missing(WHITE_POWER, E3));
+    EXPECT(CBoardLogic::is_pawn_missing(WHITE_POWER, E7));
+    EXPECT(CBoardLogic::is_pawn_missing(WHITE_POWER, E8));
+    EXPECT(CBoardLogic::is_pawn_missing(WHITE_POWER, E2) == false);
+    EXPECT(CBoardLogic::is_pawn_missing(BLACK_POWER, E7) == false);
+    EXPECT(CBoardLogic::is_pawn_missing(BLACK_POWER, E6));
     return true;
 }
 

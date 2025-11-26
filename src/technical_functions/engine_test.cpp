@@ -14,6 +14,7 @@
 #include "../evaluator/test_oracle.h"
 #include "../evaluator/test_piece_square_value_tables.h"
 #include "../evaluator/test_psv_modifiers.h"
+#include "../evaluator/knowledge/opening/castling_direction/test_safety_evaluator.h"
 #include "../move_generator/test_move.h"
 #include "../move_generator/test_move_list.h"
 #include "../move_generator/test_move_generator.h"
@@ -43,6 +44,7 @@ bool CEngineTest::test_everything() {
     EXPECT(CTestPsvModifiers::test_everything());
     EXPECT(CTestOracle::test_everything());
     EXPECT(CTestEvaluator::test_everything());
+    EXPECT(CTestSafetyEvaluator::test_everything());
     EXPECT(CTestStatistics::test_everything());
     EXPECT(CTestDepthControl::test_everything());
     EXPECT(CTestKillerHeuristic::test_everything());

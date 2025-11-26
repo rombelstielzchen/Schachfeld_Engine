@@ -4,6 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "test_piece_square_value_tables.h"
+#include "score_constants.h"
 #include "test_evaluator.h"
 #include "knowledge/endgame/expert_endgame_king_activity.h"
 #include "knowledge/endgame/expert_endgame_pawn.h"
@@ -13,6 +14,7 @@ bool CTestPieceSquareValueTables::test_everything() {
     BEGIN_TESTSUITE("CTestPieceSquareValueTables");
     EXPECT(test_plausibility());
     EXPECT(test_positions());
+    EXPECT(test_modifiers());
     return true;
 }
 
@@ -91,6 +93,15 @@ bool CTestPieceSquareValueTables::test_positions() {
     // Over-confident exchange-sacrifice due to formerly zoo large 7th-rank-bonus
     EXPECT(first_position_better("8/ppp/2n////R/R w", "8/Rpp b"));
     EXPECT(first_position_better("8/5ppp/5n////7R/7R w", "8/5ppR b"));
+    return true;
+}
+
+bool CTestPieceSquareValueTables::test_modifiers() {
+    TEST_FUNCTION();
+    EXPECT(main_piece_square_value_table_set[WHITE_KING][FILE_E][RANK_5] > SCORE_HALF_PAWN);
+    CPsvModifier::set_psv_row(WHITE_KING, RANK_5, 0);
+    EXPECT(main_piece_square_value_table_set[WHITE_KING][FILE_D][RANK_5] == 0);
+    EXPECT(main_piece_square_value_table_set[WHITE_KING][FILE_E][RANK_5] == 0);
     return true;
 }
 
