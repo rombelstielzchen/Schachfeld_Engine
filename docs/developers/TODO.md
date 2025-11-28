@@ -2,7 +2,6 @@ TODO
 ====
 * Queen-PSV for the endgame
 * King-PSVs for mating
-* wonder-weapons
 * better move-ordering by LVA and checks
 * hash-tables
 * vector-attacks

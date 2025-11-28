@@ -26,6 +26,7 @@ class CDepthControl {
   private:
     void clear_all();
     bool enough_time_left_for_one_more_iteration() const;
+    bool depth_already_adapted() const;
   private:
     int64_t dc_depth_in_plies;
     int64_t dc_movetime_ms;

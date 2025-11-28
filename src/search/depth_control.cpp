@@ -68,15 +68,27 @@ bool CDepthControl::enough_time_left_for_one_more_iteration() const {
     return (dc_movetime_ms > estimated_branching_factor * search_statistics.used_time_milliseconds());
 }
 
+inline bool CDepthControl::depth_already_adapted() const {
+    assert(dc_max_depth_for_better_mates > 0);
+    return (dc_max_depth_for_better_mates < INFINITE_DEPTH);
+}
+
 void CDepthControl::adapt_depth_for_better_nates(int64_t current_depth_in_plies) {
     assert(current_depth_in_plies > 0);
-    assert(dc_max_depth_for_better_mates > 0);
-    assert(dc_depth_in_plies > 0);
-    if (dc_max_depth_for_better_mates < INFINITE_DEPTH) {
-        // depth already dapted
+    if (depth_already_adapted()) {
         return;
     }
-    dc_max_depth_for_better_mates = current_depth_in_plies + MAX_ADDITIONAL_DEPTH_FOR_BETTER_MATES;
+    assert(dc_max_depth_for_better_mates > 0);
+    assert(dc_depth_in_plies > 0);
+    constexpr int awful_slow_depth = 8;
+    if (current_depth_in_plies >= awful_slow_depth) {
+        return;;
+    }
+    int semi_adjusted_depth = current_depth_in_plies + MAX_ADDITIONAL_DEPTH_FOR_BETTER_MATES;
+    int adjusted_depth = std::min(semi_adjusted_depth, awful_slow_depth);
+    assert(adjusted_depth > 0);
+    assert(adjusted_depth <= awful_slow_depth);
+    dc_max_depth_for_better_mates =  adjusted_depth;
     dc_depth_in_plies = dc_max_depth_for_better_mates;
     assert(dc_max_depth_for_better_mates > 0);
 } 
