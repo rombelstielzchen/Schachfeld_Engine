@@ -225,16 +225,6 @@
 [White "NN"]
 [Black "NN"]
 [Result "*"]
-[Opening "Reverse King’s Gambit"]
-1.f4 e5 2.e4 *
-
-[Event "?"]
-[Site "?"]
-[Date "????.??.??"]
-[Round "?"]
-[White "NN"]
-[Black "NN"]
-[Result "*"]
 [Opening "Salvio Gambit"]
 1.e4 e5 2.f4 exf4 3.Nf3 g5 4.Bc4 g4 5.Ne5 *
 
