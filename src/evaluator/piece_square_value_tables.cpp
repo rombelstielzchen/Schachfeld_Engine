@@ -185,3 +185,24 @@ void CPsvModifier::make_equal(TPieceSquareValueTable &table, int value) {
     }
 }
 
+void CPsvModifier::make_gradient(TPieceSquareValueTable &table, const SSquare target_square, int bonus_per_step) {
+    assert(abs(bonus_per_step) <= SCORE_HALF_PAWN);
+    assert(square_in_range(target_square));
+    int base_value = table[target_square.file][target_square.rank];
+    // We use Euclidian metric here, 
+    // as both Manhattan-metric and maximum(dx, dy) look inappropriate.
+    for (uint8_t j = FILE_A; j <= FILE_H; ++j) {
+        for (uint8_t k = RANK_1; k <= RANK_8; ++k) {
+            int delta_x = target_square.file - j;
+            int delta_y = target_square.rank - k;
+           assert(abs(delta_x) <= FILE_H - FILE_A);
+           assert(abs(delta_y) <= RANK_8 - RANK_1);
+            double  euclidian_distance = sqrt(delta_x * delta_x + delta_y * delta_y);
+            assert(euclidian_distance < 10);
+            double evaluation_difference = euclidian_distance * bonus_per_step;
+            int square_value = base_value - static_cast<int>(evaluation_difference);
+            table[j][k] = square_value;
+        }
+    }
+}
+

@@ -12,6 +12,7 @@ class CTestPsvModifiers {
     static bool test_square();
     static bool test_area();
     static bool test_make_equal();
+    static bool test_make_gradient();
     static bool auto_cleanup_on_new_position();
 };
 

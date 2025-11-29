@@ -57,6 +57,7 @@ class CPsvModifier {
     static void add_bonus_to_extended_center(TPieceSquareValueTable &psv_table, int bonus);
     static void add_bonus_to_kindside(TPieceSquareValueTable &psv_table, int bonus);
     static void add_bonus_to_queenside(TPieceSquareValueTable &psv_table, int bonus);
+    static void make_gradient(TPieceSquareValueTable &table, const SSquare target_square, int bonus_per_step);
   public:
     static void show_psv_table(char piece_type);
     static void show_main_psv_tables();

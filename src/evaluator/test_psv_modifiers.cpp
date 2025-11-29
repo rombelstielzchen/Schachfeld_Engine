@@ -15,6 +15,7 @@ bool CTestPsvModifiers::test_everything() {
     EXPECT(test_square());
     EXPECT(test_area());
     EXPECT(test_make_equal());
+    EXPECT(test_make_gradient());
     EXPECT(auto_cleanup_on_new_position());
     return true;
 }
@@ -47,12 +48,23 @@ bool CTestPsvModifiers::auto_cleanup_on_new_position() {
 }
 
 bool CTestPsvModifiers::test_make_equal() {
+    TEST_FUNCTION();
     CPsvModifier::make_equal(main_piece_square_value_table_set[BLACK_KNIGHT], 3141);
     EXPECT(main_piece_square_value_table_set[BLACK_KNIGHT][FILE_A][RANK_1] == 3141);
     EXPECT(main_piece_square_value_table_set[BLACK_KNIGHT][FILE_H][RANK_8] == 3141);
     EXPECT(main_piece_square_value_table_set[BLACK_KNIGHT][FILE_F][RANK_5] == 3141);
     CPsvModifier::clear_psv_table(main_piece_square_value_table_set[BLACK_KNIGHT]);
     EXPECT(main_piece_square_value_table_set[BLACK_KNIGHT][FILE_A][RANK_8] == 0);
+    return true;
+}
+
+bool CTestPsvModifiers::test_make_gradient() {
+    TEST_FUNCTION();
+    CPsvModifier::make_equal(main_piece_square_value_table_set[BLACK_BISHOP], 333);
+    CPsvModifier::make_gradient(main_piece_square_value_table_set[BLACK_BISHOP], G7, 10);
+    EXPECT(main_piece_square_value_table_set[BLACK_BISHOP][FILE_G][RANK_7] > main_piece_square_value_table_set[BLACK_BISHOP][FILE_H][RANK_6])
+    EXPECT(main_piece_square_value_table_set[BLACK_BISHOP][FILE_F][RANK_6] == main_piece_square_value_table_set[BLACK_BISHOP][FILE_H][RANK_8])
+    EXPECT(main_piece_square_value_table_set[BLACK_BISHOP][FILE_C][RANK_4] == 283); 
     return true;
 }
 
