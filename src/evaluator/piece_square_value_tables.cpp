@@ -172,3 +172,16 @@ void CPsvModifier::add_bonus_to_area(TPieceSquareValueTable &psv_table, SSquare 
     }
 }
 
+void CPsvModifier::clear_psv_table(TPieceSquareValueTable &psv_table) {
+    make_equal(psv_table, 0);
+}
+
+void CPsvModifier::make_equal(TPieceSquareValueTable &table, int value) {
+    assert(abs(value) <= SCORE_KING);
+    for (int j = FILE_A; j <= FILE_H; ++j) {
+        for (int k = RANK_1; k <= RANK_8; ++k) {
+            table[j][k] = value;
+        }
+    }
+}
+

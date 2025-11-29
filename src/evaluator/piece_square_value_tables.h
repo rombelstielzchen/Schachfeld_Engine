@@ -33,7 +33,8 @@ class CPsvModifier {
     CPsvModifier(char piece_type);
   public:
     // TODO
-    static void clear_psv_table(TPieceSquareValueTable &psv_rable);
+    static void clear_psv_table(TPieceSquareValueTable &psv_table);
+    static void make_equal(TPieceSquareValueTable &table, int value);
     static void assign_psv_table(TPieceSquareValueTable &target_psv, const TPieceSquareValueTable &source_psv);
     static void assign_psv_table(char piece_type, const TPieceSquareValueTable &source_psv);
     static void flip_vertically(TPieceSquareValueTable &psv_table);

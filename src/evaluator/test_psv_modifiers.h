@@ -11,6 +11,7 @@ class CTestPsvModifiers {
   private:
     static bool test_square();
     static bool test_area();
+    static bool test_make_equal();
     static bool auto_cleanup_on_new_position();
 };
 
