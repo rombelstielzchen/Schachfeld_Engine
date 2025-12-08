@@ -42,6 +42,9 @@ class CBoardLogic {
     static bool is_pawn_at(char white_or_black_pawn, SSquare square);
     static bool is_pawn_anywhere(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3 = NULL_SQUARE, SSquare square4 = NULL_SQUARE, SSquare square5 = NULL_SQUARE, SSquare square6 = NULL_SQUARE);
     static bool is_pawn_missing(char white_or_black_pawn, SSquare square);
-    static bool is_pawn_structure(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3 = NULL_SQUARE, SSquare square4 = NULL_SQUARE); 
+    static bool is_pawn_structure(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3 = NULL_SQUARE, SSquare square4 = NULL_SQUARE);
+  public:
+    static int n_stones(bool which_player);
+    static int n_stones();
 };
 

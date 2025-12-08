@@ -17,6 +17,7 @@ const std::string NO_MOVES_FROM_STARTPOS = "NO_MOVES_FROM_STARTPOS";
 constexpr int BOARDSIZE_X = 12;
 constexpr int BOARDSIZE_Y = 13;
 constexpr int N_SQUARES_ON_BOARD = 64;
+constexpr int N_STONES_TOTAL = 32;
 
 // Constants for ranks and files on the board.
 // Always use named constants! 

@@ -20,6 +20,7 @@ bool CTestBoardLogic::test_everything() {
     EXPECT(test_is_pawn_anywhere());
     EXPECT(test_is_pawn_structure());
     EXPECT(test_is_simplified_testcase());
+    EXPECT(test_n_stones());
     return true;
 }
 
@@ -119,6 +120,19 @@ bool CTestBoardLogic::test_is_pawn_missing() {
     EXPECT(CBoardLogic::is_pawn_missing(WHITE_POWER, E2) == false);
     EXPECT(CBoardLogic::is_pawn_missing(BLACK_POWER, E7) == false);
     EXPECT(CBoardLogic::is_pawn_missing(BLACK_POWER, E6));
+    return true;
+}
+
+bool CTestBoardLogic::test_n_stones() {
+    TEST_FUNCTION();
+    board.set_start_position();
+    EXPECT(CBoardLogic::n_stones(WHITE_PLAYER) == 16);
+    EXPECT(CBoardLogic::n_stones(BLACK_PLAYER) == 16);
+    EXPECT(CBoardLogic::n_stones() == N_STONES_TOTAL);
+    SILENT_EXPECT(board.set_fen_position("rnbqk/p//////K w"));
+    EXPECT(CBoardLogic::n_stones(WHITE_PLAYER) == 1);
+    EXPECT(CBoardLogic::n_stones(BLACK_PLAYER) == 6);
+    EXPECT(CBoardLogic::n_stones() == 7);
     return true;
 }
 

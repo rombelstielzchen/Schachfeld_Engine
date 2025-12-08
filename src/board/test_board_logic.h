@@ -19,5 +19,6 @@ class CTestBoardLogic {
     static bool test_is_pawn_structure();
     static bool test_is_simplified_testcase();
     static bool test_is_pawn_missing();
+    static bool test_n_stones();
 };
 

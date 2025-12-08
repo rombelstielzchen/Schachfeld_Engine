@@ -232,3 +232,27 @@ bool CBoardLogic::is_pawn_missing(char white_or_black_pawn, SSquare square) {
     return(is_pawn_at(white_or_black_pawn, square) == false);
 }
 
+int CBoardLogic::n_stones(bool which_player) {
+    int result = 0;
+    for (uint8_t j = FILE_A; j <= FILE_H; ++j) {
+        for (uint8_t k = RANK_1; k <= RANK_8; ++k) {
+            char piece = board.get_square(j, k);
+            if (piece == EMPTY_SQUARE) {
+                continue;
+            }
+            // Be careful here: isupper returns a number, not true / false
+            result += ((isupper(piece) > 0) == which_player);
+        }
+    }
+    assert(result >= 0);
+    assert(result <= N_STONES_TOTAL / 2);
+    return result;
+}
+
+int CBoardLogic::n_stones() {
+    int result = n_stones(WHITE_PLAYER) + n_stones(BLACK_PLAYER);
+    assert(result >= 1);
+    assert(result <= N_STONES_TOTAL);
+    return result;
+}
+
