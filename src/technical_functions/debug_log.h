@@ -99,20 +99,9 @@ class CLog {
 
 #ifdef _WIN32
 
-#include <windows.h>
-#include "shlobj_core.h"
-
-inline std::wstring const debug_filename() {
-    std::wstring debug_path = L".";
-    PWSTR p_desktop_path;
-    if (SHGetKnownFolderPath(FOLDERID_Desktop, 0, 0, &p_desktop_path) == S_OK) {
-        debug_path = p_desktop_path;
-    }
-    // The calling process is responsible for freeing this resource once it is no longer needed 
-    // by calling CoTaskMemFree, whether SHGetKnownFolderPath succeeded or not. 
-    CoTaskMemFree(p_desktop_path);
-    debug_path += L"/debug-txt";
-    return debug_path;
+inline std::string const debug_filename() {
+    std::string filename = "%USERPROFILE%\\Desktop\\debug.txt";
+    return filename;
 }
 
 #else

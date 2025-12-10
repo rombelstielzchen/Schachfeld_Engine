@@ -150,7 +150,7 @@ bool CTestEvaluator::test_black_advantage() {
     TEST_FUNCTION();
     board.set_start_position();
     board.move_maker.play_variation("e2e4 e7e5 g1f3 g8f6 f3g1 f6e4");
-    (board.evaluator.evaluate() > 100);
+    EXPECT(board.evaluator.evaluate() < -100);
     return true;
 }
 
