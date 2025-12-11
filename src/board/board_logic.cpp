@@ -240,6 +240,11 @@ int CBoardLogic::n_stones(bool which_player) {
             if (piece == EMPTY_SQUARE) {
                 continue;
             }
+            if (piece == '\0') {
+                // Uninitianlized board; may happen very early on startup
+                continue;
+            }
+            assert(is_any_piece(piece));
             // Be careful here: isupper returns a number, not true / false
             result += ((isupper(piece) > 0) == which_player);
         }
@@ -251,7 +256,7 @@ int CBoardLogic::n_stones(bool which_player) {
 
 int CBoardLogic::n_stones() {
     int result = n_stones(WHITE_PLAYER) + n_stones(BLACK_PLAYER);
-    assert(result >= 1);
+    assert(result >= 0);
     assert(result <= N_STONES_TOTAL);
     return result;
 }

@@ -58,6 +58,7 @@ OBJECT_FILES :=  \
 	depth_control.o \
 	engine_test.o \
 	evaluator.o \
+	expert_basic_mating.o \
 	expert_castling_direction.o \
 	expert_endgame_king_activity.o \
 	expert_endgame_pawn.o \
@@ -92,6 +93,7 @@ OBJECT_FILES :=  \
 	test_board_logic.o \
 	test_depth_control.o \
 	test_evaluator.o \
+	test_expert_basic_mating.o \
 	test_killer_heuristics.o \
 	test_math_functions.o \
 	test_move.o \
@@ -230,6 +232,9 @@ search.o: search/search.cpp
 evaluator.o: evaluator/evaluator.cpp
 	$(CXX) $(CXXFLAGS) $^
 
+expert_basic_mating.o: evaluator/knowledge/mating/expert_basic_mating.cpp
+	$(CXX) $(CXXFLAGS) $^
+
 expert_castling_direction.o: evaluator/knowledge/opening/castling_direction/expert_castling_direction.cpp
 	$(CXX) $(CXXFLAGS) $^
 
@@ -243,6 +248,9 @@ expert_general.o: evaluator/knowledge/general/expert_general.cpp
 	$(CXX) $(CXXFLAGS) $^
 
 test_evaluator.o: evaluator/test_evaluator.cpp
+	$(CXX) $(CXXFLAGS) $^
+
+test_expert_basic_mating.o: evaluator/knowledge/mating/test_expert_basic_mating.cpp
 	$(CXX) $(CXXFLAGS) $^
 
 test_safety_evaluator.o: evaluator/knowledge/opening/castling_direction/test_safety_evaluator.cpp

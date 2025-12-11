@@ -7,6 +7,7 @@
 #include "knowledge/endgame/expert_endgame_king_activity.h"
 #include "knowledge/endgame/expert_endgame_pawn.h"
 #include "knowledge/general/expert_general.h"
+#include "knowledge/mating/expert_basic_mating.h"
 #include "knowledge/opening/castling_direction/expert_castling_direction.h"
 #include "../board/board_logic.h"
 
@@ -15,6 +16,7 @@ CExpertGeneral expert_general;
 CExpertCastlingDirection expert_castling_direction;
 CExpertEndgameKingActivity expert_endgame_king_activity;
 CExpertEndgamePawn expert_endgame_pawn;
+CExpertBasicMating expert_basic_mating;
 
 COracle::COracle() {
     // Order of insertions = order of execution.
@@ -23,6 +25,7 @@ COracle::COracle() {
     expert_collection.push_back(&expert_castling_direction);
     expert_collection.push_back(&expert_endgame_king_activity);
     expert_collection.push_back(&expert_endgame_pawn);
+    expert_collection.push_back(&expert_basic_mating);
 }
 
 void COracle::configure_knowledge() {
