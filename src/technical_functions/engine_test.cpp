@@ -11,6 +11,7 @@
 #include "../board/test_board_logic.h"
 #include "../board/test_move_maker.h"
 #include "../evaluator/test_evaluator.h"
+#include "../evaluator/knowledge/mating/test_expert_basic_mating.h"
 #include "../evaluator/test_oracle.h"
 #include "../evaluator/test_piece_square_value_tables.h"
 #include "../evaluator/test_psv_modifiers.h"
@@ -45,6 +46,7 @@ bool CEngineTest::test_everything() {
     EXPECT(CTestOracle::test_everything());
     EXPECT(CTestEvaluator::test_everything());
     EXPECT(CTestSafetyEvaluator::test_everything());
+    EXPECT(CTestExpertBasicMating::test_everything());
     EXPECT(CTestStatistics::test_everything());
     EXPECT(CTestDepthControl::test_everything());
     EXPECT(CTestKillerHeuristic::test_everything());

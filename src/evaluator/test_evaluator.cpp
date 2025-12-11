@@ -91,11 +91,11 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     { "////4N w", "////3N w" },
     { "///4N w", "///3N w" },
     // Castling direction (white)
-    { "k/////BBB/PPP/2KR3R w", "k/////BBB/PPP/R4RK w" },
-    { "k/////BBB/5PPP/R4RK w", "k/////BBB/5PPP/2KR3R w",  },
+    { "kn/////BBB/PPP/2KR3R w", "kn/////BBB/PPP/R4RK w" },
+    { "kn/////BBB/5PPP/R4RK w", "kn/////BBB/5PPP/2KR3R w",  },
     // Castling direction (black)
-    { "r4rk1/PPP/BBB/////4K b", "2kr3r/ppp/BBB/////4K b" },
-    { "2kr3r/5ppp/5bbb/////7K b", "r4rk/5ppp/5bbb/////7K b" },
+    { "r4rk1/PPP/BBB/////4KB b", "2kr3r/ppp/BBB/////4KB b" },
+    { "2kr3r/5ppp/5bbb/////6BK b", "r4rk/5ppp/5bbb/////6BK b" },
 };
 
 bool CTestEvaluator::test_everything() {

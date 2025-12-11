@@ -145,6 +145,8 @@
 <clCompile Include="../evaluator/knowledge/endgame/expert_endgame_king_activity.cpp"/>
 <clCompile Include="../evaluator/knowledge/endgame/expert_endgame_pawn.cpp"/>
 <clCompile Include="../evaluator/knowledge/general/expert_general.cpp"/>
+<clCompile Include="../evaluator/knowledge/mating/expert_basic_mating.cpp"/>
+<clCompile Include="../evaluator/knowledge/mating/test_expert_basic_mating.cpp"/>
 <clCompile Include="../evaluator/knowledge/opening/castling_direction/expert_castling_direction.cpp"/>
 <clCompile Include="../evaluator/knowledge/opening/castling_direction/safety_evaluator.cpp"/>
 <clCompile Include="../evaluator/knowledge/opening/castling_direction/test_safety_evaluator.cpp"/>
@@ -210,6 +212,8 @@
 <clInclude Include="../evaluator/knowledge/endgame/expert_endgame_king_activity.h"/>
 <clInclude Include="../evaluator/knowledge/endgame/expert_endgame_pawn.h"/>
 <clInclude Include="../evaluator/knowledge/general/expert_general.h"/>
+<clInclude Include="../evaluator/knowledge/mating/expert_basic_mating.h"/>
+<clInclude Include="../evaluator/knowledge/mating/test_expert_basic_mating.h"/>
 <clInclude Include="../evaluator/knowledge/opening/castling_direction/expert_castling_direction.h"/>
 <clInclude Include="../evaluator/knowledge/opening/castling_direction/safety_evaluator.h"/>
 <clInclude Include="../evaluator/knowledge/opening/castling_direction/test_safety_evaluator.h"/>
