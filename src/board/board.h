@@ -47,7 +47,10 @@ class CBoard {
     int get_move_counter() const;
     int get_100_ply_draw_counter() const;
     TSquare get_square(const int file, const int rank) const;
-    inline TSquare get_square(const SSquare square) const { return get_square(square.file, square.rank); }
+    inline TSquare get_square(const SSquare square) const {
+        assert(square_in_range(square)); 
+        return get_square(square.file, square.rank); 
+    }
     bool square_is_empty(const int file, const int rank) const;
     bool square_is_empty(const SSquare square) const;
   public:
@@ -59,20 +62,22 @@ class CBoard {
     CGameSaver game_saver;
     CMoveMaker move_maker;
   private:
-    void clear();
+    void clear_board_squares();
     void init_garden_fence();
   private:
-    // Using std::array instead of old-style C arrays.
-    // Advantages:
-    //   * std::arrays know their size and check memory-access in debug-mode
-    //   * in production they work exactly the same. Same speed!
-    std::array<TBoardColumn, BOARDSIZE_X> squares;
+    // The board-state gets set by the FEN-parser
     bool side_to_move;
     int eng_passeng_file;
     int move_counter;
     int _100_ply_draw_counter;
     // Some over-size supports easy access via MOVE_TYPE (char)
     std::array<bool, MOVE_TYPE_BLACK_SHORT_CASTLING + 1> castling_rights;
+  private:
+    // Using std::array instead of old-style C arrays.
+    // Advantages:
+    //   * std::arrays know their size and check memory-access in debug-mode
+    //   * in production they work exactly the same. Same speed!
+    std::array<TBoardColumn, BOARDSIZE_X> squares;
   private:
     std::string initial_position_before_moves;
 };

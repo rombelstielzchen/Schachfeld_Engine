@@ -40,7 +40,7 @@ class CMoveGenerator {
     void generate_queen_moves(const int file, const int rank);
   private:
     void generate_potential_move(const int source_file, const int source_rank, const int target_file, const int target_rank);
-    void generate_sliding_moves(const int file, const int rank, const int direction_north_sourh, const int direction_east_west);
+    void generate_sliding_moves(const int file, const int rank, const int direction_north_south, const int direction_east_west);
     void generate_potential_eng_passeng();
 }; 
 

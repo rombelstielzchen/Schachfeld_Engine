@@ -199,15 +199,18 @@ void CMoveGenerator::generate_potential_move(const int source_file, const int so
     } else if (CBoardLogic::square_occupied_by_opponent(target_file, target_rank)) {
         move_list.store_capture(source_file, source_rank, target_file, target_rank);
     }
+    // Else: coordinates out of range or target occupied by own piece
 }
 
-void CMoveGenerator::generate_sliding_moves(const int file, const int rank, const int direction_north_sourh, const int direction_east_west) {
+void CMoveGenerator::generate_sliding_moves(const int file, const int rank, const int direction_north_south, const int direction_east_west) {
     int next_file = file + direction_east_west;
-    int next_rank = rank + direction_north_sourh;
+    int next_rank = rank + direction_north_south;
     while (board.square_is_empty(next_file, next_rank)) {
+        assert(file_in_range(next_file));
+        assert(rank_in_range(next_rank));
         move_list.store_silent_move(file, rank, next_file, next_rank);
         next_file += direction_east_west;
-        next_rank += direction_north_sourh;
+        next_rank += direction_north_south;
     }
     if (CBoardLogic::square_occupied_by_opponent(next_file, next_rank)) {
         move_list.store_capture(file, rank, next_file, next_rank);
@@ -222,7 +225,7 @@ void CMoveGenerator::generate_potential_eng_passeng() {
     const int rank = CBoardLogic::eng_passeng_pawn_rank();
     int next_rank = CBoardLogic::eng_passeng_forward_rank();
     const char my_pawn = CBoardLogic::my_pawn();
-    assert(toupper(board.get_square(eng_passeng_file, rank)) == WHITE_POWER);
+    assert((board.get_square(eng_passeng_file, rank) == WHITE_POWER) || (board.get_square(eng_passeng_file, rank) == BLACK_POWER));
     assert(board.square_is_empty(eng_passeng_file, next_rank));
     int left = eng_passeng_file - 1;
     int right = eng_passeng_file + 1;

@@ -42,7 +42,7 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
 
 bool CFenParser::parse_piece_placement(const std::string &partial_input) {
     constexpr bool non_recoverable_error = false;
-    board.clear();
+    board.clear_board_squares();
     // FEN traverses the board row by row from A8 to H1
     int x = FILE_A;
     int y = RANK_8;

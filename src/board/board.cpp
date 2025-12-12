@@ -11,10 +11,12 @@
 
 CBoard::CBoard() {
     init_garden_fence();
-    clear();
+    clear_board_squares();
     set_start_position();
     assert(side_to_move == WHITE_PLAYER);
     assert(move_counter > 0);
+    assert(_100_ply_draw_counter >= 0);
+    assert(eng_passeng_file == NO_ENG_PASSENG_POSSIBLE);
 }
 
 void CBoard::init_garden_fence() {
@@ -29,13 +31,13 @@ void CBoard::init_garden_fence() {
     squares[FILE_LAST][RANK_NEWLINE_CHARACTER] = '\0';
 }
 
-void CBoard::clear() {
+void CBoard::clear_board_squares() {
     for (int j = FILE_A; j <= FILE_H; ++j) {
         for (int k = RANK_1; k <= RANK_8; ++k) {
             squares[j][k] = EMPTY_SQUARE;
         }
-        initial_position_before_moves = "";
     }
+    initial_position_before_moves = "";
 }
 
 void CBoard::set_start_position() {
@@ -48,7 +50,7 @@ void CBoard::set_start_position() {
 }
 
 bool CBoard::set_fen_position(const std::string &position) {
-    clear();
+    clear_board_squares();
     initial_position_before_moves = position;
     bool success = CFenParser::parse(position);
     return success;

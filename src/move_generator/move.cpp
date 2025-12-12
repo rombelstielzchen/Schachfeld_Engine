@@ -55,19 +55,23 @@ bool is_eng_passeng(const SMove &move) {
 
 bool is_promotion(const SMove &move) {
     switch (move.move_type) {
-        case WHITE_POWER:
         case WHITE_KNIGHT:
         case WHITE_BISHOP:
         case WHITE_ROOK:
                 case WHITE_QUEEN:
-        case WHITE_KING:
-        case BLACK_POWER:
         case BLACK_KNIGHT:
         case BLACK_BISHOP:
         case BLACK_ROOK:
         case BLACK_QUEEN:
-        case BLACK_KING:
             return true;
+            break;
+        case WHITE_POWER:
+        case WHITE_KING:
+        case BLACK_POWER:
+        case BLACK_KING:
+            assert(THIS_MUST_NOT_HAPPEN);
+            return false;
+            break;
         default:
             return false;
     }

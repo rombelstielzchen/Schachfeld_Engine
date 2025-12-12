@@ -32,38 +32,44 @@ void CMoveMaker::make_move(SMove move) {
             board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
             break;
         case MOVE_TYPE_DOUBLE_JUMP:
-            board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
             board.eng_passeng_file = move.source.file;
             break;
         case MOVE_TYPE_WHITE_SHORT_CASTLING:
-            board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
+            assert(move.source == E1);
             assert(moving_piece == WHITE_KING);
+            board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
             board.clear_square(H1);
             board.put_piece(F1, WHITE_ROOK);
             break;
         case MOVE_TYPE_WHITE_LONG_CASTLING:
-            board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
+            assert(move.source == E1);
             assert(moving_piece == WHITE_KING);
+            board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
             board.clear_square(A1);
             board.put_piece(D1, WHITE_ROOK);
             break;
         case MOVE_TYPE_BLACK_SHORT_CASTLING:
+            assert(move.source == E8);
+            assert(moving_piece == BLACK_KING);
             board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
             assert(moving_piece == BLACK_KING);
             board.clear_square(H8);
             board.put_piece(F8, BLACK_ROOK);
             break;
         case MOVE_TYPE_BLACK_LONG_CASTLING:
-            board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
+            assert(move.source == E8);
             assert(moving_piece == BLACK_KING);
+            board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
             board.clear_square(A8);
             board.put_piece(D8, BLACK_ROOK);
             break;
         case MOVE_TYPE_ENG_PASSENG:
-            assert(toupper(moving_piece) == WHITE_POWER);
+            assert((moving_piece == WHITE_POWER) || (moving_piece == BLACK_POWER));
            SSquare eng_passeng_square;
            eng_passeng_square.file = board.get_eng_passeng_file();
+           assert(eng_passeng_square.file == move.target.file);
            eng_passeng_square.rank = CBoardLogic::eng_passeng_pawn_rank();
+           assert(square_in_range(eng_passeng_square));
            board.clear_square(eng_passeng_square);
             board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
             break;
@@ -75,7 +81,7 @@ void CMoveMaker::make_move(SMove move) {
         case BLACK_KNIGHT:
         case BLACK_ROOK:
         case BLACK_BISHOP:
-            assert(toupper(moving_piece) == WHITE_POWER);
+            assert((moving_piece == WHITE_POWER) || (moving_piece == BLACK_POWER));
             board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
             {
                 char new_piece = board.get_side_to_move() ? toupper(move.move_type) : tolower(move.move_type);
