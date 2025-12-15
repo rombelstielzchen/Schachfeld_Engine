@@ -55,8 +55,8 @@ bool CTestExpertBasicMating::test_gradient() {
     EXPECT(first_position_better("k//2K/3Q b", "k///2KQ b"));
     // Now with reversed colours.
     // Be careful, "better" is from whites POV"
-    EXPECT(first_position_better("6kq/k b", "K5kq/ b"));
-    EXPECT(first_position_better("K4k1q/ b", "K5kq/ b"));
-    return false;
+    EXPECT(first_position_better("6kq/K b", "K5kq/ b"));
+    EXPECT(first_position_better("K5kq b", "K4k1q/ b"));
+    return true;
 }
 

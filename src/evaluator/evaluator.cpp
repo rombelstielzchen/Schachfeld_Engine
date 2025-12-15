@@ -10,7 +10,6 @@
 CEvaluator::CEvaluator() {
     // No full init() here, as the board might be not yet initialized,
     // but the value of the start-position is known
-    oracle.configure_knowledge();
     value = 0; 
 }
 
