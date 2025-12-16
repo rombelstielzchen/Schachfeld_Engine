@@ -34,9 +34,9 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
         lack_of_errors &= parse_move_counter(tokenizer.next_token());
     }
     board.move_maker.reset_history();
-    board.evaluator.init();
     board.initial_position_before_moves = board.get_fen_position();
     lack_of_errors &= board.move_maker.play_variation(extra_moves);
+    board.evaluator.init();
     return lack_of_errors;
 }
 
