@@ -15,6 +15,7 @@ bool CTestExpertBasicMating::test_everything() {
     EXPECT(test_is_responsable());
     EXPECT(test_desired_mating_corner());
     EXPECT(test_gradient());
+    EXPECT(test_gradiet_after_moves());
     return true;
 }
 
@@ -57,6 +58,22 @@ bool CTestExpertBasicMating::test_gradient() {
     // Be careful, "better" is from whites POV"
     EXPECT(first_position_better("6kq/K b", "K5kq/ b"));
     EXPECT(first_position_better("K5kq b", "K4k1q/ b"));
+    return true;
+}
+
+bool CTestExpertBasicMating::test_gradiet_after_moves() {
+    TEST_FUNCTION();
+    std::string initial_position = "r6k///2K b";
+    SILENT_EXPECT(board.set_fen_position(initial_position));
+    int initial_evaluation = board.evaluator.evaluate();
+
+    EXPECT(initial_evaluation < 0);
+    // Now the king walks into the "rong" corner ("good" for the loser);
+    // thereafter the evaluation should be better (for the winner), no matter what
+    std::string position_with_moves = "r6k///2K b moves d5e4 h8g7 e4f3 g7f6 f3g2 f6e5 g2h1 e5f6";
+    int evaluation_after_moves = board.evaluator.evaluate();
+    EXPECT(evaluation_after_moves < 0);
+    EXPECT(initial_evaluation > evaluation_after_moves);
     return true;
 }
 
