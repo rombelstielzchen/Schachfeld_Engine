@@ -8,13 +8,6 @@
 #include "../../score_constants.h"
 #include "../../../technical_functions/standard_headers.h"
 
-constexpr int score_average_power = 100;
-constexpr int score_average_knight = 290;
-constexpr int score_average_bishop = 320;
-constexpr int score_average_rook = 470;
-constexpr int score_average_queen = 890;
-constexpr int delta_score_kings_and_queens_bishop = 15;
-
 TPieceSquareValueTable psv_white_king = {{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },

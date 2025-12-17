@@ -13,6 +13,7 @@
 bool CTestExpertBasicMating::test_everything() {
     BEGIN_TESTSUITE("CTestExpertBasicMating");
     EXPECT(test_is_responsable());
+    EXPECT(test_winning_side());
     EXPECT(test_desired_mating_corner());
     EXPECT(test_gradient());
     EXPECT(test_gradiet_after_moves());
@@ -74,6 +75,16 @@ bool CTestExpertBasicMating::test_gradiet_after_moves() {
     int evaluation_after_moves = board.evaluator.evaluate();
     EXPECT(evaluation_after_moves < 0);
     EXPECT(initial_evaluation > evaluation_after_moves);
+    return true;
+}
+
+bool CTestExpertBasicMating::test_winning_side() {
+    TEST_FUNCTION();
+    CExpertBasicMating expert_basic_mating;
+    SILENT_EXPECT(board.set_fen_position("k1KQ b"));
+    EXPECT(expert_basic_mating.winning_side() == WHITE_PLAYER);
+    SILENT_EXPECT(board.set_fen_position("qk1K b"));
+    EXPECT(expert_basic_mating.winning_side() == BLACK_PLAYER);
     return true;
 }
 

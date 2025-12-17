@@ -40,3 +40,10 @@ static_assert(SCORE_LOSING_MATE < -SCORE_KING);
 static_assert(SCORE_LOSING_MATE > SCORE_OWN_KING_WILL_GET_CAPTURED);
 constexpr int32_t SCORE_WINNING_MATE = -SCORE_LOSING_MATE;
 
+constexpr int score_average_power = 100;
+constexpr int score_average_knight = 290;
+constexpr int score_average_bishop = 320;
+constexpr int score_average_rook = 470;
+constexpr int score_average_queen = 890;
+constexpr int delta_score_kings_and_queens_bishop = 15;
+

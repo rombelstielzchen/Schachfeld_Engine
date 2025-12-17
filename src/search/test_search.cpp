@@ -116,6 +116,9 @@ const std::vector<STestcaseSearch> testcases_search = {
     { 2, "f8f1", "1k3r2/8/7q/8/8/8/PP4B1/K7 b - - 0 1" },
     // Better mates: under-promotion
     { 2, "h7h8R", "k/3Q3P//////K w" },
+    // Test for rescuing a knight from the corner
+    { 4, "d5c6", "N6N///3k4////K7 b" },
+    { 5, "a8c7", "N6N///3k4////K6N w" },
 };
 
 bool CTestSearch::test_everything() {
