@@ -73,7 +73,7 @@ inline bool CDepthControl::depth_already_adapted() const {
     return (dc_max_depth_for_better_mates < INFINITE_DEPTH);
 }
 
-void CDepthControl::adapt_depth_for_better_nates(int64_t current_depth_in_plies) {
+void CDepthControl::adapt_depth_for_better_mates(int64_t current_depth_in_plies) {
     assert(current_depth_in_plies > 0);
     if (depth_already_adapted()) {
         return;

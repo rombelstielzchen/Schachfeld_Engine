@@ -241,7 +241,7 @@ int CBoardLogic::n_stones(bool which_player) {
                 continue;
             }
             if (piece == '\0') {
-                // Uninitianlized board; may happen very early on startup
+                // Uninitialized board; may happen very early on startup
                 continue;
             }
             assert(is_any_piece(piece));

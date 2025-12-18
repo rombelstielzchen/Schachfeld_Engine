@@ -36,23 +36,23 @@ void CExpertCastlingDirection::adapt_castling_squares(bool player, int king_posi
     int safety_estimate = CSafetyEvaluator::king_safety(player, king_position);
     assert(safety_estimate <= EXCELLENT_KING_POSITION);
     assert(safety_estimate >= UNSAFE_KING_POSITION);
-    int adaption_factor = safety_estimate - EXCELLENT_KING_POSITION;
-    assert(adaption_factor <= 0);
-    int malus = adaption_factor * 12;
+    int adaptation_factor = safety_estimate - EXCELLENT_KING_POSITION;
+    assert(adaptation_factor <= 0);
+    int malus = adaptation_factor * 12;
     assert(malus <= 0);
     assert(malus >= -SCORE_HALF_PAWN);
     if (player == WHITE_PLAYER) {
         if (king_position == KINGSIDE) {
-            adapt_castling_squares(main_piece_square_value_table_set[WHITE_KING], KING_SQUARE_GRUP_WHITE_KINGSIDE, malus);
+            adapt_castling_squares(main_piece_square_value_table_set[WHITE_KING], KING_SQUARE_GROUP_WHITE_KINGSIDE, malus);
         }else {
-            adapt_castling_squares(main_piece_square_value_table_set[WHITE_KING], KING_SQUARE_GRUP_WHITE_QUEENSIDE, malus);
+            adapt_castling_squares(main_piece_square_value_table_set[WHITE_KING], KING_SQUARE_GROUP_WHITE_QUEENSIDE, malus);
         }
     } else {
         assert(player == BLACK_PLAYER);
         if (king_position == KINGSIDE) {
-            adapt_castling_squares(main_piece_square_value_table_set[BLACK_KING], KING_SQUARE_GRUP_BLACK_KINGSIDE, -malus);
+            adapt_castling_squares(main_piece_square_value_table_set[BLACK_KING], KING_SQUARE_GROUP_BLACK_KINGSIDE, -malus);
         } else {
-            adapt_castling_squares(main_piece_square_value_table_set[BLACK_KING], KING_SQUARE_GRUP_BLACK_QUEENSIDE, -malus);
+            adapt_castling_squares(main_piece_square_value_table_set[BLACK_KING], KING_SQUARE_GROUP_BLACK_QUEENSIDE, -malus);
         }
     }
 }

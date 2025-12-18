@@ -16,7 +16,7 @@
 #
 # TODO
 #    * header-dependencies
-#    * maybe change optimized zo O3
+#    * maybe change optimized to O3
 #    * have a look, why "optimized" Linux is not even half as fast as Windows
 
 ### Default shell and automatic rules ##
@@ -396,5 +396,5 @@ test:
 
 .PHONY: todo
 todo:
-	@find . -name '*.cpp' -o -name '*.h' | xargs grep -A1 -B1 TODO
+	@find . -name '*.cpp' -o -name '*.h' | xargs grep TODO
 

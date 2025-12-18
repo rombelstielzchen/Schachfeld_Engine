@@ -29,10 +29,10 @@ typedef struct {
     SSquare top_right_king_area;
 } SKingSquareGroup;
 
-extern const SKingSquareGroup KING_SQUARE_GRUP_BLACK_KINGSIDE;
-extern const SKingSquareGroup KING_SQUARE_GRUP_BLACK_QUEENSIDE;
-extern const SKingSquareGroup KING_SQUARE_GRUP_WHITE_KINGSIDE;
-extern const SKingSquareGroup KING_SQUARE_GRUP_WHITE_QUEENSIDE;
+extern const SKingSquareGroup KING_SQUARE_GROUP_BLACK_KINGSIDE;
+extern const SKingSquareGroup KING_SQUARE_GROUP_BLACK_QUEENSIDE;
+extern const SKingSquareGroup KING_SQUARE_GROUP_WHITE_KINGSIDE;
+extern const SKingSquareGroup KING_SQUARE_GROUP_WHITE_QUEENSIDE;
 
 constexpr int EXCELLENT_KING_POSITION = 2;
 constexpr int GOOD_KING_POSITION = 1;

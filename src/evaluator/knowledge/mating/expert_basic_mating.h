@@ -18,7 +18,7 @@ class CExpertBasicMating: public CVirtualExpert {
     virtual std::string get_name() const override { return "CExpertBasicMating"; }
   private:
     void configure_king_tables(bool winning_side);
-    void configure_queen__tables(bool winning_side);
+    void configure_queen_tables(bool winning_side);
     void configure_rook_tables(bool winning_side);
     void configure_knight_tables(bool winning_side);
   private:

@@ -7,5 +7,5 @@
 
 bool approximately_equal(const double a, const double b);
 
-double root(const double radikant, const double exponent);
+double root(const double radicand, const double exponent);
 

@@ -14,7 +14,7 @@ class CSearch {
   private:
     // Use the first function as entry-point. It supports 
     // mate- and stalemate-detection for regular search.
-    // The latter one is for imtermal recursive calculations.
+    // The latter one is for internal recursive calculations.
     int quiescence_negamax(const int remaining_depth, const int distance_to_root, int alpha, const int beta);
     int quiescence_negamax_recursive_no_stalemate_detection(const int remaining_depth, const int distance_to_root, int alpha, const int beta);
   private:
@@ -24,7 +24,7 @@ class CSearch {
     bool no_legal_moves() const;
   private:
     // For testing.
-    // Returns SCORE_TECHNICAL_MIN in ase of incorrect fen_position
+    // Returns SCORE_TECHNICAL_MIN in case of incorrect fen_position
     int search_position(const std::string fen_position, int remaining_depth = 1);
   private:
     // Minimax interface-functions. 

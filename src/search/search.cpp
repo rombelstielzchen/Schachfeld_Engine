@@ -51,7 +51,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
             assert(alpha <= beta); 
             candidate_score = -alpha_beta_negamax(remaining_depth - 1, distance_to_root + 1, -beta, -alpha);
         } else {
-            // TODO: one of the 2 calls t oquiescense might be superfluous.
+            // TODO: one of the 2 calls to quiescense might be superfluous.
             // This might change with fractional deepening
             candidate_score = -quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root + 1, -beta, -alpha);
         }
@@ -94,7 +94,7 @@ int CSearch::quiescence_negamax(int const remaining_depth, int const distance_to
         return SCORE_ENEMY_KING_CAPTURED;
     }
     best_score = quiescence_negamax_recursive_no_stalemate_detection(remaining_depth, distance_to_root, alpha, beta);
-    // Quiescense assumes, that both players can stand pat / "sit out" if all else fails.
+    // Quiescence assumes, that both players can stand pat / "sit out" if all else fails.
     // Therefore no mate and stalemate scores possible.
     assert(abs(best_score) < SCORE_KING);
     return best_score;
@@ -212,8 +212,8 @@ int CSearch::static_exchange_evaluation_minimax(const SSquare &target_square, co
 int CSearch::search_position(const std::string fen_position, int remaining_depth) {
     assert(fen_position != "");
     assert(remaining_depth >= 0);
-    bool valid_postion = board.set_fen_position(fen_position);
-    if (!valid_postion) {
+    bool valid_position = board.set_fen_position(fen_position);
+    if (!valid_position) {
         return SCORE_TECHNICAL_MIN;
     }
     constexpr int initial_distance_to_root = 1;

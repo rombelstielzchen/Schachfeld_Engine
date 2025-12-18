@@ -8,19 +8,19 @@
 #include "../../../../board/board_logic.h"
 #include "../../../../board/square_constants.h"
 
-const SKingSquareGroup KING_SQUARE_GRUP_BLACK_KINGSIDE = {
+const SKingSquareGroup KING_SQUARE_GROUP_BLACK_KINGSIDE = {
     G7, G6, F7, F6, H7, H6, F7, H8
 };
 
-const SKingSquareGroup KING_SQUARE_GRUP_BLACK_QUEENSIDE = {
+const SKingSquareGroup KING_SQUARE_GROUP_BLACK_QUEENSIDE = {
     B7, B6, C7, C6, A7, A6 , A7, C8
 };
 
-const SKingSquareGroup KING_SQUARE_GRUP_WHITE_KINGSIDE = {
+const SKingSquareGroup KING_SQUARE_GROUP_WHITE_KINGSIDE = {
     G2, G3, F2, F3, H2, H3, F1, H2
 };
 
-const SKingSquareGroup KING_SQUARE_GRUP_WHITE_QUEENSIDE = {
+const SKingSquareGroup KING_SQUARE_GROUP_WHITE_QUEENSIDE = {
     B2, B3, C2, C3, A2, A3, A1, C2
 };
 
@@ -29,21 +29,21 @@ int CSafetyEvaluator::king_safety(bool player, int king_position) {
     if (player == WHITE_PLAYER) {
         switch (king_position) {
             case QUEENSIDE:
-                return pawn_shelter_safety(WHITE_PLAYER, KING_SQUARE_GRUP_WHITE_QUEENSIDE);
+                return pawn_shelter_safety(WHITE_PLAYER, KING_SQUARE_GROUP_WHITE_QUEENSIDE);
             case UNCASTLED:
                 return UNSAFE_KING_POSITION;
             case KINGSIDE:
-                return pawn_shelter_safety(WHITE_PLAYER, KING_SQUARE_GRUP_WHITE_KINGSIDE);
+                return pawn_shelter_safety(WHITE_PLAYER, KING_SQUARE_GROUP_WHITE_KINGSIDE);
         }
     }
     assert(player == BLACK_PLAYER);
     switch (king_position) {
         case QUEENSIDE:
-            return pawn_shelter_safety(BLACK_PLAYER, KING_SQUARE_GRUP_BLACK_QUEENSIDE);
+            return pawn_shelter_safety(BLACK_PLAYER, KING_SQUARE_GROUP_BLACK_QUEENSIDE);
         case UNCASTLED:
             return UNSAFE_KING_POSITION;
         case KINGSIDE:
-            return pawn_shelter_safety(BLACK_PLAYER, KING_SQUARE_GRUP_BLACK_KINGSIDE);
+            return pawn_shelter_safety(BLACK_PLAYER, KING_SQUARE_GROUP_BLACK_KINGSIDE);
      }
     assert(THIS_MUST_NOT_HAPPEN);
     return UNSAFE_KING_POSITION;

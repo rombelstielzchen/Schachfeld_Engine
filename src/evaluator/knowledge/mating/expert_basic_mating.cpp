@@ -34,7 +34,7 @@ bool CExpertBasicMating::is_responsible() const {
 void CExpertBasicMating::apply_knowledge() {
     bool winner = winning_side();
      configure_king_tables(winner);
-     configure_queen__tables(winner);
+     configure_queen_tables(winner);
      configure_rook_tables(winner);
      configure_knight_tables(winner);
      // Nothing to be changed for bishops, they are good the way they are.
@@ -81,7 +81,7 @@ void CExpertBasicMating::configure_king_tables(bool winning_side) {
     CPsvModifier::make_gradient(main_piece_square_value_table_set[losing_king], target_corner, bonus_losing_king);
     CPsvModifier::make_gradient(main_piece_square_value_table_set[winning_king], losing_king_square, bonus_winning_king);
 }
-void CExpertBasicMating::configure_queen__tables(bool winning_side) {
+void CExpertBasicMating::configure_queen_tables(bool winning_side) {
     // The standard tables are nearly good enough, 
     // except high boni for F7 / G7 / H7 / H8 and a malus for B7
     char winning_queen = (winning_side == WHITE_PLAYER) ? WHITE_QUEEN : BLACK_QUEEN;

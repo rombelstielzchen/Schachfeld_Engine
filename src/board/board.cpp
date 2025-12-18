@@ -26,7 +26,7 @@ void CBoard::init_garden_fence() {
         }
         squares[j][RANK_NEWLINE_CHARACTER] = '\n';
     }
-    // Data ends with newline and string-termination for using as_iss()
+    // Data ends with newline and string-termination for using as_is()
     squares[FILE_LAST][RANK_NEWLINE_CHARACTER - 1] = '\n';
     squares[FILE_LAST][RANK_NEWLINE_CHARACTER] = '\0';
 }

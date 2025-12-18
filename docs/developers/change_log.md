@@ -12,7 +12,7 @@ Version 0.m
 
 Version 0.k
 -----------
-* Better move-ordering for captures. Now sort moves not only bymost valuable victim (first criterium), but also by least valuable aggressor.
+* Better move-ordering for captures. Now sort moves not only by most valuable victim (first criterion), but also by least valuable aggressor.
 * Changed the oracle to a modular object-oriented implementation.
   Now we have a set of "expert" modules, that inherit from a virtual interface.
   At the beginning of the search the oracle asks these experts to apply 
@@ -39,7 +39,7 @@ Version 0.g
 
 Version 0.f
 -----------
-* Quiescense-search, i.e. better evaluation of captures at the end of a variation.
+* Quiescence-search, i.e. better evaluation of captures at the end of a variation.
 * Improved console-interface. It is now more easy to make and take back moves.
   Use the help-command for more info.
 
@@ -60,7 +60,7 @@ Version 0.c
 
 Version 0.b
 -----------
-* Pruning illegal moves at the root-node. Illegal moves usualy get sorted out by the search, but in completely lost positions the king could become greedy. A dead man may it everything.
+* Pruning illegal moves at the root-node. Illegal moves usually get sorted out by the search, but in completely lost positions the king could become greedy. A dead man may it everything.
 * Now acting a tempo, if there is only one legal move.
 * A perft-function that enumerates all follow-up positions in a given
   position up to a fixed depth in order to test the move-generator
@@ -69,7 +69,7 @@ Version 0.b
 Version 0.a
 -----------
 - Anti-adjudication: preventing scores that are too good, too bad or too equal.
-- Convenience at the command-line: lots of shortcuts lijke "p s m ..."
+- Convenience at the command-line: lots of shortcuts like "p s m ..."
   for "position startpos moves ...". Also ignoring phpbb "[FEN]" tags copied from fora.
   * Fast reactions to stop-commands, as the formerly slow reaction has been suspected to cause problems with some GUIs (LucasChess and maybe ScidVsPc).
 

@@ -19,7 +19,7 @@
 // Provided macros: see below!
 //
 // DO NOT USE ANYTHING ELSE DIRECTLY!
-// You would break macro-magic or mess up the order of initializationr.
+// You would break macro-magic or mess up the order of initialization.
 
 #ifndef DEBUG_LOG_ENABLE
 
@@ -122,7 +122,7 @@ inline void log_variadic_helper() {}
 
 template<typename First, typename ...Rest>
 inline void log_variadic_helper(First && first, Rest && ...rest) {
-    // Sending varidadic argunebts to the output stream, bit by bit
+    // Sending variadic arguments to the output stream, bit by bit
     // https://stackoverflow.com/questions/29326460/how-to-make-a-variadic-macro-for-stdcout
     *safe_logging_stream() << std::forward<First>(first);
     log_variadic_helper(std::forward<Rest>(rest)...);
@@ -134,8 +134,8 @@ inline void message(First && first, Rest && ...rest) {
         return;
     }
     int indentation_width = 2 * indentation;
-    std::string leadung_spaces = std::string(indentation_width, ' ');
-    log_variadic_helper(leadung_spaces, first, std::forward<Rest>(rest)..., "\n");
+    std::string leading_spaces = std::string(indentation_width, ' ');
+    log_variadic_helper(leading_spaces, first, std::forward<Rest>(rest)..., "\n");
     if (flush_buffer) {
         std::flush(*rombel::safe_logging_stream());
     }

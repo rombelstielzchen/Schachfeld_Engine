@@ -48,7 +48,7 @@ void replace_all_substrings(std::string &source, const std::string &substring, c
         return;
     }
     // Implementation is a bit naive,  searching multiple times from the beginning,
-    // but OK for typical string sizes and few occurances of the sub-string.
+    // but OK for typical string sizes and few occurences of the sub-string.
     size_t pos = 0;
     while (pos != std::string::npos) {
         pos = replace_substring(source, substring, by_what, case_insensitive);

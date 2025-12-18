@@ -32,7 +32,7 @@ class CPsvModifier {
     CPsvModifier(TPieceSquareValueTable &psv_table_to_be_modified);
     CPsvModifier(char piece_type);
   public:
-    // TODO
+    // TODO: psv-modifiers, once they are needed
     static void clear_psv_table(TPieceSquareValueTable &psv_table);
     static void make_equal(TPieceSquareValueTable &table, int value);
     static void assign_psv_table(TPieceSquareValueTable &target_psv, const TPieceSquareValueTable &source_psv);
@@ -46,16 +46,16 @@ class CPsvModifier {
     static void clone_from_kings_to_queens_bishop(TPieceSquareValueTable &psv_table, int const positive_delta_value);
     static void set_psv_row(char piece_type, const int rank, const int value);
   public:
-    // TODO
+    // TODO: psv-modifiers, once they are needed
     static void add_bonus_to_square(TPieceSquareValueTable &psv_table, SSquare square, int bonus);
     static void add_bonus_to_area(TPieceSquareValueTable &psv_table, SSquare bottom_left, SSquare top_right, int bonus);
     static void add_bonus_to_diagonal(TPieceSquareValueTable &psv_table, SSquare left_most_square, int bonus);
     static void add_bonus_to_anti_diagonal(TPieceSquareValueTable psv_table, SSquare left_most_square, int bonus);
   public:
-    // TODO:
+    // TODO: psv-modifiers, once they are needed
     static void add_bonus_to_center(TPieceSquareValueTable &psv_table, int bonus);
     static void add_bonus_to_extended_center(TPieceSquareValueTable &psv_table, int bonus);
-    static void add_bonus_to_kindside(TPieceSquareValueTable &psv_table, int bonus);
+    static void add_bonus_to_kingside(TPieceSquareValueTable &psv_table, int bonus);
     static void add_bonus_to_queenside(TPieceSquareValueTable &psv_table, int bonus);
     static void make_gradient(TPieceSquareValueTable &table, const SSquare target_square, int bonus_per_step);
   public:

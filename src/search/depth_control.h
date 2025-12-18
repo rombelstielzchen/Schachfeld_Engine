@@ -22,7 +22,7 @@ class CDepthControl {
     void set_movetime_ms(const int64_t movetime_ms);
     void set_nodes(const int64_t nodes);
   public:
-    void adapt_depth_for_better_nates(int64_t current_depth_in_plies);
+    void adapt_depth_for_better_mates(int64_t current_depth_in_plies);
   private:
     void clear_all();
     bool enough_time_left_for_one_more_iteration() const;

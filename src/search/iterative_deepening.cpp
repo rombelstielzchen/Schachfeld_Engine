@@ -137,7 +137,7 @@ SMove CIterativeDeepening::search_iterative() {
         assert(best_move != NULL_MOVE);
         assert(move_in_range(best_move));
         if (mate_found  && !depth_control.infinite_depth()) {
-            depth_control.adapt_depth_for_better_nates(current_depth);
+            depth_control.adapt_depth_for_better_mates(current_depth);
         }
     }
     assert(board.get_fen_position() == root_position);

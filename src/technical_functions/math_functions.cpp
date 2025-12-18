@@ -30,14 +30,14 @@ bool approximately_equal(const double a, const double b) {
     return (fabs(relative_error) < epsilon);
 }
 
-double root(const double radikant, const double exponent) {
-   if (radikant < 0) {
+double root(const double radicand, const double exponent) {
+   if (radicand < 0) {
         assert(NOT_YET_IMPLEMENTED);
        return -1;
    }
    if (exponent == 0) {
         return std::numeric_limits<double>::infinity();
    }
-    return exp(log(radikant) / exponent);
+    return exp(log(radicand) / exponent);
 }
 

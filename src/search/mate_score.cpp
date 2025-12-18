@@ -31,6 +31,6 @@ int CMateScore::winning_mate_score(int distance_to_root_in_plies) {
     return score;
 }
 
-// TODO: maximize  material, when losing.
+// TODO: maximize material, when losing.
 // losing_mate_score != - winning_mate_score
 // due to different side to move and nega_score!

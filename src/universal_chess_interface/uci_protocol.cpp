@@ -253,7 +253,7 @@ void CUciProtocol::display_help() const {
     send_message("    * 'go movetime 20000' or ' g mt 20000'");
     send_message("    * 'go infinite' or 'go' or 'g'");
     send_message("    * 'stop' to force a move");
-    send_message("    * 'uciewgame' to start a new game");
+    send_message("    * 'ucinewgame' to start a new game");
     send_message("    * 'test' for the self-test");
     send_message("    * 'perft' for a looong test of the move_generator");
     send_message("    * 'debug on | off' to toggle extended logging");

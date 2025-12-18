@@ -1,4 +1,4 @@
-// Dowloaded from: http://download.shredderchess.com/div/uci.zip
+// Downloaded from: http://download.shredderchess.com/div/uci.zip
 
 Description of the universal chess interface (UCI)    April  2006
 =================================================================
@@ -87,7 +87,7 @@ These are all the command the engine gets from the interface.
 	this is sent to the engine when the user wants to change the internal parameters
 	of the engine. For the "button" type no value is needed.
 	One string will be sent for each parameter and this will only be sent when the engine is waiting.
-	The name and value of the option in <id> should not be case sensitive and can inlude spaces.
+	The name and value of the option in <id> should not be case sensitive and can include spaces.
 	The substrings "value" and "name" should be avoided in <id> and <x> to allow unambiguous parsing,
 	for example do not use <name> = "draw value".
 	Here are some strings for the example below:
@@ -390,10 +390,10 @@ Engine to GUI:
 			"option name UCI_EngineAbout type string default Shredder by Stefan Meyer-Kahlen, see www.shredderchess.com"
 		* <id> = UCI_ShredderbasesPath, type string
 			this is either the path to the folder on the hard disk containing the Shredder endgame databases or
-			the path and filename of one Shredder endgame datbase.
+			the path and filename of one Shredder endgame database.
 	   * <id> = UCI_SetPositionValue, type string
 	      the GUI can send this to the engine to tell the engine to use a certain value in centipawns from white's
-	      point of view if evaluating this specifix position. 
+	      point of view if evaluating this specific position. 
 	      The string can have the formats:
 	      <value> + <fen> | clear + <fen> | clearall
 	   		

@@ -92,8 +92,8 @@ void CMoveList::shift_current_move_to_top() {
     assert(former_consumer_position >= first_capture);
     assert(former_consumer_position < next_empty_slot);
     SMove new_top_move = bidirectional_move_list[former_consumer_position];
-    unsigned int secomd_position = first_capture + 1;
-    for (unsigned int j = former_consumer_position; j >= secomd_position; --j) {
+    unsigned int second_position = first_capture + 1;
+    for (unsigned int j = former_consumer_position; j >= second_position; --j) {
        bidirectional_move_list[j] = bidirectional_move_list[j - 1];;
     }
     bidirectional_move_list[first_capture] = new_top_move;

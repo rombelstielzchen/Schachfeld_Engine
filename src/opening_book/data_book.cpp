@@ -83,7 +83,7 @@ size_t CDataBook::random_matching_index(const std::string &moves_from_startpos_i
     int first_index = static_cast<int>(st_first_index);
     int last_index = static_cast<int>(st_last_index);
     // rand() would be good enough, Unfortunately it did not work with Gcc,
-    // (only with Visual Studio) despite prorper srand(time(NULL)),
+    // (only with Visual Studio) despite proper srand(time(NULL)),
     // always returning 41 (rhe 42th positive number!).
     // So we go for an overkill random-number-generator.
     std::random_device random_seed;

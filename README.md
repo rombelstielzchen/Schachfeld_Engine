@@ -1,7 +1,7 @@
 Schachfeld Engine
 =================
 
-The Schachfeld-engine is a chess-engine, developped by some members of the Schachfeld-forum. Meant to become semi-strong and fun to play one day. Currently in the early stages of its development.
+The Schachfeld-engine is a chess-engine, developed by some members of the Schachfeld-forum. Meant to become semi-strong and fun to play one day. Currently in the early stages of its development.
 
 ![Board-representation](docs/pics/schachfeld_winmine_12x12.png)
 
@@ -68,6 +68,13 @@ and display some instructions.
 How To Communicate / Cooperate
 ------------------------------
 We have a development-thread at the legendary Schachfeld-forum: [Einen Namen f&uuml;r das Baby](https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby). The forum is mostly German, but our members speak all languages: Italian, Spanish, French, Scotch, Latvian, Catalan. You are welcome!
+
+Schachfeld-Engine on Rating-Lists
+---------------------------------
+(coming soon)
+* [CCRL](https://computerchess.org.uk/ccrl/4040/)
+* [CEGT](http://www.cegt.net/40_40%20Rating%20List/40_40%20SingleVersion/rangliste.html)
+* [SSDF](https://ssdf.bosjo.net/list.htm)
 
 License
 -------

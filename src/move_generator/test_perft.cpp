@@ -66,17 +66,17 @@ bool CTestPerft::test_up_to_depth(const unsigned int depth) {
     TEST_FUNCTION();
    for (unsigned int j = 0; j <= depth; ++j) {
         for (const STestcase &testcase : testcase_collection) {
-            int64_t expeted_result = testcase.positions_vy_depth[j];
-            if (expeted_result <= 0) {
+            int64_t expected_result = testcase.positions_vy_depth[j];
+            if (expected_result <= 0) {
                 continue;
             }
             CTEST << "Testcase: " << testcase.fen_position << "\n";
             CTEST << "Depth: " << j << "\n";
-            CTEST << "Expected total nodes: " <<expeted_result << "\n";
+            CTEST << "Expected total nodes: " <<expected_result << "\n";
             constexpr bool display_move_statistics = true;
             int64_t true_result = perft(testcase.fen_position, j, display_move_statistics);
             CTEST << "Result: " << true_result << "\n";
-            SILENT_EXPECT((true_result == expeted_result) || (illegal_castlings_possible_at_higher_depth_Rh1_g1_h1_00() && (depth >= 5) && (true_result >= expeted_result)) || (expeted_result == unknown_but_calculate));
+            SILENT_EXPECT((true_result == expected_result) || (illegal_castlings_possible_at_higher_depth_Rh1_g1_h1_00() && (depth >= 5) && (true_result >= expected_result)) || (expected_result == unknown_but_calculate));
         }
    }
    return true;
@@ -97,7 +97,7 @@ int64_t CTestPerft::perft(const unsigned int depth, bool display_moves) {
     } else if (depth <= 0) {
         return 1;
     }
-    int64_t nodes_enumearated = 0;
+    int64_t nodes_enumerated = 0;
     for (int j = 0; j < n_moves; ++j) {
         SMove move = move_generator.move_list.get_next();
         assert(move_in_range(move));
@@ -106,13 +106,13 @@ int64_t CTestPerft::perft(const unsigned int depth, bool display_moves) {
             CTEST << move << ": ";
         }
         int64_t new_nodes = perft(depth - 1);
-        nodes_enumearated += new_nodes;
+        nodes_enumerated += new_nodes;
         board.move_maker.unmake_move();
         if (display_moves) {
             CTEST << new_nodes << "\n";
         }
     }
-    return nodes_enumearated;
+    return nodes_enumerated;
 }
 
 bool CTestPerft::illegal_castlings_possible_at_higher_depth_Rh1_g1_h1_00() {

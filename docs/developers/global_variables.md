@@ -1,4 +1,4 @@
-Glovbal Variables
+Global Variables
 =================
 The Schachfeld-engine tries to reduce the use of global variables  in order to minimize troubles. The following ones were necessary however:
 * board/board.h:inline CBoard board;

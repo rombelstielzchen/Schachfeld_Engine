@@ -12,15 +12,15 @@
 
 bool CTestExpertBasicMating::test_everything() {
     BEGIN_TESTSUITE("CTestExpertBasicMating");
-    EXPECT(test_is_responsable());
+    EXPECT(test_is_responsible());
     EXPECT(test_winning_side());
     EXPECT(test_desired_mating_corner());
     EXPECT(test_gradient());
-    EXPECT(test_gradiet_after_moves());
+    EXPECT(test_gradient_after_moves());
     return true;
 }
 
-bool CTestExpertBasicMating::test_is_responsable() {
+bool CTestExpertBasicMating::test_is_responsible() {
     TEST_FUNCTION();
     board.set_start_position();
     CExpertBasicMating expert_basic_mating;
@@ -62,13 +62,13 @@ bool CTestExpertBasicMating::test_gradient() {
     return true;
 }
 
-bool CTestExpertBasicMating::test_gradiet_after_moves() {
+bool CTestExpertBasicMating::test_gradient_after_moves() {
     TEST_FUNCTION();
     std::string initial_position = "r6k///3K b - - 0 1";
     SILENT_EXPECT(board.set_fen_position(initial_position));
     int initial_evaluation = board.evaluator.evaluate();
     EXPECT(initial_evaluation < 0);
-    // Now the king walks into the "rong" corner ("good" for the loser);
+    // Now the king walks into the "wrong" corner ("good" for the loser);
     // thereafter the evaluation should be better (for the winner), no matter what
     std::string position_with_moves = "r6k///3K w - - 0 1 moves d5e4 h8g7 e4f3 g7h8 f3g2 h8g7 g2h1 g7h8";
     SILENT_EXPECT(board.set_fen_position(position_with_moves));

@@ -82,7 +82,7 @@ void CCommandInterface::go_time(
     const int64_t white_time_milliseconds,
     const int64_t black_time_milliseconds,
     const int64_t white_increment_milliseconds,
-    const int64_t blacl_increment_milliseconds,
+    const int64_t black_increment_milliseconds,
     const int64_t moves_to_go) {
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
     std::string book_move = master_book.get_move(board.moves_from_startpos());
@@ -93,13 +93,13 @@ void CCommandInterface::go_time(
     assert(white_time_milliseconds >= 0);
     assert(black_time_milliseconds >= 0);
     assert(white_increment_milliseconds >= 0);
-    assert(blacl_increment_milliseconds >= 0);
+    assert(black_increment_milliseconds >= 0);
     assert(moves_to_go >= 0);
     std::thread worker_thread(worker_go_time,
         white_time_milliseconds,
         black_time_milliseconds,
         white_increment_milliseconds,
-        blacl_increment_milliseconds,
+        black_increment_milliseconds,
         moves_to_go);
     worker_thread.detach();
 }
@@ -153,14 +153,14 @@ void CCommandInterface::worker_go_time(
         const int64_t white_time_milliseconds,
         const int64_t black_time_milliseconds,
         const int64_t white_increment_milliseconds,
-        const int64_t blacl_increment_milliseconds,
+        const int64_t black_increment_milliseconds,
         const int64_t moves_to_go) {
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_time(
         white_time_milliseconds,
         black_time_milliseconds,
         white_increment_milliseconds,
-        blacl_increment_milliseconds,
+        black_increment_milliseconds,
         moves_to_go);
     send_best_move(calculated_move);
 }
