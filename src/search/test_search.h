@@ -33,5 +33,7 @@ class CTestSearch {
     static bool test_scores();
     static bool test_non_greedy_mate_scores();
     static bool test_positions();
+    static bool test_go_nodes();
+    static bool test_go_movetime();
 };
 

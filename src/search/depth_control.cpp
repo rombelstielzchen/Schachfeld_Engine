@@ -45,17 +45,16 @@ bool CDepthControl::go_deeper(const int current_depth) const {
         return false;
     }
     if (current_depth < dc_depth_in_plies) {
-        assert(dc_movetime_ms == 0);
-        assert(dc_nodes == 0);
+        // dc_nodes and dc_movetime_ms may be >0 here, depending on how we started search.
         return true;
     }
     if (search_statistics.get_nodes_total() < dc_nodes) {
-        assert(dc_depth_in_plies == 0);
+        ///assert(dc_depth_in_plies == 0);
         assert(dc_movetime_ms == 0);
         return true;
     }
     if (enough_time_left_for_one_more_iteration()) {
-        assert(dc_depth_in_plies == 0);
+        ///assert(dc_depth_in_plies == 0);
         assert(dc_nodes == 0);
         return true;
     }
@@ -79,7 +78,7 @@ void CDepthControl::adapt_depth_for_better_mates(int64_t current_depth_in_plies)
         return;
     }
     assert(dc_max_depth_for_better_mates > 0);
-    assert(dc_depth_in_plies > 0);
+    assert(dc_depth_in_plies >=  0);
     constexpr int awful_slow_depth = 8;
     if (current_depth_in_plies >= awful_slow_depth) {
         return;;
