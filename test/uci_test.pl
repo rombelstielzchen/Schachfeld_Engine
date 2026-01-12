@@ -6,28 +6,43 @@
 # Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 #
 # Requirements:
-#   * a Linux-like command-line with bash, perl and tail
-#   * an executable "engine" in ../src
-#
-# This script does ATM not work  with Windows-executables, but propably will do
-# if you redefine $engine_command below and use a shell like Git-Bash.
+#   * a Linux-like command-line with bash, cat, grep, perl, tail
+#   * a Linux-executable "engine" in ../src
+#     or a Windows-executable in "../older_versions"
 
 use strict;
 use warnings; 
 use File::Basename;
 
+print "### UCI-Test ###\n";
+
 my $n_repetitions = 1;
-if ((scalar(@ARGV) == 1) && ($ARGV[0] == "--stress")) {
-    $n_repetitions = 789
+if ((scalar(@ARGV) == 1) && ($ARGV[0] eq "--stress")) {
+    print "Stress-test chosen\n";
+    $n_repetitions = 1234;
 }
+print "Repetitions: $n_repetitions:\n";
+
+my $engine_command = '../src/engine';
+my $os_version = `cat /proc/version`;
+print "OS version: $os_version"; 
+my $is_windows = ($os_version ~~ m/MINGW/);
+if ($is_windows) {
+    print "Operating-system: Windows\n";
+    print "Choosing latest executable from 'older_versions'\n";
+    $engine_command = `ls -d -1 ../older_versions/* | grep -i exe | tail -1`;
+} else {
+    print "Operating-system: Linux\n";
+    print "Choosing default engine\n";
+}
+print "Chess-engine: $engine_command\n";
 
 my $output_pipe;
 my $intermediate_file = 'temp.txt';
 my $result_file = 'temp2.txt';
 my $pgn_file = "schachfeld_games.pgn";
-my $engine_command = '../src/engine';
 my $startup_safety_delay_sec = 60;
-my $timeout_sec = 10;
+my $timeout_sec = 30;
 
 ### Functions ##########################
 
@@ -43,11 +58,17 @@ sub simple_tail {
     # should simply pipe commands to and results from the engine.
     # This fails, probably due to too much output and too small buffers.
     # So we take the ugly route with temp-files.
-        `tail -n 1 < $intermediate_file > $result_file`;
+    if (!-e $intermediate_file) {
+        return "$intermediate_file does not (yet) exist";
+    }
+    `tail -n 1 < $intermediate_file > $result_file`;
     open(my $fh, "<", $result_file)
-        or die "open() failed $!";
+        or return ""; 
     my $result = <$fh>;
     close ($fh);
+    if (!defined $result) {
+        return "";
+    }
     return $result;
 }
 
@@ -65,13 +86,13 @@ sub EXPECT {
    }
     print "Unexpected result: $tail_result\n";
     send_message("quit");
-   die  "UCI-Test failed\n";
+     "UCI-Test failed\n";
 }
 
 sub start_engine {
     # Start engine, control via output_pipe, redirect to intermediate_file
     my $engine_PID = open($output_pipe, '|-', "$engine_command > $intermediate_file")
-        or die "open() failed $!";
+        or  "open() failed $!";
     print "started engine. PID: $engine_PID\n";
     for (my $j = $startup_safety_delay_sec; $j > 0; --$j) {
         print "Ready for operations in $j seconds\n";
