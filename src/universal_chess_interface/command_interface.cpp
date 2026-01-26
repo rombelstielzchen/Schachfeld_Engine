@@ -12,6 +12,7 @@
 #include "../search/iterative_deepening.h"
 #include "../technical_functions/standard_headers.h"
 #include "../technical_functions/testing.h"
+#include <unistd.h>
 
 CCommandInterface::CCommandInterface() {
 }
@@ -112,7 +113,19 @@ void CCommandInterface::new_game() {
 }
 
 void CCommandInterface::stop() {
-   DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = true;
+   if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop == true) {
+        return;
+   }
+    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = true;
+    constexpr int deci_seconds_to_wait_for_calculator_thread = 30;
+    for (int j = 0; j < deci_seconds_to_wait_for_calculator_thread; ++j) {
+        sleep(100);
+        if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop == false) {
+            break;
+        }
+    }
+    assert(DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop == false);
+    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
 }
 
 bool CCommandInterface::set_position(const std::string &fen_position) {
@@ -179,7 +192,7 @@ void CCommandInterface::takeback() {
 }
 
 void CCommandInterface::on_exit() {
-    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = true;
+    stop(); 
     // Potential race condition here.
     // If we quit in the middle of a calculation, the last engine-move will not be saved, most probably
     board.game_saver.save_game();
