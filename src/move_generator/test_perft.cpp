@@ -64,7 +64,7 @@ bool CTestPerft::test_extended_depth() {
 
 bool CTestPerft::test_up_to_depth(const unsigned int depth) {
     TEST_FUNCTION();
-   for (unsigned int j = 0; j <= depth; ++j) {
+    for (unsigned int j = 0; j <= depth; ++j) {
         for (const STestcase &testcase : testcase_collection) {
             int64_t expected_result = testcase.positions_vy_depth[j];
             if (expected_result <= 0) {
@@ -102,14 +102,11 @@ int64_t CTestPerft::perft(const unsigned int depth, bool display_moves) {
         SMove move = move_generator.move_list.get_next();
         assert(move_in_range(move));
         board.move_maker.make_move(move);
-        if (display_moves) {
-            CTEST << move << ": ";
-        }
         int64_t new_nodes = perft(depth - 1);
         nodes_enumerated += new_nodes;
         board.move_maker.unmake_move();
         if (display_moves) {
-            CTEST << new_nodes << "\n";
+            CTEST << move << ": " << new_nodes << "\n";
         }
     }
     return nodes_enumerated;

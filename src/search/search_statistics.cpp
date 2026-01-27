@@ -125,8 +125,10 @@ void CSearchStatistics::log_subtree_size() const {
 }
 
 int64_t CSearchStatistics::nodes_per_second() const {
+    assert(nodes_total >= 0);
+    assert(used_time_milliseconds() > 0);
     int64_t nps = (nodes_total * 1000) / used_time_milliseconds();
-    assert(nps > 0);
+    assert(nps >= 0);
     return nps;
 }
 

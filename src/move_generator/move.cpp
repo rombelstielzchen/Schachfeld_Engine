@@ -58,7 +58,7 @@ bool is_promotion(const SMove &move) {
         case WHITE_KNIGHT:
         case WHITE_BISHOP:
         case WHITE_ROOK:
-                case WHITE_QUEEN:
+        case WHITE_QUEEN:
         case BLACK_KNIGHT:
         case BLACK_BISHOP:
         case BLACK_ROOK:
@@ -70,6 +70,7 @@ bool is_promotion(const SMove &move) {
         case BLACK_POWER:
         case BLACK_KING:
             assert(THIS_MUST_NOT_HAPPEN);
+            /// IT HAPPENS
             return false;
             break;
         default:
