@@ -54,6 +54,8 @@ bool is_eng_passeng(const SMove &move) {
 }
 
 bool is_promotion(const SMove &move) {
+    assert(is_null_move(move) || move_in_range(move));
+    ///assert(is_any_piece(board.get_square(move.source)));
     switch (move.move_type) {
         case WHITE_KNIGHT:
         case WHITE_BISHOP:
@@ -72,7 +74,6 @@ bool is_promotion(const SMove &move) {
             assert(THIS_MUST_NOT_HAPPEN);
             /// IT HAPPENS
             return false;
-            break;
         default:
             return false;
     }
@@ -195,6 +196,26 @@ std::string move_as_long_text(const SMove move) {
     return result;
 }
 
+std::string move_as_list(const SMove move) {
+    const std::string separator = ", ";
+    std::string result = std::string("(");
+    result += std::to_string(int(move.source.file));
+    result += separator;
+    result += std::to_string(int(move.source.rank));
+    result += separator;
+    result += std::to_string(int(move.target.file));
+    result += separator;
+    result += std::to_string(int(move.target.rank));
+    result += separator;
+    result += isalpha(move.move_type) ? std::to_string(move.move_type) : std::to_string(int(move.move_type));
+    result += separator;
+    result += isalpha(move.captured_piece) ? std::to_string(move.captured_piece) : std::to_string(int(move.captured_piece));
+    result += separator;
+    result += std::to_string(move.potential_gain);
+    result += ")";
+    return result;
+}
+
 uint8_t text_to_file(const char file_character) {
     // No assertions here; the input comes from the outside world
     if ((file_character < 'a') || (file_character > 'h')) {
@@ -234,6 +255,7 @@ SMove text_to_basic_move(const std::string &text) {
         return NULL_MOVE;
     }
     if (text.length() == length_of_text_move_with_promotion) {
+        assert(text != "");
         if (is_any_piece(text.back())) {
             move.move_type = text.back();
         }

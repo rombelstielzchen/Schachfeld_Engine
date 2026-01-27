@@ -18,7 +18,9 @@ SMove CMoveList::get_random() const {
     unsigned int index = first_capture + rand() % list_size();
     assert(index >= first_capture);
     assert(index < next_empty_slot);
-    return bidirectional_move_list[index];
+    SMove random_move  = bidirectional_move_list[index];
+    assert(is_any_piece(board.get_square(random_move.source)));
+    return random_move;
 }
 
 SMove CMoveList::get_next() {
@@ -31,6 +33,7 @@ SMove CMoveList::get_next() {
     ++consumer_position;
      assert(valid_positions());
     assert(move_in_range(result));
+    assert(is_any_piece(board.get_square(result.source)));
     return result;
 }
 
@@ -48,6 +51,7 @@ SMove CMoveList::get_next__capture_killer_silent(const int distance_to_root) {
     // Check for null_move if the list got pruned
     assert((next_empty_slot > LIST_ORIGIN) || is_null_move(move));
     assert((next_empty_slot == LIST_ORIGIN) || move_in_range(move));
+    assert(is_any_piece(board.get_square(move.source)));
     return move;
 }
 
@@ -68,6 +72,7 @@ unsigned int CMoveList::index_most_valuable_victim() const {
 }
 
 unsigned int CMoveList::index_least_valuable_aggressor(const unsigned int first_most_valuable_victim) const {
+    DEBUG_METHOD();
     assert(valid_list());
     assert(first_most_valuable_victim >= consumer_position);
     assert(first_most_valuable_victim < LIST_ORIGIN);
@@ -77,6 +82,12 @@ unsigned int CMoveList::index_least_valuable_aggressor(const unsigned int first_
     assert(best_victim_score > 0);
     SSquare aggressor_square = bidirectional_move_list[best_index].source;
     assert(square_in_range(aggressor_square));
+    if (!is_any_piece(board.get_square(aggressor_square))) {
+        std::cout << board.as_is();
+        std::cout << "aggressor_square: " << aggressor_square << "\n";
+        flush(std::cout);
+    }
+    assert(is_any_piece(board.get_square(aggressor_square)));
     int least_aggressor_value = abs(board.evaluator.evaluate_square(aggressor_square));
     assert(least_aggressor_value > 0);
     for (unsigned int j = consumer_position + 1; j < LIST_ORIGIN; ++j) {
@@ -87,18 +98,21 @@ unsigned int CMoveList::index_least_valuable_aggressor(const unsigned int first_
         }
         aggressor_square = bidirectional_move_list[j].source;
         assert(square_in_range(aggressor_square));
-       int const aggressor_value = abs(board.evaluator.evaluate_square(aggressor_square));
-       assert(aggressor_value > 0);
-       if (aggressor_value < least_aggressor_value) {
-           least_aggressor_value = aggressor_value;
-           best_index = j;
-       }
+        flush(std::cout);
+        flush(std::cerr);
+        assert(is_any_piece(board.get_square(aggressor_square)));
+        int const aggressor_value = abs(board.evaluator.evaluate_square(aggressor_square));
+        assert(aggressor_value > 0);
+        if (aggressor_value < least_aggressor_value) {
+            least_aggressor_value = aggressor_value;
+            best_index = j;
+        }
     }
     return best_index;
-
 }
 
 SMove CMoveList::get_next__best_capture() {
+    DEBUG_METHOD();
     assert(valid_list());
     unsigned int const best_index = index_least_valuable_aggressor(index_most_valuable_victim());
     assert(best_index >= consumer_position);
@@ -111,6 +125,7 @@ SMove CMoveList::get_next__best_capture() {
     bidirectional_move_list[best_index] = bidirectional_move_list[consumer_position];
      ++consumer_position;
      assert(valid_list());
+    assert(is_any_piece(board.get_square(best_move.source)));
     return best_move;
 }
 
@@ -126,6 +141,7 @@ SMove CMoveList::get_least_valuable_aggressor() const {
         }
     }
     assert((move_in_range(best_move)) || is_null_move(best_move));
+    assert((best_move == NULL_MOVE) || (is_any_piece(board.get_square(best_move.source))));
     return best_move;
 }
 

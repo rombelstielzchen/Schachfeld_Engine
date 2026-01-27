@@ -61,6 +61,7 @@ std::string CBoard::get_fen_position() const {
 }
 
 const char*  CBoard::as_is() const {
+    assert(squares.back()[0] != '\0');
     assert(squares.back().back() == '\0');
     return &squares[0][0];
 }

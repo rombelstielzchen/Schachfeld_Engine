@@ -8,7 +8,7 @@
 # Preconditions:
 #   * Linux-engine built and tested, simply "make"
 #   * Windows engine built with MiSo ViStu in Release-mode
-#   * Windows-executable renamed with version-number, e.g. Schachfeld_Engine_3.1
+#   * Windows-executable renamed with version-number, e.g. TattooAngel_3.1
 #   * Executable moved to binaries-directory. see below ...
 
 BIN_DIR='../older_versions'

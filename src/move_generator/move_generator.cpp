@@ -189,6 +189,7 @@ void CMoveGenerator::generate_queen_moves(const int file, const int rank) {
 }
 
 void CMoveGenerator::generate_potential_move(const int source_file, const int source_rank, const int target_file, const int target_rank) {
+    DEBUG_METHOD();
     // Checks the target-square, needed for king and knight
     // and for the final square of sliding moves
     assert(file_in_range(source_file));
@@ -203,6 +204,7 @@ void CMoveGenerator::generate_potential_move(const int source_file, const int so
 }
 
 void CMoveGenerator::generate_sliding_moves(const int file, const int rank, const int direction_north_south, const int direction_east_west) {
+    DEBUG_METHOD();
     int next_file = file + direction_east_west;
     int next_rank = rank + direction_north_south;
     while (board.square_is_empty(next_file, next_rank)) {
@@ -218,12 +220,16 @@ void CMoveGenerator::generate_sliding_moves(const int file, const int rank, cons
 }
 
 void CMoveGenerator::generate_potential_eng_passeng() {
+     DEBUG_METHOD();
      int eng_passeng_file = board.get_eng_passeng_file();
     if (eng_passeng_file == NO_ENG_PASSENG_POSSIBLE) {
         return;
     }
+    assert(file_in_range(eng_passeng_file));
     const int rank = CBoardLogic::eng_passeng_pawn_rank();
+    assert((rank == RANK_4) || (rank == RANK_5));
     int next_rank = CBoardLogic::eng_passeng_forward_rank();
+    assert((next_rank == RANK_3) || (next_rank == RANK_6));
     const char my_pawn = CBoardLogic::my_pawn();
     assert((board.get_square(eng_passeng_file, rank) == WHITE_POWER) || (board.get_square(eng_passeng_file, rank) == BLACK_POWER));
     assert(board.square_is_empty(eng_passeng_file, next_rank));
@@ -235,5 +241,9 @@ void CMoveGenerator::generate_potential_eng_passeng() {
     if (board.get_square(right, rank) == my_pawn) {
         move_list.store_eng_passeng(right, rank, eng_passeng_file, next_rank);
     }       
+}
+
+void CMoveGenerator::reset() {
+    move_list.clear();
 }
 

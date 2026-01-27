@@ -52,6 +52,8 @@ class CIterativeDeepening {
     SMove search_iterative();
     SMove search_fixed_depth(const int depth);
   private:
+    void reset();
+  private:
     bool only_one_legal_move() const;
     SMove only_move();
   private:

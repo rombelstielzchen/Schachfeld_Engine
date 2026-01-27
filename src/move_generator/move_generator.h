@@ -20,6 +20,7 @@ class CMoveGenerator {
   public:
     CMoveGenerator();
   public:
+    void reset();
     void generate_all();
     void generate_captures();
     void generate_recaptures(const SSquare target_square);

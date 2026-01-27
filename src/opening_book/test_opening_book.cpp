@@ -38,6 +38,7 @@
      TEST_FUNCTION();
      for (const std::string &variation : variation_collection) {
          CTEST << "Format? " << variation << std::endl;
+         SILENT_EXPECT(variation != "");
         // Checking for extra spaces
         SILENT_EXPECT(variation[0] != ' ');
         SILENT_EXPECT(variation.back() != ' ');

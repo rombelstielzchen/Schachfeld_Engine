@@ -8,6 +8,7 @@
 #   * make optimized: build an optimized Linux executable
 #   * make exe: build a Windows executable (Visual Studio required)
 #   * make clean: remove all executables and intermediate files
+#   * make rebuild: make clean. then build from scratch
 #   * make stats: display project statistics
 #   * make todo: display TODO comments
 #
@@ -355,6 +356,11 @@ exe:
 
 .PHONY: "optimized
 optimized:	engine
+
+.PHONY: "rebuild
+rebuild:
+	make clean
+	make
 
 .PHONY: "semi_clean
 semi_clean:

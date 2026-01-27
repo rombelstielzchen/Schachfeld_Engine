@@ -14,6 +14,8 @@
 #include "../universal_chess_interface/uci_protocol.h"
 
 void CGameSaver::save_game() {
+    // TODO: revissit CGameSaver. Temp-disabled in v1.0
+    return;
     if (open_pgn_file()) {
         append_pgn_header();
         append_moves();

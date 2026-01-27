@@ -23,7 +23,7 @@ DEVENV='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/deve
 PARTS='vcxproj_parts/'
 VCX_START="${PARTS}vcxproj.start.xml"
 VCX_END="${PARTS}vcxproj.end.xml"
-VCXPROJ="Schachfeld_Engine.vcxproj"
+VCXPROJ="TattooAngel.vcxproj"
 TMP_CPP='cpp.tmp'
 TMP_H='h.tmp'
 
@@ -50,7 +50,7 @@ echo 'Going to build project ...'
 ls -o x64/Release/*.exe
 
 # Copying executable to new destination
-EXE="./x64/Release/Schachfeld_Engine.exe"
+EXE="./x64/Release/TattooAngel.exe"
 ENGINE_VERSION=$(printf "uci\nquit\n" | ("$EXE" 2> /dev/null) | grep "id name" | sed "{ s/id name //; }")
 echo "Found engine version: $ENGINE_VERSION"
 NEW_NAME="${ENGINE_VERSION}.exe"

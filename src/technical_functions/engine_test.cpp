@@ -25,6 +25,7 @@
 #include "../search/test_killer_heuristics.h"
 #include "../search/test_search.h"
 #include "../search/test_statistics.h"
+#include "../universal_chess_interface/uci_protocol.h"
 #include "standard_headers.h"
 
 bool CEngineTest::testing = false;
@@ -67,6 +68,8 @@ void CEngineTest::test_thread_function() {
         exit(EXIT_FAILURE);
     }
     CTEST << "[OK] CEngineTest::test_everything(): all " << testcase_counter  << " checks passed with success." << std::endl;
+    // CTEST writes to cerr; UCI and test-scripts use STDIO. So...
+    CUciProtocol::send_info("CEngineTest finished. Ready for play, analysis or external testing.");
     board.set_start_position();
     testing = false;
 }

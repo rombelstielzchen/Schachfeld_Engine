@@ -1,6 +1,10 @@
 Major Changes
 =============
 
+Version 1.0
+-----------
+* TattooAngel -- finally we found a name for our baby!
+
 Version 0.m
 -----------
 * An evaluation expert for pawns in the endgame

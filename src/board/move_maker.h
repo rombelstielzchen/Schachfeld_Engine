@@ -33,7 +33,7 @@ class CMoveMaker {
     void update_castling_rights(const SSquare source_or_target_square) const;
   private:
     std::vector<SMove> move_history;
-    std::vector <int> former_eng_passeng_files;
+    std::vector<int> former_eng_passeng_files;
     bool initial_position_was_startpos;
 };
 

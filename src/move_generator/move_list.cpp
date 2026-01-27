@@ -51,6 +51,7 @@ SMove CMoveList::lookup_move(const std::string &text_move) const {
     assert(index < next_empty_slot);
     SMove result = bidirectional_move_list[index];
     if (text_move.length() == length_of_text_move_with_promotion) {
+        assert(text_move != "");
         if (is_any_piece(text_move.back()) && is_any_piece(result.move_type)) {
             result.move_type = text_move.back();
         } else {
@@ -93,7 +94,7 @@ bool CMoveList::move_on_list(const std::string &text_move) const {
 
 bool CMoveList::valid_list_origin() const {
     bool is_valid = true;
-    is_valid &= (is_any_capture(bidirectional_move_list[LIST_ORIGIN - 1]) || (first_capture == LIST_ORIGIN));
+    is_valid &= (first_capture == LIST_ORIGIN) || is_any_capture(bidirectional_move_list[LIST_ORIGIN - 1]);
     is_valid &= (is_silent_move(bidirectional_move_list[LIST_ORIGIN]) || (next_empty_slot == LIST_ORIGIN));
     return is_valid;
 }

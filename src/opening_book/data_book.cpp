@@ -31,7 +31,7 @@ std::string CDataBook::get_move(const std::string &moves_from_startpos_in_uci_fo
     assert(index < sorted_variation_collection.size());
     assert(sorted_variation_collection[index].length() > moves_from_startpos_in_uci_format.length());
     size_t first_char_pos = moves_from_startpos_in_uci_format.length();
-    if (isdigit(moves_from_startpos_in_uci_format.back())) {
+    if ((first_char_pos > 0) && isdigit(moves_from_startpos_in_uci_format.back())) {
         ++first_char_pos;
     }
     assert(first_char_pos % length_of_text_move_plus_space == 0);

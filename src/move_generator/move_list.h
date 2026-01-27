@@ -62,13 +62,13 @@ class CMoveList {
     void shift_current_move_to_top();
     void reuse_list();
   public:
+    void clear();
+  public:
     void integrate_killer(const int distance_to_root); 
   public:
     std::string as_text() const;
     bool move_on_list(const SMove move) const;
     bool king_capture_on_list() const;
-  private:
-    void clear();
   private:
     void store_white_promotions(const int source_file, const int target_file);
     void store_black_promotions(const int source_file,  const int target_file);

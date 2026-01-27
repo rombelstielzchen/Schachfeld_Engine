@@ -12,10 +12,11 @@ class CVirtualExpert {
     virtual ~CVirtualExpert();
   public:
     void configure();
+  public:
+    virtual std::string get_name() const = 0;
   private:
     // Mandatory methods, to be implemented by derived knowledge-experts
     virtual bool is_responsible() const = 0;
     virtual void apply_knowledge() = 0;
-    virtual std::string get_name() const = 0;
 };
 

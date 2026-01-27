@@ -1,8 +1,12 @@
 TODO
 ====
-* Queen-PSV for the endgame
-* King-PSVs for mating
-* better move-ordering by LVA and checks
+* Queen-PSV for the opening and middle-game
+* PSVs for passed pawns
+* PSVs for pawn-levers
+* PSVs for pawn-storms
+* PSV for king and opponents bishop-colour
+* mating with bishop and knight
+* better move-ordering by checks
 * hash-tables
 * vector-attacks
 * move-generator for (re)captures

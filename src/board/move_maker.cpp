@@ -12,7 +12,8 @@
 #include "../technical_functions/string_tokenizer.h"
 #include "../universal_chess_interface/uci_protocol.h"
 
-const int min_length_of_repetition = 4;
+constexpr int min_length_of_repetition = 4;
+constexpr int max_number_of_null_moves = 1;
 
 CMoveMaker::CMoveMaker() {
     reset_history();
@@ -25,6 +26,7 @@ void CMoveMaker::make_move(SMove move) {
     board.clear_square(move.source);
     move.captured_piece = board.get_square(move.target);
     board.put_piece(move.target, moving_piece);
+    assert(abs(move_history.size() - former_eng_passeng_files.size()) <= max_number_of_null_moves);
     former_eng_passeng_files.push_back(board.get_eng_passeng_file());
     switch (move.move_type) {
         case MOVE_TYPE_NORMAL:
@@ -92,13 +94,15 @@ void CMoveMaker::make_move(SMove move) {
             assert(THIS_MUST_NOT_HAPPEN);
             break;
     }
-    assert(board.square_is_empty(move.target) == false);
+    assert(is_any_piece(board.get_square(move.target)));
     board.flip_side_to_move();
     move_history.push_back(move);
+    assert(abs(move_history.size() - former_eng_passeng_files.size()) <= max_number_of_null_moves);
 }
 
 void CMoveMaker::make_null_move() {
     board.flip_side_to_move();
+    assert(move_history.size() == former_eng_passeng_files.size());
     former_eng_passeng_files.push_back(board.get_eng_passeng_file());
     board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
 }
@@ -119,6 +123,7 @@ bool CMoveMaker::make_move(const std::string &long_algebraic_uci_move) {
 void CMoveMaker::unmake_null_move() {
     board.flip_side_to_move();
     assert(former_eng_passeng_files.size() > 0);
+    assert(former_eng_passeng_files.size() == (move_history.size() + 1));
     board.eng_passeng_file = former_eng_passeng_files.back();
     former_eng_passeng_files.pop_back();
 }
@@ -126,6 +131,7 @@ void CMoveMaker::unmake_null_move() {
 void CMoveMaker::unmake_move() {
     board.flip_side_to_move();
     assert(former_eng_passeng_files.size() > 0);
+    assert(abs(move_history.size() - former_eng_passeng_files.size()) <= 1);
     board.eng_passeng_file = former_eng_passeng_files.back();
     former_eng_passeng_files.pop_back();
     assert(move_history.size() > 0);

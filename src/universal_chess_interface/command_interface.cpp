@@ -133,14 +133,21 @@ void CCommandInterface::stop() {
             break;
         }
     }
-    assert(DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop == false);
+    assert(n_worker_threads_busy == 0);
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
 }
 
-bool CCommandInterface::set_position(const std::string &fen_position) {
+void CCommandInterface::set_position(const std::string &fen_position) {
+    // The assertion below indicates bad coordination of self-test and external test
+    assert(CEngineTest::is_testing() == false);
     stop();
     assert(n_worker_threads_busy == 0);
-    return board.set_fen_position(fen_position);
+    if(board.set_fen_position(fen_position)) {
+        std::string confirmation = "new position: " + board.get_fen_position();
+        CUciProtocol::send_info(confirmation); 
+    } else {
+        CUciProtocol:: send_error("invalid position received via UCI");
+    }
 }
 
 void CCommandInterface::send_best_move(const std::string &best_move){
@@ -217,11 +224,16 @@ void CCommandInterface::takeback() {
 }
 
 void CCommandInterface::on_exit() {
+    CUciProtocol::send_info("Confirming quit");
     stop(); 
+    std::cerr << "stopped\n";
     assert(n_worker_threads_busy == 0);
     // Potential race condition here.
     // If we quit in the middle of a calculation, the last engine-move will not be saved, most probably
     board.game_saver.save_game();
+    CUciProtocol::send_info("\n### End Of Session ###########\n");
+    flush(std::cout);
+    flush(std::cerr);
 }
 
 void CCommandInterface::show_main_psv_tables() {

@@ -8,6 +8,7 @@
 #include "search.h"
 #include "../board/board.h"
 #include "../board/square_constants.h"
+#include "../evaluator/score_constants.h"
 #include "../technical_functions/testing.h"
 #include "../universal_chess_interface/command_interface.h"
 
@@ -121,7 +122,7 @@ const std::vector<STestcaseSearch> testcases_search = {
     { 5, "a8c7", "N6N///3k4////K6N w" },
 };
 
-bool CTestSearch::test_everything() {
+        bool CTestSearch::test_everything() {
     BEGIN_TESTSUITE("CTestSearch");
     bool former_dobb_dobb_dobb = DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop;
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
@@ -134,6 +135,7 @@ bool CTestSearch::test_everything() {
     EXPECT(test_positions());
     EXPECT(test_go_nodes());
 ///TODO    EXPECT(test_go_movetime());
+    EXPECT(test_repeated_mate_in_one());
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = former_dobb_dobb_dobb;
     return true;
 }
@@ -293,6 +295,25 @@ bool CTestSearch::test_go_movetime() {
     CIterativeDeepening searcher;
     SILENT_EXPECT(board.set_fen_position("k//K/////2R w"));
     EXPECT(searcher.search_movetime(5000) == "c1c8");
+    return true;
+}
+
+bool CTestSearch::test_repeated_mate_in_one() {
+    TEST_FUNCTION();
+    // This test raised assertions in the uCI-stresstest
+    std::string mate_in_one = "startpos moves f2f3 e7e5 g2g4";
+    constexpr int n_repetitions = 20;
+    SILENT_EXPECT(board.set_fen_position(mate_in_one));
+    CSearch recursive_search;
+    for (int j = 1; j <= n_repetitions; ++j) {
+        CTEST << "test_repeated_mate_in_one (recursive search): iteration " << j << " of " << n_repetitions << "\n";
+        EXPECT(recursive_search.alpha_beta_negamax(2, 1, INFINITE_ALPHA_BETA_WINDOW.alpha, INFINITE_ALPHA_BETA_WINDOW.beta) > SCORE_HALF_KING);
+    }
+    CIterativeDeepening root_node_search;
+    for (int j = 1; j <= n_repetitions; ++j) {
+        CTEST << "test_repeated_mate_in_one (root-node search): iteration " << j << " of " << n_repetitions << "\n";
+        EXPECT(root_node_search.search_depth(2) == "d8h4");
+    }
     return true;
 }
 

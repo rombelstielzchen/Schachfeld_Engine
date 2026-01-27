@@ -53,6 +53,7 @@ void CMoveList::store_pawn_move(const int source_file, const int source_rank, co
 }
 
 void CMoveList::store_capture(const int source_file, const int source_rank, const int target_file, const int target_rank) {
+    DEBUG_METHOD();
     assert(file_in_range(source_file));
     assert(rank_in_range(source_rank));
     assert(file_in_range(target_file));
@@ -71,6 +72,7 @@ void CMoveList::store_capture(const int source_file, const int source_rank, cons
 }
 
 void CMoveList::store_pawn_capture(const int source_file, const int source_rank, const int target_file, const int target_rank) {
+    DEBUG_METHOD();
     assert(file_in_range(source_file));
     assert(rank_in_range(source_rank));
     assert(file_in_range(target_file));
@@ -87,6 +89,7 @@ void CMoveList::store_pawn_capture(const int source_file, const int source_rank,
 }
 
 void CMoveList::store_eng_passeng(const int source_file, const int source_rank, const int target_file, const int target_rank) {
+    DEBUG_METHOD();
     assert(file_in_range(source_file));
     assert(rank_in_range(source_rank));
     assert(file_in_range(target_file));
@@ -105,6 +108,7 @@ void CMoveList::store_eng_passeng(const int source_file, const int source_rank, 
 }
 
 void CMoveList::store_white_promotions(const int source_file, const int target_file) {
+    DEBUG_METHOD();
     assert(file_in_range(source_file));
     assert(file_in_range(target_file));
     assert(valid_list());
@@ -133,6 +137,7 @@ void CMoveList::store_white_promotions(const int source_file, const int target_f
 }
 
 void CMoveList::store_black_promotions(const int source_file, const int target_file) {
+    DEBUG_METHOD();
     assert(file_in_range(source_file));
     assert(file_in_range(target_file));
     assert(valid_list());

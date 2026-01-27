@@ -35,5 +35,6 @@ class CTestSearch {
     static bool test_positions();
     static bool test_go_nodes();
     static bool test_go_movetime();
+    static bool test_repeated_mate_in_one();
 };
 

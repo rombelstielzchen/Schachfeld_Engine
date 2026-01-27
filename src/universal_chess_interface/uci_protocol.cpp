@@ -12,7 +12,7 @@
 #include "../technical_functions/engine_test.h"
 #include "../technical_functions/standard_headers.h"
 
-const std::string ENGINE_ID = "Schachfeld_Engine_0.m";
+const std::string ENGINE_ID = "TattooAngel_1.0";
 static_assert('a' > '9');
 
 bool CUciProtocol::interactive_console_mode = false;
@@ -124,9 +124,7 @@ void CUciProtocol::process_message(const std::string &message) {
         command_interface.show_main_psv_tables();  
     } else if (string_tokenizer.next_token_is_one_of("position", "p")) {
         std::string fen_position = string_tokenizer.get_the_rest();
-        if (!command_interface.set_position(fen_position)) {
-            send_error("invalid position received via UCI");
-        }
+        command_interface.set_position(fen_position);
     } else if (string_tokenizer.next_token_is_one_of("setoption", "so")) {
         process_option(string_tokenizer);
     } else if (string_tokenizer.next_token_is_one_of("stop", "s")) {
@@ -197,7 +195,10 @@ void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
     uint64_t moves_to_go = 0;
     std::string next_token = string_tokenizer.next_token();
     while (next_token != "") {
-        if (next_token == "wtime") {
+        if (next_token == "time") {
+            // Consume silently, more tokens coming (wtime, btime, winc, binc, movestogo)
+            (void)NULL;
+        } else if (next_token == "wtime") {
             white_time_ms = string_tokenizer.get_integer_token(1);
         } else if (next_token == "btime") {
             black_time_ms = string_tokenizer.get_integer_token(1);
@@ -208,7 +209,8 @@ void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
         } else if (next_token == "movestogo") {
             moves_to_go = string_tokenizer.get_integer_token(1);
         } else {
-            send_error("unexpected token in go-command");
+                std::string error_message = "unexpected token in go-command: " + next_token;
+            send_error(error_message);
             return;
         }
         next_token = string_tokenizer.next_token();

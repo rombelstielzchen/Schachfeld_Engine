@@ -16,7 +16,13 @@ constexpr int64_t minimum_search_depth = 1;
 
 CIterativeDeepening::CIterativeDeepening() {
     DEBUG_METHOD();
+    reset();
+}
+
+void CIterativeDeepening::reset() {
+    // Needs to be called on every new search
     mate_found = false;
+    move_generator.reset();
     search_statistics.reset_all();
 }
 
@@ -24,6 +30,7 @@ CIterativeDeepening::CIterativeDeepening() {
 
 SMove CIterativeDeepening::search_depth(int64_t depth) {
     DEBUG_METHOD();
+    reset();
     assert(depth >= 0);
     depth = std::max(depth,  minimum_search_depth);
     depth_control.set_depth(depth);
@@ -33,6 +40,7 @@ SMove CIterativeDeepening::search_depth(int64_t depth) {
 
 SMove CIterativeDeepening::search_nodes(const int64_t nodes) {
     DEBUG_METHOD();
+    reset();
     assert(nodes > 0);
     depth_control.set_nodes(nodes);
     return search_common_entry_point();
@@ -40,6 +48,7 @@ SMove CIterativeDeepening::search_nodes(const int64_t nodes) {
 
 SMove CIterativeDeepening::search_movetime(const int64_t movetime_ms) {
     DEBUG_METHOD();
+    reset();
     assert(movetime_ms > 0);
     depth_control.set_movetime_ms(movetime_ms);
     SMove best_move = search_common_entry_point();
@@ -54,6 +63,7 @@ SMove CIterativeDeepening::search_time(
         const int64_t black_increment_milliseconds,
         const int64_t moves_to_go) {
     DEBUG_METHOD();
+    reset();
     assert(white_time_milliseconds >= 0);
     assert(black_time_milliseconds >= 0);
     assert(white_increment_milliseconds >= 0);
@@ -81,8 +91,8 @@ SMove CIterativeDeepening::search_time(
 
 SMove CIterativeDeepening::search_common_entry_point() {
     DEBUG_METHOD();
-    mate_found = false;
-    search_statistics.reset_all();move_generator.generate_all();
+    reset();
+    move_generator.generate_all();
     if (move_generator.move_list.king_capture_on_list()) {
         // This should happen only in case of some test-cases
         constexpr int no_killer_distance_to_root = 0;
