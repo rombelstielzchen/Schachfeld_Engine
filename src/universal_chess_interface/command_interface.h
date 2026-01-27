@@ -56,6 +56,7 @@ class CCommandInterface {
         const int64_t blacl_increment_milliseconds,
         const int64_t moves_to_go);
   private:
+    static int n_worker_threads_busy;
     CMasterBook master_book;
 };
 

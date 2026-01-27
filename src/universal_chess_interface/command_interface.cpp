@@ -14,6 +14,8 @@
 #include "../technical_functions/testing.h"
 #include <unistd.h>
 
+int CCommandInterface::n_worker_threads_busy = 0;
+
 CCommandInterface::CCommandInterface() {
 }
 
@@ -106,7 +108,8 @@ void CCommandInterface::go_time(
 }
 
 void CCommandInterface::new_game() {
-    DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = true;
+    stop(); 
+    assert(n_worker_threads_busy == 0);
     board.game_saver.save_game();
     board.set_start_position();
     master_book.on_new_game();
@@ -130,6 +133,7 @@ void CCommandInterface::stop() {
 
 bool CCommandInterface::set_position(const std::string &fen_position) {
     stop();
+    assert(n_worker_threads_busy == 0);
     return board.set_fen_position(fen_position);
 }
 
@@ -144,22 +148,31 @@ void CCommandInterface::send_best_move(SMove best_move){
 }
 
 void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
+    assert(n_worker_threads_busy == 0);
+    ++n_worker_threads_busy;
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_depth(depth_in_plies);
     send_best_move(calculated_move);
+    --n_worker_threads_busy;
 }
 
 void CCommandInterface::worker_go_nodes(int64_t nodes) {
+    assert(n_worker_threads_busy == 0);
+    ++n_worker_threads_busy;
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_nodes(nodes);
     send_best_move(calculated_move);
+    --n_worker_threads_busy;
 }
 
 void CCommandInterface::worker_go_movetime(int64_t time_milliseconds) {
+    assert(n_worker_threads_busy == 0);
+    ++n_worker_threads_busy;
     assert(time_milliseconds > 0);
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_movetime(time_milliseconds);
     send_best_move(calculated_move);
+    --n_worker_threads_busy;
 }
 
 void CCommandInterface::worker_go_time(
@@ -168,6 +181,8 @@ void CCommandInterface::worker_go_time(
         const int64_t white_increment_milliseconds,
         const int64_t black_increment_milliseconds,
         const int64_t moves_to_go) {
+    assert(n_worker_threads_busy == 0);
+    ++n_worker_threads_busy;
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_time(
         white_time_milliseconds,
@@ -176,9 +191,12 @@ void CCommandInterface::worker_go_time(
         black_increment_milliseconds,
         moves_to_go);
     send_best_move(calculated_move);
+    --n_worker_threads_busy;
 }
 
 bool CCommandInterface::test_move_generator() {
+    stop();
+    assert(n_worker_threads_busy == 0);
     EXPECT(CTestPerft::test_extended_depth());
     return true;
 }
@@ -188,11 +206,13 @@ void CCommandInterface::takeback() {
         CUciProtocol::send_error("Can not take back while calculating");
         return;
     }
+    assert(n_worker_threads_busy == 0);
     board.move_maker.takeback();
 }
 
 void CCommandInterface::on_exit() {
     stop(); 
+    assert(n_worker_threads_busy == 0);
     // Potential race condition here.
     // If we quit in the middle of a calculation, the last engine-move will not be saved, most probably
     board.game_saver.save_game();
