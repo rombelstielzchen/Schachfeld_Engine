@@ -31,6 +31,7 @@ bool CEngineTest::testing = false;
 
 bool CEngineTest::test_everything() {
     BEGIN_TESTSUITE("CEngineTest");
+    assert(testing == false);
     testing = true;
     EXPECT(CTestMathFunctions::test_everything());
      EXPECT(CTestTechnicalFunctions::test_everything());

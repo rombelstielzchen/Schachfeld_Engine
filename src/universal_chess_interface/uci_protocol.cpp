@@ -116,8 +116,7 @@ void CUciProtocol::process_message(const std::string &message) {
         interactive_console_mode = true;
         display_help();
     } else if (string_tokenizer.next_token_is("isready")) {
-        // Our first version is always and immediately ready
-        send_message("readyok");
+        handle_isready_query();
     } else if (string_tokenizer.next_token_is("perft")) {
         interactive_console_mode = true;
         (void)command_interface.test_move_generator();
@@ -284,5 +283,13 @@ void CUciProtocol::process_option(CStringTokenizer &string_tokenizer) {
 void CUciProtocol::display_board() {
     send_message(board.get_fen_position());
     send_message(board.as_is());
+}
+
+void CUciProtocol::handle_isready_query() const {
+    if (CEngineTest::is_testing()) {
+        send_message("busytesting");
+    } else {
+        send_message("readyok");
+    }
 }
 
