@@ -10,6 +10,7 @@
 #include "../evaluator/piece_square_value_tables.h"
 #include "../move_generator/test_perft.h"
 #include "../search/iterative_deepening.h"
+#include "../technical_functions/engine_test.h"
 #include "../technical_functions/standard_headers.h"
 #include "../technical_functions/testing.h"
 #include <unistd.h>
@@ -116,13 +117,18 @@ void CCommandInterface::new_game() {
 }
 
 void CCommandInterface::stop() {
-   if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop == true) {
+    if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop == true) {
         return;
-   }
+    }
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = true;
+    do {
+        // We do first sleep, then check the condition,
+        // in case we only want to self-test before quit.
+        std::this_thread::sleep_for(std::chrono::milliseconds(1234));
+    } while (CEngineTest::is_testing());
     constexpr int deci_seconds_to_wait_for_calculator_thread = 30;
     for (int j = 0; j < deci_seconds_to_wait_for_calculator_thread; ++j) {
-        sleep(100);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
         if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop == false) {
             break;
         }

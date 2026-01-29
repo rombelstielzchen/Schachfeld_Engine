@@ -29,33 +29,45 @@
 
 bool CEngineTest::testing = false;
 
-bool CEngineTest::test_everything() {
+void CEngineTest::test_everything() {
+    // TODO: maybe replace by a mutex to be extra-safe
+    if (testing) {
+        return;
+    }
+    std::thread worker_thread(test_thread_function);
+    worker_thread.detach();
+}
+
+void CEngineTest::test_thread_function() {
     BEGIN_TESTSUITE("CEngineTest");
     assert(testing == false);
     testing = true;
-    EXPECT(CTestMathFunctions::test_everything());
-     EXPECT(CTestTechnicalFunctions::test_everything());
-    EXPECT(CTestBoard::test_everything());
-    EXPECT(CTestBoardLogic::test_everything());
-    EXPECT(CTestMove::test_everything());
-    EXPECT(CTestMoveList::test_everything());
-    EXPECT(CTestMoveGenerator::test_everything());
-    EXPECT(CTestPerft::test_everything());
-    EXPECT(CTestMoveMaker::test_everything());
-    EXPECT(CTestPieceSquareValueTables::test_everything());
-    EXPECT(CTestPsvModifiers::test_everything());
-    EXPECT(CTestOracle::test_everything());
-    EXPECT(CTestEvaluator::test_everything());
-    EXPECT(CTestSafetyEvaluator::test_everything());
-    EXPECT(CTestExpertBasicMating::test_everything());
-    EXPECT(CTestStatistics::test_everything());
-    EXPECT(CTestDepthControl::test_everything());
-    EXPECT(CTestKillerHeuristic::test_everything());
-    EXPECT(CTestSearch::test_everything());
-    EXPECT(CTestOpeningBook::test_everything());
+    bool success = CTestMathFunctions::test_everything()
+        &&CTestTechnicalFunctions::test_everything()
+        && CTestBoard::test_everything()
+        && CTestBoardLogic::test_everything()
+        && CTestMove::test_everything()
+        && CTestMoveList::test_everything()
+        && CTestMoveGenerator::test_everything()
+        && CTestPerft::test_everything()
+        && CTestMoveMaker::test_everything()
+        && CTestPieceSquareValueTables::test_everything()
+        && CTestPsvModifiers::test_everything()
+        && CTestOracle::test_everything()
+        && CTestEvaluator::test_everything()
+        && CTestSafetyEvaluator::test_everything()
+        && CTestExpertBasicMating::test_everything()
+        && CTestStatistics::test_everything()
+        && CTestDepthControl::test_everything()
+        && CTestKillerHeuristic::test_everything()
+        && CTestSearch::test_everything()
+        && CTestOpeningBook::test_everything();
+    if (!success) {
+        CTEST << "[ERROR] CEngineTest::test_everything() failed." << std::endl;
+        exit(EXIT_FAILURE);
+    }
     CTEST << "[OK] CEngineTest::test_everything(): all " << testcase_counter  << " checks passed with success." << std::endl;
     board.set_start_position();
     testing = false;
-    return true;
 }
 
