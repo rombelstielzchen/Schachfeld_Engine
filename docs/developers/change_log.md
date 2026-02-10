@@ -3,7 +3,9 @@ Major Changes
 
 Version 1.0
 -----------
-* TattooAngel -- finally we found a name for our baby!
+* MaterialGirl-- finally we found a name for our baby!
+* A stress-test script for massive external testing.
+* Improved piece-square-value-tables for the queen and a new experts-module for the endgame-queen,
 
 Version 0.m
 -----------

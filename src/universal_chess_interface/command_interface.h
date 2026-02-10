@@ -38,9 +38,10 @@ class CCommandInterface {
   public:
     void go_searchmoves(std::string &moves);
     void takeback();
-  public:
+  public: // TODO: const
     bool test_move_generator();
     void show_main_psv_tables();
+    static bool any_worker_thread_busy() { return (n_worker_threads_busy > 0); }
   private:
     static void send_best_move(const std::string &best_move);
     static void send_best_move(SMove best_move);
@@ -57,6 +58,7 @@ class CCommandInterface {
         const int64_t moves_to_go);
   private:
     static int n_worker_threads_busy;
+    static std::mutex board_ownership;
     CMasterBook master_book;
 };
 

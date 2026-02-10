@@ -6,6 +6,7 @@
 #include "evaluator.h"
 #include "piece_square_value_tables.h"
 #include "../board/board.h"
+#include "../universal_chess_interface/uci_protocol.h"
 
 CEvaluator::CEvaluator() {
     // No full init() here, as the board might be not yet initialized,
@@ -31,7 +32,8 @@ void CEvaluator::log_board_evaluation() const {
                 assert(is_any_piece(piece));
                 int value = evaluate_square(j, k);
                 assert(value != 0);
-                std::cerr << piece << file_as_text(j) << rank_as_text(k) << ": " << value <<"\n";
+                std::string message = piece + file_as_text(j) + rank_as_text(k) + ": " + value;
+                CUciProtocol::send_info(message);
             }
         }
     }

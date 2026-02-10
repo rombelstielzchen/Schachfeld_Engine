@@ -17,7 +17,7 @@ bool CExpertEndgameQueen::is_responsible() const {
 void CExpertEndgameQueen::apply_knowledge() {
     // d5 is the center of gravity, because:
     //   * forward activity is important
-    //   * queenside is usually more important than kingside (passers, week pawns)
+    //   * queenside is usually more important than kingside (passers, weak pawns)
     //   * we also want to protect a potentially weak fianchetto-diagonal
     constexpr int evaluation_delta_per_square = 5;
     CPsvModifier::make_gradient(main_piece_square_value_table_set[WHITE_QUEEN], D5, evaluation_delta_per_square);

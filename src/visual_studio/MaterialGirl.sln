@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.10.35027.167
+VisualStudioVersion = 17.14.36414.22 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TattooAngel", "TattooAngel.vcxproj", "{10ADCF07-E107-4A7D-B007-A89BE4783BED}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MaterialGirl", "MaterialGirl.vcxproj", "{10ADCF07-E107-4A7D-B007-A89BE4783BED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +26,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {E6C45C5D-CBEB-45CD-BB29-0413109F8D51}
+		SolutionGuid = {AFA102D5-EA61-44AC-82B1-DB31B9645B26}
 	EndGlobalSection
 EndGlobal

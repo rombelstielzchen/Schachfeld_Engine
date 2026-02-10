@@ -55,7 +55,7 @@ bool is_eng_passeng(const SMove &move) {
 
 bool is_promotion(const SMove &move) {
     assert(is_null_move(move) || move_in_range(move));
-    ///assert(is_any_piece(board.get_square(move.source)));
+    assert(is_null_move(move) || is_any_piece(board.get_square(move.source)));
     switch (move.move_type) {
         case WHITE_KNIGHT:
         case WHITE_BISHOP:
@@ -72,7 +72,6 @@ bool is_promotion(const SMove &move) {
         case BLACK_POWER:
         case BLACK_KING:
             assert(THIS_MUST_NOT_HAPPEN);
-            /// IT HAPPENS
             return false;
         default:
             return false;

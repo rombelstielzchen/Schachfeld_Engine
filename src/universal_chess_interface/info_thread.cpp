@@ -32,8 +32,11 @@ void CInfoThread::thread_function() {
         if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
             continue;
         }
-        send_hash_statistics();
-        send_principal_variation();
+        // Put statistics that will always be send below
+        if (CCommandInterface::any_worker_thread_busy()) {
+            send_hash_statistics();
+            send_principal_variation();
+        }
     }
 }
 

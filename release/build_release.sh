@@ -8,7 +8,7 @@
 # Preconditions:
 #   * Linux-engine built and tested, simply "make"
 #   * Windows engine built with MiSo ViStu in Release-mode
-#   * Windows-executable renamed with version-number, e.g. TattooAngel_3.1
+#   * Windows-executable renamed with version-number, e.g. MaterialGirl_3.1
 #   * Executable moved to binaries-directory. see below ...
 
 BIN_DIR='../older_versions'
@@ -21,10 +21,10 @@ else
     exit
 fi
 echo "### Packaing Release ###"
-# Get path to "last" executable, alphabetically
-BINARY=$(ls -d -1 $BIN_DIR/* | tail -1)
+# Get path to last executable, sorte by date
+BINARY=$(ls -t -1 $BIN_DIR/* | grep exe | head -1)
 # Get the name without exe-extension, to be used as directory-namee
-TARGET_DIR=$(ls -1 $BIN_DIR/* | tail -1 | xargs basename | sed -e "s/\.exe//;")
+TARGET_DIR=$(ls -t -1 $BIN_DIR/* | grep exe | head -1 | xargs basename | sed -e "s/\.exe//;")
 ZIP_FILE=$(echo $TARGET_DIR | sed -e "s/$/.zip/;")
 
 # Copying all needed files

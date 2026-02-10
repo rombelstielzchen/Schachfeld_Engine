@@ -62,7 +62,6 @@ SMove CIterativeDeepening::search_time(
         const int64_t white_increment_milliseconds,
         const int64_t black_increment_milliseconds,
         const int64_t moves_to_go) {
-    DEBUG_METHOD();
     reset();
     assert(white_time_milliseconds >= 0);
     assert(black_time_milliseconds >= 0);

@@ -12,7 +12,7 @@
 #
 # ATTENTION!
 #
-# Connecting the engine via pipeto the intermediate_file seems to be broken on Windows,
+# Connecting the engine via pipe to the intermediate_file seems to be broken on Windows,
 # Therefore validation of the result temp disabled on Windows.
 
 use strict;
@@ -20,8 +20,19 @@ use warnings;
 use File::Basename;
 use Time::HiRes 'usleep';
 
+### Constants and global variables #####
+
 use constant true => 1;
 use constant false => 0;
+
+my $intermediate_file = 'temp.txt';
+my $result_file = 'temp2.txt';
+my $pgn_file = "schachfeld_games.pgn";
+
+my $engine_PID = -1;
+my $output_pipe;
+my $startup_safety_delay_sec = 220;
+my$ selftest_chosen = false;
 
 STDOUT->autoflush(1);
 print "### UCI-Test ###\n";
@@ -31,9 +42,20 @@ print "### UCI-Test ###\n";
 my $n_repetitions = 1;
 if ((scalar(@ARGV) == 1) && ($ARGV[0] eq "--stress")) {
     print "Stress-test chosen\n";
-    $n_repetitions = 12;
+    $selftest_chosen = true;
+    $n_repetitions = 1234;
+} elsif ((scalar(@ARGV) == 1) && ($ARGV[0] eq "--selftest")) {
+    print "Selftest only\n";
+    $selftest_chosen = true;
+    $n_repetitions = 0;
+} elsif ((scalar(@ARGV) == 1) && ($ARGV[0] eq "--quit")) {
+    print "Early exit chosen\n";
+    $n_repetitions = 0;
+} elsif (scalar(@ARGV) > 0) {
+    die "ERROR: Unknown argument(s): @ARGV";
 }
 print "Repetitions: $n_repetitions:\n";
+print "Selftest chosen: $selftest_chosen\n";
 
 my $engine_command = '../src/engine';
 my $os_version = `cat /proc/version`;
@@ -42,24 +64,20 @@ my $is_windows = ($os_version ~~ m/MINGW/);
 if ($is_windows) {
     print "Operating-system: Windows\n";
     print "Choosing latest executable from 'older_versions'\n";
-    $engine_command = `ls -d -1 ../older_versions/* | grep -i exe | tail -1`;
+    $engine_command = `ls -t -1 ../older_versions/* | grep -i exe | head -1`;
 } else {
     print "Operating-system: Linux\n";
     print "Choosing default engine\n";
 }
 print "Chess-engine: $engine_command\n";
-
-my $engine_PID = -1;
-my $output_pipe;
-my $intermediate_file = 'temp.txt';
-my $result_file = 'temp2.txt';
-my $pgn_file = "schachfeld_games.pgn";
-my $startup_safety_delay_sec = 220;
 my $test_timeout_sec = 300;
 
 ### BOMP ### Begin Of Main Program #####
 `touch $intermediate_file`;
 start_engine();
+if ($selftest_chosen) {
+    send_message('test');
+}
 for (my $j = 1; $j <= $n_repetitions; ++$j) {
        print "Starting iteration $j of $n_repetitions\n";
        test_all();
@@ -122,18 +140,10 @@ sub start_engine {
 }
 
 sub await_ready_engine {
-    print "Awaiting ready engine...\n";
-    for (my $j = $startup_safety_delay_sec; $j > 0; --$j) {
-        print "Ready for operations in $j seconds\n";
-        send_message('isready');
-        sleep(1);
-        if (intermediate_contains('readyok')) {
-            # Ignore, in case the internal self-test is not yet running
-        } elsif (intermediate_contains('busytesting')) {
-            EXPECT('CEngineTest finished. Ready for play, analysis or external testing.');
-            last; 
-        }
-    }
+    # Nowadays the selftest is blocking again and no longer starting automatically.
+    # So all we have to do: query readiness
+    send_message('isready');
+    EXPECT('readyok');
 }
 
 sub close_engine {
@@ -147,13 +157,6 @@ sub close_engine {
     sleep(3);
     send_message('quit');
     EXPECT('bestmove d8e8');
-}
-
-sub await_ready_engine_ {
-    for (my $j = $startup_safety_delay_sec; $j > 0; --$j) {
-        print "Ready for operations in $j seconds\n";
-        sleep(1);
-    }
 }
 
 END {

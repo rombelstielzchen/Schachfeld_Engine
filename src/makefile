@@ -342,11 +342,20 @@ clean:
 	find . -name '*.gch' | xargs rm -f
 	find . -name '*.pch' | xargs rm -f
 	### Remove all object files
+	find . -name '*.idb' | xargs rm -f
+	find . -name '*.ilk' | xargs rm -f
+	find . -name '*.iobj' | xargs rm -f
 	find . -name '*.o' | xargs rm -f
 	find . -name '*.obj' | xargs rm -f
+	find . -name '*.pdb' | xargs rm -f
+	find . -name '*.vsidx' | xargs rm -f
+	find . -name '*.VC.db' | xargs rm -f
 	# Remove logs
 	find . -name 'debug.txt' | xargs rm -f
+	find . -name 'fail.txt' | xargs rm -f
 	find . -name 'schachfeld_games.pgn' | xargs rm -f
+	find . -name '*.log' | xargs rm -f
+	find . -name '*.tlog' | xargs rm -r -f
 
 .PHONY: "exe
 exe:
@@ -402,7 +411,7 @@ stats:
 test:
 	### Testing engine, executing a quick self-test, without UCI.
 	# For more tests see the "test" directory.
-	echo "quit" | ./engine
+	printf "test\nquit" | ./engine
 
 .PHONY: todo
 todo:

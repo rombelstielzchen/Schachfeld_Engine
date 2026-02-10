@@ -23,7 +23,8 @@ DEVENV='/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/deve
 PARTS='vcxproj_parts/'
 VCX_START="${PARTS}vcxproj.start.xml"
 VCX_END="${PARTS}vcxproj.end.xml"
-VCXPROJ="TattooAngel.vcxproj"
+VCXPROJ="MaterialGirl.vcxproj"
+SOLUTION="MaterialGirl.sln"
 TMP_CPP='cpp.tmp'
 TMP_H='h.tmp'
 
@@ -31,7 +32,7 @@ echo 'Going to create MiSo ViStu files...'
 # Collecting data
 find .. -iname *.cpp | sed '/\/docu_/d' | sed 's/^/<clCompile Include=\"/' | sed 's/$/\"\/>/' > "${TMP_CPP}"
 find .. -iname *.h | sed '/\/docu_/d' | sed 's/^/<clInclude Include=\"/' | sed 's/$/\"\/>/'  > "${TMP_H}"
-# VCXPROJ
+# Create VCXPROJ
 cp "${VCX_START}" "${VCXPROJ}"
 cat "${TMP_CPP}" >> "${VCXPROJ}"
 echo "  </ItemGroup>" >> "${VCXPROJ}"
@@ -43,14 +44,16 @@ cat "${VCX_END}" >> "${VCXPROJ}"
 rm -f "${TMP_CPP}"
 rm -f "${TMP_H}"
 wc *.vcxproj
-
-echo 'Going to build project ...'
+# We build the solution. not the project, ...
+#   * because of build-options
+#   * because of potential auxiliary projects in the future 
+echo 'Going to build solution ...'
 # hhttps://learn.microsoft.com/en-us/visualstudio/ide/reference/devenv-command-line-switches?view=vs-2022ttps://learn.microsoft.com/en-us/visualstudio/ide/reference/devenv-command-line-switches?view=vs-2022
-"${DEVENV}" "${VCXPROJ}" -build
+"${DEVENV}" "${SOLUTION}" -build
 ls -o x64/Release/*.exe
 
 # Copying executable to new destination
-EXE="./x64/Release/TattooAngel.exe"
+EXE="./x64/Release/MaterialGirl.exe"
 ENGINE_VERSION=$(printf "uci\nquit\n" | ("$EXE" 2> /dev/null) | grep "id name" | sed "{ s/id name //; }")
 echo "Found engine version: $ENGINE_VERSION"
 NEW_NAME="${ENGINE_VERSION}.exe"

@@ -300,7 +300,7 @@ bool CTestSearch::test_go_movetime() {
 
 bool CTestSearch::test_repeated_mate_in_one() {
     TEST_FUNCTION();
-    // This test raised assertions in the uCI-stresstest
+    // This test once raised assertions in the UCI-stresstest
     std::string mate_in_one = "startpos moves f2f3 e7e5 g2g4";
     constexpr int n_repetitions = 20;
     SILENT_EXPECT(board.set_fen_position(mate_in_one));

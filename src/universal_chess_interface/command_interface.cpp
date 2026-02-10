@@ -13,9 +13,15 @@
 #include "../technical_functions/engine_test.h"
 #include "../technical_functions/standard_headers.h"
 #include "../technical_functions/testing.h"
+
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 
 int CCommandInterface::n_worker_threads_busy = 0;
+std::mutex CCommandInterface::board_ownership;
+
+#define ACQUIRE_BOARD_OWNERSHIP() std::lock_guard<std::mutex> lock(board_ownership)
 
 CCommandInterface::CCommandInterface() {
 }
@@ -111,28 +117,17 @@ void CCommandInterface::go_time(
 void CCommandInterface::new_game() {
     stop(); 
     assert(n_worker_threads_busy == 0);
+    ACQUIRE_BOARD_OWNERSHIP();
     board.game_saver.save_game();
     board.set_start_position();
     master_book.on_new_game();
 }
 
 void CCommandInterface::stop() {
-    if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop == true) {
-        return;
-    }
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = true;
-    do {
-        // We do first sleep, then check the condition,
-        // in case we only want to self-test before quit.
-        std::this_thread::sleep_for(std::chrono::milliseconds(1234));
-    } while (CEngineTest::is_testing());
-    constexpr int deci_seconds_to_wait_for_calculator_thread = 30;
-    for (int j = 0; j < deci_seconds_to_wait_for_calculator_thread; ++j) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop == false) {
-            break;
-        }
-    }
+    // Self-test runs now blocking within the UCI-thread, so ...
+    assert(CEngineTest::is_testing() == false);
+    ACQUIRE_BOARD_OWNERSHIP();
     assert(n_worker_threads_busy == 0);
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;
 }
@@ -142,6 +137,7 @@ void CCommandInterface::set_position(const std::string &fen_position) {
     assert(CEngineTest::is_testing() == false);
     stop();
     assert(n_worker_threads_busy == 0);
+    ACQUIRE_BOARD_OWNERSHIP();
     if(board.set_fen_position(fen_position)) {
         std::string confirmation = "new position: " + board.get_fen_position();
         CUciProtocol::send_info(confirmation); 
@@ -163,6 +159,7 @@ void CCommandInterface::send_best_move(SMove best_move){
 void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
     assert(n_worker_threads_busy == 0);
     ++n_worker_threads_busy;
+    ACQUIRE_BOARD_OWNERSHIP();
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_depth(depth_in_plies);
     send_best_move(calculated_move);
@@ -172,6 +169,7 @@ void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
 void CCommandInterface::worker_go_nodes(int64_t nodes) {
     assert(n_worker_threads_busy == 0);
     ++n_worker_threads_busy;
+    ACQUIRE_BOARD_OWNERSHIP();
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_nodes(nodes);
     send_best_move(calculated_move);
@@ -181,6 +179,7 @@ void CCommandInterface::worker_go_nodes(int64_t nodes) {
 void CCommandInterface::worker_go_movetime(int64_t time_milliseconds) {
     assert(n_worker_threads_busy == 0);
     ++n_worker_threads_busy;
+    ACQUIRE_BOARD_OWNERSHIP();
     assert(time_milliseconds > 0);
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_movetime(time_milliseconds);
@@ -196,6 +195,7 @@ void CCommandInterface::worker_go_time(
         const int64_t moves_to_go) {
     assert(n_worker_threads_busy == 0);
     ++n_worker_threads_busy;
+    ACQUIRE_BOARD_OWNERSHIP();
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_time(
         white_time_milliseconds,
@@ -210,30 +210,30 @@ void CCommandInterface::worker_go_time(
 bool CCommandInterface::test_move_generator() {
     stop();
     assert(n_worker_threads_busy == 0);
+    ACQUIRE_BOARD_OWNERSHIP();
     EXPECT(CTestPerft::test_extended_depth());
     return true;
 }
 
 void CCommandInterface::takeback() {
-    if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop == false) {
-        CUciProtocol::send_error("Can not take back while calculating");
-        return;
+    if (any_worker_thread_busy()) {
+        stop();
+        CUciProtocol::send_info("Calculation stopped for takeback");
     }
     assert(n_worker_threads_busy == 0);
+    ACQUIRE_BOARD_OWNERSHIP();
     board.move_maker.takeback();
 }
 
 void CCommandInterface::on_exit() {
     CUciProtocol::send_info("Confirming quit");
     stop(); 
-    std::cerr << "stopped\n";
+    CUciProtocol::send_info("calculator-threads stopped");
     assert(n_worker_threads_busy == 0);
     // Potential race condition here.
-    // If we quit in the middle of a calculation, the last engine-move will not be saved, most probably
+    // TODO: the last engine-move is not yet stored in the move_history
     board.game_saver.save_game();
-    CUciProtocol::send_info("\n### End Of Session ###########\n");
-    flush(std::cout);
-    flush(std::cerr);
+    CUciProtocol::send_info("### End Of Session ###########");
 }
 
 void CCommandInterface::show_main_psv_tables() {

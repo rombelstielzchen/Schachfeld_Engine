@@ -62,7 +62,7 @@ bool CDepthControl::go_deeper(const int current_depth) const {
 }
 
 bool CDepthControl::enough_time_left_for_one_more_iteration() const {
-    constexpr int estimated_branching_factor = 6;
+    constexpr int estimated_branching_factor = 3;
     assert(search_statistics.used_time_milliseconds() >= 0);
     return (dc_movetime_ms > estimated_branching_factor * search_statistics.used_time_milliseconds());
 }

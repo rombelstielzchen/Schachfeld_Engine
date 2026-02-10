@@ -35,8 +35,10 @@ void CEngineTest::test_everything() {
     if (testing) {
         return;
     }
-    std::thread worker_thread(test_thread_function);
-    worker_thread.detach();
+    // Blocking call to the test-function
+    // in order to ease the interaction of selftest and external tests,
+    // no longer using a separate thread
+    test_thread_function();
 }
 
 void CEngineTest::test_thread_function() {
@@ -63,6 +65,7 @@ void CEngineTest::test_thread_function() {
         && CTestKillerHeuristic::test_everything()
         && CTestSearch::test_everything()
         && CTestOpeningBook::test_everything();
+    board.set_start_position();
     if (!success) {
         CTEST << "[ERROR] CEngineTest::test_everything() failed." << std::endl;
         exit(EXIT_FAILURE);
@@ -70,7 +73,6 @@ void CEngineTest::test_thread_function() {
     CTEST << "[OK] CEngineTest::test_everything(): all " << testcase_counter  << " checks passed with success." << std::endl;
     // CTEST writes to cerr; UCI and test-scripts use STDIO. So...
     CUciProtocol::send_info("CEngineTest finished. Ready for play, analysis or external testing.");
-    board.set_start_position();
     testing = false;
 }
 

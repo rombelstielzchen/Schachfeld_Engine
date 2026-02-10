@@ -96,6 +96,8 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     // Castling direction (black)
     { "r4rk1/PPP/BBB/////4KB b", "2kr3r/ppp/BBB/////4KB b" },
     { "2kr3r/5ppp/5bbb/////6BK b", "r4rk/5ppp/5bbb/////6BK b" },
+    // Scandinavian: 3...Qa5 is better (for black) than Qe6
+    { "rnb1kbnr/ppp1pppp/4q////PPPP1PPP/RNBQKBNR w", "rnb1kbnr/ppp1pppp//q///PPPP1PPP/RNBQKBNR w"} ,
 };
 
 bool CTestEvaluator::test_everything() {

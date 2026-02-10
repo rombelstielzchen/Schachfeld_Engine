@@ -12,23 +12,27 @@
 #include "../technical_functions/engine_test.h"
 #include "../technical_functions/standard_headers.h"
 
-const std::string ENGINE_ID = "TattooAngel_1.0";
+const std::string ENGINE_ID = "MaterialGirl_1.0";
 static_assert('a' > '9');
 
 bool CUciProtocol::interactive_console_mode = false;
 
 CUciProtocol::CUciProtocol() {
-    // Use std::cerr here; std::cout is reserved for the protocol
-    std::cerr << ENGINE_ID << "\n";
-    std::cerr << "'help' or '?' for some guidance\n";
+    send_info(ENGINE_ID);
+    send_info("'help' or '?' for some guidance");
     // Init the one and only info_thread immediately for convenience
     CInfoThread info_thread;
 }
 
+CUciProtocol::~CUciProtocol() {
+    flush(std::cout);
+    flush(std::cerr);
+}
+
 /* static */ void CUciProtocol::send_message(const std::string &message) {
     // Used by both UCI-thread and calculator-thread, therefore mutex-protected
-        std::mutex message_mutex;
-        std::lock_guard<std::mutex> lock(message_mutex);
+        static std::mutex unique_message_mutex;
+        std::lock_guard<std::mutex> lock(unique_message_mutex);
     // UCI standard says:
     //   * communication via text-IO
     //   * every message should end with a new-line, "\n"
@@ -50,12 +54,13 @@ void CUciProtocol::send_list_of_options() const {
         + "var wonder_weapons"
         + "var solid_mix");
     send_message(std::string("option name UCI_EngineAbout type string ")
-        + "default Schachfeld-engine by Rombelstielzchen. "
+        + "default OurLittleAngel  by Rombelstielzchen. "
         + "Protocol: UCI. "
         + "Licensed as open-source under GPLv3. "
         + "Contact:  https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby "
-        + "Source-code: https://github.com/rombelstielzchen/Schachfeld_Engine");
+        + "Source-code: https://github.com/rombelstielzchen/Schachfeld_Engine ");
     // Options for the future
+    /* TODO; enable these options, once needed
     send_message(std::string("option name hash type spin ")
         + "default 1 "
         + "min 1 "
@@ -66,6 +71,7 @@ void CUciProtocol::send_list_of_options() const {
         + "default 3456 "
         + "min 1 "
         + "max 3456 ");
+    */
 }
 
 void CUciProtocol::send_info(const std::string &information) {
@@ -238,9 +244,10 @@ void CUciProtocol::dynamic_sleep(const std::string &last_message) const {
     static int delay_in_ms = 0;
     constexpr int max_delay = 500;
     constexpr int delta_delay = 50;
-    delay_in_ms += (last_message != "") ? delta_delay : 0;
+    delay_in_ms += (last_message == "") ? delta_delay : 0;
     delay_in_ms = std::min(delay_in_ms, max_delay);
-    delay_in_ms = (last_message != "") ? delay_in_ms : 0;
+    delay_in_ms = (last_message == "") ? delay_in_ms : 0;
+    assert((delay_in_ms == 0) || (last_message == ""));
     std::this_thread::sleep_for(std::chrono::milliseconds(delay_in_ms));
 }
 

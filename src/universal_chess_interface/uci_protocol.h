@@ -14,6 +14,7 @@ constexpr int uci_first_movenumber = 1;
 class CUciProtocol {
   public:
     CUciProtocol();
+    ~CUciProtocol();
   public:
     void message_loop();
     static void send_message(const std::string &message);
