@@ -62,6 +62,7 @@ OBJECT_FILES :=  \
 	expert_castling_direction.o \
 	expert_endgame_king_activity.o \
 	expert_endgame_pawn.o \
+	expert_endgame_queen.o \
 	expert_general.o \
 	fen_generator.o \
 	fen_parser.o \
@@ -242,6 +243,9 @@ expert_endgame_king_activity.o: evaluator/knowledge/endgame/expert_endgame_king_
 	$(CXX) $(CXXFLAGS) $^
 
 expert_endgame_pawn.o: evaluator/knowledge/endgame/expert_endgame_pawn.cpp
+	$(CXX) $(CXXFLAGS) $^
+
+expert_endgame_queen.o: evaluator/knowledge/endgame/expert_endgame_queen.cpp
 	$(CXX) $(CXXFLAGS) $^
 
 expert_general.o: evaluator/knowledge/general/expert_general.cpp
