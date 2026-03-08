@@ -72,7 +72,7 @@ bool CFenParser::parse_piece_placement(const std::string &partial_input) {
             case BLACK_BISHOP:
             case BLACK_KNIGHT:
             case BLACK_POWER:
-                board.squares[x][y] = c;
+                board.board_state.squares[x][y] = c;
                 ++x;
                 break;
             case '1' : 

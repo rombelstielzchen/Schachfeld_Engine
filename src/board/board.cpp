@@ -7,6 +7,7 @@
 #include "fen_generator.h"
 #include "fen_parser.h"
 #include "../evaluator/evaluator.h"
+#include "../move_generator/move.h"
 #include "../technical_functions/standard_headers.h"
 
 CBoard::CBoard() {
@@ -22,19 +23,20 @@ CBoard::CBoard() {
 void CBoard::init_garden_fence() {
     for (int j = 0; j < BOARDSIZE_X; ++j) {
         for (int k = 0; k < BOARDSIZE_Y; ++k) {
-            squares[j][k] = GARDEN_FENCE;
+            board_state.squares[j][k] = GARDEN_FENCE;
         }
-        squares[j][RANK_NEWLINE_CHARACTER] = '\n';
+        board_state.squares[j][RANK_NEWLINE_CHARACTER] = '\n';
     }
-    // Data ends with newline and string-termination for using as_is()
-    squares[FILE_LAST][RANK_NEWLINE_CHARACTER - 1] = '\n';
-    squares[FILE_LAST][RANK_NEWLINE_CHARACTER] = '\0';
+    board_state.empty_1 = ' ';
+    board_state.empty_2 = ' ';
+    board_state.final_newline = '\n';
+    board_state.terminating_null = '\0';
 }
 
 void CBoard::clear_board_squares() {
     for (int j = FILE_A; j <= FILE_H; ++j) {
         for (int k = RANK_1; k <= RANK_8; ++k) {
-            squares[j][k] = EMPTY_SQUARE;
+            board_state.squares[j][k] = EMPTY_SQUARE;
         }
     }
     initial_position_before_moves = "";
@@ -60,10 +62,10 @@ std::string CBoard::get_fen_position() const {
     return CFenGenerator::get_fen_position(); 
 }
 
-const char*  CBoard::as_is() const {
-    assert(squares.back()[0] != '\0');
-    assert(squares.back().back() == '\0');
-    return &squares[0][0];
+const char* CBoard::as_is() {
+    assert(board_state.terminating_null == '\0');
+    fill_up_printable_game_state();
+    return &board_state.squares[0][0];
 }
 
 TSquare CBoard::get_square(const int file, const int rank) const {
@@ -72,7 +74,7 @@ TSquare CBoard::get_square(const int file, const int rank) const {
     assert(file <= FILE_LAST);
     assert(rank >= 0);
     assert(rank <= RANK_NEWLINE_CHARACTER);
-    return squares[file][rank];
+    return board_state.squares[file][rank];
 }
 
 bool CBoard::square_is_empty(const int file, const int rank) const {
@@ -124,14 +126,14 @@ bool CBoard::get_castling_rights(char move_type) const {
 void CBoard::clear_square(const SSquare square) {
     assert(square_in_range(square));
     evaluator.incremental_clear_square(square);
-    squares[square.file][square.rank] = EMPTY_SQUARE;
+    board_state.squares[square.file][square.rank] = EMPTY_SQUARE;
 }
 
 void CBoard::put_piece(const SSquare square, char piece) {
     assert(square_in_range(square));
    assert(is_any_piece(piece) || (piece == EMPTY_SQUARE));
     evaluator.incremental_clear_square(square);
-    squares[square.file][square.rank] = piece;
+    board_state.squares[square.file][square.rank] = piece;
     evaluator.incremental_add(square);
 }
 
@@ -140,5 +142,19 @@ std::string CBoard::moves_from_startpos() const {
         return move_maker.moves_from_initial_position();
     }
     return NO_MOVES_FROM_STARTPOS; 
+}
+
+size_t CBoard::get_hash() {
+    // TODO: Zobrist-hashing
+    return std::hash<std::string>{}(as_is());
+}
+
+void CBoard::fill_up_printable_game_state() {
+    board_state.side_to_move = (get_side_to_move() == WHITE_PLAYER) ? 'w' : 'b';
+    board_state.castling_rights[0] = get_castling_rights(MOVE_TYPE_WHITE_LONG_CASTLING) ? MOVE_TYPE_WHITE_LONG_CASTLING : '-';
+    board_state.castling_rights[1] = get_castling_rights(MOVE_TYPE_WHITE_SHORT_CASTLING) ? MOVE_TYPE_WHITE_SHORT_CASTLING : '-';
+    board_state.castling_rights[2] = get_castling_rights(MOVE_TYPE_BLACK_LONG_CASTLING) ? MOVE_TYPE_BLACK_LONG_CASTLING : '-';
+    board_state.castling_rights[3] = get_castling_rights(MOVE_TYPE_BLACK_SHORT_CASTLING) ? MOVE_TYPE_BLACK_SHORT_CASTLING : '-';
+    board_state.eng_passeng_file = file_in_range(eng_passeng_file) ? file_as_text(eng_passeng_file) : '-';
 }
 

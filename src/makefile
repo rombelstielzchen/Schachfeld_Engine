@@ -96,6 +96,7 @@ OBJECT_FILES :=  \
 	test_depth_control.o \
 	test_evaluator.o \
 	test_expert_basic_mating.o \
+	test_hash_function.o \
 	test_killer_heuristics.o \
 	test_math_functions.o \
 	test_move.o \
@@ -180,6 +181,9 @@ engine_test.o: technical_functions/engine_test.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
 test_board.o: board/test_board.cpp
+	$(CXX) $(CXXFLAGS) $^ 
+
+test_hash_function.o: board/test_hash_function.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
 test_technical_functions.o: technical_functions/test_technical_functions.cpp

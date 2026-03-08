@@ -9,6 +9,7 @@
 #include "test_technical_functions.h"
 #include "../board/test_board.h"
 #include "../board/test_board_logic.h"
+#include "../board/test_hash_function.h"
 #include "../board/test_move_maker.h"
 #include "../evaluator/test_evaluator.h"
 #include "../evaluator/knowledge/mating/test_expert_basic_mating.h"
@@ -31,10 +32,8 @@
 bool CEngineTest::testing = false;
 
 void CEngineTest::test_everything() {
-    // TODO: maybe replace by a mutex to be extra-safe
-    if (testing) {
-        return;
-    }
+    // Mutex-protected in CCommandInterface, therefore ... 
+    assert(testing == false);
     // Blocking call to the test-function
     // in order to ease the interaction of selftest and external tests,
     // no longer using a separate thread
@@ -54,6 +53,7 @@ void CEngineTest::test_thread_function() {
         && CTestMoveGenerator::test_everything()
         && CTestPerft::test_everything()
         && CTestMoveMaker::test_everything()
+        && CTestHashFunction::test_everything()
         && CTestPieceSquareValueTables::test_everything()
         && CTestPsvModifiers::test_everything()
         && CTestOracle::test_everything()
