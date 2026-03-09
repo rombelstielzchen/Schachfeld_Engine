@@ -23,6 +23,32 @@
 //    * using the board as_is() as a hash-key, at least for rapid prototyping
 typedef std::array<TSquare, BOARDSIZE_Y> TBoardColumn;
 
+constexpr int N_CASTLING_DIRECTIONS_LS_ls = 4;
+
+#pragma pack(push)
+#pragma pack(1)
+
+typedef struct {
+    // Using std::array instead of old-style C arrays.
+    // Advantages:
+    //   * std::arrays know their size and check memory-access in debug-mode
+    //   * in production they work exactly the same. Same speed!
+    std::array<TBoardColumn, BOARDSIZE_X> squares;
+    // The engine works with the data in the CBoard-class.
+    // If we want to print or hash the position, we have to clone some non-textual info first.
+    // Not included here are move_counter and _100_ply_draw_counter;
+    // they must not affect the decision whether two positions are equal.
+    char side_to_move;
+    char empty_1;
+    char castling_rights[N_CASTLING_DIRECTIONS_LS_ls];
+    char empty_2;
+    char eng_passeng_file;
+    char final_newline;
+    char terminating_null;
+} SPrintableBoardState;
+
+#pragma pack(pop)
+
 class CBoard {
     friend class CFenParser;
     friend class CMoveMaker;
@@ -35,7 +61,7 @@ class CBoard {
     std::string get_initial_position_before_moves() const { return initial_position_before_moves; }
     bool initial_position_was_startpos() const { return (get_initial_position_before_moves() == START_POSITION); };
     std::string moves_from_startpos() const;
-     const char* as_is() const;
+     const char* as_is();
   public:
     inline void flip_side_to_move() { side_to_move = !side_to_move; }
     void clear_square(const SSquare square);
@@ -58,26 +84,24 @@ class CBoard {
     void set_castling_rights(const char move_type, bool yes_no);
     bool get_castling_rights(char move_type) const;
   public:
+    size_t get_hash();
+  public:
     CEvaluator evaluator;
     CGameSaver game_saver;
     CMoveMaker move_maker;
   private:
     void clear_board_squares();
     void init_garden_fence();
+    void fill_up_printable_game_state();
   private:
-    // The board-state gets set by the FEN-parser
+    // All board-state gets set by the FEN-parser
+    SPrintableBoardState board_state;
     bool side_to_move;
     int eng_passeng_file;
     int move_counter;
     int _100_ply_draw_counter;
     // Some over-size supports easy access via MOVE_TYPE (char)
     std::array<bool, MOVE_TYPE_BLACK_SHORT_CASTLING + 1> castling_rights;
-  private:
-    // Using std::array instead of old-style C arrays.
-    // Advantages:
-    //   * std::arrays know their size and check memory-access in debug-mode
-    //   * in production they work exactly the same. Same speed!
-    std::array<TBoardColumn, BOARDSIZE_X> squares;
   private:
     std::string initial_position_before_moves;
 };
