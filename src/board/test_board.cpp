@@ -66,7 +66,8 @@ bool CTestBoard::test_as_is() {
         + "##NP____pn##\n"
         + "##RP____pr##\n"
         + "############\n"
-        + "###########\n\0";
+        + "############\n"
+        + "w LSls -\n";
     board.set_start_position();
     CTEST << "Expected:\n" << expected_result;
     CTEST << "Got:\n" << board.as_is();

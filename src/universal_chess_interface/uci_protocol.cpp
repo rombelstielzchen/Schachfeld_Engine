@@ -12,7 +12,7 @@
 #include "../technical_functions/engine_test.h"
 #include "../technical_functions/standard_headers.h"
 
-const std::string ENGINE_ID = "MaterialGirl_1.0";
+const std::string ENGINE_ID = "MaterialGirl_1.1";
 static_assert('a' > '9');
 
 bool CUciProtocol::interactive_console_mode = false;
