@@ -7,8 +7,10 @@
 
 #include "iterative_deepening.h"
 #include "depth_control.h"
+#include "hash_table.h"
 #include "search.h"
 #include "search_statistics.h"
+#include "../technical_functions/profiling.h"
 #include "../universal_chess_interface/command_interface.h"
 #include "../universal_chess_interface/uci_protocol.h"
 
@@ -94,8 +96,7 @@ SMove CIterativeDeepening::search_common_entry_point() {
     move_generator.generate_all();
     if (move_generator.move_list.king_capture_on_list()) {
         // This should happen only in case of some test-cases
-        constexpr int no_killer_distance_to_root = 0;
-        SMove king_capture = move_generator.move_list.get_next__capture_killer_silent(no_killer_distance_to_root);
+        SMove king_capture = move_generator.move_list.get_next__best_capture();
         assert(move_in_range(king_capture));
         assert(king_capture.potential_gain >= SCORE_HALF_KING);
         return king_capture;
@@ -165,6 +166,7 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
     assert(depth >= minimum_search_depth);
     CSearch search;
     search_statistics.on_new_depth(depth);
+    profiling.reset();
     SAlphaBetaWindow alpha_beta_window = INFINITE_ALPHA_BETA_WINDOW;
     assert(is_valid_alpha_beta_window(alpha_beta_window));
     int best_score = SCORE_TECHNICAL_MIN;
@@ -200,12 +202,15 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
             alpha_beta_window.alpha = std::max(alpha_beta_window.alpha, candidate_score);
             assert(is_valid_alpha_beta_window(alpha_beta_window));
             move_generator.move_list.shift_current_move_to_top();
+            hash_table.store_best_move(board.get_hash(), best_move);
+            // TODO:  below still needed with hashing?
             search_statistics.set_best_move(best_move, best_score);
         }
         board.move_maker.unmake_move();
     }
     assert((move_generator.move_list.get_next() == NULL_MOVE) || DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop);
     search_statistics.add_nodes(n_moves);
+    profiling.show_results();
     CUciProtocol::send_info(move_generator.move_list.as_text());
     search_statistics.on_finished_search();
     if (abs(best_score) > SCORE_HALF_KING) {

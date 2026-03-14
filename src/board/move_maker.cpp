@@ -108,9 +108,14 @@ void CMoveMaker::make_null_move() {
 }
 
 bool CMoveMaker::make_move(const std::string &long_algebraic_uci_move) {
+    std::cerr << board.as_is();
     CMoveGenerator move_generator;
     move_generator.generate_all();
+    std::cerr << "list_size: " << move_generator.move_list.list_size() << "\n";
+    std::cerr << move_generator.move_list.as_text() << "\n";
+    std::cerr << "long_algebraic_uci_move: " << long_algebraic_uci_move << "\n";
     SMove move = move_generator.move_list.lookup_move(long_algebraic_uci_move);
+    std::cerr << "move (from list): " << move << "\n";
     if (is_null_move(move)) {
         std::string message = std::string(" invalid move ") + long_algebraic_uci_move; 
         CUciProtocol::send_error(message);
@@ -202,9 +207,11 @@ void CMoveMaker::takeback() {
 }
 
 bool CMoveMaker::play_variation(const std::string &variation) {
+    std::cerr << "variation: " << variation << "\n";
     CStringTokenizer tokenizer(variation);
     std::string next_move = tokenizer.next_token();
     while (next_move != "") {
+        std::cerr << "next_move: " << next_move << "\n";
         if (!make_move(next_move)) {
             return false;
         }

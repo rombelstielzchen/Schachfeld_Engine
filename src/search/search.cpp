@@ -5,6 +5,7 @@
 #undef DEBUG_ENABLE_LOGGING
 
 #include "search.h"
+#include "hash_table.h"
 #include "killer_heuristics.h"
 #include "mate_score.h"
 #include "search_statistics.h"
@@ -12,6 +13,7 @@
 #include "../evaluator/evaluator.h"
 #include "../evaluator/score_constants.h"
 #include "../move_generator/move_generator.h"
+#include "../technical_functions/profiling.h"
 #include "../universal_chess_interface/command_interface.h"
 
 constexpr int QUIESCENCE_DEPTH = 31;
@@ -35,9 +37,13 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     if (move_generator.move_list.king_capture_on_list()) {
         return SCORE_ENEMY_KING_CAPTURED;
     }
+    profiling.increment(0);
+    profiling.increment_if(1, (move_as_text(hash_table.get_best_move(board.get_hash())) != "e1f7"));
+    profiling.increment_if(2,  move_generator.move_list.move_on_list(hash_table.get_best_move(board.get_hash())));
+    move_generator.move_list.integrate_hash_move(hash_table.get_best_move(board.get_hash()));
     int const n_moves = move_generator.move_list.list_size();
     for (int j = 0; j < n_moves; ++j) {
-        SMove move_candidate = move_generator.move_list.get_next__capture_killer_silent(distance_to_root);
+        SMove move_candidate = move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root);
         assert(is_null_move(move_candidate) == false);
         assert(move_in_range(move_candidate));
         board.move_maker.make_move(move_candidate);
@@ -60,6 +66,8 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
             if (score_causes_beta_cutoff(candidate_score, beta)) {
                 search_statistics.add_nodes(j + 1);
                 killer_heuristic.store_killer(distance_to_root, move_candidate);
+                profiling.increment(3);
+                hash_table.store_best_move(board.get_hash(), move_candidate);
                 return candidate_score;
             }
             best_score = candidate_score;

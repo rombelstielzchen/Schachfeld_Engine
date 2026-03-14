@@ -24,6 +24,7 @@
 #include "../move_generator/test_perft.h"
 #include "../opening_book/test_opening_book.h"
 #include "../search/test_depth_control.h"
+#include "../search/test_hash_table.h"
 #include "../search/test_killer_heuristics.h"
 #include "../search/test_search.h"
 #include "../search/test_statistics.h"
@@ -32,7 +33,7 @@
 
 bool CEngineTest::testing = false;
 
-void CEngineTest::test_everything() {
+void CEngineTest::test() {
     // Mutex-protected in CCommandInterface, therefore ... 
     assert(testing == false);
     // Blocking call to the test-function
@@ -44,37 +45,42 @@ void CEngineTest::test_everything() {
 void CEngineTest::test_thread_function() {
     BEGIN_TESTSUITE("CEngineTest");
     assert(testing == false);
-    testing = true;
-    bool success = CTestMathFunctions::test_everything()
-        &&CTestTechnicalFunctions::test_everything()
-        && CTestBoard::test_everything()
-        && CTestBoardLogic::test_everything()
-        && CTestDistances::test_everything()
-        && CTestMove::test_everything()
-        && CTestMoveList::test_everything()
-        && CTestMoveGenerator::test_everything()
-        && CTestPerft::test_everything()
-        && CTestMoveMaker::test_everything()
-        && CTestHashFunction::test_everything()
-        && CTestPieceSquareValueTables::test_everything()
-        && CTestPsvModifiers::test_everything()
-        && CTestOracle::test_everything()
-        && CTestEvaluator::test_everything()
-        && CTestSafetyEvaluator::test_everything()
-        && CTestExpertBasicMating::test_everything()
-        && CTestStatistics::test_everything()
-        && CTestDepthControl::test_everything()
-        && CTestKillerHeuristic::test_everything()
-        && CTestSearch::test_everything()
-        && CTestOpeningBook::test_everything();
-    board.set_start_position();
-    if (!success) {
+    if (!test_everything()) {
         CTEST << "[ERROR] CEngineTest::test_everything() failed." << std::endl;
         exit(EXIT_FAILURE);
     }
+    board.set_start_position();
     CTEST << "[OK] CEngineTest::test_everything(): all " << testcase_counter  << " checks passed with success." << std::endl;
     // CTEST writes to cerr; UCI and test-scripts use STDIO. So...
     CUciProtocol::send_info("CEngineTest finished. Ready for play, analysis or external testing.");
     testing = false;
+}
+
+bool CEngineTest::test_everything() {
+    TEST_FUNCTION();
+    EXPECT(CTestMathFunctions::test_everything());
+    EXPECT(CTestTechnicalFunctions::test_everything());
+    EXPECT(CTestBoard::test_everything());
+    EXPECT(CTestBoardLogic::test_everything());
+    EXPECT(CTestDistances::test_everything());
+    EXPECT(CTestMove::test_everything());
+    EXPECT(CTestMoveList::test_everything());
+    EXPECT(CTestMoveGenerator::test_everything());
+    EXPECT(CTestPerft::test_everything());
+    EXPECT(CTestMoveMaker::test_everything());
+    EXPECT(CTestHashFunction::test_everything());
+    EXPECT(CTestPieceSquareValueTables::test_everything());
+    EXPECT(CTestPsvModifiers::test_everything());
+    EXPECT(CTestOracle::test_everything());
+    EXPECT(CTestEvaluator::test_everything());
+    EXPECT(CTestSafetyEvaluator::test_everything());
+    EXPECT(CTestExpertBasicMating::test_everything());
+    EXPECT(CTestStatistics::test_everything());
+    EXPECT(CTestDepthControl::test_everything());
+    EXPECT(CTestHashTable::test_everything());
+    EXPECT(CTestKillerHeuristic::test_everything());
+    EXPECT(CTestSearch::test_everything());
+    EXPECT(CTestOpeningBook::test_everything());
+    return true;
 }
 

@@ -144,7 +144,7 @@ std::string CBoard::moves_from_startpos() const {
     return NO_MOVES_FROM_STARTPOS; 
 }
 
-size_t CBoard::get_hash() {
+THashKey CBoard::get_hash() {
     // TODO: Zobrist-hashing
     return std::hash<std::string>{}(as_is());
 }

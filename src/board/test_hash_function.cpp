@@ -11,11 +11,15 @@ bool CTestHashFunction::test_everything() {
     BEGIN_TESTSUITE("CTestHashFunction");
     EXPECT(hash_position(START_POSITION) != 0);
     EXPECT(hash_position(START_POSITION) != hash_position("k1K w"));
-//    EXPECT(hash_position("k1K b") != hash_position("k1K w"));
-//    EXPECT(hash_position("k1K b KQ") != hash_position("k1K b kq"));
-//    EXPECT(hash_position("k1K b KQ c6") != hash_position("k1K b KQ e6"));
+    EXPECT(hash_position("k1K b") != hash_position("k1K w"));
+    EXPECT(hash_position("k1K b KQ") != hash_position("k1K b kq"));
+    EXPECT(hash_position("k1K b KQ c6") != hash_position("k1K b KQ e6"));
     EXPECT(hash_position("k1K b KQ c6 3") == hash_position("k1K b KQ c6 7"));
     EXPECT(hash_position("k1K b KQ c6 3 11") == hash_position("k1K b KQ c6 7 37"));
+    // Testing for a broad range, few positions may fall low
+    EXPECT(hash_position(START_POSITION) > 1234567);
+    EXPECT(hash_position("k1k w") > 1234567);
+    EXPECT(hash_position("K/1P/2P/3P/4p/5p/6p/7k w") > 1234567);
     return true;
 }
 

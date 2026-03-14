@@ -69,6 +69,7 @@ OBJECT_FILES :=  \
 	fen_parser.o \
 	game_saver.o \
 	gm_book.o \
+	hash_table.o \
 	info_thread.o \
 	iterative_deepening.o \
 	killer_heuristics.o \
@@ -99,6 +100,7 @@ OBJECT_FILES :=  \
 	test_evaluator.o \
 	test_expert_basic_mating.o \
 	test_hash_function.o \
+	test_hash_table.o \
 	test_killer_heuristics.o \
 	test_math_functions.o \
 	test_move.o \
@@ -188,6 +190,9 @@ test_board.o: board/test_board.cpp
 test_hash_function.o: board/test_hash_function.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
+test_hash_table.o: search/test_hash_table.cpp
+	$(CXX) $(CXXFLAGS) $^ 
+
 test_technical_functions.o: technical_functions/test_technical_functions.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
@@ -274,6 +279,9 @@ test_search.o: search/test_search.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
 search_statistics.o: search/search_statistics.cpp
+	$(CXX) $(CXXFLAGS) $^ 
+
+hash_table.o: search/hash_table.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
 info_thread.o: universal_chess_interface/info_thread.cpp

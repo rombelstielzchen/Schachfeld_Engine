@@ -12,6 +12,7 @@ CMoveGenerator::CMoveGenerator() {
 }
 
 void CMoveGenerator::generate_all() {
+//    std::cerr << "generate_all\n";
     assert(move_list.is_empty());
     bool side_to_move = board.get_side_to_move();
     if (side_to_move == WHITE_PLAYER) {
@@ -20,6 +21,7 @@ void CMoveGenerator::generate_all() {
         assert(side_to_move == BLACK_PLAYER);
         generate_all_black_moves();
     }
+//    std::cerr << "generate_all finished\n";
 }
 
 void CMoveGenerator::generate_captures() {

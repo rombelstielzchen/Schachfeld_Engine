@@ -55,6 +55,15 @@ SMove CMoveList::get_next__capture_killer_silent(const int distance_to_root) {
     return move;
 }
 
+SMove CMoveList::get_next__hash_capture_killer_silent(const int distance_to_root) {
+    if (hash_move != NULL_MOVE) {
+        SMove result = hash_move;
+        hash_move = NULL_MOVE;
+        return result;
+    }
+    return get_next__capture_killer_silent(distance_to_root);
+}
+
 unsigned int CMoveList::index_most_valuable_victim() const {
     assert(valid_list());
     unsigned int best_index = consumer_position;
@@ -164,5 +173,23 @@ void CMoveList::integrate_killer(const int distance_to_root) {
     assert(consumer_position == LIST_ORIGIN);
     std::swap(bidirectional_move_list[LIST_ORIGIN], bidirectional_move_list[position]);
     assert(valid_list());
+}
+
+void CMoveList::integrate_hash_move(const SMove hash_move) {
+    assert(move_in_range(hash_move));
+///    std::cerr << "integrate_hash_move\n";
+    if (!move_on_list(hash_move)) {
+///        std::cerr << "not on list\n";
+        return;
+    }
+///    std::cerr << "integrated: " << hash_move << "\n";
+    this->hash_move = hash_move;
+    // TODO: smarter implementation. that doesnt search the move twice
+#ifndef NDEBUG
+///    int old_size = list_size();
+#endif
+    remove(hash_move);
+///    std::cerr << old_size << " " << list_size() << "\n";
+///    assert(list_size() == old_size);
 }
 

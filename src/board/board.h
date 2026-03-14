@@ -49,6 +49,8 @@ typedef struct {
 
 #pragma pack(pop)
 
+typedef size_t THashKey; 
+
 class CBoard {
     // TODO: mov static methods + tests to CBoardLogic
     friend class CFenParser;
@@ -87,7 +89,7 @@ class CBoard {
     // TODO: movetype
     bool get_castling_rights(char move_type) const;
   public:
-    size_t get_hash();
+    THashKey get_hash();
   public:
     CEvaluator evaluator;
     CGameSaver game_saver;

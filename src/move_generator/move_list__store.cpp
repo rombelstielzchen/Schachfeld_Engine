@@ -21,6 +21,9 @@ void CMoveList::store_silent_move(const TFile source_file, const TRank source_ra
     assert(file_in_range(target_file));
     assert(rank_in_range(target_rank));
     assert(valid_list());
+#ifndef NDEBUG
+    int old_list_size = list_size();
+#endif
     SMove new_move;
     new_move.source.file = source_file;
     new_move.source.rank = source_rank;
@@ -32,6 +35,7 @@ void CMoveList::store_silent_move(const TFile source_file, const TRank source_ra
     assert(is_silent_move(new_move));
     store_silent_move(new_move);
     assert(valid_list());
+    assert(list_size() != old_list_size);
 }
 
 void CMoveList::store_pawn_move(const TFile source_file, const TRank source_rank, const TFile target_file, const TRank target_rank) {

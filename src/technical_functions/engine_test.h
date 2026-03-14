@@ -7,10 +7,11 @@
 
 class CEngineTest {
   public:
-     static void test_everything();
+     static void test();
      inline static bool is_testing() { return testing; }
   private:
      static void test_thread_function();
+     static bool test_everything();
   private:
      static bool testing;
 };

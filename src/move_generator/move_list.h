@@ -31,7 +31,7 @@ class CMoveList {
     SMove get_random() const;
     SMove get_next__best_capture();
     SMove get_next();
-    SMove get_next__capture_killer_silent(const int distance_to_root);
+    SMove get_next__hash_capture_killer_silent(const int distance_to_root);
     SMove get_least_valuable_aggressor() const;
     SMove lookup_move(const std::string &text_move) const;
   public:
@@ -64,7 +64,8 @@ class CMoveList {
   public:
     void clear();
   public:
-    void integrate_killer(const int distance_to_root); 
+    void integrate_killer(const int distance_to_root);
+    void integrate_hash_move(const SMove hash_move);
   public:
     std::string as_text() const;
     bool move_on_list(const SMove move) const;
@@ -72,6 +73,10 @@ class CMoveList {
   private:
     void store_white_promotions(const TFile source_file, const TFile target_file);
     void store_black_promotions(const TFile source_file,  const TFile target_file);
+    SMove get_next__capture_killer_silent(const int distance_to_root);
+///  private:
+///    void store_white_promotions(const int source_file, const int target_file);
+///    void store_black_promotions(const int source_file,  const int target_file);
   private:
     void store_silent_move(const SMove &move);
     inline void store_capture(const SMove &move);
@@ -97,6 +102,7 @@ class CMoveList {
   private:
     // Using array instead of vector due to its known size and for better performance
     std::array<SMove,LIST_SIZE> bidirectional_move_list;
+    SMove hash_move;
     unsigned int first_capture;
     unsigned int next_empty_slot;
     unsigned int next_empty_slot_before_pruning_silent_moves;

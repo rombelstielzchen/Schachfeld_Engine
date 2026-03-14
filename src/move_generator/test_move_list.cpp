@@ -22,6 +22,7 @@ bool CTestMoveList::test_everything() {
     EXPECT(test_move_lookup());
     EXPECT(test_king_capture());
     EXPECT(test_prune_silent_piece_moves());
+    EXPECT(test_integrate_hash_move());
     return true;
 }
 
@@ -244,6 +245,55 @@ bool CTestMoveList::test_prune_silent_piece_moves () {
     move_generator.generate_all();
     move_generator.move_list.prune_silent_piece_moves(B5);
     EXPECT(move_generator.move_list.list_size() == 27);
+    return true;
+}
+
+bool CTestMoveList::test_integrate_hash_move() {
+    TEST_FUNCTION();
+    SILENT_EXPECT(board.set_fen_position("startpos moves e2e4 a7a6 h2h3 h7h5"));
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    constexpr SMove silent_hash = { B1, A3, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 };
+    // Somewhat unexpected: d1h5 is "better" than f1a6, as the first pawn is more worth
+    constexpr SMove relative_best_capture= { D1, H5, MOVE_TYPE_CAPTURE, BLACK_POWER, 0 };
+    constexpr SMove bad_capture = { F1, A6, MOVE_TYPE_CAPTURE, BLACK_POWER, 0 };
+    constexpr SMove non_existing_move = { D1, D8, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 };
+    SILENT_EXPECT(move_generator.move_list.move_on_list(silent_hash));
+    SILENT_EXPECT(move_generator.move_list.move_on_list(relative_best_capture));
+    SILENT_EXPECT(move_generator.move_list.move_on_list(bad_capture));
+    SILENT_EXPECT(move_generator.move_list.move_on_list(non_existing_move) == false);
+    int old_list_size = move_generator.move_list.list_size();
+    move_generator.move_list.integrate_hash_move(silent_hash);
+    constexpr int distance_to_root = 42;
+    SMove first_move_on_list = move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root);
+    std::cerr << "first_move_on_list: " << first_move_on_list << "\n";
+    EXPECT(first_move_on_list == silent_hash);
+    EXPECT(move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root) == relative_best_capture);
+///    std::cerr << move_generator.move_list.get_next__hash_capture_killer_silent(1) << "\n";
+///    std::cerr << "bad_capture:: " << bad_capture << "\n";
+    SMove next_move_on_list = move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root);
+    std::cerr << "next_move_on_list: " << next_move_on_list << "\n";
+    std::cerr << "bad_capture: " << bad_capture << "\n";
+    EXPECT(next_move_on_list == bad_capture);
+///    std::cerr << "MT: " << int(move_generator.move_list.get_next__hash_capture_killer_silent(1).move_type) << " " << int(MOVE_TYPE_NORMAL) <<  "\n";
+    next_move_on_list = move_generator.move_list.get_next();
+    EXPECT(next_move_on_list.move_type == MOVE_TYPE_NORMAL);
+    move_generator.reset();
+    move_generator.generate_all();
+    old_list_size = move_generator.move_list.list_size();
+    move_generator.move_list.integrate_hash_move(bad_capture);
+    EXPECT(move_generator.move_list.list_size() == old_list_size);
+    EXPECT(move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root) == bad_capture);
+    EXPECT(move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root) == relative_best_capture);
+    next_move_on_list = move_generator.move_list.get_next();
+    std::cerr << int(next_move_on_list.move_type) << next_move_on_list.move_type;
+    EXPECT(next_move_on_list.move_type == MOVE_TYPE_NORMAL);
+    move_generator.reset();
+    move_generator.generate_all();
+    move_generator.move_list.integrate_hash_move(non_existing_move);
+    EXPECT(move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root) == relative_best_capture);
+    EXPECT(move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root) == bad_capture);
+    EXPECT(move_generator.move_list.get_next().move_type == MOVE_TYPE_NORMAL);
     return true;
 }
 

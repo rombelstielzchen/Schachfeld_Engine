@@ -9,6 +9,7 @@
 #include "uci_protocol.h"
 #include "command_interface.h"
 #include "info_thread.h"
+#include "../search/hash_table.h"
 #include "../technical_functions/engine_test.h"
 #include "../technical_functions/standard_headers.h"
 
@@ -60,12 +61,13 @@ void CUciProtocol::send_list_of_options() const {
         + "Licensed as open-source under GPLv3. "
         + "Contact:  https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby "
         + "Source-code: https://github.com/rombelstielzchen/Schachfeld_Engine ");
+    // UCI is a bit inconsistent. Mostly lowercase, the option is named "Hash".
+    send_message(std::string("option name Hash type spin ")
+        + "default 1 "
+        + "min" + std::to_string(minimum_hash_MB) + " "
+        + "max " + std::to_string(maximum_hash_MB) + " ");
     // Options for the future
     /* TODO; enable these options, once needed
-    send_message(std::string("option name hash type spin ")
-        + "default 1 "
-        + "min 1 "
-        + "max " + std::to_string(INT16_MAX) + " ");
     send_message(std::string("option name UCI_LimitStrength type check ")
          + "default false ");
     send_message(std::string("option name UCI_Elo type spin ")
@@ -145,12 +147,13 @@ void CUciProtocol::process_message(const std::string &message) {
         std::string fen_position = string_tokenizer.get_the_rest();
         command_interface.set_position(fen_position);
     } else if (string_tokenizer.next_token_is_one_of("setoption", "so")) {
+            std::cerr << "Processing\n";
         process_option(string_tokenizer);
     } else if (string_tokenizer.next_token_is_one_of("stop", "s")) {
         command_interface.stop();
     } else if (string_tokenizer.next_token_is("test")) {
         interactive_console_mode = true;
-        CEngineTest::test_everything(); 
+        CEngineTest::test(); 
     } else if (string_tokenizer.next_token_is("uci")) {
          identify_engine();
          send_list_of_options(); 
@@ -288,17 +291,21 @@ void CUciProtocol::display_help() const {
 
 void CUciProtocol::process_option(CStringTokenizer &string_tokenizer) {
     if (string_tokenizer.next_token_is_one_of( "name", "n") == false) {
-       send_error("malformed option command"); 
+       send_error("malformed option command. Missing \"name\""); 
         return;
     }
     std::string name = string_tokenizer.next_token();
     if (string_tokenizer.next_token_is_one_of( "value", "v") == false) {
-       send_error("malformed option command"); 
+       send_error("malformed option command. Missing \"value\""); 
         return;
     }
     std::string value = string_tokenizer.next_token();
     if ((name == "book") || (name == "b")) {
         command_interface.master_book.set_option(value);
+    } else if ((name == "Hash") || (name == "hash") | (name == "h")) {
+        // UCI is a bit inconsistent. Mostly lowercase, the option is named "Hash".
+        int new_size = atoi(value.c_str());
+        hash_table.set_size(new_size);    
     } else {
         send_error("unknown option name");
     }

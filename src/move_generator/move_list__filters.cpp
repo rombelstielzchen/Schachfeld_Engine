@@ -77,6 +77,8 @@ void CMoveList::filter_captures_by_target_square(const SSquare &target_square) {
 void CMoveList::reuse_list() {
     // No assert(valid_list(); here, as shift_current_move_to_top() "ruins" pre-sortedness
     assert(valid_positions());
+    // reuse_list() not yet suitable for integrated hash_moves
+    assert(hash_move == NULL_MOVE);
     consumer_position = first_capture;
     assert(valid_positions());
 }
@@ -127,7 +129,8 @@ void CMoveList::remove(unsigned int position) {
         assert(original_list_size > list_size());
         assert(position >= first_capture);
     }
-    assert(original_list_size > list_size());
+///    std::cerr << "new size: " << list_size() << "\n";
+    assert(list_size() == (original_list_size - 1));
     assert(valid_list());
 }
 

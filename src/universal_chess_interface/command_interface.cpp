@@ -9,6 +9,7 @@
 #include "../board/game_saver.h"
 #include "../evaluator/piece_square_value_tables.h"
 #include "../move_generator/test_perft.h"
+#include "../search/hash_table.h"
 #include "../search/iterative_deepening.h"
 #include "../technical_functions/engine_test.h"
 #include "../technical_functions/standard_headers.h"
@@ -120,6 +121,7 @@ void CCommandInterface::new_game() {
     ACQUIRE_BOARD_OWNERSHIP();
     board.game_saver.save_game();
     board.set_start_position();
+    hash_table.reset();
     master_book.on_new_game();
 }
 
