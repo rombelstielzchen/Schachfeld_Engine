@@ -16,6 +16,7 @@ const std::string ENGINE_ID = "MaterialGirl_1.1";
 static_assert('a' > '9');
 
 bool CUciProtocol::interactive_console_mode = false;
+bool CUciProtocol::las_message_was_separator = false;
 
 CUciProtocol::CUciProtocol() {
     send_info(ENGINE_ID);
@@ -77,6 +78,12 @@ void CUciProtocol::send_list_of_options() const {
 void CUciProtocol::send_info(const std::string &information) {
     std::string full_message = "info " + information;
     send_message(full_message);
+    las_message_was_separator = false;
+}
+
+void CUciProtocol::log_separator() {
+    send_info("****************************************");
+    las_message_was_separator = true;
 }
 
 void CUciProtocol::send_error(const std::string &error_message) {
