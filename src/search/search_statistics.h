@@ -8,6 +8,12 @@
 #include "../move_generator/move.h"
 #include "../technical_functions/standard_headers.h"
 
+typedef struct {
+    int depth;
+    SMove move;
+    int score;
+} SHistoricBestMove;
+
 class CSearchStatistics {
     friend class CTestStatistics;
   public:
@@ -18,10 +24,12 @@ class CSearchStatistics {
     void on_new_move();
     void on_finished_search() const;
   public:
+    // TODO: public or private?
     void log_subtree_size() const;
     void log_subtree_size_bestmove() const;
     void log_branching_factors() const;
     void log_principal_variation() const;
+    void log_bestmove_history() const;
   public:
     void set_best_move(const SMove best_move, int score);
     void set_current_move(const SMove current_move, int score, int movenumber);
@@ -48,6 +56,7 @@ class CSearchStatistics {
     int64_t subtree_size_bestmove;
     int max_depth;
     std::chrono::time_point<std::chrono::high_resolution_clock> start_time;
+    std::vector<SHistoricBestMove> bestmove_history;
 };
 
 inline CSearchStatistics search_statistics;

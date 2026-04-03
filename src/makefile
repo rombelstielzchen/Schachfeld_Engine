@@ -85,6 +85,7 @@ OBJECT_FILES :=  \
 	move_maker.o \
 	oracle.o \
 	piece_square_value_tables.o \
+	profiling.o \
 	safety_evaluator.o \
 	search.o \
 	search_statistics.o \
@@ -316,6 +317,9 @@ oracle.o: evaluator/oracle.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
 piece_square_value_tables.o: evaluator/piece_square_value_tables.cpp
+	$(CXX) $(CXXFLAGS) $^ 
+
+profiling.o: technical_functions/profiling.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
 safety_evaluator.o: evaluator/knowledge/opening/castling_direction/safety_evaluator.cpp
