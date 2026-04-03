@@ -8,8 +8,6 @@
 
 constexpr int64_t anti_division_by_zero = 1;
 
-const std::string separator = "********************************";
-
 CSearchStatistics::CSearchStatistics() {
     reset_all();
 }
@@ -32,6 +30,7 @@ void CSearchStatistics::on_new_depth(int new_depth) {
     nodes_at_start_of_current_depth = nodes_total;
     nodes_at_start_of_current_move = nodes_total;
     subtree_size_bestmove = 0;
+    log_bestmove_history();
 }
 
 void CSearchStatistics::on_new_move() {
@@ -42,16 +41,20 @@ void CSearchStatistics::set_best_move(const SMove best_move, int score) {
     assert(move_in_range(best_move));
     std::string info = "bestmove " + move_as_text(best_move) + anti_adjudication_score(score);
     CUciProtocol::send_info(info);
-    // TODO: remove this, once principal variation with hash-table is implemented
-    info = "pv " + move_as_text(best_move) + anti_adjudication_score(score);
-    CUciProtocol::send_info(info);
+    log_principal_variation();
     subtree_size_bestmove = subtree_size();
+    SHistoricBestMove historic_best_move;
+    historic_best_move.depth = max_depth;
+    historic_best_move.move = best_move;
+    historic_best_move.score = score;
+    bestmove_history.resize(max_depth);
+    assert(max_depth > 0);
+    ///assert(max_depth < bestmove_history.size());
+    bestmove_history[max_depth - 1] = historic_best_move;
 }
 
 void CSearchStatistics::set_current_move(const SMove current_move, int score, int movenumber) {
     assert(move_in_range(current_move));
-#ifndef NDEBUG
-#endif
     assert(movenumber >= uci_first_movenumber);
     std::string info = "currmove " 
         + move_as_text(current_move)
@@ -63,6 +66,7 @@ void CSearchStatistics::set_current_move(const SMove current_move, int score, in
     log_subtree_size();
 }
 
+// TODO: better naming
 std::string CSearchStatistics::general_search_statistics() const {
     std::string info = " nodes " 
         + std::to_string(nodes_total) 
@@ -144,16 +148,35 @@ int64_t CSearchStatistics::nodes_for_this_iteration() const {
 }
 
 void CSearchStatistics::on_finished_search() const {
-    CUciProtocol::send_info(separator);
+    CUciProtocol::log_separator();
+    log_bestmove_history();
     log_subtree_size_bestmove();
     log_branching_factors();
-    CUciProtocol::send_info(separator);
+    log_principal_variation();
+    CUciProtocol::log_separator();
 }
 
 void CSearchStatistics::log_principal_variation() const {
 	// UCI-docu: e.g. "info depth 2 score cp 214 time 1242 nodes 2124 nps 34928 pv e2e4 e7e5 g1f3"
-    std::string info = "depth "
-        + std::to_string(max_depth);
+    std::string info = "depth " + std::to_string(max_depth);
+    if (bestmove_history.size() > 0) {
+        info += " pv " + move_as_text(bestmove_history.back().move)
+        + anti_adjudication_score(bestmove_history.back().score);
+    }
     CUciProtocol::send_info(info);
+}
+
+void CSearchStatistics::log_bestmove_history() const {
+    for (const SHistoricBestMove &bestmove : bestmove_history) {
+        assert(bestmove.depth > 0);
+        assert(move_in_range(bestmove.move));
+        std::string info = "depth ";
+        info += std::to_string(bestmove.depth);
+        info += ":   ";
+       info += move_as_text(bestmove.move); 
+       info += "    ";
+       info += std::to_string(bestmove.score);
+       CUciProtocol::send_info(info);
+    }
 }
 

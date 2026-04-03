@@ -19,6 +19,7 @@ class CUciProtocol {
     void message_loop();
     static void send_message(const std::string &message);
     static void send_info(const std::string &information);
+    static void log_separator();
     static void send_error(const std::string &error_message);
     static void send_best_move(const std::string best_move);
   private:
@@ -37,5 +38,6 @@ class CUciProtocol {
     CCommandInterface command_interface;
     CStringTokenizer string_tokenizer;
     static bool interactive_console_mode;
+    static bool las_message_was_separator;
 };
 
