@@ -57,6 +57,7 @@ OBJECT_FILES :=  \
 	command_interface.o \
 	data_book.o \
 	depth_control.o \
+	distances.o \
 	engine_test.o \
 	evaluator.o \
 	expert_basic_mating.o \
@@ -85,6 +86,7 @@ OBJECT_FILES :=  \
 	move_maker.o \
 	oracle.o \
 	piece_square_value_tables.o \
+	profiling.o \
 	safety_evaluator.o \
 	search.o \
 	search_statistics.o \
@@ -94,6 +96,7 @@ OBJECT_FILES :=  \
 	test_board.o \
 	test_board_logic.o \
 	test_depth_control.o \
+	test_distances.o \
 	test_evaluator.o \
 	test_expert_basic_mating.o \
 	test_hash_function.o \
@@ -205,6 +208,9 @@ data_book.o: opening_book/data_book.cpp
 depth_control.o: search/depth_control.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
+distances.o: board/distances.cpp
+	$(CXX) $(CXXFLAGS) $^ 
+
 test_oracle.o: evaluator/test_oracle.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
@@ -306,6 +312,9 @@ test_board_logic.o: board/test_board_logic.cpp
 test_depth_control.o:	search/test_depth_control.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
+test_distances.o: board/test_distances.cpp
+	$(CXX) $(CXXFLAGS) $^ 
+
 test_piece_square_value_tables.o: evaluator/test_piece_square_value_tables.cpp
 	$(CXX) $(CXXFLAGS) $^
 
@@ -316,6 +325,9 @@ oracle.o: evaluator/oracle.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
 piece_square_value_tables.o: evaluator/piece_square_value_tables.cpp
+	$(CXX) $(CXXFLAGS) $^ 
+
+profiling.o: technical_functions/profiling.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
 safety_evaluator.o: evaluator/knowledge/opening/castling_direction/safety_evaluator.cpp

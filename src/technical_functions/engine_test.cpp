@@ -9,6 +9,7 @@
 #include "test_technical_functions.h"
 #include "../board/test_board.h"
 #include "../board/test_board_logic.h"
+#include "../board/test_distances.h"
 #include "../board/test_hash_function.h"
 #include "../board/test_move_maker.h"
 #include "../evaluator/test_evaluator.h"
@@ -48,6 +49,7 @@ void CEngineTest::test_thread_function() {
         &&CTestTechnicalFunctions::test_everything()
         && CTestBoard::test_everything()
         && CTestBoardLogic::test_everything()
+        && CTestDistances::test_everything()
         && CTestMove::test_everything()
         && CTestMoveList::test_everything()
         && CTestMoveGenerator::test_everything()
