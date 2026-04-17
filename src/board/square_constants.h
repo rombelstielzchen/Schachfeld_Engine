@@ -6,7 +6,8 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "board.h"
-#include "../move_generator/move.h"
+///#include "../move_generator/move.h"
+#include <vector>
 
 constexpr SSquare NULL_SQUARE = {0, 0};
 static_assert(0 < FILE_A);
@@ -84,4 +85,10 @@ constexpr SSquare E8 = { FILE_E, RANK_8 };
 constexpr SSquare F8 = { FILE_F, RANK_8 };
 constexpr SSquare G8 =  { FILE_G, RANK_8 };
 constexpr SSquare H8 = { FILE_H, RANK_8 };
+
+typedef std::vector<SSquare> TSquareList;
+
+const TSquareList CORNER_SQUARES = { A1, H1, A8, H8 };
+const TSquareList BLACK_CORNER_SQUARES = { A1, H8 };
+const TSquareList WHITE_CORNER_SQUARES = { H1, A8 };
 
