@@ -7,6 +7,7 @@
 #include "../../piece_square_value_tables.h"
 #include "../../score_constants.h"
 #include "../../../board/board_logic.h"
+#include "../../../board/distances.h"
 #include "../../../move_generator/move.h"
 #include "../../../technical_functions/standard_headers.h"
 
@@ -44,16 +45,10 @@ void CExpertBasicMating::apply_knowledge() {
 SSquare CExpertBasicMating::desired_mating_corner(const SSquare losing_king_square) const {
     // TODO: select corner for mating with bishop and knight
     assert(square_in_range(losing_king_square));
-    if ((losing_king_square.file <= FILE_D) && (losing_king_square.rank <= RANK_4)) {
-        return A1;
-    }
-    if (losing_king_square.file <= FILE_D) {
-        return A8;
-    }
-    if (losing_king_square.rank <= RANK_4) {
-        return H1;
-    }
-    return H8;
+    SSquare mating_corner = CDistances::nearest_square(losing_king_square, CORNER_SQUARES);
+    assert(square_in_range(mating_corner));
+    return mating_corner;
+    ;
 }
 
 void CExpertBasicMating::configure_king_tables(bool winning_side) {

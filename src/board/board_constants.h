@@ -80,9 +80,12 @@ enum ESquareContent : TSquare {
     BLACK_POWER = 'p',
 };
 
-// Modelling side-to-move as booleans for easy flipping
+// Modelling side-to-move as booleans for easy indexing and flipping
 constexpr bool BLACK_PLAYER = false;
 constexpr bool WHITE_PLAYER = true;
+// Modelling square-colour like player-colours to support confusion without harm
+constexpr bool BLAVK_SQARE_COLOUR = BLACK_PLAYER;
+constexpr bool WHITE_SQARE_COLOUR = WHITE_PLAYER;
 
 inline const std::string START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
