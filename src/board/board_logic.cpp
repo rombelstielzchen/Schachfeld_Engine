@@ -261,3 +261,8 @@ int CBoardLogic::n_stones() {
     return result;
 }
 
+bool CBoardLogic::is_piece_present(char piece_type) {
+    assert(is_any_piece(piece_type));
+    return false;
+}
+
