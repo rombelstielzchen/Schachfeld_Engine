@@ -21,6 +21,7 @@ bool CTestBoard::test_everything() {
     EXPECT(test_set_fen_position());
     EXPECT(test_as_is());
     EXPECT(test_accessors());
+    EXPECT(test_square_colour());
     EXPECT(test_modifiers());
     EXPECT(test_initial_position());
     return true;
@@ -134,6 +135,13 @@ bool CTestBoard::test_initial_position() {
     EXPECT(board.get_fen_position() == fen_with_no_moves);
     EXPECT(board.initial_position_was_startpos() == false);
     EXPECT(board.get_initial_position_before_moves() == fen_with_no_moves);
+    return true;
+}
+
+bool CTestBoard::test_square_colour() {
+    TEST_FUNCTION();
+    EXPECT(board.square_colour(B6) == BLACK_SQUARE_COLOUR);
+    EXPECT(board.square_colour(G2) == WHITE_SQUARE_COLOUR);
     return true;
 }
 

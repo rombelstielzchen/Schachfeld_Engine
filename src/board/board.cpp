@@ -158,3 +158,9 @@ void CBoard::fill_up_printable_game_state() {
     board_state.eng_passeng_file = file_in_range(eng_passeng_file) ? file_as_text(eng_passeng_file) : '-';
 }
 
+
+bool CBoard::square_colour(const SSquare square) const {
+    assert(square_in_range(square));
+    return (((square.file + square.rank) & 0x01) ? true : false);
+}
+

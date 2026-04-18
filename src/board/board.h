@@ -79,6 +79,8 @@ class CBoard {
     }
     bool square_is_empty(const int file, const int rank) const;
     bool square_is_empty(const SSquare square) const;
+    // TODO: TSquareColour
+    bool square_colour(const SSquare square) const;
   public:
     void clear_castling_rights();
     void set_castling_rights(const char move_type, bool yes_no);
