@@ -263,6 +263,13 @@ int CBoardLogic::n_stones() {
 
 bool CBoardLogic::is_piece_present(char piece_type) {
     assert(is_any_piece(piece_type));
+    for (int j = FILE_A; j <= FILE_H; ++j) {
+        for (int k = RANK_1; k <= RANK_8; ++k) {
+             if (board.get_square(j, k) == piece_type) {
+                  return true;
+             }
+        }
+    }
     return false;
 }
 
