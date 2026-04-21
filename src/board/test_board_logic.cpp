@@ -19,6 +19,7 @@ bool CTestBoardLogic::test_everything() {
     EXPECT(test_is_pawn_missing());
     EXPECT(test_is_pawn_anywhere());
     EXPECT(test_is_pawn_structure());
+    EXPECT(test_is_piece_present());
     EXPECT(test_is_simplified_testcase());
     EXPECT(test_n_stones());
     return true;
@@ -133,6 +134,37 @@ bool CTestBoardLogic::test_n_stones() {
     EXPECT(CBoardLogic::n_stones(WHITE_PLAYER) == 1);
     EXPECT(CBoardLogic::n_stones(BLACK_PLAYER) == 6);
     EXPECT(CBoardLogic::n_stones() == 7);
+    return true;
+}
+
+bool CTestBoardLogic::test_is_piece_present() {
+    TEST_FUNCTION();
+    board.set_start_position();
+    EXPECT(CBoardLogic::is_piece_present(WHITE_POWER));
+    EXPECT(CBoardLogic::is_piece_present(WHITE_KNIGHT));
+    EXPECT(CBoardLogic::is_piece_present(WHITE_BISHOP));
+    EXPECT(CBoardLogic::is_piece_present(WHITE_ROOK));
+    EXPECT(CBoardLogic::is_piece_present(WHITE_QUEEN));
+    EXPECT(CBoardLogic::is_piece_present(WHITE_KING));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_POWER));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_KNIGHT));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_BISHOP));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_ROOK));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_QUEEN));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_KING));
+    SILENT_EXPECT(board.set_fen_position("Q3k2R///////q3K2r w"));
+    EXPECT(CBoardLogic::is_piece_present(WHITE_POWER) == false);
+    EXPECT(CBoardLogic::is_piece_present(WHITE_KNIGHT) == false);
+    EXPECT(CBoardLogic::is_piece_present(WHITE_BISHOP) == false);
+    EXPECT(CBoardLogic::is_piece_present(WHITE_ROOK));
+    EXPECT(CBoardLogic::is_piece_present(WHITE_QUEEN));
+    EXPECT(CBoardLogic::is_piece_present(WHITE_KING));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_POWER) == false);
+    EXPECT(CBoardLogic::is_piece_present(BLACK_KNIGHT) == false);
+    EXPECT(CBoardLogic::is_piece_present(BLACK_BISHOP) == false);
+    EXPECT(CBoardLogic::is_piece_present(BLACK_ROOK));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_QUEEN));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_KING));
     return true;
 }
 
