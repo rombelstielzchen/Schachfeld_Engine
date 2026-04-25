@@ -1,6 +1,10 @@
 Major Changes
 =============
 
+Version 1.1
+------------
+* Now being able to mate with bishop and knight
+
 Version 1.0
 -----------
 * MaterialGirl-- finally we found a name for our baby!

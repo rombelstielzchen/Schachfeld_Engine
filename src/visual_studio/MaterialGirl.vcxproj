@@ -134,12 +134,15 @@
 
 <clCompile Include="../board/board.cpp"/>
 <clCompile Include="../board/board_logic.cpp"/>
+<clCompile Include="../board/distances.cpp"/>
 <clCompile Include="../board/fen_generator.cpp"/>
 <clCompile Include="../board/fen_parser.cpp"/>
 <clCompile Include="../board/game_saver.cpp"/>
 <clCompile Include="../board/move_maker.cpp"/>
 <clCompile Include="../board/test_board.cpp"/>
 <clCompile Include="../board/test_board_logic.cpp"/>
+<clCompile Include="../board/test_distances.cpp"/>
+<clCompile Include="../board/test_hash_function.cpp"/>
 <clCompile Include="../board/test_move_maker.cpp"/>
 <clCompile Include="../evaluator/evaluator.cpp"/>
 <clCompile Include="../evaluator/knowledge/endgame/expert_endgame_king_activity.cpp"/>
@@ -188,6 +191,7 @@
 <clCompile Include="../search/test_statistics.cpp"/>
 <clCompile Include="../technical_functions/engine_test.cpp"/>
 <clCompile Include="../technical_functions/math_functions.cpp"/>
+<clCompile Include="../technical_functions/profiling.cpp"/>
 <clCompile Include="../technical_functions/string_functions.cpp"/>
 <clCompile Include="../technical_functions/string_tokenizer.cpp"/>
 <clCompile Include="../technical_functions/test_math_functions.cpp"/>
@@ -201,6 +205,7 @@
 <clInclude Include="../board/board.h"/>
 <clInclude Include="../board/board_constants.h"/>
 <clInclude Include="../board/board_logic.h"/>
+<clInclude Include="../board/distances.h"/>
 <clInclude Include="../board/fen_generator.h"/>
 <clInclude Include="../board/fen_parser.h"/>
 <clInclude Include="../board/game_saver.h"/>
@@ -208,6 +213,8 @@
 <clInclude Include="../board/square_constants.h"/>
 <clInclude Include="../board/test_board.h"/>
 <clInclude Include="../board/test_board_logic.h"/>
+<clInclude Include="../board/test_distances.h"/>
+<clInclude Include="../board/test_hash_function.h"/>
 <clInclude Include="../board/test_move_maker.h"/>
 <clInclude Include="../evaluator/evaluator.h"/>
 <clInclude Include="../evaluator/knowledge/endgame/expert_endgame_king_activity.h"/>
@@ -254,6 +261,7 @@
 <clInclude Include="../technical_functions/debug_log.h"/>
 <clInclude Include="../technical_functions/engine_test.h"/>
 <clInclude Include="../technical_functions/math_functions.h"/>
+<clInclude Include="../technical_functions/profiling.h"/>
 <clInclude Include="../technical_functions/standard_headers.h"/>
 <clInclude Include="../technical_functions/string_functions.h"/>
 <clInclude Include="../technical_functions/string_tokenizer.h"/>
