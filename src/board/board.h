@@ -9,7 +9,7 @@
 #include "game_saver.h"
 #include "move_maker.h"
 #include "../evaluator/evaluator.h"
-#include "../move_generator/move.h"
+///#include "../move_generator/move.h"
 #include "../technical_functions/standard_headers.h"
 
 // Board representation of the Schachfeld_Engine for playing standard chess,
@@ -21,7 +21,8 @@
 //    * easy conversion of FEN-strings when receiving position-commands
 //    * printing the board as_is() for debugging
 //    * using the board as_is() as a hash-key, at least for rapid prototyping
-typedef std::array<TSquare, BOARDSIZE_Y> TBoardColumn;
+typedef char TPiece;
+typedef std::array<TPiece, BOARDSIZE_Y> TBoardColumn;
 
 constexpr int N_CASTLING_DIRECTIONS_LS_ls = 4;
 
@@ -42,7 +43,7 @@ typedef struct {
     char empty_1;
     char castling_rights[N_CASTLING_DIRECTIONS_LS_ls];
     char empty_2;
-    char eng_passeng_file;
+   char eng_passeng_file;
     char final_newline;
     char terminating_null;
 } SPrintableBoardState;
@@ -65,25 +66,26 @@ class CBoard {
   public:
     inline void flip_side_to_move() { side_to_move = !side_to_move; }
     void clear_square(const SSquare square);
-    void put_piece(const SSquare square, char piece);
+    void put_piece(const SSquare square, TPiece piece);
   public:
-    inline bool get_side_to_move() const { return side_to_move; }
-    int get_eng_passeng_file() const;
+    inline TPlayerColour get_side_to_move() const { return side_to_move; }
+    TFile get_eng_passeng_file() const;
     inline bool eng_passeng_possible() const { return (eng_passeng_file != NO_ENG_PASSENG_POSSIBLE); }
     int get_move_counter() const;
     int get_100_ply_draw_counter() const;
-    TSquare get_square(const int file, const int rank) const;
-    inline TSquare get_square(const SSquare square) const {
+    TPiece get_square(const TFile file, const TRank rank) const;
+    inline TPiece get_square(const SSquare square) const {
         ///assert(square_in_range(square)); 
         return get_square(square.file, square.rank); 
     }
-    bool square_is_empty(const int file, const int rank) const;
+    bool square_is_empty(const TFile file, const TRank rank) const;
     bool square_is_empty(const SSquare square) const;
-    // TODO: TSquareColour
-    bool square_colour(const SSquare square) const;
+    TSquareColour square_colour(const SSquare square) const;
   public:
     void clear_castling_rights();
+    // TODO: movetype
     void set_castling_rights(const char move_type, bool yes_no);
+    // TODO: movetype
     bool get_castling_rights(char move_type) const;
   public:
     size_t get_hash();
@@ -98,8 +100,8 @@ class CBoard {
   private:
     // All board-state gets set by the FEN-parser
     SPrintableBoardState board_state;
-    bool side_to_move;
-    int eng_passeng_file;
+    TPlayerColour side_to_move;
+    TFile eng_passeng_file;
     int move_counter;
     int _100_ply_draw_counter;
     // Some over-size supports easy access via MOVE_TYPE (char)

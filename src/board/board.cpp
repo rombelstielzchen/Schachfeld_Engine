@@ -68,7 +68,7 @@ const char* CBoard::as_is() {
     return &board_state.squares[0][0];
 }
 
-TSquare CBoard::get_square(const int file, const int rank) const {
+TPiece CBoard::get_square(const TFile file, const TRank rank) const {
     // We might access the fence here, so no check for in_range()
     assert(file >= 0);
     assert(file <= FILE_LAST);
@@ -77,7 +77,7 @@ TSquare CBoard::get_square(const int file, const int rank) const {
     return board_state.squares[file][rank];
 }
 
-bool CBoard::square_is_empty(const int file, const int rank) const {
+bool CBoard::square_is_empty(const TFile file, const TRank rank) const {
     return (get_square(file, rank) == EMPTY_SQUARE);
 }
 
@@ -85,7 +85,7 @@ bool CBoard::square_is_empty(const SSquare square) const {
     return square_is_empty(square.file, square.rank);
 }
 
-int CBoard::get_eng_passeng_file() const {
+TFile CBoard::get_eng_passeng_file() const {
     assert((eng_passeng_file == NO_ENG_PASSENG_POSSIBLE) || file_in_range(eng_passeng_file));
     return eng_passeng_file;
 }

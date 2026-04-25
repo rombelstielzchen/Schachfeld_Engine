@@ -4,6 +4,8 @@
 // Author: Rombelstielzchen
 // License: GPLv3
 
+#include "board_constants.h"
+#include "square_constants.h"
 #include "../move_generator/move.h"
 #include "../technical_functions/standard_headers.h"
 
@@ -33,7 +35,7 @@ class CMoveMaker {
     void update_castling_rights(const SSquare source_or_target_square) const;
   private:
     std::vector<SMove> move_history;
-    std::vector<int> former_eng_passeng_files;
+    std::vector<TFile> former_eng_passeng_files;
     bool initial_position_was_startpos;
 };
 

@@ -7,6 +7,7 @@
 
 // Utility-class for derived board-information to keep the board-class lean
 
+#include "board_constants.h"
 #include "square_constants.h"
 #include "../move_generator/move.h"
 
@@ -17,15 +18,15 @@ class CBoardLogic {
     static char my_rook();
     static char my_pawn();
   public:
-    static int eng_passeng_pawn_rank();
-    static int eng_passeng_forward_rank();
-    static int my_back_rank();
+    static TRank eng_passeng_pawn_rank();
+    static TRank eng_passeng_forward_rank();
+    static TRank my_back_rank();
   public:
     static bool castling_squares_empty(const char move_type);
     static bool rook_on_castling_square(const char move_type);
     static bool castling_possible(const int move_type);
-    static bool square_occupied_by_opponent(const int file, const int rank);
-    static bool is_valid_target_square(const int file, const int rank);
+    static bool square_occupied_by_opponent(const TFile file, const TRank rank);
+    static bool is_valid_target_square(const TFile file, const TRank rank);
   public:
     // Simple and slow, meant for the root-node only
     static SSquare king_square(bool white_or_black);

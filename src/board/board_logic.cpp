@@ -25,15 +25,15 @@ char CBoardLogic::my_pawn() {
     return (board.get_side_to_move() == WHITE_PLAYER) ? WHITE_POWER : BLACK_POWER;
 }
 
-int CBoardLogic::eng_passeng_pawn_rank() {
+TRank CBoardLogic::eng_passeng_pawn_rank() {
     return (board.get_side_to_move() == WHITE_PLAYER) ? RANK_5 : RANK_4;
 }
 
-int CBoardLogic::eng_passeng_forward_rank() {
+TRank CBoardLogic::eng_passeng_forward_rank() {
     return (eng_passeng_pawn_rank() == RANK_5) ? RANK_6 : RANK_3;
 }
 
-int CBoardLogic::my_back_rank() {
+TRank CBoardLogic::my_back_rank() {
     return (board.get_side_to_move() == WHITE_PLAYER) ? RANK_1 : RANK_8;
 }
 
@@ -70,7 +70,7 @@ bool CBoardLogic::rook_on_castling_square(const char move_type) {
     }
 }
 
-bool CBoardLogic::square_occupied_by_opponent(const int file, const int rank) {
+bool CBoardLogic::square_occupied_by_opponent(const TFile file, const TRank rank) {
     switch (board.get_square(file, rank)) {
         case WHITE_POWER:
         case WHITE_KNIGHT:
@@ -92,7 +92,7 @@ bool CBoardLogic::square_occupied_by_opponent(const int file, const int rank) {
     return false;
 }
 
-bool CBoardLogic::is_valid_target_square(const int file, const int rank) {
+bool CBoardLogic::is_valid_target_square(const TFile file, const TRank rank) {
     if (board.square_is_empty(file, rank)) {
         return true;
     }
@@ -101,8 +101,8 @@ bool CBoardLogic::is_valid_target_square(const int file, const int rank) {
 
 SSquare CBoardLogic::king_square(bool white_or_black) {
     char wanted_king_dead_or_alive = (white_or_black == WHITE_PLAYER) ? WHITE_KING : BLACK_KING;
-    for (uint8_t j = FILE_A; j <= FILE_H; ++j) {
-        for (uint8_t k = RANK_1; k <= RANK_8; ++k) {
+    for (TFile j = FILE_A; j <= FILE_H; ++j) {
+        for (TRank k = RANK_1; k <= RANK_8; ++k) {
             if (board.get_square(j, k) == wanted_king_dead_or_alive) {
                 SSquare location = {j, k};
                 return location;
@@ -165,8 +165,8 @@ bool CBoardLogic::illegal_move(SMove move) {
 bool CBoardLogic::is_endgame() {
    constexpr int max_officers_to_be_considered_endgame = 4; 
     int n_officers = 0;
-    for (int j = FILE_A; j <= FILE_H; ++j) {
-        for (int k = RANK_1; k <= RANK_8; ++k) {
+    for (TFile j = FILE_A; j <= FILE_H; ++j) {
+        for (TRank k = RANK_1; k <= RANK_8; ++k) {
             switch (board.get_square(j, k)) {
                 case WHITE_KNIGHT:
                 case WHITE_BISHOP:
@@ -234,8 +234,8 @@ bool CBoardLogic::is_pawn_missing(char white_or_black_pawn, SSquare square) {
 
 int CBoardLogic::n_stones(bool which_player) {
     int result = 0;
-    for (uint8_t j = FILE_A; j <= FILE_H; ++j) {
-        for (uint8_t k = RANK_1; k <= RANK_8; ++k) {
+    for (TFile j = FILE_A; j <= FILE_H; ++j) {
+        for (TRank k = RANK_1; k <= RANK_8; ++k) {
             char piece = board.get_square(j, k);
             if (piece == EMPTY_SQUARE) {
                 continue;
@@ -263,8 +263,8 @@ int CBoardLogic::n_stones() {
 
 bool CBoardLogic::is_piece_present(char piece_type) {
     assert(is_any_piece(piece_type));
-    for (int j = FILE_A; j <= FILE_H; ++j) {
-        for (int k = RANK_1; k <= RANK_8; ++k) {
+    for (TFile j = FILE_A; j <= FILE_H; ++j) {
+        for (TRank k = RANK_1; k <= RANK_8; ++k) {
              if (board.get_square(j, k) == piece_type) {
                   return true;
              }

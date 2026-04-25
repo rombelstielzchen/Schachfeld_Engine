@@ -7,6 +7,7 @@
 #include "evaluator.h"
 #include "piece_square_value_tables.h"
 #include "score_constants.h"
+#include "../board/board.h"
 #include "../board/square_constants.h"
 #include "../technical_functions/testing.h"
 

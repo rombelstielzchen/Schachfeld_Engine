@@ -17,16 +17,16 @@ CEvaluator::CEvaluator() {
 void CEvaluator::init() {
     oracle.configure_knowledge();
     value = 0; 
-    for (int j = FILE_A; j <= FILE_H; ++j) {
-        for (int k = RANK_1; k <= RANK_8; ++k) {
+    for (TFile j = FILE_A; j <= FILE_H; ++j) {
+        for (TRank k = RANK_1; k <= RANK_8; ++k) {
             value += evaluate_square(j, k);
         }
     }
 }
 
 void CEvaluator::log_board_evaluation() const {
-    for (int j = FILE_A; j <= FILE_H; ++j) {
-        for (int k = RANK_1; k <= RANK_8; ++k) {
+    for (TFile j = FILE_A; j <= FILE_H; ++j) {
+        for (TRank k = RANK_1; k <= RANK_8; ++k) {
             if (!board.square_is_empty(j, k)) {
                 char piece = board.get_square(j, k);
                 assert(is_any_piece(piece));
@@ -43,7 +43,7 @@ int CEvaluator::evaluate_square(const SSquare &square) const {
     return evaluate_square(square.file, square.rank);
 }
 
-int CEvaluator::evaluate_square(const int file, const int rank) const {
+int CEvaluator::evaluate_square(const TFile file, const TRank rank) const {
     assert(file_in_range(file));
     assert(rank_in_range(rank));
     char square_content = board.get_square(file, rank);

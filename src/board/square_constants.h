@@ -5,13 +5,13 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-#include "board.h"
-///#include "../move_generator/move.h"
+#include "board_constants.h"
 #include <vector>
 
-constexpr SSquare NULL_SQUARE = {0, 0};
+constexpr SSquare NULL_SQUARE = { FILE_GARDEN_FENCE_LEFT_1, RANK_GARDEN_FENCE_BOTTOM_1 };
 static_assert(0 < FILE_A);
-static_assert(0 < RANK_1);
+static_assert(FILE_GARDEN_FENCE_LEFT_1 == 0);
+static_assert(RANK_GARDEN_FENCE_BOTTOM_1 == 0);
 
 // RANK_1
 constexpr SSquare A1 =  { FILE_A, RANK_1 };
@@ -88,7 +88,7 @@ constexpr SSquare H8 = { FILE_H, RANK_8 };
 
 typedef std::vector<SSquare> TSquareList;
 
-const TSquareList CORNER_SQUARES = { A1, H1, A8, H8 };
-const TSquareList BLACK_CORNER_SQUARES = { A1, H8 };
-const TSquareList WHITE_CORNER_SQUARES = { H1, A8 };
+inline const TSquareList CORNER_SQUARES = { A1, H1, A8, H8 };
+inline const TSquareList BLACK_CORNER_SQUARES = { A1, H8 };
+inline const TSquareList WHITE_CORNER_SQUARES = { H1, A8 };
 

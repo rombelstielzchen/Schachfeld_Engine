@@ -150,7 +150,7 @@ bool CFenParser::parse_eng_passeng(const std::string &partial_input) {
     if (partial_input.length() != 2) {
         return false;
     }
-    int file = text_to_file(partial_input[0]);
+    TFile file = text_to_file(partial_input[0]);
     if (file_in_range(file)) {
         board.eng_passeng_file = file;
         return true;

@@ -1,6 +1,5 @@
 // Project: Schachfeld_Engine
 // Author: Rombelstielzchen
-//
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
@@ -16,8 +15,6 @@ constexpr double probability_tabijas = 0.60;
 constexpr double probability_wonder_weapons = 0.30;
 constexpr double remaining_probability_broad_GM = 1.00 - probability_tabijas - probability_wonder_weapons;
 static_assert(remaining_probability_broad_GM >= 0.00);
-
-const std::string NO_MOVES_FROM_STARTPOS = "NO_MOVES_FROM_STARTPOS";
 
 CMasterBook::CMasterBook() : gm_book(sorted_variation_collection_gm_book),
         tabijas(sorted_variation_collection_tabijas),

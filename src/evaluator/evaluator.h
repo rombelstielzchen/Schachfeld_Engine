@@ -23,7 +23,7 @@ class CEvaluator {
     int evaluate_square(const SSquare &square) const;
     void log_board_evaluation() const;
   private:
-    int evaluate_square(const int file, const int rank) const;
+    int evaluate_square(const TFile file, const TRank rank) const;
     static int evaluate_white_pawn(const SSquare square);
   private:
     int value;

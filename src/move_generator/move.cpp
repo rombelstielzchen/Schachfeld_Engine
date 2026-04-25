@@ -8,11 +8,11 @@
 #include "../board/square_constants.h"
 #include "../technical_functions/standard_headers.h"
 
-bool file_in_range(const int file) {
+bool file_in_range(const TFile file) {
     return ((file >= FILE_A) && (file <= FILE_H));
 }
 
-bool rank_in_range(const int rank) {
+bool rank_in_range(const TRank rank) {
     return ((rank >= RANK_1) && (rank <= RANK_8));
 }
 
@@ -110,7 +110,7 @@ bool is_any_officer(char square_or_move_type) {
         && (square_or_move_type != BLACK_POWER));
 }
 
-char file_as_text(const int file) {
+char file_as_text(const TFile file) {
     assert(file_in_range(file));
     switch (file) {
         case FILE_A:
@@ -135,7 +135,7 @@ char file_as_text(const int file) {
     }
 }
 
-char rank_as_text(const int rank) {
+char rank_as_text(const TRank rank) {
     assert(rank_in_range(rank));
     switch (rank) {
         case RANK_1:
@@ -215,22 +215,22 @@ std::string move_as_list(const SMove move) {
     return result;
 }
 
-uint8_t text_to_file(const char file_character) {
+TFile text_to_file(const char file_character) {
     // No assertions here; the input comes from the outside world
     if ((file_character < 'a') || (file_character > 'h')) {
-        return ERROR_INVALID_COORDINATE;
+        return ERROR_INVALID_FILE;
     }
-     uint8_t result = FILE_A + file_character - 'a';
-     assert(file_in_range(result));
+    TFile result = static_cast<TFile>(static_cast<std::underlying_type_t<TFile>>(FILE_A) + file_character - 'a');
+    assert(file_in_range(result));
     return result;
 }
 
-uint8_t text_to_rank(const char rank_character) {
+TRank text_to_rank(const char rank_character) {
     // No assertions here; the input comes from the outside world
     if ((rank_character < '1') || (rank_character > '8')) {
-        return ERROR_INVALID_COORDINATE;
+        return ERROR_INVALIDRANK;
      }
-     uint8_t result = RANK_1 + rank_character - '1';
+     TRank result = static_cast<TRank>(static_cast<std::underlying_type_t<TRank>>(RANK_1) + rank_character - '1');
      assert(rank_in_range(result));
      return result;
 }

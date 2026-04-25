@@ -24,9 +24,9 @@ std::string CFenGenerator::get_fen_position()
 std::string CFenGenerator::get_piece_placement() {
     std::string result = "";
     // 8th rank first, from a8 to h1
-    for (int k = RANK_8; k >= RANK_1; --k) {
+    for (TRank k = RANK_8; k >= RANK_1; --k) {
         char empty_squares = '0';
-        for (int j = FILE_A; j <= FILE_H; ++j) {
+        for (TFile j = FILE_A; j <= FILE_H; ++j) {
             const char square = board.get_square(j, k);
             switch (square) {
                 case EMPTY_SQUARE:
@@ -61,7 +61,7 @@ std::string CFenGenerator::get_side_to_move() {
 }
 
 std::string CFenGenerator::get_eng_passeng() {
-    char eng_passeng_file = board.get_eng_passeng_file();
+    TFile eng_passeng_file = board.get_eng_passeng_file();
     if (eng_passeng_file == NO_ENG_PASSENG_POSSIBLE)  {
         return "-";
     }

@@ -36,13 +36,13 @@ class CMoveList {
     SMove lookup_move(const std::string &text_move) const;
   public:
     void store_castling(const char move_type);
-    void store_eng_passeng(const int source_file, const int source_rank, const int target_file, const int target_rank);
+    void store_eng_passeng(const TFile source_file, const TRank source_rank, const TFile target_file, const TRank target_rank);
     // Special method for pawns, creating four moves on promotion
-    void store_pawn_capture(const int source_file, const int source_rank, const int target_file, const int target_rank);
-    void store_pawn_move(const int source_file, const int source_rank, const int target_file, const int target_rank);
+    void store_pawn_capture(const TFile source_file, const TRank source_rank, const TFile target_file, const TRank target_rank);
+    void store_pawn_move(const TFile source_file, const TRank source_rank, const TFile target_file, const TRank target_rank);
   public:
-    void store_silent_move(const int source_file, const int source_rank, const int target_file, const int target_rank, const char move_type = MOVE_TYPE_NORMAL);
-    void store_capture(const int source_file, const int source_rank, const int target_file, const int target_rank);
+    void store_silent_move(const TFile source_file, const TRank source_rank, const TFile target_file, const TRank target_rank, const char move_type = MOVE_TYPE_NORMAL);
+    void store_capture(const TFile source_file, const TRank source_rank, const TFile target_file, const TRank target_rank);
   public:
     // : pruning can be undone, removal irreversible
     // TODO: naming: prune / remove
@@ -70,8 +70,8 @@ class CMoveList {
     bool move_on_list(const SMove move) const;
     bool king_capture_on_list() const;
   private:
-    void store_white_promotions(const int source_file, const int target_file);
-    void store_black_promotions(const int source_file,  const int target_file);
+    void store_white_promotions(const TFile source_file, const TFile target_file);
+    void store_black_promotions(const TFile source_file,  const TFile target_file);
   private:
     void store_silent_move(const SMove &move);
     inline void store_capture(const SMove &move);
