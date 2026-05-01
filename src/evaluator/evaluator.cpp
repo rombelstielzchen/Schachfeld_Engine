@@ -16,25 +16,21 @@ CEvaluator::CEvaluator() {
 
 void CEvaluator::init() {
     oracle.configure_knowledge();
-    value = 0; 
-    for (TFile j = FILE_A; j <= FILE_H; ++j) {
-        for (TRank k = RANK_1; k <= RANK_8; ++k) {
-            value += evaluate_square(j, k);
-        }
+    value = 0;
+    for (const SSquare s: ALL_SQUARES) {
+        value += evaluate_square(s);
     }
 }
 
 void CEvaluator::log_board_evaluation() const {
-    for (TFile j = FILE_A; j <= FILE_H; ++j) {
-        for (TRank k = RANK_1; k <= RANK_8; ++k) {
-            if (!board.square_is_empty(j, k)) {
-                char piece = board.get_square(j, k);
-                assert(is_any_piece(piece));
-                int value = evaluate_square(j, k);
-                assert(value != 0);
-                std::string message = piece + file_as_text(j) + rank_as_text(k) + ": " + value;
-                CUciProtocol::send_info(message);
-            }
+    for (const SSquare s: ALL_SQUARES) {
+        if (!board.square_is_empty(s)) {
+            char piece = board.get_square(s);
+            assert(is_any_piece(piece));
+                int value = evaluate_square(s);
+            assert(value != 0);
+            std::string message = piece + square_as_text(s) + ": " + std::to_string( value);
+            CUciProtocol::send_info(message);
         }
     }
 }

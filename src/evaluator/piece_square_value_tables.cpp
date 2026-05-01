@@ -5,6 +5,7 @@
 
 #include "piece_square_value_tables.h"
 #include "score_constants.h"
+#include "../board/distances.h"
 #include "../move_generator/move.h"
 
 TPieceSquareValueTable psv_dummy = {{
@@ -20,10 +21,8 @@ TPieceSquareValueTable psv_dummy = {{
     { 0,   0, 3141, 3141, 3141, 3141, 3141, 3141, 3141, 3141 }}};
 
 void CPsvModifier::assign_psv_table(TPieceSquareValueTable &target_psv, const TPieceSquareValueTable &source_psv) {
-    for (TFile j = FILE_A; j <= FILE_H; ++j) {
-        for (TRank k = RANK_1; k <= RANK_8; ++k) {
-            target_psv[j][k] = source_psv[j][k];
-        }
+    for (const SSquare s: ALL_SQUARES) {
+        target_psv[s.file][s.rank] = source_psv[s.file][s.rank];
     }
     assert(target_psv[FILE_A][RANK_1] == source_psv[FILE_A][RANK_1]);
     assert(target_psv[FILE_H][RANK_8] == source_psv[FILE_H][RANK_8]);
@@ -44,10 +43,8 @@ void CPsvModifier::flip_vertically(TPieceSquareValueTable &psv_table) {
 }
 
 void CPsvModifier::negate(TPieceSquareValueTable &psv_table) {
-    for (TFile j = FILE_A; j <= FILE_H; ++j) {
-        for (TRank k = RANK_1; k <= RANK_8; ++k) {
-            psv_table[j][k] = -psv_table[j][k];
-        }
+    for (const SSquare s: ALL_SQUARES) {
+        psv_table[s.file][s.rank] = -psv_table[s.file][s.rank];
     }
 }
 
@@ -64,10 +61,8 @@ void CPsvModifier::clone_from_white_to_black(char black_piece_type) {
 
 int CPsvModifier::average(const TPieceSquareValueTable &psv_table) {
     int64_t sum = 0;
-    for (TFile j = FILE_A; j <= FILE_H; ++j) {
-        for (TRank k = RANK_1; k <= RANK_8; ++k) {
-            sum += psv_table[j][k];
-        }
+    for (const SSquare s: ALL_SQUARES) {
+        sum += psv_table[s.file][s.rank];
     }
     int64_t average = sum / N_SQUARES_ON_BOARD;
     assert(average >= INT_MIN);
@@ -78,10 +73,8 @@ int CPsvModifier::average(const TPieceSquareValueTable &psv_table) {
 void CPsvModifier::normalize_average(TPieceSquareValueTable &psv_table, int target_average) {
     int average_value = average(psv_table);
     int delta = target_average - average_value;
-    for (TFile j = FILE_A; j <= FILE_H; ++j) {
-        for (TRank k = RANK_1; k <= RANK_8; ++k) {
-            psv_table[j][k] += delta;
-        }
+    for (const SSquare s: ALL_SQUARES) {
+        psv_table[s.file][s.rank] += delta;
     }
 #ifndef NDEBUG
     constexpr int smaller_than_1_rounded_to_0 = 0;
@@ -164,7 +157,7 @@ void CPsvModifier::add_bonus_to_area(TPieceSquareValueTable &psv_table, SSquare 
    TFile  right = std::max(bottom_left.file, top_right.file);
     TRank bottom = std::min(bottom_left.rank, top_right.rank);
     TRank top = std::max(bottom_left.rank, top_right.rank);
-    for (TFile j = left; j <= right; ++j) {
+    for  (TFile j = left; j <= right; ++j) {
         for (TRank k = bottom; k <= top; ++k) {
             SSquare to_be_modified = {j, k};
             add_bonus_to_square(psv_table, to_be_modified, bonus);
@@ -178,10 +171,8 @@ void CPsvModifier::clear_psv_table(TPieceSquareValueTable &psv_table) {
 
 void CPsvModifier::make_equal(TPieceSquareValueTable &table, int value) {
     assert(abs(value) <= SCORE_KING);
-    for (TFile j = FILE_A; j <= FILE_H; ++j) {
-        for (TRank k = RANK_1; k <= RANK_8; ++k) {
-            table[j][k] = value;
-        }
+    for (const SSquare s: ALL_SQUARES) {
+        table[s.file][s.rank] = value;
     }
 }
 
@@ -191,18 +182,13 @@ void CPsvModifier::make_gradient(TPieceSquareValueTable &table, const SSquare ta
     int base_value = table[target_square.file][target_square.rank];
     // We use Euclidean metric here, 
     // as both Manhattan-metric and maximum(dx, dy) look inappropriate.
-    for (TFile j = FILE_A; j <= FILE_H; ++j) {
-        for (TRank k = RANK_1; k <= RANK_8; ++k) {
-            int delta_x = target_square.file - j;
-            int delta_y = target_square.rank - k;
-           assert(abs(delta_x) <= FILE_H - FILE_A);
-           assert(abs(delta_y) <= RANK_8 - RANK_1);
-            double  euclidean_distance = sqrt(delta_x * delta_x + delta_y * delta_y);
-            assert(euclidean_distance < 10);
-            double evaluation_difference = euclidean_distance * bonus_per_step;
-            int square_value = base_value - static_cast<int>(evaluation_difference);
-            table[j][k] = square_value;
-        }
+    for (const SSquare s: ALL_SQUARES) {
+        double  distance = CDistances::euclidian_distance(target_square, s);
+        assert(distance < 10);
+        double evaluation_difference = distance * bonus_per_step;
+        // TODO: correct cast?
+        int square_value = base_value - static_cast<int>(evaluation_difference);
+        table[s.file][s.rank] = square_value;
     }
 }
 

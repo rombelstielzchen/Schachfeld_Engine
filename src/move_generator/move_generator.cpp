@@ -35,56 +35,53 @@ void CMoveGenerator::generate_recaptures(const SSquare target_square) {
 }
 
 void CMoveGenerator::generate_all_white_moves() {
-    for (TFile j = FILE_A; j <= FILE_H; ++j) {
-        for (TRank k = RANK_1; k <= RANK_8; ++k) {
-            switch (board.get_square(j, k)) {
-                case WHITE_POWER:
-                    generate_pawn_moves(j, k, DIRECTION_NORTH);
-                    break;
-                case WHITE_KNIGHT:
-                    generate_knight_moves(j, k);
-                    break;
-                case WHITE_BISHOP:
-                    generate_bishop_moves(j, k);
-                    break;
-                case WHITE_ROOK:
-                    generate_rook_moves(j, k);
-                    break;
-                case WHITE_QUEEN:
-                    generate_queen_moves(j, k);
-                    break;
-                case WHITE_KING:
-                    generate_king_moves(j, k);
-                    break;
-            }
+    for (const SSquare s: ALL_SQUARES) {
+        switch (board.get_square(s)) {
+            case WHITE_POWER:
+                generate_pawn_moves(s.file, s.rank, DIRECTION_NORTH);
+                break;
+            case WHITE_KNIGHT:
+                generate_knight_moves(s.file, s.rank);
+                break;
+            case WHITE_BISHOP:
+                generate_bishop_moves(s.file, s.rank);
+                break;
+            case WHITE_ROOK:
+                generate_rook_moves(s.file, s.rank);
+                break;
+            case WHITE_QUEEN:
+                generate_queen_moves(s.file, s.rank);
+                break;
+            case WHITE_KING:
+                generate_king_moves(s.file, s.rank);
+                break;
         }
     }
     generate_potential_eng_passeng();
 }
 
 void CMoveGenerator::generate_all_black_moves() {
-    for (TFile j = FILE_A; j <= FILE_H; ++j) {
-        for (TRank k = RANK_1; k <= RANK_8; ++k) {
-            switch (board.get_square(j, k)) {
-                case BLACK_POWER:
-                    generate_pawn_moves(j, k, DIRECTION_SOUTH);
-                    break;
-                case BLACK_KNIGHT:
-                    generate_knight_moves(j, k);
-                    break;
-                case BLACK_BISHOP:
-                    generate_bishop_moves(j, k);
-                    break;
-                case BLACK_ROOK:
-                    generate_rook_moves(j, k);
-                    break;
-                case BLACK_QUEEN:
-                    generate_queen_moves(j, k);
-                    break;
-                case BLACK_KING:
-                    generate_king_moves(j, k);
-                    break;
-            }
+    for (const SSquare s: ALL_SQUARES) {
+        switch (board.get_square(s)) {
+            // TODO: switch function parameters to SSquare
+            case BLACK_POWER:
+                generate_pawn_moves(s.file, s.rank, DIRECTION_SOUTH);
+                break;
+            case BLACK_KNIGHT:
+                generate_knight_moves(s.file, s.rank);
+                break;
+            case BLACK_BISHOP:
+                generate_bishop_moves(s.file, s.rank);
+                break;
+            case BLACK_ROOK:
+                generate_rook_moves(s.file, s.rank);
+                break;
+            case BLACK_QUEEN:
+                generate_queen_moves(s.file, s.rank);
+                break;
+            case BLACK_KING:
+                generate_king_moves(s.file, s.rank);
+                break;
         }
     }
     generate_potential_eng_passeng();

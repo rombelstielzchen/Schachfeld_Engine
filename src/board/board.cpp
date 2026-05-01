@@ -34,10 +34,10 @@ void CBoard::init_garden_fence() {
 }
 
 void CBoard::clear_board_squares() {
-    for (int j = FILE_A; j <= FILE_H; ++j) {
-        for (int k = RANK_1; k <= RANK_8; ++k) {
-            board_state.squares[j][k] = EMPTY_SQUARE;
-        }
+    for (const SSquare s: ALL_SQUARES) {
+        // We can not use clear_square(s);
+        // as this updates the evaluator, Zobrist-keys, ...
+        board_state.squares[s.file][s.rank] = EMPTY_SQUARE;
     }
     initial_position_before_moves = "";
 }

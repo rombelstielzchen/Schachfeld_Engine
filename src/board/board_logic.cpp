@@ -101,12 +101,9 @@ bool CBoardLogic::is_valid_target_square(const TFile file, const TRank rank) {
 
 SSquare CBoardLogic::king_square(bool white_or_black) {
     char wanted_king_dead_or_alive = (white_or_black == WHITE_PLAYER) ? WHITE_KING : BLACK_KING;
-    for (TFile j = FILE_A; j <= FILE_H; ++j) {
-        for (TRank k = RANK_1; k <= RANK_8; ++k) {
-            if (board.get_square(j, k) == wanted_king_dead_or_alive) {
-                SSquare location = {j, k};
-                return location;
-            }
+    for (const SSquare s: ALL_SQUARES) {
+        if (board.get_square(s) == wanted_king_dead_or_alive) {
+            return s;
         }
     }
     return NULL_SQUARE;
@@ -165,20 +162,18 @@ bool CBoardLogic::illegal_move(SMove move) {
 bool CBoardLogic::is_endgame() {
    constexpr int max_officers_to_be_considered_endgame = 4; 
     int n_officers = 0;
-    for (TFile j = FILE_A; j <= FILE_H; ++j) {
-        for (TRank k = RANK_1; k <= RANK_8; ++k) {
-            switch (board.get_square(j, k)) {
-                case WHITE_KNIGHT:
-                case WHITE_BISHOP:
-                case WHITE_ROOK:
-                case WHITE_QUEEN:
-                case BLACK_KNIGHT:
-                case BLACK_BISHOP:
-                case BLACK_ROOK:
-                case BLACK_QUEEN:
-                    ++n_officers;
-                    break;
-            }
+    for (const SSquare s: ALL_SQUARES) {
+        switch (board.get_square(s)) {
+            case WHITE_KNIGHT:
+            case WHITE_BISHOP:
+            case WHITE_ROOK:
+            case WHITE_QUEEN:
+            case BLACK_KNIGHT:
+            case BLACK_BISHOP:
+            case BLACK_ROOK:
+            case BLACK_QUEEN:
+                ++n_officers;
+                break;
         }
     }
 #ifndef NDEBUG
@@ -234,20 +229,18 @@ bool CBoardLogic::is_pawn_missing(char white_or_black_pawn, SSquare square) {
 
 int CBoardLogic::n_stones(bool which_player) {
     int result = 0;
-    for (TFile j = FILE_A; j <= FILE_H; ++j) {
-        for (TRank k = RANK_1; k <= RANK_8; ++k) {
-            char piece = board.get_square(j, k);
-            if (piece == EMPTY_SQUARE) {
-                continue;
-            }
-            if (piece == '\0') {
-                // Uninitialized board; may happen very early on startup
-                continue;
-            }
-            assert(is_any_piece(piece));
-            // Be careful here: isupper returns a number, not true / false
-            result += ((isupper(piece) > 0) == which_player);
+    for (const SSquare s: ALL_SQUARES) {
+        char piece = board.get_square(s);
+        if (piece == EMPTY_SQUARE) {
+            continue;
         }
+        if (piece == '\0') {
+            // Uninitialized board; may happen very early on startup
+            continue;
+        }
+        assert(is_any_piece(piece));
+        // Be careful here: isupper returns a number, not true / false
+        result += ((isupper(piece) > 0) == which_player);
     }
     assert(result >= 0);
     assert(result <= N_STONES_TOTAL / 2);
@@ -263,11 +256,9 @@ int CBoardLogic::n_stones() {
 
 bool CBoardLogic::is_piece_present(char piece_type) {
     assert(is_any_piece(piece_type));
-    for (TFile j = FILE_A; j <= FILE_H; ++j) {
-        for (TRank k = RANK_1; k <= RANK_8; ++k) {
-             if (board.get_square(j, k) == piece_type) {
-                  return true;
-             }
+    for (const SSquare s: ALL_SQUARES) {
+        if (board.get_square(s) == piece_type) {
+            return true;
         }
     }
     return false;
