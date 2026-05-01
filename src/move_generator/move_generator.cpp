@@ -41,19 +41,19 @@ void CMoveGenerator::generate_all_white_moves() {
                 generate_pawn_moves(s.file, s.rank, DIRECTION_NORTH);
                 break;
             case WHITE_KNIGHT:
-                generate_knight_moves(s.file, s.rank);
+                generate_knight_moves(s);
                 break;
             case WHITE_BISHOP:
-                generate_bishop_moves(s.file, s.rank);
+                generate_bishop_moves(s);
                 break;
             case WHITE_ROOK:
-                generate_rook_moves(s.file, s.rank);
+                generate_rook_moves(s);
                 break;
             case WHITE_QUEEN:
-                generate_queen_moves(s.file, s.rank);
+                generate_queen_moves(s);
                 break;
             case WHITE_KING:
-                generate_king_moves(s.file, s.rank);
+                generate_king_moves(s);
                 break;
         }
     }
@@ -63,24 +63,23 @@ void CMoveGenerator::generate_all_white_moves() {
 void CMoveGenerator::generate_all_black_moves() {
     for (const SSquare s: ALL_SQUARES) {
         switch (board.get_square(s)) {
-            // TODO: switch function parameters to SSquare
             case BLACK_POWER:
                 generate_pawn_moves(s.file, s.rank, DIRECTION_SOUTH);
                 break;
             case BLACK_KNIGHT:
-                generate_knight_moves(s.file, s.rank);
+                generate_knight_moves(s);
                 break;
             case BLACK_BISHOP:
-                generate_bishop_moves(s.file, s.rank);
+                generate_bishop_moves(s);
                 break;
             case BLACK_ROOK:
-                generate_rook_moves(s.file, s.rank);
+                generate_rook_moves(s);
                 break;
             case BLACK_QUEEN:
-                generate_queen_moves(s.file, s.rank);
+                generate_queen_moves(s);
                 break;
             case BLACK_KING:
-                generate_king_moves(s.file, s.rank);
+                generate_king_moves(s);
                 break;
         }
     }
@@ -130,25 +129,25 @@ void CMoveGenerator::generate_pawn_moves(const TFile file, const TRank rank, con
     generate_pawn_forward_moves(file, rank, positive_negative_direction);
 }
 
-void CMoveGenerator::generate_king_moves(const TFile file, const TRank rank) {
-    generate_potential_move(file, rank, file, rank + 1);
-    generate_potential_move(file, rank, file + 1, rank + 1);
-    generate_potential_move(file, rank, file - 1, rank + 1);
-    generate_potential_move(file, rank, file - 1, rank      );
-    generate_potential_move(file, rank, file + 1, rank    );
-    generate_potential_move(file, rank, file + 1, rank - 1);
-    generate_potential_move(file, rank, file    , rank - 1);
-    generate_potential_move(file, rank, file - 1, rank - 1);
-    generate_castlings(file, rank);
+void CMoveGenerator::generate_king_moves(const SSquare source) {
+    generate_potential_move(source, source.file, source.rank + 1);
+    generate_potential_move(source, source.file + 1, source.rank + 1);
+    generate_potential_move(source, source.file - 1, source.rank + 1);
+    generate_potential_move(source, source.file - 1, source.rank      );
+    generate_potential_move(source, source.file + 1, source.rank    );
+    generate_potential_move(source, source.file + 1, source.rank - 1);
+    generate_potential_move(source, source.file    , source.rank - 1);
+    generate_potential_move(source, source.file - 1, source.rank - 1);
+    generate_castlings(source);
 }
 
-void CMoveGenerator::generate_castlings(const TFile file, const TRank rank) {
-    if ((file != FILE_E) || (rank != CBoardLogic::my_back_rank())) {
+void CMoveGenerator::generate_castlings(const SSquare source) {
+    if ((source.file != FILE_E) || (source.rank != CBoardLogic::my_back_rank())) {
         return;
     }
     int my_short = MOVE_TYPE_WHITE_SHORT_CASTLING;
     int my_long = MOVE_TYPE_WHITE_LONG_CASTLING;
-    if (rank == RANK_8) {
+    if (source.rank == RANK_8) {
         my_short = MOVE_TYPE_BLACK_SHORT_CASTLING;
         my_long = MOVE_TYPE_BLACK_LONG_CASTLING;
     }
@@ -160,64 +159,64 @@ void CMoveGenerator::generate_castlings(const TFile file, const TRank rank) {
     }
 }
 
-void CMoveGenerator::generate_knight_moves(const TFile file, const TRank rank) {
-    generate_potential_move(file, rank, file - 1, rank + 2);
-    generate_potential_move(file, rank, file + 1, rank + 2);
-    generate_potential_move(file, rank, file - 2, rank + 1);
-    generate_potential_move(file, rank, file + 2, rank + 1);
-    generate_potential_move(file, rank, file - 2, rank - 1);
-    generate_potential_move(file, rank, file + 2, rank - 1);
-    generate_potential_move(file, rank, file - 1, rank - 2);
-    generate_potential_move(file, rank, file + 1, rank - 2);
+void CMoveGenerator::generate_knight_moves(const SSquare source) {
+    generate_potential_move(source, source.file - 1, source.rank + 2);
+    generate_potential_move(source, source.file + 1, source.rank + 2);
+    generate_potential_move(source, source.file - 2, source.rank + 1);
+    generate_potential_move(source, source.file + 2, source.rank + 1);
+    generate_potential_move(source, source.file - 2, source.rank - 1);
+    generate_potential_move(source, source.file + 2, source.rank - 1);
+    generate_potential_move(source, source.file - 1, source.rank - 2);
+    generate_potential_move(source, source.file + 1, source.rank - 2);
 }
 
-void CMoveGenerator::generate_bishop_moves(const TFile file, const TRank rank) {
-    generate_sliding_moves(file, rank, DIRECTION_NORTH, DIRECTION_EAST);
-    generate_sliding_moves(file, rank, DIRECTION_NORTH, DIRECTION_WEST);
-    generate_sliding_moves(file, rank, DIRECTION_SOUTH, DIRECTION_EAST);
-    generate_sliding_moves(file, rank, DIRECTION_SOUTH, DIRECTION_WEST);
+void CMoveGenerator::generate_bishop_moves(const SSquare source) {
+    generate_sliding_moves(source, DIRECTION_NORTH, DIRECTION_EAST);
+    generate_sliding_moves(source, DIRECTION_NORTH, DIRECTION_WEST);
+    generate_sliding_moves(source, DIRECTION_SOUTH, DIRECTION_EAST);
+    generate_sliding_moves(source, DIRECTION_SOUTH, DIRECTION_WEST);
 }
 
-void CMoveGenerator::generate_rook_moves(const TFile file, const TRank rank) {
-    generate_sliding_moves(file, rank, DIRECTION_NORTH, DIRECTION_NEUTRAL);
-    generate_sliding_moves(file, rank, DIRECTION_NEUTRAL, DIRECTION_EAST);
-    generate_sliding_moves(file, rank, DIRECTION_NEUTRAL, DIRECTION_WEST);
-    generate_sliding_moves(file, rank, DIRECTION_SOUTH, DIRECTION_NEUTRAL);
+void CMoveGenerator::generate_rook_moves(const SSquare source) {
+    generate_sliding_moves(source, DIRECTION_NORTH, DIRECTION_NEUTRAL);
+    generate_sliding_moves(source, DIRECTION_NEUTRAL, DIRECTION_EAST);
+    generate_sliding_moves(source, DIRECTION_NEUTRAL, DIRECTION_WEST);
+    generate_sliding_moves(source, DIRECTION_SOUTH, DIRECTION_NEUTRAL);
 }
 
-void CMoveGenerator::generate_queen_moves(const TFile file, const TRank rank) {
-    generate_bishop_moves(file, rank);
-    generate_rook_moves(file, rank);
+void CMoveGenerator::generate_queen_moves(const SSquare source) {
+    generate_bishop_moves(source);
+    generate_rook_moves(source);
 }
 
-void CMoveGenerator::generate_potential_move(const TFile source_file, const TRank source_rank, const TFile target_file, const TRank target_rank) {
+void CMoveGenerator::generate_potential_move(const SSquare source, const TFile target_file, const TRank target_rank) {
     DEBUG_METHOD();
     // Checks the target-square, needed for king and knight
     // and for the final square of sliding moves
-    assert(file_in_range(source_file));
-    assert(rank_in_range(source_rank));
+    assert(square_in_range(source));
     // Target may be out of range (garden-fence), therefore no assertions
     if (board.square_is_empty(target_file, target_rank)) {
-        move_list.store_silent_move(source_file, source_rank, target_file, target_rank);
+        move_list.store_silent_move(source.file, source.rank, target_file, target_rank);
     } else if (CBoardLogic::square_occupied_by_opponent(target_file, target_rank)) {
-        move_list.store_capture(source_file, source_rank, target_file, target_rank);
+        move_list.store_capture(source.file, source.rank, target_file, target_rank);
     }
     // Else: coordinates out of range or target occupied by own piece
+    // TODO: assert()
 }
 
-void CMoveGenerator::generate_sliding_moves(const TFile file, const TRank rank, const int direction_north_south, const int direction_east_west) {
+void CMoveGenerator::generate_sliding_moves(const SSquare source, const int direction_north_south, const int direction_east_west) {
     DEBUG_METHOD();
-    TFile next_file = file + direction_east_west;
-    TRank next_rank = rank + direction_north_south;
+    TFile next_file = source.file + direction_east_west;
+    TRank next_rank = source.rank + direction_north_south;
     while (board.square_is_empty(next_file, next_rank)) {
         assert(file_in_range(next_file));
         assert(rank_in_range(next_rank));
-        move_list.store_silent_move(file, rank, next_file, next_rank);
+        move_list.store_silent_move(source.file, source.rank, next_file, next_rank);
         next_file += direction_east_west;
         next_rank += direction_north_south;
     }
     if (CBoardLogic::square_occupied_by_opponent(next_file, next_rank)) {
-        move_list.store_capture(file, rank, next_file, next_rank);
+        move_list.store_capture(source.file, source.rank, next_file, next_rank);
     }
 }
 
