@@ -199,9 +199,10 @@ void CMoveGenerator::generate_potential_move(const SSquare source, const TFile t
         move_list.store_silent_move(source.file, source.rank, target_file, target_rank);
     } else if (CBoardLogic::square_occupied_by_opponent(target_file, target_rank)) {
         move_list.store_capture(source.file, source.rank, target_file, target_rank);
+    } else {
+        assert((board.get_square(target_file, target_rank) == GARDEN_FENCE)
+            || (is_any_piece(board.get_square(target_file, target_rank)) && !CBoardLogic::square_occupied_by_opponent(target_file, target_rank)));
     }
-    // Else: coordinates out of range or target occupied by own piece
-    // TODO: assert()
 }
 
 void CMoveGenerator::generate_sliding_moves(const SSquare source, const int direction_north_south, const int direction_east_west) {
