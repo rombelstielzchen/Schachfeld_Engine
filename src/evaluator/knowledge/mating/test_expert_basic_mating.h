@@ -14,5 +14,6 @@ class CTestExpertBasicMating {
     static bool test_gradient();
     static bool test_gradient_after_moves();
     static bool test_winning_side();
+    static bool test_is_bishop_and_knight();
 };
 

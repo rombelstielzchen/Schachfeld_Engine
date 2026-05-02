@@ -23,6 +23,7 @@ class CExpertBasicMating: public CVirtualExpert {
     void configure_knight_tables(bool winning_side);
   private:
     bool winning_side() const;
+    bool is_bishop_and_knight() const;
     SSquare desired_mating_corner(const SSquare losing_king_square) const;
 };
 

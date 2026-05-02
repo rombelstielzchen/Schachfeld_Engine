@@ -116,3 +116,15 @@ bool CExpertBasicMating::winning_side() const {
     return WHITE_PLAYER;
 }
 
+bool CExpertBasicMating::is_bishop_and_knight() const {
+    if (CBoardLogic::is_piece_present(WHITE_BISHOP) && CBoardLogic::is_piece_present(WHITE_KNIGHT)) {
+        assert(CBoardLogic::n_stones(BLACK_PLAYER) == 1);
+        return true;
+    }
+    if (CBoardLogic::is_piece_present(BLACK_BISHOP) && CBoardLogic::is_piece_present(BLACK_KNIGHT)) {
+        assert(CBoardLogic::n_stones(WHITE_PLAYER) == 1);
+        return true;
+    }
+    return false;
+}
+

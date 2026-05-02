@@ -17,6 +17,7 @@ bool CTestExpertBasicMating::test_everything() {
     EXPECT(test_desired_mating_corner());
     EXPECT(test_gradient());
     EXPECT(test_gradient_after_moves());
+    EXPECT(test_is_bishop_and_knight());
     return true;
 }
 
@@ -32,6 +33,12 @@ bool CTestExpertBasicMating::test_is_responsible() {
     SILENT_EXPECT(board.set_fen_position("k1KQ b"));
     EXPECT(expert_basic_mating.is_responsible() == true);
     SILENT_EXPECT(board.set_fen_position("k1KQq b"));
+    EXPECT(expert_basic_mating.is_responsible() == false);
+    EXPECT(board.set_fen_position("k1K/////BN w"));
+    EXPECT(expert_basic_mating.is_responsible() == true);
+    EXPECT(board.set_fen_position("k1K/////Bn w"));
+    EXPECT(expert_basic_mating.is_responsible() == false);
+    EXPECT(board.set_fen_position("k1K/////bN w"));
     EXPECT(expert_basic_mating.is_responsible() == false);
     return true;
 }
@@ -85,6 +92,27 @@ bool CTestExpertBasicMating::test_winning_side() {
     EXPECT(expert_basic_mating.winning_side() == WHITE_PLAYER);
     SILENT_EXPECT(board.set_fen_position("qk1K b"));
     EXPECT(expert_basic_mating.winning_side() == BLACK_PLAYER);
+    return true;
+}
+
+bool CTestExpertBasicMating::test_is_bishop_and_knight() {
+    TEST_FUNCTION();
+    CExpertBasicMating expert_basic_mating;
+    EXPECT(board.set_fen_position("k1K///// w"));
+    EXPECT(expert_basic_mating.is_bishop_and_knight() == false);
+    EXPECT(board.set_fen_position("k1K/////b w"));
+    EXPECT(expert_basic_mating.is_bishop_and_knight() == false);
+    EXPECT(board.set_fen_position("k1K/////n w"));
+    EXPECT(expert_basic_mating.is_bishop_and_knight() == false);
+    EXPECT(board.set_fen_position("k1K/////bn w"));
+    EXPECT(expert_basic_mating.is_bishop_and_knight());
+    EXPECT(board.set_fen_position("k1K/////B w"));
+    EXPECT(expert_basic_mating.is_bishop_and_knight() == false);
+    EXPECT(board.set_fen_position("k1K/////N w"));
+    EXPECT(expert_basic_mating.is_bishop_and_knight() == false);
+    EXPECT(board.set_fen_position("k1K/////BN w"));
+    EXPECT(expert_basic_mating.is_bishop_and_knight());
+    // Combinations of bN and Bn fire an assertion, they are excluded by is_responsible()
     return true;
 }
 
