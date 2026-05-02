@@ -264,3 +264,17 @@ bool CBoardLogic::is_piece_present(char piece_type) {
     return false;
 }
 
+TSquareColour CBoardLogic::bishop_colour() {
+    for (const SSquare s: ALL_SQUARES) {
+        char piece = board.get_square(s);
+        if (piece == WHITE_BISHOP) {
+            return WHITE_PLAYER;
+        }
+        if (piece == BLACK_BISHOP) {
+            return BLACK_PLAYER;
+        }
+    }
+    assert(THIS_MUST_NOT_HAPPEN);
+    return WHITE_PLAYER;
+}
+

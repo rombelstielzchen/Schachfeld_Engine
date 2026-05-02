@@ -33,6 +33,7 @@ bool CTestBoardLogic::test_king_squares() {
     const std::string empty_board = "/ w";
     SILENT_EXPECT(board.set_fen_position(empty_board));
     EXPECT(CBoardLogic::king_square(WHITE_PLAYER) == NULL_SQUARE);
+    EXPECT(test_bishop_colour());
     return true;
 }
 
@@ -167,4 +168,14 @@ bool CTestBoardLogic::test_is_piece_present() {
     EXPECT(CBoardLogic::is_piece_present(BLACK_KING));
     return true;
 }
+
+bool CTestBoardLogic::test_bishop_colour()  {
+    TEST_FUNCTION();
+    EXPECT(board.set_fen_position("k1KB w"));
+    EXPECT(CBoardLogic::bishop_colour() == WHITE_PLAYER);
+    EXPECT(board.set_fen_position("k1KNb w"));
+    EXPECT(CBoardLogic::bishop_colour() == BLACK_PLAYER);
+    return true;
+}
+
 

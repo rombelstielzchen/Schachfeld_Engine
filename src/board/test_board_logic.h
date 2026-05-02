@@ -21,5 +21,6 @@ class CTestBoardLogic {
     static bool test_is_simplified_testcase();
     static bool test_is_pawn_missing();
     static bool test_n_stones();
+    static bool test_bishop_colour();
 };
 
