@@ -14,5 +14,6 @@ class CTestPsvModifiers {
     static bool test_make_equal();
     static bool test_make_gradient();
     static bool auto_cleanup_on_new_position();
+    static bool test_add_bonus_to_colour_complex();
 };
 

@@ -192,3 +192,12 @@ void CPsvModifier::make_gradient(TPieceSquareValueTable &table, const SSquare ta
     }
 }
 
+void CPsvModifier::add_bonus_to_colour_complex(TPieceSquareValueTable &table, TSquareColour colour, int bonus) {
+    for (const SSquare s: ALL_SQUARES) {
+        if (board.square_colour(s) == colour) {
+            add_bonus_to_square(table, s, bonus);
+            // TODO: bonus_for???
+        }
+    }
+}
+

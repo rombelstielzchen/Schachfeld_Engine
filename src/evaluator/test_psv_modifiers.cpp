@@ -18,6 +18,7 @@ bool CTestPsvModifiers::test_everything() {
     EXPECT(test_make_equal());
     EXPECT(test_make_gradient());
     EXPECT(auto_cleanup_on_new_position());
+    EXPECT(test_add_bonus_to_colour_complex());
     return true;
 }
 
@@ -66,6 +67,20 @@ bool CTestPsvModifiers::test_make_gradient() {
     EXPECT(main_piece_square_value_table_set[BLACK_BISHOP][FILE_G][RANK_7] > main_piece_square_value_table_set[BLACK_BISHOP][FILE_H][RANK_6])
     EXPECT(main_piece_square_value_table_set[BLACK_BISHOP][FILE_F][RANK_6] == main_piece_square_value_table_set[BLACK_BISHOP][FILE_H][RANK_8])
     EXPECT(main_piece_square_value_table_set[BLACK_BISHOP][FILE_C][RANK_4] == 283); 
+    return true;
+}
+
+bool CTestPsvModifiers::test_add_bonus_to_colour_complex() {
+    TEST_FUNCTION();
+    TPieceSquareValueTable &dummy_psv = main_piece_square_value_table_set[DUMMY_PIECE_FOR_TESTING];
+    CPsvModifier::make_equal(dummy_psv, 0);
+    EXPECT(dummy_psv[FILE_C][RANK_4] == dummy_psv[FILE_H][RANK_6]);
+    CPsvModifier::add_bonus_to_colour_complex(dummy_psv, WHITE_SQUARE_COLOUR, 20);
+    EXPECT(dummy_psv[FILE_C][RANK_4] > dummy_psv[FILE_H][RANK_6]);
+    CPsvModifier::add_bonus_to_colour_complex(dummy_psv, BLACK_SQUARE_COLOUR, 30);
+    EXPECT(dummy_psv[FILE_C][RANK_4] < dummy_psv[FILE_H][RANK_6]);
+    CPsvModifier::add_bonus_to_colour_complex(dummy_psv, WHITE_SQUARE_COLOUR, 10);
+    EXPECT(dummy_psv[FILE_C][RANK_4] == dummy_psv[FILE_H][RANK_6]);
     return true;
 }
 

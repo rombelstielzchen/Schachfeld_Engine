@@ -66,18 +66,19 @@ constexpr TFile NO_ENG_PASSENG_POSSIBLE = FILE_GARDEN_FENCE_LEFT_1;
 enum ESquareContent : char {
     EMPTY_SQUARE = '_',
     GARDEN_FENCE = '#',
-    WHITE_KING = 'K',
-    WHITE_QUEEN = 'Q',
-    WHITE_ROOK = 'R',
+    DUMMY_PIECE_FOR_TESTING = 'D',
     WHITE_BISHOP = 'B',
+    WHITE_KING = 'K',
     WHITE_KNIGHT = 'N',
+    WHITE_QUEEN = 'Q',
     WHITE_POWER = 'P',
-    BLACK_KING = 'k',
-    BLACK_QUEEN = 'q',
-    BLACK_ROOK = 'r',
+    WHITE_ROOK = 'R',
     BLACK_BISHOP = 'b',
+    BLACK_KING = 'k',
     BLACK_KNIGHT = 'n',
+    BLACK_QUEEN = 'q',
     BLACK_POWER = 'p',
+    BLACK_ROOK = 'r',
 };
 
 // Modelling side-to-move as booleans for easy indexing and flipping
