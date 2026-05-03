@@ -17,13 +17,14 @@ class CExpertBasicMating: public CVirtualExpert {
     virtual void apply_knowledge() override;
     virtual std::string get_name() const override { return "CExpertBasicMating"; }
   private:
-    void configure_king_tables(bool winning_side);
-    void configure_queen_tables(bool winning_side);
-    void configure_rook_tables(bool winning_side);
-    void configure_knight_tables(bool winning_side);
+    void configure_king_tables(TPlayerColour winning_side);
+    void configure_queen_tables(TPlayerColour winning_side);
+    void configure_rook_tables(TPlayerColour winning_side);
+    void configure_knight_tables(TPlayerColour winning_side);
   private:
-    bool winning_side() const;
+    TPlayerColour winning_side() const;
     bool is_bishop_and_knight() const;
     SSquare desired_mating_corner(const SSquare losing_king_square) const;
+    SSquare desired_mating_corner_for_bishop_and_knight(const SSquare losing_king_square) const;
 };
 

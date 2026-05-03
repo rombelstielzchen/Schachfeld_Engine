@@ -7,6 +7,7 @@
 #include "expert_basic_mating.h"
 #include "../../test_evaluator.h"
 #include "../../../board/board.h"
+#include "../../../board/board_logic.h"
 #include "../../../board/square_constants.h"
 #include "../../../technical_functions/testing.h"
 
@@ -18,6 +19,7 @@ bool CTestExpertBasicMating::test_everything() {
     EXPECT(test_gradient());
     EXPECT(test_gradient_after_moves());
     EXPECT(test_is_bishop_and_knight());
+    EXPECT(test_desired_mating_corner_bishop_and_knight());
     return true;
 }
 
@@ -113,6 +115,23 @@ bool CTestExpertBasicMating::test_is_bishop_and_knight() {
     EXPECT(board.set_fen_position("k1K/////BN w"));
     EXPECT(expert_basic_mating.is_bishop_and_knight());
     // Combinations of bN and Bn fire an assertion, they are excluded by is_responsible()
+    return true;
+}
+
+bool CTestExpertBasicMating::test_desired_mating_corner_bishop_and_knight() {
+    TEST_FUNCTION();
+    CExpertBasicMating expert_basic_mating;
+    EXPECT(board.set_fen_position("KNB//3k w"));
+    EXPECT(expert_basic_mating.desired_mating_corner(D6) == A8);
+    EXPECT(board.set_fen_position("KNB//4k w"));
+    EXPECT(expert_basic_mating.desired_mating_corner(E6) == A8);
+    EXPECT(board.set_fen_position("KNB///3k w"));
+    EXPECT(expert_basic_mating.desired_mating_corner(D3) == H1);
+    EXPECT(board.set_fen_position("knb/////4K w"));
+    EXPECT(CBoardLogic::bishop_colour() == WHITE_SQUARE_COLOUR);
+    EXPECT(expert_basic_mating.desired_mating_corner(E3) == H1);
+    EXPECT(board.set_fen_position("kbn/////4K w"));
+    EXPECT(expert_basic_mating.desired_mating_corner(E3) == A1);
     return true;
 }
 

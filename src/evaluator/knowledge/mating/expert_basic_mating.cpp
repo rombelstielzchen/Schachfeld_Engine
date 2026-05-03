@@ -33,7 +33,7 @@ bool CExpertBasicMating::is_responsible() const {
 }
 
 void CExpertBasicMating::apply_knowledge() {
-    bool winner = winning_side();
+    TPlayerColour winner = winning_side();
      configure_king_tables(winner);
      configure_queen_tables(winner);
      configure_rook_tables(winner);
@@ -43,15 +43,17 @@ void CExpertBasicMating::apply_knowledge() {
 }
 
 SSquare CExpertBasicMating::desired_mating_corner(const SSquare losing_king_square) const {
-    // TODO: select corner for mating with bishop and knight
     assert(square_in_range(losing_king_square));
+    if (is_bishop_and_knight()) {
+        return desired_mating_corner_for_bishop_and_knight(losing_king_square);
+    }
     SSquare mating_corner = CDistances::nearest_square(losing_king_square, CORNER_SQUARES);
     assert(square_in_range(mating_corner));
     return mating_corner;
     ;
 }
 
-void CExpertBasicMating::configure_king_tables(bool winning_side) {
+void CExpertBasicMating::configure_king_tables(TPlayerColour winning_side) {
     char winning_king = WHITE_KING;
     char losing_king = BLACK_KING;
     SSquare losing_king_square = CBoardLogic::king_square(BLACK_PLAYER);
@@ -76,14 +78,14 @@ void CExpertBasicMating::configure_king_tables(bool winning_side) {
     CPsvModifier::make_gradient(main_piece_square_value_table_set[losing_king], target_corner, bonus_losing_king);
     CPsvModifier::make_gradient(main_piece_square_value_table_set[winning_king], losing_king_square, bonus_winning_king);
 }
-void CExpertBasicMating::configure_queen_tables(bool winning_side) {
+void CExpertBasicMating::configure_queen_tables(TPlayerColour winning_side) {
     // The standard tables are nearly good enough, 
     // except high boni for F7 / G7 / H7 / H8 and a malus for B7
     char winning_queen = (winning_side == WHITE_PLAYER) ? WHITE_QUEEN : BLACK_QUEEN;
     CPsvModifier::make_gradient(main_piece_square_value_table_set[winning_queen], E5, bonus_for(winning_side, 10));
 }
 
-void CExpertBasicMating::configure_rook_tables(bool winning_side) {
+void CExpertBasicMating::configure_rook_tables(TPlayerColour winning_side) {
     // The standard-tables suffer from high boni at the 7th rank.
     // To be replaced by moderate boni on the a-file and h-file,
     //encouraging the rook-"ladder"
@@ -93,7 +95,7 @@ void CExpertBasicMating::configure_rook_tables(bool winning_side) {
     CPsvModifier::add_bonus_to_area(main_piece_square_value_table_set[winning_rook], H1, H8, bonus_for(winning_rook, 10));
 }
 
-void CExpertBasicMating::configure_knight_tables(bool winning_side) {
+void CExpertBasicMating::configure_knight_tables(TPlayerColour winning_side) {
     // Standard-tables are nearly OK. except that a knight in the corner is not worth enough,
     // leading to stupid losses, if it can lure the enemy into the corner.
     // Therefore we raise the value of the knight.
@@ -126,5 +128,19 @@ bool CExpertBasicMating::is_bishop_and_knight() const {
         return true;
     }
     return false;
+}
+
+SSquare CExpertBasicMating::desired_mating_corner_for_bishop_and_knight(const SSquare losing_king_square) const {
+    assert(square_in_range(losing_king_square));
+    assert(is_bishop_and_knight());
+    TSquareColour corner_colour = CBoardLogic::bishop_colour();
+    SSquare target_corner = NULL_SQUARE;
+    if (corner_colour == WHITE_SQUARE_COLOUR) {
+        target_corner = CDistances::nearest_square(losing_king_square, WHITE_CORNER_SQUARES);
+    } else {
+        target_corner = CDistances::nearest_square(losing_king_square, BLACK_CORNER_SQUARES);
+    }
+    assert(square_in_range(target_corner));
+    return target_corner;
 }
 

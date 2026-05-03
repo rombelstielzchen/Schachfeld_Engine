@@ -172,9 +172,11 @@ bool CTestBoardLogic::test_is_piece_present() {
 bool CTestBoardLogic::test_bishop_colour()  {
     TEST_FUNCTION();
     EXPECT(board.set_fen_position("k1KB w"));
-    EXPECT(CBoardLogic::bishop_colour() == WHITE_PLAYER);
+    EXPECT(CBoardLogic::bishop_colour() == BLACK_SQUARE_COLOUR);
     EXPECT(board.set_fen_position("k1KNb w"));
-    EXPECT(CBoardLogic::bishop_colour() == BLACK_PLAYER);
+    EXPECT(CBoardLogic::bishop_colour() == WHITE_SQUARE_COLOUR);
+    EXPECT(board.set_fen_position("k1Kbn w"));
+    EXPECT(CBoardLogic::bishop_colour() == BLACK_SQUARE_COLOUR);
     return true;
 }
 
