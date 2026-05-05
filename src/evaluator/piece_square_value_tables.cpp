@@ -201,3 +201,8 @@ void CPsvModifier::add_bonus_to_colour_complex(TPieceSquareValueTable &table, TS
     }
 }
 
+void CPsvModifier::add_bonus_to_border_squares(TPieceSquareValueTable &psv_table, int bonus) {
+    add_bonus_to_area(psv_table, A1, H8, bonus);    
+    add_bonus_to_area(psv_table, B2, G7, -bonus);
+}
+
