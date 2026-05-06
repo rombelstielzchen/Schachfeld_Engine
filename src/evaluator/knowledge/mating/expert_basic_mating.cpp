@@ -69,11 +69,15 @@ void CExpertBasicMating::configure_king_tables(TPlayerColour winning_side) {
     constexpr int malus_winning_king_on_border =  -50;
     CPsvModifier::add_bonus_to_border_squares(main_piece_square_value_table_set[winning_king], bonus_for(winning_side, malus_winning_king_on_border));
 }
+
 void CExpertBasicMating::configure_queen_tables(TPlayerColour winning_side) {
     // The standard tables are nearly good enough, 
-    // except high boni for F7 / G7 / H7 / H8 and a malus for B7
+    // except high boni for F7 / G7 / H7 / H8 and a malus for B7 / C3
     char winning_queen = (winning_side == WHITE_PLAYER) ? WHITE_QUEEN : BLACK_QUEEN;
-    CPsvModifier::make_gradient(main_piece_square_value_table_set[winning_queen], E5, bonus_for(winning_side, 10));
+    TPieceSquareValueTable &queen_table = main_piece_square_value_table_set[winning_queen];
+    CPsvModifier::make_gradient(queen_table, E5, bonus_for(winning_side, 10));
+    const TSquareList good_pre_mating_squares = { D2, E2, B4, B5, D7, E7, G4, G5 };
+    CPsvModifier::add_bonus_to_squares(queen_table, good_pre_mating_squares, 15);
 }
 
 void CExpertBasicMating::configure_rook_tables(TPlayerColour winning_side) {
