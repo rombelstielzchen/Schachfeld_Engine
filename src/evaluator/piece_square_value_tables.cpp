@@ -206,3 +206,9 @@ void CPsvModifier::add_bonus_to_border_squares(TPieceSquareValueTable &psv_table
     add_bonus_to_area(psv_table, B2, G7, -bonus);
 }
 
+void CPsvModifier::add_bonus_to_squares(TPieceSquareValueTable &psv_table, const TSquareList square_list, int bonus) {
+    for (const SSquare s: square_list) {
+        add_bonus_to_square(psv_table, s, bonus);
+    }
+}
+

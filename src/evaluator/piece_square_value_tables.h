@@ -48,6 +48,7 @@ class CPsvModifier {
   public:
     // TODO: psv-modifiers, once they are needed
     static void add_bonus_to_square(TPieceSquareValueTable &psv_table, SSquare square, int bonus);
+    static void add_bonus_to_squares(TPieceSquareValueTable &psv_table, const TSquareList square_list, int bonus);
     static void add_bonus_to_area(TPieceSquareValueTable &psv_table, SSquare bottom_left, SSquare top_right, int bonus);
     static void add_bonus_to_border_squares(TPieceSquareValueTable &psv_table, int bonus);
     static void add_bonus_to_diagonal(TPieceSquareValueTable &psv_table, SSquare left_most_square, int bonus);
