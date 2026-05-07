@@ -212,3 +212,7 @@ void CPsvModifier::add_bonus_to_squares(TPieceSquareValueTable &psv_table, const
     }
 }
 
+void CPsvModifier::add_bonus_to_extended_center(TPieceSquareValueTable &psv_table, int bonus) {
+    add_bonus_to_area(psv_table, C3, F6, bonus);
+}
+

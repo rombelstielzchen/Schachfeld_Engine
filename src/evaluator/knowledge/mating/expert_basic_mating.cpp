@@ -66,8 +66,8 @@ void CExpertBasicMating::configure_king_tables(TPlayerColour winning_side) {
     // We want the winning king to march towards the loser,
     // but not to the extreme, that we occupy his border-square.
     // Especially in KBNk-endgames we need the winner more centralized.
-    constexpr int malus_winning_king_on_border =  -50;
-    CPsvModifier::add_bonus_to_border_squares(main_piece_square_value_table_set[winning_king], bonus_for(winning_side, malus_winning_king_on_border));
+    constexpr int extended_center_bonus =  35;
+    CPsvModifier::add_bonus_to_extended_center(main_piece_square_value_table_set[winning_king], extended_center_bonus);
 }
 
 void CExpertBasicMating::configure_queen_tables(TPlayerColour winning_side) {
