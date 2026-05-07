@@ -352,20 +352,11 @@ build_summary:
 .PHONY: "clean
 clean:
 	make semi_clean
-	### Deleting Windows executables
-	find visual_studio/ -name '*.exe' | xargs rm -f
+	make exe_clean
 	### Deleting precompiled headers
 	find . -name '*.gch' | xargs rm -f
-	find . -name '*.pch' | xargs rm -f
 	### Remove all object files
-	find . -name '*.idb' | xargs rm -f
-	find . -name '*.ilk' | xargs rm -f
-	find . -name '*.iobj' | xargs rm -f
 	find . -name '*.o' | xargs rm -f
-	find . -name '*.obj' | xargs rm -f
-	find . -name '*.pdb' | xargs rm -f
-	find . -name '*.vsidx' | xargs rm -f
-	find . -name '*.VC.db' | xargs rm -f
 	# Remove logs
 	find . -name 'debug.txt' | xargs rm -f
 	find . -name 'fail.txt' | xargs rm -f
@@ -373,9 +364,24 @@ clean:
 	find . -name '*.log' | xargs rm -f
 	find . -name '*.tlog' | xargs rm -r -f
 
+.PHONY:	exe_clean
+exe_clean:
+	### Deleting Windows executables
+	find visual_studio/ -name '*.exe' | xargs rm -f
+	### Deleting precompiled headers
+	find . -name '*.pch' | xargs rm -f
+	### Deleting Windows object files 
+	find . -name '*.idb' | xargs rm -f
+	find . -name '*.ilk' | xargs rm -f
+	find . -name '*.iobj' | xargs rm -f
+	find . -name '*.obj' | xargs rm -f
+	find . -name '*.pdb' | xargs rm -f
+	find . -name '*.vsidx' | xargs rm -f
+	find . -name '*.VC.db' | xargs rm -f
+
 .PHONY: "exe
 exe:
-	make clean
+	make exe_clean
 	cd visual_studio; \
 	bash ./build.sh
 
