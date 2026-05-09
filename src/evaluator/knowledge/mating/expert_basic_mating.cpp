@@ -16,6 +16,7 @@ int bonus_for(bool which_player, int positive_bonus__negative_malus) {
     if (which_player == WHITE_PLAYER) {
         return positive_bonus__negative_malus;
     }
+    assert(which_player == BLACK_PLAYER);
     return -positive_bonus__negative_malus;
 }
 
@@ -43,31 +44,44 @@ void CExpertBasicMating::apply_knowledge() {
 }
 
 void CExpertBasicMating::configure_king_tables(TPlayerColour winning_side) {
-    char winning_king = WHITE_KING;
-    char losing_king = BLACK_KING;
-    SSquare losing_king_square = CBoardLogic::king_square(BLACK_PLAYER);
-    // Positive boni from whites POV
-    // Getting the losing king towards the corner is important; far higher bonus
-    int bonus_winning_king = 15;
-    // The bonus must be not too high, otherwise the winner is willing to sacrifice material
-    // in order to lure the opponent into the corner,
-    // 48 is OK, SCORE_HALF_PAWN too much.
-    int bonus_losing_king = 48;
-    if (winning_side == BLACK_PLAYER) {
-        winning_king = BLACK_KING;
-        losing_king = WHITE_KING;
-        losing_king_square = CBoardLogic::king_square(WHITE_PLAYER);
-    }
+    TPlayerColour losing_side = (winning_side == WHITE_PLAYER) ? BLACK_PLAYER : WHITE_PLAYER;
+    assert(winning_side != losing_side);
+    char winning_king = (winning_side == WHITE_PLAYER) ? WHITE_KING : BLACK_KING;
+    char losing_king = (winning_side == WHITE_PLAYER) ? BLACK_KING : WHITE_KING;
+    assert(winning_king != losing_king);
+    SSquare losing_king_square = CBoardLogic::king_square(losing_side);
     assert(square_in_range(losing_king_square));
+    // Positive boni from whites POV.
+    // Getting the losing king towards the corner is important; far higher bonus.
+    // But not too high, otherwise the winner is willing to sacrifice material
+    // in order to lure the opponent into the corner,
+    // 48 is OK, SCORE_HALF_PAWN already too much.
+    constexpr int bonus_losing_king = 48;
+    constexpr int bonus_winning_king = 15;
     SSquare target_corner = desired_mating_corner(losing_king_square);
     assert(square_in_range(target_corner));
     CPsvModifier::make_gradient(main_piece_square_value_table_set[losing_king], target_corner, bonus_for(winning_side, bonus_losing_king));
-    CPsvModifier::make_gradient(main_piece_square_value_table_set[winning_king], losing_king_square, bonus_for(winning_side, bonus_winning_king));
+    TPieceSquareValueTable &winning_king_table = main_piece_square_value_table_set[winning_king];
+    CPsvModifier::make_gradient(winning_king_table, losing_king_square, bonus_for(winning_side, bonus_winning_king));
     // We want the winning king to march towards the loser,
     // but not to the extreme, that we occupy his border-square.
     // Especially in KBNk-endgames we need the winner more centralized.
-    constexpr int extended_center_bonus =  35;
-    CPsvModifier::add_bonus_to_extended_center(main_piece_square_value_table_set[winning_king], extended_center_bonus);
+    constexpr int bonus_extended_center = 35;
+    CPsvModifier::add_bonus_to_extended_center(winning_king_table, bonus_for(winning_side, bonus_extended_center));
+    TSquareList mate_support_squares = {};
+    if (target_corner == A1) {
+        mate_support_squares = { C2, B3 };
+    } else if (target_corner == H1) {
+        mate_support_squares = { F2, G3 };
+    } else if (target_corner == A8) {
+        mate_support_squares = { C7, B6 };
+    } else {
+        assert(target_corner == H8);
+        mate_support_squares = { F7, H6 };
+    } 
+    assert(mate_support_squares.size() == 2);
+    constexpr int bonus_mate_support_squares = bonus_extended_center + bonus_winning_king;
+    CPsvModifier::add_bonus_to_squares(winning_king_table, mate_support_squares, bonus_for(winning_side, bonus_mate_support_squares));
 }
 
 void CExpertBasicMating::configure_queen_tables(TPlayerColour winning_side) {
@@ -77,7 +91,7 @@ void CExpertBasicMating::configure_queen_tables(TPlayerColour winning_side) {
     TPieceSquareValueTable &queen_table = main_piece_square_value_table_set[winning_queen];
     CPsvModifier::make_gradient(queen_table, E5, bonus_for(winning_side, 10));
     const TSquareList good_pre_mating_squares = { D2, E2, B4, B5, D7, E7, G4, G5 };
-    CPsvModifier::add_bonus_to_squares(queen_table, good_pre_mating_squares, 15);
+    CPsvModifier::add_bonus_to_squares(queen_table, good_pre_mating_squares, bonus_for(winning_side, 15));
 }
 
 void CExpertBasicMating::configure_rook_tables(TPlayerColour winning_side) {
@@ -86,8 +100,8 @@ void CExpertBasicMating::configure_rook_tables(TPlayerColour winning_side) {
     // encouraging the rook-"ladder"
     char winning_rook = (winning_side == WHITE_PLAYER) ? WHITE_ROOK : BLACK_ROOK;
     CPsvModifier::make_equal(main_piece_square_value_table_set[winning_rook], bonus_for(winning_side, score_average_rook));
-    CPsvModifier::add_bonus_to_area(main_piece_square_value_table_set[winning_rook], A1, A8, bonus_for(winning_rook, 10));
-    CPsvModifier::add_bonus_to_area(main_piece_square_value_table_set[winning_rook], H1, H8, bonus_for(winning_rook, 10));
+    CPsvModifier::add_bonus_to_area(main_piece_square_value_table_set[winning_rook], A1, A8, bonus_for(winning_side, 10));
+    CPsvModifier::add_bonus_to_area(main_piece_square_value_table_set[winning_rook], H1, H8, bonus_for(winning_side, 10));
 }
 
 void CExpertBasicMating::configure_knight_tables(TPlayerColour winning_side) {
@@ -96,9 +110,9 @@ void CExpertBasicMating::configure_knight_tables(TPlayerColour winning_side) {
     // Therefore we raise the value of the knight.
     char winning_knight = (winning_side == WHITE_PLAYER) ? WHITE_KNIGHT : BLACK_KNIGHT;
     int precious_knight_score = score_average_rook;
-    CPsvModifier::make_equal(main_piece_square_value_table_set [winning_knight], precious_knight_score);
+    CPsvModifier::make_equal(main_piece_square_value_table_set [winning_knight], bonus_for(winning_side, precious_knight_score));
     CPsvModifier::make_gradient(main_piece_square_value_table_set[winning_knight],  E5, bonus_for(winning_side, 12));
-    int corner_penalty = - SCORE_HALF_PAWN;
+    constexpr int corner_penalty = - SCORE_HALF_PAWN;
     CPsvModifier::add_bonus_to_square(main_piece_square_value_table_set[winning_knight], A1, bonus_for(winning_side, corner_penalty));
     CPsvModifier::add_bonus_to_square(main_piece_square_value_table_set[winning_knight], A8, bonus_for(winning_side, corner_penalty));
     CPsvModifier::add_bonus_to_square(main_piece_square_value_table_set[winning_knight], H1, bonus_for(winning_side, corner_penalty));
