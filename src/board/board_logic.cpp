@@ -276,3 +276,13 @@ TSquareColour CBoardLogic::bishop_colour() {
     return WHITE_PLAYER;
 }
 
+bool CBoardLogic::on_same_diagonal(const SSquare a, const SSquare b) {
+    assert(square_in_range(a));
+    assert(square_in_range(b));
+    return ((a.file +b.rank) == (b.file + a.rank));
+}
+
+bool CBoardLogic::on_same_anti_diagonal(const SSquare a, const SSquare b) {
+    return ((a.file + a.rank) == (b.file + b.rank));
+}
+

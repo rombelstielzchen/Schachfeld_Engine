@@ -51,6 +51,7 @@ typedef struct {
 #pragma pack(pop)
 
 class CBoard {
+    // TODO: mov static methods + tests to CBoardLogic
     friend class CFenParser;
     friend class CMoveMaker;
   public:

@@ -20,6 +20,8 @@ bool CTestPsvModifiers::test_everything() {
     EXPECT(auto_cleanup_on_new_position());
     EXPECT(test_add_bonus_to_colour_complex());
     EXPECT(test_add_bonus_to_border_squares());
+    EXPECT(test_add_bonus_to_diagonal());
+    EXPECT(test_add_bonus_to_anti_diagonal());
     return true;
 }
 
@@ -73,7 +75,6 @@ bool CTestPsvModifiers::test_make_gradient() {
 
 bool CTestPsvModifiers::test_add_bonus_to_colour_complex() {
     TEST_FUNCTION();
-    TPieceSquareValueTable &dummy_psv = main_piece_square_value_table_set[DUMMY_PIECE_FOR_TESTING];
     CPsvModifier::make_equal(dummy_psv, 0);
     EXPECT(dummy_psv[FILE_C][RANK_4] == dummy_psv[FILE_H][RANK_6]);
     CPsvModifier::add_bonus_to_colour_complex(dummy_psv, WHITE_SQUARE_COLOUR, 20);
@@ -87,13 +88,26 @@ bool CTestPsvModifiers::test_add_bonus_to_colour_complex() {
 
 bool CTestPsvModifiers::test_add_bonus_to_border_squares() {
     TEST_FUNCTION();
-    TPieceSquareValueTable &dummy_psv = main_piece_square_value_table_set[DUMMY_PIECE_FOR_TESTING];
     CPsvModifier::make_equal(dummy_psv, 0);
     CPsvModifier::add_bonus_to_border_squares(dummy_psv, 20);
     EXPECT(dummy_psv[FILE_A][RANK_1] == 20);
     EXPECT(dummy_psv[FILE_H][RANK_8] == 20);
     EXPECT(dummy_psv[FILE_B][RANK_7] == 0);
     EXPECT(dummy_psv[FILE_G][RANK_2] == 0);
+    return true;
+}
+
+bool CTestPsvModifiers::test_add_bonus_to_diagonal() {
+    TEST_FUNCTION();
+    return true;
+}
+
+bool CTestPsvModifiers::test_add_bonus_to_anti_diagonal() {
+    TEST_FUNCTION();
+    CPsvModifier::make_equal(dummy_psv, 3141);
+    CPsvModifier::add_bonus_to_anti_diagonal(dummy_psv, D5, 10);
+    EXPECT(dummy_psv[FILE_G][RANK_2] == dummy_psv[FILE_D][RANK_5]);
+    EXPECT(dummy_psv[FILE_C][RANK_4] != dummy_psv[FILE_D][RANK_5]);
     return true;
 }
 

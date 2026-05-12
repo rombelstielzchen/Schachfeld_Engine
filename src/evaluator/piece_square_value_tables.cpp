@@ -5,6 +5,7 @@
 
 #include "piece_square_value_tables.h"
 #include "score_constants.h"
+#include "../board/board_logic.h"
 #include "../board/distances.h"
 #include "../move_generator/move.h"
 
@@ -100,17 +101,21 @@ void CPsvModifier::clone_from_kings_to_queens_bishop(TPieceSquareValueTable &psv
     assert(psv_table[FILE_C][RANK_8] == psv_table[FILE_F][RANK_8] + positive_delta_value);
 }
 
-void CPsvModifier::show_psv_table(char piece_type) {
-    assert(is_any_piece(piece_type));
-    std::cout << "*** " <<piece_type << " **************\n";
+void CPsvModifier::show_psv_table(const TPieceSquareValueTable &psv_table) {
     for (TFile j = FILE_A; j <= FILE_H; ++j) {
         std::cout << file_as_text(j) << ": ";
         for (TRank k = RANK_1; k <= RANK_8; ++k) {
-            std::cout << main_piece_square_value_table_set[piece_type][j][k] << " ";
+            std::cout << psv_table[j][k] << " ";
         }
         std::cout << "\n"; 
     }
-    std::cout << "avg: " << average(main_piece_square_value_table_set[piece_type]) << "\n";
+    std::cout << "avg: " << average(psv_table) << "\n";
+}
+
+void CPsvModifier::show_psv_table(char piece_type) {
+    assert(is_any_piece(piece_type) || (piece_type == DUMMY_PIECE_FOR_TESTING));
+    std::cout << "*** " <<piece_type << " **************\n";
+    show_psv_table(main_piece_square_value_table_set[piece_type]);
 }
 
 void CPsvModifier::show_main_psv_tables() {
@@ -214,5 +219,25 @@ void CPsvModifier::add_bonus_to_squares(TPieceSquareValueTable &psv_table, const
 
 void CPsvModifier::add_bonus_to_extended_center(TPieceSquareValueTable &psv_table, int bonus) {
     add_bonus_to_area(psv_table, C3, F6, bonus);
+}
+
+void CPsvModifier::add_bonus_to_diagonal(TPieceSquareValueTable &psv_table, const SSquare any_reference_square, int bonus) {
+    assert(square_in_range(any_reference_square));
+    for (const SSquare s: ALL_SQUARES) {
+        if (CBoardLogic::on_same_diagonal(s, any_reference_square)) {
+            CPsvModifier::add_bonus_to_square(psv_table, s, bonus);
+        }
+    }
+}
+
+void CPsvModifier::add_bonus_to_anti_diagonal(TPieceSquareValueTable &psv_table, const SSquare any_reference_square, int bonus) {
+    assert(square_in_range(any_reference_square));
+    std::cerr << "add_bonus_to_anti_diagonal\n";
+    for (const SSquare s: ALL_SQUARES) {
+        if (CBoardLogic::on_same_anti_diagonal(s, any_reference_square)) {
+            CPsvModifier::add_bonus_to_square(psv_table, s, bonus);
+            std::cerr << "add to " << s << "\n";
+        }
+    }
 }
 

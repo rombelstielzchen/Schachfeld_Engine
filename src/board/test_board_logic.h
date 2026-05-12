@@ -22,5 +22,8 @@ class CTestBoardLogic {
     static bool test_is_pawn_missing();
     static bool test_n_stones();
     static bool test_bishop_colour();
+  private:
+    static bool test_on_same_diagonal();
+    static bool test_on_same_anti_diagonal();
 };
 

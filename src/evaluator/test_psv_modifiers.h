@@ -16,5 +16,7 @@ class CTestPsvModifiers {
     static bool auto_cleanup_on_new_position();
     static bool test_add_bonus_to_colour_complex();
     static bool test_add_bonus_to_border_squares();
+    static bool test_add_bonus_to_diagonal();
+    static bool test_add_bonus_to_anti_diagonal();
 };
 

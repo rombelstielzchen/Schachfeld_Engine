@@ -27,6 +27,8 @@ typedef std::array<TPieceSquareValueTable, N_PIECE_SQUARE_VALUE_TABLES> TPieceSq
 
 inline TPieceSquareValueTableSet main_piece_square_value_table_set;
 
+inline constexpr TPieceSquareValueTable &dummy_psv = main_piece_square_value_table_set[DUMMY_PIECE_FOR_TESTING];
+
 class CPsvModifier {
   public:
     CPsvModifier(TPieceSquareValueTable &psv_table_to_be_modified);
@@ -51,8 +53,8 @@ class CPsvModifier {
     static void add_bonus_to_squares(TPieceSquareValueTable &psv_table, const TSquareList square_list, int bonus);
     static void add_bonus_to_area(TPieceSquareValueTable &psv_table, SSquare bottom_left, SSquare top_right, int bonus);
     static void add_bonus_to_border_squares(TPieceSquareValueTable &psv_table, int bonus);
-    static void add_bonus_to_diagonal(TPieceSquareValueTable &psv_table, SSquare left_most_square, int bonus);
-    static void add_bonus_to_anti_diagonal(TPieceSquareValueTable psv_table, SSquare left_most_square, int bonus);
+    static void add_bonus_to_diagonal(TPieceSquareValueTable &psv_table, const SSquare any_reference_square, int bonus);
+    static void add_bonus_to_anti_diagonal(TPieceSquareValueTable &psv_table, const SSquare any_reference_square, int bonus);
   public:
     // TODO: psv-modifiers, once they are needed
     static void add_bonus_to_center(TPieceSquareValueTable &psv_table, int bonus);
@@ -62,8 +64,10 @@ class CPsvModifier {
     static void add_bonus_to_colour_complex(TPieceSquareValueTable &table, TSquareColour colour, int bonus);
     static void make_gradient(TPieceSquareValueTable &table, const SSquare target_square, int bonus_per_step);
   public:
+    static void show_psv_table(const TPieceSquareValueTable &psv_table);
     static void show_psv_table(char piece_type);
     static void show_main_psv_tables();
+  public:
     static void set_psv_row(TPieceSquareValueTable &psv_table, const TRank rank, const int value);
   private:
     // TODO: needed?

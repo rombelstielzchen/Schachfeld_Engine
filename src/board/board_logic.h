@@ -51,5 +51,8 @@ class CBoardLogic {
   public:
     static int n_stones(bool which_player);
     static int n_stones();
+  public:
+    static bool on_same_diagonal(const SSquare a, const SSquare b);
+    static bool on_same_anti_diagonal(const SSquare a, const SSquare b);
 };
 
