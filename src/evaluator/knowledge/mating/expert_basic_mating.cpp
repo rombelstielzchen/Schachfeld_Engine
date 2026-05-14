@@ -38,9 +38,9 @@ void CExpertBasicMating::apply_knowledge() {
      configure_king_tables(winner);
      configure_queen_tables(winner);
      configure_rook_tables(winner);
+     configure_bishop_tables(winner);
      configure_knight_tables(winner);
-     // Nothing to be changed for bishops, they are good the way they are.
-     // Even less to be done for pawns.
+     // Nothing to be changed for .ewns
 }
 
 void CExpertBasicMating::configure_king_tables(TPlayerColour winning_side) {
@@ -162,5 +162,20 @@ SSquare CExpertBasicMating::desired_mating_corner(const SSquare losing_king_squa
     assert(square_in_range(mating_corner));
     return mating_corner;
     ;
+}
+
+void CExpertBasicMating::configure_bishop_tables([[maybe_unused]]TPlayerColour winning_side) {
+     // TODO: improve or remove
+///    char winning_bishop = (winning_side == WHITE_PLAYER) ? WHITE_BISHOP : BLACK_BISHOP;
+///    TPieceSquareValueTable &bishop_table = main_piece_square_value_table_set[winning_bishop];
+///    assert((bishop_table == main_piece_square_value_table_set[WHITE_BISHOP]) || (bishop_table == main_piece_square_value_table_set[BLACK_BISHOP]));
+    // 1) Centralization
+///    constexpr int bonus_central_bishop_per_square = 10;
+///    CPsvModifier::make_gradient(bishop_table, E5, bonus_for(winning_side, bonus_central_bishop_per_square));
+    // 2) Avoid the kings diagonal. Possible obstructiion and wrong when mating on low depth.
+///    constexpr int malus_for_bishop_on_kings_diagonal = -2 * bonus_central_bishop_per_square;
+///    SSquare winning_king_square = CBoardLogic::king_square(winning_side);
+///    CPsvModifier::add_bonus_to_diagonal(bishop_table, winning_king_square, bonus_for(winning_side, malus_for_bishop_on_kings_diagonal)); 
+///    CPsvModifier::add_bonus_to_anti_diagonal(bishop_table, winning_king_square, bonus_for(winning_side, malus_for_bishop_on_kings_diagonal)); 
 }
 

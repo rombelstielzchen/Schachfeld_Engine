@@ -20,6 +20,7 @@ class CExpertBasicMating: public CVirtualExpert {
     void configure_king_tables(TPlayerColour winning_side);
     void configure_queen_tables(TPlayerColour winning_side);
     void configure_rook_tables(TPlayerColour winning_side);
+    void configure_bishop_tables(TPlayerColour winning_side);
     void configure_knight_tables(TPlayerColour winning_side);
   private:
     TPlayerColour winning_side() const;

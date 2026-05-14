@@ -98,6 +98,9 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     { "2kr3r/5ppp/5bbb/////6BK b", "r4rk/5ppp/5bbb/////6BK b" },
     // Scandinavian: 3...Qa5 is better (for black) than Qe6
     { "rnb1kbnr/ppp1pppp/4q////PPPP1PPP/RNBQKBNR w", "rnb1kbnr/ppp1pppp//q///PPPP1PPP/RNBQKBNR w"} ,
+    // TODO: remove, if we can't mate with depth 2
+    // Mating with 2 bishops on very low depth. Good placement of the bishop that does not control the corner
+///    { "k/2K///2BB b", "k/2K//4B/2B b" },
 };
 
 bool CTestEvaluator::test_everything() {
@@ -212,8 +215,10 @@ bool CTestEvaluator::first_position_better(const STestcaseEvaluator &testcase) {
     CTEST << "testcase: [\"" << testcase.better_position << "\", \"" << testcase.worse_position << "\"]\n";
     SILENT_EXPECT(board.set_fen_position(testcase.better_position));
     int better_Score = board.evaluator.evaluate();
+///    board.evaluator.log_board_evaluation();
     SILENT_EXPECT(board.set_fen_position(testcase.worse_position));
     int worse_score = board.evaluator.evaluate();
+///    board.evaluator.log_board_evaluation();
     CTEST << better_Score << " >? " << worse_score << "\n";
     SILENT_EXPECT(better_Score > worse_score);
     return true;
