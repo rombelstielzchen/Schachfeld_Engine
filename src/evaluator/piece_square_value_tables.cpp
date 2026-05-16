@@ -221,6 +221,10 @@ void CPsvModifier::add_bonus_to_extended_center(TPieceSquareValueTable &psv_tabl
     add_bonus_to_area(psv_table, C3, F6, bonus);
 }
 
+void CPsvModifier::add_bonus_to_center(TPieceSquareValueTable &psv_table, int bonus) {
+    add_bonus_to_area(psv_table, D4, E5, bonus);
+}
+
 void CPsvModifier::add_bonus_to_diagonal(TPieceSquareValueTable &psv_table, const SSquare any_reference_square, int bonus) {
     assert(square_in_range(any_reference_square));
     for (const SSquare s: ALL_SQUARES) {

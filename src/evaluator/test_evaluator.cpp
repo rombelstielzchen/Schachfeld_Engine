@@ -101,6 +101,9 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     // TODO: remove, if we can't mate with depth 2
     // Mating with 2 bishops on very low depth. Good placement of the bishop that does not control the corner
 ///    { "k/2K///2BB b", "k/2K//4B/2B b" },
+    // Mating with bishop and knight.
+    // Prefer the bishop to control the bishop-colour; keep the knight away from the border
+    { "/////5K/5N1B/5k b", "///4B//5K1N//5k b" },
 };
 
 bool CTestEvaluator::test_everything() {

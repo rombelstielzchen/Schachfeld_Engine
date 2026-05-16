@@ -381,7 +381,7 @@ exe_clean:
 
 .PHONY: "exe
 exe:
-	make exe_clean
+	#make exe_clean
 	cd visual_studio; \
 	bash ./build.sh
 
