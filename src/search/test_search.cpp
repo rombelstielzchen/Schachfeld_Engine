@@ -120,6 +120,8 @@ const std::vector<STestcaseSearch> testcases_search = {
     // Test for rescuing a knight from the corner
     { 4, "d5c6", "N6N///3k4////K7 b" },
     { 5, "a8c7", "N6N///3k4////K6N w" },
+    // Mate with a single rook, boxing in the enemy king
+    { 2, "h5e5", "///7r/3K1k b" }
 };
 
         bool CTestSearch::test_everything() {
