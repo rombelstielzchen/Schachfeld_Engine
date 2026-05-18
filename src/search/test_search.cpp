@@ -121,7 +121,14 @@ const std::vector<STestcaseSearch> testcases_search = {
     { 4, "d5c6", "N6N///3k4////K7 b" },
     { 5, "a8c7", "N6N///3k4////K6N w" },
     // Mate with a single rook, boxing in the enemy king
-    { 2, "h5e5", "///7r/3K1k b" }
+    { 2, "a8a4", "R//3K//4k w" },
+    { 2, "a8a5", "RK////7k w" },
+    { 2, "h5e5", "///7R/3k1K2/// w" },
+    // Mate with a single rook; good waiting-moves before mate, identical for black and white
+    { 2, "c7c6", "1k/2R/1K w"},
+    { 2, "c7c6", "1K/2r/1k b" },
+    { 2, "f2f3", "/////6K/5R/6k w" },
+    { 2, "f2f3", "/////6k/5r/6K b" },
 };
 
         bool CTestSearch::test_everything() {

@@ -152,3 +152,7 @@ inline TRank& operator--(TRank &rank) {
     return rank;
 }
 
+inline bool player_colour_in_range(TPlayerColour player_colour) {
+    return ((player_colour == WHITE_PLAYER) || (player_colour == BLACK_PLAYER));
+}
+

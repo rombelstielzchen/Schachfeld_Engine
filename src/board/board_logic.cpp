@@ -100,6 +100,8 @@ bool CBoardLogic::is_valid_target_square(const TFile file, const TRank rank) {
 }
 
 SSquare CBoardLogic::king_square(TPlayerColour white_or_black) {
+    assert(!is_any_piece(white_or_black));
+    assert(player_colour_in_range(white_or_black));
     char wanted_king_dead_or_alive = (white_or_black == WHITE_PLAYER) ? WHITE_KING : BLACK_KING;
     for (const SSquare s: ALL_SQUARES) {
         if (board.get_square(s) == wanted_king_dead_or_alive) {

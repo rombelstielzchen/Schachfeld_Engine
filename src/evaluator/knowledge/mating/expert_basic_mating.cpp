@@ -49,8 +49,7 @@ bool CExpertBasicMating::is_responsible() const {
 void CExpertBasicMating::apply_knowledge() {
     TPlayerColour winner = winning_side();
     char winning_king = (winner == WHITE_PLAYER) ? WHITE_KING : BLACK_KING;
-    TPlayerColour losing_side = (winner == WHITE_PLAYER) ? BLACK_PLAYER : WHITE_PLAYER;
-    assert(winner != losing_side);
+    TPlayerColour losing_side = !winner;
     char losing_king = (losing_side == WHITE_PLAYER) ? WHITE_KING : BLACK_KING;
     assert(winning_king != losing_king);
     SSquare losing_king_square = CBoardLogic::king_square(losing_side);
@@ -59,7 +58,7 @@ void CExpertBasicMating::apply_knowledge() {
     assert(square_in_range(target_corner));
      configure_king_tables(winner, target_corner);
      configure_queen_tables(winner);
-     configure_rook_tables(winner);
+     configure_rook_tables(winner, target_corner);
      configure_bishop_tables(winner);
      configure_knight_tables(winner, target_corner);
      // Nothing to be changed for pawns
@@ -67,19 +66,22 @@ void CExpertBasicMating::apply_knowledge() {
 
 void CExpertBasicMating::configure_king_tables(TPlayerColour winning_side, const SSquare target_corner) {
     // TODO: s this cloned code? make it class-members?
-    TPlayerColour losing_side = (winning_side == WHITE_PLAYER) ? BLACK_PLAYER : WHITE_PLAYER;
-    assert(winning_side != losing_side);
+    TPlayerColour losing_side = !winning_side;
     char winning_king = (winning_side == WHITE_PLAYER) ? WHITE_KING : BLACK_KING;
-    char losing_king = (winning_side == WHITE_PLAYER) ? BLACK_KING : WHITE_KING;
+    char losing_king = (losing_side == WHITE_PLAYER) ? WHITE_KING : BLACK_KING;
     assert(winning_king != losing_king);
     SSquare losing_king_square = CBoardLogic::king_square(losing_side);
     assert(square_in_range(losing_king_square));
+    TPieceSquareValueTable &losing_king_table = main_piece_square_value_table_set[losing_king];
+    CPsvModifier::make_equal(losing_king_table, bonus_for(losing_side, SCORE_KING));
     CPsvModifier::make_gradient(main_piece_square_value_table_set[losing_king], target_corner, bonus_for(winning_side, bonus_losing_king));
     TPieceSquareValueTable &winning_king_table = main_piece_square_value_table_set[winning_king];
+    CPsvModifier::make_equal(winning_king_table, bonus_for(winning_side, SCORE_KING));
     CPsvModifier::make_gradient(winning_king_table, losing_king_square, bonus_for(winning_side, bonus_winning_king));
     // We want the winning king to march towards the loser,
     // but not to the extreme, that we occupy his border-square.
     // Especially in KBNk-endgames we need the winner more centralized.
+    // TODO: bonus too high? especially with a trapped knihgt?
     constexpr int bonus_extended_center = 99;
     CPsvModifier::add_bonus_to_extended_center(winning_king_table, bonus_for(winning_side, bonus_extended_center));
     TSquareList mate_support_squares = {};
@@ -109,11 +111,16 @@ void CExpertBasicMating::configure_queen_tables(TPlayerColour winning_side) {
     CPsvModifier::add_bonus_to_squares(queen_table, good_pre_mating_squares, bonus_for(winning_side, bonus_mate_support_squares));
 }
 
-void CExpertBasicMating::configure_rook_tables(TPlayerColour winning_side) {
+void CExpertBasicMating::configure_rook_tables(TPlayerColour winning_side, const SSquare target_square) {
+    char winning_rook = (winning_side == WHITE_PLAYER) ? WHITE_ROOK : BLACK_ROOK;
+    if (CBoardLogic::n_pieces_present(winning_rook) == 1) {
+        configure_rook_tables__single_rook(winning_side, target_square);
+        return; //!!!
+    } else {
+    }
     // The standard-tables suffer from high boni at the 7th rank.
     // To be replaced by moderate boni on the a-file and h-file,
     // encouraging the rook-"ladder"
-    char winning_rook = (winning_side == WHITE_PLAYER) ? WHITE_ROOK : BLACK_ROOK;
     TPieceSquareValueTable &rook_table = main_piece_square_value_table_set[winning_rook];
     CPsvModifier::make_equal(rook_table, bonus_for(winning_side, score_average_rook));
     constexpr int flank_bonus = 10;
@@ -201,5 +208,23 @@ void CExpertBasicMating::configure_bishop_tables([[maybe_unused]]TPlayerColour w
 ///    SSquare winning_king_square = CBoardLogic::king_square(winning_side);
 ///    CPsvModifier::add_bonus_to_diagonal(bishop_table, winning_king_square, bonus_for(winning_side, malus_for_bishop_on_kings_diagonal)); 
 ///    CPsvModifier::add_bonus_to_anti_diagonal(bishop_table, winning_king_square, bonus_for(winning_side, malus_for_bishop_on_kings_diagonal)); 
+}
+
+void CExpertBasicMating::configure_rook_tables__single_rook(TPlayerColour winning_side, const SSquare target_square) {
+    assert(player_colour_in_range(winning_side));
+    assert(!is_any_piece(winning_side));
+    assert(square_in_range(target_square));
+    char winning_rook = (winning_side == WHITE_PLAYER) ? WHITE_ROOK : BLACK_ROOK;
+    TPlayerColour losing_side = !winning_side;
+    SSquare losing_king_square = CBoardLogic::king_square(losing_side);
+    assert(square_in_range(losing_king_square));
+    std::cerr << "losing_king_square: " << losing_king_square << "\n";
+    // Strategy for a single rook: box in the enemy king
+    constexpr int bonus_rook = 12;
+    static_assert(bonus_rook < bonus_winning_king);
+    TPieceSquareValueTable &rook_table = main_piece_square_value_table_set[winning_rook];
+    CPsvModifier::make_equal(rook_table, bonus_for(winning_side, score_average_rook));
+    CPsvModifier::make_gradient(rook_table, losing_king_square, bonus_for(winning_side, bonus_rook));
+    CPsvModifier::show_psv_table(winning_rook);///!!!
 }
 
