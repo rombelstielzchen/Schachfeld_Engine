@@ -8,8 +8,6 @@
 #include "../../piece_square_value_tables.h"
 #include "../virtual_expert.h"
 
-///extern TPieceSquareValueTable endgame_king_psv_table;
-
 class CExpertBasicMating: public CVirtualExpert {
     friend class CTestExpertBasicMating;
   private:

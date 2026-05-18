@@ -24,6 +24,7 @@ bool CTestBoardLogic::test_everything() {
     EXPECT(test_n_stones());
     EXPECT(test_on_same_diagonal());
     EXPECT(test_on_same_anti_diagonal());
+    EXPECT(test_n_pieces_present());
     return true;
 }
 
@@ -197,6 +198,14 @@ bool CTestBoardLogic::test_on_same_anti_diagonal() {
     EXPECT(CBoardLogic::on_same_anti_diagonal(C4, F1));
     EXPECT(CBoardLogic::on_same_anti_diagonal(C4, E8) == false);
     EXPECT(CBoardLogic::on_same_anti_diagonal(C4, G2) == false);
+    return true;
+}
+
+bool CTestBoardLogic::test_n_pieces_present() {
+    board.set_start_position();
+    EXPECT(CBoardLogic::n_pieces_present(WHITE_KING) == 1);
+    EXPECT(CBoardLogic::n_pieces_present(BLACK_ROOK) == 2);
+    EXPECT(CBoardLogic::n_pieces_present(BLACK_POWER) == 8);
     return true;
 }
 

@@ -99,7 +99,7 @@ bool CBoardLogic::is_valid_target_square(const TFile file, const TRank rank) {
     return square_occupied_by_opponent(file, rank);
 }
 
-SSquare CBoardLogic::king_square(bool white_or_black) {
+SSquare CBoardLogic::king_square(TPlayerColour white_or_black) {
     char wanted_king_dead_or_alive = (white_or_black == WHITE_PLAYER) ? WHITE_KING : BLACK_KING;
     for (const SSquare s: ALL_SQUARES) {
         if (board.get_square(s) == wanted_king_dead_or_alive) {
@@ -151,7 +151,7 @@ bool CBoardLogic::opponents_king_in_check() {
     return (CBoardLogic::piece_attacked_by_side_to_move(opponent_king_square));
 }
 
-bool CBoardLogic::illegal_move(SMove move) {
+bool CBoardLogic::illegal_move(const SMove move) {
     assert(move_in_range(move));
     board.move_maker.make_move(move);
     bool result = opponents_king_in_check();
@@ -284,5 +284,16 @@ bool CBoardLogic::on_same_diagonal(const SSquare a, const SSquare b) {
 
 bool CBoardLogic::on_same_anti_diagonal(const SSquare a, const SSquare b) {
     return ((a.file + a.rank) == (b.file + b.rank));
+}
+
+int CBoardLogic::n_pieces_present(char piece_type) {
+    assert(is_any_piece(piece_type));
+    int result = 0;
+    for (const SSquare s: ALL_SQUARES) {
+        if (board.get_square(s) == piece_type) {
+            ++result;
+        }
+    }
+    return result;
 }
 

@@ -25,5 +25,6 @@ class CTestBoardLogic {
   private:
     static bool test_on_same_diagonal();
     static bool test_on_same_anti_diagonal();
+    static bool test_n_pieces_present();
 };
 

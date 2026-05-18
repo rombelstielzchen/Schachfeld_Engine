@@ -29,11 +29,11 @@ class CBoardLogic {
     static bool is_valid_target_square(const TFile file, const TRank rank);
   public:
     // Simple and slow, meant for the root-node only
-    static SSquare king_square(bool white_or_black);
+    static SSquare king_square(TPlayerColour white_or_black);
   public:
     static bool piece_attacked_by_side_to_move(const SSquare square);
    static bool piece_attacked_by_side_not_to_move(const SSquare square); 
-    static bool illegal_move(SMove move);
+    static bool illegal_move(const SMove move);
     static bool own_king_in_check();
     static bool opponents_king_in_check();
     static bool one_king_missing();
@@ -48,6 +48,7 @@ class CBoardLogic {
     static TSquareColour bishop_colour();
   public:
     static bool is_piece_present(char piece_type);
+    static int n_pieces_present(char piece_type);
   public:
     static int n_stones(bool which_player);
     static int n_stones();
