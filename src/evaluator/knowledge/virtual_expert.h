@@ -9,7 +9,7 @@
 
 class CVirtualExpert {
   public:
-    virtual ~CVirtualExpert();
+    virtual ~CVirtualExpert() = default;
   public:
     void configure();
   public:

@@ -12,15 +12,14 @@
 #include "knowledge/opening/castling_direction/expert_castling_direction.h"
 #include "../board/board_logic.h"
 
-// TODO: global?
-CExpertGeneral expert_general;
-CExpertCastlingDirection expert_castling_direction;
-CExpertEndgameKingActivity expert_endgame_king_activity;
-CExpertEndgamePawn expert_endgame_pawn;
-CExpertEndgameQueen expert_endgame_queen;
-CExpertBasicMating expert_basic_mating;
-
 COracle::COracle() {
+    // static experts here for global lifetime and proper order of initialization
+    static CExpertGeneral expert_general;
+    static CExpertCastlingDirection expert_castling_direction;
+    static CExpertEndgameKingActivity expert_endgame_king_activity;
+    static CExpertEndgamePawn expert_endgame_pawn;
+    static CExpertEndgameQueen expert_endgame_queen;
+    static CExpertBasicMating expert_basic_mating;
     // Order of insertions = order of execution.
     // Basic experts first, more specialized experts later
     expert_collection.push_back(&expert_general);
@@ -33,8 +32,10 @@ COracle::COracle() {
 
 void COracle::configure_knowledge() {
     assert(expert_collection.size() > 0);
-    for (CVirtualExpert* const p_expert: expert_collection) {
-        p_expert->configure();
+    for (CVirtualExpert *expert: expert_collection) {
+        assert(expert != nullptr);
+        assert(typeid(*expert).name());
+        expert->configure();
     }
 }
 

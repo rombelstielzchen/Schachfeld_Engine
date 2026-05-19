@@ -15,17 +15,31 @@ class CExpertBasicMating: public CVirtualExpert {
     virtual void apply_knowledge() override;
     virtual std::string get_name() const override { return "CExpertBasicMating"; }
   private:
-    void configure_king_tables(TPlayerColour winning_side, const SSquare target_square);
-    void configure_queen_tables(TPlayerColour winning_side);
-    void configure_rook_tables(TPlayerColour winning_side, const SSquare target_square);
-    void configure_bishop_tables(TPlayerColour winning_side);
-    void configure_knight_tables(TPlayerColour winning_side, const SSquare target_square);
+    void configure_king_tables();
+    void configure_queen_tables();
+    void configure_rook_tables();
+    void configure_bishop_tables();
+    void configure_knight_tables();
   private:
-    void configure_rook_tables__single_rook(TPlayerColour winning_side, const SSquare target_square);
+    void configure_rook_tables__single_rook();
+    void configure_rook_tables__multiple_rooks();
   private:
     TPlayerColour winning_side() const;
     bool is_bishop_and_knight() const;
     SSquare desired_mating_corner(const SSquare losing_king_square) const;
     SSquare desired_mating_corner_for_bishop_and_knight(const SSquare losing_king_square) const;
+  private:
+    TPlayerColour m_winning_side;
+    TPlayerColour m_losing_side;
+  private:
+    char m_winning_king;
+    char m_losing_king;
+    char m_winning_queen;
+    char m_winning_rook;
+    char m_winning_bishop;
+    char m_winning_knight;
+  private:
+    SSquare m_losing_king_square;
+    SSquare m_target_corner;
 };
 
