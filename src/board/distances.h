@@ -11,6 +11,7 @@
 class CDistances {
   public:
     static double euclidian_distance(const SSquare a, const SSquare b);
+    static double manhattan_distance(const SSquare a, const SSquare b);
     static SSquare nearest_square(const SSquare target_square, TSquareList square_list);
 };
 

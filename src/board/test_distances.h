@@ -12,6 +12,7 @@ class CTestDistances {
       static bool test_everything();
   private:
       static bool test_euclidian_distance();
+      static bool test_manhattan_distance();
       static bool test_nearest_square();
 };
 

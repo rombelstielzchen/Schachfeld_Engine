@@ -38,3 +38,15 @@ SSquare CDistances::nearest_square(const SSquare target_square, TSquareList squa
     return best_square;
 }
 
+double CDistances::manhattan_distance(const SSquare a, const SSquare b) {
+    assert(square_in_range(a));
+    assert(square_in_range(b));
+    int delta_x = abs(a.file - b.file);
+    int delta_y = abs(a.rank - b.rank);
+    int result = delta_x + delta_y;
+    assert(result >= 0);
+    assert(result <= (FILE_H - FILE_A) + (RANK_8 - RANK_1));
+    assert((result == 0) || (a != b));
+    return result;
+}
+
