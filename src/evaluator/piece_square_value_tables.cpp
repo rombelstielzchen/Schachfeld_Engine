@@ -185,11 +185,9 @@ void CPsvModifier::make_gradient(TPieceSquareValueTable &table, const SSquare ta
     assert(abs(bonus_per_step) <= SCORE_HALF_PAWN);
     assert(square_in_range(target_square));
     int base_value = table[target_square.file][target_square.rank];
-    // We use Euclidean metric here, 
-    // as both Manhattan-metric and maximum(dx, dy) look inappropriate.
     for (const SSquare s: ALL_SQUARES) {
-        double  distance = CDistances::euclidian_distance(target_square, s);
-        assert(distance < 10);
+        double  distance = CDistances::mixed_distance(target_square, s);
+        assert(distance <= 14);
         double evaluation_difference = distance * bonus_per_step;
         // TODO: correct cast?
         int square_value = base_value - static_cast<int>(evaluation_difference);
@@ -244,16 +242,37 @@ void CPsvModifier::add_bonus_to_anti_diagonal(TPieceSquareValueTable &psv_table,
         }
     }
 }
-void make_horizontal_gradient(TPieceSquareValueTable &table, TFile target_file, int bonus_per_step) {
-    assert(file_in_range(file));
-    for (const TFile : ALL_FILES) {
+
+void CPsvModifier::make_horizontal_gradient(TPieceSquareValueTable &table, TFile target_file, int bonus_per_step) {
+    assert(file_in_range(target_file));
+    for (const TFile f: ALL_FILES) {
         int dx = abs(target_file - f);
-        int file_bonus = dx * bonus_per_step;
-        add_bonus_to_file(psv_table, f, file_bonus);
+        int file_malus = -dx * bonus_per_step;
+        add_bonus_to_file(table, f, file_malus);
     }
 }
 
-void make_vertical_gradient(TPieceSquareValueTable &table, TRank target_rank, int bonus_per_step) {
-    assert(rank_in_range()rank);
+void CPsvModifier::make_vertical_gradient(TPieceSquareValueTable &table, TRank target_rank, int bonus_per_step) {
+    assert(rank_in_range(target_rank));
+    for (const TRank r: ALL_RANKS) {
+        int dy = abs(target_rank - r);
+        int rank_malus = -dy * bonus_per_step;
+        add_bonus_to_rank(table, r, rank_malus);
+
+    }
+}
+
+void CPsvModifier::add_bonus_to_file(TPieceSquareValueTable &psv_table, TFile file, int bonus) {
+    assert(file_in_range(file));
+    SSquare bottom_left = { file, RANK_1 };
+    SSquare top_right = { file, RANK_8 };
+    add_bonus_to_area(psv_table, bottom_left, top_right, bonus);
+}
+
+void CPsvModifier::add_bonus_to_rank(TPieceSquareValueTable &psv_table, TRank rank, int bonus) {
+    assert(rank_in_range(rank));
+    SSquare bottom_left = { FILE_A, rank };
+    SSquare top_right = { FILE_H, rank };
+    add_bonus_to_area(psv_table, bottom_left, top_right, bonus);
 }
 

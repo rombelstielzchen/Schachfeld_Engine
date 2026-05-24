@@ -58,16 +58,16 @@ bool CTestExpertBasicMating::test_desired_mating_corner() {
 bool CTestExpertBasicMating::test_gradient() {
     TEST_FUNCTION();
     // First check enemies position relative to all 4 corners
-    EXPECT(first_position_better("k5KQ/ w", "6KQ/1k w"));
-    EXPECT(first_position_better("QK5k/ w", "QK/6k w"));
-    EXPECT(first_position_better("///////k5KQ w", "/////2k//6KQ w"));
-    EXPECT(first_position_better("///////QK5k w", "/////5k//QK w"));
+    EXPECT(CTestEvaluator::first_position_better("k5KQ/ w", "6KQ/1k w"));
+    EXPECT(CTestEvaluator::first_position_better("QK5k/ w", "QK/6k w"));
+    EXPECT(CTestEvaluator::first_position_better("///////k5KQ w", "/////2k//6KQ w"));
+    EXPECT(CTestEvaluator::first_position_better("///////QK5k w", "/////5k//QK w"));
     // Position of the winning king relative to the losing king
-    EXPECT(first_position_better("k//2K/3Q b", "k///2KQ b"));
+    EXPECT(CTestEvaluator::first_position_better("k//2K/3Q b", "k///2KQ b"));
     // Now with reversed colours.
     // Be careful, "better" is from whites POV"
-    EXPECT(first_position_better("6kq/K b", "K5kq/ b"));
-    EXPECT(first_position_better("K5kq b", "K4k1q/ b"));
+    EXPECT(CTestEvaluator::first_position_better("6kq/K b", "K5kq/ b"));
+    EXPECT(CTestEvaluator::first_position_better("K5kq b", "K4k1q/ b"));
     return true;
 }
 

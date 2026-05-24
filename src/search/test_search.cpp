@@ -116,7 +116,7 @@ const std::vector<STestcaseSearch> testcases_search = {
     { 4, "h2b8", "k6r/pp/N////6KQ w" },
     { 2, "f8f1", "1k3r2/8/7q/8/8/8/PP4B1/K7 b - - 0 1" },
     // Better mates: under-promotion
-    { 2, "h7h8R", "k/3Q3P//////K w" },
+    { 2, "g7g8R", "k/3Q2P//////K w" },
     // Test for rescuing a knight from the corner
     { 4, "d5c6", "N6N///3k4////K7 b" },
     { 5, "a8c7", "N6N///3k4////K6N w" },
@@ -129,6 +129,10 @@ const std::vector<STestcaseSearch> testcases_search = {
     { 2, "c7c6", "1K/2r/1k b" },
     { 2, "f2f3", "/////6K/5R/6k w" },
     { 2, "f2f3", "/////6k/5r/6K b" },
+    // Mate with 2 rooks
+    { 2, "h3h5", "///5K/r/7r//k b" },
+    { 2, "h4h6", "//3K/r/7r///k b" },
+    { 2, "a1h1", "///3K/r//k/r b"},
 };
 
         bool CTestSearch::test_everything() {

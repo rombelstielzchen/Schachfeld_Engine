@@ -15,7 +15,8 @@ class CExpertBasicMating: public CVirtualExpert {
     virtual void apply_knowledge() override;
     virtual std::string get_name() const override { return "CExpertBasicMating"; }
   private:
-    void configure_king_tables();
+    void configure_losing_king_tables();
+    void configure_winning_king_tables();
     void configure_queen_tables();
     void configure_rook_tables();
     void configure_bishop_tables();

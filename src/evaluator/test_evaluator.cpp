@@ -215,18 +215,21 @@ bool CTestEvaluator::test_pawn_values() {
     return true;
 }
 
+bool CTestEvaluator::first_position_better(const std::string &first_fen, const std::string &second_fen) {
+    SILENT_EXPECT(board.set_fen_position(first_fen));
+    int first_value = board.evaluator.evaluate();
+    board.evaluator.log_board_evaluation();
+    CTEST << first_fen<< "    " << first_value << "\n";
+    SILENT_EXPECT(board.set_fen_position(second_fen));
+    int second_value = board.evaluator.evaluate();
+    board.evaluator.log_board_evaluation();
+    CTEST << second_fen << "    " << second_value << "\n";
+    return first_value > second_value;
+}
+
 bool CTestEvaluator::first_position_better(const STestcaseEvaluator &testcase) {
-    CTEST << "testcase: [\"" << testcase.better_position << "\", \"" << testcase.worse_position << "\"]\n";
-    SILENT_EXPECT(board.set_fen_position(testcase.better_position));
-    int better_Score = board.evaluator.evaluate();
-///    board.evaluator.log_board_evaluation();
-    SILENT_EXPECT(board.set_fen_position(testcase.worse_position));
-    int worse_score = board.evaluator.evaluate();
-///    board.evaluator.log_board_evaluation();
-    CTEST << better_Score << " >? " << worse_score << "\n";
-    SILENT_EXPECT(better_Score > worse_score);
-    return true;
- }
+    return first_position_better(testcase.better_position, testcase.worse_position);
+}
 
 bool CTestEvaluator::first_pawn_better(const SSquare first, const SSquare second) {
     int first_value = CEvaluator::evaluate_white_pawn(first);
@@ -237,13 +240,5 @@ bool CTestEvaluator::first_pawn_better(const SSquare first, const SSquare second
 bool CTestEvaluator::evaluates_approximately_to(const int score) {
     int real_score = board.evaluator.evaluate();
     return (abs(real_score - score) < SCORE_HALF_PAWN);
-}
-
-bool first_position_better(const std::string &first_fen, const std::string &second_fen) {
-    SILENT_EXPECT(board.set_fen_position(first_fen));
-    int first_value = board.evaluator.evaluate();
-    SILENT_EXPECT(board.set_fen_position(second_fen));
-    int second_value = board.evaluator.evaluate();
-    return first_value > second_value;
 }
 

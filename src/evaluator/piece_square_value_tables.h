@@ -48,10 +48,11 @@ class CPsvModifier {
     static void clone_from_kings_to_queens_bishop(TPieceSquareValueTable &psv_table, int const positive_delta_value);
     static void set_psv_row(char piece_type, const TRank rank, const int value);
   public:
-    // TODO: psv-modifiers, once they are needed
     static void add_bonus_to_square(TPieceSquareValueTable &psv_table, SSquare square, int bonus);
     static void add_bonus_to_squares(TPieceSquareValueTable &psv_table, const TSquareList square_list, int bonus);
     static void add_bonus_to_area(TPieceSquareValueTable &psv_table, SSquare bottom_left, SSquare top_right, int bonus);
+    static void add_bonus_to_file(TPieceSquareValueTable &psv_table, TFile file, int bonus);
+    static void add_bonus_to_rank(TPieceSquareValueTable &psv_table, TRank rank, int bonus);
     static void add_bonus_to_border_squares(TPieceSquareValueTable &psv_table, int bonus);
     static void add_bonus_to_diagonal(TPieceSquareValueTable &psv_table, const SSquare any_reference_square, int bonus);
     static void add_bonus_to_anti_diagonal(TPieceSquareValueTable &psv_table, const SSquare any_reference_square, int bonus);

@@ -16,7 +16,8 @@
 // But not too high, otherwise the winner is willing to sacrifice material
 // in order to lure the opponent into the corner,
 // 48 is OK, SCORE_HALF_PAWN already too much.
-constexpr int bonus_losing_king = 48;
+// TODO adapt comment
+constexpr int bonus_losing_king = 36;
 constexpr int bonus_winning_king = 15;
 // Standard-tables are nearly OK. except that a knight in the corner is not worth enough,
 // leading to stupid losses, if it can lure the enemy into the corner.
@@ -61,7 +62,8 @@ void CExpertBasicMating::apply_knowledge() {
     assert(square_in_range(m_losing_king_square));
     m_target_corner = desired_mating_corner(m_losing_king_square);
     assert(square_in_range(m_target_corner));
-     configure_king_tables();
+     configure_losing_king_tables();
+     configure_winning_king_tables();
      configure_queen_tables();
      configure_rook_tables();
      configure_bishop_tables();
@@ -69,18 +71,21 @@ void CExpertBasicMating::apply_knowledge() {
      // Nothing to be changed for pawns
 }
 
-void CExpertBasicMating::configure_king_tables() {
+void CExpertBasicMating::configure_losing_king_tables() {
     TPieceSquareValueTable &losing_king_table = main_piece_square_value_table_set[m_losing_king];
     CPsvModifier::make_equal(losing_king_table, bonus_for(m_losing_side, SCORE_KING));
     CPsvModifier::make_gradient(losing_king_table, m_target_corner, bonus_for(m_winning_side, bonus_losing_king));
-    TPieceSquareValueTable &winning_king_table = main_piece_square_value_table_set[m_winning_king];
-    CPsvModifier::make_equal(winning_king_table, bonus_for(m_winning_side, SCORE_KING));
-    CPsvModifier::make_gradient(winning_king_table, m_losing_king_square, bonus_for(m_winning_side, bonus_winning_king));
+}
+
+void CExpertBasicMating::configure_winning_king_tables() {
     // We want the winning king to march towards the loser,
     // but not to the extreme, that we occupy his border-square.
     // Especially in KBNk-endgames we need the winner more centralized.
     // TODO: bonus too high? especially with a trapped knihgt?
     constexpr int bonus_extended_center = 99;
+    TPieceSquareValueTable &winning_king_table = main_piece_square_value_table_set[m_winning_king];
+    CPsvModifier::make_equal(winning_king_table, bonus_for(m_winning_side, SCORE_KING));
+    CPsvModifier::make_gradient(winning_king_table, m_losing_king_square, bonus_for(m_winning_side, bonus_winning_king));
     CPsvModifier::add_bonus_to_extended_center(winning_king_table, bonus_for(m_winning_side, bonus_extended_center));
     TSquareList mate_support_squares = {};
     if (m_target_corner == A1) {
@@ -117,16 +122,22 @@ void CExpertBasicMating::configure_rook_tables() {
 }
 
 void CExpertBasicMating::configure_rook_tables__multiple_rooks() {
-    // The standard-tables suffer from high boni at the 7th rank.
-    // To be replaced by moderate boni on the a-file and h-file,
-    // encouraging the rook-"ladder"
-    /*
-    TPieceSquareValueTable &rook_table = main_piece_square_value_table_set[winning_rook];
-    CPsvModifier::make_equal(rook_table, bonus_for(winning_side, score_average_rook));
-    constexpr int flank_bonus = 10;
-    CPsvModifier::add_bonus_to_area(rook_table, A1, A8, bonus_for(winning_side, flank_bonus));
-    CPsvModifier::add_bonus_to_area(rook_table, H1, H8, bonus_for(winning_side, flank_bonus));
-    */
+    TPieceSquareValueTable &rook_table = main_piece_square_value_table_set[m_winning_rook];
+    constexpr int vertical_bonus = 5;
+    constexpr int horizontal_malus = -15;
+    constexpr int bonus_ladder_steps = -horizontal_malus + 1;
+    constexpr int central_malus = -50;
+    TSquareColour colour_beautiful_ladder_steps = !m_winning_side;
+    CPsvModifier::make_equal(rook_table, bonus_for(m_winning_side, score_average_rook));
+    CPsvModifier::show_psv_table(m_winning_rook);
+    CPsvModifier::make_vertical_gradient(rook_table, m_losing_king_square.rank, bonus_for(m_winning_side, vertical_bonus));
+    CPsvModifier::show_psv_table(m_winning_rook);
+    CPsvModifier::make_horizontal_gradient(rook_table, m_losing_king_square.file, bonus_for(m_winning_side, horizontal_malus));
+    CPsvModifier::show_psv_table(m_winning_rook);
+    CPsvModifier::add_bonus_to_colour_complex(rook_table, colour_beautiful_ladder_steps, bonus_for(m_winning_side, bonus_ladder_steps));
+    CPsvModifier::show_psv_table(m_winning_rook);
+    CPsvModifier::add_bonus_to_area(rook_table, C1, F8, bonus_for(m_winning_side, central_malus));
+    CPsvModifier::show_psv_table(m_winning_rook);
 }
 
 void CExpertBasicMating::configure_knight_tables() {

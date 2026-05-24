@@ -43,10 +43,21 @@ double CDistances::manhattan_distance(const SSquare a, const SSquare b) {
     assert(square_in_range(b));
     int delta_x = abs(a.file - b.file);
     int delta_y = abs(a.rank - b.rank);
-    int result = delta_x + delta_y;
+    double result = delta_x + delta_y;
     assert(result >= 0);
     assert(result <= (FILE_H - FILE_A) + (RANK_8 - RANK_1));
     assert((result == 0) || (a != b));
+    return result;
+}
+
+double CDistances::mixed_distance(const SSquare a, const SSquare b) {
+    assert(square_in_range(a));
+    assert(square_in_range(b));
+     double result = (euclidian_distance (a, b) + manhattan_distance(a, b)) / 2;
+    assert(result >= 0);
+    assert(result <= (FILE_H - FILE_A) + (RANK_8 - RANK_1));
+    assert((result == 0) || (a != b));
+    assert((result > euclidian_distance(a, b)) || (a.file == b.file) || (a.rank == b.rank));
     return result;
 }
 
