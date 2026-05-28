@@ -244,4 +244,16 @@ void CPsvModifier::add_bonus_to_anti_diagonal(TPieceSquareValueTable &psv_table,
         }
     }
 }
+void make_horizontal_gradient(TPieceSquareValueTable &table, TFile target_file, int bonus_per_step) {
+    assert(file_in_range(file));
+    for (const TFile : ALL_FILES) {
+        int dx = abs(target_file - f);
+        int file_bonus = dx * bonus_per_step;
+        add_bonus_to_file(psv_table, f, file_bonus);
+    }
+}
+
+void make_vertical_gradient(TPieceSquareValueTable &table, TRank target_rank, int bonus_per_step) {
+    assert(rank_in_range()rank);
+}
 

@@ -63,6 +63,8 @@ class CPsvModifier {
     static void add_bonus_to_queenside(TPieceSquareValueTable &psv_table, int bonus);
     static void add_bonus_to_colour_complex(TPieceSquareValueTable &table, TSquareColour colour, int bonus);
     static void make_gradient(TPieceSquareValueTable &table, const SSquare target_square, int bonus_per_step);
+    static void make_horizontal_gradient(TPieceSquareValueTable &table, TFile target_file, int bonus_per_step);
+    static void make_vertical_gradient(TPieceSquareValueTable &table, TRank target_rank, int bonus_per_step);
   public:
     static void show_psv_table(const TPieceSquareValueTable &psv_table);
     static void show_psv_table(char piece_type);

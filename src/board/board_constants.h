@@ -5,6 +5,7 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
+#include <array>
 #include <string>
 
 inline const std::string NO_MOVES_FROM_STARTPOS = "NO_MOVES_FROM_STARTPOS";
@@ -16,8 +17,6 @@ inline const std::string NO_MOVES_FROM_STARTPOS = "NO_MOVES_FROM_STARTPOS";
 //        as the memory-layout of our board is column after column.
 constexpr int BOARDSIZE_X = 12;
 constexpr int BOARDSIZE_Y = 13;
-constexpr int N_SQUARES_ON_BOARD = 64;
-constexpr int N_STONES_TOTAL = 32;
 
 // Constants for ranks and files on the board.
 // Always use named constants! 
@@ -58,7 +57,11 @@ typedef enum : int8_t {
 
 static_assert(FILE_LAST == BOARDSIZE_X - 1);
 static_assert(RANK_NEWLINE_CHARACTER == BOARDSIZE_Y - 1);
-static_assert((FILE_H - FILE_A + 1) * (RANK_8 - RANK_1 + 1) == N_SQUARES_ON_BOARD);
+constexpr int N_FILES = FILE_H - FILE_A + 1;
+constexpr int N_RANKS = RANK_8 - RANK_1 + 1;
+constexpr int N_SQUARES_ON_BOARD = N_FILES * N_RANKS;
+static_assert(N_SQUARES_ON_BOARD == 64);
+constexpr int N_STONES_TOTAL = 32;
 
 // Eng-passeng gets stored as file of the opponents pawn
 constexpr TFile NO_ENG_PASSENG_POSSIBLE = FILE_GARDEN_FENCE_LEFT_1;
@@ -155,4 +158,10 @@ inline TRank& operator--(TRank &rank) {
 inline bool player_colour_in_range(TPlayerColour player_colour) {
     return ((player_colour == WHITE_PLAYER) || (player_colour == BLACK_PLAYER));
 }
+
+inline constexpr std::array<TFile, N_FILES> ALL_FILES = {
+    FILE_A,  FILE_B,  FILE_C,  FILE_D,  FILE_E,  FILE_F,  FILE_G,  FILE_H };
+
+inline constexpr std::array<TRank, N_RANKS> ALL_RANKS = {
+    RANK_1,  RANK_2,  RANK_3,  RANK_4,  RANK_5,  RANK_6,  RANK_7,  RANK_8 };
 
