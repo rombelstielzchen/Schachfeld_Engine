@@ -12,7 +12,6 @@ int main() {
     ///DEBUG_LOG_TO_FILE();
     srand(static_cast<int>(time(NULL)));
     CUciProtocol uci_protocol;
-    // TODO: protocol-startup and engine-initialization before main message_loop
     uci_protocol.message_loop();
      return EXIT_SUCCESS;
 }

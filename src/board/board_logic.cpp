@@ -178,9 +178,7 @@ bool CBoardLogic::is_endgame() {
                 break;
         }
     }
-#ifndef NDEBUG
-    constexpr int n_possible_officers_after_promotion = 30;
-#endif
+    [[maybe_unused]] constexpr int n_possible_officers_after_promotion = 30;
     assert(n_officers <= n_possible_officers_after_promotion);
     return (n_officers <= max_officers_to_be_considered_endgame);
 }

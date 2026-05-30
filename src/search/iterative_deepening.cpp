@@ -170,9 +170,7 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
     int best_score = SCORE_TECHNICAL_MIN;
     move_generator.move_list.reuse_list();
     int const n_moves = move_generator.move_list.list_size();
-#ifndef NDEBUG
-    constexpr int at_least_two_moves__other_cases_already_handled = 2;
-#endif
+    [[maybe_unused]] constexpr int at_least_two_moves__other_cases_already_handled = 2;
     assert(n_moves >= at_least_two_moves__other_cases_already_handled);
     // static in order to handle a badly timed stop-command
     static SMove best_move = NULL_MOVE;

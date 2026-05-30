@@ -213,9 +213,7 @@ void CMoveList::store_castling(const char move_type) {
             new_move.target.rank = RANK_8;
             break;
         default:
-#ifndef NDEBUG
-            constexpr bool invalid_move_type = false;
-#endif
+            [[maybe_unused]] constexpr bool invalid_move_type = false;
             assert(invalid_move_type);
             break;
     }

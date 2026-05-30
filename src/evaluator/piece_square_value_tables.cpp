@@ -77,9 +77,7 @@ void CPsvModifier::normalize_average(TPieceSquareValueTable &psv_table, int targ
     for (const SSquare s: ALL_SQUARES) {
         psv_table[s.file][s.rank] += delta;
     }
-#ifndef NDEBUG
-    constexpr int smaller_than_1_rounded_to_0 = 0;
-#endif
+    [[maybe_unused]] constexpr int smaller_than_1_rounded_to_0 = 0;
     assert(average(psv_table) - target_average == smaller_than_1_rounded_to_0);
 }
 

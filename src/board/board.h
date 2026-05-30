@@ -9,7 +9,6 @@
 #include "game_saver.h"
 #include "move_maker.h"
 #include "../evaluator/evaluator.h"
-///#include "../move_generator/move.h"
 #include "../technical_functions/standard_headers.h"
 
 // Board representation of the Schachfeld_Engine for playing standard chess,
@@ -76,7 +75,6 @@ class CBoard {
     int get_100_ply_draw_counter() const;
     TPiece get_square(const TFile file, const TRank rank) const;
     inline TPiece get_square(const SSquare square) const {
-        ///assert(square_in_range(square)); 
         return get_square(square.file, square.rank); 
     }
     bool square_is_empty(const TFile file, const TRank rank) const;

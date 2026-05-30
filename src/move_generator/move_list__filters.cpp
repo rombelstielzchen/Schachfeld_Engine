@@ -33,9 +33,7 @@ void CMoveList::prune_illegal_moves() {
         SMove move = bidirectional_move_list[pos];
         if (CBoardLogic::illegal_move(move)) {
             assert(valid_list());
-#ifndef NDEBUG
-            int former_list_size = list_size();
-#endif
+            [[maybe_unused]] int former_list_size = list_size();
             assert(pos >= first_capture);
             remove(pos);
             pos = std::max(pos, first_capture);
@@ -117,9 +115,7 @@ void CMoveList::remove(unsigned int position) {
     assert(unused_list());
     assert(position >= first_capture);
     assert(position < next_empty_slot);
-#ifndef NDEBUG
-    int original_list_size = list_size();
-#endif
+    [[maybe_unused]] int original_list_size = list_size();
     assert(original_list_size > 0);
     if (position < LIST_ORIGIN) {
         remove_capture(position);
@@ -182,9 +178,7 @@ void CMoveList::prune_illegal_castlings() {
 
 void CMoveList::remove_capture(unsigned int position) {
     assert(valid_list());
-#ifndef NDEBUG
-    int former_list_size = list_size();
-#endif
+    [[maybe_unused]] int former_list_size = list_size();
     bidirectional_move_list[position] = bidirectional_move_list[first_capture];
     assert(consumer_position == first_capture);
     ++first_capture;
@@ -195,9 +189,7 @@ void CMoveList::remove_capture(unsigned int position) {
 
 void CMoveList::remove_silent_move(unsigned int position) {
     assert(valid_list());
-#ifndef NDEBUG
-    int former_list_size = list_size();
-#endif
+    [[maybe_unused]] int former_list_size = list_size();
     bidirectional_move_list[position] = bidirectional_move_list[last_move_index()];
     --next_empty_slot;
     assert(former_list_size > list_size());

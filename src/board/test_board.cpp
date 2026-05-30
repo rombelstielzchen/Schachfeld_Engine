@@ -38,7 +38,7 @@ bool CTestBoard::test_set_start_position() {
 bool CTestBoard::test_set_fen_position() {
     TEST_FUNCTION();
     // Incorrect positions first
-    EXPECT(board.set_fen_position("////////R") == false);
+    EXPECT(board.set_fen_position("R//R//R//R//R") == false);
     EXPECT(board.set_fen_position("p") == false);
     EXPECT(board.set_fen_position("8/ppppppppp") == false);
     EXPECT(board.set_fen_position("81") == false);
