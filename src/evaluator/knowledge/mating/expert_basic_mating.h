@@ -40,6 +40,7 @@ class CExpertBasicMating: public CVirtualExpert {
     char m_winning_bishop;
     char m_winning_knight;
   private:
+    SSquare m_winning_king_square;
     SSquare m_losing_king_square;
     SSquare m_target_corner;
 };

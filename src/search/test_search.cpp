@@ -129,6 +129,11 @@ const std::vector<STestcaseSearch> testcases_search = {
     { 2, "c7c6", "1K/2r/1k b" },
     { 2, "f2f3", "/////6K/5R/6k w" },
     { 2, "f2f3", "/////6k/5r/6K b" },
+    // Mate with a single rook
+    // Stay close, when own king is nearby, otherwise go for a distant vertical cutoff
+    { 2, "e6h6", "//4R/3k////7K w" },
+    { 2, "e6e4", "//4R/3k//5K// w" },
+    { 2, "c5c6", "k//1R/2K w" },
     // Mate with 2 rooks
     { 2, "h3h5", "///5K/r/7r//k b" },
     { 2, "h4h6", "//3K/r/7r///k b" },

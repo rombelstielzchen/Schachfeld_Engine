@@ -58,6 +58,8 @@ void CExpertBasicMating::apply_knowledge() {
     m_winning_rook = (m_winning_side == WHITE_PLAYER) ? WHITE_ROOK : BLACK_ROOK;
     m_winning_bishop = (m_winning_side == WHITE_PLAYER) ? WHITE_BISHOP : BLACK_BISHOP;
     m_winning_knight = (m_winning_side == WHITE_PLAYER) ? WHITE_KNIGHT : BLACK_KNIGHT;
+    m_winning_king_square = CBoardLogic::king_square(m_winning_side);
+    assert(square_in_range(m_winning_king_square));
     m_losing_king_square = CBoardLogic::king_square(m_losing_side);
     assert(square_in_range(m_losing_king_square));
     m_target_corner = desired_mating_corner(m_losing_king_square);
@@ -216,18 +218,25 @@ void CExpertBasicMating::configure_bishop_tables() {
 ///    CPsvModifier::make_gradient(bishop_table, E5, bonus_for(winning_side, bonus_central_bishop_per_square));
     // 2) Avoid the kings diagonal. Possible obstructiion and wrong when mating on low depth.
 ///    constexpr int malus_for_bishop_on_kings_diagonal = -2 * bonus_central_bishop_per_square;
-///    SSquare winning_king_square = CBoardLogic::king_square(winning_side);
 ///    CPsvModifier::add_bonus_to_diagonal(bishop_table, winning_king_square, bonus_for(winning_side, malus_for_bishop_on_kings_diagonal)); 
 ///    CPsvModifier::add_bonus_to_anti_diagonal(bishop_table, winning_king_square, bonus_for(winning_side, malus_for_bishop_on_kings_diagonal)); 
 }
 
 void CExpertBasicMating::configure_rook_tables__single_rook() {
-    // Strategy for a single rook: box in the enemy king
     constexpr int bonus_rook = 12;
     static_assert(bonus_rook < bonus_winning_king);
     TPieceSquareValueTable &rook_table = main_piece_square_value_table_set[m_winning_rook];
     CPsvModifier::make_equal(rook_table, bonus_for(m_winning_side, score_average_rook));
-    CPsvModifier::make_gradient(rook_table, m_losing_king_square, bonus_for(m_winning_side, bonus_rook));
-    CPsvModifier::show_psv_table(m_winning_rook);///!!!
+    SSquare rook_square = CBoardLogic::piece_square(m_winning_rook);
+    assert(square_in_range(rook_square));
+    if (CDistances::mixed_distance(rook_square, m_winning_king_square) < 3) {
+        // Box in the enemy king, if our own king is nearby
+        CPsvModifier::make_gradient(rook_table, m_losing_king_square, bonus_for(m_winning_side, bonus_rook));
+    } else {
+        // Keep some distance to avoid perpetual attacks
+            CPsvModifier::make_vertical_gradient(rook_table, m_losing_king_square.rank, bonus_for(m_winning_side, bonus_rook));
+            constexpr int horizontal_malus = -7;
+            CPsvModifier::make_horizontal_gradient(rook_table, m_losing_king_square.file, bonus_for(m_winning_side, horizontal_malus));
+    }
 }
 

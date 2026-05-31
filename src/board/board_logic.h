@@ -29,6 +29,7 @@ class CBoardLogic {
     static bool is_valid_target_square(const TFile file, const TRank rank);
   public:
     // Simple and slow, meant for the root-node only
+    static SSquare piece_square(char wanted_piece);
     static SSquare king_square(TPlayerColour white_or_black);
   public:
     static bool piece_attacked_by_side_to_move(const SSquare square);
