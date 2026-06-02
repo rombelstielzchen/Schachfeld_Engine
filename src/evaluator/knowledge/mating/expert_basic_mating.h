@@ -29,6 +29,11 @@ class CExpertBasicMating: public CVirtualExpert {
     bool is_bishop_and_knight() const;
     SSquare desired_mating_corner(const SSquare losing_king_square) const;
     SSquare desired_mating_corner_for_bishop_and_knight(const SSquare losing_king_square) const;
+    static SSquare nearest_center_square(const SSquare s);
+  private:
+    bool losing_king_near_target_corner() const;
+    bool winning_king_near_losing_king() const;
+    bool short_before_mate() const;
   private:
     TPlayerColour m_winning_side;
     TPlayerColour m_losing_side;

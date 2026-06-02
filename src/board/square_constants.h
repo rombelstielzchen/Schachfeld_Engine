@@ -93,7 +93,28 @@ inline const TSquareList CORNER_SQUARES = { A1, H1, A8, H8 };
 inline const TSquareList BLACK_CORNER_SQUARES = { A1, H8 };
 inline const TSquareList WHITE_CORNER_SQUARES = { H1, A8 };
 
-inline constexpr std::array<SSquare, N_SQUARES_ON_BOARD > ALL_SQUARES = {
+inline const TSquareList NEAR_CORNER_SQUARES = {
+    A1, A2, A7, A8,
+    B1, B2, B7, B8,
+    G1, G2, G7, G8,
+    H1, H2, H7, H8 };
+
+inline const TSquareList CENTER_SQUARES = { D4, D5, E4, E5 };
+
+inline const TSquareList EXTENDED_CENTER_SQUARES = { 
+    C3, C4, C5, C6,
+    D3, D4, D5, D6,
+    E3, E4, E5, E6,
+    F3, F4, F5, F6 };
+
+inline const TSquareList BORDER_SQUARES = {
+    A1, A2, A3, A4, A5, A6, A7, A8,
+    H1, H2, H3, H4, H5, H6, H7, H8,
+    B1, C1, D1, E1, F1, G1,
+    B8, C8, D8, E8, F8, G8 };
+
+// TODO: why array, not TSquareList?
+inline constexpr std::array<SSquare, N_SQUARES_ON_BOARD> ALL_SQUARES = {
     A1, A2, A3, A4, A5, A6, A7, A8,
     B1, B2, B3, B4, B5, B6, B7, B8,
     C1, C2, C3, C4, C5, C6, C7, C8,

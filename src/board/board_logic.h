@@ -48,6 +48,7 @@ class CBoardLogic {
   public:
     static TSquareColour bishop_colour();
   public:
+    static bool is_piece_at(char piece, const TSquareList &squares);
     static bool is_piece_present(char piece_type);
     static int n_pieces_present(char piece_type);
   public:

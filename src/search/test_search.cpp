@@ -138,9 +138,18 @@ const std::vector<STestcaseSearch> testcases_search = {
     { 2, "h3h5", "///5K/r/7r//k b" },
     { 2, "h4h6", "//3K/r/7r///k b" },
     { 2, "a1h1", "///3K/r//k/r b"},
+    // Mate with 2 bishops
+    { 2, "f1a6", "///////BK3Bk w" },
+    { 2, "f1g2", "k/2K//2B////5B w" },
+    { 2, "d6c5", "/k1K/3B/////5B w" },
+    { 2, "c6b6", "1k/4B/2K1B w" },
+    { 2, "e6c8", "/k3B/2K1B w" },
+    { 2, "c4a6", "1K1b//2k//2b b" },
+    { 2, "f4e5", "//7B/2k/5K///7B w" },
+    { 2, "f4e5", "//7b/2K/5k///7b b" },
 };
 
-        bool CTestSearch::test_everything() {
+bool CTestSearch::test_everything() {
     BEGIN_TESTSUITE("CTestSearch");
     bool former_dobb_dobb_dobb = DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop;
     DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop = false;

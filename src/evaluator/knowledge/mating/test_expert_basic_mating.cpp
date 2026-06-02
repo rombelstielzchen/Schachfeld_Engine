@@ -20,6 +20,7 @@ bool CTestExpertBasicMating::test_everything() {
     EXPECT(test_gradient_after_moves());
     EXPECT(test_is_bishop_and_knight());
     EXPECT(test_desired_mating_corner_bishop_and_knight());
+    EXPECT(test_nearby_functions());
     return true;
 }
 
@@ -132,6 +133,29 @@ bool CTestExpertBasicMating::test_desired_mating_corner_bishop_and_knight() {
     EXPECT(expert_basic_mating.desired_mating_corner(E3) == H1);
     EXPECT(board.set_fen_position("kbn/////4K w"));
     EXPECT(expert_basic_mating.desired_mating_corner(E3) == A1);
+    return true;
+}
+
+bool CTestExpertBasicMating::test_nearby_functions() {
+    TEST_FUNCTION();
+    CExpertBasicMating expert_basic_mating;
+    expert_basic_mating.m_winning_side = BLACK_PLAYER;
+    EXPECT(expert_basic_mating.m_winning_side == BLACK_PLAYER);
+    expert_basic_mating.m_winning_side = WHITE_PLAYER;
+    EXPECT(expert_basic_mating.m_winning_side == WHITE_PLAYER);
+    EXPECT(board.set_fen_position("/k1K/3B/////3B w"));
+    expert_basic_mating.apply_knowledge();
+    EXPECT(CBoardLogic::n_stones(BLACK_PLAYER) == 1);
+    EXPECT(CBoardLogic::n_stones(WHITE_PLAYER) == 3);
+    EXPECT(expert_basic_mating.winning_side() == WHITE_PLAYER);
+    EXPECT(expert_basic_mating.m_winning_side == WHITE_PLAYER);
+    EXPECT(expert_basic_mating.m_losing_side == BLACK_PLAYER);
+    EXPECT(expert_basic_mating.m_losing_king == BLACK_KING);
+    EXPECT(expert_basic_mating.m_losing_king_square == A7);
+    EXPECT(expert_basic_mating.losing_king_near_target_corner());
+    EXPECT(expert_basic_mating.winning_king_near_losing_king());
+    EXPECT(expert_basic_mating.short_before_mate());
+    // TODO: more
     return true;
 }
 

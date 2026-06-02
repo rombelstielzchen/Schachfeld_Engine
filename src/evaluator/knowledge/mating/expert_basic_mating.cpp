@@ -49,7 +49,7 @@ bool CExpertBasicMating::is_responsible() const {
 
 void CExpertBasicMating::apply_knowledge() {
     m_winning_side = winning_side();
-    m_losing_side = (m_winning_side == WHITE_PLAYER) ?BLACK_PLAYER : WHITE_PLAYER;
+    m_losing_side = (m_winning_side == WHITE_PLAYER) ? BLACK_PLAYER : WHITE_PLAYER;
     assert(m_winning_side != m_losing_side);
     m_winning_king = (m_winning_side == WHITE_PLAYER) ? WHITE_KING : BLACK_KING;
     m_losing_king = (m_losing_side == WHITE_PLAYER) ? WHITE_KING : BLACK_KING;
@@ -109,7 +109,7 @@ void CExpertBasicMating::configure_queen_tables() {
     // The standard tables are nearly good enough, 
     // except high boni for F7 / G7 / H7 / H8 and a malus for B7 / C3
     TPieceSquareValueTable &queen_table = main_piece_square_value_table_set[m_winning_queen];
-    CPsvModifier::make_gradient(queen_table, E5, bonus_for(m_winning_side, 10));
+    CPsvModifier::make_gradient(queen_table, nearest_center_square(m_losing_king_square), bonus_for(m_winning_side, 10));
     const TSquareList good_pre_mating_squares = { D2, E2, B4, B5, D7, E7, G4, G5 };
     constexpr int bonus_mate_support_squares = 15;
     CPsvModifier::add_bonus_to_squares(queen_table, good_pre_mating_squares, bonus_for(m_winning_side, bonus_mate_support_squares));
@@ -209,17 +209,48 @@ SSquare CExpertBasicMating::desired_mating_corner(const SSquare losing_king_squa
 }
 
 void CExpertBasicMating::configure_bishop_tables() {
-     // TODO: improve or remove
-///    char winning_bishop = (winning_side == WHITE_PLAYER) ? WHITE_BISHOP : BLACK_BISHOP;
-///    TPieceSquareValueTable &bishop_table = main_piece_square_value_table_set[winning_bishop];
-///    assert((bishop_table == main_piece_square_value_table_set[WHITE_BISHOP]) || (bishop_table == main_piece_square_value_table_set[BLACK_BISHOP]));
+    TPieceSquareValueTable &bishop_table = main_piece_square_value_table_set[m_winning_bishop];
+    assert((bishop_table == main_piece_square_value_table_set[WHITE_BISHOP]) || (bishop_table == main_piece_square_value_table_set[BLACK_BISHOP]));
+    CPsvModifier::make_equal(bishop_table, bonus_for(m_winning_side, score_average_bishop));
+    // 0) Prioritize king-centralization.
+    // this avoids stupid repetitions like Be6-c4-e6.
+    // When attacked, move far away,
+    if (!CBoardLogic::is_piece_at(m_winning_king, EXTENDED_CENTER_SQUARES) && !short_before_mate()) {
+        constexpr int malus_too_close_to_enemy_king = -1;
+        CPsvModifier::make_gradient(bishop_table, m_losing_king_square, malus_too_close_to_enemy_king);
+        return;
+    }
     // 1) Centralization
-///    constexpr int bonus_central_bishop_per_square = 10;
-///    CPsvModifier::make_gradient(bishop_table, E5, bonus_for(winning_side, bonus_central_bishop_per_square));
+    constexpr int bonus_central_bishop_per_square = 8;
+    CPsvModifier::make_gradient(bishop_table, nearest_center_square(m_losing_king_square), bonus_for(m_winning_side, bonus_central_bishop_per_square));
     // 2) Avoid the kings diagonal. Possible obstructiion and wrong when mating on low depth.
-///    constexpr int malus_for_bishop_on_kings_diagonal = -2 * bonus_central_bishop_per_square;
-///    CPsvModifier::add_bonus_to_diagonal(bishop_table, winning_king_square, bonus_for(winning_side, malus_for_bishop_on_kings_diagonal)); 
-///    CPsvModifier::add_bonus_to_anti_diagonal(bishop_table, winning_king_square, bonus_for(winning_side, malus_for_bishop_on_kings_diagonal)); 
+    constexpr int malus_for_bishop_on_kings_diagonal = -2 * bonus_central_bishop_per_square;
+    CPsvModifier::add_bonus_to_diagonal(bishop_table, m_winning_king_square, bonus_for(m_winning_side, malus_for_bishop_on_kings_diagonal)); 
+    CPsvModifier::add_bonus_to_anti_diagonal(bishop_table, m_winning_king_square, bonus_for(m_winning_side, malus_for_bishop_on_kings_diagonal)); 
+    // 3) Encourage final checks on low depth
+    if (losing_king_near_target_corner()) {
+        constexpr int bonus_final_bishop_checks = 2 * bonus_central_bishop_per_square;
+        CPsvModifier::add_bonus_to_diagonal(bishop_table, m_losing_king_square, bonus_for(m_winning_side, bonus_final_bishop_checks));
+        CPsvModifier::add_bonus_to_anti_diagonal(bishop_table, m_losing_king_square, bonus_for(m_winning_side, bonus_final_bishop_checks));
+    }
+    // 4) With a king near the corner. prevent Be6-c4-e6-repetitions.
+    // Allow the bishop to a6 / c8 to prevent escape
+    if (losing_king_near_target_corner()) {
+        TSquareList good_near_corner_squares = {};
+        constexpr int near_corner_bonus = 30;
+        if (m_target_corner== A1) {
+            good_near_corner_squares = { A3, C1 };
+        } else if (m_target_corner== A8) {
+            good_near_corner_squares = { A6, C8 };
+        } else if (m_target_corner== H1) {
+            good_near_corner_squares = { F1, H3 };
+        } else if (m_target_corner== H8) {
+            good_near_corner_squares = { F8, H6 };
+        }
+        CPsvModifier::add_bonus_to_squares(bishop_table, good_near_corner_squares, bonus_for(m_winning_side, near_corner_bonus));
+    }
+    assert(m_winning_side == winning_side());
+    CPsvModifier::show_psv_table(m_winning_bishop);
 }
 
 void CExpertBasicMating::configure_rook_tables__single_rook() {
@@ -240,3 +271,21 @@ void CExpertBasicMating::configure_rook_tables__single_rook() {
     }
 }
 
+SSquare CExpertBasicMating::nearest_center_square(const SSquare s) {
+    assert(square_in_range(s));
+    return CDistances::nearest_square(s, CENTER_SQUARES);
+}
+
+bool CExpertBasicMating::losing_king_near_target_corner() const {
+    return (CDistances::mixed_distance(m_losing_king_square, m_target_corner) < 1.1);
+}
+
+bool CExpertBasicMating::winning_king_near_losing_king() const {
+    // Max: larger than 2 adjacent squares, smaller than 2 diagonal.
+    constexpr double max_near_distance = 2.5;
+    return (CDistances::mixed_distance(m_winning_king_square, m_losing_king_square) < max_near_distance);
+}
+
+bool CExpertBasicMating::short_before_mate() const {
+    return (losing_king_near_target_corner() && winning_king_near_losing_king());
+}

@@ -302,3 +302,13 @@ int CBoardLogic::n_pieces_present(char piece_type) {
     return result;
 }
 
+bool CBoardLogic::is_piece_at(char piece, const TSquareList &squares) {
+    assert(is_any_piece(piece));
+    for (const SSquare s: squares) {
+        if (board.get_square(s) == piece) {
+            return true;
+        }
+    }
+    return false;
+}
+

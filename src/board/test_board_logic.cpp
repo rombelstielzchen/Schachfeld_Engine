@@ -25,6 +25,7 @@ bool CTestBoardLogic::test_everything() {
     EXPECT(test_on_same_diagonal());
     EXPECT(test_on_same_anti_diagonal());
     EXPECT(test_n_pieces_present());
+    EXPECT(test_is_piece_at());
     return true;
 }
 
@@ -206,6 +207,17 @@ bool CTestBoardLogic::test_n_pieces_present() {
     EXPECT(CBoardLogic::n_pieces_present(WHITE_KING) == 1);
     EXPECT(CBoardLogic::n_pieces_present(BLACK_ROOK) == 2);
     EXPECT(CBoardLogic::n_pieces_present(BLACK_POWER) == 8);
+    return true;
+}
+
+bool CTestBoardLogic::test_is_piece_at() {
+    TEST_FUNCTION();
+    EXPECT(board.set_fen_position("startpos moves e2e4 g8f6"));
+    EXPECT(CBoardLogic::is_piece_at(WHITE_KING, BORDER_SQUARES) == true);
+    EXPECT(CBoardLogic::is_piece_at(WHITE_KING, EXTENDED_CENTER_SQUARES) == false);
+    EXPECT(CBoardLogic::is_piece_at(WHITE_POWER, CENTER_SQUARES) == true);
+    EXPECT(CBoardLogic::is_piece_at(BLACK_KNIGHT, CENTER_SQUARES) == false);
+    EXPECT(CBoardLogic::is_piece_at(BLACK_KNIGHT, EXTENDED_CENTER_SQUARES) == true);
     return true;
 }
 
