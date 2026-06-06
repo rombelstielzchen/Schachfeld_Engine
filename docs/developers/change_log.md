@@ -3,7 +3,8 @@ Major Changes
 
 Version 1.1
 ------------
-* Now being able to mate with bishop and knight
+* Now being able to mate with bishop and knight (requires depth 6)
+* Improved endgame-expert for faster, more elegant, more succcessful mating at low depths. Most mates work aat depth 2 now.
 
 Version 1.0
 -----------

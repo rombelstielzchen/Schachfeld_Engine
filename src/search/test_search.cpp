@@ -119,7 +119,11 @@ const std::vector<STestcaseSearch> testcases_search = {
     { 2, "g7g8R", "k/3Q2P//////K w" },
     // Test for rescuing a knight from the corner
     { 4, "d5c6", "N6N///3k4////K7 b" },
-    { 5, "a8c7", "N6N///3k4////K6N w" },
+    { 2, "a8c7", "N6N///3k4////K6N w" },
+    { 2, "h8f7", "N6N///4k3////K6N w" },
+    { 2, "a1b3", "N6N////3k4///N6K w" },
+    { 2, "h1g3", "N6N////4k3///K6N w" },
+    { 2, "a1h8", "N///////Bk5K w" },
     // Mate with a single rook, boxing in the enemy king
     { 2, "a8a4", "R//3K//4k w" },
     { 2, "a8a5", "RK////7k w" },

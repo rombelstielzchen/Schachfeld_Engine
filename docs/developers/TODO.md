@@ -5,7 +5,6 @@ TODO
 * PSVs for pawn-levers
 * PSVs for pawn-storms
 * PSV for king and opponents bishop-colour
-* mating with bishop and knight
 * better move-ordering by checks
 * hash-tables
 * vector-attacks
@@ -19,7 +18,6 @@ TODO
     restrict quiescence.search
 * better time-management and estimated branching-factor    
 * clown-mates and undie-promoter
-* advanced PVS
 * lazy eval
 * strictly legal moves
 * chess personalities?
