@@ -418,7 +418,7 @@ stats:
 	@cat ../test/*.pl | wc -l
 	@echo -n "Assertions:       "
 	@find . -name '*.cpp' -o -name '*.h' | xargs grep -s assert | wc -l
-	@echo -n "LOC tools:        "
+	@echo -n "LOC tools:       "
 	@find .. -name 'makefile' -o -name '*.sh' -o -name '*.pl' | xargs cat | wc -l
 	@echo -n "TODO items:        "
 	@find . -name '*.cpp' -o -name '*.h' | xargs grep -s TODO | wc -l
