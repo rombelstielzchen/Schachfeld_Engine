@@ -157,6 +157,7 @@ void CCommandInterface::send_best_move(SMove best_move){
 }
 
 void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
+    stop();
     assert(n_worker_threads_busy == 0);
     ++n_worker_threads_busy;
     ACQUIRE_BOARD_OWNERSHIP();
@@ -167,6 +168,7 @@ void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
 }
 
 void CCommandInterface::worker_go_nodes(int64_t nodes) {
+    stop();
     assert(n_worker_threads_busy == 0);
     ++n_worker_threads_busy;
     ACQUIRE_BOARD_OWNERSHIP();
@@ -177,6 +179,7 @@ void CCommandInterface::worker_go_nodes(int64_t nodes) {
 }
 
 void CCommandInterface::worker_go_movetime(int64_t time_milliseconds) {
+    stop();
     assert(n_worker_threads_busy == 0);
     ++n_worker_threads_busy;
     ACQUIRE_BOARD_OWNERSHIP();
@@ -193,6 +196,7 @@ void CCommandInterface::worker_go_time(
         const int64_t white_increment_milliseconds,
         const int64_t black_increment_milliseconds,
         const int64_t moves_to_go) {
+    stop();
     assert(n_worker_threads_busy == 0);
     ++n_worker_threads_busy;
     ACQUIRE_BOARD_OWNERSHIP();

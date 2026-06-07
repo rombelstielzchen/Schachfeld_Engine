@@ -18,7 +18,7 @@ class CCommandInterface {
     void new_game();
     void on_exit();
     void set_position(const std::string &fen_position);
-    void stop();
+    static void stop();
   public:
     void go_depth(const int depth_in_plies);
     void go_nodes(const int64_t nodes);

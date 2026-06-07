@@ -100,6 +100,9 @@ void CUciProtocol::send_best_move(const std::string best_move) {
 }
 
 void CUciProtocol::preprocess_message(std::string &message) const {
+    // This function is not reentrant, therefore proteccted by a mutex
+    static std::mutex process_message_mutex;
+    std::lock_guard<std::mutex> lock(process_message_mutex);
     trim(message);
     size_t phpbb_fen_pos = message.find("[FEN]");
     if (phpbb_fen_pos == std::string::npos) {
