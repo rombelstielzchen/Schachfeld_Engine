@@ -13,10 +13,8 @@
 
 // Positive boni from whites POV.
 // Getting the losing king towards the corner is most important; far higher bonus.
-// But not too high, otherwise the winner is willing to sacrifice material
+// But not too high, otherwise the winner would be willing to sacrifice material
 // in order to lure the opponent into the corner,
-// 48 is OK, SCORE_HALF_PAWN already too much.
-// TODO adapt comment
 constexpr int bonus_losing_king = 36;
 constexpr int bonus_winning_king = 15;
 // Standard-tables are nearly OK. except that a knight in the corner is not worth enough,
@@ -24,8 +22,8 @@ constexpr int bonus_winning_king = 15;
 // Therefore we raise the value of the knight.
 constexpr int precious_knight_score = score_average_rook;
 
-// TODO: move, better func-signature
-int bonus_for(bool which_player, int positive_bonus__negative_malus) {
+// TODO: move to PSV-modifiers?
+int bonus_for(TPlayerColour which_player, int positive_bonus__negative_malus) {
     if (which_player == WHITE_PLAYER) {
         return positive_bonus__negative_malus;
     }
@@ -83,7 +81,6 @@ void CExpertBasicMating::configure_winning_king_tables() {
     // We want the winning king to march towards the loser,
     // but not to the extreme, that we occupy his border-square.
     // Especially in KBNk-endgames we need the winner more centralized.
-    // TODO: bonus too high? especially with a trapped knihgt?
     constexpr int bonus_extended_center = 99;
     TPieceSquareValueTable &winning_king_table = main_piece_square_value_table_set[m_winning_king];
     CPsvModifier::make_equal(winning_king_table, bonus_for(m_winning_side, SCORE_KING));

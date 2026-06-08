@@ -9,7 +9,6 @@
 #include "../virtual_expert.h"
 #include "../../piece_square_value_tables.h"
 
-// TODO: extern needed
 extern TPieceSquareValueTable endgame_pawn_psv_table;
 
 class CExpertEndgamePawn: public CVirtualExpert {
