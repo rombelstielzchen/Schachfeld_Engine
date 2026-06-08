@@ -35,6 +35,8 @@ class CUciProtocol {
     void display_help() const;
     static void display_board();
   private:
+    bool looks_like_a_mnove(const std::string token) const;
+  private:
     CCommandInterface command_interface;
     CStringTokenizer string_tokenizer;
     static bool interactive_console_mode;

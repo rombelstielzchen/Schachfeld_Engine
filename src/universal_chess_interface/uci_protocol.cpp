@@ -100,9 +100,6 @@ void CUciProtocol::send_best_move(const std::string best_move) {
 }
 
 void CUciProtocol::preprocess_message(std::string &message) const {
-    // This function is not reentrant, therefore proteccted by a mutex
-    static std::mutex process_message_mutex;
-    std::lock_guard<std::mutex> lock(process_message_mutex);
     trim(message);
     size_t phpbb_fen_pos = message.find("[FEN]");
     if (phpbb_fen_pos == std::string::npos) {
@@ -116,6 +113,9 @@ void CUciProtocol::preprocess_message(std::string &message) const {
 }
 
 void CUciProtocol::process_message(const std::string &message) {
+    // This function is not reentrant, therefore proteccted by a mutex
+    static std::mutex process_message_mutex;
+    std::lock_guard<std::mutex> lock(process_message_mutex);
     if (message == "") {
         return;
     }
@@ -168,10 +168,11 @@ void CUciProtocol::process_message(const std::string &message) {
 }
 
 void CUciProtocol::process_unknown_token_potential_move(const std::string &token) {
-    // Try to execute a move.
-    // No error-handling needed, as make_move() will care about that.
-    if (board.move_maker.make_move(token)) {
-        interactive_console_mode = true;
+    if (looks_like_a_mnove(token)) {
+        interactive_console_mode |= board.move_maker.make_move(token);
+    } else {
+        std::string message = "ignoring unknown token \"" + token + '"';
+        send_error(message);
     }
 }
 
@@ -310,5 +311,14 @@ void CUciProtocol::handle_isready_query() const {
     } else {
         send_message("readyok");
     }
+}
+
+bool CUciProtocol::looks_like_a_mnove(const std::string token) const {
+    constexpr int length_of_move = 4;
+    constexpr int length_of_move_with_promotion = 5;
+    if ((token.length() < length_of_move) || (token.length() > length_of_move_with_promotion)) {
+        return false;
+    }
+    return (isalpha(token[0]) && isdigit(token[1]) && isalpha(token[2]) && isdigit(token[3]));
 }
 
