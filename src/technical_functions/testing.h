@@ -26,7 +26,7 @@ if ((condition)) { \
 if ((condition) == false) { \
     /* Do not naively call EXPECT here(). This would execute the condition again. */ \
     log_first_error_separator(); \
-    CTEST << "[ERROR] ID " << testcase_counter << ": " << #condition << std::endl; \
+    CTEST << "[ERROR] ID " << testcase_counter << " " << __FILE__ << ":" << __LINE__ << ": " << #condition << std::endl; \
     return false; \
 }
 

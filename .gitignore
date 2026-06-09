@@ -1,6 +1,7 @@
 .bak/
 bak/
 debug/
+engines/
 .git_old*/
 FileContentIndex/
 old/

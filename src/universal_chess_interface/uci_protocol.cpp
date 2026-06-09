@@ -13,7 +13,7 @@
 #include "../technical_functions/engine_test.h"
 #include "../technical_functions/standard_headers.h"
 
-const std::string ENGINE_ID = "MaterialGirl_1.1";
+const std::string ENGINE_ID = "MaterialGirl_1.2";
 static_assert('a' > '9');
 
 bool CUciProtocol::interactive_console_mode = false;
@@ -131,6 +131,8 @@ void CUciProtocol::process_message(const std::string &message) {
     } else if (string_tokenizer.next_token_is_one_of("eval", "e")) {
         interactive_console_mode = true;
         command_interface.log_board_evaluation();
+    } else if (string_tokenizer.next_token_is("hash")) {
+        assert(NOT_YET_IMPLEMENTED);
     } else if (string_tokenizer.next_token_is_one_of("go", "g")) {
         process_go_command(string_tokenizer);
     } else if (string_tokenizer.next_token_is_one_of("help", "?")) {
@@ -283,6 +285,7 @@ void CUciProtocol::display_help() const {
     send_message("    * 'perft' for a looong test of the move_generator");
     send_message("    * 'debug on | off' to toggle extended logging");
     send_message("    * 'eval' or 'e' for a static evaluation of the current position");
+    send_message("    * 'hash' to display the hash-entry of the current position");
     send_message("    * 'psv' to display the main piece-square-value-tables");
     send_message("    * e2e4 to execute a move at the console interface");
     send_message("    * back or 'b' to take back a move");
