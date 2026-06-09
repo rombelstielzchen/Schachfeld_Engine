@@ -27,5 +27,6 @@ class CTestBoardLogic {
     static bool test_on_same_anti_diagonal();
     static bool test_n_pieces_present();
     static bool test_is_piece_at();
+    static bool test_is_pawn_endgame();
 };
 

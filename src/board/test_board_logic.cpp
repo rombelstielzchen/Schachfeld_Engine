@@ -26,6 +26,7 @@ bool CTestBoardLogic::test_everything() {
     EXPECT(test_on_same_anti_diagonal());
     EXPECT(test_n_pieces_present());
     EXPECT(test_is_piece_at());
+    EXPECT(test_is_pawn_endgame());
     return true;
 }
 
@@ -218,6 +219,17 @@ bool CTestBoardLogic::test_is_piece_at() {
     EXPECT(CBoardLogic::is_piece_at(WHITE_POWER, CENTER_SQUARES) == true);
     EXPECT(CBoardLogic::is_piece_at(BLACK_KNIGHT, CENTER_SQUARES) == false);
     EXPECT(CBoardLogic::is_piece_at(BLACK_KNIGHT, EXTENDED_CENTER_SQUARES) == true);
+    return true;
+}
+
+bool CTestBoardLogic::test_is_pawn_endgame() {
+    TEST_FUNCTION();
+    board.set_start_position();
+    EXPECT(CBoardLogic::is_pawn_endgame() == false);
+    EXPECT(board.set_fen_position("/4pK/3kP w"));
+    EXPECT(CBoardLogic::is_pawn_endgame());
+    EXPECT(board.set_fen_position("4K///////4k b"));
+    EXPECT(CBoardLogic::is_pawn_endgame() == false);
     return true;
 }
 

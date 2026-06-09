@@ -57,5 +57,7 @@ class CBoardLogic {
   public:
     static bool on_same_diagonal(const SSquare a, const SSquare b);
     static bool on_same_anti_diagonal(const SSquare a, const SSquare b);
+  public:
+    static bool is_pawn_endgame();
 };
 

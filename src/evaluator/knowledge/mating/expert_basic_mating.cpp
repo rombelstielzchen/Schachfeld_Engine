@@ -32,11 +32,13 @@ int bonus_for(TPlayerColour which_player, int positive_bonus__negative_malus) {
 }
 
 bool CExpertBasicMating::is_responsible() const {
-    // TODO: disable for pawn-endgames! test!
     if ((CBoardLogic::n_stones(WHITE_PLAYER) > 1) && (CBoardLogic::n_stones(BLACK_PLAYER) > 1)) {
         return false;
     }
     if (CBoardLogic::n_stones() <= 2) {
+        return false;
+    }
+    if (CBoardLogic::is_pawn_endgame()) {
         return false;
     }
     if ((CBoardLogic::king_square(WHITE_PLAYER) == NULL_SQUARE) || (CBoardLogic::king_square(BLACK_PLAYER) == NULL_SQUARE)) {

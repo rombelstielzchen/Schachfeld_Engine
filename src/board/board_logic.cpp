@@ -312,3 +312,17 @@ bool CBoardLogic::is_piece_at(char piece, const TSquareList &squares) {
     return false;
 }
 
+bool CBoardLogic::is_pawn_endgame() {
+     return((is_piece_present(WHITE_POWER) || is_piece_present(BLACK_POWER))
+        && !is_piece_present(WHITE_KNIGHT)
+        && !is_piece_present(WHITE_BISHOP)
+        && !is_piece_present(WHITE_ROOK)
+        && !is_piece_present(WHITE_QUEEN)
+        && !is_piece_present(BLACK_KNIGHT)
+        && !is_piece_present(BLACK_BISHOP)
+        && !is_piece_present(BLACK_ROOK)
+        && !is_piece_present(BLACK_QUEEN)
+        && is_piece_present(WHITE_KING)
+        && is_piece_present(BLACK_KING));
+}
+
