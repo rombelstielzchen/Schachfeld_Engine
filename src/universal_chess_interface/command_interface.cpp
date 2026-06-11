@@ -244,3 +244,10 @@ void CCommandInterface::show_main_psv_tables() {
     CPsvModifier::show_main_psv_tables();
 }
 
+void CCommandInterface::log_board_evaluation() {
+    stop(); 
+    assert(n_worker_threads_busy == 0);
+    ACQUIRE_BOARD_OWNERSHIP();
+    board.evaluator.log_board_evaluation();
+}
+

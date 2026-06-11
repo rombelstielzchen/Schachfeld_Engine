@@ -33,6 +33,9 @@ void CEvaluator::log_board_evaluation() const {
             CUciProtocol::send_info(message);
         }
     }
+    CUciProtocol::send_info("---------");
+    std::string summary = "sum:  " + std::to_string(evaluate());
+    CUciProtocol::send_info(summary);
 }
 
 int CEvaluator::evaluate_square(const SSquare &square) const {

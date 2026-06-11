@@ -40,6 +40,7 @@ class CCommandInterface {
     void takeback();
   public: // TODO: const
     bool test_move_generator();
+    void log_board_evaluation();
     void show_main_psv_tables();
     static bool any_worker_thread_busy() { return (n_worker_threads_busy > 0); }
   private:

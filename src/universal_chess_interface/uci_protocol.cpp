@@ -126,6 +126,9 @@ void CUciProtocol::process_message(const std::string &message) {
     } else if (string_tokenizer.next_token_is("debug")) { 
         interactive_console_mode = true;
         SWITCH_DEBUG_ON(string_tokenizer.next_token() == "on");
+    } else if (string_tokenizer.next_token_is_one_of("eval", "e")) {
+        interactive_console_mode = true;
+        command_interface.log_board_evaluation();
     } else if (string_tokenizer.next_token_is_one_of("go", "g")) {
         process_go_command(string_tokenizer);
     } else if (string_tokenizer.next_token_is_one_of("help", "?")) {
@@ -271,14 +274,15 @@ void CUciProtocol::display_help() const {
     send_message("    * 'go depth 7' or 'g d 7' to search");
     send_message("    * 'go movetime 20000' or ' g mt 20000'");
     send_message("    * 'go infinite' or 'go' or 'g'");
-    send_message("    * 'stop' to force a move");
-    send_message("    * 'ucinewgame' to start a new game");
+    send_message("    * 'stop' or 's' to force a move");
+    send_message("    * 'ucinewgame' or 'ng' to start a new game");
     send_message("    * 'test' for the self-test");
     send_message("    * 'perft' for a looong test of the move_generator");
     send_message("    * 'debug on | off' to toggle extended logging");
+    send_message("    * 'eval' or 'e' for a static evaluation of the current position");
     send_message("    * 'psv' to display the main piece-square-value-tables");
     send_message("    * e2e4 to execute a move at the console interface");
-    send_message("    * back or b to take back a move");
+    send_message("    * back or 'b' to take back a move");
     send_message("    * 'quit' or 'x'to terminate");
 }
 
