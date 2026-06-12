@@ -90,13 +90,9 @@ void CMoveGenerator::generate_pawn_captures(const TFile file, const TRank rank, 
     assert(rank >= RANK_2);
     assert(rank <= RANK_7);
     assert((positive_negative_direction == DIRECTION_NORTH) || (positive_negative_direction == DIRECTION_SOUTH));
-    // TODO: const + 1-liner below
-    TRank next_rank = rank;
-    next_rank = next_rank + positive_negative_direction;
-    TFile left_file = file;
-    left_file = left_file - 1;
-    TFile right_file = file;
-    right_file = right_file + 1;
+    TRank next_rank = rank + positive_negative_direction;
+    TFile left_file = file - 1;
+    TFile right_file = file + 1;
     if (CBoardLogic::square_occupied_by_opponent(left_file, next_rank)) {
         move_list.store_pawn_capture(file, rank, left_file, next_rank);
     }
