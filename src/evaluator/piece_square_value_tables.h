@@ -31,10 +31,10 @@ inline constexpr TPieceSquareValueTable &dummy_psv = main_piece_square_value_tab
 
 class CPsvModifier {
   public:
+    // TODO: do it this way or the old way with table and static func?
     CPsvModifier(TPieceSquareValueTable &psv_table_to_be_modified);
     CPsvModifier(char piece_type);
   public:
-    // TODO: psv-modifiers, once they are needed
     static void clear_psv_table(TPieceSquareValueTable &psv_table);
     static void make_equal(TPieceSquareValueTable &table, int value);
     static void assign_psv_table(TPieceSquareValueTable &target_psv, const TPieceSquareValueTable &source_psv);
@@ -57,7 +57,6 @@ class CPsvModifier {
     static void add_bonus_to_diagonal(TPieceSquareValueTable &psv_table, const SSquare any_reference_square, int bonus);
     static void add_bonus_to_anti_diagonal(TPieceSquareValueTable &psv_table, const SSquare any_reference_square, int bonus);
   public:
-    // TODO: psv-modifiers, once they are needed
     static void add_bonus_to_center(TPieceSquareValueTable &psv_table, int bonus);
     static void add_bonus_to_extended_center(TPieceSquareValueTable &psv_table, int bonus);
     static void add_bonus_to_kingside(TPieceSquareValueTable &psv_table, int bonus);
