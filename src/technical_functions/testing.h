@@ -17,7 +17,7 @@ if ((condition)) { \
     CTEST << "[OK] " << #condition << std::endl; \
 } else { \
     log_first_error_separator(); \
-    CTEST << "[ERROR] ID " << testcase_counter << ": " << #condition << std::endl; \
+    CTEST << "[ERROR] ID " << testcase_counter << " " << __FILE__ << ":" << __LINE__ << ": " << #condition << std::endl; \
     return false; \
 }
  
