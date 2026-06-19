@@ -263,24 +263,20 @@ bool CTestMoveList::test_integrate_hash_move() {
     SILENT_EXPECT(move_generator.move_list.move_on_list(bad_capture));
     SILENT_EXPECT(move_generator.move_list.move_on_list(non_existing_move) == false);
     int old_list_size = move_generator.move_list.list_size();
+    // 1) Integrate a normal hash-move
     move_generator.move_list.integrate_hash_move(silent_hash);
     constexpr int distance_to_root = 42;
     SMove first_move_on_list = move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root);
-    std::cerr << "first_move_on_list: " << first_move_on_list << "\n";
     EXPECT(first_move_on_list == silent_hash);
     EXPECT(move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root) == relative_best_capture);
-///    std::cerr << move_generator.move_list.get_next__hash_capture_killer_silent(1) << "\n";
-///    std::cerr << "bad_capture:: " << bad_capture << "\n";
     SMove next_move_on_list = move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root);
-    std::cerr << "next_move_on_list: " << next_move_on_list << "\n";
-    std::cerr << "bad_capture: " << bad_capture << "\n";
     EXPECT(next_move_on_list == bad_capture);
-///    std::cerr << "MT: " << int(move_generator.move_list.get_next__hash_capture_killer_silent(1).move_type) << " " << int(MOVE_TYPE_NORMAL) <<  "\n";
     next_move_on_list = move_generator.move_list.get_next();
     EXPECT(next_move_on_list.move_type == MOVE_TYPE_NORMAL);
     move_generator.reset();
     move_generator.generate_all();
     old_list_size = move_generator.move_list.list_size();
+    // 2) Integrate a non-best capture from behind
     move_generator.move_list.integrate_hash_move(bad_capture);
     EXPECT(move_generator.move_list.list_size() == old_list_size);
     EXPECT(move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root) == bad_capture);
@@ -288,12 +284,25 @@ bool CTestMoveList::test_integrate_hash_move() {
     next_move_on_list = move_generator.move_list.get_next();
     std::cerr << int(next_move_on_list.move_type) << next_move_on_list.move_type;
     EXPECT(next_move_on_list.move_type == MOVE_TYPE_NORMAL);
+    // 3 Try to integrate a non-existing move
     move_generator.reset();
     move_generator.generate_all();
     move_generator.move_list.integrate_hash_move(non_existing_move);
     EXPECT(move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root) == relative_best_capture);
     EXPECT(move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root) == bad_capture);
     EXPECT(move_generator.move_list.get_next().move_type == MOVE_TYPE_NORMAL);
+    // 4) Try to integrate a move with conflicting move-types (eng-passeng / normal capture).
+    // The move on the list should be reintegrated
+    board.set_fen_position("startpos moves e2e4 h7h6 e4e5 f7f6");
+    SMove invalid_eng_passeng = { E5, F6, MOVE_TYPE_ENG_PASSENG, EMPTY_SQUARE, 0 };
+    move_generator.reset();
+    move_generator.generate_all();
+    EXPECT(move_generator.move_list.move_on_list("e5f6"));
+    move_generator.move_list.integrate_hash_move(invalid_eng_passeng);
+    SMove first_move = move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root);
+    EXPECT(first_move == "e5f6");
+    EXPECT(first_move.move_type == MOVE_TYPE_CAPTURE);
+    // TODO: underpromotions
     return true;
 }
 

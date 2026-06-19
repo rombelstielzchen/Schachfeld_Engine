@@ -134,6 +134,7 @@ SMove CIterativeDeepening::search_iterative() {
     // static in order to handle a badly timed stop-command
     static SMove best_move = NULL_MOVE;
     std::string const root_position = board.get_fen_position();
+    [[maybe_unused]] int root_evaluation = board.evaluator.evaluate();
     constexpr int one_before_minimum_search_depth = minimum_search_depth - 1;
     int current_depth = one_before_minimum_search_depth;
     while(depth_control.go_deeper(current_depth)) {
@@ -143,6 +144,7 @@ SMove CIterativeDeepening::search_iterative() {
             break;
         }
         assert(board.get_fen_position() == root_position);
+        assert(board.evaluator.evaluate() == root_evaluation);
         best_move = search_fixed_depth(current_depth);
         assert(best_move != NULL_MOVE);
         assert(move_in_range(best_move));

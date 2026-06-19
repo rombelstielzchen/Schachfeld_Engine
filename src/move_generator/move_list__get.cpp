@@ -177,19 +177,21 @@ void CMoveList::integrate_killer(const int distance_to_root) {
 
 void CMoveList::integrate_hash_move(const SMove hash_move) {
     assert(move_in_range(hash_move));
-///    std::cerr << "integrate_hash_move\n";
-    if (!move_on_list(hash_move)) {
-///        std::cerr << "not on list\n";
+    size_t move_index = get_index(hash_move);
+    if (move_index == MOVE_NOT_ON_LIST) {
+        assert(!move_on_list(hash_move));
         return;
     }
-///    std::cerr << "integrated: " << hash_move << "\n";
-    this->hash_move = hash_move;
-    // TODO: smarter implementation. that doesnt search the move twice
+    assert(move_on_list(hash_move));
+    assert(move_index >= first_capture);
+    assert(move_index <= last_move_index());
 #ifndef NDEBUG
-///    int old_size = list_size();
+    int old_size = list_size();
 #endif
-    remove(hash_move);
-///    std::cerr << old_size << " " << list_size() << "\n";
-///    assert(list_size() == old_size);
+    // Use the move from the list in case move-types differ
+    this->hash_move = bidirectional_move_list[move_index]; 
+    assert(move_in_range(this->hash_move));
+    remove(move_index);
+    assert(list_size() == old_size);
 }
 
