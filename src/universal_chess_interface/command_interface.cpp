@@ -253,3 +253,10 @@ void CCommandInterface::log_board_evaluation() {
     board.evaluator.log_board_evaluation();
 }
 
+void CCommandInterface::show_hash() const {
+    stop(); 
+    assert(n_worker_threads_busy == 0);
+    ACQUIRE_BOARD_OWNERSHIP();
+    ///hash_table.show_hash();
+}
+

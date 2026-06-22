@@ -41,7 +41,8 @@ class CCommandInterface {
   public: // TODO: const
     bool test_move_generator();
     void log_board_evaluation();
-    void show_main_psv_tables();
+    void show_main_psv_tables(); // TODO: const?
+    void show_hash() const;
     static bool any_worker_thread_busy() { return (n_worker_threads_busy > 0); }
   private:
     static void send_best_move(const std::string &best_move);

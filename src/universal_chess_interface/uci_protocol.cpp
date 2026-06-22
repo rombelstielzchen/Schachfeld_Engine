@@ -132,7 +132,7 @@ void CUciProtocol::process_message(const std::string &message) {
         interactive_console_mode = true;
         command_interface.log_board_evaluation();
     } else if (string_tokenizer.next_token_is("hash")) {
-        assert(NOT_YET_IMPLEMENTED);
+       command_interface.show_hash(); 
     } else if (string_tokenizer.next_token_is_one_of("go", "g")) {
         process_go_command(string_tokenizer);
     } else if (string_tokenizer.next_token_is_one_of("help", "?")) {
