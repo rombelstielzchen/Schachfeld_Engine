@@ -88,6 +88,7 @@ std::string CMoveList::as_text() const {
 }
 
 bool CMoveList:: move_on_list(const SMove move) const {
+    ///std::cerr << move << "\n";
     assert(move_in_range(move));
     assert(valid_list());
     return (get_index(move) != MOVE_NOT_ON_LIST);

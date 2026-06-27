@@ -38,9 +38,13 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
         return SCORE_ENEMY_KING_CAPTURED;
     }
     profiling.increment(0);
-    profiling.increment_if(1, (move_as_text(hash_table.get_best_move(board.get_hash())) != "e1f7"));
-    profiling.increment_if(2,  move_generator.move_list.move_on_list(hash_table.get_best_move(board.get_hash())));
-    move_generator.move_list.integrate_hash_move(hash_table.get_best_move(board.get_hash()));
+    SMove hash_move = hash_table.get_best_move(board.get_hash());
+    profiling.increment_if(1, hash_move != NULL_MOVE);
+    if (hash_move != NULL_MOVE) {
+        profiling.increment_if(2,  move_generator.move_list.move_on_list(hash_move));
+        ///std::cerr << "hash_move: " << hash_move << "\n";
+        move_generator.move_list.integrate_hash_move(hash_move);
+    }
     int const n_moves = move_generator.move_list.list_size();
     for (int j = 0; j < n_moves; ++j) {
         SMove move_candidate = move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root);

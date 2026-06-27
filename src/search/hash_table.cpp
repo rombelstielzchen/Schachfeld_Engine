@@ -8,8 +8,9 @@
 #include "../universal_chess_interface/uci_protocol.h"
 #include "../technical_functions/standard_headers.h"
 
-constexpr SHashEntry initial_entry = { 3141, { E1, F7, MOVE_TYPE_CAPTURE, BLACK_POWER, 0 }};
-///static_assert(move_in_range(initial_entry.best_move));
+constexpr SHashEntry initial_entry = { 3141, NULL_MOVE }; 
+///constexpr SHashEntry initial_entry = { 0, { NULL_SQUARE, NULL_SQUARE, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 }};
+///static_assert(initial_entry.best_move == NULL_MOVE);
 
 CHashTable::CHashTable () {
     // TODO: init data?
@@ -56,10 +57,10 @@ void CHashTable::set_size(int64_t n_mega_bytes) {
 SMove CHashTable::get_best_move(THashKey hash_key) const {
     size_t position = hash_index(hash_key);
     if (data[position].hash_key != hash_key) {
-        return initial_entry.best_move;///NULL_MOVE;
+        return NULL_MOVE;
     }
     SMove best_move = data[position].best_move;
-    assert(move_in_range(best_move));
+    assert(move_in_range(best_move) || (best_move == NULL_MOVE));
     return best_move;
 }
 
