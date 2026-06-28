@@ -8,7 +8,7 @@
 #include "../universal_chess_interface/uci_protocol.h"
 #include "../technical_functions/standard_headers.h"
 
-constexpr SHashEntry initial_entry = { 3141, NULL_MOVE }; 
+constexpr SHashEntry initial_entry = { 3141, 999, NULL_MOVE }; 
 ///constexpr SHashEntry initial_entry = { 0, { NULL_SQUARE, NULL_SQUARE, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 }};
 ///static_assert(initial_entry.best_move == NULL_MOVE);
 
@@ -64,7 +64,7 @@ SMove CHashTable::get_best_move(THashKey hash_key) const {
     return best_move;
 }
 
-void CHashTable::store_best_move(const THashKey hash_key, const SMove best_move) {
+void CHashTable::store_best_move(const SMove &best_move, THashKey hash_key) {
     assert(move_in_range(best_move));
     ///std::cerr << "key: " << hash_key << "\n";
     size_t position = hash_index(hash_key);
@@ -77,5 +77,25 @@ void CHashTable::store_best_move(const THashKey hash_key, const SMove best_move)
 
 void CHashTable::reset() {
     data.assign(data.size(), initial_entry);
+}
+
+void CHashTable::store_best_move(const SMove &best_move, const THashKey hash_key, const int distance_to_root) {
+    assert(distance_to_root >= 0);
+    const size_t index = hash_index(hash_key);
+    SHashEntry &existing_entry = data[index];
+    if (may_overwrite(hash_key, distance_to_root, existing_entry)) {
+        store_best_move(best_move, hash_key);
+    }
+}
+
+bool CHashTable::may_overwrite(const THashKey hash_key, int distance_to_root, const SHashEntry &existing_entry) const {
+    if (distance_to_root > existing_entry.distance_to_root) {
+        return false;
+    }
+    if (distance_to_root < existing_entry.distance_to_root) {
+        return true;
+    }
+    assert(distance_to_root == existing_entry.distance_to_root);
+    return (hash_key == existing_entry.hash_key); 
 }
 

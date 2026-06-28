@@ -204,7 +204,8 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
             alpha_beta_window.alpha = std::max(alpha_beta_window.alpha, candidate_score);
             assert(is_valid_alpha_beta_window(alpha_beta_window));
             move_generator.move_list.shift_current_move_to_top();
-            hash_table.store_best_move(board.get_hash(), best_move);
+            constexpr int no_distance_to_root = 0;
+            hash_table.store_best_move(best_move, board.get_hash(), no_distance_to_root);
             // TODO:  below still needed with hashing?
             search_statistics.set_best_move(best_move, best_score);
         }

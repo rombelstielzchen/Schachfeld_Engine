@@ -14,6 +14,7 @@ bool CTestHashTable::test_everything() {
     EXPECT(test_resizing());
     EXPECT(test_lookup());
     EXPECT(test_lookup_after_resizing());
+    EXPECT(test_may_overwrite());
     return true;
 }
 
@@ -38,9 +39,9 @@ bool CTestHashTable::test_resizing() {
 bool CTestHashTable::test_lookup() {
     TEST_FUNCTION();
     constexpr  SMove g1f3 = { G1, F3, MOVE_TYPE_NORMAL, '\0', 0 };
-    constexpr int64_t index = 3141;
+    constexpr THashKey index = 3141;
     EXPECT(hash_table.get_best_move(index) != g1f3);
-    hash_table.store_best_move(index, g1f3);
+    hash_table.store_best_move(g1f3, index);
     EXPECT(hash_table.get_best_move(index) == g1f3);
     return true;
 }
@@ -48,18 +49,36 @@ bool CTestHashTable::test_lookup() {
 bool CTestHashTable::test_lookup_after_resizing() {
     TEST_FUNCTION();
     constexpr  SMove g1h3 = { G1, H3, MOVE_TYPE_NORMAL, '\0', 0 };
-    constexpr int64_t index1 = 3141;
-    constexpr int64_t index2 = 3141592653;
+    constexpr size_t index1 = 3141;
+    constexpr size_t index2 = 3141592653;
     EXPECT(hash_table.get_best_move(index1) != g1h3);
     EXPECT(hash_table.get_best_move(index2) != g1h3);
-    hash_table.store_best_move(index1, g1h3);
-    hash_table.store_best_move(index2, g1h3);
+    hash_table.store_best_move(g1h3, index1);
+    hash_table.store_best_move(g1h3, index2);
     EXPECT(hash_table.get_best_move(index1) == g1h3);
     EXPECT(hash_table.get_best_move(index2) == g1h3);
     hash_table.set_size(2);
     // Small keys go to the same index, large keys to a different one after resizing
     EXPECT(hash_table.get_best_move(index1) == g1h3);
     EXPECT(hash_table.get_best_move(index2) != g1h3);
+    return true;
+}
+
+bool CTestHashTable::test_may_overwrite() {
+    TEST_FUNCTION();
+    constexpr THashKey hash_key = 3141;
+    constexpr int distance_to_root = 42;
+    constexpr SMove best_move = { G1, F3, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 };
+    constexpr SHashEntry hash_entry = { hash_key, distance_to_root, best_move };
+    hash_table.store_best_move(best_move, hash_key);
+    constexpr size_t different_key = 3623626;
+    constexpr int smaller_distance_to_root = distance_to_root - 1;
+    EXPECT(hash_table.may_overwrite(different_key, smaller_distance_to_root, hash_entry));
+    constexpr int larger_distance_to_root = distance_to_root + 1;
+    EXPECT(hash_table.may_overwrite(hash_key, larger_distance_to_root, hash_entry) == false);
+    EXPECT(hash_table.may_overwrite(different_key, distance_to_root, hash_entry) == false);
+    constexpr THashKey same_key = hash_key;
+    EXPECT(hash_table.may_overwrite(same_key, distance_to_root, hash_entry));
     return true;
 }
 

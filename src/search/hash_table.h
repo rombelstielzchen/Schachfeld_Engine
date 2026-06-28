@@ -19,6 +19,7 @@ typedef size_t THashKey;
 
 typedef struct {
     THashKey hash_key;
+    int distance_to_root;
     SMove best_move;
 } SHashEntry;
 
@@ -29,13 +30,16 @@ class CHashTable {
     ~CHashTable();
   public:
     void reset();
-    void store_best_move(const THashKey hash_key, const SMove best_move);
+    void store_best_move(const SMove &best_move, const THashKey hash_key, const int distance_to_root);
     SMove get_best_move(THashKey hash_key) const;
     void set_size(int64_t n_mega_bytes);
   private:
     size_t n_possible_entries(int64_t size_in_bytes) const;
     size_t n_current_entries() const;
     size_t hash_index(const THashKey key) const;
+  private:
+    void store_best_move(const SMove &best_move, const THashKey hash_key);
+    bool may_overwrite(const THashKey hash_key, int distance_to_root, const SHashEntry &existing_entry) const;
   private:
     std::vector<SHashEntry> data;
 };

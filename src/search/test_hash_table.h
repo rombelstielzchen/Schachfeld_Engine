@@ -16,5 +16,6 @@ class CTestHashTable {
     static bool test_resizing();
     static bool test_lookup();
     static bool test_lookup_after_resizing();
+    static bool test_may_overwrite();
 };
 

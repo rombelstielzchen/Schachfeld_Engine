@@ -71,7 +71,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
                 search_statistics.add_nodes(j + 1);
                 killer_heuristic.store_killer(distance_to_root, move_candidate);
                 profiling.increment(3);
-                hash_table.store_best_move(board.get_hash(), move_candidate);
+                hash_table.store_best_move(move_candidate, board.get_hash(), distance_to_root);
                 return candidate_score;
             }
             best_score = candidate_score;
