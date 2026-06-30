@@ -20,12 +20,27 @@ bool CTestHashFunction::test_everything() {
     EXPECT(hash_position(START_POSITION) > 1234567);
     EXPECT(hash_position("k1k w") > 1234567);
     EXPECT(hash_position("K/1P/2P/3P/4p/5p/6p/7k w") > 1234567);
+    // TODO: extra funcs for code above
+    EXPECT(test_consistency());
     return true;
 }
 
-size_t CTestHashFunction::hash_position(const std::string fen_position) {
-   bool is_valid_position = board.set_fen_position(fen_position);
-   assert(is_valid_position);
+THashKey CTestHashFunction::hash_position(const std::string fen_position) {
+    std::cerr <<fen_position << "\n";
+    bool is_valid_position = board.set_fen_position(fen_position);
+    assert(is_valid_position);
     return board.get_hash();
+}
+
+bool CTestHashFunction::test_consistency() {
+    // Consistency bcomes important, when we do zobrist-hashing
+    // instead of using the board as_is().
+    TEST_FUNCTION();
+    THashKey hash1 = hash_position("startpos moves e2e4 f7f5 d2d4 g7g5");
+    THashKey hash2 = hash_position("startpos moves e2e3 g7g5 d2d4 f7f6 e3e4 f6f5");
+    THashKey hash3 = hash_position("rnbqkbnr/ppppp2p//6pp/3PP//PPP2PPP/RNBQBNR w - KQkq");
+    EXPECT(hash1 == hash2);
+    EXPECT(hash2 == hash3);
+    return false;
 }
 

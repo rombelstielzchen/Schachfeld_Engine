@@ -7,14 +7,13 @@
 
 #include "../technical_functions/standard_headers.h"
 
+#include "../search/hash_table.h"
+
 class CTestHashFunction {
   public:
     static bool test_everything();
+    static bool test_consistency();
   private:
-    // TODO: consistency
-    // TODO: after set_fen
-    // TODO: after moves
-  private:
-    static size_t hash_position(const std::string fen_position);
+    static THashKey hash_position(const std::string fen_position);
 };
 
