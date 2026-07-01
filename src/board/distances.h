@@ -5,15 +5,21 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-#include "board.h"
 #include "square_constants.h"
+
+class CBoard;
 
 class CDistances {
   public:
-    static double euclidian_distance(const SSquare a, const SSquare b);
-    static double manhattan_distance(const SSquare a, const SSquare b);
-    static double mixed_distance(const SSquare a, const SSquare b);
+    CDistances();
+    void init_board_pointer(const CBoard *my_board);                
   public:
-    static SSquare nearest_square(const SSquare target_square, TSquareList square_list);
+    double euclidian_distance(const SSquare a, const SSquare b) const;
+    double manhattan_distance(const SSquare a, const SSquare b) const;
+    double mixed_distance(const SSquare a, const SSquare b) const;
+  public:
+    SSquare nearest_square(const SSquare target_square, TSquareList square_list) const;
+  private:
+    const CBoard *my_board;
 };
 

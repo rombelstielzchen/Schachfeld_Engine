@@ -5,8 +5,19 @@
 
 #include "distances.h"
 #include "square_constants.h"
+#include "../move_generator/move.h"
+#include <cassert>
 
-double CDistances::euclidian_distance(const SSquare a, const SSquare b) {
+CDistances::CDistances() {
+    my_board = nullptr;
+}
+
+void CDistances::init_board_pointer(const CBoard *my_board) {
+    assert(my_board != nullptr);
+    this->my_board = my_board;
+}
+
+double CDistances::euclidian_distance(const SSquare a, const SSquare b) const {
     assert(square_in_range(a));
     assert(square_in_range(b));
     int dx = a.file - b.file;
@@ -17,7 +28,7 @@ double CDistances::euclidian_distance(const SSquare a, const SSquare b) {
     return result;
 }
 
-SSquare CDistances::nearest_square(const SSquare target_square, TSquareList square_list) {
+SSquare CDistances::nearest_square(const SSquare target_square, TSquareList square_list) const {
     assert(square_in_range(target_square));
     if (square_list.size() <= 0) {
         return NULL_SQUARE;
@@ -38,7 +49,7 @@ SSquare CDistances::nearest_square(const SSquare target_square, TSquareList squa
     return best_square;
 }
 
-double CDistances::manhattan_distance(const SSquare a, const SSquare b) {
+double CDistances::manhattan_distance(const SSquare a, const SSquare b) const {
     assert(square_in_range(a));
     assert(square_in_range(b));
     int delta_x = abs(a.file - b.file);
@@ -50,7 +61,7 @@ double CDistances::manhattan_distance(const SSquare a, const SSquare b) {
     return result;
 }
 
-double CDistances::mixed_distance(const SSquare a, const SSquare b) {
+double CDistances::mixed_distance(const SSquare a, const SSquare b) const {
     assert(square_in_range(a));
     assert(square_in_range(b));
      double result = (euclidian_distance (a, b) + manhattan_distance(a, b)) / 2;

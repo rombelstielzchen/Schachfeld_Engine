@@ -5,6 +5,7 @@
 
 #include "piece_square_value_tables.h"
 #include "score_constants.h"
+#include "../board/board.h"
 #include "../board/board_logic.h"
 #include "../board/distances.h"
 #include "../move_generator/move.h"
@@ -184,7 +185,7 @@ void CPsvModifier::make_gradient(TPieceSquareValueTable &table, const SSquare ta
     assert(square_in_range(target_square));
     int base_value = table[target_square.file][target_square.rank];
     for (const SSquare s: ALL_SQUARES) {
-        double  distance = CDistances::mixed_distance(target_square, s);
+        double distance = board.distances.mixed_distance(target_square, s);
         assert(distance <= 14);
         double evaluation_difference = distance * bonus_per_step;
         // TODO: correct cast?

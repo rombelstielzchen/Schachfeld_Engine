@@ -7,6 +7,7 @@
 
 #include "board_constants.h"
 #include "game_saver.h"
+#include "distances.h"
 #include "move_maker.h"
 #include "../evaluator/evaluator.h"
 #include "../technical_functions/standard_headers.h"
@@ -109,6 +110,9 @@ class CBoard {
     std::array<bool, MOVE_TYPE_BLACK_SHORT_CASTLING + 1> castling_rights;
   private:
     std::string initial_position_before_moves;
+  public:
+    // TODO: maybe provide proper acessors?
+    CDistances distances;
 };
 
 // Global board, as "everybody" needs easy access to it
