@@ -26,7 +26,6 @@ bool CTestHashFunction::test_everything() {
 }
 
 THashKey CTestHashFunction::hash_position(const std::string fen_position) {
-    std::cerr <<fen_position << "\n";
     bool is_valid_position = board.set_fen_position(fen_position);
     assert(is_valid_position);
     return board.get_hash();
@@ -36,11 +35,16 @@ bool CTestHashFunction::test_consistency() {
     // Consistency bcomes important, when we do zobrist-hashing
     // instead of using the board as_is().
     TEST_FUNCTION();
-    THashKey hash1 = hash_position("startpos moves e2e4 f7f5 d2d4 g7g5");
+    THashKey hash1 = hash_position("startpos moves d2d4 f7f6 e2e3 g7g5 e3e4 f6f5");
+    std::string board1 = board.as_is();
     THashKey hash2 = hash_position("startpos moves e2e3 g7g5 d2d4 f7f6 e3e4 f6f5");
-    THashKey hash3 = hash_position("rnbqkbnr/ppppp2p//6pp/3PP//PPP2PPP/RNBQBNR w - KQkq");
+    std::string board2 = board.as_is();
+    EXPECT(board1 == board2);
     EXPECT(hash1 == hash2);
+    THashKey hash3 = hash_position("rnbqkbnr/ppppp2p//5pp/3PP//PPP2PPP/RNBQKBNR w KQkq - 0 1");
+    std::string board3 = board.as_is();
+    EXPECT(board2 == board3);
     EXPECT(hash2 == hash3);
-    return false;
+    return true;
 }
 
