@@ -20,6 +20,7 @@ class CDistances {
   public:
     SSquare nearest_square(const SSquare target_square, TSquareList square_list) const;
   private:
+    // TODO: remove unused pinter
     const CBoard *my_board;
 };
 

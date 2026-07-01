@@ -189,9 +189,9 @@ SSquare CExpertBasicMating::desired_mating_corner_for_bishop_and_knight(const SS
     TSquareColour corner_colour = CBoardLogic::bishop_colour();
     SSquare target_corner = NULL_SQUARE;
     if (corner_colour == WHITE_SQUARE_COLOUR) {
-        target_corner = board.distances.nearest_square(losing_king_square, WHITE_CORNER_SQUARES);
+        target_corner = board.distances().nearest_square(losing_king_square, WHITE_CORNER_SQUARES);
     } else {
-        target_corner = board.distances.nearest_square(losing_king_square, BLACK_CORNER_SQUARES);
+        target_corner = board.distances().nearest_square(losing_king_square, BLACK_CORNER_SQUARES);
     }
     assert(square_in_range(target_corner));
     return target_corner;
@@ -202,7 +202,7 @@ SSquare CExpertBasicMating::desired_mating_corner(const SSquare losing_king_squa
     if (is_bishop_and_knight()) {
         return desired_mating_corner_for_bishop_and_knight(losing_king_square);
     }
-    SSquare mating_corner = board.distances.nearest_square(losing_king_square, CORNER_SQUARES);
+    SSquare mating_corner = board.distances().nearest_square(losing_king_square, CORNER_SQUARES);
     assert(square_in_range(mating_corner));
     return mating_corner;
     ;
@@ -260,7 +260,7 @@ void CExpertBasicMating::configure_rook_tables__single_rook() {
     CPsvModifier::make_equal(rook_table, bonus_for(m_winning_side, score_average_rook));
     SSquare rook_square = CBoardLogic::piece_square(m_winning_rook);
     assert(square_in_range(rook_square));
-    if (board.distances.mixed_distance(rook_square, m_winning_king_square) < 3) {
+    if (board.distances().mixed_distance(rook_square, m_winning_king_square) < 3) {
         // Box in the enemy king, if our own king is nearby
         CPsvModifier::make_gradient(rook_table, m_losing_king_square, bonus_for(m_winning_side, bonus_rook));
     } else {
@@ -273,17 +273,17 @@ void CExpertBasicMating::configure_rook_tables__single_rook() {
 
 SSquare CExpertBasicMating::nearest_center_square(const SSquare s) {
     assert(square_in_range(s));
-    return board.distances.nearest_square(s, CENTER_SQUARES);
+    return board.distances().nearest_square(s, CENTER_SQUARES);
 }
 
 bool CExpertBasicMating::losing_king_near_target_corner() const {
-    return (board.distances.mixed_distance(m_losing_king_square, m_target_corner) < 1.1);
+    return (board.distances().mixed_distance(m_losing_king_square, m_target_corner) < 1.1);
 }
 
 bool CExpertBasicMating::winning_king_near_losing_king() const {
     // Max: larger than 2 adjacent squares, smaller than 2 diagonal.
     constexpr double max_near_distance = 2.5;
-    return (board.distances.mixed_distance(m_winning_king_square, m_losing_king_square) < max_near_distance);
+    return (board.distances().mixed_distance(m_winning_king_square, m_losing_king_square) < max_near_distance);
 }
 
 bool CExpertBasicMating::short_before_mate() const {

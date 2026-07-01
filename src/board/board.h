@@ -6,8 +6,8 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "board_constants.h"
-#include "game_saver.h"
 #include "distances.h"
+#include "game_saver.h"
 #include "move_maker.h"
 #include "../evaluator/evaluator.h"
 #include "../technical_functions/standard_headers.h"
@@ -53,11 +53,12 @@ typedef struct {
 typedef size_t THashKey; 
 
 class CBoard {
-    // TODO: mov static methods + tests to CBoardLogic
     friend class CFenParser;
     friend class CMoveMaker;
   public:
     CBoard();
+  public:
+   inline CDistances &distances() { return _distances; }
   public:
     void set_start_position();
     bool set_fen_position(const std::string &position);
@@ -72,7 +73,7 @@ class CBoard {
     void put_piece(const SSquare square, TPiece piece);
   public:
     inline TPlayerColour get_side_to_move() const { return side_to_move; }
-    TFile get_eng_passeng_file() const;
+    TFile get_eng_passeng_file() const; // TODO: inline
     inline bool eng_passeng_possible() const { return (eng_passeng_file != NO_ENG_PASSENG_POSSIBLE); }
     int get_move_counter() const;
     int get_100_ply_draw_counter() const;
@@ -85,10 +86,8 @@ class CBoard {
     TSquareColour square_colour(const SSquare square) const;
   public:
     void clear_castling_rights();
-    // TODO: movetype
-    void set_castling_rights(const char move_type, bool yes_no);
-    // TODO: movetype
-    bool get_castling_rights(char move_type) const;
+    void set_castling_rights(const TPiece move_type, bool yes_no);
+    bool get_castling_rights(TPiece move_type) const;
   public:
     THashKey get_hash();
   public:
@@ -107,12 +106,12 @@ class CBoard {
     int move_counter;
     int _100_ply_draw_counter;
     // Some over-size supports easy access via MOVE_TYPE (char)
+    // TODO: bool -> TPlayerColour
     std::array<bool, MOVE_TYPE_BLACK_SHORT_CASTLING + 1> castling_rights;
   private:
     std::string initial_position_before_moves;
-  public:
-    // TODO: maybe provide proper acessors?
-    CDistances distances;
+  private:
+    CDistances _distances;
 };
 
 // Global board, as "everybody" needs easy access to it

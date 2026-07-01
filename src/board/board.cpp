@@ -11,7 +11,7 @@
 #include "../technical_functions/standard_headers.h"
 
 CBoard::CBoard() {
-    distances.init_board_pointer(this);
+    distances().init_board_pointer(this);
     init_garden_fence();
     clear_board_squares();
     set_start_position();
@@ -108,7 +108,7 @@ void CBoard::clear_castling_rights() {
     set_castling_rights(MOVE_TYPE_BLACK_LONG_CASTLING, false);
 }
 
-void CBoard::set_castling_rights(const char move_type, bool yes_no) {
+void CBoard::set_castling_rights(const TPiece move_type, bool yes_no) {
     assert((move_type == MOVE_TYPE_WHITE_SHORT_CASTLING)
         || (move_type == MOVE_TYPE_WHITE_LONG_CASTLING)
         || (move_type == MOVE_TYPE_BLACK_SHORT_CASTLING)
@@ -116,7 +116,7 @@ void CBoard::set_castling_rights(const char move_type, bool yes_no) {
     castling_rights[move_type] = yes_no;
 }
 
-bool CBoard::get_castling_rights(char move_type) const {
+bool CBoard::get_castling_rights(TPiece move_type) const {
     assert((move_type == MOVE_TYPE_WHITE_SHORT_CASTLING)
         || (move_type == MOVE_TYPE_WHITE_LONG_CASTLING)
         || (move_type == MOVE_TYPE_BLACK_SHORT_CASTLING)
