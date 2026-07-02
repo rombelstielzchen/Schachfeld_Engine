@@ -5,13 +5,14 @@
 
 #include "expert_endgame_queen.h"
 #include "../../score_constants.h"
+#include "../../../board/board.h"
 #include "../../../board/board_logic.h"
 #include "../../piece_square_value_tables.h"
 #include "../../../technical_functions/engine_test.h"
 #include "../../../technical_functions/standard_headers.h"
 
 bool CExpertEndgameQueen::is_responsible() const {
-    return (CBoardLogic::is_endgame() && !CEngineTest::is_testing());
+    return (board.board_logic().is_endgame() && !CEngineTest::is_testing());
 }
 
 void CExpertEndgameQueen::apply_knowledge() {

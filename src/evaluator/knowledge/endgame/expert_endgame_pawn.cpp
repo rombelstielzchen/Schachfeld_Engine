@@ -4,6 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "expert_endgame_pawn.h"
+#include "../../../board/board.h"
 #include "../../../board/board_logic.h"
 #include "../../piece_square_value_tables.h"
 #include "../../../technical_functions/engine_test.h"
@@ -32,7 +33,7 @@ TPieceSquareValueTable endgame_pawn_psv_table = {{
     { 0,   0, 110, 110, 109, 108, 120, 130, 125, 110 }}};
 
 bool CExpertEndgamePawn::is_responsible() const {
-    return (CBoardLogic::is_endgame() && !CEngineTest::is_testing());
+    return (board.board_logic().is_endgame() && !CEngineTest::is_testing());
 }
 
 void CExpertEndgamePawn::apply_knowledge() {

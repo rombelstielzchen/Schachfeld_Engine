@@ -6,6 +6,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "board_constants.h"
+#include "board_logic.h"
 #include "distances.h"
 #include "game_saver.h"
 #include "move_maker.h"
@@ -58,6 +59,7 @@ class CBoard {
   public:
     CBoard();
   public:
+    inline CBoardLogic &board_logic() { return _board_logic; }
    inline CDistances &distances() { return _distances; }
   public:
     void set_start_position();
@@ -111,6 +113,7 @@ class CBoard {
   private:
     std::string initial_position_before_moves;
   private:
+    CBoardLogic _board_logic;
     CDistances _distances;
 };
 

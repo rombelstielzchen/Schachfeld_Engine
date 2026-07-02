@@ -4,6 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "expert_endgame_king_activity.h"
+#include "../../../board/board.h"
 #include "../../../board/board_logic.h"
 #include "../../piece_square_value_tables.h"
 #include "../../../technical_functions/standard_headers.h"
@@ -21,7 +22,7 @@ TPieceSquareValueTable endgame_king_psv_table = {{
     { 0,   0,   210,   210,   210,   210,   210,   210,   210,   210 }}};
 
 bool CExpertEndgameKingActivity::is_responsible() const {
-    bool is_endgame = CBoardLogic::is_endgame();
+    bool is_endgame = board.board_logic().is_endgame();
     return is_endgame;
 }
 

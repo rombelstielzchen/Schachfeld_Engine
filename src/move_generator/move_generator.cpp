@@ -95,10 +95,10 @@ void CMoveGenerator::generate_pawn_captures(const TFile file, const TRank rank, 
     TRank next_rank = rank + positive_negative_direction;
     TFile left_file = file - 1;
     TFile right_file = file + 1;
-    if (CBoardLogic::square_occupied_by_opponent(left_file, next_rank)) {
+    if (board.board_logic().square_occupied_by_opponent(left_file, next_rank)) {
         move_list.store_pawn_capture(file, rank, left_file, next_rank);
     }
-    if (CBoardLogic::square_occupied_by_opponent(right_file, next_rank)) {
+    if (board.board_logic().square_occupied_by_opponent(right_file, next_rank)) {
         move_list.store_pawn_capture(file, rank, right_file, next_rank);
     }
 }
@@ -140,7 +140,7 @@ void CMoveGenerator::generate_king_moves(const SSquare source) {
 }
 
 void CMoveGenerator::generate_castlings(const SSquare source) {
-    if ((source.file != FILE_E) || (source.rank != CBoardLogic::my_back_rank())) {
+    if ((source.file != FILE_E) || (source.rank != board.board_logic().my_back_rank())) {
         return;
     }
     int my_short = MOVE_TYPE_WHITE_SHORT_CASTLING;
@@ -149,10 +149,10 @@ void CMoveGenerator::generate_castlings(const SSquare source) {
         my_short = MOVE_TYPE_BLACK_SHORT_CASTLING;
         my_long = MOVE_TYPE_BLACK_LONG_CASTLING;
     }
-    if (CBoardLogic::castling_possible(my_short)) {
+    if (board.board_logic().castling_possible(my_short)) {
         move_list.store_castling(my_short);
     }
-    if (CBoardLogic::castling_possible(my_long)) {
+    if (board.board_logic().castling_possible(my_long)) {
         move_list.store_castling(my_long);
     }
 }
@@ -195,11 +195,11 @@ void CMoveGenerator::generate_potential_move(const SSquare source, const TFile t
     // Target may be out of range (garden-fence), therefore no assertions
     if (board.square_is_empty(target_file, target_rank)) {
         move_list.store_silent_move(source.file, source.rank, target_file, target_rank);
-    } else if (CBoardLogic::square_occupied_by_opponent(target_file, target_rank)) {
+    } else if (board.board_logic().square_occupied_by_opponent(target_file, target_rank)) {
         move_list.store_capture(source.file, source.rank, target_file, target_rank);
     } else {
         assert((board.get_square(target_file, target_rank) == GARDEN_FENCE)
-            || (is_any_piece(board.get_square(target_file, target_rank)) && !CBoardLogic::square_occupied_by_opponent(target_file, target_rank)));
+            || (is_any_piece(board.get_square(target_file, target_rank)) && !board.board_logic().square_occupied_by_opponent(target_file, target_rank)));
     }
 }
 
@@ -214,7 +214,7 @@ void CMoveGenerator::generate_sliding_moves(const SSquare source, const int dire
         next_file += direction_east_west;
         next_rank += direction_north_south;
     }
-    if (CBoardLogic::square_occupied_by_opponent(next_file, next_rank)) {
+    if (board.board_logic().square_occupied_by_opponent(next_file, next_rank)) {
         move_list.store_capture(source.file, source.rank, next_file, next_rank);
     }
 }
@@ -226,11 +226,11 @@ void CMoveGenerator::generate_potential_eng_passeng() {
         return;
     }
     assert(file_in_range(eng_passeng_file));
-    const TRank rank = CBoardLogic::eng_passeng_pawn_rank();
+    const TRank rank = board.board_logic().eng_passeng_pawn_rank();
     assert((rank == RANK_4) || (rank == RANK_5));
-    TRank next_rank = CBoardLogic::eng_passeng_forward_rank();
+    TRank next_rank = board.board_logic().eng_passeng_forward_rank();
     assert((next_rank == RANK_3) || (next_rank == RANK_6));
-    const char my_pawn = CBoardLogic::my_pawn();
+    const char my_pawn = board.board_logic().my_pawn();
     assert((board.get_square(eng_passeng_file, rank) == WHITE_POWER) || (board.get_square(eng_passeng_file, rank) == BLACK_POWER));
     assert(board.square_is_empty(eng_passeng_file, next_rank));
     TFile left = eng_passeng_file - 1;

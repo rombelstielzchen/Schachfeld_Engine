@@ -31,7 +31,7 @@ void CMoveList::prune_illegal_moves() {
         assert(pos >= first_capture);
         assert(valid_list());
         SMove move = bidirectional_move_list[pos];
-        if (CBoardLogic::illegal_move(move)) {
+        if (board.board_logic().illegal_move(move)) {
             assert(valid_list());
             [[maybe_unused]] int former_list_size = list_size();
             assert(pos >= first_capture);
@@ -143,11 +143,11 @@ void CMoveList::remove(const std::string &move_text) {
 
 void CMoveList::prune_illegal_castlings() {
     assert(valid_list());
-    SSquare king_square = CBoardLogic::king_square(board.get_side_to_move());
+    SSquare king_square = board.board_logic().king_square(board.get_side_to_move());
     if (king_square.file != FILE_E) {
         return;
     }
-    if (king_square.rank != CBoardLogic::my_back_rank()) {
+    if (king_square.rank != board.board_logic().my_back_rank()) {
         return;
     }
     if (board.get_side_to_move() == WHITE_PLAYER) {
@@ -157,7 +157,7 @@ void CMoveList::prune_illegal_castlings() {
         if (!move_on_list("e1d1") && move_on_list("e1c1")) {
             remove("e1c1");
         }
-        if (CBoardLogic::piece_attacked_by_side_not_to_move(king_square)) {
+        if (board.board_logic().piece_attacked_by_side_not_to_move(king_square)) {
             remove("e1g1");
             remove("e1c1");
         }
@@ -172,7 +172,7 @@ void CMoveList::prune_illegal_castlings() {
     if (!move_on_list("e8d8") && move_on_list("e8c8")) {
         remove("e8c8");
     }
-    if (CBoardLogic::piece_attacked_by_side_not_to_move(king_square)) {
+    if (board.board_logic().piece_attacked_by_side_not_to_move(king_square)) {
         remove("e8g8");
         remove("e8c8");
     }

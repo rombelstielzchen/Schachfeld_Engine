@@ -33,16 +33,16 @@ int bonus_for(TPlayerColour which_player, int positive_bonus__negative_malus) {
 }
 
 bool CExpertBasicMating::is_responsible() const {
-    if ((CBoardLogic::n_stones(WHITE_PLAYER) > 1) && (CBoardLogic::n_stones(BLACK_PLAYER) > 1)) {
+    if ((board.board_logic().n_stones(WHITE_PLAYER) > 1) && (board.board_logic().n_stones(BLACK_PLAYER) > 1)) {
         return false;
     }
-    if (CBoardLogic::n_stones() <= 2) {
+    if (board.board_logic().n_stones() <= 2) {
         return false;
     }
-    if (CBoardLogic::is_pawn_endgame()) {
+    if (board.board_logic().is_pawn_endgame()) {
         return false;
     }
-    if ((CBoardLogic::king_square(WHITE_PLAYER) == NULL_SQUARE) || (CBoardLogic::king_square(BLACK_PLAYER) == NULL_SQUARE)) {
+    if ((board.board_logic().king_square(WHITE_PLAYER) == NULL_SQUARE) || (board.board_logic().king_square(BLACK_PLAYER) == NULL_SQUARE)) {
         return false;
     }
     return true;
@@ -59,9 +59,9 @@ void CExpertBasicMating::apply_knowledge() {
     m_winning_rook = (m_winning_side == WHITE_PLAYER) ? WHITE_ROOK : BLACK_ROOK;
     m_winning_bishop = (m_winning_side == WHITE_PLAYER) ? WHITE_BISHOP : BLACK_BISHOP;
     m_winning_knight = (m_winning_side == WHITE_PLAYER) ? WHITE_KNIGHT : BLACK_KNIGHT;
-    m_winning_king_square = CBoardLogic::king_square(m_winning_side);
+    m_winning_king_square = board.board_logic().king_square(m_winning_side);
     assert(square_in_range(m_winning_king_square));
-    m_losing_king_square = CBoardLogic::king_square(m_losing_side);
+    m_losing_king_square = board.board_logic().king_square(m_losing_side);
     assert(square_in_range(m_losing_king_square));
     m_target_corner = desired_mating_corner(m_losing_king_square);
     assert(square_in_range(m_target_corner));
@@ -116,7 +116,7 @@ void CExpertBasicMating::configure_queen_tables() {
 }
 
 void CExpertBasicMating::configure_rook_tables() {
-    if (CBoardLogic::n_pieces_present(m_winning_rook) == 1) {
+    if (board.board_logic().n_pieces_present(m_winning_rook) == 1) {
         configure_rook_tables__single_rook();
     } else {
         configure_rook_tables__multiple_rooks();
@@ -158,26 +158,26 @@ void CExpertBasicMating::configure_knight_tables() {
     if (is_bishop_and_knight()) {
         // Knights belong on the bishop-colour in order to control all squares.
         constexpr int colour_bonus = 17;
-        CPsvModifier::add_bonus_to_colour_complex(knight_table, CBoardLogic::bishop_colour(), bonus_for(m_winning_side, colour_bonus));
+        CPsvModifier::add_bonus_to_colour_complex(knight_table, board.board_logic().bishop_colour(), bonus_for(m_winning_side, colour_bonus));
     }
 }
 
 bool CExpertBasicMating::winning_side() const {
-    if (CBoardLogic::n_stones(WHITE_PLAYER) == 1) {
-        assert(CBoardLogic::n_stones(BLACK_PLAYER) > 1);
+    if (board.board_logic().n_stones(WHITE_PLAYER) == 1) {
+        assert(board.board_logic().n_stones(BLACK_PLAYER) > 1);
         return BLACK_PLAYER;
     }
-    assert(CBoardLogic::n_stones(BLACK_PLAYER) == 1);
+    assert(board.board_logic().n_stones(BLACK_PLAYER) == 1);
     return WHITE_PLAYER;
 }
 
 bool CExpertBasicMating::is_bishop_and_knight() const {
-    if (CBoardLogic::is_piece_present(WHITE_BISHOP) && CBoardLogic::is_piece_present(WHITE_KNIGHT)) {
-        assert(CBoardLogic::n_stones(BLACK_PLAYER) == 1);
+    if (board.board_logic().is_piece_present(WHITE_BISHOP) && board.board_logic().is_piece_present(WHITE_KNIGHT)) {
+        assert(board.board_logic().n_stones(BLACK_PLAYER) == 1);
         return true;
     }
-    if (CBoardLogic::is_piece_present(BLACK_BISHOP) && CBoardLogic::is_piece_present(BLACK_KNIGHT)) {
-        assert(CBoardLogic::n_stones(WHITE_PLAYER) == 1);
+    if (board.board_logic().is_piece_present(BLACK_BISHOP) && board.board_logic().is_piece_present(BLACK_KNIGHT)) {
+        assert(board.board_logic().n_stones(WHITE_PLAYER) == 1);
         return true;
     }
     return false;
@@ -186,7 +186,7 @@ bool CExpertBasicMating::is_bishop_and_knight() const {
 SSquare CExpertBasicMating::desired_mating_corner_for_bishop_and_knight(const SSquare losing_king_square) const {
     assert(square_in_range(losing_king_square));
     assert(is_bishop_and_knight());
-    TSquareColour corner_colour = CBoardLogic::bishop_colour();
+    TSquareColour corner_colour = board.board_logic().bishop_colour();
     SSquare target_corner = NULL_SQUARE;
     if (corner_colour == WHITE_SQUARE_COLOUR) {
         target_corner = board.distances().nearest_square(losing_king_square, WHITE_CORNER_SQUARES);
@@ -215,7 +215,7 @@ void CExpertBasicMating::configure_bishop_tables() {
     // 0) Prioritize king-centralization.
     // this avoids stupid repetitions like Be6-c4-e6.
     // When attacked, move far away,
-    if (!CBoardLogic::is_piece_at(m_winning_king, EXTENDED_CENTER_SQUARES) && !short_before_mate()) {
+    if (!board.board_logic().is_piece_at(m_winning_king, EXTENDED_CENTER_SQUARES) && !short_before_mate()) {
         constexpr int malus_too_close_to_enemy_king = -1;
         CPsvModifier::make_gradient(bishop_table, m_losing_king_square, malus_too_close_to_enemy_king);
         return;
@@ -258,7 +258,7 @@ void CExpertBasicMating::configure_rook_tables__single_rook() {
     static_assert(bonus_rook < bonus_winning_king);
     TPieceSquareValueTable &rook_table = main_piece_square_value_table_set[m_winning_rook];
     CPsvModifier::make_equal(rook_table, bonus_for(m_winning_side, score_average_rook));
-    SSquare rook_square = CBoardLogic::piece_square(m_winning_rook);
+    SSquare rook_square = board.board_logic().piece_square(m_winning_rook);
     assert(square_in_range(rook_square));
     if (board.distances().mixed_distance(rook_square, m_winning_king_square) < 3) {
         // Box in the enemy king, if our own king is nearby
