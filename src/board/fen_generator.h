@@ -10,18 +10,24 @@
 //
 // https://www.chessprogramming.org/Forsyth-Edwards_Notation
 
-#include "board.h"
 #include "../technical_functions/standard_headers.h"
+
+class CBoard;
 
 class CFenGenerator {
   public:
-    static std::string get_fen_position();
+    CFenGenerator();
+    void init_board_pointer(CBoard *tsource_board);
+  public:
+    std::string get_fen_position() const;
   private:
-    static std::string get_piece_placement();
-    static std::string get_side_to_move();
-    static std::string get_castling_rights();
-    static std::string get_eng_passeng();
-    static std::string get_100_ply_draw_counter();
-    static std::string get_move_counter();
+    std::string get_piece_placement() const;
+    std::string get_side_to_move() const;
+    std::string get_castling_rights() const;
+    std::string get_eng_passeng() const;
+    std::string get_100_ply_draw_counter() const;
+    std::string get_move_counter() const;
+  private:
+    CBoard *my_board;
 };
 

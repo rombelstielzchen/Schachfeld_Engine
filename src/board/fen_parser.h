@@ -12,19 +12,30 @@
 //
 // https://www.chessprogramming.org/Forsyth-Edwards_Notation
 
-#include "board.h"
 #include "../technical_functions/standard_headers.h"
+
+class CBoard;
+
+// TODO: true adaption for multiple boards.
+// ATM extra-moces are not supported.
+// Heavy refactoring needed for move_maker and move_gerator,
+// potentially also causing a slowdown when working with pointer to board.
 
 class CFenParser {
   public:
-    static bool parse(const std::string &fen_board_specification);
+    CFenParser();
+    void init_board_pointer(CBoard *target_board);
+  public:
+    bool parse(const std::string &fen_board_specification);
   private:
-    static bool parse_piece_placement(const std::string &partial_input);
-    static bool parse_side_to_move(const std::string &partial_input);
-    static bool parse_castling_rights(const std::string &partial_input);
-    static bool parse_eng_passeng(const std::string &partial_input);
-    static bool parse_100_ply_draw_counter(const std::string &partial_input);
-    static bool parse_move_counter(const std::string &partial_input);
-    static std::string extract_moves_from_position_command(const std::string &position_command);
+    bool parse_piece_placement(const std::string &partial_input);
+    bool parse_side_to_move(const std::string &partial_input);
+    bool parse_castling_rights(const std::string &partial_input);
+    bool parse_eng_passeng(const std::string &partial_input);
+    bool parse_100_ply_draw_counter(const std::string &partial_input);
+    bool parse_move_counter(const std::string &partial_input);
+    std::string extract_moves_from_position_command(const std::string &position_command);
+  private:
+    CBoard *my_board;
 };
 

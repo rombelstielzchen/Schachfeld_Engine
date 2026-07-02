@@ -32,6 +32,7 @@ bool CTestBoard::test_set_start_position() {
     board.set_start_position();
     EXPECT(board.get_fen_position() == START_POSITION);
     EXPECT(test_moves_from_startpos());
+    EXPECT(test_multiple_boards());
     return true;
 }
 
@@ -142,6 +143,16 @@ bool CTestBoard::test_square_colour() {
     TEST_FUNCTION();
     EXPECT(board.square_colour(B6) == BLACK_SQUARE_COLOUR);
     EXPECT(board.square_colour(G2) == WHITE_SQUARE_COLOUR);
+    return true;
+}
+
+bool CTestBoard::test_multiple_boards() {
+    TEST_FUNCTION();
+    CBoard another_board;
+    board.set_start_position();
+    another_board.set_fen_position("k1K b");
+    EXPECT(another_board.get_side_to_move() == BLACK_PLAYER);
+    EXPECT(board.get_side_to_move() == WHITE_PLAYER);
     return true;
 }
 

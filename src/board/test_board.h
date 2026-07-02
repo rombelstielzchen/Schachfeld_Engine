@@ -19,5 +19,6 @@ class CTestBoard {
     static bool test_modifiers();
     static bool test_moves_from_startpos();
     static bool test_initial_position();
+    static bool test_multiple_boards();
 };
 

@@ -12,6 +12,8 @@
 
 CBoard::CBoard() {
     distances().init_board_pointer(this);
+    fen_generator().init_board_pointer(this);
+    fen_parser().init_board_pointer(this);
     init_garden_fence();
     clear_board_squares();
     set_start_position();
@@ -55,12 +57,12 @@ void CBoard::set_start_position() {
 bool CBoard::set_fen_position(const std::string &position) {
     clear_board_squares();
     initial_position_before_moves = position;
-    bool success = CFenParser::parse(position);
+    bool success = fen_parser().parse(position);
     return success;
 }
 
-std::string CBoard::get_fen_position() const {
-    return CFenGenerator::get_fen_position(); 
+std::string CBoard::get_fen_position() /*const*/ {
+    return fen_generator().get_fen_position(); 
 }
 
 const char* CBoard::as_is() {

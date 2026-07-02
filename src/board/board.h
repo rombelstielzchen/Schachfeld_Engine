@@ -8,6 +8,8 @@
 #include "board_constants.h"
 #include "board_logic.h"
 #include "distances.h"
+#include "fen_generator.h"
+#include "fen_parser.h"
 #include "game_saver.h"
 #include "move_maker.h"
 #include "../evaluator/evaluator.h"
@@ -59,12 +61,15 @@ class CBoard {
   public:
     CBoard();
   public:
+    // TODO: make functions below const
     inline CBoardLogic &board_logic() { return _board_logic; }
-   inline CDistances &distances() { return _distances; }
+    inline CDistances &distances() /* const */ { return _distances; }
+    inline CFenGenerator &fen_generator() { return _fen_generator; }
+    inline CFenParser &fen_parser() { return _fen_parser; }
   public:
     void set_start_position();
     bool set_fen_position(const std::string &position);
-    std::string get_fen_position() const;
+    std::string get_fen_position()/* const*/;
     std::string get_initial_position_before_moves() const { return initial_position_before_moves; }
     bool initial_position_was_startpos() const { return (get_initial_position_before_moves() == START_POSITION); };
     std::string moves_from_startpos() const;
@@ -115,6 +120,8 @@ class CBoard {
   private:
     CBoardLogic _board_logic;
     CDistances _distances;
+    CFenGenerator _fen_generator;
+    CFenParser _fen_parser;
 };
 
 // Global board, as "everybody" needs easy access to it
