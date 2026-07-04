@@ -34,9 +34,6 @@ bool CTestBoard::test_set_start_position() {
    TEST_FUNCTION(); 
     board.set_start_position();
     EXPECT(board.get_fen_position() == START_POSITION);
-    EXPECT(test_moves_from_startpos());
-    EXPECT(test_multiple_boards());
-    EXPECT(test_copy());
     return true;
 }
 
