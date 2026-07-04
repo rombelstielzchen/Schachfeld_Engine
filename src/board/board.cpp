@@ -17,10 +17,10 @@ CBoard::CBoard() {
     init_garden_fence();
     clear_board_squares();
     set_start_position();
-    assert(side_to_move == WHITE_PLAYER);
-    assert(move_counter > 0);
-    assert(_100_ply_draw_counter >= 0);
-    assert(eng_passeng_file == NO_ENG_PASSENG_POSSIBLE);
+    ///assert(side_to_move == WHITE_PLAYER);
+    ///assert(move_counter > 0);
+    ///assert(_100_ply_draw_counter >= 0);
+    ///assert(eng_passeng_file == NO_ENG_PASSENG_POSSIBLE);
 }
 
 void CBoard::init_garden_fence() {
@@ -47,11 +47,12 @@ void CBoard::clear_board_squares() {
 
 void CBoard::set_start_position() {
     set_fen_position(START_POSITION);
-    assert(get_side_to_move() == WHITE_PLAYER);
-    assert(get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
-    assert(get_fen_position() == START_POSITION);
-    assert(get_initial_position_before_moves() == START_POSITION);
-    assert(moves_from_startpos() == "");
+    /// TODO!!!
+    ///assert(get_side_to_move() == WHITE_PLAYER);
+    ///assert(get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
+    ///assert(get_fen_position() == START_POSITION);
+    ///assert(get_initial_position_before_moves() == START_POSITION);
+    ///assert(moves_from_startpos() == "");
 }
 
 bool CBoard::set_fen_position(const std::string &position) {

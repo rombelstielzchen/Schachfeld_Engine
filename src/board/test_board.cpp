@@ -18,12 +18,15 @@ const std::string fen_with_no_moves = "4k3/4p3/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 0
 bool CTestBoard::test_everything() {
     BEGIN_TESTSUITE("CTestBoard");
     EXPECT(test_set_start_position());
+    EXPECT(test_moves_from_startpos());
     EXPECT(test_set_fen_position());
     EXPECT(test_as_is());
     EXPECT(test_accessors());
     EXPECT(test_square_colour());
     EXPECT(test_modifiers());
     EXPECT(test_initial_position());
+    EXPECT(test_multiple_boards());
+    EXPECT(test_copy());
     return true;
 }
 
@@ -33,6 +36,7 @@ bool CTestBoard::test_set_start_position() {
     EXPECT(board.get_fen_position() == START_POSITION);
     EXPECT(test_moves_from_startpos());
     EXPECT(test_multiple_boards());
+    EXPECT(test_copy());
     return true;
 }
 
@@ -153,6 +157,25 @@ bool CTestBoard::test_multiple_boards() {
     another_board.set_fen_position("k1K b");
     EXPECT(another_board.get_side_to_move() == BLACK_PLAYER);
     EXPECT(board.get_side_to_move() == WHITE_PLAYER);
+    return true;
+}
+
+bool CTestBoard::test_copy() {
+    TEST_FUNCTION();
+    const std::string my_lovely_position = "k7/PP6/K7/8/8/8/8/8 b - - 0 1";
+    SILENT_EXPECT(board.set_fen_position(my_lovely_position));
+    SILENT_EXPECT(board.get_side_to_move() == BLACK_PLAYER);
+    CBoard another_board;
+    SILENT_EXPECT(board.get_side_to_move() == BLACK_PLAYER);
+    EXPECT(another_board.get_side_to_move() == WHITE_PLAYER);
+    another_board = board;
+    SILENT_EXPECT(board.get_side_to_move() == BLACK_PLAYER);
+    EXPECT(another_board.get_side_to_move() == BLACK_PLAYER);
+    board.set_start_position();
+    SILENT_EXPECT(board.get_fen_position() == START_POSITION);
+    board = another_board;
+    EXPECT(board.get_side_to_move() == BLACK_PLAYER);
+    EXPECT(board.get_fen_position() == my_lovely_position);
     return true;
 }
 
