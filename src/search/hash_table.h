@@ -33,6 +33,7 @@ class CHashTable {
     void store_best_move(const SMove &best_move, const THashKey hash_key, const int distance_to_root);
     SMove get_best_move(THashKey hash_key) const;
     void set_size(int64_t n_mega_bytes);
+    void show_hash(const THashKey hash_key) const;
   private:
     size_t n_possible_entries(int64_t size_in_bytes) const;
     size_t n_current_entries() const;

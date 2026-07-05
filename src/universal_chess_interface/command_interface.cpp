@@ -257,6 +257,6 @@ void CCommandInterface::show_hash() const {
     stop(); 
     assert(n_worker_threads_busy == 0);
     ACQUIRE_BOARD_OWNERSHIP();
-    ///hash_table.show_hash();
+    hash_table.show_hash(board.get_hash());
 }
 

@@ -99,3 +99,16 @@ bool CHashTable::may_overwrite(const THashKey hash_key, int distance_to_root, co
     return (hash_key == existing_entry.hash_key); 
 }
 
+void CHashTable::show_hash(const THashKey hash_key) const {
+    std::string info = "hash_key:         " + std::to_string(hash_key);
+    CUciProtocol::send_info(info);
+    size_t index = hash_index(hash_key);
+    info = "index:            " + std::to_string(index);;
+    CUciProtocol::send_info(info);
+    info = "distance_to_root: " + std::to_string(data[index].distance_to_root);
+    CUciProtocol::send_info(info);
+    info = "best_move:        " + move_as_text(get_best_move(hash_key));
+
+    CUciProtocol::send_info(info);
+}
+
