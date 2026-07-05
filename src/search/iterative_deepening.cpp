@@ -178,6 +178,8 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
     assert(n_moves >= at_least_two_moves__other_cases_already_handled);
     // static in order to handle a badly timed stop-command
     static SMove best_move = NULL_MOVE;
+    [[maybe_unused]] std::string root_position = board.get_fen_position();
+    [[maybe_unused]] THashKey original_hash = board.get_hash();
     for (int j = uci_first_movenumber; j <= n_moves; ++j) {
         // No alpha-beta-cutoffs here. Top-level search has to examine all moves,
         // but feed the recursive search with the current alpha-beta values.
@@ -185,7 +187,6 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
         SMove const move_candidate = move_generator.move_list.get_next();
         assert(move_candidate != NULL_MOVE);
         assert(move_in_range(move_candidate));
-///        DEBUG_MESSAGE("make_move: ", move_as_text(move_candidate));
         board.move_maker.make_move(move_candidate);
         constexpr int distance_to_first_children = 1;
         assert(is_valid_alpha_beta_window(alpha_beta_window));
@@ -204,12 +205,17 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
             alpha_beta_window.alpha = std::max(alpha_beta_window.alpha, candidate_score);
             assert(is_valid_alpha_beta_window(alpha_beta_window));
             move_generator.move_list.shift_current_move_to_top();
+            board.move_maker.unmake_move();
+            assert(board.get_fen_position() == root_position);
             constexpr int no_distance_to_root = 0;
             hash_table.store_best_move(best_move, board.get_hash(), no_distance_to_root);
             // TODO:  below still needed with hashing?
             search_statistics.set_best_move(best_move, best_score);
+        } else {
+            board.move_maker.unmake_move();
         }
-        board.move_maker.unmake_move();
+        assert(board.get_fen_position() == root_position);
+        assert(board.get_hash() == original_hash);
     }
     assert((move_generator.move_list.get_next() == NULL_MOVE) || DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop);
     search_statistics.add_nodes(n_moves);
@@ -221,6 +227,7 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
     }
     assert(best_move != NULL_MOVE);
     assert(move_in_range(best_move));
+    assert(hash_table.get_best_move(board.get_hash()) == best_move);
     return best_move;
 }
 

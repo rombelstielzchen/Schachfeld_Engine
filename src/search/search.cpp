@@ -43,7 +43,6 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     profiling.increment_if(1, hash_move != NULL_MOVE);
     if (hash_move != NULL_MOVE) {
         profiling.increment_if(2,  move_generator.move_list.move_on_list(hash_move));
-        ///std::cerr << "hash_move: " << hash_move << "\n";
         move_generator.move_list.integrate_hash_move(hash_move);
     }
     int const n_moves = move_generator.move_list.list_size();

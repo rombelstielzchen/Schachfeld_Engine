@@ -39,8 +39,7 @@ class CHashTable {
     size_t n_current_entries() const;
     size_t hash_index(const THashKey key) const;
   private:
-    void store_best_move(const SMove &best_move, const THashKey hash_key);
-    bool may_overwrite(const THashKey hash_key, int distance_to_root, const SHashEntry &existing_entry) const;
+    bool may_overwrite(const THashKey new_hash_key, int new_distance_to_root, const SHashEntry &existing_entry_entry) const;
   private:
     std::vector<SHashEntry> data;
 };

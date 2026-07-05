@@ -31,6 +31,7 @@ constexpr SAlphaBetaWindow INFINITE_ALPHA_BETA_WINDOW = { SCORE_TECHNICAL_MIN, S
 static_assert(is_valid_alpha_beta_window(INFINITE_ALPHA_BETA_WINDOW));
 
 class CIterativeDeepening {
+    friend class CTestHashTable;
   public:
     CIterativeDeepening();
   public:
