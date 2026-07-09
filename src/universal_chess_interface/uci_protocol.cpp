@@ -16,6 +16,24 @@
 const std::string ENGINE_ID = "MaterialGirl_1.2";
 static_assert('a' > '9');
 
+typedef struct {
+    char selector;
+    std::string description;
+    std::string fen_position;
+} SDefaultPosition;
+
+const std::vector<SDefaultPosition> default_positions = {
+    { '0', "mate with bishop and knight", "////3K//6k/n6b b" },
+    { 'b', "mate with two bishops", "////2Bk//6K/7B w" },
+    { 'f', "Falkbeer-Counter-Gambit", "startpos moves e2e3 e7e6 e3e4 e6e5 f2f4 d7d5" },
+    { 'g', "position after 1.g4", "startpos moves g2g4" },
+    { 'h', "study by Herbstmann", "1B//7P/4p/3b3k///1K w" },
+    { 'n', "mate with three knights", "n6n///4K////n6k b"},
+    { 'o', "opposition", "///2k///2PK w" },
+    { 'q', "mate with a queen", "///3k///6K/7Q w" },
+    { 'r', "mate with a rook", "////4k///6KR b" },
+};
+
 bool CUciProtocol::interactive_console_mode = false;
 bool CUciProtocol::las_message_was_separator = false;
 
@@ -128,6 +146,9 @@ void CUciProtocol::process_message(const std::string &message) {
     } else if (string_tokenizer.next_token_is("debug")) { 
         interactive_console_mode = true;
         SWITCH_DEBUG_ON(string_tokenizer.next_token() == "on");
+    } else if (string_tokenizer.next_token_is("dp")) {
+        std::string next_token = string_tokenizer.next_token();
+       process_default_position(next_token); 
     } else if (string_tokenizer.next_token_is_one_of("eval", "e")) {
         interactive_console_mode = true;
         command_interface.log_board_evaluation();
@@ -149,7 +170,6 @@ void CUciProtocol::process_message(const std::string &message) {
         std::string fen_position = string_tokenizer.get_the_rest();
         command_interface.set_position(fen_position);
     } else if (string_tokenizer.next_token_is_one_of("setoption", "so")) {
-            std::cerr << "Processing\n";
         process_option(string_tokenizer);
     } else if (string_tokenizer.next_token_is_one_of("stop", "s")) {
         command_interface.stop();
@@ -270,6 +290,13 @@ void CUciProtocol::dynamic_sleep(const std::string &last_message) const {
     std::this_thread::sleep_for(std::chrono::milliseconds(delay_in_ms));
 }
 
+void CUciProtocol::display_default_positions()  const {
+    for (const SDefaultPosition &d: default_positions) {
+        std::string info = std::string("dp ") + d.selector + ": " + d.description;
+        send_info(info);
+    };
+}
+
 void CUciProtocol::display_help() const {
     send_message("This chess-engine is meant to be used with any modern graphical user-interface,");
     send_message("communicating via the UCI protocol.");
@@ -289,6 +316,7 @@ void CUciProtocol::display_help() const {
     send_message("    * 'psv' to display the main piece-square-value-tables");
     send_message("    * e2e4 to execute a move at the console interface");
     send_message("    * back or 'b' to take back a move");
+    send_message("    * ''dp' to display / setup default test positions");
     send_message("    * 'quit' or 'x'to terminate");
 }
 
@@ -334,5 +362,19 @@ bool CUciProtocol::looks_like_a_mnove(const std::string token) const {
         return false;
     }
     return (isalpha(token[0]) && isdigit(token[1]) && isalpha(token[2]) && isdigit(token[3]));
+}
+
+void CUciProtocol::process_default_position(const std::string next_token) {
+    if (next_token == "") {
+        display_default_positions();
+        return;
+    }
+    for (const SDefaultPosition &d: default_positions) {
+        assert(next_token.length() >= 1);
+        if (next_token[0] == d.selector) {
+            command_interface.set_position(d.fen_position);
+            break;
+        }
+    }
 }
 
