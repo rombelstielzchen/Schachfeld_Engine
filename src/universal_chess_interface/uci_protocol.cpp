@@ -132,13 +132,19 @@ void CUciProtocol::preprocess_message(std::string &message) const {
     remove_all_substrings(message, "[/FEN]");
 }
 
-void CUciProtocol::process_message(const std::string &message) {
+void CUciProtocol::process_message(std::string &message) {
     // This function is not reentrant, therefore proteccted by a mutex
     static std::mutex process_message_mutex;
     std::lock_guard<std::mutex> lock(process_message_mutex);
+    process_message_recursively(message);
+}
+
+void CUciProtocol::process_message_recursively(std::string &message) {
     if (message == "") {
         return;
     }
+    preprocess_message(message);
+    CStringTokenizer string_tokenizer;
     string_tokenizer.set_input(message);
     if (string_tokenizer.next_token_is_one_of("back", "b")) {
         interactive_console_mode = true;
@@ -190,7 +196,7 @@ void CUciProtocol::process_message(const std::string &message) {
         if (remaining_message != "") {
             // One non-empty token got consumed, so the recursion will terminate
             assert(remaining_message.length() < message.length());
-            process_message(remaining_message);
+            process_message_recursively(remaining_message);
         }
     }
 }

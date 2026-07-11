@@ -282,12 +282,18 @@ sub test_12 {
 }
 
 sub test_13 {
+    # Testing extra tokens
+    send_message('gaga gaga ?');
+    EXPECT("    * 'quit' or 'x'to terminate");
+}
+
+sub test_14 {
     # Testing console extension (psv)
     send_message('psv');
     EXPECT('avg: -20000');
 }
 
-sub test_14 {
+sub test_15 {
     # Testing console extension (abbreviated commands)
     send_message('p s m e2e4');
     send_message('d7d5');
@@ -296,7 +302,7 @@ sub test_14 {
     EXPECT('bestmove d5c4');
 }
 
-sub test_15 {
+sub test_16 {
     # Testing console extension (back)
     send_message('p s m e2e4');
     send_message('d7d5');
@@ -326,5 +332,6 @@ sub test_all {
     test_13();
     test_14();
     test_15();
+    test_16();
 }
 

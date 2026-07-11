@@ -27,7 +27,8 @@ class CUciProtocol {
     void send_list_of_options() const;
     void handle_isready_query() const;
     void preprocess_message(std::string &message) const;
-    void process_message(const std::string &message);
+    void process_message(std::string &message);
+    void process_message_recursively(std::string &message);
     void process_go_command(CStringTokenizer &string_tokenizer);
     void process_option(CStringTokenizer &string_tokenizer);
     void process_default_position(const std::string next_token);
@@ -40,7 +41,6 @@ class CUciProtocol {
     bool looks_like_a_mnove(const std::string token) const;
   private:
     CCommandInterface command_interface;
-    CStringTokenizer string_tokenizer;
     static bool interactive_console_mode;
     static bool las_message_was_separator;
 };
