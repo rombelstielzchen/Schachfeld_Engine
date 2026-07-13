@@ -1,8 +1,13 @@
 Major Changes
 =============
 
+Version 1.2
+-----------
+`* Basic hash-table, storing the best move for better move-prdering in interative deepening.
+* Consoole-interface: some default positions for easier manual testing. Type "dp" for more info.
+
 Version 1.1
-------------
+-----------
 * Now being able to mate with bishop and knight (requires depth 6)
 * Improved endgame-expert for faster, more elegant, more succcessful mating at low depths. Most mates work aat depth 2 now.
 
