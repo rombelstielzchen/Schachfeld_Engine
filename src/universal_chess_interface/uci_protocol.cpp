@@ -13,7 +13,7 @@
 #include "../technical_functions/engine_test.h"
 #include "../technical_functions/standard_headers.h"
 
-const std::string ENGINE_ID = "MaterialGirl_1.2";
+const std::string ENGINE_ID = "MaterialGirl_1.3";
 static_assert('a' > '9');
 
 typedef struct {
@@ -203,7 +203,10 @@ void CUciProtocol::process_message_recursively(std::string &message) {
 
 void CUciProtocol::process_unknown_token_potential_move(const std::string &token) {
     if (looks_like_a_mnove(token)) {
+        //TODO: move all board-handling to CCommandInterface
+        board.clone_from_global_reference_board();
         interactive_console_mode |= board.move_maker.make_move(token);
+        board.clone_to_global_reference_board();
     } else {
         std::string message = "ignoring unknown token \"" + token + '"';
         send_error(message);
@@ -349,6 +352,7 @@ void CUciProtocol::process_option(CStringTokenizer &string_tokenizer) {
 }
 
 void CUciProtocol::display_board() {
+    board.clone_from_global_reference_board();
     send_message(board.get_fen_position());
     send_message(board.as_is());
 }

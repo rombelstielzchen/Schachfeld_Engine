@@ -23,6 +23,10 @@ CBoard::CBoard() {
     ///assert(eng_passeng_file == NO_ENG_PASSENG_POSSIBLE);
 }
 
+void CBoard::clone_from_global_reference_board() {
+    *this = global_reference_board;
+}
+
 void CBoard::init_garden_fence() {
     for (int j = 0; j < BOARDSIZE_X; ++j) {
         for (int k = 0; k < BOARDSIZE_Y; ++k) {
@@ -168,3 +172,6 @@ bool CBoard::square_colour(const SSquare square) const {
     return (((square.file + square.rank) & 0x01) ? true : false);
 }
 
+void CBoard::clone_to_global_reference_board() {
+    global_reference_board = *this;
+}

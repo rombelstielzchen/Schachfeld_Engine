@@ -60,6 +60,8 @@ class CBoard {
     friend class CMoveMaker;
   public:
     CBoard();
+    void clone_from_global_reference_board();
+    void clone_to_global_reference_board();
   public:
     // TODO: make functions below const
     inline CBoardLogic &board_logic() { return _board_logic; }
@@ -125,5 +127,6 @@ class CBoard {
 };
 
 // Global board, as "everybody" needs easy access to it
-inline CBoard board;
+inline thread_local CBoard board;
+inline CBoard global_reference_board;
 

@@ -119,8 +119,10 @@ void CCommandInterface::new_game() {
     stop(); 
     assert(n_worker_threads_busy == 0);
     ACQUIRE_BOARD_OWNERSHIP();
+    //TODO: does this wotk multi-threaded
     board.game_saver.save_game();
     board.set_start_position();
+    board.clone_to_global_reference_board();
     hash_table.reset();
     master_book.on_new_game();
 }
@@ -140,12 +142,13 @@ void CCommandInterface::set_position(const std::string &fen_position) {
     stop();
     assert(n_worker_threads_busy == 0);
     ACQUIRE_BOARD_OWNERSHIP();
-    if(board.set_fen_position(fen_position)) {
-        std::string confirmation = "new position: " + board.get_fen_position();
-        CUciProtocol::send_info(confirmation); 
-    } else {
+    if(!board.set_fen_position(fen_position)) {
         CUciProtocol:: send_error("invalid position received via UCI");
+        return;
     }
+    std::string confirmation = "new position: " + board.get_fen_position();
+    CUciProtocol::send_info(confirmation); 
+    board.clone_to_global_reference_board();
 }
 
 void CCommandInterface::send_best_move(const std::string &best_move){
@@ -163,6 +166,7 @@ void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
     assert(n_worker_threads_busy == 0);
     ++n_worker_threads_busy;
     ACQUIRE_BOARD_OWNERSHIP();
+    board.clone_from_global_reference_board();
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_depth(depth_in_plies);
     send_best_move(calculated_move);
@@ -174,6 +178,7 @@ void CCommandInterface::worker_go_nodes(int64_t nodes) {
     assert(n_worker_threads_busy == 0);
     ++n_worker_threads_busy;
     ACQUIRE_BOARD_OWNERSHIP();
+    board.clone_from_global_reference_board();
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_nodes(nodes);
     send_best_move(calculated_move);
@@ -185,6 +190,7 @@ void CCommandInterface::worker_go_movetime(int64_t time_milliseconds) {
     assert(n_worker_threads_busy == 0);
     ++n_worker_threads_busy;
     ACQUIRE_BOARD_OWNERSHIP();
+    board.clone_from_global_reference_board();
     assert(time_milliseconds > 0);
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_movetime(time_milliseconds);
@@ -202,6 +208,7 @@ void CCommandInterface::worker_go_time(
     assert(n_worker_threads_busy == 0);
     ++n_worker_threads_busy;
     ACQUIRE_BOARD_OWNERSHIP();
+    board.clone_from_global_reference_board();
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_time(
         white_time_milliseconds,
@@ -228,7 +235,9 @@ void CCommandInterface::takeback() {
     }
     assert(n_worker_threads_busy == 0);
     ACQUIRE_BOARD_OWNERSHIP();
+    board.clone_from_global_reference_board();
     board.move_maker.takeback();
+    board.clone_to_global_reference_board();
 }
 
 void CCommandInterface::on_exit() {
@@ -238,6 +247,7 @@ void CCommandInterface::on_exit() {
     assert(n_worker_threads_busy == 0);
     // Potential race condition here.
     // TODO: the last engine-move is not yet stored in the move_history
+    board.clone_from_global_reference_board();
     board.game_saver.save_game();
     CUciProtocol::send_info("### End Of Session ###########");
 }
@@ -250,6 +260,7 @@ void CCommandInterface::log_board_evaluation() {
     stop(); 
     assert(n_worker_threads_busy == 0);
     ACQUIRE_BOARD_OWNERSHIP();
+    board.clone_from_global_reference_board();
     board.evaluator.log_board_evaluation();
 }
 
@@ -257,6 +268,7 @@ void CCommandInterface::show_hash() const {
     stop(); 
     assert(n_worker_threads_busy == 0);
     ACQUIRE_BOARD_OWNERSHIP();
+    board.clone_from_global_reference_board();
     hash_table.show_hash(board.get_hash());
 }
 
