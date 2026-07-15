@@ -12,4 +12,5 @@ class CTestStatistics {
     static bool test_basic_stats();
     static bool test_anti_adjudication_score();
     static bool test_expected_branching_factor();
+    static bool test_principal_variation();
 };

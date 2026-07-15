@@ -4,6 +4,9 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "search_statistics.h"
+#include "hash_table.h"
+#include "../move_generator/move_generator.h"
+#include "../move_generator/move_list.h"
 #include "../universal_chess_interface/uci_protocol.h"
 
 constexpr int64_t anti_division_by_zero = 1;
@@ -160,8 +163,9 @@ void CSearchStatistics::log_principal_variation() const {
 	// UCI-docu: e.g. "info depth 2 score cp 214 time 1242 nodes 2124 nps 34928 pv e2e4 e7e5 g1f3"
     std::string info = "depth " + std::to_string(max_depth);
     if (bestmove_history.size() > 0) {
-        info += " pv " + move_as_text(bestmove_history.back().move)
-        + anti_adjudication_score(bestmove_history.back().score);
+        info += " pv ";
+        info += principal_variation();
+        info += anti_adjudication_score(bestmove_history.back().score);
     }
     CUciProtocol::send_info(info);
 }
@@ -178,5 +182,27 @@ void CSearchStatistics::log_bestmove_history() const {
        info += std::to_string(bestmove.score);
        CUciProtocol::send_info(info);
     }
+}
+
+std::string CSearchStatistics::principal_variation() const {
+    constexpr int max_pv_depth = 12;
+    CBoard pv_board;
+    pv_board.set_fen_position("4r1k/5pb/5qQ/////1B4KR w");
+    CMoveGenerator move_generator;
+    std::string result = "";
+    for (int j = 0; j < max_pv_depth; ++j) {
+        SMove next_move = hash_table.get_best_move(pv_board.get_hash());
+        move_generator.reset();
+        move_generator.generate_all();
+        DEBUG_METHOD();
+        if ((next_move == NULL_MOVE) || !move_generator.move_list.move_on_list(next_move)) {
+            break;
+        }
+//        pv_board.move_maker.make_move(next_move);
+        result += move_as_text(next_move);
+        result += " ";
+    }
+    std::cerr << "\"" << result << "\"\n";
+    return result;
 }
 
