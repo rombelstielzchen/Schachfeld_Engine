@@ -132,6 +132,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
 
+<clCompile Include="../.../depth_control.cpp"/>
+<clCompile Include="../.../hash_table.cpp"/>
+<clCompile Include="../.../iterative_deepening.cpp"/>
+<clCompile Include="../.../killer_heuristics.cpp"/>
+<clCompile Include="../.../mate_score.cpp"/>
+<clCompile Include="../.../search.cpp"/>
+<clCompile Include="../.../search_statistics.cpp"/>
+<clCompile Include="../.../test_depth_control.cpp"/>
+<clCompile Include="../.../test_hash_table.cpp"/>
+<clCompile Include="../.../test_killer_heuristics.cpp"/>
+<clCompile Include="../.../test_search.cpp"/>
+<clCompile Include="../.../test_statistics.cpp"/>
 <clCompile Include="../board/board.cpp"/>
 <clCompile Include="../board/board_logic.cpp"/>
 <clCompile Include="../board/distances.cpp"/>
@@ -204,6 +216,18 @@
 <clCompile Include="../universal_chess_interface/uci_protocol.cpp"/>
   </ItemGroup>
   <ItemGroup>
+<clInclude Include="../.../depth_control.h"/>
+<clInclude Include="../.../hash_table.h"/>
+<clInclude Include="../.../iterative_deepening.h"/>
+<clInclude Include="../.../killer_heuristics.h"/>
+<clInclude Include="../.../mate_score.h"/>
+<clInclude Include="../.../search.h"/>
+<clInclude Include="../.../search_statistics.h"/>
+<clInclude Include="../.../test_depth_control.h"/>
+<clInclude Include="../.../test_hash_table.h"/>
+<clInclude Include="../.../test_killer_heuristics.h"/>
+<clInclude Include="../.../test_search.h"/>
+<clInclude Include="../.../test_statistics.h"/>
 <clInclude Include="../board/board.h"/>
 <clInclude Include="../board/board_constants.h"/>
 <clInclude Include="../board/board_logic.h"/>

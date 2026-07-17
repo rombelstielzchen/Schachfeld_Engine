@@ -21,12 +21,33 @@ COracle::COracle() {
     static CExpertEndgameQueen expert_endgame_queen;
     static CExpertBasicMating expert_basic_mating;
     // Order of insertions = order of execution.
-    // Basic experts first, more specialized experts later
+    // Basic experts first, more specialized experts later.
+    // Especially endgame and mating last.
     expert_collection.push_back(&expert_general);
+    /*** Opening **********************/
     expert_collection.push_back(&expert_castling_direction);
+    // TODO: bad squares for the bishop
+    // TODO: bad central pawns, creating weaknesses
+    // TODO: prevent stupid artificial long castlings, especially in positions where only the f-pawn has moved.
+    // TODO: maybe bonus for rook on f/d in order to eencourage real castling 
+    // TODO: maybe malus for undevelopped pieces that prevent good castling
+    /*** Middlegame *******************/
+    // TODO: pawn-storm fafter heterogenous castlings
+    // TODO: pawn-lewers
+    // TODO: controlling intrusion-squares on open files
+    // TODO: bad bishops, encouraging exhange and freeing pawn-moves
+    // TODO: minimal bonus for enemy pawns that protect the king?
+    /*** Endgame **********************/
     expert_collection.push_back(&expert_endgame_king_activity);
     expert_collection.push_back(&expert_endgame_pawn);
     expert_collection.push_back(&expert_endgame_queen);
+    // TODO: key-squares
+    // TODO: malus for squares in check after promotion
+    // TODO: bonus for king nearby weaknesses
+    // TODO: bonus for king on squares where he can't be checked easily (bishop and knight)
+    // TODO: uneven exchange
+    // TODO: queen on fianchetto-diagonal, preventing perpetual
+    /*** Mating ***********************/
     expert_collection.push_back(&expert_basic_mating);
 }
 
