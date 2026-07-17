@@ -165,3 +165,18 @@ inline constexpr std::array<TFile, N_FILES> ALL_FILES = {
 inline constexpr std::array<TRank, N_RANKS> ALL_RANKS = {
     RANK_1,  RANK_2,  RANK_3,  RANK_4,  RANK_5,  RANK_6,  RANK_7,  RANK_8 };
 
+inline TPlayerColour piece_colour(char piece) {
+    // TODO: assert(is_any_piece(piece));
+    switch (piece) {
+        case WHITE_POWER: 
+        case WHITE_KNIGHT: 
+        case WHITE_BISHOP: 
+        case WHITE_ROOK: 
+        case WHITE_QUEEN: 
+        case WHITE_KING:
+            return WHITE_PLAYER;
+        default:
+            return BLACK_PLAYER;
+    }
+}
+

@@ -117,6 +117,7 @@ bool CTestEvaluator::test_everything() {
     EXPECT(test_black_advantage());
     EXPECT(test_pawn_values());
     EXPECT(test_positions());
+    EXPECT(test_wood_points());
     return true;
 }
 bool CTestEvaluator::test_equal_positions() {
@@ -245,5 +246,14 @@ bool CTestEvaluator::first_pawn_better(const SSquare first, const SSquare second
 bool CTestEvaluator::evaluates_approximately_to(const int score) {
     int real_score = board.evaluator.evaluate();
     return (abs(real_score - score) < SCORE_HALF_PAWN);
+}
+
+bool CTestEvaluator::test_wood_points() {
+    TEST_FUNCTION();
+    board.set_start_position();
+    EXPECT(board.evaluator.wood_points(WHITE_PLAYER) == 39);
+    EXPECT(board.evaluator.wood_points(BLACK_PLAYER) == 39);
+    EXPECT(board.evaluator.wood_points() == 0);
+    return true;
 }
 

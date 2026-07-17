@@ -1,0 +1,63 @@
+#pragma once
+
+// Project: Schachfeld_Engine
+// Author: Rombelstielzchen
+// License: GPLv3
+// Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
+
+#include "../move_generator/move.h"
+#include "../technical_functions/standard_headers.h"
+
+typedef struct {
+    int depth;
+    SMove move;
+    int score;
+} SHistoricBestMove;
+
+class CSearchStatistics {
+    friend class CTestStatistics;
+  public:
+    CSearchStatistics();
+  public:
+    void reset_all();
+    void on_new_depth(int new_depth);
+    void on_new_move();
+    void on_finished_search() const;
+  public:
+    // TODO: public or private?
+    void log_subtree_size() const;
+    void log_subtree_size_bestmove() const;
+    void log_branching_factors() const;
+    void log_principal_variation() const;
+    void log_bestmove_history() const;
+  public:
+    void set_best_move(const SMove best_move, int score);
+    void set_current_move(const SMove current_move, int score, int movenumber);
+    inline void add_nodes(int64_t nodes) {
+        assert(nodes >= 0);
+        nodes_total += nodes;
+    }
+  public:
+    int64_t get_nodes_total() const { return nodes_total; }
+    int64_t used_time_milliseconds() const;
+    // For time-management
+    int expected_branching_factor_for_next_iteration() const;
+  private:
+    int64_t nodes_for_this_iteration() const;
+    int64_t nodes_per_second() const;
+  private:
+    std::string general_search_statistics() const;
+    int64_t subtree_size() const;
+    static std::string anti_adjudication_score(int score);
+  private:
+    int64_t nodes_total;
+    int64_t nodes_at_start_of_current_depth;
+    int64_t nodes_at_start_of_current_move;
+    int64_t subtree_size_bestmove;
+    int max_depth;
+    std::chrono::time_point<std::chrono::high_resolution_clock> start_time;
+    std::vector<SHistoricBestMove> bestmove_history;
+};
+
+inline CSearchStatistics search_statistics;
+

@@ -78,3 +78,36 @@ int CEvaluator::nega_score() const {
     return score;
 }
 
+int CEvaluator::wood_points(TPlayerColour whichplayer) const {
+    int points = 0;
+    [[maybe_unused]] constexpr int max_points = 39;
+    for (const SSquare s: ALL_SQUARES) {
+        char piece = board.get_square(s);
+        if (piece_colour(piece) != whichplayer) {
+            continue;
+        }
+        switch (piece) {             case WHITE_POWER: 
+            case BLACK_POWER:
+                ++points;
+                break;
+            case WHITE_BISHOP: 
+            case BLACK_BISHOP: 
+            case WHITE_KNIGHT: 
+            case BLACK_KNIGHT:
+                points += 3;
+                break;
+            case WHITE_ROOK: 
+            case BLACK_ROOK:
+                points += 5;
+                break;
+            case WHITE_QUEEN: 
+            case BLACK_QUEEN:
+                points += 9;
+                break;
+        }
+    }
+    assert(points >= 0);
+    assert(points <= max_points);
+    return points;
+}
+
