@@ -35,7 +35,8 @@ const std::vector<SDefaultPosition> default_positions = {
 };
 
 bool CUciProtocol::interactive_console_mode = false;
-bool CUciProtocol::las_message_was_separator = false;
+bool CUciProtocol::last_message_was_separator = false;
+std::string CUciProtocol::recent_best_move = "";
 
 CUciProtocol::CUciProtocol() {
     send_info(ENGINE_ID);
@@ -98,12 +99,12 @@ void CUciProtocol::send_list_of_options() const {
 void CUciProtocol::send_info(const std::string &information) {
     std::string full_message = "info " + information;
     send_message(full_message);
-    las_message_was_separator = false;
+    last_message_was_separator = false;
 }
 
 void CUciProtocol::log_separator() {
     send_info("****************************************");
-    las_message_was_separator = true;
+    last_message_was_separator = true;
 }
 
 void CUciProtocol::send_error(const std::string &error_message) {
@@ -111,9 +112,12 @@ void CUciProtocol::send_error(const std::string &error_message) {
     std::cerr << full_message;
 }
 
-void CUciProtocol::send_best_move(const std::string best_move) {
+void CUciProtocol::send_best_move(const std::string &best_move) {
+    assert(best_move != "");
+    assert(looks_like_a_mnove(best_move));
     if (interactive_console_mode) {
         display_board();
+        recent_best_move = best_move;
     }
     std::string message = "bestmove " + best_move;
     send_message(message);
@@ -148,7 +152,10 @@ void CUciProtocol::process_message_recursively(std::string &message) {
     string_tokenizer.set_input(message);
     if (string_tokenizer.next_token_is_one_of("back", "b")) {
         interactive_console_mode = true;
-       command_interface.takeback(); 
+       command_interface.takeback();
+    } else if (string_tokenizer.next_token_is_one_of("bestmove", "bm")) {
+        // TODO: naming is not really uitable for this use-case
+        process_unknown_token_potential_move(recent_best_move);
     } else if (string_tokenizer.next_token_is("debug")) { 
         interactive_console_mode = true;
         SWITCH_DEBUG_ON(string_tokenizer.next_token() == "on");
@@ -207,10 +214,16 @@ void CUciProtocol::process_unknown_token_potential_move(const std::string &token
         board.clone_from_global_reference_board();
         interactive_console_mode |= board.move_maker.make_move(token);
         board.clone_to_global_reference_board();
-    } else {
-        std::string message = "ignoring unknown token \"" + token + '"';
-        send_error(message);
+        return;
     }
+    int my_maybe_number = atoi(token.c_str());
+    constexpr int huge_number_that_can_hardly_qualify_as_rank_or_depth = 30;
+    if (my_maybe_number > huge_number_that_can_hardly_qualify_as_rank_or_depth) {
+        hash_table.set_size(my_maybe_number);
+        return;
+    }
+    std::string message = "ignoring unknown token \"" + token + '"';
+    send_error(message);
 }
 
 void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
@@ -325,6 +338,7 @@ void CUciProtocol::display_help() const {
     send_message("    * 'psv' to display the main piece-square-value-tables");
     send_message("    * e2e4 to execute a move at the console interface");
     send_message("    * back or 'b' to take back a move");
+    send_message("    * bestmove or 'bm' to play the recent bestmove");
     send_message("    * ''dp' to display / setup default test positions");
     send_message("    * 'quit' or 'x'to terminate");
 }
@@ -365,7 +379,7 @@ void CUciProtocol::handle_isready_query() const {
     }
 }
 
-bool CUciProtocol::looks_like_a_mnove(const std::string token) const {
+bool CUciProtocol::looks_like_a_mnove(const std::string token) {
     constexpr int length_of_move = 4;
     constexpr int length_of_move_with_promotion = 5;
     if ((token.length() < length_of_move) || (token.length() > length_of_move_with_promotion)) {

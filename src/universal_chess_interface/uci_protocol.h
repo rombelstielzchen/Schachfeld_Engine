@@ -21,7 +21,7 @@ class CUciProtocol {
     static void send_info(const std::string &information);
     static void log_separator();
     static void send_error(const std::string &error_message);
-    static void send_best_move(const std::string best_move);
+    static void send_best_move(const std::string &best_move);
   private:
     void identify_engine() const;
     void send_list_of_options() const;
@@ -38,10 +38,11 @@ class CUciProtocol {
     void display_default_positions() const;
     static void display_board();
   private:
-    bool looks_like_a_mnove(const std::string token) const;
+    static bool looks_like_a_mnove(const std::string token);
   private:
     CCommandInterface command_interface;
     static bool interactive_console_mode;
-    static bool las_message_was_separator;
+    static bool last_message_was_separator;
+    static std::string recent_best_move;
 };
 

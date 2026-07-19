@@ -32,6 +32,7 @@ COracle::COracle() {
     // TODO: maybe bonus for rook on f/d in order to eencourage real castling 
     // TODO: maybe malus for undevelopped pieces that prevent good castling
     /*** Middlegame *******************/
+    // TODO: good rook-files (open, semi-open, pawn-lewer, future-open)
     // TODO: pawn-storm fafter heterogenous castlings
     // TODO: pawn-lewers
     // TODO: controlling intrusion-squares on open files
