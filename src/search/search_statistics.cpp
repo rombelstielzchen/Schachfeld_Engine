@@ -186,19 +186,16 @@ void CSearchStatistics::log_bestmove_history() const {
 
 std::string CSearchStatistics::principal_variation() const {
     constexpr int max_pv_depth = 12;
-    CBoard pv_board;
-    pv_board.set_fen_position("4r1k/5pb/5qQ/////1B4KR w");
     CMoveGenerator move_generator;
     std::string result = "";
     for (int j = 0; j < max_pv_depth; ++j) {
-        SMove next_move = hash_table.get_best_move(pv_board.get_hash());
+        SMove next_move = hash_table.get_best_move(board.get_hash());
         move_generator.reset();
         move_generator.generate_all();
         DEBUG_METHOD();
         if ((next_move == NULL_MOVE) || !move_generator.move_list.move_on_list(next_move)) {
             break;
         }
-//        pv_board.move_maker.make_move(next_move);
         result += move_as_text(next_move);
         result += " ";
     }
