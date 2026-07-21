@@ -38,6 +38,7 @@ class CHashTable {
     size_t n_possible_entries(int64_t size_in_bytes) const;
     size_t n_current_entries() const;
     size_t hash_index(const THashKey key) const;
+    size_t last_index() const { return data.size() - 1; }
   private:
     bool may_overwrite(const THashKey new_hash_key, int new_distance_to_root, const SHashEntry &existing_entry_entry) const;
   private:

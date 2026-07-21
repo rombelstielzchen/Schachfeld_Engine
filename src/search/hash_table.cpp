@@ -13,6 +13,12 @@ constexpr int initial_dummy_distance_to_root = 999;
 
 constexpr SHashEntry initial_entry = { initial_dummy_hash_key, initial_dummy_distance_to_root, NULL_MOVE }; 
 
+bool operator ==(const SHashEntry &a, const SHashEntry &b) {
+    return ((a.hash_key == b.hash_key)
+        && (a.distance_to_root == b.distance_to_root)
+        && (a.best_move == b.best_move));
+}
+
 CHashTable::CHashTable () {
     set_size(minimum_hash_MB);
 }
@@ -64,7 +70,16 @@ SMove CHashTable::get_best_move(THashKey hash_key) const {
 }
 
 void CHashTable::reset() {
-    data.assign(data.size(), initial_entry);
+    std::cerr << "CHashTable::reset\n";
+    ///data.assign(data.size(), initial_entry);
+    for (size_t j = 0; j <= data.size(); ++j) {
+        data[j] = initial_entry;
+    }
+    assert(data[0] == initial_entry);
+    assert(data[last_index()] == initial_entry);
+    [[maybe_unused]] constexpr int somewhere_in_the_middle = 17;
+    assert(somewhere_in_the_middle <= last_index());
+    assert(data[somewhere_in_the_middle] == initial_entry);
 }
 
 void CHashTable::store_best_move(const SMove &best_move, const THashKey hash_key, const int distance_to_root) {

@@ -44,7 +44,6 @@ void CSearchStatistics::set_best_move(const SMove best_move, int score) {
     assert(move_in_range(best_move));
     std::string info = "bestmove " + move_as_text(best_move) + anti_adjudication_score(score);
     CUciProtocol::send_info(info);
-    log_principal_variation();
     subtree_size_bestmove = subtree_size();
     SHistoricBestMove historic_best_move;
     historic_best_move.depth = max_depth;
@@ -155,10 +154,10 @@ void CSearchStatistics::on_finished_search() const {
     log_bestmove_history();
     log_subtree_size_bestmove();
     log_branching_factors();
-    log_principal_variation();
     CUciProtocol::log_separator();
 }
 
+// !!! Call this only from an extra-thread with own thread_local board!
 void CSearchStatistics::log_principal_variation() const {
 	// UCI-docu: e.g. "info depth 2 score cp 214 time 1242 nodes 2124 nps 34928 pv e2e4 e7e5 g1f3"
     std::string info = "depth " + std::to_string(max_depth);
@@ -184,22 +183,24 @@ void CSearchStatistics::log_bestmove_history() const {
     }
 }
 
+// !!! Call this only from an extra-thread with own thread_local board!
 std::string CSearchStatistics::principal_variation() const {
-    constexpr int max_pv_depth = 12;
+    constexpr int max_pv_depth = 10;
+    board.clone_from_global_reference_board();
     CMoveGenerator move_generator;
     std::string result = "";
     for (int j = 0; j < max_pv_depth; ++j) {
         SMove next_move = hash_table.get_best_move(board.get_hash());
         move_generator.reset();
         move_generator.generate_all();
-        DEBUG_METHOD();
         if ((next_move == NULL_MOVE) || !move_generator.move_list.move_on_list(next_move)) {
             break;
         }
         result += move_as_text(next_move);
         result += " ";
+        board.move_maker.make_move(next_move);
     }
-    std::cerr << "\"" << result << "\"\n";
+    board.move_maker.unmake_all();
     return result;
 }
 

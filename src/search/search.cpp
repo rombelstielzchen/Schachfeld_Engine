@@ -46,8 +46,10 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
         move_generator.move_list.integrate_hash_move(hash_move);
     }
     int const n_moves = move_generator.move_list.list_size();
+    SMove move_candidate;
+    SMove best_move = NULL_MOVE;
     for (int j = 0; j < n_moves; ++j) {
-        SMove move_candidate = move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root);
+        move_candidate = move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root);
         assert(is_null_move(move_candidate) == false);
         assert(move_in_range(move_candidate));
         board.move_maker.make_move(move_candidate);
@@ -75,11 +77,17 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
                 return candidate_score;
             }
             best_score = candidate_score;
+            best_move = move_candidate;
             alpha = std::max(alpha, best_score);
         }
     }
     assert(move_generator.move_list.get_next() == NULL_MOVE);
     search_statistics.add_nodes(n_moves);
+    assert((best_move != NULL_MOVE) || (n_moves == 0));
+    if (best_move != NULL_MOVE) {
+        assert(move_in_range(best_move));
+        hash_table.store_best_move(best_move, board.get_hash(), distance_to_root);
+    }
     if (best_score != SCORE_OWN_KING_WILL_GET_CAPTURED) {
         return best_score;
     }
