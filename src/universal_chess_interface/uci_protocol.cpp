@@ -23,15 +23,23 @@ typedef struct {
 } SDefaultPosition;
 
 const std::vector<SDefaultPosition> default_positions = {
+    { ' ', "", "" },
     { '0', "mate with bishop and knight", "////3K//6k/n6b b" },
+    { '7', "spanish pawn-endgame", "6k/ppp2ppp/2p//4P//PPP2PPP/6K w" },
     { 'b', "mate with two bishops", "////2Bk//6K/7B w" },
     { 'f', "Falkbeer-Counter-Gambit", "startpos moves e2e3 e7e6 e3e4 e6e5 f2f4 d7d5" },
     { 'g', "position after 1.g4", "startpos moves g2g4" },
     { 'h', "study by Herbstmann", "1B//7P/4p/3b3k///1K w" },
+    { 'i', "talian game with c3", "e2e3 e7e6 e3e4 e6e5 g1f3 b8c6 f1c4 f8c5 c2c3" },
+    { 'l', "Lucena", "2k1K/4P/////5r/3R w" },
     { 'n', "mate with three knights", "n6n///4K////n6k b"},
     { 'o', "opposition", "///2k///2PK w" },
+    { 'p', "Philidor-position (queen-endgame)", "K/1R/2k/3q b" },
     { 'q', "mate with a queen", "///3k///6K/7Q w" },
     { 'r', "mate with a rook", "////4k///6KR b" },
+    { 's', "start-position without opening-book", "startpos moves g1f3 g8f6 f3g1 f6g8" },
+    { 't', "two knights game with Ng5", "e2e3 e7e6 e3e4 e6e5 g1f3 b8c6 f1c4 g8f6 f3g5" },
+    { 'v', "Vienna game with 4.Qg4", "startpos moves e2e3 e7e6 e3e4 e6e5 b1c3 b8c6 f1c4 f8c5 d1g4 d8f6 c3d5" },
 };
 
 bool CUciProtocol::interactive_console_mode = false;
