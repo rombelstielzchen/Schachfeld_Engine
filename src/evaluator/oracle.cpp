@@ -27,7 +27,7 @@ COracle::COracle() {
     /*** Opening **********************/
     expert_collection.push_back(&expert_castling_direction);
     // TODO: bad squares for the bishop
-    // TODO: bad central pawns, creating weaknesses
+    // TODO: bad central pawns, creating weaknesses (Sici with e5)
     // TODO: prevent stupid artificial long castlings, especially in positions where only the f-pawn has moved.
     // TODO: maybe bonus for rook on f/d in order to eencourage real castling 
     // TODO: maybe malus for undevelopped pieces that prevent good castling
@@ -38,6 +38,7 @@ COracle::COracle() {
     // TODO: controlling intrusion-squares on open files
     // TODO: bad bishops, encouraging exhange and freeing pawn-moves
     // TODO: minimal bonus for enemy pawns that protect the king?
+    // pawn-structure
     /*** Endgame **********************/
     expert_collection.push_back(&expert_endgame_king_activity);
     expert_collection.push_back(&expert_endgame_pawn);
