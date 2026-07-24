@@ -29,14 +29,14 @@ void CInfoThread::thread_function() {
     while (run_forever_even_if_not_calculating) {
         constexpr int one_second_1000_ms = 1000;
         std::this_thread::sleep_for(std::chrono::milliseconds(one_second_1000_ms));
-        if (DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop) {
-            continue;
-        }
-        // Put statistics that will always be send below
-        if (CCommandInterface::any_worker_thread_busy()) {
-            send_hash_statistics();
-            send_principal_variation();
-        }
+        send_all_info();
+    }
+}
+
+void CInfoThread::send_all_info() {
+    if (CCommandInterface::any_worker_thread_busy()) {
+        send_hash_statistics();
+        send_principal_variation();
     }
 }
 
