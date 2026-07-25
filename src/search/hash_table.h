@@ -8,10 +8,10 @@
 #include "../move_generator/move.h"
 #include <vector>
 
-constexpr int64_t minimum_hash_MB = 1;
-constexpr int64_t maximum_hash_MB = 1024;
+constexpr size_t minimum_hash_MB = 1;
+constexpr size_t maximum_hash_MB = 1024;
 
-constexpr int64_t ONE_EGABYTE = 1000000;
+constexpr size_t ONE_EGABYTE = 1000000;
 static_assert(ONE_EGABYTE < (1 << 20));
 static_assert(ONE_EGABYTE > (1 << 19));
 
@@ -29,13 +29,14 @@ class CHashTable {
     CHashTable();
     ~CHashTable();
   public:
-    void reset();
+    void clear_all_memory();
+
     void store_best_move(const SMove &best_move, const THashKey hash_key, const int distance_to_root);
     SMove get_best_move(THashKey hash_key) const;
-    void set_size(int64_t n_mega_bytes);
+    void set_size(size_t n_mega_bytes);
     void show_hash(const THashKey hash_key) const;
   private:
-    size_t n_possible_entries(int64_t size_in_bytes) const;
+    size_t n_possible_entries(size_t size_in_bytes) const;
     size_t n_current_entries() const;
     size_t hash_index(const THashKey key) const;
     size_t last_index() const { return data.size() - 1; }

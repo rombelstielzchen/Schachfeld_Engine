@@ -300,7 +300,7 @@ void CUciProtocol::message_loop() {
         trim(message);
         // Exit handling here in order to decouple
         // message_loop, string_tokenizer and process_message for better testability
-        if  ((message == "quit") || (message == "exit") || (message == "q") || (message == "x")) {
+        if  ((message == "quit") || (message == "exit") || (message == "q") || (message == "x") || (message == ":q")) {
             command_interface.on_exit();
             break;
         }

@@ -27,9 +27,9 @@ CHashTable::~CHashTable () {
     set_size(minimum_hash_MB);
 }
 
-inline size_t CHashTable::n_possible_entries(int64_t size_in_bytes) const {
+inline size_t CHashTable::n_possible_entries(size_t size_in_bytes) const {
     static_assert(sizeof(SHashEntry) > 0);
-    ///assert(size_in_bytes > sizeof(SHashEntry));
+    assert(size_in_bytes > sizeof(SHashEntry));
     size_t result = size_in_bytes / sizeof(SHashEntry);
     assert(result > 0);
     return result;
@@ -46,11 +46,11 @@ inline size_t CHashTable::hash_index(const THashKey hash_key) const {
     return hash_key % n_current_entries();
 }
 
-void CHashTable::set_size(int64_t n_mega_bytes) {
+void CHashTable::set_size(size_t n_mega_bytes) {
     n_mega_bytes = std::max(n_mega_bytes, minimum_hash_MB);
     n_mega_bytes = std::min(n_mega_bytes, maximum_hash_MB);
     assert(n_mega_bytes > 0);
-    int64_t size_in_bytes = n_mega_bytes * ONE_EGABYTE;
+    size_t size_in_bytes = n_mega_bytes * ONE_EGABYTE;
     data.resize(n_possible_entries(size_in_bytes), initial_entry);
     //TODO: reset() or re-hash, as old adreses lost their meaning
     std::string info = "hash-tabe resized to " + std::to_string(data.size()) + " entries";
@@ -69,8 +69,7 @@ SMove CHashTable::get_best_move(THashKey hash_key) const {
     return best_move;
 }
 
-void CHashTable::reset() {
-    std::cerr << "CHashTable::reset\n";
+void CHashTable::clear_all_memory() {
     ///data.assign(data.size(), initial_entry);
     for (size_t j = 0; j <= data.size(); ++j) {
         data[j] = initial_entry;

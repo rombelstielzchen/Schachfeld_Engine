@@ -124,7 +124,7 @@ void CCommandInterface::new_game() {
     board.set_start_position();
     // TODO: needed? duplicate?
     board.clone_to_global_reference_board();
-    hash_table.reset();
+    hash_table.clear_all_memory();
     master_book.on_new_game();
 }
 

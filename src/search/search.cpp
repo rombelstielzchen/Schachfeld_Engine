@@ -39,7 +39,8 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
         return SCORE_ENEMY_KING_CAPTURED;
     }
     profiling.increment(0);
-    SMove hash_move = hash_table.get_best_move(board.get_hash());
+    THashKey my_hash = board.get_hash();
+    SMove hash_move = hash_table.get_best_move(my_hash);
     profiling.increment_if(1, hash_move != NULL_MOVE);
     if (hash_move != NULL_MOVE) {
         profiling.increment_if(2,  move_generator.move_list.move_on_list(hash_move));
@@ -73,7 +74,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
                 search_statistics.add_nodes(j + 1);
                 killer_heuristic.store_killer(distance_to_root, move_candidate);
                 profiling.increment(3);
-                hash_table.store_best_move(move_candidate, board.get_hash(), distance_to_root);
+                hash_table.store_best_move(move_candidate, my_hash, distance_to_root);
                 return candidate_score;
             }
             best_score = candidate_score;
@@ -86,7 +87,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     assert((best_move != NULL_MOVE) || (n_moves == 0));
     if (best_move != NULL_MOVE) {
         assert(move_in_range(best_move));
-        hash_table.store_best_move(best_move, board.get_hash(), distance_to_root);
+        hash_table.store_best_move(best_move, my_hash, distance_to_root);
     }
     if (best_score != SCORE_OWN_KING_WILL_GET_CAPTURED) {
         return best_score;
