@@ -56,7 +56,7 @@ bool CTestStatistics::test_principal_variation() {
     CIterativeDeepening searcher;
     SMove best_move = searcher.search_depth(4);
     EXPECT(best_move == "h1h8");
-    std::cerr << search_statistics.principal_variation() << "\n";
+    CTEST << search_statistics.principal_variation() << "\n";
     EXPECT(search_statistics.principal_variation() == "h1h8 g8h8 g6h7 h8h7 b1h7");
     return false;
 }

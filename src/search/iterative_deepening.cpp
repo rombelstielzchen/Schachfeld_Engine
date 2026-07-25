@@ -3,8 +3,6 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-#undef DEBUG_ENABLE_LOGGING
-
 #include "iterative_deepening.h"
 #include "depth_control.h"
 #include "hash_table.h"
@@ -17,7 +15,6 @@
 constexpr int64_t minimum_search_depth = 1;
 
 CIterativeDeepening::CIterativeDeepening() {
-    DEBUG_METHOD();
     reset();
 }
 
@@ -31,7 +28,6 @@ void CIterativeDeepening::reset() {
 /*** Public search-interface below ****/
 
 SMove CIterativeDeepening::search_depth(int64_t depth) {
-    DEBUG_METHOD();
     reset();
     assert(depth >= 0);
     depth = std::max(depth,  minimum_search_depth);
@@ -41,7 +37,6 @@ SMove CIterativeDeepening::search_depth(int64_t depth) {
 }
 
 SMove CIterativeDeepening::search_nodes(const int64_t nodes) {
-    DEBUG_METHOD();
     reset();
     assert(nodes > 0);
     depth_control.set_nodes(nodes);
@@ -49,7 +44,6 @@ SMove CIterativeDeepening::search_nodes(const int64_t nodes) {
 }
 
 SMove CIterativeDeepening::search_movetime(const int64_t movetime_ms) {
-    DEBUG_METHOD();
     reset();
     assert(movetime_ms > 0);
     depth_control.set_movetime_ms(movetime_ms);
@@ -91,7 +85,6 @@ SMove CIterativeDeepening::search_time(
 /*** End of public search interface ***/
 
 SMove CIterativeDeepening::search_common_entry_point() {
-    DEBUG_METHOD();
     reset();
     move_generator.generate_all();
     if (move_generator.move_list.king_capture_on_list()) {
@@ -112,7 +105,6 @@ SMove CIterativeDeepening::search_common_entry_point() {
 }
 
 SMove CIterativeDeepening::search_anti_repetition() {
-    DEBUG_METHOD();
     SMove repetitive_move = board.move_maker.get_repetitive_move();
     if (repetitive_move != NULL_MOVE) {
         assert(move_in_range(repetitive_move));
@@ -130,7 +122,6 @@ SMove CIterativeDeepening::search_anti_repetition() {
 }
 
 SMove CIterativeDeepening::search_iterative() {
-    DEBUG_METHOD();
     // static in order to handle a badly timed stop-command
     static SMove best_move = NULL_MOVE;
     std::string const root_position = board.get_fen_position();
@@ -159,7 +150,6 @@ SMove CIterativeDeepening::search_iterative() {
 }
 
 SMove CIterativeDeepening::search_fixed_depth(int depth) {
-    DEBUG_METHOD();
     // Top-level search
     //   * managing alpha-beta-windows, but no cutoffs here ("all-node")
     //   * Sorting and reusing the move-list, therefore...

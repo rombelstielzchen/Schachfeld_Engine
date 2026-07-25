@@ -81,7 +81,6 @@ unsigned int CMoveList::index_most_valuable_victim() const {
 }
 
 unsigned int CMoveList::index_least_valuable_aggressor(const unsigned int first_most_valuable_victim) const {
-    DEBUG_METHOD();
     assert(valid_list());
     assert(first_most_valuable_victim >= consumer_position);
     assert(first_most_valuable_victim < LIST_ORIGIN);
@@ -119,7 +118,6 @@ unsigned int CMoveList::index_least_valuable_aggressor(const unsigned int first_
 }
 
 SMove CMoveList::get_next__best_capture() {
-    DEBUG_METHOD();
     assert(valid_list());
     unsigned int const best_index = index_least_valuable_aggressor(index_most_valuable_victim());
     assert(best_index >= consumer_position);

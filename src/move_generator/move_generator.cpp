@@ -12,7 +12,6 @@ CMoveGenerator::CMoveGenerator() {
 }
 
 void CMoveGenerator::generate_all() {
-//    std::cerr << "generate_all\n";
     assert(move_list.is_empty());
     bool side_to_move = board.get_side_to_move();
     if (side_to_move == WHITE_PLAYER) {
@@ -21,7 +20,6 @@ void CMoveGenerator::generate_all() {
         assert(side_to_move == BLACK_PLAYER);
         generate_all_black_moves();
     }
-//    std::cerr << "generate_all finished\n";
 }
 
 void CMoveGenerator::generate_captures() {
@@ -188,7 +186,6 @@ void CMoveGenerator::generate_queen_moves(const SSquare source) {
 }
 
 void CMoveGenerator::generate_potential_move(const SSquare source, const TFile target_file, const TRank target_rank) {
-    DEBUG_METHOD();
     // Checks the target-square, needed for king and knight
     // and for the final square of sliding moves
     assert(square_in_range(source));
@@ -204,7 +201,6 @@ void CMoveGenerator::generate_potential_move(const SSquare source, const TFile t
 }
 
 void CMoveGenerator::generate_sliding_moves(const SSquare source, const int direction_north_south, const int direction_east_west) {
-    DEBUG_METHOD();
     TFile next_file = source.file + direction_east_west;
     TRank next_rank = source.rank + direction_north_south;
     while (board.square_is_empty(next_file, next_rank)) {
@@ -220,7 +216,6 @@ void CMoveGenerator::generate_sliding_moves(const SSquare source, const int dire
 }
 
 void CMoveGenerator::generate_potential_eng_passeng() {
-     DEBUG_METHOD();
      TFile eng_passeng_file = board.get_eng_passeng_file();
     if (eng_passeng_file == NO_ENG_PASSENG_POSSIBLE) {
         return;

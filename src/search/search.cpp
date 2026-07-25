@@ -2,8 +2,6 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-#undef DEBUG_ENABLE_LOGGING
-
 #include "search.h"
 #include "hash_table.h"
 #include "killer_heuristics.h"
@@ -24,7 +22,6 @@ constexpr bool CSearch::score_causes_beta_cutoff(int const score, int const beta
 }
 
 int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to_root, int alpha, int const beta) {
-    DEBUG_METHOD();
     assert(remaining_depth >= 0);
     assert(distance_to_root > 0);
     assert(alpha <= beta);
@@ -99,7 +96,6 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
 }
 
 int CSearch::quiescence_negamax(int const remaining_depth, int const distance_to_root, int alpha, int const beta) {
-    DEBUG_METHOD();
     assert(remaining_depth > 0);
     assert(distance_to_root > 0);
     assert(alpha <= beta);
@@ -122,7 +118,6 @@ int CSearch::quiescence_negamax(int const remaining_depth, int const distance_to
 }
 
 int CSearch::quiescence_negamax_recursive_no_stalemate_detection(int const remaining_depth, int const distance_to_root, int alpha, int const beta) {
-    DEBUG_METHOD();
     assert(remaining_depth > 0);
     assert(distance_to_root > 0);
     assert(alpha <= beta);

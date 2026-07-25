@@ -16,7 +16,6 @@ CMoveList::CMoveList() {
 }
 
 void CMoveList::clear() {
-//    std::cerr << "clear()\n";
     hash_move = NULL_MOVE;
     first_capture = LIST_ORIGIN;
     next_empty_slot = LIST_ORIGIN;
@@ -67,8 +66,6 @@ int CMoveList::list_size() const {
     assert(valid_positions());
     int size = next_empty_slot - first_capture;
     if (hash_move != NULL_MOVE) {
-///        std::cerr << "before adaption: " << size << "\n";
-///        std::cerr << "zize adapted for hash_move\n";
         ++size;
     }
     assert(size >= 0);
@@ -88,7 +85,6 @@ std::string CMoveList::as_text() const {
 }
 
 bool CMoveList:: move_on_list(const SMove move) const {
-    ///std::cerr << move << "\n";
     assert(move_in_range(move));
     assert(valid_list());
     return (get_index(move) != MOVE_NOT_ON_LIST);

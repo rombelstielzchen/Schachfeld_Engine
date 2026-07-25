@@ -49,8 +49,6 @@ bool CFenParser::parse(const std::string &fen_board_specification) {
     my_board->initial_position_before_moves = my_board->get_fen_position();
     lack_of_errors &= my_board->move_maker.play_variation(extra_moves);
     my_board->evaluator.init();
-    /// TODO: R!
-    std::cerr << my_board->get_hash() << "\n";
     return lack_of_errors;
 }
 

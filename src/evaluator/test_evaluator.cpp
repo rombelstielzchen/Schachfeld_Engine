@@ -131,7 +131,6 @@ bool CTestEvaluator::test_decided_positions() {
     TEST_FUNCTION();
     std::string decided_position = "1K/3q/1k b";
     EXPECT(board.set_fen_position(decided_position));
-    board.evaluator.log_board_evaluation();//!!!
     EXPECT(board.evaluator.evaluate() < -500);
     return true;
 }

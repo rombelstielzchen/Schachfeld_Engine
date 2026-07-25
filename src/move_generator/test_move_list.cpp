@@ -282,7 +282,6 @@ bool CTestMoveList::test_integrate_hash_move() {
     EXPECT(move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root) == bad_capture);
     EXPECT(move_generator.move_list.get_next__hash_capture_killer_silent(distance_to_root) == relative_best_capture);
     next_move_on_list = move_generator.move_list.get_next();
-    std::cerr << int(next_move_on_list.move_type) << next_move_on_list.move_type;
     EXPECT(next_move_on_list.move_type == MOVE_TYPE_NORMAL);
     // 3 Try to integrate a non-existing move
     move_generator.reset();

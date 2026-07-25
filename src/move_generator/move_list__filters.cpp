@@ -129,7 +129,6 @@ void CMoveList::remove(unsigned int position) {
         assert(original_list_size > list_size());
         assert(position >= first_capture);
     }
-///    std::cerr << "new size: " << list_size() << "\n";
     assert(list_size() == (original_list_size - 1));
     assert(valid_list());
 }
