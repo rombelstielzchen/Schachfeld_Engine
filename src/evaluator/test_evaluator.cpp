@@ -10,11 +10,21 @@
 #include "../board/square_constants.h"
 #include "../technical_functions/testing.h"
 
-const std::vector<STestcaseEvaluator> testcases_evaluator = {
-   // Caveat! All evaluations are from whites point of view!
-   // Hint: Add someextra-pieces  to enforce middle-game evaluations
-   // First: material count, basic evaluation
-    { "rrrrr///KPk w", "rrrrr///Kpk w" },
+const TTestcaseSetEvaluator testcase_set_endgame_king = {
+    { "k///3PK w", "k///3P///K w" },
+    { "k///3p///K w", "///3pk///K w" },
+};
+
+const TTestcaseSetEvaluator testcase_set_mating = {
+    // TODO: remove, if we can't mate with depth 2
+    // Mating with 2 bishops on very low depth. Good placement of the bishop that does not control the corner
+///    { "k/2K///2BB b", "k/2K//4B/2B b" },
+    // Mating with bishop and knight.
+    // Prefer the bishop to control the bishop-colour; keep the knight away from the border
+    { "/////5K/5N1B/5k b", "///4B//5K1N//5k b" },
+};
+
+const TTestcaseSetEvaluator testcase_set_pawn_structure = {
    // Kingside-structure, inspired by V_beinahe_9
     {"k///rrr/RRR/5PP/5P/6K w", "k/////6P/5P1P/6K w"},
     { "6k/5p1p/5p/rrr/RRR//K b", "6k/5p/5pp/rrr/RRR//K b"},
@@ -51,11 +61,18 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     // Central pawn structure c3 or c2 / e5 (Ruy Lopez, Italian)
 { "rrrrr/8/8/8/3PP w", "rrrrr/8/8/4p/3PP/2P w" },
 { "rrrrr/8/8/8/3PP w", "rrrrr/8/8/4p/3PP/8/2P w" },
-    // Pawns on 5th / 6th / 7th rank: semi-strong / monsters / potentially a bit weak
+ };
+
+const TTestcaseSetEvaluator old_testcase_set = {
+   // Caveat! All evaluations are from whites point of view!
+   // Hint: Add someextra-pieces  to enforce middle-game evaluations
+   // First: material count, basic evaluation
+    { "rrrrr///KPk w", "rrrrr///Kpk w" },
+   // Pawns on 5th / 6th / 7th rank: semi-strong / monsters / potentially a bit weak
     { "rrrrr/8/PPPPPPPP w", "rrrrr/8/8/PPPPPPPP w" },
     { "rrrrr/8/PPPPPPPP w", "rrrrr/PPPPPPPP w" },
     // Pawns on 2nd / 3rd rank
-    // 2nd rank is usuaööy better -- except d abd e file where they hinder development
+    // 2nd rank is usuaööy better -- except d and e file where they hinder development
     { "rrrrr/8/8/8/8/8/P w", "rrrrr/8/8/8/8/P w"},
     { "rrrrr/8/8/8/8/8/1P w", "rrrrr/8/8/8/8/1P w"},
     { "rrrrr/8/8/8/8/8/2P w", "rrrrr/8/8/8/8/2P w"},
@@ -88,7 +105,7 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     // Pawn on d3 better then d2 for bettter development
    { "rrrrr/////3P w", "rrrrr//////3P w" },
    // Knights on the king-side more worth than on the queen-side:
-   // Preparing castling, attacking / defending the king
+   // Preparing castling, attacking
    { "rrrrr/////5N w", "rrrrr/////2N w" },
    { "rrrrr//5N w", "rrrrr//2N w" },
     { "rrrrr////4N w", "rrrrr////3N w" },
@@ -101,12 +118,6 @@ const std::vector<STestcaseEvaluator> testcases_evaluator = {
     { "2kr3r/5ppp/5bbb/////6BK b", "r4rk/5ppp/5bbb/////6BK b" },
     // Scandinavian: 3...Qa5 is better (for black) than Qe6
     { "rnb1kbnr/ppp1pppp/4q////PPPP1PPP/RNBQKBNR w", "rnb1kbnr/ppp1pppp//q///PPPP1PPP/RNBQKBNR w"} ,
-    // TODO: remove, if we can't mate with depth 2
-    // Mating with 2 bishops on very low depth. Good placement of the bishop that does not control the corner
-///    { "k/2K///2BB b", "k/2K//4B/2B b" },
-    // Mating with bishop and knight.
-    // Prefer the bishop to control the bishop-colour; keep the knight away from the border
-    { "/////5K/5N1B/5k b", "///4B//5K1N//5k b" },
 };
 
 bool CTestEvaluator::test_everything() {
@@ -116,7 +127,10 @@ bool CTestEvaluator::test_everything() {
     EXPECT(test_move_sequence());
     EXPECT(test_black_advantage());
     EXPECT(test_pawn_values());
-    EXPECT(test_positions());
+    EXPECT(test_positions(testcase_set_endgame_king));
+    EXPECT(test_positions(testcase_set_mating));
+    EXPECT(test_positions(testcase_set_pawn_structure));
+    EXPECT(test_positions(old_testcase_set));
     EXPECT(test_wood_points());
     return true;
 }
@@ -212,9 +226,9 @@ bool CTestEvaluator::test_pawn_values() {
     return true;
 }
 
- bool CTestEvaluator::test_positions() {
+ bool CTestEvaluator::test_positions(const TTestcaseSetEvaluator &testcase_set) {
     TEST_FUNCTION();
-    for (const STestcaseEvaluator &testcase : testcases_evaluator) {
+    for (const STestcaseEvaluator &testcase : testcase_set) {
         SILENT_EXPECT(first_position_better(testcase));
     }
     return true;
@@ -236,10 +250,17 @@ bool CTestEvaluator::first_position_better(const STestcaseEvaluator &testcase) {
     return first_position_better(testcase.better_position, testcase.worse_position);
 }
 
-bool CTestEvaluator::first_pawn_better(const SSquare first, const SSquare second) {
-    int first_value = CEvaluator::evaluate_white_pawn(first);
-    int second_value = CEvaluator::evaluate_white_pawn(second);
+bool CTestEvaluator::first_square_better(char piece, const SSquare first, const SSquare second) {
+    assert(is_any_piece(piece));
+    assert(square_in_range(first));
+    assert(square_in_range(second));
+    int first_value = CEvaluator::evaluate_piece(piece, first);
+    int second_value = CEvaluator::evaluate_piece(piece, second); 
     return (first_value > second_value);
+}
+
+bool CTestEvaluator::first_pawn_better(const SSquare first, const SSquare second) {
+    return first_square_better(WHITE_POWER, first, second);
 }
 
 bool CTestEvaluator::evaluates_approximately_to(const int score) {

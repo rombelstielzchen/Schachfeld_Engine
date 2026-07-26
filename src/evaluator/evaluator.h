@@ -26,7 +26,9 @@ class CEvaluator {
     void log_board_evaluation() const;
   private:
     int evaluate_square(const TFile file, const TRank rank) const;
+  public:
     static int evaluate_white_pawn(const SSquare square);
+    static int evaluate_piece(char piece, const SSquare square);
   private:
     int value;
     COracle oracle;

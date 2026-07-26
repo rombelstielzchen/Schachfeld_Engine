@@ -55,9 +55,15 @@ int CEvaluator::evaluate_square(const TFile file, const TRank rank) const {
     return result;
 }
 
+int CEvaluator::evaluate_piece(char piece, const SSquare square) {
+    assert(is_any_piece(piece));
+    assert(square_in_range(square));
+    return main_piece_square_value_table_set[piece][square.file][square.rank];
+}
+
 int CEvaluator::evaluate_white_pawn(const SSquare square) {
     assert(square_in_range(square));
-    return main_piece_square_value_table_set[WHITE_POWER][square.file][square.rank];
+    return evaluate_piece(WHITE_POWER, square);
 }
  
 void CEvaluator::incremental_add(const SSquare square) {
