@@ -16,15 +16,9 @@
 
 class CBoard;
 
-// TODO: true adaption for multiple boards.
-// ATM extra-moces are not supported.
-// Heavy refactoring needed for move_maker and move_gerator,
-// potentially also causing a slowdown when working with pointer to board.
-
 class CFenParser {
   public:
     CFenParser();
-    void init_board_pointer(CBoard *target_board);
   public:
     bool parse(const std::string &fen_board_specification);
   private:
@@ -35,7 +29,5 @@ class CFenParser {
     bool parse_100_ply_draw_counter(const std::string &partial_input);
     bool parse_move_counter(const std::string &partial_input);
     std::string extract_moves_from_position_command(const std::string &position_command);
-  private:
-    CBoard *my_board;
 };
 

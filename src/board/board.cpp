@@ -11,9 +11,6 @@
 #include "../technical_functions/standard_headers.h"
 
 CBoard::CBoard() {
-    distances().init_board_pointer(this);
-    fen_generator().init_board_pointer(this);
-    fen_parser().init_board_pointer(this);
     init_garden_fence();
     clear_board_squares();
     set_start_position();

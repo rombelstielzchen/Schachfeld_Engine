@@ -9,12 +9,6 @@
 #include <cassert>
 
 CDistances::CDistances() {
-    my_board = nullptr;
-}
-
-void CDistances::init_board_pointer(const CBoard *my_board) {
-    assert(my_board != nullptr);
-    this->my_board = my_board;
 }
 
 double CDistances::euclidian_distance(const SSquare a, const SSquare b) const {

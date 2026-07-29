@@ -17,7 +17,6 @@ class CBoard;
 class CFenGenerator {
   public:
     CFenGenerator();
-    void init_board_pointer(CBoard *tsource_board);
   public:
     std::string get_fen_position() const;
   private:
@@ -27,7 +26,5 @@ class CFenGenerator {
     std::string get_eng_passeng() const;
     std::string get_100_ply_draw_counter() const;
     std::string get_move_counter() const;
-  private:
-    CBoard *my_board;
 };
 
