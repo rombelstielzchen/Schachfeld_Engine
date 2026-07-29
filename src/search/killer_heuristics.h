@@ -29,5 +29,5 @@ class CKillerHeuristic {
     std::array<SMove, MAX_KILLER_DEPTH> killer_moves;
 };
 
-inline CKillerHeuristic killer_heuristic;
+inline thread_local CKillerHeuristic killer_heuristic;
 
