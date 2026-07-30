@@ -70,7 +70,7 @@ void CMoveMaker::make_move(SMove move) {
            SSquare eng_passeng_square;
            eng_passeng_square.file = board.get_eng_passeng_file();
            assert(eng_passeng_square.file == move.target.file);
-           eng_passeng_square.rank = board.board_logic().eng_passeng_pawn_rank();
+           eng_passeng_square.rank = CBoardLogic::eng_passeng_pawn_rank();
            assert(square_in_range(eng_passeng_square));
            board.clear_square(eng_passeng_square);
             board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;

@@ -13,31 +13,31 @@
 
 constexpr bool UNEXPECTED_MOVE_TYPE = false;
 
-char CBoardLogic::my_king() const {
+char CBoardLogic::my_king() {
     return (board.get_side_to_move() == WHITE_PLAYER) ? WHITE_KING : BLACK_KING;
 }
 
-char CBoardLogic::my_rook() const {
+char CBoardLogic::my_rook() {
     return (board.get_side_to_move() == WHITE_PLAYER) ? WHITE_ROOK : BLACK_ROOK;
 }
 
-char CBoardLogic::my_pawn() const {
+char CBoardLogic::my_pawn() {
     return (board.get_side_to_move() == WHITE_PLAYER) ? WHITE_POWER : BLACK_POWER;
 }
 
-TRank CBoardLogic::eng_passeng_pawn_rank() const {
+TRank CBoardLogic::eng_passeng_pawn_rank() {
     return (board.get_side_to_move() == WHITE_PLAYER) ? RANK_5 : RANK_4;
 }
 
-TRank CBoardLogic::eng_passeng_forward_rank() const {
+TRank CBoardLogic::eng_passeng_forward_rank() {
     return (eng_passeng_pawn_rank() == RANK_5) ? RANK_6 : RANK_3;
 }
 
-TRank CBoardLogic::my_back_rank() const {
+TRank CBoardLogic::my_back_rank() {
     return (board.get_side_to_move() == WHITE_PLAYER) ? RANK_1 : RANK_8;
 }
 
-bool CBoardLogic::castling_squares_empty(const char move_type) const {
+bool CBoardLogic::castling_squares_empty(const char move_type) {
     switch (move_type) {
         case MOVE_TYPE_WHITE_SHORT_CASTLING:
             return (board.square_is_empty(FILE_F, RANK_1) && board.square_is_empty(FILE_G, RANK_1));
@@ -53,7 +53,7 @@ bool CBoardLogic::castling_squares_empty(const char move_type) const {
     }
 }
 
-bool CBoardLogic::rook_on_castling_square(const char move_type) const {
+bool CBoardLogic::rook_on_castling_square(const char move_type) {
     switch(move_type) {
         case MOVE_TYPE_WHITE_SHORT_CASTLING:
             return (board.get_square(FILE_H, RANK_1) == WHITE_ROOK);
@@ -70,7 +70,7 @@ bool CBoardLogic::rook_on_castling_square(const char move_type) const {
     }
 }
 
-bool CBoardLogic::square_occupied_by_opponent(const TFile file, const TRank rank) const {
+bool CBoardLogic::square_occupied_by_opponent(const TFile file, const TRank rank) {
     switch (board.get_square(file, rank)) {
         case WHITE_POWER:
         case WHITE_KNIGHT:
@@ -92,14 +92,14 @@ bool CBoardLogic::square_occupied_by_opponent(const TFile file, const TRank rank
     return false;
 }
 
-bool CBoardLogic::is_valid_target_square(const TFile file, const TRank rank) const {
+bool CBoardLogic::is_valid_target_square(const TFile file, const TRank rank) {
     if (board.square_is_empty(file, rank)) {
         return true;
     }
     return square_occupied_by_opponent(file, rank);
 }
 
-SSquare CBoardLogic::piece_square(char wanted_piece) const {
+SSquare CBoardLogic::piece_square(char wanted_piece) {
     assert(is_any_piece(wanted_piece));
     for (const SSquare s: ALL_SQUARES) {
         if (board.get_square(s) == wanted_piece) {
@@ -109,28 +109,28 @@ SSquare CBoardLogic::piece_square(char wanted_piece) const {
     return NULL_SQUARE;
 }
 
-SSquare CBoardLogic::king_square(TPlayerColour white_or_black) const {
+SSquare CBoardLogic::king_square(TPlayerColour white_or_black) {
     assert(!is_any_piece(white_or_black));
     assert(player_colour_in_range(white_or_black));
     char wanted_king_dead_or_alive = (white_or_black == WHITE_PLAYER) ? WHITE_KING : BLACK_KING;
     return piece_square(wanted_king_dead_or_alive);
 }
 
-bool CBoardLogic::piece_attacked_by_side_to_move(const SSquare square) const {
+bool CBoardLogic::piece_attacked_by_side_to_move(const SSquare square) {
     CMoveGenerator response_generator;
     response_generator.generate_all();
     response_generator.move_list.filter_captures_by_target_square(square);
     return (response_generator.move_list.list_size() > 0);
 }
 
-bool CBoardLogic::piece_attacked_by_side_not_to_move(const SSquare square) const {
+bool CBoardLogic::piece_attacked_by_side_not_to_move(const SSquare square) {
     board.move_maker.make_null_move();
     bool result = piece_attacked_by_side_to_move(square);
     board.move_maker.unmake_null_move();
     return result;
 }
 
-bool CBoardLogic::castling_possible(const int move_type) const {
+bool CBoardLogic::castling_possible(const int move_type) {
     assert((move_type == MOVE_TYPE_WHITE_SHORT_CASTLING) 
         || (move_type == MOVE_TYPE_WHITE_LONG_CASTLING)
         || (move_type == MOVE_TYPE_BLACK_SHORT_CASTLING)
@@ -140,14 +140,14 @@ bool CBoardLogic::castling_possible(const int move_type) const {
         && (castling_squares_empty(move_type)));
 }
 
-bool CBoardLogic::own_king_in_check() const {
+bool CBoardLogic::own_king_in_check() {
     board.move_maker.make_null_move();
     bool result = opponents_king_in_check();
     board.move_maker.unmake_null_move();
     return result;
 }
 
-bool CBoardLogic::opponents_king_in_check() const {
+bool CBoardLogic::opponents_king_in_check() {
     bool opponent_colour = !board.get_side_to_move();
     SSquare opponent_king_square = CBoardLogic::king_square(opponent_colour);
     if (opponent_king_square == NULL_SQUARE) {
@@ -158,7 +158,7 @@ bool CBoardLogic::opponents_king_in_check() const {
     return (CBoardLogic::piece_attacked_by_side_to_move(opponent_king_square));
 }
 
-bool CBoardLogic::illegal_move(const SMove move) const {
+bool CBoardLogic::illegal_move(const SMove move) {
     assert(move_in_range(move));
     board.move_maker.make_move(move);
     bool result = opponents_king_in_check();
@@ -166,7 +166,7 @@ bool CBoardLogic::illegal_move(const SMove move) const {
     return result;
 }
 
-bool CBoardLogic::is_endgame() const {
+bool CBoardLogic::is_endgame() {
    constexpr int max_officers_to_be_considered_endgame = 4; 
     int n_officers = 0;
     for (const SSquare s: ALL_SQUARES) {
@@ -188,17 +188,17 @@ bool CBoardLogic::is_endgame() const {
     return (n_officers <= max_officers_to_be_considered_endgame);
 }
 
-bool CBoardLogic::one_king_missing() const {
+bool CBoardLogic::one_king_missing() {
     return abs((board.evaluator.evaluate()) >= SCORE_HALF_KING);
 }
 
-bool CBoardLogic::is_pawn_at(char white_or_black_pawn, SSquare square) const {
+bool CBoardLogic::is_pawn_at(char white_or_black_pawn, SSquare square) {
     assert((white_or_black_pawn == WHITE_POWER) || (white_or_black_pawn == BLACK_POWER));
     assert(square_in_range(square));
     return (board.get_square(square) == white_or_black_pawn);
 }
 
-bool CBoardLogic::is_pawn_anywhere(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3, SSquare square4, SSquare square5, SSquare square6) const {
+bool CBoardLogic::is_pawn_anywhere(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3, SSquare square4, SSquare square5, SSquare square6) {
     assert((white_or_black_pawn == WHITE_POWER) || (white_or_black_pawn == BLACK_POWER));
     assert(square_in_range(square1));
     assert(square_in_range(square2));
@@ -211,7 +211,7 @@ bool CBoardLogic::is_pawn_anywhere(char white_or_black_pawn, SSquare square1, SS
 
 }
 
-bool CBoardLogic::is_pawn_structure(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3, SSquare square4) const {
+bool CBoardLogic::is_pawn_structure(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3, SSquare square4) {
     assert((white_or_black_pawn == WHITE_POWER) || (white_or_black_pawn == BLACK_POWER));
     assert(square_in_range(square1));
     assert(square_in_range(square2));
@@ -221,18 +221,18 @@ bool CBoardLogic::is_pawn_structure(char white_or_black_pawn, SSquare square1, S
         && ((square4 == NULL_SQUARE) || is_pawn_at(white_or_black_pawn, square4)));
 }
 
-bool CBoardLogic::is_simplified_testcase() const {
+bool CBoardLogic::is_simplified_testcase() {
     // Both kings missing
     return ((king_square(WHITE_PLAYER) == NULL_SQUARE) && abs(board.evaluator.nega_score() < SCORE_HALF_KING));
 }
 
-bool CBoardLogic::is_pawn_missing(char white_or_black_pawn, SSquare square) const {
+bool CBoardLogic::is_pawn_missing(char white_or_black_pawn, SSquare square) {
     assert((white_or_black_pawn == WHITE_POWER) || (white_or_black_pawn == BLACK_POWER));
     assert(square_in_range(square));
     return(is_pawn_at(white_or_black_pawn, square) == false);
 }
 
-int CBoardLogic::n_stones(bool which_player) const {
+int CBoardLogic::n_stones(bool which_player) {
     int result = 0;
     for (const SSquare s: ALL_SQUARES) {
         char piece = board.get_square(s);
@@ -252,14 +252,14 @@ int CBoardLogic::n_stones(bool which_player) const {
     return result;
 }
 
-int CBoardLogic::n_stones() const {
+int CBoardLogic::n_stones() {
     int result = n_stones(WHITE_PLAYER) + n_stones(BLACK_PLAYER);
     assert(result >= 0);
     assert(result <= N_STONES_TOTAL);
     return result;
 }
 
-bool CBoardLogic::is_piece_present(char piece_type) const {
+bool CBoardLogic::is_piece_present(char piece_type) {
     assert(is_any_piece(piece_type));
     for (const SSquare s: ALL_SQUARES) {
         if (board.get_square(s) == piece_type) {
@@ -269,7 +269,7 @@ bool CBoardLogic::is_piece_present(char piece_type) const {
     return false;
 }
 
-TSquareColour CBoardLogic::bishop_colour() const {
+TSquareColour CBoardLogic::bishop_colour() {
     for (const SSquare s: ALL_SQUARES) {
         char piece = board.get_square(s);
         if ((piece == WHITE_BISHOP) || (piece == BLACK_BISHOP)) {
@@ -281,17 +281,17 @@ TSquareColour CBoardLogic::bishop_colour() const {
     return WHITE_PLAYER;
 }
 
-bool CBoardLogic::on_same_diagonal(const SSquare a, const SSquare b) const {
+bool CBoardLogic::on_same_diagonal(const SSquare a, const SSquare b) {
     assert(square_in_range(a));
     assert(square_in_range(b));
     return ((a.file +b.rank) == (b.file + a.rank));
 }
 
-bool CBoardLogic::on_same_anti_diagonal(const SSquare a, const SSquare b) const {
+bool CBoardLogic::on_same_anti_diagonal(const SSquare a, const SSquare b) {
     return ((a.file + a.rank) == (b.file + b.rank));
 }
 
-int CBoardLogic::n_pieces_present(char piece_type) const {
+int CBoardLogic::n_pieces_present(char piece_type) {
     assert(is_any_piece(piece_type));
     int result = 0;
     for (const SSquare s: ALL_SQUARES) {
@@ -302,7 +302,7 @@ int CBoardLogic::n_pieces_present(char piece_type) const {
     return result;
 }
 
-bool CBoardLogic::is_piece_at(char piece, const TSquareList &squares) const {
+bool CBoardLogic::is_piece_at(char piece, const TSquareList &squares) {
     assert(is_any_piece(piece));
     for (const SSquare s: squares) {
         if (board.get_square(s) == piece) {
@@ -312,7 +312,7 @@ bool CBoardLogic::is_piece_at(char piece, const TSquareList &squares) const {
     return false;
 }
 
-bool CBoardLogic::is_pawn_endgame() const {
+bool CBoardLogic::is_pawn_endgame() {
      return((is_piece_present(WHITE_POWER) || is_piece_present(BLACK_POWER))
         && !is_piece_present(WHITE_KNIGHT)
         && !is_piece_present(WHITE_BISHOP)

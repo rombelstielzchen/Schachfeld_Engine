@@ -14,50 +14,50 @@
 class CBoardLogic {
   public:
     // Piece encodings, depending on side-to-move
-    char my_king() const;
-    char my_rook() const;
-    char my_pawn() const;
+    static char my_king();
+    static char my_rook();
+    static char my_pawn();
   public:
-    TRank eng_passeng_pawn_rank() const;
-    TRank eng_passeng_forward_rank() const;
-    TRank my_back_rank() const;
+    static TRank eng_passeng_pawn_rank();
+    static TRank eng_passeng_forward_rank();
+    static TRank my_back_rank();
   public:
-    bool castling_squares_empty(const char move_type) const;
-    bool rook_on_castling_square(const char move_type) const;
-    bool castling_possible(const int move_type) const;
-    bool square_occupied_by_opponent(const TFile file, const TRank rank) const;
-    bool is_valid_target_square(const TFile file, const TRank rank) const;
+    static bool castling_squares_empty(const char move_type);
+    static bool rook_on_castling_square(const char move_type);
+    static bool castling_possible(const int move_type);
+    static bool square_occupied_by_opponent(const TFile file, const TRank rank);
+    static bool is_valid_target_square(const TFile file, const TRank rank);
   public:
     // Simple and slow, meant for the root-node only
-    SSquare piece_square(char wanted_piece) const;
-    SSquare king_square(TPlayerColour white_or_black) const;
+    static SSquare piece_square(char wanted_piece);
+    static SSquare king_square(TPlayerColour white_or_black);
   public:
-    bool piece_attacked_by_side_to_move(const SSquare square) const;
-   bool piece_attacked_by_side_not_to_move(const SSquare square) const; 
-    bool illegal_move(const SMove move) const;
-    bool own_king_in_check() const;
-    bool opponents_king_in_check() const;
-    bool one_king_missing() const;
-    bool is_endgame() const;
-    bool is_simplified_testcase() const;
+    static bool piece_attacked_by_side_to_move(const SSquare square);
+    static bool piece_attacked_by_side_not_to_move(const SSquare square); 
+    static bool illegal_move(const SMove move);
+    static bool own_king_in_check();
+    static bool opponents_king_in_check();
+    static bool one_king_missing();
+    static bool is_endgame();
+    static bool is_simplified_testcase();
   public:
-    bool is_pawn_at(char white_or_black_pawn, SSquare square) const;
-    bool is_pawn_anywhere(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3 = NULL_SQUARE, SSquare square4 = NULL_SQUARE, SSquare square5 = NULL_SQUARE, SSquare square6 = NULL_SQUARE) const;
-    bool is_pawn_missing(char white_or_black_pawn, SSquare square) const;
-    bool is_pawn_structure(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3 = NULL_SQUARE, SSquare square4 = NULL_SQUARE) const;
+    static bool is_pawn_at(char white_or_black_pawn, SSquare square);
+    static bool is_pawn_anywhere(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3 = NULL_SQUARE, SSquare square4 = NULL_SQUARE, SSquare square5 = NULL_SQUARE, SSquare square6 = NULL_SQUARE);
+    static bool is_pawn_missing(char white_or_black_pawn, SSquare square);
+    static bool is_pawn_structure(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3 = NULL_SQUARE, SSquare square4 = NULL_SQUARE);
   public:
-    TSquareColour bishop_colour() const;
+    static TSquareColour bishop_colour();
   public:
-    bool is_piece_at(char piece, const TSquareList &squares) const;
-    bool is_piece_present(char piece_type) const;
-    int n_pieces_present(char piece_type) const;
+    static bool is_piece_at(char piece, const TSquareList &squares);
+    static bool is_piece_present(char piece_type);
+    static int n_pieces_present(char piece_type);
   public:
-    int n_stones(bool which_player) const;
-    int n_stones() const;
+    static int n_stones(bool which_player);
+    static int n_stones();
   public:
-    bool on_same_diagonal(const SSquare a, const SSquare b) const;
-    bool on_same_anti_diagonal(const SSquare a, const SSquare b) const;
+    static bool on_same_diagonal(const SSquare a, const SSquare b);
+    static bool on_same_anti_diagonal(const SSquare a, const SSquare b);
   public:
-    bool is_pawn_endgame() const;
+    static bool is_pawn_endgame();
 };
 

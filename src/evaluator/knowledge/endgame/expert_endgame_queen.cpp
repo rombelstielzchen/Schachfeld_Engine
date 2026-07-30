@@ -12,7 +12,7 @@
 #include "../../../technical_functions/standard_headers.h"
 
 bool CExpertEndgameQueen::is_responsible() const {
-    return (board.board_logic().is_endgame() && !CEngineTest::is_testing());
+    return (CBoardLogic::is_endgame() && !CEngineTest::is_testing());
 }
 
 void CExpertEndgameQueen::apply_knowledge() {

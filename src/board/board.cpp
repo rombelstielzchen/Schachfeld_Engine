@@ -59,12 +59,14 @@ void CBoard::set_start_position() {
 bool CBoard::set_fen_position(const std::string &position) {
     clear_board_squares();
     initial_position_before_moves = position;
-    bool success = fen_parser().parse(position);
+    CFenParser fen_parser;
+    bool success = fen_parser.parse(position);
     return success;
 }
 
 std::string CBoard::get_fen_position() /*const*/ {
-    return fen_generator().get_fen_position(); 
+    CFenGenerator fen_generator;
+    return fen_generator.get_fen_position(); 
 }
 
 const char* CBoard::as_is() {

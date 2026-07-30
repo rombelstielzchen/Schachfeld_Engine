@@ -14,7 +14,7 @@
 #include "../../../../technical_functions/standard_headers.h"
 
 bool CExpertCastlingDirection::is_responsible() const {
-    bool any_castling_possible = !board.board_logic().is_endgame()
+    bool any_castling_possible = !CBoardLogic::is_endgame()
         || board.get_castling_rights(MOVE_TYPE_WHITE_SHORT_CASTLING)
         || board.get_castling_rights(MOVE_TYPE_WHITE_LONG_CASTLING)
         || board.get_castling_rights(MOVE_TYPE_BLACK_SHORT_CASTLING)

@@ -225,7 +225,7 @@ void CPsvModifier::add_bonus_to_center(TPieceSquareValueTable &psv_table, int bo
 void CPsvModifier::add_bonus_to_diagonal(TPieceSquareValueTable &psv_table, const SSquare any_reference_square, int bonus) {
     assert(square_in_range(any_reference_square));
     for (const SSquare s: ALL_SQUARES) {
-        if (board.board_logic().on_same_diagonal(s, any_reference_square)) {
+        if (CBoardLogic::on_same_diagonal(s, any_reference_square)) {
             CPsvModifier::add_bonus_to_square(psv_table, s, bonus);
         }
     }
@@ -234,7 +234,7 @@ void CPsvModifier::add_bonus_to_diagonal(TPieceSquareValueTable &psv_table, cons
 void CPsvModifier::add_bonus_to_anti_diagonal(TPieceSquareValueTable &psv_table, const SSquare any_reference_square, int bonus) {
     assert(square_in_range(any_reference_square));
     for (const SSquare s: ALL_SQUARES) {
-        if (board.board_logic().on_same_anti_diagonal(s, any_reference_square)) {
+        if (CBoardLogic::on_same_anti_diagonal(s, any_reference_square)) {
             CPsvModifier::add_bonus_to_square(psv_table, s, bonus);
         }
     }

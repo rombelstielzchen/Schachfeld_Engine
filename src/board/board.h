@@ -8,8 +8,7 @@
 #include "board_constants.h"
 #include "board_logic.h"
 #include "distances.h"
-#include "fen_generator.h"
-#include "fen_parser.h"
+
 #include "game_saver.h"
 #include "move_maker.h"
 #include "../evaluator/evaluator.h"
@@ -63,12 +62,10 @@ class CBoard {
     void clone_from_global_reference_board();
     void clone_to_global_reference_board();
   public:
+    inline CDistances &distances() { return _disances; }
     // TODO: make functions below const
     // TODO: needed at all, as most functions of CDistances and CBoardLogic are static?
-    inline CBoardLogic &board_logic() { return _board_logic; }
-    inline CDistances &distances() /* const */ { return _distances; }
-    inline CFenGenerator &fen_generator() { return _fen_generator; }
-    inline CFenParser &fen_parser() { return _fen_parser; }
+//    inline CBoardLogic &board_logic() { return _board_logic; }
   public:
     void set_start_position();
     bool set_fen_position(const std::string &position);
@@ -120,11 +117,9 @@ class CBoard {
   private:
     std::string initial_position_before_moves;
   private:
+    CDistances _disances;
     // TODO: remove
-    CBoardLogic _board_logic;
-    CDistances _distances;
-    CFenGenerator _fen_generator;
-    CFenParser _fen_parser;
+///    CBoardLogic _board_logic;
 };
 
 inline void CBoard::clear_square(const SSquare square) {

@@ -33,11 +33,11 @@ bool CTestBoardLogic::test_everything() {
 bool CTestBoardLogic::test_king_squares() {
     TEST_FUNCTION();
     board.set_start_position();
-    EXPECT(board.board_logic().king_square(WHITE_PLAYER) == E1);
-    EXPECT(board.board_logic().king_square(BLACK_PLAYER) == E8);
+    EXPECT(CBoardLogic::king_square(WHITE_PLAYER) == E1);
+    EXPECT(CBoardLogic::king_square(BLACK_PLAYER) == E8);
     const std::string empty_board = "/ w";
     SILENT_EXPECT(board.set_fen_position(empty_board));
-    EXPECT(board.board_logic().king_square(WHITE_PLAYER) == NULL_SQUARE);
+    EXPECT(CBoardLogic::king_square(WHITE_PLAYER) == NULL_SQUARE);
     EXPECT(test_bishop_colour());
     return true;
 }
@@ -46,40 +46,40 @@ bool CTestBoardLogic::test_piece_attack() {
     TEST_FUNCTION();
     board.set_start_position();
     board.move_maker.play_variation("e2e4");
-    EXPECT(board.board_logic().piece_attacked_by_side_to_move(D5) == false);
-    EXPECT(board.board_logic().piece_attacked_by_side_to_move(E4) == false);
+    EXPECT(CBoardLogic::piece_attacked_by_side_to_move(D5) == false);
+    EXPECT(CBoardLogic::piece_attacked_by_side_to_move(E4) == false);
     board.move_maker.play_variation("d7d5");
-    EXPECT(board.board_logic().piece_attacked_by_side_not_to_move(E4) == true);
-    EXPECT(board.board_logic().piece_attacked_by_side_to_move(F7) == false);
-    EXPECT(board.board_logic().piece_attacked_by_side_to_move(H7) == false);
+    EXPECT(CBoardLogic::piece_attacked_by_side_not_to_move(E4) == true);
+    EXPECT(CBoardLogic::piece_attacked_by_side_to_move(F7) == false);
+    EXPECT(CBoardLogic::piece_attacked_by_side_to_move(H7) == false);
     board.move_maker.play_variation("d1h5");
-    EXPECT(board.board_logic().piece_attacked_by_side_not_to_move(F7) == true);
-    EXPECT(board.board_logic().piece_attacked_by_side_not_to_move(H7) == true);
+    EXPECT(CBoardLogic::piece_attacked_by_side_not_to_move(F7) == true);
+    EXPECT(CBoardLogic::piece_attacked_by_side_not_to_move(H7) == true);
     return true;
 }
 
 bool CTestBoardLogic::test_is_endgame() {
     TEST_FUNCTION();
     board.set_start_position();
-    EXPECT(board.board_logic().is_endgame() == false);
+    EXPECT(CBoardLogic::is_endgame() == false);
    EXPECT(board.set_fen_position("kqqqQQK w"));
-    EXPECT(board.board_logic().is_endgame() == false);
+    EXPECT(CBoardLogic::is_endgame() == false);
    EXPECT(board.set_fen_position("kqqQQK w"));
-    EXPECT(board.board_logic().is_endgame());
+    EXPECT(CBoardLogic::is_endgame());
    EXPECT(board.set_fen_position("4k/pppppppp/////PPPPPPPP/RNBQK w"));
-    EXPECT(board.board_logic().is_endgame());
+    EXPECT(CBoardLogic::is_endgame());
     return true;
 }
 
 bool CTestBoardLogic::test_is_pawn_at() {
     TEST_FUNCTION();
     board.set_start_position();
-    EXPECT(board.board_logic().is_pawn_at(WHITE_POWER, E2));
-    EXPECT(board.board_logic().is_pawn_at(WHITE_POWER, E3) == false);
-    EXPECT(board.board_logic().is_pawn_at(WHITE_POWER, E7) == false);
-    EXPECT(board.board_logic().is_pawn_at(BLACK_POWER, A7));
-    EXPECT(board.board_logic().is_pawn_at(BLACK_POWER, B5) == false);
-    EXPECT(board.board_logic().is_pawn_at(BLACK_POWER, H2) == false);
+    EXPECT(CBoardLogic::is_pawn_at(WHITE_POWER, E2));
+    EXPECT(CBoardLogic::is_pawn_at(WHITE_POWER, E3) == false);
+    EXPECT(CBoardLogic::is_pawn_at(WHITE_POWER, E7) == false);
+    EXPECT(CBoardLogic::is_pawn_at(BLACK_POWER, A7));
+    EXPECT(CBoardLogic::is_pawn_at(BLACK_POWER, B5) == false);
+    EXPECT(CBoardLogic::is_pawn_at(BLACK_POWER, H2) == false);
     return true;
 }
 
@@ -87,149 +87,149 @@ bool CTestBoardLogic::test_is_pawn_anywhere() {
     TEST_FUNCTION();
     board.set_start_position();
     SILENT_EXPECT(board.move_maker.make_move("e2e4"));
-    EXPECT(board.board_logic().is_pawn_anywhere(WHITE_POWER, A5, B3, D4) == false);
-    EXPECT(board.board_logic().is_pawn_anywhere(WHITE_POWER, A5, B3, D4, G7, H8) == false);
-    EXPECT(board.board_logic().is_pawn_anywhere(WHITE_POWER, A5, B3, D4, G7, H8, E4));
-    EXPECT(board.board_logic().is_pawn_anywhere(BLACK_POWER, E5, H2) == false);
-    EXPECT(board.board_logic().is_pawn_anywhere(BLACK_POWER, E5, H7));
+    EXPECT(CBoardLogic::is_pawn_anywhere(WHITE_POWER, A5, B3, D4) == false);
+    EXPECT(CBoardLogic::is_pawn_anywhere(WHITE_POWER, A5, B3, D4, G7, H8) == false);
+    EXPECT(CBoardLogic::is_pawn_anywhere(WHITE_POWER, A5, B3, D4, G7, H8, E4));
+    EXPECT(CBoardLogic::is_pawn_anywhere(BLACK_POWER, E5, H2) == false);
+    EXPECT(CBoardLogic::is_pawn_anywhere(BLACK_POWER, E5, H7));
     return true;
 }
 
 bool CTestBoardLogic::test_is_pawn_structure() {
     TEST_FUNCTION();
     board.set_start_position();
-    EXPECT(board.board_logic().is_pawn_structure(WHITE_POWER, F2, G3, H2) == false);
+    EXPECT(CBoardLogic::is_pawn_structure(WHITE_POWER, F2, G3, H2) == false);
     SILENT_EXPECT(board.move_maker.make_move("g2g3"));
-    EXPECT(board.board_logic().is_pawn_structure(WHITE_POWER, F2, G3, H2));
+    EXPECT(CBoardLogic::is_pawn_structure(WHITE_POWER, F2, G3, H2));
     return true;
 }
 
 bool CTestBoardLogic::test_is_simplified_testcase() {
     TEST_FUNCTION();
     board.set_start_position();
-    EXPECT(board.board_logic().is_simplified_testcase() == false);
+    EXPECT(CBoardLogic::is_simplified_testcase() == false);
     EXPECT(board.set_fen_position("K1k w"));
-    EXPECT(board.board_logic().is_simplified_testcase() == false);
+    EXPECT(CBoardLogic::is_simplified_testcase() == false);
     EXPECT(board.set_fen_position("KBk w"));
-    EXPECT(board.board_logic().is_simplified_testcase() == false);
+    EXPECT(CBoardLogic::is_simplified_testcase() == false);
     EXPECT(board.set_fen_position("Bb b"));
-    EXPECT(board.board_logic().is_simplified_testcase() == true);
+    EXPECT(CBoardLogic::is_simplified_testcase() == true);
     return true;
 }
 
 bool CTestBoardLogic::test_is_pawn_missing() {
     TEST_FUNCTION();
     board.set_start_position();
-    EXPECT(board.board_logic().is_pawn_missing(WHITE_POWER, E1));
-    EXPECT(board.board_logic().is_pawn_missing(WHITE_POWER, E3));
-    EXPECT(board.board_logic().is_pawn_missing(WHITE_POWER, E7));
-    EXPECT(board.board_logic().is_pawn_missing(WHITE_POWER, E8));
-    EXPECT(board.board_logic().is_pawn_missing(WHITE_POWER, E2) == false);
-    EXPECT(board.board_logic().is_pawn_missing(BLACK_POWER, E7) == false);
-    EXPECT(board.board_logic().is_pawn_missing(BLACK_POWER, E6));
+    EXPECT(CBoardLogic::is_pawn_missing(WHITE_POWER, E1));
+    EXPECT(CBoardLogic::is_pawn_missing(WHITE_POWER, E3));
+    EXPECT(CBoardLogic::is_pawn_missing(WHITE_POWER, E7));
+    EXPECT(CBoardLogic::is_pawn_missing(WHITE_POWER, E8));
+    EXPECT(CBoardLogic::is_pawn_missing(WHITE_POWER, E2) == false);
+    EXPECT(CBoardLogic::is_pawn_missing(BLACK_POWER, E7) == false);
+    EXPECT(CBoardLogic::is_pawn_missing(BLACK_POWER, E6));
     return true;
 }
 
 bool CTestBoardLogic::test_n_stones() {
     TEST_FUNCTION();
     board.set_start_position();
-    EXPECT(board.board_logic().n_stones(WHITE_PLAYER) == 16);
-    EXPECT(board.board_logic().n_stones(BLACK_PLAYER) == 16);
-    EXPECT(board.board_logic().n_stones() == N_STONES_TOTAL);
+    EXPECT(CBoardLogic::n_stones(WHITE_PLAYER) == 16);
+    EXPECT(CBoardLogic::n_stones(BLACK_PLAYER) == 16);
+    EXPECT(CBoardLogic::n_stones() == N_STONES_TOTAL);
     SILENT_EXPECT(board.set_fen_position("rnbqk/p//////K w"));
-    EXPECT(board.board_logic().n_stones(WHITE_PLAYER) == 1);
-    EXPECT(board.board_logic().n_stones(BLACK_PLAYER) == 6);
-    EXPECT(board.board_logic().n_stones() == 7);
+    EXPECT(CBoardLogic::n_stones(WHITE_PLAYER) == 1);
+    EXPECT(CBoardLogic::n_stones(BLACK_PLAYER) == 6);
+    EXPECT(CBoardLogic::n_stones() == 7);
     return true;
 }
 
 bool CTestBoardLogic::test_is_piece_present() {
     TEST_FUNCTION();
     board.set_start_position();
-    EXPECT(board.board_logic().is_piece_present(WHITE_POWER));
-    EXPECT(board.board_logic().is_piece_present(WHITE_KNIGHT));
-    EXPECT(board.board_logic().is_piece_present(WHITE_BISHOP));
-    EXPECT(board.board_logic().is_piece_present(WHITE_ROOK));
-    EXPECT(board.board_logic().is_piece_present(WHITE_QUEEN));
-    EXPECT(board.board_logic().is_piece_present(WHITE_KING));
-    EXPECT(board.board_logic().is_piece_present(BLACK_POWER));
-    EXPECT(board.board_logic().is_piece_present(BLACK_KNIGHT));
-    EXPECT(board.board_logic().is_piece_present(BLACK_BISHOP));
-    EXPECT(board.board_logic().is_piece_present(BLACK_ROOK));
-    EXPECT(board.board_logic().is_piece_present(BLACK_QUEEN));
-    EXPECT(board.board_logic().is_piece_present(BLACK_KING));
+    EXPECT(CBoardLogic::is_piece_present(WHITE_POWER));
+    EXPECT(CBoardLogic::is_piece_present(WHITE_KNIGHT));
+    EXPECT(CBoardLogic::is_piece_present(WHITE_BISHOP));
+    EXPECT(CBoardLogic::is_piece_present(WHITE_ROOK));
+    EXPECT(CBoardLogic::is_piece_present(WHITE_QUEEN));
+    EXPECT(CBoardLogic::is_piece_present(WHITE_KING));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_POWER));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_KNIGHT));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_BISHOP));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_ROOK));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_QUEEN));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_KING));
     SILENT_EXPECT(board.set_fen_position("Q3k2R///////q3K2r w"));
-    EXPECT(board.board_logic().is_piece_present(WHITE_POWER) == false);
-    EXPECT(board.board_logic().is_piece_present(WHITE_KNIGHT) == false);
-    EXPECT(board.board_logic().is_piece_present(WHITE_BISHOP) == false);
-    EXPECT(board.board_logic().is_piece_present(WHITE_ROOK));
-    EXPECT(board.board_logic().is_piece_present(WHITE_QUEEN));
-    EXPECT(board.board_logic().is_piece_present(WHITE_KING));
-    EXPECT(board.board_logic().is_piece_present(BLACK_POWER) == false);
-    EXPECT(board.board_logic().is_piece_present(BLACK_KNIGHT) == false);
-    EXPECT(board.board_logic().is_piece_present(BLACK_BISHOP) == false);
-    EXPECT(board.board_logic().is_piece_present(BLACK_ROOK));
-    EXPECT(board.board_logic().is_piece_present(BLACK_QUEEN));
-    EXPECT(board.board_logic().is_piece_present(BLACK_KING));
+    EXPECT(CBoardLogic::is_piece_present(WHITE_POWER) == false);
+    EXPECT(CBoardLogic::is_piece_present(WHITE_KNIGHT) == false);
+    EXPECT(CBoardLogic::is_piece_present(WHITE_BISHOP) == false);
+    EXPECT(CBoardLogic::is_piece_present(WHITE_ROOK));
+    EXPECT(CBoardLogic::is_piece_present(WHITE_QUEEN));
+    EXPECT(CBoardLogic::is_piece_present(WHITE_KING));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_POWER) == false);
+    EXPECT(CBoardLogic::is_piece_present(BLACK_KNIGHT) == false);
+    EXPECT(CBoardLogic::is_piece_present(BLACK_BISHOP) == false);
+    EXPECT(CBoardLogic::is_piece_present(BLACK_ROOK));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_QUEEN));
+    EXPECT(CBoardLogic::is_piece_present(BLACK_KING));
     return true;
 }
 
 bool CTestBoardLogic::test_bishop_colour()  {
     TEST_FUNCTION();
     EXPECT(board.set_fen_position("k1KB w"));
-    EXPECT(board.board_logic().bishop_colour() == BLACK_SQUARE_COLOUR);
+    EXPECT(CBoardLogic::bishop_colour() == BLACK_SQUARE_COLOUR);
     EXPECT(board.set_fen_position("k1KNb w"));
-    EXPECT(board.board_logic().bishop_colour() == WHITE_SQUARE_COLOUR);
+    EXPECT(CBoardLogic::bishop_colour() == WHITE_SQUARE_COLOUR);
     EXPECT(board.set_fen_position("k1Kbn w"));
-    EXPECT(board.board_logic().bishop_colour() == BLACK_SQUARE_COLOUR);
+    EXPECT(CBoardLogic::bishop_colour() == BLACK_SQUARE_COLOUR);
     return true;
 }
 
 bool CTestBoardLogic::test_on_same_diagonal() {
     TEST_FUNCTION();
-    EXPECT(board.board_logic().on_same_diagonal(A1, E5));
-    EXPECT(board.board_logic().on_same_diagonal(E5, E5));
-    EXPECT(board.board_logic().on_same_diagonal(G3, E5) == false);
-    EXPECT(board.board_logic().on_same_diagonal(B4, E5) == false);
+    EXPECT(CBoardLogic::on_same_diagonal(A1, E5));
+    EXPECT(CBoardLogic::on_same_diagonal(E5, E5));
+    EXPECT(CBoardLogic::on_same_diagonal(G3, E5) == false);
+    EXPECT(CBoardLogic::on_same_diagonal(B4, E5) == false);
     return true;
 }
 
 bool CTestBoardLogic::test_on_same_anti_diagonal() {
     TEST_FUNCTION();
-    EXPECT(board.board_logic().on_same_anti_diagonal(C4, C4));
-    EXPECT(board.board_logic().on_same_anti_diagonal(C4, F1));
-    EXPECT(board.board_logic().on_same_anti_diagonal(C4, E8) == false);
-    EXPECT(board.board_logic().on_same_anti_diagonal(C4, G2) == false);
+    EXPECT(CBoardLogic::on_same_anti_diagonal(C4, C4));
+    EXPECT(CBoardLogic::on_same_anti_diagonal(C4, F1));
+    EXPECT(CBoardLogic::on_same_anti_diagonal(C4, E8) == false);
+    EXPECT(CBoardLogic::on_same_anti_diagonal(C4, G2) == false);
     return true;
 }
 
 bool CTestBoardLogic::test_n_pieces_present() {
     board.set_start_position();
-    EXPECT(board.board_logic().n_pieces_present(WHITE_KING) == 1);
-    EXPECT(board.board_logic().n_pieces_present(BLACK_ROOK) == 2);
-    EXPECT(board.board_logic().n_pieces_present(BLACK_POWER) == 8);
+    EXPECT(CBoardLogic::n_pieces_present(WHITE_KING) == 1);
+    EXPECT(CBoardLogic::n_pieces_present(BLACK_ROOK) == 2);
+    EXPECT(CBoardLogic::n_pieces_present(BLACK_POWER) == 8);
     return true;
 }
 
 bool CTestBoardLogic::test_is_piece_at() {
     TEST_FUNCTION();
     EXPECT(board.set_fen_position("startpos moves e2e4 g8f6"));
-    EXPECT(board.board_logic().is_piece_at(WHITE_KING, BORDER_SQUARES) == true);
-    EXPECT(board.board_logic().is_piece_at(WHITE_KING, EXTENDED_CENTER_SQUARES) == false);
-    EXPECT(board.board_logic().is_piece_at(WHITE_POWER, CENTER_SQUARES) == true);
-    EXPECT(board.board_logic().is_piece_at(BLACK_KNIGHT, CENTER_SQUARES) == false);
-    EXPECT(board.board_logic().is_piece_at(BLACK_KNIGHT, EXTENDED_CENTER_SQUARES) == true);
+    EXPECT(CBoardLogic::is_piece_at(WHITE_KING, BORDER_SQUARES) == true);
+    EXPECT(CBoardLogic::is_piece_at(WHITE_KING, EXTENDED_CENTER_SQUARES) == false);
+    EXPECT(CBoardLogic::is_piece_at(WHITE_POWER, CENTER_SQUARES) == true);
+    EXPECT(CBoardLogic::is_piece_at(BLACK_KNIGHT, CENTER_SQUARES) == false);
+    EXPECT(CBoardLogic::is_piece_at(BLACK_KNIGHT, EXTENDED_CENTER_SQUARES) == true);
     return true;
 }
 
 bool CTestBoardLogic::test_is_pawn_endgame() {
     TEST_FUNCTION();
     board.set_start_position();
-    EXPECT(board.board_logic().is_pawn_endgame() == false);
+    EXPECT(CBoardLogic::is_pawn_endgame() == false);
     EXPECT(board.set_fen_position("/4pK/3kP w"));
-    EXPECT(board.board_logic().is_pawn_endgame());
+    EXPECT(CBoardLogic::is_pawn_endgame());
     EXPECT(board.set_fen_position("4K///////4k b"));
-    EXPECT(board.board_logic().is_pawn_endgame() == false);
+    EXPECT(CBoardLogic::is_pawn_endgame() == false);
     return true;
 }
 

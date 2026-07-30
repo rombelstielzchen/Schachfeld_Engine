@@ -89,7 +89,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     if (best_score != SCORE_OWN_KING_WILL_GET_CAPTURED) {
         return best_score;
     }
-    if (board.board_logic().own_king_in_check()) {
+    if (CBoardLogic::own_king_in_check()) {
         return CMateScore::losing_mate_score(distance_to_root);
     }
     return SCORE_STALEMATE;

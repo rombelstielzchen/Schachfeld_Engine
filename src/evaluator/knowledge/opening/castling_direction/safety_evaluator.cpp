@@ -69,22 +69,22 @@ int CSafetyEvaluator::pawn_shelter_safety(bool player,
     assert(abs(ksg.important_center_pawn_2.file - ksg.important_flank_pawn_2.file) == 1);
     assert(abs(ksg.important_flank_pawn_2.file - ksg.minor_flank_pawn_2.file) == 2);
     char pawn = (player == WHITE_PLAYER) ? WHITE_POWER : BLACK_POWER;
-    if (board.board_logic().is_pawn_missing(pawn, ksg.important_center_pawn_2) && board.board_logic().is_pawn_missing(pawn, ksg.important_center_pawn_3)) {
+    if (CBoardLogic::is_pawn_missing(pawn, ksg.important_center_pawn_2) && CBoardLogic::is_pawn_missing(pawn, ksg.important_center_pawn_3)) {
         return UNSAFE_KING_POSITION;
     }
     // Example: f2, g2, h2
-    if (board.board_logic().is_pawn_structure(pawn, ksg.important_center_pawn_2, ksg.important_flank_pawn_2, ksg.minor_flank_pawn_2)) {
+    if (CBoardLogic::is_pawn_structure(pawn, ksg.important_center_pawn_2, ksg.important_flank_pawn_2, ksg.minor_flank_pawn_2)) {
         return EXCELLENT_KING_POSITION;
     }
     // Examples: f2, g2 / g2, h2 / f2, g3, h2
-    if (board.board_logic().is_pawn_structure(pawn, ksg.important_center_pawn_2, ksg.important_flank_pawn_2)
-        || board.board_logic().is_pawn_structure(pawn, ksg.important_center_pawn_2, ksg.minor_flank_pawn_2)
-        || board.board_logic().is_pawn_structure(pawn, ksg.important_flank_pawn_2, ksg.important_center_pawn_3, ksg.minor_flank_pawn_2)) {
+    if (CBoardLogic::is_pawn_structure(pawn, ksg.important_center_pawn_2, ksg.important_flank_pawn_2)
+        || CBoardLogic::is_pawn_structure(pawn, ksg.important_center_pawn_2, ksg.minor_flank_pawn_2)
+        || CBoardLogic::is_pawn_structure(pawn, ksg.important_flank_pawn_2, ksg.important_center_pawn_3, ksg.minor_flank_pawn_2)) {
         return GOOD_KING_POSITION;
     }
     // Examples: g2, h3 / f2, g3
-    if (board.board_logic().is_pawn_structure(pawn, ksg.important_center_pawn_2, ksg.minor_flank_pawn_3)
-        || board.board_logic().is_pawn_structure(pawn, ksg.important_flank_pawn_2, ksg.important_center_pawn_3)) {
+    if (CBoardLogic::is_pawn_structure(pawn, ksg.important_center_pawn_2, ksg.minor_flank_pawn_3)
+        || CBoardLogic::is_pawn_structure(pawn, ksg.important_flank_pawn_2, ksg.important_center_pawn_3)) {
         return MEDIOCRE_KING_POSITION;
     }
     return UNSAFE_KING_POSITION;

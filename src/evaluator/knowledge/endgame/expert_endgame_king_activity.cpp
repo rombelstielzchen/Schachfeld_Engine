@@ -22,7 +22,7 @@ TPieceSquareValueTable endgame_king_psv_table = {{
     { 0,   0,   210,   210,   210,   210,   210,   210,   210,   210 }}};
 
 bool CExpertEndgameKingActivity::is_responsible() const {
-    bool is_endgame = board.board_logic().is_endgame();
+    bool is_endgame = CBoardLogic::is_endgame();
     return is_endgame;
 }
 
