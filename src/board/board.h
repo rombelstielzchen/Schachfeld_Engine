@@ -13,7 +13,7 @@
 #include "game_saver.h"
 #include "move_maker.h"
 #include "../evaluator/evaluator.h"
-#include "../technical_functions/standard_headers.h"
+#include <cassert>
 
 // Board representation of the Schachfeld_Engine for playing standard chess,
 // Using a two-dimensional, piece-centric "mailbox"-approach with 8x8 slots
@@ -64,6 +64,7 @@ class CBoard {
     void clone_to_global_reference_board();
   public:
     // TODO: make functions below const
+    // TODO: needed at all, as most functions of CDistances and CBoardLogic are static?
     inline CBoardLogic &board_logic() { return _board_logic; }
     inline CDistances &distances() /* const */ { return _distances; }
     inline CFenGenerator &fen_generator() { return _fen_generator; }
@@ -72,24 +73,24 @@ class CBoard {
     void set_start_position();
     bool set_fen_position(const std::string &position);
     std::string get_fen_position()/* const*/;
-    std::string get_initial_position_before_moves() const { return initial_position_before_moves; }
-    bool initial_position_was_startpos() const { return (get_initial_position_before_moves() == START_POSITION); };
+    inline std::string get_initial_position_before_moves() const { return initial_position_before_moves; }
+    inline bool initial_position_was_startpos() const { return (get_initial_position_before_moves() == START_POSITION); };
     std::string moves_from_startpos() const;
-     const char* as_is();
+     const char* as_is(); // TODO: inline including fill_up_printable_game_state?
   public:
+     // flip_side_to_move() only flips, it does not care about eng-passeng.
+     // Use CMoveMaker::make_null_move() if that is nedded.
     inline void flip_side_to_move() { side_to_move = !side_to_move; }
     void clear_square(const SSquare square);
     void put_piece(const SSquare square, TPiece piece);
   public:
     inline TPlayerColour get_side_to_move() const { return side_to_move; }
-    TFile get_eng_passeng_file() const; // TODO: inline
+    TFile get_eng_passeng_file() const; 
     inline bool eng_passeng_possible() const { return (eng_passeng_file != NO_ENG_PASSENG_POSSIBLE); }
     int get_move_counter() const;
     int get_100_ply_draw_counter() const;
     TPiece get_square(const TFile file, const TRank rank) const;
-    inline TPiece get_square(const SSquare square) const {
-        return get_square(square.file, square.rank); 
-    }
+    inline TPiece get_square(const SSquare square) const { return get_square(square.file, square.rank); }
     bool square_is_empty(const TFile file, const TRank rank) const;
     bool square_is_empty(const SSquare square) const;
     TSquareColour square_colour(const SSquare square) const;
@@ -115,16 +116,46 @@ class CBoard {
     int move_counter;
     int _100_ply_draw_counter;
     // Some over-size supports easy access via MOVE_TYPE (char)
-    // TODO: bool -> TPlayerColour
-    std::array<bool, MOVE_TYPE_BLACK_SHORT_CASTLING + 1> castling_rights;
+    std::array<TPlayerColour, MOVE_TYPE_BLACK_SHORT_CASTLING + 1> castling_rights;
   private:
     std::string initial_position_before_moves;
   private:
+    // TODO: remove
     CBoardLogic _board_logic;
     CDistances _distances;
     CFenGenerator _fen_generator;
     CFenParser _fen_parser;
 };
+
+inline void CBoard::clear_square(const SSquare square) {
+    assert(square_in_range(square));
+    evaluator.incremental_clear_square(square);
+    board_state.squares[square.file][square.rank] = EMPTY_SQUARE;
+}
+
+inline void CBoard::put_piece(const SSquare square, char piece) {
+    assert(square_in_range(square));
+   assert(is_any_piece(piece) || (piece == EMPTY_SQUARE));
+    evaluator.incremental_clear_square(square);
+    board_state.squares[square.file][square.rank] = piece;
+    evaluator.incremental_add(square);
+}
+
+inline TFile CBoard::get_eng_passeng_file() const {
+    assert((eng_passeng_file == NO_ENG_PASSENG_POSSIBLE) || file_in_range(eng_passeng_file));
+    return eng_passeng_file;
+}
+
+inline bool CBoard::square_is_empty(const TFile file, const TRank rank) const {
+///    assert(file_in_range(file));
+///    assert(rank_in_range(rank));
+    return (get_square(file, rank) == EMPTY_SQUARE);
+}
+
+inline bool CBoard::square_is_empty(const SSquare square) const {
+    assert(square_in_range(square));
+    return square_is_empty(square.file, square.rank);
+}
 
 // Global board, as "everybody" needs easy access to it
 inline thread_local CBoard board;

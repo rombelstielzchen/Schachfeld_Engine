@@ -32,7 +32,7 @@ SHELL := /bin/sh
 
 CXX := g++
 
-GENERAL_FLAGS := -std=c++17 -Wall -Wextra -Wpedantic -Werror -fmax-errors=1 
+GENERAL_FLAGS := -std=c++17 -Wall -Wextra -Wpedantic -Werror -fmax-errors=1 -fno-exceptions 
 DEBUG_FLAGS := -g -D DEBUG_LOG_ENABLE -O0
 OPTIMIZED_FLAGS := -D NDEBUG -O2
 

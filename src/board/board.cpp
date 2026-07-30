@@ -82,19 +82,6 @@ TPiece CBoard::get_square(const TFile file, const TRank rank) const {
     return board_state.squares[file][rank];
 }
 
-bool CBoard::square_is_empty(const TFile file, const TRank rank) const {
-    return (get_square(file, rank) == EMPTY_SQUARE);
-}
-
-bool CBoard::square_is_empty(const SSquare square) const {
-    return square_is_empty(square.file, square.rank);
-}
-
-TFile CBoard::get_eng_passeng_file() const {
-    assert((eng_passeng_file == NO_ENG_PASSENG_POSSIBLE) || file_in_range(eng_passeng_file));
-    return eng_passeng_file;
-}
-
 int CBoard::get_move_counter() const {
     assert(move_counter > 0);
     return move_counter;
@@ -128,20 +115,6 @@ bool CBoard::get_castling_rights(TPiece move_type) const {
     return castling_rights[move_type];
 }
 
-void CBoard::clear_square(const SSquare square) {
-    assert(square_in_range(square));
-    evaluator.incremental_clear_square(square);
-    board_state.squares[square.file][square.rank] = EMPTY_SQUARE;
-}
-
-void CBoard::put_piece(const SSquare square, char piece) {
-    assert(square_in_range(square));
-   assert(is_any_piece(piece) || (piece == EMPTY_SQUARE));
-    evaluator.incremental_clear_square(square);
-    board_state.squares[square.file][square.rank] = piece;
-    evaluator.incremental_add(square);
-}
-
 std::string CBoard::moves_from_startpos() const {
     if (initial_position_was_startpos()) {
         return move_maker.moves_from_initial_position();
@@ -164,9 +137,9 @@ void CBoard::fill_up_printable_game_state() {
 }
 
 
-bool CBoard::square_colour(const SSquare square) const {
+TSquareColour CBoard::square_colour(const SSquare square) const {
     assert(square_in_range(square));
-    return (((square.file + square.rank) & 0x01) ? true : false);
+    return (((square.file + square.rank) & 0x01) ? WHITE_SQUARE_COLOUR : BLACK_SQUARE_COLOUR);
 }
 
 void CBoard::clone_to_global_reference_board() {
