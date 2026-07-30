@@ -4,6 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "string_tokenizer.h"
+#include <charconv>
 
 CStringTokenizer::CStringTokenizer(const std::string &input) {
      set_input(input);
@@ -27,11 +28,10 @@ std::string CStringTokenizer::next_token() {
 }
 
 int CStringTokenizer::get_integer_token(int minimum_and_default) {
-    int result = 0;
-    try {
-        result = stoi(next_token());
-    }
-    catch (...) {
+    std::string token = next_token();
+    int result = minimum_and_default;
+    auto [end_pointer, error_code] =std::from_chars(token.c_str(), token.c_str() + token.length(), result);
+   if ((error_code != std::errc{}) || (end_pointer != token.c_str() + token.length())) { 
         return minimum_and_default;
     }
     result = std::max(result, minimum_and_default);
