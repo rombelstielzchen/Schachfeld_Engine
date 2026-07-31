@@ -14,6 +14,7 @@ CBoard::CBoard() {
     init_garden_fence();
     clear_board_squares();
     set_start_position();
+    /// TODO
     ///assert(side_to_move == WHITE_PLAYER);
     ///assert(move_counter > 0);
     ///assert(_100_ply_draw_counter >= 0);
@@ -48,7 +49,7 @@ void CBoard::clear_board_squares() {
 
 void CBoard::set_start_position() {
     set_fen_position(START_POSITION);
-    /// TODO!!!
+    /// TODO!
     ///assert(get_side_to_move() == WHITE_PLAYER);
     ///assert(get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
     ///assert(get_fen_position() == START_POSITION);
