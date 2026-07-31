@@ -13,10 +13,10 @@ class CDistances {
   public:
     CDistances();
   public:
-    double euclidian_distance(const SSquare a, const SSquare b) const;
-    double manhattan_distance(const SSquare a, const SSquare b) const;
-    double mixed_distance(const SSquare a, const SSquare b) const;
+    static double euclidian_distance(const SSquare a, const SSquare b);
+    static double manhattan_distance(const SSquare a, const SSquare b);
+    static double mixed_distance(const SSquare a, const SSquare b);
   public:
-    SSquare nearest_square(const SSquare target_square, TSquareList square_list) const;
+    static SSquare nearest_square(const SSquare target_square, TSquareList square_list);
 };
 

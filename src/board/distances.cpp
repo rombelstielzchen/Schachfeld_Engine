@@ -11,7 +11,7 @@
 CDistances::CDistances() {
 }
 
-double CDistances::euclidian_distance(const SSquare a, const SSquare b) const {
+double CDistances::euclidian_distance(const SSquare a, const SSquare b) {
     assert(square_in_range(a));
     assert(square_in_range(b));
     int dx = a.file - b.file;
@@ -22,7 +22,7 @@ double CDistances::euclidian_distance(const SSquare a, const SSquare b) const {
     return result;
 }
 
-SSquare CDistances::nearest_square(const SSquare target_square, TSquareList square_list) const {
+SSquare CDistances::nearest_square(const SSquare target_square, TSquareList square_list) {
     assert(square_in_range(target_square));
     if (square_list.size() <= 0) {
         return NULL_SQUARE;
@@ -43,7 +43,7 @@ SSquare CDistances::nearest_square(const SSquare target_square, TSquareList squa
     return best_square;
 }
 
-double CDistances::manhattan_distance(const SSquare a, const SSquare b) const {
+double CDistances::manhattan_distance(const SSquare a, const SSquare b) {
     assert(square_in_range(a));
     assert(square_in_range(b));
     int delta_x = abs(a.file - b.file);
@@ -55,7 +55,7 @@ double CDistances::manhattan_distance(const SSquare a, const SSquare b) const {
     return result;
 }
 
-double CDistances::mixed_distance(const SSquare a, const SSquare b) const {
+double CDistances::mixed_distance(const SSquare a, const SSquare b) {
     assert(square_in_range(a));
     assert(square_in_range(b));
      double result = (euclidian_distance (a, b) + manhattan_distance(a, b)) / 2;

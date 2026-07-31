@@ -62,11 +62,6 @@ class CBoard {
     void clone_from_global_reference_board();
     void clone_to_global_reference_board();
   public:
-    inline CDistances &distances() { return _disances; }
-    // TODO: make functions below const
-    // TODO: needed at all, as most functions of CDistances and CBoardLogic are static?
-//    inline CBoardLogic &board_logic() { return _board_logic; }
-  public:
     void set_start_position();
     bool set_fen_position(const std::string &position);
     std::string get_fen_position()/* const*/;
@@ -116,10 +111,6 @@ class CBoard {
     std::array<TPlayerColour, MOVE_TYPE_BLACK_SHORT_CASTLING + 1> castling_rights;
   private:
     std::string initial_position_before_moves;
-  private:
-    CDistances _disances;
-    // TODO: remove
-///    CBoardLogic _board_logic;
 };
 
 inline void CBoard::clear_square(const SSquare square) {

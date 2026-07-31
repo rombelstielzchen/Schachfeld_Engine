@@ -18,35 +18,35 @@ bool CTestDistances::test_everything() {
 
 bool CTestDistances::test_euclidian_distance() {
     TEST_FUNCTION();
-    EXPECT(board.distances().euclidian_distance(E5, E5) == 0);
-    EXPECT(board.distances().euclidian_distance(H2, F7) == board.distances().euclidian_distance(F7, H2));
-    EXPECT(board.distances().euclidian_distance(A1, D5) <= board.distances().euclidian_distance(A1, C2) + board.distances().euclidian_distance(C2, D5));
-    EXPECT(board.distances().euclidian_distance(G3, G7) == 4);
-    EXPECT(board.distances().euclidian_distance(B4, E4) == 3);
-    EXPECT(board.distances().euclidian_distance(F3, B6) == 5);
+    EXPECT(CDistances::euclidian_distance(E5, E5) == 0);
+    EXPECT(CDistances::euclidian_distance(H2, F7) == CDistances::euclidian_distance(F7, H2));
+    EXPECT(CDistances::euclidian_distance(A1, D5) <= CDistances::euclidian_distance(A1, C2) + CDistances::euclidian_distance(C2, D5));
+    EXPECT(CDistances::euclidian_distance(G3, G7) == 4);
+    EXPECT(CDistances::euclidian_distance(B4, E4) == 3);
+    EXPECT(CDistances::euclidian_distance(F3, B6) == 5);
     return true;
 }
 
 bool CTestDistances::test_nearest_square() {
     TEST_FUNCTION();
-    EXPECT(board.distances().nearest_square(D4, CORNER_SQUARES) == A1);
-    EXPECT(board.distances().nearest_square(E4, CORNER_SQUARES) == H1);
-    EXPECT(board.distances().nearest_square(D5, CORNER_SQUARES) == A8);
-    EXPECT(board.distances().nearest_square(E5, CORNER_SQUARES) == H8);
+    EXPECT(CDistances::nearest_square(D4, CORNER_SQUARES) == A1);
+    EXPECT(CDistances::nearest_square(E4, CORNER_SQUARES) == H1);
+    EXPECT(CDistances::nearest_square(D5, CORNER_SQUARES) == A8);
+    EXPECT(CDistances::nearest_square(E5, CORNER_SQUARES) == H8);
     TSquareList empty_list = {};
-    EXPECT(board.distances().nearest_square(D5, empty_list) == NULL_SQUARE);
+    EXPECT(CDistances::nearest_square(D5, empty_list) == NULL_SQUARE);
     TSquareList single_square_list = { H8 };
-    EXPECT(board.distances().nearest_square(B1, single_square_list) == H8);
+    EXPECT(CDistances::nearest_square(B1, single_square_list) == H8);
       return true;
 }
 
 bool CTestDistances::test_manhattan_distance() {
     TEST_FUNCTION();
-    EXPECT(board.distances().manhattan_distance(D4, D4) == 0);
-    EXPECT(board.distances().manhattan_distance(A1, C7) == 8);
-    EXPECT(board.distances().manhattan_distance(C6, F4) == 5);
-    EXPECT(board.distances().manhattan_distance(E7, D8) == 2);
-    EXPECT(board.distances().manhattan_distance(C7, A8) == 3);
+    EXPECT(CDistances::manhattan_distance(D4, D4) == 0);
+    EXPECT(CDistances::manhattan_distance(A1, C7) == 8);
+    EXPECT(CDistances::manhattan_distance(C6, F4) == 5);
+    EXPECT(CDistances::manhattan_distance(E7, D8) == 2);
+    EXPECT(CDistances::manhattan_distance(C7, A8) == 3);
     return true;
 }
 
