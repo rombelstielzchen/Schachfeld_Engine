@@ -13,15 +13,16 @@ class CProfiling {
     CProfiling();
   public:
     void reset();
-    void increment(size_t index_of_counter);
-    void increment_if(size_t index_of_counter, bool condition);
+    void increment(size_t index_of_counter, const char *description);
+    void increment_if(size_t index_of_counter, bool condition, const char *description);
   public:
     void show_results() const;
-    void show_result(size_t index_of_counter, const std::string &description) const;
+    void show_result(size_t index_of_counter) const;
   private:
     void size_up(size_t n_entries);
   private:
-    std::vector<uint64_t> counters;
+    std::vector<size_t> counters;
+    std::vector<const char*> descriptions;
 };
 
 inline CProfiling profiling;

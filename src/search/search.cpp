@@ -35,12 +35,12 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     if (move_generator.move_list.king_capture_on_list()) {
         return SCORE_ENEMY_KING_CAPTURED;
     }
-    profiling.increment(0);
+    profiling.increment(0, "get hash-key");
     THashKey my_hash = board.get_hash();
     SMove hash_move = hash_table.get_best_move(my_hash);
-    profiling.increment_if(1, hash_move != NULL_MOVE);
+    profiling.increment_if(1, hash_move != NULL_MOVE, "hash found");
     if (hash_move != NULL_MOVE) {
-        profiling.increment_if(2,  move_generator.move_list.move_on_list(hash_move));
+        profiling.increment_if(2,  move_generator.move_list.move_on_list(hash_move), "hash-move on list");
         move_generator.move_list.integrate_hash_move(hash_move);
     }
     int const n_moves = move_generator.move_list.list_size();
@@ -70,7 +70,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
             if (score_causes_beta_cutoff(candidate_score, beta)) {
                 search_statistics.add_nodes(j + 1);
                 killer_heuristic.store_killer(distance_to_root, move_candidate);
-                profiling.increment(3);
+                profiling.increment(3, "storing hash (great!)");
                 hash_table.store_best_move(move_candidate, my_hash, distance_to_root);
                 return candidate_score;
             }
@@ -85,6 +85,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     if (best_move != NULL_MOVE) {
         assert(move_in_range(best_move));
         hash_table.store_best_move(best_move, my_hash, distance_to_root);
+        profiling.increment(4, "storing hash (\"best\")");
     }
     if (best_score != SCORE_OWN_KING_WILL_GET_CAPTURED) {
         return best_score;

@@ -1,6 +1,10 @@
 Major Changes
 =============
 
+Version 1.3
+-----------
+* Now providing a main-line when analyzing.
+
 Version 1.2
 -----------
 `* Basic hash-table, storing the best move for better move-prdering in interative deepening.
