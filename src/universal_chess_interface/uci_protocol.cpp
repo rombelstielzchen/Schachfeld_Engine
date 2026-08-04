@@ -162,7 +162,7 @@ void CUciProtocol::process_message_recursively(std::string &message) {
         interactive_console_mode = true;
        command_interface.takeback();
     } else if (string_tokenizer.next_token_is_one_of("bestmove", "bm")) {
-        // TODO: naming is not really uitable for this use-case
+        // TODO: naming is not really suitable for this use-case
         process_unknown_token_potential_move(recent_best_move);
     } else if (string_tokenizer.next_token_is("debug")) { 
         interactive_console_mode = true;

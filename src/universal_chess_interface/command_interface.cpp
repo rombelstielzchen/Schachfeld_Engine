@@ -119,10 +119,8 @@ void CCommandInterface::new_game() {
     stop(); 
     assert(n_worker_threads_busy == 0);
     ACQUIRE_BOARD_OWNERSHIP();
-    //TODO: does this wotk multi-threaded
     board.game_saver.save_game();
     board.set_start_position();
-    // TODO: needed? duplicate?
     board.clone_to_global_reference_board();
     hash_table.clear_all_memory();
     master_book.on_new_game();
@@ -221,7 +219,7 @@ void CCommandInterface::worker_go_time(
     --n_worker_threads_busy;
 }
 
-bool CCommandInterface::test_move_generator() {
+bool CCommandInterface::test_move_generator() const {
     stop();
     assert(n_worker_threads_busy == 0);
     ACQUIRE_BOARD_OWNERSHIP();
@@ -253,11 +251,11 @@ void CCommandInterface::on_exit() {
     CUciProtocol::send_info("### End Of Session ###########");
 }
 
-void CCommandInterface::show_main_psv_tables() {
+void CCommandInterface::show_main_psv_tables() const {
     CPsvModifier::show_main_psv_tables();
 }
 
-void CCommandInterface::log_board_evaluation() {
+void CCommandInterface::log_board_evaluation() const {
     stop(); 
     assert(n_worker_threads_busy == 0);
     ACQUIRE_BOARD_OWNERSHIP();

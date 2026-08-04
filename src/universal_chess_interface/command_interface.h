@@ -38,10 +38,10 @@ class CCommandInterface {
   public:
     void go_searchmoves(std::string &moves);
     void takeback();
-  public: // TODO: const
-    bool test_move_generator();
-    void log_board_evaluation();
-    void show_main_psv_tables(); // TODO: const?
+  public:
+    bool test_move_generator() const;
+    void log_board_evaluation() const;
+    void show_main_psv_tables() const;
     void show_hash() const;
     static bool any_worker_thread_busy() { return (n_worker_threads_busy > 0); }
   private:
