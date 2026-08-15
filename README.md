@@ -15,7 +15,7 @@ The engine supports the universal-chess-interface for communication with your fa
 
 How To Download
 ---------------
-[version_1.2.zip](https://github.com/rombelstielzchen/Schachfeld_Engine/raw/refs/heads/main/release/archives/material_girl_chess_engine_1.2.zip) (Windows, 64 Bit)
+[version_1.3.zip](https://github.com/rombelstielzchen/Schachfeld_Engine/raw/refs/heads/main/release/archives/material_girl_chess_engine_1.3.zip) (Windows, 64 Bit)
 
 [Older versions](release/archives)
 
