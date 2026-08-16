@@ -59,5 +59,10 @@ class CBoardLogic {
     static bool on_same_anti_diagonal(const SSquare a, const SSquare b);
   public:
     static bool is_pawn_endgame();
+  public: 
+    // TODO: type
+    static int king_position(TPlayerColour which_player);
+    static bool is_heterogebous_castling();
+
 };
 

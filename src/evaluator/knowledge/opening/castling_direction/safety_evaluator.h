@@ -7,6 +7,7 @@
 
 #include "../../../../move_generator/move.h"
 
+// TODO: move, but where?
 enum {
     QUEENSIDE,
     UNCASTLED,

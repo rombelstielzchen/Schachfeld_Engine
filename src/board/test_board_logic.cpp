@@ -7,6 +7,7 @@
 #include "board.h"
 #include "board_logic.h"
 #include "square_constants.h"
+#include "../evaluator/knowledge/opening/castling_direction/safety_evaluator.h"
 #include "../technical_functions/testing.h"
 #include "../technical_functions/standard_headers.h"
 
@@ -27,6 +28,7 @@ bool CTestBoardLogic::test_everything() {
     EXPECT(test_n_pieces_present());
     EXPECT(test_is_piece_at());
     EXPECT(test_is_pawn_endgame());
+    EXPECT(test_king_position());
     return true;
 }
 
@@ -230,6 +232,27 @@ bool CTestBoardLogic::test_is_pawn_endgame() {
     EXPECT(CBoardLogic::is_pawn_endgame());
     EXPECT(board.set_fen_position("4K///////4k b"));
     EXPECT(CBoardLogic::is_pawn_endgame() == false);
+    return true;
+}
+
+bool CTestBoardLogic::test_king_position() {
+    TEST_FUNCTION();
+    board.set_start_position();
+    EXPECT(CBoardLogic::king_position(BLACK_PLAYER) == UNCASTLED);
+    EXPECT(CBoardLogic::king_position(WHITE_PLAYER) == UNCASTLED);
+    EXPECT(CBoardLogic::is_heterogebous_castling() == false);
+    SILENT_EXPECT(board.set_fen_position("6k///////6K w"));
+    EXPECT(CBoardLogic::king_position(BLACK_PLAYER) == KINGSIDE);
+    EXPECT(CBoardLogic::king_position(WHITE_PLAYER) == KINGSIDE);
+    EXPECT(CBoardLogic::is_heterogebous_castling() == false);
+    SILENT_EXPECT(board.set_fen_position("2k///////2K w"));
+    EXPECT(CBoardLogic::king_position(BLACK_PLAYER) == QUEENSIDE);
+    EXPECT(CBoardLogic::king_position(WHITE_PLAYER) == QUEENSIDE);
+    EXPECT(CBoardLogic::is_heterogebous_castling() == false);
+    SILENT_EXPECT(board.set_fen_position("6k///////2K w"));
+    EXPECT(CBoardLogic::king_position(BLACK_PLAYER) == KINGSIDE);
+    EXPECT(CBoardLogic::king_position(WHITE_PLAYER) == QUEENSIDE);
+    EXPECT(CBoardLogic::is_heterogebous_castling());
     return true;
 }
 

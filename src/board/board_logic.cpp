@@ -7,6 +7,8 @@
 
 #include"board_logic.h"
 #include "board.h"
+#include "square_constants.h"
+#include "../evaluator/knowledge/opening/castling_direction/safety_evaluator.h"
 #include "../evaluator/score_constants.h"
 #include "../move_generator/move_generator.h"
 #include "../technical_functions/standard_headers.h"
@@ -324,5 +326,37 @@ bool CBoardLogic::is_pawn_endgame() {
         && !is_piece_present(BLACK_QUEEN)
         && is_piece_present(WHITE_KING)
         && is_piece_present(BLACK_KING));
+}
+
+int CBoardLogic::king_position(TPlayerColour which_player) {
+    if (which_player == BLACK_PLAYER) {
+        if (is_piece_at(BLACK_KING, {G8, G7, H8, H7})) {
+            return KINGSIDE;;
+        }
+        if (is_piece_at(BLACK_KING, {C8, C7, B8, B7, A8, A7})) {
+            return QUEENSIDE;;
+        }
+        return UNCASTLED;
+    }
+    assert(which_player == WHITE_PLAYER);
+    if (is_piece_at(WHITE_KING, {G1, G1, H1, H1})) {
+        return KINGSIDE;;
+    }
+    if (is_piece_at(WHITE_KING, {C1, C1, B1, B1, A1, A1})) {
+       return QUEENSIDE;;
+    }
+    return UNCASTLED;
+}
+
+bool CBoardLogic::is_heterogebous_castling() {
+    int black_pos = king_position(BLACK_PLAYER);
+    int white_pos = king_position(WHITE_PLAYER);
+    if ((black_pos == KINGSIDE) && (white_pos == QUEENSIDE)) {
+        return true;
+    }
+    if ((black_pos == QUEENSIDE) && (white_pos == KINGSIDE)) {
+        return true;
+    }
+    return false;
 }
 

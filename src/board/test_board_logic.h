@@ -28,5 +28,6 @@ class CTestBoardLogic {
     static bool test_n_pieces_present();
     static bool test_is_piece_at();
     static bool test_is_pawn_endgame();
+    static bool test_king_position();
 };
 
