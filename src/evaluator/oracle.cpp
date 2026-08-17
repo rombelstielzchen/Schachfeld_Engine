@@ -9,6 +9,7 @@
 #include "knowledge/endgame/expert_endgame_queen.h"
 #include "knowledge/general/expert_general.h"
 #include "knowledge/mating/expert_basic_mating.h"
+#include "knowledge/middlegame/expert_heterogenous_pawn_storm.h"
 #include "knowledge/opening/castling_direction/expert_castling_direction.h"
 #include "../board/board_logic.h"
 
@@ -16,6 +17,7 @@ COracle::COracle() {
     // static experts here for global lifetime and proper order of initialization
     static CExpertGeneral expert_general;
     static CExpertCastlingDirection expert_castling_direction;
+    static CExpertHeterogenousPawnStorm expert_heterogenous_pawn_storm;
     static CExpertEndgameKingActivity expert_endgame_king_activity;
     static CExpertEndgamePawn expert_endgame_pawn;
     static CExpertEndgameQueen expert_endgame_queen;
@@ -32,8 +34,8 @@ COracle::COracle() {
     // TODO: maybe bonus for rook on f/d in order to eencourage real castling 
     // TODO: maybe malus for undevelopped pieces that prevent good castling
     /*** Middlegame *******************/
+    expert_collection.push_back(&expert_heterogenous_pawn_storm);
     // TODO: good rook-files (open, semi-open, pawn-lewer, future-open)
-    // TODO: pawn-storm fafter heterogenous castlings
     // TODO: pawn-lewers
     // TODO: controlling intrusion-squares on open files
     // TODO: bad bishops, encouraging exhange and freeing pawn-moves
