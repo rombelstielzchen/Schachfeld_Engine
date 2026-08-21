@@ -39,16 +39,23 @@ TPieceSquareValueTable default_psv_white_queen = {{
     { 0,   0, 100, 100, 100, 100, 106, 100, 100, 100 }}};
 
 TPieceSquareValueTable default_psv_white_rook = {{
+// Rules of thumb for opening and middle-game:
+//   * large bonus for 7th rank, less gor 8th rank 
+//   * small bonus for own backrank (defensive)
+//   * very small bonis for 3rd rank (active) amd 2nd (sometimes defensive, sometimes active).
+//     1st > 3rd > 2nd > center
+//   * micro-bonus for rooks on a1 and h1 (casrling-rights, pawn-storms, saved tempi)
+//   * castled rooks exactly like uncastled rooks to avoid any stupidity pre/post castling
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 140, 120 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 140, 120 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 140, 120 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 140, 120 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 140, 120 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 140, 120 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 140, 120 },
-    { 0,   0, 100, 100, 100, 100, 100, 100, 135, 120 }}};
+    { 0,   0, 104, 101, 102, 100, 100, 100, 140, 120 },
+    { 0,   0, 103, 101, 102, 100, 100, 100, 140, 120 },
+    { 0,   0, 103, 101, 102, 100, 100, 100, 140, 120 },
+    { 0,   0, 104, 101, 102, 100, 100, 100, 140, 120 },
+    { 0,   0, 103, 101, 102, 100, 100, 100, 140, 120 },
+    { 0,   0, 104, 101, 102, 100, 100, 100, 140, 120 },
+    { 0,   0, 103, 101, 102, 100, 100, 100, 140, 120 },
+    { 0,   0, 104, 101, 102, 100, 100, 100, 135, 120 }}};
 
 // The kings bishop is worth more in general, but offensive and defensive.
 // Therefore the values are not symmetric.
