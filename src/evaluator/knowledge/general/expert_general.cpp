@@ -8,7 +8,7 @@
 #include "../../score_constants.h"
 #include "../../../technical_functions/standard_headers.h"
 
-TPieceSquareValueTable psv_white_king = {{
+TPieceSquareValueTable default_psv_white_king = {{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
@@ -26,7 +26,7 @@ TPieceSquareValueTable psv_white_king = {{
 //   * kingside is more threatening than queenside
 //   * d4 > h5 > a4 > c2 > e2 > b3 > d1 > avg
 //   * b7 is utterly bad, c3 dangerous
-TPieceSquareValueTable psv_white_queen = {{
+TPieceSquareValueTable default_psv_white_queen = {{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0, 100, 100, 100, 105, 100, 100, 100, 100 },
@@ -38,7 +38,7 @@ TPieceSquareValueTable psv_white_queen = {{
     { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
     { 0,   0, 100, 100, 100, 100, 106, 100, 100, 100 }}};
 
-TPieceSquareValueTable psv_white_rook = {{
+TPieceSquareValueTable default_psv_white_rook = {{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0, 100, 100, 100, 100, 100, 100, 140, 120 },
@@ -53,7 +53,7 @@ TPieceSquareValueTable psv_white_rook = {{
 // The kings bishop is worth more in general, but offensive and defensive.
 // Therefore the values are not symmetric.
 // The black-squared values will be configured by a function.
-TPieceSquareValueTable psv_white_bishop = {{
+TPieceSquareValueTable default_psv_white_bishop = {{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0, 100,   0, 100,   0, 100,   0, 100 },
@@ -64,7 +64,7 @@ TPieceSquareValueTable psv_white_bishop = {{
     { 0,   0, 100,   0, 130,   0, 130,   0, 100,   0 },
     { 0,   0,   0, 120,   0, 120,   0, 120,   0, 100 },
     { 0,   0, 100,   0, 100,   0, 100,   0, 100,   0 }}};
-TPieceSquareValueTable psv_white_knight = {{
+TPieceSquareValueTable default_psv_white_knight = {{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,  60,  70,  80,  80,  80,  80,  70,  60 },
@@ -76,7 +76,7 @@ TPieceSquareValueTable psv_white_knight = {{
     { 0,   0,  70,  80,  90,  90,  90,  90,  80,  70 },
     { 0,   0,  60,  70,  80,  80,  80,  80,  70,  60 }}};
 
-TPieceSquareValueTable psv_white_power = {{
+TPieceSquareValueTable default_psv_white_power = {{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0, 100, 100,  97,  95,  96, 110, 108, 100 },
@@ -93,19 +93,19 @@ bool CExpertGeneral::is_responsible() const {
 }
 
 void CExpertGeneral::apply_knowledge() {
-   CPsvModifier::normalize_average(psv_white_power, score_average_power);
-    CPsvModifier::assign_psv_table(WHITE_POWER, psv_white_power);
-    CPsvModifier::normalize_average(psv_white_knight, score_average_knight);
-    CPsvModifier::assign_psv_table(WHITE_KNIGHT, psv_white_knight);
-    CPsvModifier::clone_from_kings_to_queens_bishop(psv_white_bishop, delta_score_kings_and_queens_bishop);
-    CPsvModifier::normalize_average(psv_white_bishop, score_average_bishop);
-    CPsvModifier::assign_psv_table(WHITE_BISHOP, psv_white_bishop);
-    CPsvModifier::normalize_average(psv_white_rook, score_average_rook);
-    CPsvModifier::assign_psv_table(WHITE_ROOK, psv_white_rook);
-    CPsvModifier::normalize_average(psv_white_queen, score_average_queen);
-    CPsvModifier::assign_psv_table(WHITE_QUEEN, psv_white_queen);
-    CPsvModifier::normalize_average(psv_white_king, SCORE_KING);
-    CPsvModifier::assign_psv_table(WHITE_KING, psv_white_king);
+   CPsvModifier::normalize_average(default_psv_white_power, score_average_power);
+    CPsvModifier::assign_psv_table(WHITE_POWER, default_psv_white_power);
+    CPsvModifier::normalize_average(default_psv_white_knight, score_average_knight);
+    CPsvModifier::assign_psv_table(WHITE_KNIGHT, default_psv_white_knight);
+    CPsvModifier::clone_from_kings_to_queens_bishop(default_psv_white_bishop, delta_score_kings_and_queens_bishop);
+    CPsvModifier::normalize_average(default_psv_white_bishop, score_average_bishop);
+    CPsvModifier::assign_psv_table(WHITE_BISHOP, default_psv_white_bishop);
+    CPsvModifier::normalize_average(default_psv_white_rook, score_average_rook);
+    CPsvModifier::assign_psv_table(WHITE_ROOK, default_psv_white_rook);
+    CPsvModifier::normalize_average(default_psv_white_queen, score_average_queen);
+    CPsvModifier::assign_psv_table(WHITE_QUEEN, default_psv_white_queen);
+    CPsvModifier::normalize_average(default_psv_white_king, SCORE_KING);
+    CPsvModifier::assign_psv_table(WHITE_KING, default_psv_white_king);
     CPsvModifier::clone_from_white_to_black(BLACK_POWER);
     CPsvModifier::clone_from_white_to_black(BLACK_KNIGHT);
     CPsvModifier::clone_from_white_to_black(BLACK_BISHOP);

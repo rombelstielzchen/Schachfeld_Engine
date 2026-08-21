@@ -19,5 +19,6 @@ class CTestPsvModifiers {
     static bool test_add_bonus_to_diagonal();
     static bool test_add_bonus_to_anti_diagonal();
     static bool test_make_vertical_gradient();
+    static bool test_make_forward_gradient();
 };
 

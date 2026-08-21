@@ -1,6 +1,10 @@
 Major Changes
 =============
 
+Version 1.4
+-----------
+* A new expert-engine that encourages pawn-storms after heterogenous castlings
+
 Version 1.3
 -----------
 * Now providing a main-line when analyzing.

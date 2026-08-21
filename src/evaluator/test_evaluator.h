@@ -5,7 +5,6 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-// TODO: rmove this!
 #include "../technical_functions/standard_headers.h"
 
 #include "../move_generator/move.h"
@@ -19,6 +18,7 @@ struct STestcaseEvaluator {
 typedef std::vector<STestcaseEvaluator> TTestcaseSetEvaluator;
  
 class CTestEvaluator {
+    friend class CTestPsvModifiers;
   public:
    static bool test_everything();
     static bool first_position_better(const std::string &first_fen, const std::string &second_fen);

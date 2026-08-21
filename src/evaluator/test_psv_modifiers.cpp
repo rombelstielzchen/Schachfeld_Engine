@@ -7,6 +7,7 @@
 #include "evaluator.h"
 #include "piece_square_value_tables.h"
 #include "score_constants.h"
+#include "test_evaluator.h"
 #include "../board/board.h"
 #include "../board/square_constants.h"
 #include "../technical_functions/testing.h"
@@ -23,6 +24,7 @@ bool CTestPsvModifiers::test_everything() {
     EXPECT(test_add_bonus_to_diagonal());
     EXPECT(test_add_bonus_to_anti_diagonal());
     EXPECT(test_make_vertical_gradient());
+    EXPECT(test_make_forward_gradient());
     return true;
 }
 
@@ -36,7 +38,7 @@ bool CTestPsvModifiers::test_square() {
 
 bool CTestPsvModifiers::test_area() {
     TEST_FUNCTION();
-    // TODO: revisit nnd fix
+    // TODO: revisit and fix
 ///   SILENT_EXPECT(CEvaluator::evaluate_white_pawn(A7) < CEvaluator::evaluate_white_pawn(B7));
     CPsvModifier::add_bonus_to_area(main_piece_square_value_table_set[WHITE_POWER], A3, A7, SCORE_HALF_PAWN);
    EXPECT(CEvaluator::evaluate_white_pawn(A7) > CEvaluator::evaluate_white_pawn(B7));
@@ -122,6 +124,18 @@ bool CTestPsvModifiers::test_make_vertical_gradient() {
     EXPECT(dummy_psv[FILE_B][RANK_4] <dummy_psv[FILE_F][RANK_5]);
     EXPECT(dummy_psv[FILE_C][RANK_5] > dummy_psv[FILE_G][RANK_6]);
     EXPECT(dummy_psv[FILE_H][RANK_3] == dummy_psv[FILE_E][RANK_7]);
+    return true;
+}
+
+bool CTestPsvModifiers::test_make_forward_gradient() {
+    TEST_FUNCTION();
+    CPsvModifier::make_forward_gradient(psv_white_power, FILE_A, 50, 7);
+    EXPECT(CTestEvaluator::first_pawn_better(A3, A2));
+    EXPECT(CTestEvaluator::first_pawn_better(A4, A3));
+    EXPECT(CTestEvaluator::first_pawn_better(A5, A4));
+    CPsvModifier::make_forward_gradient(psv_black_power, FILE_G, -50, 7);
+    EXPECT(CTestEvaluator::first_square_better(BLACK_POWER, G7, G6));
+    EXPECT(CTestEvaluator::first_square_better(BLACK_POWER, G6, G5));
     return true;
 }
 

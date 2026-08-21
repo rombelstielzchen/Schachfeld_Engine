@@ -131,7 +131,6 @@ void CExpertBasicMating::configure_rook_tables__multiple_rooks() {
     constexpr int central_malus = -50;
     TSquareColour colour_beautiful_ladder_steps = !m_winning_side;
     CPsvModifier::make_equal(rook_table, bonus_for(m_winning_side, score_average_rook));
-    CPsvModifier::show_psv_table(m_winning_rook);
     CPsvModifier::make_vertical_gradient(rook_table, m_losing_king_square.rank, bonus_for(m_winning_side, vertical_bonus));
     CPsvModifier::show_psv_table(m_winning_rook);
     CPsvModifier::make_horizontal_gradient(rook_table, m_losing_king_square.file, bonus_for(m_winning_side, horizontal_malus));

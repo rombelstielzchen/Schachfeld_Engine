@@ -29,11 +29,24 @@ inline TPieceSquareValueTableSet main_piece_square_value_table_set;
 
 inline constexpr TPieceSquareValueTable &dummy_psv = main_piece_square_value_table_set[DUMMY_PIECE_FOR_TESTING];
 
+inline constexpr TPieceSquareValueTable &psv_black_power = main_piece_square_value_table_set[BLACK_POWER];
+inline constexpr TPieceSquareValueTable &psv_black_knight = main_piece_square_value_table_set[BLACK_KNIGHT];
+inline constexpr TPieceSquareValueTable &psv_black_bishop = main_piece_square_value_table_set[BLACK_BISHOP];
+inline constexpr TPieceSquareValueTable &psv_black_rook = main_piece_square_value_table_set[BLACK_ROOK];
+inline constexpr TPieceSquareValueTable &psv_black_queen = main_piece_square_value_table_set[BLACK_QUEEN];
+inline constexpr TPieceSquareValueTable &psv_black_king = main_piece_square_value_table_set[BLACK_KING];
+
+inline constexpr
+TPieceSquareValueTable
+&psv_white_power =
+main_piece_square_value_table_set[WHITE_POWER];
+inline constexpr TPieceSquareValueTable &psv_white_knight = main_piece_square_value_table_set[WHITE_KNIGHT];
+inline constexpr TPieceSquareValueTable &psv_white_bishop = main_piece_square_value_table_set[WHITE_BISHOP];
+inline constexpr TPieceSquareValueTable &psv_white_rook = main_piece_square_value_table_set[WHITE_ROOK];
+inline constexpr TPieceSquareValueTable &psv_white_queen = main_piece_square_value_table_set[WHITE_QUEEN];
+inline constexpr TPieceSquareValueTable &psv_white_king = main_piece_square_value_table_set[WHITE_KING];
+
 class CPsvModifier {
-  public:
-    // TODO: do it this way or the old way with table and static func?
-    CPsvModifier(TPieceSquareValueTable &psv_table_to_be_modified);
-    CPsvModifier(char piece_type);
   public:
     static void clear_psv_table(TPieceSquareValueTable &psv_table);
     static void make_equal(TPieceSquareValueTable &table, int value);
@@ -65,14 +78,12 @@ class CPsvModifier {
     static void make_gradient(TPieceSquareValueTable &table, const SSquare target_square, int bonus_per_step);
     static void make_horizontal_gradient(TPieceSquareValueTable &table, TFile target_file, int bonus_per_step);
     static void make_vertical_gradient(TPieceSquareValueTable &table, TRank target_rank, int bonus_per_step);
+    static void make_forward_gradient(TPieceSquareValueTable &table, TFile forward_file, int value_for_rank_1, int bonus_per_step);
   public:
     static void show_psv_table(const TPieceSquareValueTable &psv_table);
     static void show_psv_table(char piece_type);
     static void show_main_psv_tables();
   public:
     static void set_psv_row(TPieceSquareValueTable &psv_table, const TRank rank, const int value);
-  private:
-    // TODO: needed?
-    TPieceSquareValueTable &psv_table;
 };
 

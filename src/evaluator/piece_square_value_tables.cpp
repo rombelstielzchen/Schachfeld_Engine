@@ -255,7 +255,16 @@ void CPsvModifier::make_vertical_gradient(TPieceSquareValueTable &table, TRank t
         int dy = abs(target_rank - r);
         int rank_malus = -dy * bonus_per_step;
         add_bonus_to_rank(table, r, rank_malus);
+    }
+}
 
+void CPsvModifier::make_forward_gradient(TPieceSquareValueTable &table, TFile forward_file, int value_for_rank_1, int bonus_per_step) {
+    assert(file_in_range(forward_file));
+    for (const TRank rank: ALL_RANKS) {
+        int delta_y = rank - RANK_1;
+        int bonus = delta_y * bonus_per_step;
+        int total = value_for_rank_1 + bonus;
+        table[forward_file][rank] = total;
     }
 }
 
