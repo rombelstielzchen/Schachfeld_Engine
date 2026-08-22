@@ -23,8 +23,6 @@ bool CTestBoardLogic::test_everything() {
     EXPECT(test_is_piece_present());
     EXPECT(test_is_simplified_testcase());
     EXPECT(test_n_stones());
-    EXPECT(test_on_same_diagonal());
-    EXPECT(test_on_same_anti_diagonal());
     EXPECT(test_n_pieces_present());
     EXPECT(test_is_piece_at());
     EXPECT(test_is_pawn_endgame());
@@ -184,24 +182,6 @@ bool CTestBoardLogic::test_bishop_colour()  {
     EXPECT(CBoardLogic::bishop_colour() == WHITE_SQUARE_COLOUR);
     EXPECT(board.set_fen_position("k1Kbn w"));
     EXPECT(CBoardLogic::bishop_colour() == BLACK_SQUARE_COLOUR);
-    return true;
-}
-
-bool CTestBoardLogic::test_on_same_diagonal() {
-    TEST_FUNCTION();
-    EXPECT(CBoardLogic::on_same_diagonal(A1, E5));
-    EXPECT(CBoardLogic::on_same_diagonal(E5, E5));
-    EXPECT(CBoardLogic::on_same_diagonal(G3, E5) == false);
-    EXPECT(CBoardLogic::on_same_diagonal(B4, E5) == false);
-    return true;
-}
-
-bool CTestBoardLogic::test_on_same_anti_diagonal() {
-    TEST_FUNCTION();
-    EXPECT(CBoardLogic::on_same_anti_diagonal(C4, C4));
-    EXPECT(CBoardLogic::on_same_anti_diagonal(C4, F1));
-    EXPECT(CBoardLogic::on_same_anti_diagonal(C4, E8) == false);
-    EXPECT(CBoardLogic::on_same_anti_diagonal(C4, G2) == false);
     return true;
 }
 

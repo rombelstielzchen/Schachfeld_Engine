@@ -8,6 +8,7 @@
 #include "test_math_functions.h"
 #include "test_technical_functions.h"
 #include "../board/test_board.h"
+#include "../board/test_board_geometry.h"
 #include "../board/test_board_logic.h"
 #include "../board/test_distances.h"
 #include "../board/test_hash_function.h"
@@ -61,6 +62,7 @@ bool CEngineTest::test_everything() {
     EXPECT(CTestMathFunctions::test_everything());
     EXPECT(CTestTechnicalFunctions::test_everything());
     EXPECT(CTestBoard::test_everything());
+    EXPECT(CTestBoardGeometry::test_everything());
     EXPECT(CTestBoardLogic::test_everything());
     EXPECT(CTestDistances::test_everything());
     EXPECT(CTestMove::test_everything());

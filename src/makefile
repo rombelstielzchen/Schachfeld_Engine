@@ -52,6 +52,7 @@ EXECUTABLE = engine
 
 OBJECT_FILES :=  \
 	board.o \
+	board_geometry.o \
 	board_logic.o \
 	command_interface.o \
 	data_book.o \
@@ -95,6 +96,7 @@ OBJECT_FILES :=  \
 	string_tokenizer.o \
 	tabijas.o \
 	test_board.o \
+	test_board_geometry.o \
 	test_board_logic.o \
 	test_depth_control.o \
 	test_distances.o \
@@ -199,6 +201,9 @@ test_technical_functions.o: technical_functions/test_technical_functions.cpp
 
 time_functions.o: technical_functions/time_functions.cpp
 	$(CXX) $(CXXFLAGS) $^ 
+
+board_geometry.o: board/board_geometry.cpp
+	$(CXX) $(CXXFLAGS) $^ $^
 
 board_logic.o: board/board_logic.cpp
 	$(CXX) $(CXXFLAGS) $^ $^
@@ -315,6 +320,9 @@ math_functions.o: technical_functions/math_functions.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
 test_move_list.o: move_generator/test_move_list.cpp
+	$(CXX) $(CXXFLAGS) $^ 
+
+test_board_geometry.o: board/test_board_geometry.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
 test_board_logic.o: board/test_board_logic.cpp
