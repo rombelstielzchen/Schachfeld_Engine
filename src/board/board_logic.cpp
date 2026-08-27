@@ -350,3 +350,22 @@ bool CBoardLogic::is_heterogebous_castling() {
     return false;
 }
 
+bool CBoardLogic::is_half_open_file(TFile file, TPlayerColour for_player) {
+    assert(file_in_range(file));
+    // TODO: assert for_player
+    TPiece players_pawn = (for_player == WHITE_PLAYER) ? WHITE_POWER : BLACK_POWER;
+    TPiece enemy_pawm = (for_player == WHITE_PLAYER) ? BLACK_POWER : WHITE_POWER;
+    bool enemy_pawm_seen = false;
+    for (TRank r = RANK_2; r <= RANK_7; ++r) {
+        char content = board.get_square(file, r);
+        std::cerr << content;
+        if (content == players_pawn) {
+            return false;
+        }
+        if (content == enemy_pawm) {
+            enemy_pawm_seen = true;
+        }
+    }
+    return enemy_pawm_seen;
+}
+

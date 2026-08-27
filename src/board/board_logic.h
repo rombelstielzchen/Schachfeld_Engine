@@ -60,6 +60,8 @@ class CBoardLogic {
     // TODO: type
     static int king_position(TPlayerColour which_player);
     static bool is_heterogebous_castling();
+  public:
+    static bool is_half_open_file(TFile file, TPlayerColour for_player);
 
 };
 

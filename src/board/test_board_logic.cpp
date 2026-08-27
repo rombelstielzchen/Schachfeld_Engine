@@ -27,6 +27,7 @@ bool CTestBoardLogic::test_everything() {
     EXPECT(test_is_piece_at());
     EXPECT(test_is_pawn_endgame());
     EXPECT(test_king_position());
+    EXPECT(test_is_half_open_file());
     return true;
 }
 
@@ -233,6 +234,23 @@ bool CTestBoardLogic::test_king_position() {
     EXPECT(CBoardLogic::king_position(BLACK_PLAYER) == KINGSIDE);
     EXPECT(CBoardLogic::king_position(WHITE_PLAYER) == QUEENSIDE);
     EXPECT(CBoardLogic::is_heterogebous_castling());
+    return true;
+}
+
+bool CTestBoardLogic::test_is_half_open_file() {
+    TEST_FUNCTION();
+    const std::string karlsbad_structure = "6k/pp3ppp/2p/3p/3P/4P/PP3PPP/6K w";
+    EXPECT(board.set_fen_position(karlsbad_structure));
+    EXPECT(CBoardLogic::is_half_open_file(FILE_A, WHITE_PLAYER) == false);
+    EXPECT(CBoardLogic::is_half_open_file(FILE_B, WHITE_PLAYER) == false);
+    EXPECT(CBoardLogic::is_half_open_file(FILE_C, WHITE_PLAYER));
+    EXPECT(CBoardLogic::is_half_open_file(FILE_D, WHITE_PLAYER) == false);
+    EXPECT(CBoardLogic::is_half_open_file(FILE_E, WHITE_PLAYER) == false);
+    EXPECT(CBoardLogic::is_half_open_file(FILE_D, BLACK_PLAYER) == false);
+    EXPECT(CBoardLogic::is_half_open_file(FILE_E, BLACK_PLAYER));
+    EXPECT(CBoardLogic::is_half_open_file(FILE_F, BLACK_PLAYER) == false);
+    EXPECT(CBoardLogic::is_half_open_file(FILE_G, BLACK_PLAYER) == false);
+    EXPECT(CBoardLogic::is_half_open_file(FILE_H, BLACK_PLAYER) == false);
     return true;
 }
 
