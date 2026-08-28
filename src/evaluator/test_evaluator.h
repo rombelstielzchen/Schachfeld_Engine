@@ -5,17 +5,9 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-#include "../technical_functions/standard_headers.h"
-
+#include "testcases_evaluator.h"
 #include "../move_generator/move.h"
-#include <vector>
-
-struct STestcaseEvaluator {
-    std::string better_position;
-    std::string worse_position;
-};
-
-typedef std::vector<STestcaseEvaluator> TTestcaseSetEvaluator;
+#include "../technical_functions/standard_headers.h"
  
 class CTestEvaluator {
     friend class CTestPsvModifiers;
