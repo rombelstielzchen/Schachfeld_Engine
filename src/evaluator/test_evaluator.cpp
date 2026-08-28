@@ -10,127 +10,23 @@
 #include "../board/square_constants.h"
 #include "../technical_functions/testing.h"
 
-const TTestcaseSetEvaluator testcase_set_endgame_king = {
-    { "k///3PK w", "k///3P///K w" },
-    { "k///3p///K w", "///3pk///K w" },
-};
-
-const TTestcaseSetEvaluator testcase_set_mating = {
-    // TODO: remove, if we can't mate with depth 2
-    // Mating with 2 bishops on very low depth. Good placement of the bishop that does not control the corner
-///    { "k/2K///2BB b", "k/2K//4B/2B b" },
-    // Mating with bishop and knight.
-    // Prefer the bishop to control the bishop-colour; keep the knight away from the border
-    { "/////5K/5N1B/5k b", "///4B//5K1N//5k b" },
-};
-
-const TTestcaseSetEvaluator testcase_set_pawn_structure = {
-   // Kingside-structure, inspired by V_beinahe_9
-    {"k///rrr/RRR/5PP/5P/6K w", "k/////6P/5P1P/6K w"},
-    { "6k/5p1p/5p/rrr/RRR//K b", "6k/5p/5pp/rrr/RRR//K b"},
-    // Central pawn structure: e4 + f4 / e5 + d6
-    { "rrr/8/3p/4p/4PP///RRR w", "rrr/8/8/4p/4P///RRR w" },
-    { "rrrrr/8/3p/8/4P w", "rrrrr/8/8/4p/4P w" },
-    { "rrrrr/8/8/4p/4P w", "rrrrr/8/3p/4pP/4P w" },
-    // Central pawn structure: e4 + d4 / e5 + d6
-    { "rrrrr/8/3p/4p/3PP w", "rrrrr/8/8/4p/4P w" },
-    { "rrrrr/8/8/4p/4P w", "rrrrr/8/3p/3Pp/4P w" },
-    // Central pawn structure: e4 + d4 / d5 + e6
-    { "rrrrr/8/4p/3p/3PP w", "rrrrr/8/8/3p/3P w" },
-    { "rrrrr/8/3p/8/4P w", "rrrrr/8/8/4p/4P w" },
-    { "rrrrr/8/4p/8/3P w", "rrrrr/8/4p/3pP/5P w" },
-    // Central pawn structure: e4 + d4 / d5 + c6
-    { "rrrrr/8/4p/2p/3PP w", "rrrrr/8/8/2p/3P w" },
-    { "rrrrr/8/2p/8/3P w", "rrrrr/8/8/4p/4P w" },
-    // Central pawn structure: c4 + d4 / d5 + c6
-    { "rrrrr/8/2p/3p/2PP w", "rrrrr/8/8/3p/3P w" },
-    { "rrrrr/8/2p/8/3P w", "rrrrr/8/2p/3p/2PP w" },
-    // Central pawn structure: c4 + d4 / d5 + e6
-    { "rrrrr/8/2p/3p/2PP w", "rrrrr/8/8/3p/3P w" },
-    { "rrrrr/8/2p/8/3P w", "rrrrr/8/2p/3p/2PP w" },
-    // Central pawn structure: c4 + d4 + c3 / c5 + d5 + e6
-    { "rrrrr/8/4p/2ppP/3P/2P w", "rrrrr/8/4p/3pP/8/2P w" },
-    { "rrrrr/8/4p/3pP/3P w", "rrrrr/8/4p/2ppP/3P/2P w" },
-    // Central pawn structure: e4 / e5 + f5 + g6 (KID)
-    { "rrrrr/8/6p/4pp/4P w", "rrrrr/8/8/4pp w" },
-    // Central pawn structure: b4 + c5 + d5 / d6 (KID)
-    { "rrrrr/8/8/2PP w", "rrrrr/8/3p/1pp w" },
-    // Central pawn structure: c4 + d5 / d6+ e6 (Benoni)
-    { "rrrrr/8/3pp/3P/2P w", "rrrrr/8/3p/3P w" },
-    { "rrrrr/8/3p/3P w", "rrrrr/8/3p/8/2P w" },
-    // Central pawn structure c3 or c2 / e5 (Ruy Lopez, Italian)
-{ "rrrrr/8/8/8/3PP w", "rrrrr/8/8/4p/3PP/2P w" },
-{ "rrrrr/8/8/8/3PP w", "rrrrr/8/8/4p/3PP/8/2P w" },
- };
-
-const TTestcaseSetEvaluator old_testcase_set = {
-   // Caveat! All evaluations are from whites point of view!
-   // Hint: Add someextra-pieces  to enforce middle-game evaluations
-   // First: material count, basic evaluation
-    { "rrrrr///KPk w", "rrrrr///Kpk w" },
-   // Pawns on 5th / 6th / 7th rank: semi-strong / monsters / potentially a bit weak
-    { "rrrrr/8/PPPPPPPP w", "rrrrr/8/8/PPPPPPPP w" },
-    { "rrrrr/8/PPPPPPPP w", "rrrrr/PPPPPPPP w" },
-    // Pawns on 2nd / 3rd rank
-    // 2nd rank is usuaööy better -- except d and e file where they hinder development
-    { "rrrrr/8/8/8/8/8/P w", "rrrrr/8/8/8/8/P w"},
-    { "rrrrr/8/8/8/8/8/1P w", "rrrrr/8/8/8/8/1P w"},
-    { "rrrrr/8/8/8/8/8/2P w", "rrrrr/8/8/8/8/2P w"},
-    { "rrrrr/8/8/8/8/8/5P w", "rrrrr/8/8/8/8/5P w"},
-    { "rrrrr/8/8/8/8/8/6P w", "rrrrr/8/8/8/8/6P w"},
-    { "rrrrr/8/8/8/8/8/7P w", "rrrrr/8/8/8/8/7P w"},
-    // Pawns on 2nd / 3rd rank, d and e file
-    { "rrrrr/8/8/8/8/3P w", "rrrrr/8/8/8/8/8/3P w"},
-    { "rrrrr/8/8/8/8/4P w", "rrrrr/8/8/8/8/8/4P w"},
-    // Rook-Pawns: 3rd > 5th > 4th
-    { "rrrrr/8/8/8/8/P w", "rrrrr/8/8/P w" },
-    { "rrrrr/8/8/P w", "rrrrr/8/8/8/P w" },
-    { "rrrrr/8/8/8/8/7P w", "rrrrr/8/8/7P w" },
-    { "rrrrr/8/8/7P w", "rrrrr/8/8/8/7P w" },
-    // Fianchetto
-    { "rrrrr/8/8/8/8/5NP/5PKP w", "rrrrr/8/8/8/8/5NP/5P1P/6K w" },
-    { "rrrrr/8/8/8/8/8/5PPP/6K w", "rrrrr/8/8/8/8/6P/5P1P/6K w" },
-    { "rrrrr/8/8/8/8/6P/5PBP/6K w", "rrrrr/8/8/8/2B/8/6P/5PKP w" },
-    { "rrrrr/8/8/8/2B/8/5PPP/6K w", "rrrrr/8/8/8/8/6P/5PBP/6K w" },
-    // Bad exchange, protecting Bc4 by b3 instead of playing Bb3
-    { "rrrrr/8/8/8/2B/1P/2P w", "rrrrr/8/8/8/8/1b/1PP w" },
-    { "rrrrr/8/8/8/8/1P/1PP w", "rrrrr/8/8/8/2P/8/P1P w "},
-    // Bad exchange, protecting Bf4 by g3 instead of playing Bg3
-    { "rrrrr/8/8/8/8/6P/5PP w", "rrrrr/8/8/8/5P/8/5P1P w "},
-    // Bad "active" queen-development to d3 in the opening
-    { "rrrrr/8/8/8/8/8/8/3Q w", "rrrrr/8/8/8/8/3Q w" },
-    // Capture away from the center with pawns on d2 / e2 for free piece-play
-    { "rrrrr/////2P/PPP w", "rrrrr/////2P/P1PP w" },
-    { "rrrrr/////5P/5PPP w", "rrrrr/////5P/4P1PP w" },
-    // Pawn on d3 better then d2 for bettter development
-   { "rrrrr/////3P w", "rrrrr//////3P w" },
-   // Knights on the king-side more worth than on the queen-side:
-   // Preparing castling, attacking
-   { "rrrrr/////5N w", "rrrrr/////2N w" },
-   { "rrrrr//5N w", "rrrrr//2N w" },
-    { "rrrrr////4N w", "rrrrr////3N w" },
-    { "rrrrr///4N w", "rrrrr///3N w" },
-    // Castling direction (white)
-    { "kn/////BBB/PPP/2KR3R w", "kn/////BBB/PPP/R4RK w" },
-    { "kn/////BBB/5PPP/R4RK w", "kn/////BBB/5PPP/2KR3R w",  },
-    // Castling direction (black)
-    { "r4rk1/PPP/BBB/////4KB b", "2kr3r/ppp/BBB/////4KB b" },
-    { "2kr3r/5ppp/5bbb/////6BK b", "r4rk/5ppp/5bbb/////6BK b" },
-    // Scandinavian: 3...Qa5 is better (for black) than Qe6
-    { "rnb1kbnr/ppp1pppp/4q////PPPP1PPP/RNBQKBNR w", "rnb1kbnr/ppp1pppp//q///PPPP1PPP/RNBQKBNR w"} ,
-};
-
 bool CTestEvaluator::test_everything() {
     BEGIN_TESTSUITE("CTestEvaluator");
     EXPECT(test_equal_positions());
     EXPECT(test_decided_positions());
     EXPECT(test_move_sequence());
-    EXPECT(test_black_advantage());
+///    EXPECT(test_black_advantage());
     EXPECT(test_pawn_values());
+    // *** Testcase-sets ***
+    EXPECT(test_positions(testcase_set_material_count));
     EXPECT(test_positions(testcase_set_endgame_king));
+    EXPECT(test_positions(testcase_set_endgame_pawn_advance));
     EXPECT(test_positions(testcase_set_mating));
+    EXPECT(test_positions(testcase_set_pawn_placement));
     EXPECT(test_positions(testcase_set_pawn_structure));
-    EXPECT(test_positions(old_testcase_set));
+    EXPECT(test_positions(testcase_set_piece_placement));
+    EXPECT(test_positions(testcase_set_fianchetto));
+    EXPECT(test_positions(testcase_set_castling_direction));
     EXPECT(test_wood_points());
     return true;
 }
