@@ -67,6 +67,7 @@ OBJECT_FILES :=  \
 	expert_endgame_queen.o \
 	expert_general.o \
 	expert_heterogenous_pawn_storm.o \
+	expert_rooks.o \
 	fen_generator.o \
 	fen_parser.o \
 	game_saver.o \
@@ -273,6 +274,9 @@ expert_general.o: evaluator/knowledge/general/expert_general.cpp
 	$(CXX) $(CXXFLAGS) $^
 
 expert_heterogenous_pawn_storm.o: evaluator/knowledge/middlegame/expert_heterogenous_pawn_storm.cpp
+	$(CXX) $(CXXFLAGS) $^
+
+expert_rooks.o: evaluator/knowledge/middlegame/expert_rooks.cpp
 	$(CXX) $(CXXFLAGS) $^
 
 test_evaluator.o: evaluator/test_evaluator.cpp

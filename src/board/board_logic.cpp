@@ -358,7 +358,6 @@ bool CBoardLogic::is_half_open_file(TFile file, TPlayerColour for_player) {
     bool enemy_pawm_seen = false;
     for (TRank r = RANK_2; r <= RANK_7; ++r) {
         char content = board.get_square(file, r);
-        std::cerr << content;
         if (content == players_pawn) {
             return false;
         }
