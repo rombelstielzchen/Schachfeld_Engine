@@ -155,6 +155,7 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
     //   * Sorting and reusing the move-list, therefore...
     //     - no hash-moves here
     //     - no killer-moves here (impossible)
+    DEBUG_METHOD();
     assert(depth >= minimum_search_depth);
     CSearch search;
     search_statistics.on_new_depth(depth);
@@ -206,6 +207,8 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
         }
         assert(board.get_fen_position() == root_position);
         assert(board.get_hash() == my_hash);
+        DEBUG_MESSAGE(move_candidate);
+        DEBUG_MESSAGE(candidate_score);
     }
     assert((move_generator.move_list.get_next() == NULL_MOVE) || DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop);
     search_statistics.add_nodes(n_moves);

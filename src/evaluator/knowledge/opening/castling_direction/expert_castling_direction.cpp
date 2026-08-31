@@ -14,11 +14,16 @@
 #include "../../../../technical_functions/standard_headers.h"
 
 bool CExpertCastlingDirection::is_responsible() const {
-    bool any_castling_possible = !CBoardLogic::is_endgame()
-        || board.get_castling_rights(MOVE_TYPE_WHITE_SHORT_CASTLING)
+    bool any_castling_possible = 
+        board.get_castling_rights(MOVE_TYPE_WHITE_SHORT_CASTLING)
         || board.get_castling_rights(MOVE_TYPE_WHITE_LONG_CASTLING)
         || board.get_castling_rights(MOVE_TYPE_BLACK_SHORT_CASTLING)
-        || board.get_castling_rights(MOVE_TYPE_BLACK_LONG_CASTLING);
+        || board.get_castling_rights(MOVE_TYPE_BLACK_LONG_CASTLING)
+        // TODO: is_middle_game()
+        || (board.evaluator.wood_points(WHITE_PLAYER) >= 20)
+        || (board.evaluator.wood_points(BLACK_PLAYER) >= 20);
+    // Avoid stupid moves towards castling-squares in endgame
+    any_castling_possible &= !CBoardLogic::is_endgame();
     return any_castling_possible;
 }
 

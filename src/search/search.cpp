@@ -27,6 +27,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     assert(alpha <= beta);
     if (remaining_depth <= 0) {
         // No negamax-negation here. We did not yet make a move; still same side to act
+            //DEBUG_MESSAGE("here1");
         return quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root, alpha, beta);
     }
     int best_score = SCORE_TECHNICAL_MIN;
@@ -63,6 +64,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
         } else {
             // TODO: one of the 2 calls to quiescense might be superfluous.
             // This might change with fractional deepening
+            //DEBUG_MESSAGE("here2");
             candidate_score = -quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root + 1, -beta, -alpha);
         }
         board.move_maker.unmake_move();

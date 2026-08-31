@@ -32,5 +32,6 @@ void CExpertEndgameKingActivity::apply_knowledge() {
     CPsvModifier::clone_from_white_to_black(BLACK_KING);
     assert(main_piece_square_value_table_set[WHITE_KING][FILE_E][RANK_3] > main_piece_square_value_table_set[WHITE_KING][FILE_G][RANK_1]);
     assert(main_piece_square_value_table_set[BLACK_KING][FILE_D][RANK_5] < main_piece_square_value_table_set[BLACK_KING][FILE_C][RANK_8]);
+    CPsvModifier::show_psv_table(WHITE_KING);
 }
 

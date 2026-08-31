@@ -15,6 +15,7 @@ CEvaluator::CEvaluator() {
 }
 
 void CEvaluator::init() {
+    std::cerr << "CEvaluator::init()\n";
     oracle.configure_knowledge();
     value = 0;
     for (const SSquare s: ALL_SQUARES) {
@@ -86,7 +87,7 @@ int CEvaluator::nega_score() const {
 
 int CEvaluator::wood_points(TPlayerColour whichplayer) const {
     int points = 0;
-    [[maybe_unused]] constexpr int max_points = 39;
+    [[maybe_unused]] constexpr int max_points = 103;
     for (const SSquare s: ALL_SQUARES) {
         char piece = board.get_square(s);
         if (piece_colour(piece) != whichplayer) {
