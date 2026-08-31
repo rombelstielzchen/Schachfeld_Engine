@@ -54,7 +54,8 @@
 
 namespace rombel {
 
-inline bool debug_on_off = false;
+// On per default, when compiled with DEBUG_LOG_ENABLE
+inline bool debug_on_off = true;
 inline bool flush_buffer = false;
 inline int indentation = 0;
 // Do not use these streams directly!
