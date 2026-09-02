@@ -37,13 +37,11 @@ const std::vector<STestcaseSearch> testcases_search = {
     { 1, "h6h8", "k6q/5R2/7R/8/8/8/8/K7 w" },
     { 2, "h6h8", "k6q/5R2/7R/8/8/8/8/K7 w" },
     { 3, "h6h8", "k6q/5R2/7R/8/8/8/8/K7 w" },
-    /*** More advanced mates ***********
+    //*** More advanced mates ***********
     // Mate in 2
     { 5, "a5b6", "k/7R//K w" },
     // Smothered mate, very basic
     { 4, "a2g8", "5r1k/6pp/7N/8/8/8/Q7/7K w" },
-
-
     //*** Tactics ************
     // Skewer
      { 3, "d8a5", "k2b4/8/8/8/8/2K5/8/4Q3 b" },
@@ -126,7 +124,7 @@ const std::vector<STestcaseSearch> testcases_search = {
     // Positional king-play in the endgame
     { 1, "g2f3", "k/P/////6K w" },
     { 1, "b2c3", "k/P/////1K w" },
-    { 1. "g7f6", "/6k/////pK b" },
-    { 1. "b7c6", "/1k/////pK b" },
+    { 1, "g7f6", "/6k/////pK b" },
+    { 1, "b7c6", "/1k/////pK b" },
 };
 
