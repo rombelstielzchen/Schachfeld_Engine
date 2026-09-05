@@ -100,7 +100,8 @@ bool CExpertGeneral::is_responsible() const {
 }
 
 void CExpertGeneral::apply_knowledge() {
-   CPsvModifier::normalize_average(default_psv_white_power, score_average_power);
+    DEBUG_METHOD();
+    CPsvModifier::normalize_average(default_psv_white_power, score_average_power);
     CPsvModifier::assign_psv_table(WHITE_POWER, default_psv_white_power);
     CPsvModifier::normalize_average(default_psv_white_knight, score_average_knight);
     CPsvModifier::assign_psv_table(WHITE_KNIGHT, default_psv_white_knight);

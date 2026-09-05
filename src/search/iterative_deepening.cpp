@@ -221,6 +221,7 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
     assert(best_move != NULL_MOVE);
     assert(move_in_range(best_move));
     assert(hash_table.get_best_move(my_hash) == best_move);
+    std::cout << "Reading from: " << &main_piece_square_value_table_set << "\n";
     return best_move;
 }
 

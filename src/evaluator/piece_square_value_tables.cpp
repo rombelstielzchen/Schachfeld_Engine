@@ -24,7 +24,7 @@ TPieceSquareValueTable psv_dummy = {{
     { 0,   0, 3141, 3141, 3141, 3141, 3141, 3141, 3141, 3141 }}};
 
 void CPsvModifier::assign_psv_table(TPieceSquareValueTable &target_psv, const TPieceSquareValueTable &source_psv) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     for (const SSquare s: ALL_SQUARES) {
         target_psv[s.file][s.rank] = source_psv[s.file][s.rank];
     }
@@ -33,7 +33,7 @@ void CPsvModifier::assign_psv_table(TPieceSquareValueTable &target_psv, const TP
 }
 
 void CPsvModifier::assign_psv_table(char piece_type, const TPieceSquareValueTable &source_psv) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     assert(is_any_piece(piece_type));
     assign_psv_table(main_piece_square_value_table_set[piece_type], source_psv);
 }
@@ -48,14 +48,14 @@ void CPsvModifier::flip_vertically(TPieceSquareValueTable &psv_table) {
 }
 
 void CPsvModifier::negate(TPieceSquareValueTable &psv_table) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     for (const SSquare s: ALL_SQUARES) {
         psv_table[s.file][s.rank] = -psv_table[s.file][s.rank];
     }
 }
 
 void CPsvModifier::clone_from_white_to_black(char black_piece_type) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     assert(is_any_piece(black_piece_type));
     assert(islower(black_piece_type));
     char white_piece_type = toupper(black_piece_type);
@@ -138,7 +138,7 @@ void CPsvModifier::show_main_psv_tables() {
 }
 
 void CPsvModifier::set_psv_row(TPieceSquareValueTable &psv_table, const TRank rank, const int value) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     assert(rank_in_range(rank));
     assert(abs(value) <= SCORE_KING);
     for (TFile j = FILE_A; j<= FILE_H; ++j) {
@@ -147,7 +147,7 @@ void CPsvModifier::set_psv_row(TPieceSquareValueTable &psv_table, const TRank ra
 }
 
 void CPsvModifier::set_psv_row(char piece_type, const TRank rank, const int value) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     assert(is_any_piece(piece_type));
     assert(rank_in_range(rank));
     assert(abs(value) <= SCORE_KING);
@@ -155,14 +155,14 @@ void CPsvModifier::set_psv_row(char piece_type, const TRank rank, const int valu
 }
 
 void CPsvModifier::add_bonus_to_square(TPieceSquareValueTable &psv_table, SSquare square, int bonus) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     assert(square_in_range(square));
     assert(abs(bonus) <= SCORE_KING);
     psv_table[square.file][square.rank] += bonus;
 }
 
 void CPsvModifier::add_bonus_to_area(TPieceSquareValueTable &psv_table, SSquare bottom_left, SSquare top_right, int bonus) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     assert(square_in_range(bottom_left));
     assert(square_in_range(top_right));
     assert(abs(bonus) <= SCORE_KING);
@@ -179,12 +179,12 @@ void CPsvModifier::add_bonus_to_area(TPieceSquareValueTable &psv_table, SSquare 
 }
 
 void CPsvModifier::clear_psv_table(TPieceSquareValueTable &psv_table) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     make_equal(psv_table, 0);
 }
 
 void CPsvModifier::make_equal(TPieceSquareValueTable &table, int value) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     assert(abs(value) <= SCORE_KING);
     for (const SSquare s: ALL_SQUARES) {
         table[s.file][s.rank] = value;
@@ -192,7 +192,7 @@ void CPsvModifier::make_equal(TPieceSquareValueTable &table, int value) {
 }
 
 void CPsvModifier::make_gradient(TPieceSquareValueTable &table, const SSquare target_square, int bonus_per_step) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     assert(abs(bonus_per_step) <= SCORE_HALF_PAWN);
     assert(square_in_range(target_square));
     int base_value = table[target_square.file][target_square.rank];
@@ -207,7 +207,7 @@ void CPsvModifier::make_gradient(TPieceSquareValueTable &table, const SSquare ta
 }
 
 void CPsvModifier::add_bonus_to_colour_complex(TPieceSquareValueTable &table, TSquareColour colour, int bonus) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     for (const SSquare s: ALL_SQUARES) {
         if (board.square_colour(s) == colour) {
             add_bonus_to_square(table, s, bonus);
@@ -217,30 +217,30 @@ void CPsvModifier::add_bonus_to_colour_complex(TPieceSquareValueTable &table, TS
 }
 
 void CPsvModifier::add_bonus_to_border_squares(TPieceSquareValueTable &psv_table, int bonus) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     add_bonus_to_area(psv_table, A1, H8, bonus);    
     add_bonus_to_area(psv_table, B2, G7, -bonus);
 }
 
 void CPsvModifier::add_bonus_to_squares(TPieceSquareValueTable &psv_table, const TSquareList square_list, int bonus) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     for (const SSquare s: square_list) {
         add_bonus_to_square(psv_table, s, bonus);
     }
 }
 
 void CPsvModifier::add_bonus_to_extended_center(TPieceSquareValueTable &psv_table, int bonus) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     add_bonus_to_area(psv_table, C3, F6, bonus);
 }
 
 void CPsvModifier::add_bonus_to_center(TPieceSquareValueTable &psv_table, int bonus) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     add_bonus_to_area(psv_table, D4, E5, bonus);
 }
 
 void CPsvModifier::add_bonus_to_diagonal(TPieceSquareValueTable &psv_table, const SSquare any_reference_square, int bonus) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     assert(square_in_range(any_reference_square));
     for (const SSquare s: ALL_SQUARES) {
         if (CBoardGeometry::on_same_diagonal(s, any_reference_square)) {
@@ -250,7 +250,7 @@ void CPsvModifier::add_bonus_to_diagonal(TPieceSquareValueTable &psv_table, cons
 }
 
 void CPsvModifier::add_bonus_to_anti_diagonal(TPieceSquareValueTable &psv_table, const SSquare any_reference_square, int bonus) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     assert(square_in_range(any_reference_square));
     for (const SSquare s: ALL_SQUARES) {
         if (CBoardGeometry::on_same_anti_diagonal(s, any_reference_square)) {
@@ -260,7 +260,7 @@ void CPsvModifier::add_bonus_to_anti_diagonal(TPieceSquareValueTable &psv_table,
 }
 
 void CPsvModifier::make_horizontal_gradient(TPieceSquareValueTable &table, TFile target_file, int bonus_per_step) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     assert(file_in_range(target_file));
     for (const TFile f: ALL_FILES) {
         int dx = abs(target_file - f);
@@ -270,7 +270,7 @@ void CPsvModifier::make_horizontal_gradient(TPieceSquareValueTable &table, TFile
 }
 
 void CPsvModifier::make_vertical_gradient(TPieceSquareValueTable &table, TRank target_rank, int bonus_per_step) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     assert(rank_in_range(target_rank));
     for (const TRank r: ALL_RANKS) {
         int dy = abs(target_rank - r);
@@ -280,7 +280,7 @@ void CPsvModifier::make_vertical_gradient(TPieceSquareValueTable &table, TRank t
 }
 
 void CPsvModifier::make_forward_gradient(TPieceSquareValueTable &table, TFile forward_file, int value_for_rank_1, int bonus_per_step) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     assert(file_in_range(forward_file));
     for (const TRank rank: ALL_RANKS) {
         int delta_y = rank - RANK_1;
@@ -291,7 +291,7 @@ void CPsvModifier::make_forward_gradient(TPieceSquareValueTable &table, TFile fo
 }
 
 void CPsvModifier::add_bonus_to_file(TPieceSquareValueTable &psv_table, TFile file, int bonus) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     assert(file_in_range(file));
     SSquare bottom_left = { file, RANK_1 };
     SSquare top_right = { file, RANK_8 };
@@ -299,7 +299,7 @@ void CPsvModifier::add_bonus_to_file(TPieceSquareValueTable &psv_table, TFile fi
 }
 
 void CPsvModifier::add_bonus_to_rank(TPieceSquareValueTable &psv_table, TRank rank, int bonus) {
-    DEBUG_METHOD();
+    ///DEBUG_METHOD();
     assert(rank_in_range(rank));
     SSquare bottom_left = { FILE_A, rank };
     SSquare top_right = { FILE_H, rank };

@@ -4,6 +4,7 @@ Major Changes
 Version 1.4
 -----------
 * A new expert-engine that encourages pawn-storms after heterogenous castlings
+* A new expert-engine for rook-placement
 
 Version 1.3
 -----------

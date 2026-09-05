@@ -266,6 +266,8 @@
 <clInclude Include="../search/mate_score.h"/>
 <clInclude Include="../search/search.h"/>
 <clInclude Include="../search/search_statistics.h"/>
+<clInclude Include="../search/testcases_search.h"/>
+<clInclude Include="../search/testcases_static_exchange_evaluation.h"/>
 <clInclude Include="../search/test_depth_control.h"/>
 <clInclude Include="../search/test_hash_table.h"/>
 <clInclude Include="../search/test_killer_heuristics.h"/>

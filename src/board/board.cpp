@@ -22,7 +22,14 @@ CBoard::CBoard() {
 }
 
 void CBoard::clone_from_global_reference_board() {
+    // TODO: this not thread-safe?
+    // Multiple boards using the same evaluator in the future?
     *this = global_reference_board;
+    // TODO: this gets called "tpp pften"
+    //   *  on every new FRN-position
+    //   * for every cloning by all calculator-thrads
+    //   * also an init() on a frsh board for each new thread
+    evaluator.init();
 }
 
 void CBoard::init_garden_fence() {
