@@ -30,7 +30,7 @@ const std::vector<SDefaultPosition> default_positions = {
     { 'f', "Falkbeer-Counter-Gambit", "startpos moves e2e3 e7e6 e3e4 e6e5 f2f4 d7d5" },
     { 'g', "position after 1.g4", "startpos moves g2g4" },
     { 'h', "study by Herbstmann", "1B//7P/4p/3b3k///1K w" },
-    { 'i', "talian game with c3", "e2e3 e7e6 e3e4 e6e5 g1f3 b8c6 f1c4 f8c5 c2c3" },
+    { 'i', "italian game with c3", "startpos moves e2e3 e7e6 e3e4 e6e5 g1f3 b8c6 f1c4 f8c5 c2c3" },
     { 'l', "Lucena", "2k1K/4P/////5r/3R w" },
     { 'n', "mate with three knights", "n6n///4K////n6k b"},
     { 'o', "opposition", "///2k///2PK w" },
@@ -60,8 +60,8 @@ CUciProtocol::~CUciProtocol() {
 
 /* static */ void CUciProtocol::send_message(const std::string &message) {
     // Used by both UCI-thread and calculator-thread, therefore mutex-protected
-        static std::mutex unique_message_mutex;
-        std::lock_guard<std::mutex> lock(unique_message_mutex);
+    static std::mutex unique_message_mutex;
+    std::lock_guard<std::mutex> lock(unique_message_mutex);
     // UCI standard says:
     //   * communication via text-IO
     //   * every message should end with a new-line, "\n"

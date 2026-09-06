@@ -25,6 +25,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     assert(remaining_depth >= 0);
     assert(distance_to_root > 0);
     assert(alpha <= beta);
+    [[maybe_unused]] int root_evaluation = board.evaluator.evaluate();
     if (remaining_depth <= 0) {
         // No negamax-negation here. We did not yet make a move; still same side to act
             //DEBUG_MESSAGE("here1");
@@ -80,6 +81,8 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
             best_move = move_candidate;
             alpha = std::max(alpha, best_score);
         }
+        assert(board.get_hash() == my_hash);
+        assert(root_evaluation == board.evaluator.evaluate());
     }
     assert(move_generator.move_list.get_next() == NULL_MOVE);
     search_statistics.add_nodes(n_moves);

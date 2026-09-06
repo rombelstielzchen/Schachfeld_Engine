@@ -22,9 +22,16 @@ CBoard::CBoard() {
 }
 
 void CBoard::clone_from_global_reference_board() {
-    // TODO: this not thread-safe?
-    // Multiple boards using the same evaluator in the future?
-    *this = global_reference_board;
+    // Do not clone CEvaluator evaluator;
+    // Do not clone CGameSaver game_saver;
+    // Do not clone CMoveMaker move_maker;
+    board_state = global_reference_board.board_state;
+    side_to_move = global_reference_board.side_to_move;
+    eng_passeng_file = global_reference_board.eng_passeng_file;
+    move_counter = global_reference_board.move_counter;
+    _100_ply_draw_counter = global_reference_board._100_ply_draw_counter;
+    castling_rights = global_reference_board.castling_rights;
+    initial_position_before_moves = global_reference_board.initial_position_before_moves;
     // TODO: this gets called "tpp pften"
     //   *  on every new FRN-position
     //   * for every cloning by all calculator-thrads

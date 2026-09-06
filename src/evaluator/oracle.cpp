@@ -12,6 +12,7 @@
 #include "knowledge/middlegame/expert_heterogenous_pawn_storm.h"
 #include "knowledge/middlegame/expert_rooks.h"
 #include "knowledge/opening/castling_direction/expert_castling_direction.h"
+#include "../board/board.h"
 #include "../board/board_logic.h"
 
 COracle::COracle() {
@@ -59,6 +60,20 @@ COracle::COracle() {
 }
 
 void COracle::configure_knowledge() {
+     static THashKey currently_served_position = 0;
+     if (board.get_hash() == currently_served_position) {
+         // Already done. Fast exit even before mutex
+         return;
+     }
+     // Oracl must be configured exactly one.
+     // Repeated initializations could mess up already running threads
+    static std::mutex unique_oracle_mutex;
+    std::lock_guard<std::mutex> lock(unique_oracle_mutex);
+     if (board.get_hash() == currently_served_position) {
+         // Already done by anotherthread while waiting for the lock
+         return;
+     }
+     currently_served_position = board.get_hash();
     assert(expert_collection.size() > 0);
     for (CVirtualExpert *expert: expert_collection) {
         assert(expert != nullptr);
