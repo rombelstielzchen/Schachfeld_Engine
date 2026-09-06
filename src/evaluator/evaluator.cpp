@@ -15,7 +15,6 @@ CEvaluator::CEvaluator() {
 }
 
 void CEvaluator::init() {
-    std::cerr << "CEvaluator::init()\n";
     oracle.configure_knowledge();
     value = 0;
     for (const SSquare s: ALL_SQUARES) {

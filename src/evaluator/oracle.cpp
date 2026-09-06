@@ -59,7 +59,6 @@ COracle::COracle() {
 }
 
 void COracle::configure_knowledge() {
-    std::cerr << "COracle::configure_knowledge()\n";
     assert(expert_collection.size() > 0);
     for (CVirtualExpert *expert: expert_collection) {
         assert(expert != nullptr);

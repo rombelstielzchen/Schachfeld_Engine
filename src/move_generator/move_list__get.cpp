@@ -90,11 +90,6 @@ unsigned int CMoveList::index_least_valuable_aggressor(const unsigned int first_
     assert(best_victim_score > 0);
     SSquare aggressor_square = bidirectional_move_list[best_index].source;
     assert(square_in_range(aggressor_square));
-    if (!is_any_piece(board.get_square(aggressor_square))) {
-        std::cout << board.as_is();
-        std::cout << "aggressor_square: " << aggressor_square << "\n";
-        flush(std::cout);
-    }
     assert(is_any_piece(board.get_square(aggressor_square)));
     int least_aggressor_value = abs(board.evaluator.evaluate_square(aggressor_square));
     assert(least_aggressor_value > 0);
