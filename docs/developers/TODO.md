@@ -3,11 +3,10 @@ TODO
 * Queen-PSV for the opening and middle-game
 * PSVs for passed pawns
 * PSVs for pawn-levers
-* PSVs for pawn-storms
 * PSV for king and opponents bishop-colour
 * better move-ordering by checks
-* hash-tables
 * vector-attacks
+* internal iterative deepening
 * move-generator for (re)captures
 * extensions and reductions
 * pondering
@@ -22,11 +21,11 @@ TODO
 * strictly legal moves
 * chess personalities?
 * adapting playing strength / handicap mode / limited search and quiescence / randomization
-* PV and multi-PV
+* multi-PV
 * multi-threading
-* statistics and info-thread
 * maybe tablebases
 * maybe neural networks for late middle-game / endgame
+* maybe better root.node ordering
 
 https://en.wikipedia.org/wiki/List_of_tools_for_static_code_analysis
 
