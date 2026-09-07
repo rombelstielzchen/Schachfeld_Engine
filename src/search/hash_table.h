@@ -30,11 +30,11 @@ class CHashTable {
     ~CHashTable();
   public:
     void clear_all_memory();
-
     void store_best_move(const SMove &best_move, const THashKey hash_key, const int distance_to_root);
     SMove get_best_move(THashKey hash_key) const;
     void set_size(size_t n_mega_bytes);
     void show_hash(const THashKey hash_key) const;
+    int hash_full_permill() const;
   private:
     size_t n_possible_entries(size_t size_in_bytes) const;
     size_t n_current_entries() const;
@@ -42,8 +42,11 @@ class CHashTable {
     size_t last_index() const { return data.size() - 1; }
   private:
     bool may_overwrite(const THashKey new_hash_key, int new_distance_to_root, const SHashEntry &existing_entry_entry) const;
+    void reset_statistics();
   private:
     std::vector<SHashEntry> data;
+    int64_t successful_write_attempts;
+    int64_t failed_write_attempts;
 };
 
 inline CHashTable hash_table;

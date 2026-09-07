@@ -9,6 +9,7 @@
 static_assert(INTPTR_MAX == INT64_MAX, "64-bit technology required: parameter-passing of small structs; hash-table-entries in the future");
 
 int main() {
+    // TODO: ,make DEBUG_LOG_TO_FILE an option
     ///DEBUG_LOG_TO_FILE();
     srand(static_cast<int>(time(NULL)));
     CUciProtocol uci_protocol;

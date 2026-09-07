@@ -19,12 +19,13 @@ bool operator ==(const SHashEntry &a, const SHashEntry &b) {
         && (a.best_move == b.best_move));
 }
 
-CHashTable::CHashTable () {
+CHashTable::CHashTable() {
     set_size(minimum_hash_MB);
+    reset_statistics();
 }
 
-CHashTable::~CHashTable () {
-    set_size(minimum_hash_MB);
+CHashTable::~CHashTable() {
+    ///set_size(minimum_hash_MB);
 }
 
 inline size_t CHashTable::n_possible_entries(size_t size_in_bytes) const {
@@ -52,8 +53,9 @@ void CHashTable::set_size(size_t n_mega_bytes) {
     assert(n_mega_bytes > 0);
     size_t size_in_bytes = n_mega_bytes * ONE_EGABYTE;
     data.resize(n_possible_entries(size_in_bytes), initial_entry);
+    reset_statistics();
     //TODO: reset() or re-hash, as old adreses lost their meaning
-    std::string info = "hash-tabe resized to " + std::to_string(data.size()) + " entries";
+    std::string info = "hash-table resized to " + std::to_string(data.size()) + " entries";
     CUciProtocol::send_info(info);
 }
 
@@ -79,6 +81,7 @@ void CHashTable::clear_all_memory() {
     [[maybe_unused]] constexpr int somewhere_in_the_middle = 17;
     assert(somewhere_in_the_middle <= last_index());
     assert(data[somewhere_in_the_middle] == initial_entry);
+    reset_statistics();
 }
 
 void CHashTable::store_best_move(const SMove &best_move, const THashKey hash_key, const int distance_to_root) {
@@ -91,6 +94,9 @@ void CHashTable::store_best_move(const SMove &best_move, const THashKey hash_key
         data[index].hash_key = hash_key;
         data[index].distance_to_root = distance_to_root;
         data[index].best_move = best_move;
+        ++successful_write_attempts;
+    } else {
+        ++failed_write_attempts;
     }
 }
 
@@ -115,5 +121,22 @@ void CHashTable::show_hash(const THashKey hash_key) const {
     CUciProtocol::send_info(info);
     info = "best_move:        " + move_as_text(get_best_move(hash_key));
     CUciProtocol::send_info(info);
+}
+
+void CHashTable::reset_statistics() {
+    constexpr int64_t anti_division_by_zero = 1;
+    successful_write_attempts = anti_division_by_zero;
+    failed_write_attempts = 0;
+}
+
+int CHashTable::hash_full_permill() const {
+    assert(successful_write_attempts > 0);
+    assert(failed_write_attempts >= 0);
+    int64_t total = successful_write_attempts + failed_write_attempts;
+    assert(total > 0);
+    int64_t failed_permill = (1000 * failed_write_attempts) / total;
+    assert(failed_permill >= 0);
+    assert(failed_permill < 1000);
+    return failed_permill;
 }
 

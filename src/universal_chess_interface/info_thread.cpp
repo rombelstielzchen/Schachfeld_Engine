@@ -7,6 +7,7 @@
 #include "command_interface.h"
 #include "uci_protocol.h"
 #include "../search/search_statistics.h"
+#include "../search/hash_table.h"
 #include "../technical_functions/standard_headers.h"
 
 CInfoThread::CInfoThread() {
@@ -15,8 +16,7 @@ CInfoThread::CInfoThread() {
 }
 
 inline void CInfoThread::send_hash_statistics() {
-    int hash_full_permill = rand() % 1001;
-        std::string message = "hashfull " + std::to_string(hash_full_permill);
+    std::string message = "hashfull " + std::to_string(hash_table.hash_full_permill());
     CUciProtocol::send_info(message);
 }
 
