@@ -47,6 +47,9 @@ bool CUciProtocol::last_message_was_separator = false;
 std::string CUciProtocol::recent_best_move = "";
 
 CUciProtocol::CUciProtocol() {
+    // ZODO: clone here (and below)?
+    assert(board.get_fen_position() == START_POSITION);
+    board.clone_to_global_reference_board();
     send_info(ENGINE_ID);
     send_info("'help' or '?' for some guidance");
     // Init the one and only info_thread immediately for convenience
@@ -199,6 +202,8 @@ void CUciProtocol::process_message_recursively(std::string &message) {
     } else if (string_tokenizer.next_token_is("test")) {
         interactive_console_mode = true;
         CEngineTest::test(); 
+        assert(board.get_fen_position() == START_POSITION);
+        board.clone_to_global_reference_board();
     } else if (string_tokenizer.next_token_is("uci")) {
          identify_engine();
          send_list_of_options(); 

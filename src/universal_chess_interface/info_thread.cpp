@@ -36,7 +36,7 @@ void CInfoThread::thread_function() {
 void CInfoThread::send_all_info() {
     if (CCommandInterface::any_worker_thread_busy()) {
         send_hash_statistics();
-        send_principal_variation();
+///        send_principal_variation();
     }
 }
 
