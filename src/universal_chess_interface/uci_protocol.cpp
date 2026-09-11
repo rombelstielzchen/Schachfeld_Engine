@@ -395,6 +395,9 @@ bool CUciProtocol::looks_like_a_mnove(const std::string token) {
     if ((token.length() < length_of_move) || (token.length() > length_of_move_with_promotion)) {
         return false;
     }
+    if (token == NULL_MOVE_AS_TEXT) {
+        return true;
+    }
     return (isalpha(token[0]) && isdigit(token[1]) && isalpha(token[2]) && isdigit(token[3]));
 }
 
