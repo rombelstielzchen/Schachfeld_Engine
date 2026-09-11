@@ -165,8 +165,10 @@ void CUciProtocol::process_message_recursively(std::string &message) {
         // TODO: naming is not really suitable for this use-case
         process_unknown_token_potential_move(recent_best_move);
     } else if (string_tokenizer.next_token_is("debug")) { 
-        interactive_console_mode = true;
         SWITCH_DEBUG_ON(string_tokenizer.next_token() == "on");
+        if (!interactive_console_mode) {
+            DEBUG_LOG_TO_FILE();
+        }
     } else if (string_tokenizer.next_token_is("dp")) {
         std::string next_token = string_tokenizer.next_token();
        process_default_position(next_token); 

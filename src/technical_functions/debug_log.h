@@ -115,6 +115,10 @@ inline std::string debug_filename() {
 #endif
 
 inline void log_to_file() {
+    if (debug_file_stream.is_open()) {
+        // TODO: this part untested
+        debug_file_stream.close();
+    }
     debug_file_stream.open(debug_filename());
     redirect_to_stream(debug_file_stream);
 }
