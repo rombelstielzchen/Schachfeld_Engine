@@ -25,6 +25,7 @@ inline void CInfoThread::send_principal_variation() {
 }
 
 void CInfoThread::thread_function() {
+    board.clone_from_global_reference_board();
     constexpr bool run_forever_even_if_not_calculating = true;
     while (run_forever_even_if_not_calculating) {
         constexpr int one_second_1000_ms = 1000;
@@ -36,7 +37,7 @@ void CInfoThread::thread_function() {
 void CInfoThread::send_all_info() {
     if (CCommandInterface::any_worker_thread_busy()) {
         send_hash_statistics();
-///        send_principal_variation();
+        send_principal_variation();
     }
 }
 
