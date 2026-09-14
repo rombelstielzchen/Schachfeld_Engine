@@ -23,5 +23,6 @@ class CTestMoveList {
     static bool test_king_capture();
     static bool test_prune_silent_piece_moves ();
     static bool test_integrate_hash_move();
+    static bool test_swap();
 };
 

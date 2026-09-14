@@ -55,6 +55,7 @@ class CMoveList {
     // For the root-node, in order to avoid greedy captures when getting mated
     void prune_illegal_moves();
   public:
+    void swap(unsigned int index_a, unsigned int index_b);
     // For root-node ordering
     // This function "ruins" the pre-sortedness of the list,
     // therefore to be used at the root-node only,  where we analyze all moves

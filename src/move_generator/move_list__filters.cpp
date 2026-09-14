@@ -212,3 +212,16 @@ void CMoveList::prune_silent_piece_moves(const SSquare piece_location) {
     assert(valid_list());
 }
 
+void CMoveList::swap(unsigned int index_a, unsigned int index_b) {
+     // TODO: optimized inline semi-swao that stores only one move and directly returns the other one
+    assert(index_a >= first_capture);
+    assert(index_a <= last_move_index());
+    assert(index_b >= first_capture);
+    assert(index_b >= last_move_index());
+    assert(index_a != index_b);
+    assert(valid_list());
+    SMove temp = bidirectional_move_list[index_a];
+    bidirectional_move_list[index_a] = bidirectional_move_list[index_b];
+    bidirectional_move_list[index_b] = temp;
+}
+

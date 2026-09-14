@@ -1,3 +1,4 @@
+//
 // Project: Schachfeld_Engine
 // Author: Rombelstielzchen
 // License: GPLv3
@@ -23,6 +24,7 @@ bool CTestMoveList::test_everything() {
     EXPECT(test_king_capture());
     EXPECT(test_prune_silent_piece_moves());
     EXPECT(test_integrate_hash_move());
+    EXPECT(test_swap());
     return true;
 }
 
@@ -302,6 +304,26 @@ bool CTestMoveList::test_integrate_hash_move() {
     EXPECT(first_move == "e5f6");
     EXPECT(first_move.move_type == MOVE_TYPE_CAPTURE);
     // TODO: underpromotions
+    return true;
+}
+
+bool CTestMoveList::test_swap() {
+    TEST_FUNCTION();
+    EXPECT(board.set_fen_position("k/////1p/pP/K w"));
+    CMoveGenerator move_generator;
+    move_generator.generate_all();
+    SILENT_EXPECT(move_generator.move_list.list_size() == 2);
+    constexpr int expected_first_index = LIST_ORIGIN - 1;
+    constexpr int expected_last_index = LIST_ORIGIN;
+    EXPECT(move_generator.move_list.consumer_position == expected_first_index);
+    EXPECT(move_generator.move_list.last_move_index() == expected_last_index);
+    SMove expected_first_move = { A1, A2, MOVE_TYPE_CAPTURE, BLACK_POWER, 0 };
+    SMove expected_last_move = { A1, B1, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 };
+    EXPECT(move_generator.move_list.bidirectional_move_list[expected_first_index] == expected_first_move);
+    EXPECT(move_generator.move_list.bidirectional_move_list[expected_last_index] == expected_last_move);
+    move_generator.move_list.swap(expected_first_index, expected_last_index);
+    EXPECT(move_generator.move_list.bidirectional_move_list[expected_first_index] == expected_last_move);
+    EXPECT(move_generator.move_list.bidirectional_move_list[expected_last_index] == expected_first_move);
     return true;
 }
 
