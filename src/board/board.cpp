@@ -15,7 +15,7 @@ CBoard::CBoard() {
     clear_board_squares();
     set_start_position();
     /// TODO
-    ///assert(side_to_move == WHITE_PLAYER);
+    //assert(side_to_move == WHITE_PLAYER);
     ///assert(move_counter > 0);
     ///assert(_100_ply_draw_counter >= 0);
     ///assert(eng_passeng_file == NO_ENG_PASSENG_POSSIBLE);
@@ -32,7 +32,7 @@ void CBoard::clone_from_global_reference_board() {
     _100_ply_draw_counter = global_reference_board._100_ply_draw_counter;
     castling_rights = global_reference_board.castling_rights;
     initial_position_before_moves = global_reference_board.initial_position_before_moves;
-    // TODO: this gets called "tpp pften"
+    // TODO: this gets called "too pften"
     //   *  on every new FRN-position
     //   * for every cloning by all calculator-thrads
     //   * also an init() on a frsh board for each new thread

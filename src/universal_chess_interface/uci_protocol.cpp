@@ -47,7 +47,7 @@ bool CUciProtocol::last_message_was_separator = false;
 std::string CUciProtocol::recent_best_move = "";
 
 CUciProtocol::CUciProtocol() {
-    // ZODO: clone here (and below)?
+    // TODO: clone here (and below)?
     assert(board.get_fen_position() == START_POSITION);
     board.clone_to_global_reference_board();
     send_info(ENGINE_ID);
@@ -165,7 +165,6 @@ void CUciProtocol::process_message_recursively(std::string &message) {
         interactive_console_mode = true;
        command_interface.takeback();
     } else if (string_tokenizer.next_token_is_one_of("bestmove", "bm")) {
-        // TODO: naming is not really suitable for this use-case
         process_unknown_token_potential_move(recent_best_move);
     } else if (string_tokenizer.next_token_is("debug")) { 
         SWITCH_DEBUG_ON(string_tokenizer.next_token() == "on");
@@ -278,7 +277,7 @@ void CUciProtocol::process_go_command(CStringTokenizer &string_tokenizer) {
     std::string next_token = string_tokenizer.next_token();
     while (next_token != "") {
         if (next_token == "time") {
-            // Consume silently, more tokens coming (wtime, btime, winc, binc, movestogo)
+            // Consume silently, more tokens expected to come (wtime, btime, winc, binc, movestogo)
             (void)NULL;
         } else if (next_token == "wtime") {
             white_time_ms = string_tokenizer.get_integer_token(1);

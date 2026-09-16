@@ -6,10 +6,11 @@
 #include "universal_chess_interface/uci_protocol.h"
 #include "technical_functions/standard_headers.h"
 
-static_assert(INTPTR_MAX == INT64_MAX, "64-bit technology required: parameter-passing of small structs; hash-table-entries in the future");
+static_assert(INTPTR_MAX >= INT64_MAX, "64-bit technology required");
 
 int main() {
     srand(static_cast<int>(time(NULL)));
+    global_reference_board.set_start_position();
     CUciProtocol uci_protocol;
     uci_protocol.message_loop();
      return EXIT_SUCCESS;
