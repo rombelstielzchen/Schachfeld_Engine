@@ -32,9 +32,9 @@ void CBoard::clone_from_global_reference_board() {
     castling_rights = global_reference_board.castling_rights;
     initial_position_before_moves = global_reference_board.initial_position_before_moves;
     // TODO: this gets called "too pften"
-    //   *  on every new FRN-position
+    //   *  on every new FEN-position
     //   * for every cloning by all calculator-thrads
-    //   * also an init() on a frsh board for each new thread
+    //   * also an init() on a fresh board for each new thread
     evaluator.init();
 }
 
@@ -160,3 +160,4 @@ TSquareColour CBoard::square_colour(const SSquare square) const {
 void CBoard::clone_to_global_reference_board() {
     global_reference_board = *this;
 }
+

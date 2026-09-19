@@ -62,6 +62,5 @@ class CBoardLogic {
     static bool is_heterogebous_castling();
   public:
     static bool is_half_open_file(TFile file, TPlayerColour for_player);
-
 };
 
