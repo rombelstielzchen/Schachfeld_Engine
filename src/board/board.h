@@ -143,7 +143,16 @@ inline bool CBoard::square_is_empty(const SSquare square) const {
     return square_is_empty(square.file, square.rank);
 }
 
-// Global board, as "everybody" needs easy access to it
+/*
+    !!! UGLY LIMITATION
+    !!! ===============
+    !!!
+    !!! Most board functions work implicitly on the thread_local board
+    !!! for simplicity and performance.  Therefore they can not be used
+    !!! on the global_reference_board and local boards.
+    !!! Use global_reference_board only for clone_to_global_reference_board()
+    !!! and clone_from_global_reference_board().
+*/
 inline thread_local CBoard board;
 inline CBoard global_reference_board;
 

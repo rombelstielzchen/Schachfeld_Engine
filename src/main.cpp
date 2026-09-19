@@ -10,7 +10,8 @@ static_assert(INTPTR_MAX >= INT64_MAX, "64-bit technology required");
 
 int main() {
     srand(static_cast<int>(time(NULL)));
-    global_reference_board.set_start_position();
+    board.set_start_position();
+    board.clone_to_global_reference_board();
     CUciProtocol uci_protocol;
     uci_protocol.message_loop();
      return EXIT_SUCCESS;

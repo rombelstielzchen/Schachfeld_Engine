@@ -13,12 +13,11 @@
 CBoard::CBoard() {
     init_garden_fence();
     clear_board_squares();
+    if (this == &global_reference_board) {
+        // global_reference_board can only be used for clone_from and clone_to.
+        return;
+    }
     set_start_position();
-    /// TODO
-    //assert(side_to_move == WHITE_PLAYER);
-    ///assert(move_counter > 0);
-    ///assert(_100_ply_draw_counter >= 0);
-    ///assert(eng_passeng_file == NO_ENG_PASSENG_POSSIBLE);
 }
 
 void CBoard::clone_from_global_reference_board() {
@@ -63,12 +62,11 @@ void CBoard::clear_board_squares() {
 
 void CBoard::set_start_position() {
     set_fen_position(START_POSITION);
-    /// TODO!
-    ///assert(get_side_to_move() == WHITE_PLAYER);
-    ///assert(get_eng_passeng_file() == NO_ENG_PASSENG_POSSIBLE);
-    ///assert(get_fen_position() == START_POSITION);
-    ///assert(get_initial_position_before_moves() == START_POSITION);
-    ///assert(moves_from_startpos() == "");
+    assert(get_fen_position() == START_POSITION);
+    assert(side_to_move == WHITE_PLAYER);
+    assert(move_counter  == 1);
+    assert(_100_ply_draw_counter == 0);
+    assert(eng_passeng_file == NO_ENG_PASSENG_POSSIBLE);
 }
 
 bool CBoard::set_fen_position(const std::string &position) {

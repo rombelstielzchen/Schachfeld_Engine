@@ -25,8 +25,7 @@ bool CTestBoard::test_everything() {
     EXPECT(test_square_colour());
     EXPECT(test_modifiers());
     EXPECT(test_initial_position());
-///    EXPECT(test_multiple_boards());
-///    EXPECT(test_copy());
+    EXPECT(test_multiple_boards());
     return true;
 }
 
@@ -149,30 +148,13 @@ bool CTestBoard::test_square_colour() {
 
 bool CTestBoard::test_multiple_boards() {
     TEST_FUNCTION();
-    CBoard another_board;
+    // Using arbitrary boards is currently not possible,
+    // so we test the thread_local board and the global_reference_board
     board.set_start_position();
-    another_board.set_fen_position("k1K b");
-    EXPECT(another_board.get_side_to_move() == BLACK_PLAYER);
-    EXPECT(board.get_side_to_move() == WHITE_PLAYER);
-    return true;
-}
-
-bool CTestBoard::test_copy() {
-    TEST_FUNCTION();
-    const std::string my_lovely_position = "k7/PP6/K7/8/8/8/8/8 b - - 0 1";
-    SILENT_EXPECT(board.set_fen_position(my_lovely_position));
-    SILENT_EXPECT(board.get_side_to_move() == BLACK_PLAYER);
-    CBoard another_board;
-    SILENT_EXPECT(board.get_side_to_move() == BLACK_PLAYER);
-    EXPECT(another_board.get_side_to_move() == WHITE_PLAYER);
-    another_board = board;
-    SILENT_EXPECT(board.get_side_to_move() == BLACK_PLAYER);
-    EXPECT(another_board.get_side_to_move() == BLACK_PLAYER);
-    board.set_start_position();
-    SILENT_EXPECT(board.get_fen_position() == START_POSITION);
-    board = another_board;
+    board.clone_to_global_reference_board();
+    SILENT_EXPECT(board.set_fen_position("k1K b"));
+    EXPECT(global_reference_board.get_side_to_move() == WHITE_PLAYER);
     EXPECT(board.get_side_to_move() == BLACK_PLAYER);
-    EXPECT(board.get_fen_position() == my_lovely_position);
     return true;
 }
 
