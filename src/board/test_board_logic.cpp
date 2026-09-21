@@ -18,7 +18,8 @@ bool CTestBoardLogic::test_everything() {
     EXPECT(test_is_endgame());
     EXPECT(test_is_pawn_at());
     EXPECT(test_is_pawn_missing());
-    EXPECT(test_is_pawn_anywhere());
+    EXPECT(test_is_pawn_at__multiple_squares());
+    EXPECT(test_is_pawn_at__rectangle());
     EXPECT(test_is_pawn_structure());
     EXPECT(test_is_piece_present());
     EXPECT(test_is_simplified_testcase());
@@ -28,6 +29,7 @@ bool CTestBoardLogic::test_everything() {
     EXPECT(test_is_pawn_endgame());
     EXPECT(test_king_position());
     EXPECT(test_is_half_open_file());
+    EXPECT(test_is_passed_pawn());
     return true;
 }
 
@@ -84,15 +86,24 @@ bool CTestBoardLogic::test_is_pawn_at() {
     return true;
 }
 
-bool CTestBoardLogic::test_is_pawn_anywhere() {
+bool CTestBoardLogic::test_is_pawn_at__multiple_squares() {
     TEST_FUNCTION();
     board.set_start_position();
     SILENT_EXPECT(board.move_maker.make_move("e2e4"));
-    EXPECT(CBoardLogic::is_pawn_anywhere(WHITE_POWER, A5, B3, D4) == false);
-    EXPECT(CBoardLogic::is_pawn_anywhere(WHITE_POWER, A5, B3, D4, G7, H8) == false);
-    EXPECT(CBoardLogic::is_pawn_anywhere(WHITE_POWER, A5, B3, D4, G7, H8, E4));
-    EXPECT(CBoardLogic::is_pawn_anywhere(BLACK_POWER, E5, H2) == false);
-    EXPECT(CBoardLogic::is_pawn_anywhere(BLACK_POWER, E5, H7));
+    EXPECT(CBoardLogic::is_pawn_at(WHITE_POWER, A5, B3, D4) == false);
+    EXPECT(CBoardLogic::is_pawn_at(WHITE_POWER, A5, B3, D4, G7, H8) == false);
+    EXPECT(CBoardLogic::is_pawn_at(WHITE_POWER, A5, B3, D4, G7, H8, E4));
+    EXPECT(CBoardLogic::is_pawn_at(BLACK_POWER, E5, H2) == false);
+    EXPECT(CBoardLogic::is_pawn_at(BLACK_POWER, E5, H7));
+    return true;
+}
+
+bool CTestBoardLogic::test_is_pawn_at__rectangle() {
+    TEST_FUNCTION();
+    board.set_start_position();
+    EXPECT(CBoardLogic::is_pawn_at(WHITE_POWER, {A2, H2}));
+    EXPECT(CBoardLogic::is_pawn_at(BLACK_POWER, {A7, H7}));
+    EXPECT(CBoardLogic::is_pawn_at(BLACK_POWER, {A1, H6}) == false);
     return true;
 }
 
@@ -251,6 +262,21 @@ bool CTestBoardLogic::test_is_half_open_file() {
     EXPECT(CBoardLogic::is_half_open_file(FILE_F, BLACK_PLAYER) == false);
     EXPECT(CBoardLogic::is_half_open_file(FILE_G, BLACK_PLAYER) == false);
     EXPECT(CBoardLogic::is_half_open_file(FILE_H, BLACK_PLAYER) == false);
+    return true;
+}
+
+bool CTestBoardLogic::test_is_passed_pawn() {
+    TEST_FUNCTION();
+    EXPECT(board.set_fen_position("6k1/5pbp/3n2p1/1p1Pp3/2p1P3/2N2B2/P4PPP/6K1 w - - 0 1"));
+    EXPECT(CBoardLogic::is_passed_pawn(C4));
+    EXPECT(CBoardLogic::is_passed_pawn(B5) == false);
+    EXPECT(CBoardLogic::is_passed_pawn(D5));
+    EXPECT(CBoardLogic::is_passed_pawn(A2) == false);
+    int n_passed_pawns = 0;
+    for (const SSquare s: ALL_SQUARES) {
+        n_passed_pawns += CBoardLogic::is_passed_pawn(s) ? 1 : 0; 
+    }
+    EXPECT(n_passed_pawns == 2);
     return true;
 }
 

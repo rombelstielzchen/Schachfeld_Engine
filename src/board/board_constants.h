@@ -99,10 +99,16 @@ constexpr TSquareColour WHITE_SQUARE_COLOUR = WHITE_PLAYER;
 static_assert(sizeof(TFile) == 1);
 static_assert(sizeof(TRank) == 1);
 
+// TODO: move structs?
 typedef struct {
    TFile file;
    TRank rank;
 } SSquare;
+
+typedef struct {
+    SSquare bottom_left;
+    SSquare top_right;
+} SRectangle;
 
 static_assert(sizeof(SSquare) <= 2);
 

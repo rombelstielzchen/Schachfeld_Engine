@@ -42,7 +42,8 @@ class CBoardLogic {
     static bool is_simplified_testcase();
   public:
     static bool is_pawn_at(char white_or_black_pawn, SSquare square);
-    static bool is_pawn_anywhere(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3 = NULL_SQUARE, SSquare square4 = NULL_SQUARE, SSquare square5 = NULL_SQUARE, SSquare square6 = NULL_SQUARE);
+    static bool is_pawn_at(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3 = NULL_SQUARE, SSquare square4 = NULL_SQUARE, SSquare square5 = NULL_SQUARE, SSquare square6 = NULL_SQUARE);
+    static bool is_pawn_at(char white_or_black_pawn, SRectangle area);
     static bool is_pawn_missing(char white_or_black_pawn, SSquare square);
     static bool is_pawn_structure(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3 = NULL_SQUARE, SSquare square4 = NULL_SQUARE);
   public:
@@ -62,5 +63,6 @@ class CBoardLogic {
     static bool is_heterogebous_castling();
   public:
     static bool is_half_open_file(TFile file, TPlayerColour for_player);
+    static bool is_passed_pawn(const SSquare square);
 };
 

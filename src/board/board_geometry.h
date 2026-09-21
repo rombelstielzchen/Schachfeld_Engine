@@ -13,5 +13,6 @@ class CBoardGeometry {
     // May return a file of the garden-fence
     static TFile central_neighbour_file(TFile file);
     static TFile excentric_neighbour_file(TFile file);
+    static SSquare make_nearest_square(TFile something_like_a_file, TRank something_like_a_rank);
 };
 

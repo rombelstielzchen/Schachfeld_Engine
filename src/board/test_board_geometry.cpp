@@ -15,6 +15,7 @@ bool CTestBoardGeometry::test_everything() {
     EXPECT(test_excentric_neighbour_file());
     EXPECT(test_excentric_neighbour_file());
     EXPECT(test_central_neighbour_file());
+    EXPECT(test_make_nearest_square());
     return true;
 }
 
@@ -47,6 +48,11 @@ bool CTestBoardGeometry::test_central_neighbour_file() {
     TEST_FUNCTION();
     EXPECT(CBoardGeometry::central_neighbour_file(FILE_D) == FILE_E);
     EXPECT(CBoardGeometry::central_neighbour_file(FILE_E) == FILE_D);
+    return true;
+}
+
+bool CTestBoardGeometry::test_make_nearest_square() {
+    TEST_FUNCTION();
     return true;
 }
 

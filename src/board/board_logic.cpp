@@ -7,6 +7,7 @@
 
 #include"board_logic.h"
 #include "board.h"
+#include "board_geometry.h"
 #include "square_constants.h"
 #include "../evaluator/knowledge/opening/castling_direction/safety_evaluator.h"
 #include "../evaluator/score_constants.h"
@@ -200,7 +201,7 @@ bool CBoardLogic::is_pawn_at(char white_or_black_pawn, SSquare square) {
     return (board.get_square(square) == white_or_black_pawn);
 }
 
-bool CBoardLogic::is_pawn_anywhere(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3, SSquare square4, SSquare square5, SSquare square6) {
+bool CBoardLogic::is_pawn_at(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3, SSquare square4, SSquare square5, SSquare square6) {
     assert((white_or_black_pawn == WHITE_POWER) || (white_or_black_pawn == BLACK_POWER));
     assert(square_in_range(square1));
     assert(square_in_range(square2));
@@ -210,7 +211,21 @@ bool CBoardLogic::is_pawn_anywhere(char white_or_black_pawn, SSquare square1, SS
         || ((square4 != NULL_SQUARE) && is_pawn_at(white_or_black_pawn, square4))
         || ((square5 != NULL_SQUARE) && is_pawn_at(white_or_black_pawn, square5))
         || ((square6 != NULL_SQUARE) && is_pawn_at(white_or_black_pawn, square6)));
+}
 
+bool CBoardLogic::is_pawn_at(char white_or_black_pawn, SRectangle area) {
+    assert(square_in_range(area.bottom_left));
+    assert(square_in_range(area.top_right));
+    assert(area.bottom_left.file <= area.top_right.file);
+    assert(area.bottom_left.rank <= area.top_right.rank);
+    for (TFile f = area.bottom_left.file; f <= area.top_right.file; ++f) {
+        for (TRank r = area.bottom_left.rank; r <= area.top_right.rank; ++r) {
+            if (board.get_square(f, r) == white_or_black_pawn) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 bool CBoardLogic::is_pawn_structure(char white_or_black_pawn, SSquare square1, SSquare square2, SSquare square3, SSquare square4) {
@@ -366,5 +381,28 @@ bool CBoardLogic::is_half_open_file(TFile file, TPlayerColour for_player) {
         }
     }
     return enemy_pawm_seen;
+}
+
+bool CBoardLogic::is_passed_pawn(const SSquare square) {
+    assert(square_in_range(square));
+    char piece = board.get_square(square);
+    if ((piece != WHITE_POWER) && (piece != BLACK_POWER)) {
+        return false;
+    }
+    SRectangle necessary_empty_forward_area;
+    TPiece opponent_pawn;
+    if (piece == WHITE_POWER) {
+        necessary_empty_forward_area.bottom_left = CBoardGeometry::make_nearest_square(square.file - 1, square.rank + 1);
+        // We make the rectangle up to RANK_8 
+        // in order to create  a valid rectangle for pawns on RANK_7.
+        necessary_empty_forward_area.top_right = CBoardGeometry::make_nearest_square(square.file + 1, RANK_8);
+        opponent_pawn = BLACK_POWER;
+    } else {
+        necessary_empty_forward_area.bottom_left = CBoardGeometry::make_nearest_square(square.file - 1, RANK_1);
+        necessary_empty_forward_area.top_right = CBoardGeometry::make_nearest_square(square.file + 1, square.rank - 1);
+        opponent_pawn = WHITE_POWER;
+    }
+    return !is_pawn_at(opponent_pawn, necessary_empty_forward_area);
+    return false;
 }
 

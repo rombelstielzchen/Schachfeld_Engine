@@ -15,7 +15,8 @@ class CTestBoardLogic {
     static bool test_piece_attack();
     static bool test_is_endgame();
     static bool test_is_pawn_at();
-    static bool test_is_pawn_anywhere();
+    static bool test_is_pawn_at__multiple_squares();
+    static bool test_is_pawn_at__rectangle();
     static bool test_is_pawn_structure();
     static bool test_is_piece_present();
     static bool test_is_simplified_testcase();
@@ -28,5 +29,6 @@ class CTestBoardLogic {
     static bool test_is_pawn_endgame();
     static bool test_king_position();
     static bool test_is_half_open_file();
+    static bool test_is_passed_pawn();
 };
 

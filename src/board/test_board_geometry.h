@@ -13,5 +13,6 @@ class CTestBoardGeometry {
     static bool test_on_same_anti_diagonal();
     static bool test_excentric_neighbour_file();
     static bool test_central_neighbour_file();
+    static bool test_make_nearest_square();
 };
 
