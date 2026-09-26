@@ -112,11 +112,10 @@ SSquare CBoardLogic::piece_square(char wanted_piece) {
     return NULL_SQUARE;
 }
 
-SSquare CBoardLogic::king_square(TPlayerColour white_or_black) {
-    assert(!is_any_piece(white_or_black));
-    assert(player_colour_in_range(white_or_black));
-    char wanted_king_dead_or_alive = (white_or_black == WHITE_PLAYER) ? WHITE_KING : BLACK_KING;
-    return piece_square(wanted_king_dead_or_alive);
+SSquare CBoardLogic::king_square(char which_king) {
+    assert(is_any_piece(which_king));
+    assert((which_king == WHITE_KING) || (which_king == BLACK_KING));
+    return piece_square(which_king);
 }
 
 bool CBoardLogic::piece_attacked_by_side_to_move(const SSquare square) {
@@ -151,8 +150,8 @@ bool CBoardLogic::own_king_in_check() {
 }
 
 bool CBoardLogic::opponents_king_in_check() {
-    bool opponent_colour = !board.get_side_to_move();
-    SSquare opponent_king_square = CBoardLogic::king_square(opponent_colour);
+    char  opponent_king = (board.get_side_to_move() == WHITE_PLAYER) ? BLACK_KING : WHITE_KING;
+    SSquare opponent_king_square = CBoardLogic::king_square(opponent_king);
     if (opponent_king_square == NULL_SQUARE) {
         // No king, probably simplified test-case
         return false;
@@ -240,7 +239,7 @@ bool CBoardLogic::is_pawn_structure(char white_or_black_pawn, SSquare square1, S
 
 bool CBoardLogic::is_simplified_testcase() {
     // Both kings missing
-    return ((king_square(WHITE_PLAYER) == NULL_SQUARE) && abs(board.evaluator.nega_score() < SCORE_HALF_KING));
+    return ((king_square(WHITE_KING) == NULL_SQUARE) && abs(board.evaluator.nega_score() < SCORE_HALF_KING));
 }
 
 bool CBoardLogic::is_pawn_missing(char white_or_black_pawn, SSquare square) {

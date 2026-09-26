@@ -33,7 +33,7 @@ bool CExpertBasicMating::is_responsible() const {
     if (CBoardLogic::is_pawn_endgame()) {
         return false;
     }
-    if ((CBoardLogic::king_square(WHITE_PLAYER) == NULL_SQUARE) || (CBoardLogic::king_square(BLACK_PLAYER) == NULL_SQUARE)) {
+    if ((CBoardLogic::king_square(WHITE_KING) == NULL_SQUARE) || (CBoardLogic::king_square(BLACK_KING) == NULL_SQUARE)) {
         return false;
     }
     return true;
@@ -50,9 +50,9 @@ void CExpertBasicMating::apply_knowledge() {
     m_winning_rook = (m_winning_side == WHITE_PLAYER) ? WHITE_ROOK : BLACK_ROOK;
     m_winning_bishop = (m_winning_side == WHITE_PLAYER) ? WHITE_BISHOP : BLACK_BISHOP;
     m_winning_knight = (m_winning_side == WHITE_PLAYER) ? WHITE_KNIGHT : BLACK_KNIGHT;
-    m_winning_king_square = CBoardLogic::king_square(m_winning_side);
+    m_winning_king_square = CBoardLogic::king_square(m_winning_king);
     assert(square_in_range(m_winning_king_square));
-    m_losing_king_square = CBoardLogic::king_square(m_losing_side);
+    m_losing_king_square = CBoardLogic::king_square(m_losing_king);
     assert(square_in_range(m_losing_king_square));
     m_target_corner = desired_mating_corner(m_losing_king_square);
     assert(square_in_range(m_target_corner));

@@ -178,9 +178,7 @@ void CMoveList::integrate_hash_move(const SMove hash_move) {
     assert(move_on_list(hash_move));
     assert(move_index >= first_capture);
     assert(move_index <= last_move_index());
-#ifndef NDEBUG
-    int old_size = list_size();
-#endif
+    [[maybe_unused]] int old_size = list_size();
     // Use the move from the list in case move-types differ
     this->hash_move = bidirectional_move_list[move_index]; 
     assert(move_in_range(this->hash_move));

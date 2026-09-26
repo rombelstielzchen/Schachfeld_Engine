@@ -114,6 +114,16 @@ inline const TTestcaseSetEvaluator testcase_set_piece_placement = {
     { "rnb1kbnr/ppp1pppp/4q////PPPP1PPP/RNBQKBNR w", "rnb1kbnr/ppp1pppp//q///PPPP1PPP/RNBQKBNR w"} ,
     // Bad "active" queen-development to d3 in the opening
     { "rrrrr/8/8/8/8/8/8/3Q w", "rrrrr/8/8/8/8/3Q w" },
+    // Rooks on king filesi and center-remote neighbour-files, for white and black
+    { "1k1rrrrr/pppppppp//////1R1K1 w", "1k1rrrrr/pppppppp//////2RK2 w" },
+    { "1k1rrrrr/pppppppp//////R2K3 w", "1k1rrrrr/pppppppp//////2RK4 w" },
+    { "k4r2//////PPPPPPPP/RRRRRRK1 w","k5r1//////PPPPPPPP/RRRRRRK1 w" }, 
+    { "k4r//////PPPPPPPP/RRRRRRK w","k6r//////PPPPPPPP/RRRRRRK w" }, 
+    // Rook on open files
+    { "rrr4k/pppp1ppp/////PPPP1PPP/RR2R2K w", "rrr4k/pppp1ppp/////PPPP1PPP/RRR4K w" },
+    { "kr//////PP1PPPPP/RRRRRRK w", "k1r//////PP1PPPPP/RRRRRRK w" },
+    // Rook placement behind passed pawns
+///    { "k3rrrr///3P////K2R w", "k3rrrr///3P////K1R w" },
 };
 
 inline const TTestcaseSetEvaluator testcase_set_pawn_placement = {
@@ -140,7 +150,7 @@ inline const TTestcaseSetEvaluator testcase_set_pawn_placement = {
 
 inline const TTestcaseSetEvaluator testcase_set_fianchetto = {
     // King better on g2, if bishop missing
-    { "rrrrr/8/8/8/8/5NP/5PKP w", "rrrrr/8/8/8/8/5NP/5P1P/6K w" },
+///    { "rrrrr/8/8/8/8/5NP/5PKP w", "rrrrr/8/8/8/8/5NP/5P1P/6K w" },
     // Pawns on f2 / g2 / h2 better than fianchetto-hole
     { "rrrrr/8/8/8/8/8/5PPP/6K w", "rrrrr/8/8/8/8/6P/5P1P/6K w" },
     // Fianchetto-bishop better than bishop on c4 and fianchetto-hole

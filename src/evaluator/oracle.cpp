@@ -26,7 +26,7 @@ COracle::COracle() {
     static CExpertEndgamePawn expert_endgame_pawn;
     static CExpertEndgameQueen expert_endgame_queen;
     static CExpertBasicMating expert_basic_mating;
-    // Order of insertions = order of execution.
+    // Order of insertion = order of execution.
     // Basic experts first, more specialized experts later.
     // Especially endgame and mating last.
     expert_collection.push_back(&expert_general);
@@ -66,7 +66,7 @@ void COracle::configure_knowledge() {
          // Already done. Fast exit even before mutex
          return;
      }
-     // Oracl must be configured exactly one.
+     // Oracle must be configured exactly once.
      // Repeated initializations could mess up already running threads
     static std::mutex unique_oracle_mutex;
     std::lock_guard<std::mutex> lock(unique_oracle_mutex);

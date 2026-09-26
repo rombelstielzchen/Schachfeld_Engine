@@ -215,11 +215,13 @@ void CPsvModifier::make_gradient(TPieceSquareValueTable &table, const SSquare ta
         bonus_per_step = (table.bonus_for == WHITE_PLAYER) ? bonus_per_step : -bonus_per_step;
     ///DEBUG_METHOD();
     assert(abs(bonus_per_step) <= SCORE_HALF_PAWN);
+    assert(bonus_per_step != 0);
     assert(square_in_range(target_square));
     int base_value = table.values[target_square.file][target_square.rank];
     for (const SSquare s: ALL_SQUARES) {
         double distance = CDistances::mixed_distance(target_square, s);
         assert(distance <= 14);
+        assert(distance >= 0);
         double evaluation_difference = distance * bonus_per_step;
         // TODO: correct cast?
         int square_value = base_value - static_cast<int>(evaluation_difference);

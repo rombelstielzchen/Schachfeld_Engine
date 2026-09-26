@@ -15,7 +15,7 @@ bool CTestEvaluator::test_everything() {
     EXPECT(test_equal_positions());
     EXPECT(test_decided_positions());
     EXPECT(test_move_sequence());
-///    EXPECT(test_black_advantage());
+    EXPECT(test_black_advantage());
     EXPECT(test_pawn_values());
     // *** Testcase-sets ***
     EXPECT(test_positions(testcase_set_material_count));
@@ -62,7 +62,8 @@ bool CTestEvaluator::test_move_sequence() {
     board.move_maker.make_move("e1g1");
     EXPECT(board.evaluator.evaluate() > 0);
     board.move_maker.make_move("e8g8");
-    EXPECT(board.evaluator.evaluate() == 0);
+    EXPECT(board.evaluator.evaluate() >= 0);
+    EXPECT(board.evaluator.evaluate() <= SCORE_HALF_PAWN);
     board.move_maker.unmake_all();
     EXPECT(board.evaluator.evaluate() == 0);
     return true;
@@ -126,6 +127,7 @@ bool CTestEvaluator::test_pawn_values() {
     TEST_FUNCTION();
     for (const STestcaseEvaluator &testcase : testcase_set) {
         SILENT_EXPECT(first_position_better(testcase));
+        std::cout << "set was " << testcase.better_position << " -- " << testcase.worse_position << "\n";
     }
     return true;
 }

@@ -31,18 +31,18 @@ bool CTestBoardLogic::test_everything() {
     EXPECT(test_is_half_open_file());
     EXPECT(test_is_open_file());
     EXPECT(test_is_passed_pawn());
+    EXPECT(test_bishop_colour());
     return true;
 }
 
 bool CTestBoardLogic::test_king_squares() {
     TEST_FUNCTION();
     board.set_start_position();
-    EXPECT(CBoardLogic::king_square(WHITE_PLAYER) == E1);
-    EXPECT(CBoardLogic::king_square(BLACK_PLAYER) == E8);
+    EXPECT(CBoardLogic::king_square(WHITE_KING) == E1);
+    EXPECT(CBoardLogic::king_square(BLACK_KING) == E8);
     const std::string empty_board = "/ w";
     SILENT_EXPECT(board.set_fen_position(empty_board));
-    EXPECT(CBoardLogic::king_square(WHITE_PLAYER) == NULL_SQUARE);
-    EXPECT(test_bishop_colour());
+    EXPECT(CBoardLogic::king_square(WHITE_KING) == NULL_SQUARE);
     return true;
 }
 

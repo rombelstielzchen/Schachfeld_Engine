@@ -1,9 +1,9 @@
 Major Changes
 =============
 
-Version 1.5
------------
-* Hash-table-aging in order to allow old entries to get overwritten.
+Version 1.4.3
+-------------
+* Fix: the change to smarter piece-square-value-tables left some expert-engines with now incorrect negative values for black advantages.
 
 Version 1.4.2
 -------------
@@ -11,6 +11,7 @@ Version 1.4.2
 
 Version 1.4.1
 -------------
+* Hash-table-aging in order to allow old entries to get overwritten.
 * Fix to CMoveList::prune_silent_piece_moves() that affected the anti-repetition-search.
 
 Version 1.4

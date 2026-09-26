@@ -87,7 +87,6 @@ void CMoveList::reuse_list() {
 
 // TODO: move to CRootNodeList
 void CMoveList::shift_current_move_to_top() {
-    DEBUG_METHOD();
     // No assert(valid_list_origin());
     // and therefore no  assert(valid_list());
     // because we may shift captures into the silent part of the list.
@@ -149,7 +148,7 @@ void CMoveList::remove(const std::string &move_text) {
 
 void CMoveList::prune_illegal_castlings() {
     assert(valid_list());
-    SSquare king_square = CBoardLogic::king_square(board.get_side_to_move());
+    SSquare king_square = CBoardLogic::king_square(CBoardLogic::my_king());
     if (king_square.file != FILE_E) {
         return;
     }
@@ -224,7 +223,6 @@ void CMoveList::prune_silent_piece_moves(const SSquare piece_location) {
 }
 
 void CMoveList::swap(unsigned int index_a, unsigned int index_b) {
-    DEBUG_METHOD();
     // TODO: optimized inline semi-swap that stores only one move and directly returns the other one
     assert(index_a >= first_capture);
     assert(index_a <= last_move_index());

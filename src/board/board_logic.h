@@ -30,7 +30,7 @@ class CBoardLogic {
   public:
     // Simple and slow, meant for the root-node only
     static SSquare piece_square(char wanted_piece);
-    static SSquare king_square(TPlayerColour white_or_black);
+    static SSquare king_square(char which_king);
   public:
     static bool piece_attacked_by_side_to_move(const SSquare square);
     static bool piece_attacked_by_side_not_to_move(const SSquare square); 

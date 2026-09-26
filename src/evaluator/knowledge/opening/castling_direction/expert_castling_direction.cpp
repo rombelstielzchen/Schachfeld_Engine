@@ -55,9 +55,9 @@ void CExpertCastlingDirection::adapt_castling_squares(bool player, int king_posi
     } else {
         assert(player == BLACK_PLAYER);
         if (king_position == KINGSIDE) {
-            adapt_castling_squares(main_piece_square_value_table_set[BLACK_KING], KING_SQUARE_GROUP_BLACK_KINGSIDE, -malus);
+            adapt_castling_squares(main_piece_square_value_table_set[BLACK_KING], KING_SQUARE_GROUP_BLACK_KINGSIDE, malus);
         } else {
-            adapt_castling_squares(main_piece_square_value_table_set[BLACK_KING], KING_SQUARE_GROUP_BLACK_QUEENSIDE, -malus);
+            adapt_castling_squares(main_piece_square_value_table_set[BLACK_KING], KING_SQUARE_GROUP_BLACK_QUEENSIDE, malus);
         }
     }
 }
@@ -65,6 +65,8 @@ void CExpertCastlingDirection::adapt_castling_squares(bool player, int king_posi
 void CExpertCastlingDirection::adapt_castling_squares(TPieceSquareValueTable &psv, const SKingSquareGroup &square_group, int malus) {
     assert(square_in_range(square_group.important_flank_pawn_2));
     assert(square_in_range(square_group.minor_flank_pawn_3));
+    assert(malus <= 0);
+    assert(malus >= - SCORE_HALF_PAWN);
     CPsvModifier::add_bonus_to_area(psv, square_group.bottom_left_king_area, square_group.top_right_king_area, malus);
 }
 
