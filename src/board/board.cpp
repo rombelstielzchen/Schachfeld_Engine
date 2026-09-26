@@ -17,6 +17,7 @@ CBoard::CBoard() {
         // global_reference_board can only be used for clone_from and clone_to.
         return;
     }
+    assert(this == &board);
     set_start_position();
 }
 
