@@ -8,7 +8,7 @@
 #include "../../score_constants.h"
 #include "../../../technical_functions/standard_headers.h"
 
-TPieceSquareValueTable default_psv_white_king = {{
+TPieceSquareValueTable default_psv_white_king = {{{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
@@ -18,7 +18,9 @@ TPieceSquareValueTable default_psv_white_king = {{
     { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
     { 0,   0, 115, 118, 100, 100, 100, 100, 100, 100 },
     { 0,   0, 125, 130, 100, 100, 100, 100, 100, 100 },
-    { 0,   0, 110, 100, 100, 100, 100, 100, 100, 100 }}};
+    { 0,   0, 110, 100, 100, 100, 100, 100, 100, 100 }}},
+   WHITE_PLAYER
+};
 
 // Rules of thumb for opening and middle-game:
 //   * the queen stands nearly everywhere well, therefore only marginal boni
@@ -26,7 +28,7 @@ TPieceSquareValueTable default_psv_white_king = {{
 //   * kingside is more threatening than queenside
 //   * d4 > h5 > a4 > c2 > e2 > b3 > d1 > avg
 //   * b7 is utterly bad, c3 dangerous
-TPieceSquareValueTable default_psv_white_queen = {{
+TPieceSquareValueTable default_psv_white_queen = {{{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0, 100, 100, 100, 105, 100, 100, 100, 100 },
@@ -36,9 +38,11 @@ TPieceSquareValueTable default_psv_white_queen = {{
     { 0,   0, 100, 103, 100, 102, 102, 100, 100, 100 },
     { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
     { 0,   0, 100, 100, 100, 100, 100, 100, 100, 100 },
-    { 0,   0, 100, 100, 100, 100, 106, 100, 100, 100 }}};
+    { 0,   0, 100, 100, 100, 100, 106, 100, 100, 100 }}},
+    WHITE_PLAYER
+};
 
-TPieceSquareValueTable default_psv_white_rook = {{
+TPieceSquareValueTable default_psv_white_rook = {{{
 // Rules of thumb for opening and middle-game:
 //   * large bonus for 7th rank, less gor 8th rank 
 //   * small bonus for own backrank (defensive)
@@ -55,12 +59,14 @@ TPieceSquareValueTable default_psv_white_rook = {{
     { 0,   0, 103, 101, 102, 100, 100, 100, 140, 120 },
     { 0,   0, 104, 101, 102, 100, 100, 100, 140, 120 },
     { 0,   0, 103, 101, 102, 100, 100, 100, 140, 120 },
-    { 0,   0, 104, 101, 102, 100, 100, 100, 135, 120 }}};
+    { 0,   0, 104, 101, 102, 100, 100, 100, 135, 120 }}},
+    WHITE_PLAYER
+};
 
 // The kings bishop is worth more in general, but offensive and defensive.
 // Therefore the values are not symmetric.
 // The black-squared values will be configured by a function.
-TPieceSquareValueTable default_psv_white_bishop = {{
+TPieceSquareValueTable default_psv_white_bishop = {{{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0, 100,   0, 100,   0, 100,   0, 100 },
@@ -70,8 +76,11 @@ TPieceSquareValueTable default_psv_white_bishop = {{
     { 0,   0,   0, 100,   0, 150,   0, 140,   0, 100 },
     { 0,   0, 100,   0, 130,   0, 130,   0, 100,   0 },
     { 0,   0,   0, 120,   0, 120,   0, 120,   0, 100 },
-    { 0,   0, 100,   0, 100,   0, 100,   0, 100,   0 }}};
-TPieceSquareValueTable default_psv_white_knight = {{
+    { 0,   0, 100,   0, 100,   0, 100,   0, 100,   0 }}},
+    WHITE_PLAYER
+};
+
+TPieceSquareValueTable default_psv_white_knight = {{{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,  60,  70,  80,  80,  80,  80,  70,  60 },
@@ -81,9 +90,11 @@ TPieceSquareValueTable default_psv_white_knight = {{
     { 0,   0,  80,  90, 130, 150, 150, 140,  90,  80 },
     { 0,   0,  80,  90, 130, 130, 130, 135,  90,  80 },
     { 0,   0,  70,  80,  90,  90,  90,  90,  80,  70 },
-    { 0,   0,  60,  70,  80,  80,  80,  80,  70,  60 }}};
+    { 0,   0,  60,  70,  80,  80,  80,  80,  70,  60 }}},
+    WHITE_PLAYER
+};
 
-TPieceSquareValueTable default_psv_white_power = {{
+TPieceSquareValueTable default_psv_white_power = {{{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0, 100, 100,  97,  95,  96, 110, 108, 100 },
@@ -93,7 +104,8 @@ TPieceSquareValueTable default_psv_white_power = {{
     { 0,   0, 100, 100, 112, 130, 124, 135, 132, 100 },
     { 0,   0, 100, 130, 115, 120, 114, 130, 127, 100 },
     { 0,   0, 100, 120, 115, 100, 100, 130, 127, 100 },
-    { 0,   0, 100, 110, 105, 100, 104, 120, 117, 100 }}};
+    { 0,   0, 100, 110, 105, 100, 104, 120, 117, 100 }}},
+    WHITE_PLAYER};
 
 bool CExpertGeneral::is_responsible() const {
     return true;
@@ -120,8 +132,8 @@ void CExpertGeneral::apply_knowledge() {
     CPsvModifier::clone_from_white_to_black(BLACK_ROOK);
     CPsvModifier::clone_from_white_to_black(BLACK_QUEEN);
     CPsvModifier::clone_from_white_to_black(BLACK_KING);
-    assert(main_piece_square_value_table_set[WHITE_BISHOP][FILE_G][RANK_2] > main_piece_square_value_table_set[WHITE_BISHOP][FILE_B][RANK_2]);
-    assert(main_piece_square_value_table_set[WHITE_BISHOP][FILE_G][RANK_2] == abs(main_piece_square_value_table_set[BLACK_BISHOP][FILE_G][RANK_7]));
-    assert(main_piece_square_value_table_set[WHITE_BISHOP][FILE_B][RANK_2] == abs(main_piece_square_value_table_set[BLACK_BISHOP][FILE_B][RANK_7]));
+    assert(main_piece_square_value_table_set[WHITE_BISHOP].values[FILE_G][RANK_2] > main_piece_square_value_table_set[WHITE_BISHOP].values[FILE_B][RANK_2]);
+    assert(main_piece_square_value_table_set[WHITE_BISHOP].values[FILE_G][RANK_2] == abs(main_piece_square_value_table_set[BLACK_BISHOP].values[FILE_G][RANK_7]));
+    assert(main_piece_square_value_table_set[WHITE_BISHOP].values[FILE_B][RANK_2] == abs(main_piece_square_value_table_set[BLACK_BISHOP].values[FILE_B][RANK_7]));
 }
 

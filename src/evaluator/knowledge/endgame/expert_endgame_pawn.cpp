@@ -20,7 +20,7 @@ constexpr int average_endgame_pawn_value = 110;
 //   * 6th row is super-strong, as explained for the general tables
 //   * 7th row slightly weaker, as it sometimes messes things up
 //   * ATM we do not distinguish the files; they all have pros and cons
-TPieceSquareValueTable endgame_pawn_psv_table = {{
+TPieceSquareValueTable endgame_pawn_psv_table = {{{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0, 110, 110, 109, 108, 120, 130, 125, 110 },
@@ -30,7 +30,9 @@ TPieceSquareValueTable endgame_pawn_psv_table = {{
     { 0,   0, 110, 110, 109, 108, 120, 130, 125, 110 },
     { 0,   0, 110, 110, 109, 108, 120, 130, 125, 110 },
     { 0,   0, 110, 110, 109, 108, 120, 130, 125, 110 },
-    { 0,   0, 110, 110, 109, 108, 120, 130, 125, 110 }}};
+    { 0,   0, 110, 110, 109, 108, 120, 130, 125, 110 }}},
+    WHITE_PLAYER
+};
 
 bool CExpertEndgamePawn::is_responsible() const {
     return CBoardLogic::is_endgame();

@@ -16,6 +16,7 @@
 #include "../board/board_logic.h"
 
 COracle::COracle() {
+    configure_main_psv_bonus_for_info();
     // static experts here for global lifetime and proper order of initialization
     static CExpertGeneral expert_general;
     static CExpertCastlingDirection expert_castling_direction;
@@ -79,6 +80,12 @@ void COracle::configure_knowledge() {
         assert(expert != nullptr);
         assert(typeid(*expert).name());
         expert->configure();
+    }
+}
+
+void COracle::configure_main_psv_bonus_for_info() {
+    for (char piece = '\0'; piece <= LAST_PIECE_TYPE; ++piece) {
+        main_piece_square_value_table_set[piece].bonus_for = isupper(piece) ? WHITE_PLAYER : BLACK_PLAYER;
     }
 }
 

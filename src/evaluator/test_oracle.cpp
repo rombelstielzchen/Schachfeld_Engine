@@ -22,19 +22,19 @@ bool CTestOracle::test_everything() {
 bool CTestOracle::test_reasonable_initialization() {
     TEST_FUNCTION();
     board.set_start_position();
-    EXPECT(main_piece_square_value_table_set[WHITE_POWER][FILE_E][RANK_5] > 0);
-    EXPECT(main_piece_square_value_table_set[WHITE_KNIGHT][FILE_E][RANK_5] > 0);
-    EXPECT(main_piece_square_value_table_set[WHITE_BISHOP][FILE_E][RANK_5] > 0);
-    EXPECT(main_piece_square_value_table_set[WHITE_ROOK][FILE_E][RANK_5] > 0);
-    EXPECT(main_piece_square_value_table_set[WHITE_QUEEN][FILE_E][RANK_5] > 0);
-    EXPECT(main_piece_square_value_table_set[WHITE_KING][FILE_E][RANK_5] > 0);
-    EXPECT(main_piece_square_value_table_set[BLACK_POWER][FILE_E][RANK_5] < 0);
-    EXPECT(main_piece_square_value_table_set[BLACK_KNIGHT][FILE_E][RANK_5] < 0);
-    EXPECT(main_piece_square_value_table_set[BLACK_BISHOP][FILE_E][RANK_5] < 0);
-    EXPECT(main_piece_square_value_table_set[BLACK_ROOK][FILE_E][RANK_5] < 0);
-    EXPECT(main_piece_square_value_table_set[BLACK_QUEEN][FILE_E][RANK_5] < 0);
-    EXPECT(main_piece_square_value_table_set[BLACK_KING][FILE_E][RANK_5] < 0);
-    EXPECT(main_piece_square_value_table_set[EMPTY_SQUARE][FILE_E][RANK_5] ==  0);
+    EXPECT(main_piece_square_value_table_set[WHITE_POWER].values[FILE_E][RANK_5] > 0);
+    EXPECT(main_piece_square_value_table_set[WHITE_KNIGHT].values[FILE_E][RANK_5] > 0);
+    EXPECT(main_piece_square_value_table_set[WHITE_BISHOP].values[FILE_E][RANK_5] > 0);
+    EXPECT(main_piece_square_value_table_set[WHITE_ROOK].values[FILE_E][RANK_5] > 0);
+    EXPECT(main_piece_square_value_table_set[WHITE_QUEEN].values[FILE_E][RANK_5] > 0);
+    EXPECT(main_piece_square_value_table_set[WHITE_KING].values[FILE_E][RANK_5] > 0);
+    EXPECT(main_piece_square_value_table_set[BLACK_POWER].values[FILE_E][RANK_5] < 0);
+    EXPECT(main_piece_square_value_table_set[BLACK_KNIGHT].values[FILE_E][RANK_5] < 0);
+    EXPECT(main_piece_square_value_table_set[BLACK_BISHOP].values[FILE_E][RANK_5] < 0);
+    EXPECT(main_piece_square_value_table_set[BLACK_ROOK].values[FILE_E][RANK_5] < 0);
+    EXPECT(main_piece_square_value_table_set[BLACK_QUEEN].values[FILE_E][RANK_5] < 0);
+    EXPECT(main_piece_square_value_table_set[BLACK_KING].values[FILE_E][RANK_5] < 0);
+    EXPECT(main_piece_square_value_table_set[EMPTY_SQUARE].values[FILE_E][RANK_5] ==  0);
     return true;
 }
 

@@ -9,10 +9,13 @@
 #include "../move_generator/move.h"
 #include "../technical_functions/standard_headers.h"
 
-constexpr int PSV_COLUMNS = FILE_H + 1;
-constexpr int PSV_ROWS = RANK_8 + 1;
+constexpr int N_PSV_COLUMNS = FILE_H + 1;
+constexpr int N_PSV_ROWS = RANK_8 + 1;
 
-typedef std::array<std::array<int, PSV_COLUMNS>, PSV_ROWS> TPieceSquareValueTable;
+typedef struct {
+    std::array<std::array<int, N_PSV_COLUMNS>, N_PSV_ROWS> values;
+    TPlayerColour bonus_for = WHITE_PLAYER;
+} TPieceSquareValueTable;
 
 // One PSV-table per piece.  ATM our set of pieces is no dense enumeration,
 // so we waste some memory here and have to be careful with future changes.
@@ -61,7 +64,11 @@ class CPsvModifier {
     static void clone_from_kings_to_queens_bishop(TPieceSquareValueTable &psv_table, int const positive_delta_value);
     static void set_psv_row(char piece_type, const TRank rank, const int value);
   public:
-    static void add_bonus_to_square(TPieceSquareValueTable &psv_table, SSquare square, int bonus);
+    // Use only these basic functions internally to apply boni or assign values.
+    // They automagically adapt to positive boni for white, negative boni for black
+    static void add_bonus_to_square(TPieceSquareValueTable &psv_table, SSquare square, int positive_bonus_for_white__auto_adapted_for_black);
+    static void assign_value(TPieceSquareValueTable &psv_table, SSquare square, int positive_value_for_white__auto_adapted_for_black);
+  public:
     static void add_bonus_to_squares(TPieceSquareValueTable &psv_table, const TSquareList square_list, int bonus);
     static void add_bonus_to_area(TPieceSquareValueTable &psv_table, SSquare bottom_left, SSquare top_right, int bonus);
     static void add_bonus_to_file(TPieceSquareValueTable &psv_table, TFile file, int bonus);

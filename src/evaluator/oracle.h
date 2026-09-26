@@ -15,6 +15,8 @@ class COracle {
   public:
     void configure_knowledge();
   private:
+    void configure_main_psv_bonus_for_info();
+  private:
     std::vector<CVirtualExpert*>expert_collection;
 };
 

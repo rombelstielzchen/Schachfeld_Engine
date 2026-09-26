@@ -48,8 +48,8 @@ int CEvaluator::evaluate_square(const TFile file, const TRank rank) const {
     char square_content = board.get_square(file, rank);
     assert(square_content <= LAST_PIECE_TYPE);
     assert((square_content == EMPTY_SQUARE) || is_any_piece(square_content));
-    assert(main_piece_square_value_table_set[WHITE_KING][FILE_E][RANK_1] > 0);
-    int result = main_piece_square_value_table_set[square_content][file][rank];
+    assert(main_piece_square_value_table_set[WHITE_KING].values[FILE_E][RANK_1] > 0);
+    int result = main_piece_square_value_table_set[square_content].values[file][rank];
     assert((square_content != EMPTY_SQUARE) || (result == 0));
     assert((square_content == EMPTY_SQUARE) || (result != 0));
     return result;
@@ -58,7 +58,7 @@ int CEvaluator::evaluate_square(const TFile file, const TRank rank) const {
 int CEvaluator::evaluate_piece(char piece, const SSquare square) {
     assert(is_any_piece(piece));
     assert(square_in_range(square));
-    return main_piece_square_value_table_set[piece][square.file][square.rank];
+    return main_piece_square_value_table_set[piece].values[square.file][square.rank];
 }
 
 int CEvaluator::evaluate_white_pawn(const SSquare square) {

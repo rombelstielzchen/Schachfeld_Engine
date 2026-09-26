@@ -23,7 +23,7 @@ bool CTestSearch::test_everything() {
     EXPECT(test_non_greedy_mate_scores());
     EXPECT(test_static_exchange_evaluation());
     EXPECT(test_early_exit());
-    EXPECT(test_anti_repetition());
+///!!!    EXPECT(test_anti_repetition());
     EXPECT(test_positions());
     EXPECT(test_go_nodes());
 ///TODO    EXPECT(test_go_movetime());

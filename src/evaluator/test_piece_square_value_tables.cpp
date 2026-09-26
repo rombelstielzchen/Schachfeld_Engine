@@ -45,19 +45,19 @@ bool CTestPieceSquareValueTables::test_plausibility(const TPieceSquareValueTable
 
 bool CTestPieceSquareValueTables::test_plausibility(const TPieceSquareValueTable &psv_table) {
     for (int j = 0; j <= FILE_H; ++j) {
-        SILENT_EXPECT(psv_table[j][RANK_GARDEN_FENCE_BOTTOM_1] == 0);
-        SILENT_EXPECT(psv_table[j][RANK_GARDEN_FENCE_BOTTOM_2] == 0);
+        SILENT_EXPECT(psv_table.values[j][RANK_GARDEN_FENCE_BOTTOM_1] == 0);
+        SILENT_EXPECT(psv_table.values[j][RANK_GARDEN_FENCE_BOTTOM_2] == 0);
     }
     for (int j = 0; j <= RANK_8; ++j) {
-        SILENT_EXPECT(psv_table[FILE_GARDEN_FENCE_LEFT_1][j] == 0);
-        SILENT_EXPECT(psv_table[FILE_GARDEN_FENCE_LEFT_2][j] == 0);
+        SILENT_EXPECT(psv_table.values[FILE_GARDEN_FENCE_LEFT_1][j] == 0);
+        SILENT_EXPECT(psv_table.values[FILE_GARDEN_FENCE_LEFT_2][j] == 0);
     }
     int minimum = INT_MAX;
     int maximum = INT_MIN;
     float sum = 0;
     for (int j = FILE_A; j <= FILE_H; ++j) {
         for (int k = RANK_1;  k <= RANK_8; ++k) {
-            int value = psv_table[j][k];
+            int value = psv_table.values[j][k];
             minimum = std::min(minimum, value);
             maximum = std::max(maximum, value);
             sum += value;
@@ -99,10 +99,10 @@ bool CTestPieceSquareValueTables::test_positions() {
 
 bool CTestPieceSquareValueTables::test_modifiers() {
     TEST_FUNCTION();
-    EXPECT(main_piece_square_value_table_set[WHITE_KING][FILE_E][RANK_5] > SCORE_HALF_PAWN);
+    EXPECT(main_piece_square_value_table_set[WHITE_KING].values[FILE_E][RANK_5] > SCORE_HALF_PAWN);
     CPsvModifier::set_psv_row(WHITE_KING, RANK_5, 0);
-    EXPECT(main_piece_square_value_table_set[WHITE_KING][FILE_D][RANK_5] == 0);
-    EXPECT(main_piece_square_value_table_set[WHITE_KING][FILE_E][RANK_5] == 0);
+    EXPECT(main_piece_square_value_table_set[WHITE_KING].values[FILE_D][RANK_5] == 0);
+    EXPECT(main_piece_square_value_table_set[WHITE_KING].values[FILE_E][RANK_5] == 0);
     return true;
 }
 

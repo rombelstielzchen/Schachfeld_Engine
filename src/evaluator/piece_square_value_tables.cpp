@@ -11,7 +11,7 @@
 #include "../board/distances.h"
 #include "../move_generator/move.h"
 
-TPieceSquareValueTable psv_dummy = {{
+TPieceSquareValueTable psv_dummy = {{{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0, 3141, 3141, 3141, 3141, 3141, 3141, 3141, 3141 },
@@ -21,15 +21,18 @@ TPieceSquareValueTable psv_dummy = {{
     { 0,   0, 3141, 3141, 3141, 3141, 3141, 3141, 3141, 3141 },
     { 0,   0, 3141, 3141, 3141, 3141, 3141, 3141, 3141, 3141 },
     { 0,   0, 3141, 3141, 3141, 3141, 3141, 3141, 3141, 3141 },
-    { 0,   0, 3141, 3141, 3141, 3141, 3141, 3141, 3141, 3141 }}};
+    { 0,   0, 3141, 3141, 3141, 3141, 3141, 3141, 3141, 3141 }}},
+    WHITE_PLAYER
+};
 
+// TODO: rename to clone or copy
 void CPsvModifier::assign_psv_table(TPieceSquareValueTable &target_psv, const TPieceSquareValueTable &source_psv) {
     ///DEBUG_METHOD();
     for (const SSquare s: ALL_SQUARES) {
-        target_psv[s.file][s.rank] = source_psv[s.file][s.rank];
+        target_psv.values[s.file][s.rank] = source_psv.values[s.file][s.rank];
     }
-    assert(target_psv[FILE_A][RANK_1] == source_psv[FILE_A][RANK_1]);
-    assert(target_psv[FILE_H][RANK_8] == source_psv[FILE_H][RANK_8]);
+    assert(target_psv.values[FILE_A][RANK_1] == source_psv.values[FILE_A][RANK_1]);
+    assert(target_psv.values[FILE_H][RANK_8] == source_psv.values[FILE_H][RANK_8]);
 }
 
 void CPsvModifier::assign_psv_table(char piece_type, const TPieceSquareValueTable &source_psv) {
@@ -40,17 +43,17 @@ void CPsvModifier::assign_psv_table(char piece_type, const TPieceSquareValueTabl
 
 void CPsvModifier::flip_vertically(TPieceSquareValueTable &psv_table) {
     for (TFile j = FILE_A; j <= FILE_H; ++j) {
-       std::swap(psv_table[j][RANK_1], psv_table[j][RANK_8]);
-       std::swap(psv_table[j][RANK_2], psv_table[j][RANK_7]);
-       std::swap(psv_table[j][RANK_3], psv_table[j][RANK_6]);
-       std::swap(psv_table[j][RANK_4], psv_table[j][RANK_5]);
+       std::swap(psv_table.values[j][RANK_1], psv_table.values[j][RANK_8]);
+       std::swap(psv_table.values[j][RANK_2], psv_table.values[j][RANK_7]);
+       std::swap(psv_table.values[j][RANK_3], psv_table.values[j][RANK_6]);
+       std::swap(psv_table.values[j][RANK_4], psv_table.values[j][RANK_5]);
     }
 }
 
 void CPsvModifier::negate(TPieceSquareValueTable &psv_table) {
     ///DEBUG_METHOD();
     for (const SSquare s: ALL_SQUARES) {
-        psv_table[s.file][s.rank] = -psv_table[s.file][s.rank];
+        psv_table.values[s.file][s.rank] = -psv_table.values[s.file][s.rank];
     }
 }
 
@@ -69,7 +72,7 @@ void CPsvModifier::clone_from_white_to_black(char black_piece_type) {
 int CPsvModifier::average(const TPieceSquareValueTable &psv_table) {
     int64_t sum = 0;
     for (const SSquare s: ALL_SQUARES) {
-        sum += psv_table[s.file][s.rank];
+        sum += psv_table.values[s.file][s.rank];
     }
     int64_t average = sum / N_SQUARES_ON_BOARD;
     assert(average >= INT_MIN);
@@ -81,7 +84,7 @@ void CPsvModifier::normalize_average(TPieceSquareValueTable &psv_table, int targ
     int average_value = average(psv_table);
     int delta = target_average - average_value;
     for (const SSquare s: ALL_SQUARES) {
-        psv_table[s.file][s.rank] += delta;
+        psv_table.values[s.file][s.rank] += delta;
     }
     [[maybe_unused]] constexpr int smaller_than_1_rounded_to_0 = 0;
     assert(average(psv_table) - target_average == smaller_than_1_rounded_to_0);
@@ -90,26 +93,27 @@ void CPsvModifier::normalize_average(TPieceSquareValueTable &psv_table, int targ
 void CPsvModifier::clone_from_kings_to_queens_bishop(TPieceSquareValueTable &psv_table, int const positive_delta_value) {
     assert(positive_delta_value > 0);
     assert(positive_delta_value < SCORE_HALF_PAWN);
+    assert(psv_table.bonus_for == WHITE_PLAYER);
     for (TRank j = RANK_1; j <= RANK_7; j += 2) {
         // Always two ranks at once for easy indexing in a single loop
-        psv_table[FILE_A][j] = psv_table[FILE_H][j] - positive_delta_value;
-        psv_table[FILE_C][j] = psv_table[FILE_F][j] - positive_delta_value;
-        psv_table[FILE_E][j] = psv_table[FILE_D][j] - positive_delta_value;
-        psv_table[FILE_G][j] = psv_table[FILE_B][j] - positive_delta_value;
+        psv_table.values[FILE_A][j] = psv_table.values[FILE_H][j] - positive_delta_value;
+        psv_table.values[FILE_C][j] = psv_table.values[FILE_F][j] - positive_delta_value;
+        psv_table.values[FILE_E][j] = psv_table.values[FILE_D][j] - positive_delta_value;
+        psv_table.values[FILE_G][j] = psv_table.values[FILE_B][j] - positive_delta_value;
         int const next_rank = j + 1;
-        psv_table[FILE_B][next_rank] = psv_table[FILE_G][next_rank] - positive_delta_value;
-        psv_table[FILE_D][next_rank] = psv_table[FILE_E][next_rank] - positive_delta_value;
-        psv_table[FILE_F][next_rank] = psv_table[FILE_C][next_rank] - positive_delta_value;
-        psv_table[FILE_H][next_rank] = psv_table[FILE_A][next_rank] - positive_delta_value;
+        psv_table.values[FILE_B][next_rank] = psv_table.values[FILE_G][next_rank] - positive_delta_value;
+        psv_table.values[FILE_D][next_rank] = psv_table.values[FILE_E][next_rank] - positive_delta_value;
+        psv_table.values[FILE_F][next_rank] = psv_table.values[FILE_C][next_rank] - positive_delta_value;
+        psv_table.values[FILE_H][next_rank] = psv_table.values[FILE_A][next_rank] - positive_delta_value;
     }
-    assert(psv_table[FILE_C][RANK_8] == psv_table[FILE_F][RANK_8] + positive_delta_value);
+    assert(psv_table.values[FILE_C][RANK_8] == psv_table.values[FILE_F][RANK_8] + positive_delta_value);
 }
 
 void CPsvModifier::show_psv_table(const TPieceSquareValueTable &psv_table) {
     for (TFile j = FILE_A; j <= FILE_H; ++j) {
         std::cout << file_as_text(j) << ": ";
         for (TRank k = RANK_1; k <= RANK_8; ++k) {
-            std::cout << psv_table[j][k] << " ";
+            std::cout << psv_table.values[j][k] << " ";
         }
         std::cout << "\n"; 
     }
@@ -142,7 +146,7 @@ void CPsvModifier::set_psv_row(TPieceSquareValueTable &psv_table, const TRank ra
     assert(rank_in_range(rank));
     assert(abs(value) <= SCORE_KING);
     for (TFile j = FILE_A; j<= FILE_H; ++j) {
-        psv_table[j][rank] = value;
+        assign_value(psv_table, { j, rank}, value);
     }
 }
 
@@ -154,14 +158,29 @@ void CPsvModifier::set_psv_row(char piece_type, const TRank rank, const int valu
     set_psv_row(main_piece_square_value_table_set[piece_type], rank, value);
 }
 
-void CPsvModifier::add_bonus_to_square(TPieceSquareValueTable &psv_table, SSquare square, int bonus) {
+void CPsvModifier::add_bonus_to_square(TPieceSquareValueTable &psv_table, SSquare square, int positive_bonus_for_white__auto_adapted_for_black) {
     ///DEBUG_METHOD();
     assert(square_in_range(square));
-    assert(abs(bonus) <= SCORE_KING);
-    psv_table[square.file][square.rank] += bonus;
+    assert(abs(positive_bonus_for_white__auto_adapted_for_black) <= SCORE_KING);
+    if (psv_table.bonus_for == WHITE_PLAYER) {
+        psv_table.values[square.file][square.rank] += positive_bonus_for_white__auto_adapted_for_black;
+    } else {
+        assert(psv_table.bonus_for == BLACK_PLAYER);
+        psv_table.values[square.file][square.rank] -= positive_bonus_for_white__auto_adapted_for_black;
+    }
+}
+
+void CPsvModifier::assign_value(TPieceSquareValueTable &psv_table, SSquare square, int positive_value_for_white__auto_adapted_for_black) {
+    assert(square_in_range(square));
+    if (psv_table.bonus_for == WHITE_PLAYER) {
+        psv_table.values[square.file][square.rank] = positive_value_for_white__auto_adapted_for_black;
+    } else {
+        psv_table.values[square.file][square.rank] = -positive_value_for_white__auto_adapted_for_black;
+    }
 }
 
 void CPsvModifier::add_bonus_to_area(TPieceSquareValueTable &psv_table, SSquare bottom_left, SSquare top_right, int bonus) {
+    // TODO: switch from SSquare to SRectangle
     ///DEBUG_METHOD();
     assert(square_in_range(bottom_left));
     assert(square_in_range(top_right));
@@ -187,22 +206,24 @@ void CPsvModifier::make_equal(TPieceSquareValueTable &table, int value) {
     ///DEBUG_METHOD();
     assert(abs(value) <= SCORE_KING);
     for (const SSquare s: ALL_SQUARES) {
-        table[s.file][s.rank] = value;
+        assign_value(table, s, value);
     }
 }
 
 void CPsvModifier::make_gradient(TPieceSquareValueTable &table, const SSquare target_square, int bonus_per_step) {
+        //TODO!!!
+        bonus_per_step = (table.bonus_for == WHITE_PLAYER) ? bonus_per_step : -bonus_per_step;
     ///DEBUG_METHOD();
     assert(abs(bonus_per_step) <= SCORE_HALF_PAWN);
     assert(square_in_range(target_square));
-    int base_value = table[target_square.file][target_square.rank];
+    int base_value = table.values[target_square.file][target_square.rank];
     for (const SSquare s: ALL_SQUARES) {
         double distance = CDistances::mixed_distance(target_square, s);
         assert(distance <= 14);
         double evaluation_difference = distance * bonus_per_step;
         // TODO: correct cast?
         int square_value = base_value - static_cast<int>(evaluation_difference);
-        table[s.file][s.rank] = square_value;
+        table.values[s.file][s.rank] = square_value;
     }
 }
 
@@ -211,7 +232,6 @@ void CPsvModifier::add_bonus_to_colour_complex(TPieceSquareValueTable &table, TS
     for (const SSquare s: ALL_SQUARES) {
         if (board.square_colour(s) == colour) {
             add_bonus_to_square(table, s, bonus);
-            // TODO: bonus_for???
         }
     }
 }
@@ -244,7 +264,7 @@ void CPsvModifier::add_bonus_to_diagonal(TPieceSquareValueTable &psv_table, cons
     assert(square_in_range(any_reference_square));
     for (const SSquare s: ALL_SQUARES) {
         if (CBoardGeometry::on_same_diagonal(s, any_reference_square)) {
-            CPsvModifier::add_bonus_to_square(psv_table, s, bonus);
+            add_bonus_to_square(psv_table, s, bonus);
         }
     }
 }
@@ -254,7 +274,7 @@ void CPsvModifier::add_bonus_to_anti_diagonal(TPieceSquareValueTable &psv_table,
     assert(square_in_range(any_reference_square));
     for (const SSquare s: ALL_SQUARES) {
         if (CBoardGeometry::on_same_anti_diagonal(s, any_reference_square)) {
-            CPsvModifier::add_bonus_to_square(psv_table, s, bonus);
+            add_bonus_to_square(psv_table, s, bonus);
         }
     }
 }
@@ -277,16 +297,21 @@ void CPsvModifier::make_vertical_gradient(TPieceSquareValueTable &table, TRank t
         int rank_malus = -dy * bonus_per_step;
         add_bonus_to_rank(table, r, rank_malus);
     }
+    // TODO: normalize, and other functs to
+    // TODO: add bonus or subtract malus?
 }
 
 void CPsvModifier::make_forward_gradient(TPieceSquareValueTable &table, TFile forward_file, int value_for_rank_1, int bonus_per_step) {
     ///DEBUG_METHOD();
     assert(file_in_range(forward_file));
+    if (table.bonus_for == BLACK_PLAYER) {
+        value_for_rank_1 = -value_for_rank_1 - (RANK_8 - RANK_1) * bonus_per_step;
+    }
     for (const TRank rank: ALL_RANKS) {
         int delta_y = rank - RANK_1;
         int bonus = delta_y * bonus_per_step;
         int total = value_for_rank_1 + bonus;
-        table[forward_file][rank] = total;
+        table.values[forward_file][rank] = total;
     }
 }
 

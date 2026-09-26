@@ -9,7 +9,7 @@
 #include "../../piece_square_value_tables.h"
 #include "../../../technical_functions/standard_headers.h"
 
-TPieceSquareValueTable endgame_king_psv_table = {{
+TPieceSquareValueTable endgame_king_psv_table = {{{
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },
     { 0,   0,   210,   210,   210,   210,   210,   210,   210,   210 },
@@ -19,7 +19,9 @@ TPieceSquareValueTable endgame_king_psv_table = {{
     { 0,   0,   210,   220,   230,   240,   245,   235,   220,   210 },
     { 0,   0,   210,   220,   230,   230,   230,   232,   220,   210 },
     { 0,   0,   210,   220,   220,   220,   220,   220,   220,   210 },
-    { 0,   0,   210,   210,   210,   210,   210,   210,   210,   210 }}};
+    { 0,   0,   210,   210,   210,   210,   210,   210,   210,   210 }}},
+    WHITE_PLAYER
+};
 
 bool CExpertEndgameKingActivity::is_responsible() const {
     bool is_endgame = CBoardLogic::is_endgame();
@@ -30,8 +32,8 @@ void CExpertEndgameKingActivity::apply_knowledge() {
     CPsvModifier::assign_psv_table(WHITE_KING, endgame_king_psv_table);
     CPsvModifier:: normalize_average(main_piece_square_value_table_set[WHITE_KING], 20000);
     CPsvModifier::clone_from_white_to_black(BLACK_KING);
-    assert(main_piece_square_value_table_set[WHITE_KING][FILE_E][RANK_3] > main_piece_square_value_table_set[WHITE_KING][FILE_G][RANK_1]);
-    assert(main_piece_square_value_table_set[BLACK_KING][FILE_D][RANK_5] < main_piece_square_value_table_set[BLACK_KING][FILE_C][RANK_8]);
+    assert(main_piece_square_value_table_set[WHITE_KING].values[FILE_E][RANK_3] > main_piece_square_value_table_set[WHITE_KING].values[FILE_G][RANK_1]);
+    assert(main_piece_square_value_table_set[BLACK_KING].values[FILE_D][RANK_5] < main_piece_square_value_table_set[BLACK_KING].values[FILE_C][RANK_8]);
     CPsvModifier::show_psv_table(WHITE_KING);
     std::cout << "Writing to: " << &main_piece_square_value_table_set << "\n";
 }
