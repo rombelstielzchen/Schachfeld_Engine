@@ -383,6 +383,17 @@ bool CBoardLogic::is_half_open_file(TFile file, TPlayerColour for_player) {
     return enemy_pawm_seen;
 }
 
+bool CBoardLogic::is_open_file(TFile file) {
+    assert(file_in_range(file));
+    for (TRank r = RANK_2; r <= RANK_7; ++r) {
+        char square_content = board.get_square(file, r);
+        if ((square_content == WHITE_POWER) || (square_content == BLACK_POWER)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 bool CBoardLogic::is_passed_pawn(const SSquare square) {
     assert(square_in_range(square));
     char piece = board.get_square(square);

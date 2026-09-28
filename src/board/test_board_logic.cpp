@@ -29,6 +29,7 @@ bool CTestBoardLogic::test_everything() {
     EXPECT(test_is_pawn_endgame());
     EXPECT(test_king_position());
     EXPECT(test_is_half_open_file());
+    EXPECT(test_is_open_file());
     EXPECT(test_is_passed_pawn());
     return true;
 }
@@ -262,6 +263,21 @@ bool CTestBoardLogic::test_is_half_open_file() {
     EXPECT(CBoardLogic::is_half_open_file(FILE_F, BLACK_PLAYER) == false);
     EXPECT(CBoardLogic::is_half_open_file(FILE_G, BLACK_PLAYER) == false);
     EXPECT(CBoardLogic::is_half_open_file(FILE_H, BLACK_PLAYER) == false);
+    return true;
+}
+
+bool CTestBoardLogic::test_is_open_file() {
+    TEST_FUNCTION();
+    const std::string french_exchange_structure = "6k/ppp2ppp//3p/3P//PPP2PPP/6K w";
+    board.set_fen_position(french_exchange_structure);
+    EXPECT(CBoardLogic::is_open_file(FILE_A) == false);
+    EXPECT(CBoardLogic::is_open_file(FILE_B) == false);
+    EXPECT(CBoardLogic::is_open_file(FILE_C) == false);
+    EXPECT(CBoardLogic::is_open_file(FILE_D) == false);
+    EXPECT(CBoardLogic::is_open_file(FILE_E));
+    EXPECT(CBoardLogic::is_open_file(FILE_F) == false);
+    EXPECT(CBoardLogic::is_open_file(FILE_G) == false);
+    EXPECT(CBoardLogic::is_open_file(FILE_H) == false);
     return true;
 }
 

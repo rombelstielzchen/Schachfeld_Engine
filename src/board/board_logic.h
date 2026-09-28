@@ -63,6 +63,7 @@ class CBoardLogic {
     static bool is_heterogebous_castling();
   public:
     static bool is_half_open_file(TFile file, TPlayerColour for_player);
+    static bool is_open_file(TFile file);
     static bool is_passed_pawn(const SSquare square);
 };
 
