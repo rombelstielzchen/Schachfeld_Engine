@@ -18,5 +18,6 @@ class CTestHashTable {
     static bool test_lookup_after_resizing();
     static bool test_may_overwrite();
     static bool test_root_node_after_search();
+    static bool test_on_new_game();
 };
 

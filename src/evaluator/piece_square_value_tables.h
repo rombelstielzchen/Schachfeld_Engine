@@ -12,10 +12,10 @@
 constexpr int N_PSV_COLUMNS = FILE_H + 1;
 constexpr int N_PSV_ROWS = RANK_8 + 1;
 
-typedef struct {
+struct TPieceSquareValueTable {
     std::array<std::array<int, N_PSV_COLUMNS>, N_PSV_ROWS> values;
     TPlayerColour bonus_for = WHITE_PLAYER;
-} TPieceSquareValueTable;
+};
 
 // One PSV-table per piece.  ATM our set of pieces is no dense enumeration,
 // so we waste some memory here and have to be careful with future changes.

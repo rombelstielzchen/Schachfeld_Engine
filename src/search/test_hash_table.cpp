@@ -18,6 +18,7 @@ bool CTestHashTable::test_everything() {
     EXPECT(test_lookup_after_resizing());
     EXPECT(test_may_overwrite());
     EXPECT(test_root_node_after_search());
+    EXPECT(test_on_new_game());
     return true;
 }
 
@@ -72,7 +73,8 @@ bool CTestHashTable::test_may_overwrite() {
     constexpr THashKey hash_key = 3141;
     constexpr int distance_to_root = 42;
     constexpr SMove best_move = { G1, F3, MOVE_TYPE_NORMAL, EMPTY_SQUARE, 0 };
-    constexpr SHashEntry hash_entry = { hash_key, distance_to_root, best_move };
+    constexpr bool binary_age = false;
+    constexpr SHashEntry hash_entry = { hash_key, distance_to_root, best_move, binary_age };
     hash_table.store_best_move(best_move, hash_key, 0);
     constexpr size_t different_key = 3623626;
     constexpr int smaller_distance_to_root = distance_to_root - 1;
@@ -82,6 +84,7 @@ bool CTestHashTable::test_may_overwrite() {
     EXPECT(hash_table.may_overwrite(different_key, distance_to_root, hash_entry) == false);
     constexpr THashKey same_key = hash_key;
     EXPECT(hash_table.may_overwrite(same_key, distance_to_root, hash_entry));
+    // TODO: test aging
     return true;
 }
 
@@ -98,3 +101,10 @@ bool CTestHashTable::test_root_node_after_search() {
     return true;
 }
 
+bool CTestHashTable::test_on_new_game() {
+    bool former_binary_age = hash_table.binary_age;
+    hash_table.on_new_search();
+    EXPECT(hash_table.binary_age != former_binary_age);
+    EXPECT(hash_table.hash_full_permill() == 0);
+    return true;
+};

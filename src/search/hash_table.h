@@ -17,10 +17,12 @@ static_assert(ONE_EGABYTE > (1 << 19));
 
 typedef size_t THashKey; 
 
+// TODO: pragma pack
 typedef struct {
     THashKey hash_key;
     int distance_to_root;
     SMove best_move;
+    bool binary_age;
 } SHashEntry;
 
 class CHashTable {
@@ -35,6 +37,9 @@ class CHashTable {
     void set_size(size_t n_mega_bytes);
     void show_hash(const THashKey hash_key) const;
     int hash_full_permill() const;
+  public:
+    // Increment the age of new entries *exactly* once per search. Threading!
+    void on_new_search();
   private:
     size_t n_possible_entries(size_t size_in_bytes) const;
     size_t n_current_entries() const;
@@ -42,8 +47,11 @@ class CHashTable {
     size_t last_index() const { return data.size() - 1; }
   private:
     bool may_overwrite(const THashKey new_hash_key, int new_distance_to_root, const SHashEntry &existing_entry_entry) const;
+    bool is_older_entry(const THashKey hash_key) const;
     void reset_statistics();
+    void increment_age();
   private:
+    bool binary_age;
     std::vector<SHashEntry> data;
     int64_t successful_write_attempts;
     int64_t failed_write_attempts;

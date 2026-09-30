@@ -166,6 +166,7 @@ void CCommandInterface::worker_go_depth(const int64_t depth_in_plies) {
     ++n_worker_threads_busy;
     ACQUIRE_BOARD_OWNERSHIP();
     board.clone_from_global_reference_board();
+    hash_table.on_new_search();
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_depth(depth_in_plies);
     send_best_move(calculated_move);
@@ -178,6 +179,7 @@ void CCommandInterface::worker_go_nodes(int64_t nodes) {
     ++n_worker_threads_busy;
     ACQUIRE_BOARD_OWNERSHIP();
     board.clone_from_global_reference_board();
+    hash_table.on_new_search();
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_nodes(nodes);
     send_best_move(calculated_move);
@@ -190,6 +192,7 @@ void CCommandInterface::worker_go_movetime(int64_t time_milliseconds) {
     ++n_worker_threads_busy;
     ACQUIRE_BOARD_OWNERSHIP();
     board.clone_from_global_reference_board();
+    hash_table.on_new_search();
     assert(time_milliseconds > 0);
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_movetime(time_milliseconds);
@@ -208,6 +211,7 @@ void CCommandInterface::worker_go_time(
     ++n_worker_threads_busy;
     ACQUIRE_BOARD_OWNERSHIP();
     board.clone_from_global_reference_board();
+    hash_table.on_new_search();
     CIterativeDeepening searcher;
     SMove calculated_move = searcher.search_time(
         white_time_milliseconds,

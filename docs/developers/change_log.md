@@ -1,6 +1,10 @@
 Major Changes
 =============
 
+Version 1.5
+-----------
+* Hash-table-aging in order to allow old entries to get overwritten.
+
 Version 1.4
 -----------
 * A new expert-engine that encourages pawn-storms after heterogenous castlings

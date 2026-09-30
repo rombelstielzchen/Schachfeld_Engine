@@ -10,13 +10,23 @@
 
 constexpr THashKey initial_dummy_hash_key = 3141;
 constexpr int initial_dummy_distance_to_root = 999;
+constexpr bool initial_binary_age = false;
 
-constexpr SHashEntry initial_entry = { initial_dummy_hash_key, initial_dummy_distance_to_root, NULL_MOVE }; 
+constexpr SHashEntry initial_entry = { 
+    initial_dummy_hash_key, 
+    initial_dummy_distance_to_root, 
+    NULL_MOVE,
+    initial_binary_age
+}; 
 
 bool operator ==(const SHashEntry &a, const SHashEntry &b) {
     return ((a.hash_key == b.hash_key)
         && (a.distance_to_root == b.distance_to_root)
         && (a.best_move == b.best_move));
+}
+
+inline void CHashTable::increment_age() {
+    binary_age = !binary_age;
 }
 
 CHashTable::CHashTable() {
@@ -25,7 +35,6 @@ CHashTable::CHashTable() {
 }
 
 CHashTable::~CHashTable() {
-    ///set_size(minimum_hash_MB);
 }
 
 inline size_t CHashTable::n_possible_entries(size_t size_in_bytes) const {
@@ -73,6 +82,8 @@ SMove CHashTable::get_best_move(THashKey hash_key) const {
 
 void CHashTable::clear_all_memory() {
     ///data.assign(data.size(), initial_entry);
+    binary_age = false;
+    reset_statistics();
     for (size_t j = 0; j <= data.size(); ++j) {
         data[j] = initial_entry;
     }
@@ -84,6 +95,27 @@ void CHashTable::clear_all_memory() {
     reset_statistics();
 }
 
+
+inline bool CHashTable::is_older_entry(const THashKey hash_key) const {
+    //TODO: switch from key to index?
+    size_t index = hash_index(hash_key);
+    return data[index].binary_age != binary_age;
+}
+
+inline bool CHashTable::may_overwrite(const THashKey hash_key, int distance_to_root, const SHashEntry &existing_entry) const {
+    if ( is_older_entry(hash_key)) {
+        return true;
+    }
+    if (distance_to_root > existing_entry.distance_to_root) {
+        return false;
+    }
+    if (distance_to_root < existing_entry.distance_to_root) {
+        return true;
+    }
+    assert(distance_to_root == existing_entry.distance_to_root);
+    return (hash_key == existing_entry.hash_key);
+}
+
 void CHashTable::store_best_move(const SMove &best_move, const THashKey hash_key, const int distance_to_root) {
     assert(move_in_range(best_move));
     assert(distance_to_root >= 0);
@@ -93,6 +125,7 @@ void CHashTable::store_best_move(const SMove &best_move, const THashKey hash_key
     if (may_overwrite(hash_key, distance_to_root, existing_entry)) {
         data[index].hash_key = hash_key;
         data[index].distance_to_root = distance_to_root;
+       data[index].binary_age = binary_age;
         data[index].best_move = best_move;
         ++successful_write_attempts;
     } else {
@@ -100,18 +133,9 @@ void CHashTable::store_best_move(const SMove &best_move, const THashKey hash_key
     }
 }
 
-bool CHashTable::may_overwrite(const THashKey hash_key, int distance_to_root, const SHashEntry &existing_entry) const {
-    if (distance_to_root > existing_entry.distance_to_root) {
-        return false;
-    }
-    if (distance_to_root < existing_entry.distance_to_root) {
-        return true;
-    }
-    assert(distance_to_root == existing_entry.distance_to_root);
-    return (hash_key == existing_entry.hash_key); 
-}
-
 void CHashTable::show_hash(const THashKey hash_key) const {
+    const std::string separator = "-----";
+    CUciProtocol::send_info(separator);
     std::string info = "hash_key:         " + std::to_string(hash_key);
     CUciProtocol::send_info(info);
     size_t index = hash_index(hash_key);
@@ -121,9 +145,12 @@ void CHashTable::show_hash(const THashKey hash_key) const {
     CUciProtocol::send_info(info);
     info = "best_move:        " + move_as_text(get_best_move(hash_key));
     CUciProtocol::send_info(info);
+    info = "age:              " + std::to_string(data[index].binary_age);;
+    CUciProtocol::send_info(info);
+    CUciProtocol::send_info(separator);
 }
 
-void CHashTable::reset_statistics() {
+inline void CHashTable::reset_statistics() {
     constexpr int64_t anti_division_by_zero = 1;
     successful_write_attempts = anti_division_by_zero;
     failed_write_attempts = 0;
@@ -138,5 +165,10 @@ int CHashTable::hash_full_permill() const {
     assert(failed_permill >= 0);
     assert(failed_permill < 1000);
     return failed_permill;
+}
+
+void CHashTable::on_new_search() {
+    increment_age();
+    reset_statistics();
 }
 
