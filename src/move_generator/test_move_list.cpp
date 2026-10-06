@@ -86,6 +86,7 @@ bool CTestMoveList::test_shift_current_move_to_top() {
     SILENT_EXPECT(board.set_fen_position(position));
     CMoveGenerator move_generator;
     move_generator.generate_all();
+    EXPECT(move_generator.move_list.list_size() == 5);
     int former_list_size = move_generator.move_list.list_size();
     SMove former_first = move_generator.move_list.get_next();
     SMove former_second = move_generator.move_list.get_next();

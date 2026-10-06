@@ -23,7 +23,7 @@ bool CTestSearch::test_everything() {
     EXPECT(test_non_greedy_mate_scores());
     EXPECT(test_static_exchange_evaluation());
     EXPECT(test_early_exit());
-///!!!    EXPECT(test_anti_repetition());
+    EXPECT(test_anti_repetition());
     EXPECT(test_positions());
     EXPECT(test_go_nodes());
 ///TODO    EXPECT(test_go_movetime());
@@ -95,9 +95,23 @@ bool CTestSearch::test_anti_repetition() {
     EXPECT(board.move_maker.move_history_contains_repetition() == false);
     EXPECT(board.move_maker.play_variation("f7f8"));
     EXPECT(board.move_maker.move_history_contains_repetition() == true);
+    move_generator.reset();
+    move_generator.generate_all();
+    CTEST << "List after generation: " << move_generator.move_list.as_text() << "\n";
+    EXPECT(move_generator.move_list.list_size() == 22);
+    move_generator.move_list.prune_silent_piece_moves(A8);
+    CTEST << "List size: " << move_generator.move_list.list_size() << "\n";
+    EXPECT(move_generator.move_list.list_size() == 11);
+    for (int j = 0; j < move_generator.move_list.list_size(); ++j) {
+        SMove next_move = move_generator.move_list.get_next();
+        CTEST << "Next move: " << next_move << "\n";
+        EXPECT((next_move.source != A8) || (next_move.move_type == MOVE_TYPE_CAPTURE));
+        EXPECT(next_move.target != A1);
+    }
     CIterativeDeepening searcher;
     SMove best_move = searcher.search_depth(1);
     CTEST << "Got move: " << best_move << "\n";
+    EXPECT((best_move == "a8a7") == false);
     EXPECT(best_move == "a8f8");
     EXPECT(best_move.potential_gain > 0);
     return true;

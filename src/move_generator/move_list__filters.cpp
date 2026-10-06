@@ -207,6 +207,9 @@ void CMoveList::prune_silent_piece_moves(const SSquare piece_location) {
         assert(is_any_capture(bidirectional_move_list[j]) == false);
         if (bidirectional_move_list[j].source == piece_location) {
             remove(j);
+            // Do not advance the index, there would be an unchecked element here, probably.
+            // TODO: separate loop-counter and index, to absolutely guarantee termination.
+            --j;
         }
     }
     assert(valid_list());

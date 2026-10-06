@@ -91,7 +91,7 @@ SMove CIterativeDeepening::search_common_entry_point() {
         // This should happen only in case of some test-cases
         SMove king_capture = move_generator.move_list.get_next__best_capture();
         assert(move_in_range(king_capture));
-        assert(king_capture.potential_gain >= SCORE_HALF_KING);
+        assert(king_capture.potential_gain > SCORE_HALF_KING);
         return king_capture;
     }
     move_generator.move_list.prune_illegal_moves();
@@ -114,7 +114,7 @@ SMove CIterativeDeepening::search_anti_repetition() {
         assert(move_generator.move_list.move_on_list(repetitive_move) == false);
     }
     SMove search_result = search_iterative();
-    if ((search_result.potential_gain < 0) && (repetitive_move != NULL_MOVE)) {
+    if ((search_result.potential_gain < SCORE_DRAW) && (repetitive_move != NULL_MOVE)) {
         // No better alternative found
         return repetitive_move;
     }
