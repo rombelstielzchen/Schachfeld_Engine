@@ -11,7 +11,10 @@
 
 class CMoveMaker {
     friend class CTestMoveMaker;
+    friend class CTestMoveList;
     friend class CTestSearch;
+    // TODO: provide a cleaner way to copy the history when copying boards
+    friend class CBoard;
   public:
     CMoveMaker();
   public:

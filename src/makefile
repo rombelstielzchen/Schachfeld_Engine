@@ -91,6 +91,7 @@ OBJECT_FILES :=  \
 	piece_square_value_tables.o \
 	profiling.o \
 	safety_evaluator.o \
+	root_node_list.o \
 	search.o \
 	search_statistics.o \
 	string_functions.o  \
@@ -116,6 +117,7 @@ OBJECT_FILES :=  \
 	test_perft.o \
 	test_piece_square_value_tables.o \
 	test_psv_modifiers.o \
+	test_root_node_list.o \
 	test_safety_evaluator.o \
 	test_search.o \
 	test_statistics.o \
@@ -285,6 +287,9 @@ test_evaluator.o: evaluator/test_evaluator.cpp
 test_expert_basic_mating.o: evaluator/knowledge/mating/test_expert_basic_mating.cpp
 	$(CXX) $(CXXFLAGS) $^
 
+test_root_node_list.o: search/test_root_node_list.cpp
+	$(CXX) $(CXXFLAGS) $^ 
+
 test_safety_evaluator.o: evaluator/knowledge/opening/castling_direction/test_safety_evaluator.cpp
 	$(CXX) $(CXXFLAGS) $^
 
@@ -351,6 +356,9 @@ piece_square_value_tables.o: evaluator/piece_square_value_tables.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
 profiling.o: technical_functions/profiling.cpp
+	$(CXX) $(CXXFLAGS) $^ 
+
+root_node_list.o: search/root_node_list.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
 safety_evaluator.o: evaluator/knowledge/opening/castling_direction/safety_evaluator.cpp

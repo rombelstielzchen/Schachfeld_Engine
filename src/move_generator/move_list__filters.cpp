@@ -79,27 +79,33 @@ void CMoveList::reuse_list() {
     assert(valid_positions());
     // reuse_list() not yet suitable for integrated hash_moves
     assert(hash_move == NULL_MOVE);
+    [[maybe_unused]] int list_size_before_reuse = list_size();
     consumer_position = first_capture;
     assert(valid_positions());
+    assert(list_size() == list_size_before_reuse);
 }
 
+// TODO: move to CRootNodeList
 void CMoveList::shift_current_move_to_top() {
+    DEBUG_METHOD();
     // No assert(valid_list_origin());
     // and therefore no  assert(valid_list());
     // because we may shift captures into the silent part of the list.
     assert(valid_positions());
-    unsigned int former_consumer_position = consumer_position - 1;
-    assert(former_consumer_position >= first_capture);
-    assert(former_consumer_position < next_empty_slot);
-    SMove new_top_move = bidirectional_move_list[former_consumer_position];
+    unsigned int current_index = consumer_position - 1;
+    assert(current_index >= first_capture);
+    assert(current_index < next_empty_slot);
+    [[maybe_unused]] SMove new_top_move = bidirectional_move_list[current_index];
     unsigned int second_position = first_capture + 1;
-    for (unsigned int j = former_consumer_position; j >= second_position; --j) {
-       bidirectional_move_list[j] = bidirectional_move_list[j - 1];;
+    for (unsigned int j = current_index; j >= second_position; --j) {
+        assert(j > 0);
+        swap(j, j-1); 
     }
-    bidirectional_move_list[first_capture] = new_top_move;
+    assert(bidirectional_move_list[first_capture] == new_top_move);
     assert(valid_positions());
 }
 
+// TODO: move to new CRootNodeList, also all related methods
 void CMoveList::remove(const SMove move) {
     assert(valid_list());
     unsigned int position = get_index(move);
@@ -110,13 +116,14 @@ void CMoveList::remove(const SMove move) {
     assert(position < next_empty_slot);
     remove(position);
     assert(valid_list());
+    assert(!move_on_list(move));
 }
 
 void CMoveList::remove(unsigned int position) {
     assert(valid_list());
-    assert(unused_list());
     assert(position >= first_capture);
     assert(position < next_empty_slot);
+    assert(unused_list());
     [[maybe_unused]] int original_list_size = list_size();
     assert(original_list_size > 0);
     if (position < LIST_ORIGIN) {
@@ -199,6 +206,7 @@ void CMoveList::remove_silent_move(unsigned int position) {
     assert(unused_list());
 }
 
+// TODO: move to CRootNodeList, if needed at all with better stalemate-detection
 void CMoveList::prune_silent_piece_moves(const SSquare piece_location) {
     assert(square_in_range(piece_location));
     assert(is_any_piece(board.get_square(piece_location)));
@@ -216,13 +224,13 @@ void CMoveList::prune_silent_piece_moves(const SSquare piece_location) {
 }
 
 void CMoveList::swap(unsigned int index_a, unsigned int index_b) {
-     // TODO: optimized inline semi-swao that stores only one move and directly returns the other one
+    DEBUG_METHOD();
+    // TODO: optimized inline semi-swap that stores only one move and directly returns the other one
     assert(index_a >= first_capture);
     assert(index_a <= last_move_index());
     assert(index_b >= first_capture);
-    assert(index_b >= last_move_index());
+    assert(index_b <= last_move_index());
     assert(index_a != index_b);
-    assert(valid_list());
     SMove temp = bidirectional_move_list[index_a];
     bidirectional_move_list[index_a] = bidirectional_move_list[index_b];
     bidirectional_move_list[index_b] = temp;

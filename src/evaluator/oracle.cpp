@@ -80,6 +80,7 @@ void COracle::configure_knowledge() {
         assert(expert != nullptr);
         assert(typeid(*expert).name());
         expert->configure();
+        assert(board.evaluator.evaluate_piece(BLACK_KING, E5) < 0);
     }
 }
 

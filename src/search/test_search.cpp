@@ -11,6 +11,7 @@
 #include "../board/board.h"
 #include "../board/square_constants.h"
 #include "../evaluator/score_constants.h"
+#include "../move_generator/move_generator.h"
 #include "../technical_functions/testing.h"
 #include "../universal_chess_interface/command_interface.h"
 
@@ -87,23 +88,22 @@ bool CTestSearch::test_early_exit() {
 bool CTestSearch::test_anti_repetition() {
     TEST_FUNCTION();
     EXPECT(board.set_fen_position("R4rk/////6P/5PKP/ w"));
-    CMoveGenerator move_generator;
-    move_generator.generate_all();
-    EXPECT(move_generator.move_list.list_size() == 22);
+   CRootNodeList root_node_list;
+   root_node_list.generate_moves();
+    EXPECT(root_node_list.list_size() == 21);
     EXPECT(board.move_maker.move_history_contains_repetition() == false);
     EXPECT(board.move_maker.play_variation("a8a7 f8f7 a7a8"));
     EXPECT(board.move_maker.move_history_contains_repetition() == false);
     EXPECT(board.move_maker.play_variation("f7f8"));
     EXPECT(board.move_maker.move_history_contains_repetition() == true);
-    move_generator.reset();
-    move_generator.generate_all();
-    CTEST << "List after generation: " << move_generator.move_list.as_text() << "\n";
-    EXPECT(move_generator.move_list.list_size() == 22);
-    move_generator.move_list.prune_silent_piece_moves(A8);
-    CTEST << "List size: " << move_generator.move_list.list_size() << "\n";
-    EXPECT(move_generator.move_list.list_size() == 11);
-    for (int j = 0; j < move_generator.move_list.list_size(); ++j) {
-        SMove next_move = move_generator.move_list.get_next();
+    root_node_list.generate_moves();
+    ///CTEST << "List after generation: " << root_node_list.move_list.as_text() << "\n";
+    EXPECT(root_node_list.list_size() == 21);
+    root_node_list.prune_silent_piece_moves(A8);
+    CTEST << "List size: " << root_node_list.list_size() << "\n";
+    EXPECT(root_node_list.list_size() == 10);
+    for (size_t j = 0; j < root_node_list.list_size(); ++j) {
+        SMove next_move = root_node_list.get_next();
         CTEST << "Next move: " << next_move << "\n";
         EXPECT((next_move.source != A8) || (next_move.move_type == MOVE_TYPE_CAPTURE));
         EXPECT(next_move.target != A1);

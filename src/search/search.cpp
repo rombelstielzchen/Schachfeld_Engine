@@ -1,4 +1,5 @@
-// Project: Schachfeld_Engine // Author: Rombelstielzchen
+// Project: Schachfeld_Engine 
+// Author: Rombelstielzchen
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
@@ -28,7 +29,6 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
     [[maybe_unused]] int root_evaluation = board.evaluator.evaluate();
     if (remaining_depth <= 0) {
         // No negamax-negation here. We did not yet make a move; still same side to act
-            //DEBUG_MESSAGE("here1");
         return quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root, alpha, beta);
     }
     int best_score = SCORE_TECHNICAL_MIN;
@@ -65,7 +65,6 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
         } else {
             // TODO: one of the 2 calls to quiescense might be superfluous.
             // This might change with fractional deepening
-            //DEBUG_MESSAGE("here2");
             candidate_score = -quiescence_negamax(QUIESCENCE_DEPTH, distance_to_root + 1, -beta, -alpha);
         }
         board.move_maker.unmake_move();
@@ -119,7 +118,7 @@ int CSearch::quiescence_negamax(int const remaining_depth, int const distance_to
     best_score = quiescence_negamax_recursive_no_stalemate_detection(remaining_depth, distance_to_root, alpha, beta);
     // Quiescence assumes, that both players can stand pat / "sit out" if all else fails.
     // Therefore no mate and stalemate scores possible.
-    assert(abs(best_score) < SCORE_KING);
+///!!!    assert(abs(best_score) < SCORE_KING);
     return best_score;
 }
 

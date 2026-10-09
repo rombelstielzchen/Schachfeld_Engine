@@ -27,6 +27,7 @@
 #include "../search/test_depth_control.h"
 #include "../search/test_hash_table.h"
 #include "../search/test_killer_heuristics.h"
+#include "../search/test_root_node_list.h"
 #include "../search/test_search.h"
 #include "../search/test_statistics.h"
 #include "../universal_chess_interface/uci_protocol.h"
@@ -81,6 +82,7 @@ bool CEngineTest::test_everything() {
     EXPECT(CTestDepthControl::test_everything());
     EXPECT(CTestHashTable::test_everything());
     EXPECT(CTestKillerHeuristic::test_everything());
+    EXPECT(CTestRootNodeList::test_everything());
     EXPECT(CTestSearch::test_everything());
     EXPECT(CTestOpeningBook::test_everything());
     return true;

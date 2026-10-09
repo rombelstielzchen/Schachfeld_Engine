@@ -6,9 +6,9 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "depth_control.h"
+#include "root_node_list.h"
 #include "../evaluator/score_constants.h"
 #include"../move_generator/move.h"
-#include"../move_generator/move_generator.h"
 
 #pragma pack(push)
 #pragma pack(1)
@@ -55,12 +55,8 @@ class CIterativeDeepening {
   private:
     void reset();
   private:
-    bool only_one_legal_move() const;
-    SMove only_move();
-  private:
     bool mate_found;
     CDepthControl depth_control;
-    // Long-living move-list at the root-node for better move-ordering
-    CMoveGenerator move_generator;
+    CRootNodeList root_node_list;
 };
 

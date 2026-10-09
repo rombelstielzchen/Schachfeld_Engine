@@ -25,9 +25,12 @@ void CBoard::clone_from_global_reference_board() {
     // Do not clone CEvaluator evaluator;
     // Do not clone CGameSaver game_saver;
     // Do not clone CMoveMaker move_maker;
+    // TODO: clone the move_maker properly, especially the history for repetition-detection
+    move_maker.move_history = global_reference_board.move_maker.move_history;
+    move_maker.former_eng_passeng_files = global_reference_board.move_maker.former_eng_passeng_files;
     board_state = global_reference_board.board_state;
     side_to_move = global_reference_board.side_to_move;
-    eng_passeng_file = global_reference_board.eng_passeng_file;
+    move_maker.former_eng_passeng_files = global_reference_board.move_maker.former_eng_passeng_files;
     move_counter = global_reference_board.move_counter;
     _100_ply_draw_counter = global_reference_board._100_ply_draw_counter;
     castling_rights = global_reference_board.castling_rights;
@@ -159,6 +162,10 @@ TSquareColour CBoard::square_colour(const SSquare square) const {
 }
 
 void CBoard::clone_to_global_reference_board() {
+    // TODO: this not clean!
     global_reference_board = *this;
+    // TODO: clone the move_maker properly, especially the history for repetition-detection
+    global_reference_board.move_maker.move_history = move_maker.move_history;
+    global_reference_board.move_maker.former_eng_passeng_files = move_maker.former_eng_passeng_files;;
 }
 

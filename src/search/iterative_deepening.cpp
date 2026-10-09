@@ -21,13 +21,13 @@ CIterativeDeepening::CIterativeDeepening() {
 void CIterativeDeepening::reset() {
     // Needs to be called on every new search
     mate_found = false;
-    move_generator.reset();
     search_statistics.reset_all();
 }
 
 /*** Public search-interface below ****/
 
 SMove CIterativeDeepening::search_depth(int64_t depth) {
+    DEBUG_METHOD();
     reset();
     assert(depth >= 0);
     depth = std::max(depth,  minimum_search_depth);
@@ -37,6 +37,7 @@ SMove CIterativeDeepening::search_depth(int64_t depth) {
 }
 
 SMove CIterativeDeepening::search_nodes(const int64_t nodes) {
+    DEBUG_METHOD();
     reset();
     assert(nodes > 0);
     depth_control.set_nodes(nodes);
@@ -44,6 +45,7 @@ SMove CIterativeDeepening::search_nodes(const int64_t nodes) {
 }
 
 SMove CIterativeDeepening::search_movetime(const int64_t movetime_ms) {
+    DEBUG_METHOD();
     reset();
     assert(movetime_ms > 0);
     depth_control.set_movetime_ms(movetime_ms);
@@ -58,6 +60,7 @@ SMove CIterativeDeepening::search_time(
         const int64_t white_increment_milliseconds,
         const int64_t black_increment_milliseconds,
         const int64_t moves_to_go) {
+    DEBUG_METHOD();
     reset();
     assert(white_time_milliseconds >= 0);
     assert(black_time_milliseconds >= 0);
@@ -85,35 +88,43 @@ SMove CIterativeDeepening::search_time(
 /*** End of public search interface ***/
 
 SMove CIterativeDeepening::search_common_entry_point() {
+    DEBUG_METHOD();
     reset();
-    move_generator.generate_all();
+    root_node_list.generate_moves();
+    /*!!!
     if (move_generator.move_list.king_capture_on_list()) {
         // This should happen only in case of some test-cases
         SMove king_capture = move_generator.move_list.get_next__best_capture();
         assert(move_in_range(king_capture));
         assert(king_capture.potential_gain > SCORE_HALF_KING);
         return king_capture;
+    }*/
+    if (root_node_list.only_one_legal_move()  && !depth_control.infinite_depth()) {
+        return root_node_list.only_move();
     }
-    move_generator.move_list.prune_illegal_moves();
-    if (only_one_legal_move()  && !depth_control.infinite_depth()) {
-        return only_move();
-    }
-    if (move_generator.move_list.list_size() == 0) {
+    if (root_node_list.list_size() == 0) {
         return NULL_MOVE;
     }
     return search_anti_repetition();
 }
 
 SMove CIterativeDeepening::search_anti_repetition() {
-    SMove repetitive_move = board.move_maker.get_repetitive_move();
+    DEBUG_METHOD();
+    SMove const repetitive_move = board.move_maker.get_repetitive_move();
     if (repetitive_move != NULL_MOVE) {
         assert(move_in_range(repetitive_move));
         assert(board.get_square(repetitive_move.source) != EMPTY_SQUARE);
-        assert(move_generator.move_list.move_on_list(repetitive_move));
-        move_generator.move_list.prune_silent_piece_moves(repetitive_move.source);
-        assert(move_generator.move_list.move_on_list(repetitive_move) == false);
+        assert(root_node_list.move_on_list(repetitive_move));
+        assert(is_silent_move(repetitive_move));
+        [[maybe_unused]] size_t const list_size_before_pruning = root_node_list.list_size();
+        root_node_list.prune_silent_piece_moves(repetitive_move.source);
+        assert(root_node_list.list_size() < list_size_before_pruning);
+        assert(root_node_list.move_on_list(repetitive_move) == false);
     }
-    SMove search_result = search_iterative();
+    SMove const search_result = search_iterative();
+    assert(abs(search_result.potential_gain) < SCORE_KING);
+    assert(CPsvModifier::average(main_piece_square_value_table_set[WHITE_KING]) > 0);
+    assert(CPsvModifier::average(main_piece_square_value_table_set[BLACK_KING]) < 0);
     if ((search_result.potential_gain < SCORE_DRAW) && (repetitive_move != NULL_MOVE)) {
         // No better alternative found
         return repetitive_move;
@@ -122,6 +133,7 @@ SMove CIterativeDeepening::search_anti_repetition() {
 }
 
 SMove CIterativeDeepening::search_iterative() {
+    DEBUG_METHOD();
     // static in order to handle a badly timed stop-command
     static SMove best_move = NULL_MOVE;
     std::string const root_position = board.get_fen_position();
@@ -143,6 +155,7 @@ SMove CIterativeDeepening::search_iterative() {
             depth_control.adapt_depth_for_better_mates(current_depth);
         }
     }
+        //assert(root_node_list.list_size() == list_size_after_pruning);
     assert(board.get_fen_position() == root_position);
     assert(best_move != NULL_MOVE);
     assert(move_in_range(best_move));
@@ -150,12 +163,12 @@ SMove CIterativeDeepening::search_iterative() {
 }
 
 SMove CIterativeDeepening::search_fixed_depth(int depth) {
+    DEBUG_METHOD();
     // Top-level search
     //   * managing alpha-beta-windows, but no cutoffs here ("all-node")
     //   * Sorting and reusing the move-list, therefore...
     //     - no hash-moves here
     //     - no killer-moves here (impossible)
-    DEBUG_METHOD();
     assert(depth >= minimum_search_depth);
     CSearch search;
     search_statistics.on_new_depth(depth);
@@ -163,19 +176,20 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
     SAlphaBetaWindow alpha_beta_window = INFINITE_ALPHA_BETA_WINDOW;
     assert(is_valid_alpha_beta_window(alpha_beta_window));
     int best_score = SCORE_TECHNICAL_MIN;
-    move_generator.move_list.reuse_list();
-    int const n_moves = move_generator.move_list.list_size();
+    // TODO: extended per-move-statistics
+    root_node_list.reuse_list();
+    int const n_moves = root_node_list.list_size();
     [[maybe_unused]] constexpr int at_least_two_moves__other_cases_already_handled = 2;
     assert(n_moves >= at_least_two_moves__other_cases_already_handled);
     // static in order to handle a badly timed stop-command
     static SMove best_move = NULL_MOVE;
-    [[maybe_unused]] std::string root_position = board.get_fen_position();
-    THashKey my_hash = board.get_hash();
+    [[maybe_unused]] std::string const root_position = board.get_fen_position();
+    THashKey const my_hash = board.get_hash();
     for (int j = uci_first_movenumber; j <= n_moves; ++j) {
         // No alpha-beta-cutoffs here. Top-level search has to examine all moves,
         // but feed the recursive search with the current alpha-beta values.
         search_statistics.on_new_move();
-        SMove const move_candidate = move_generator.move_list.get_next();
+        SMove const move_candidate = root_node_list.get_next();
         assert(move_candidate != NULL_MOVE);
         assert(move_in_range(move_candidate));
         board.move_maker.make_move(move_candidate);
@@ -195,7 +209,7 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
             best_move.potential_gain = best_score;
             alpha_beta_window.alpha = std::max(alpha_beta_window.alpha, candidate_score);
             assert(is_valid_alpha_beta_window(alpha_beta_window));
-            move_generator.move_list.shift_current_move_to_top();
+            root_node_list.shift_current_move_to_top();
             board.move_maker.unmake_move();
             assert(board.get_fen_position() == root_position);
             constexpr int no_distance_to_root = 0;
@@ -207,13 +221,10 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
         }
         assert(board.get_fen_position() == root_position);
         assert(board.get_hash() == my_hash);
-        DEBUG_MESSAGE(move_candidate);
-        DEBUG_MESSAGE(candidate_score);
     }
-    assert((move_generator.move_list.get_next() == NULL_MOVE) || DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop);
+    assert((root_node_list.get_next() == NULL_MOVE) || DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop);
     search_statistics.add_nodes(n_moves);
     profiling.show_results();
-    CUciProtocol::send_info(move_generator.move_list.as_text());
     search_statistics.on_finished_search();
     if (abs(best_score) > SCORE_HALF_KING) {
         mate_found = true;
@@ -222,18 +233,5 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
     assert(move_in_range(best_move));
     assert(hash_table.get_best_move(my_hash) == best_move);
     return best_move;
-}
-
-bool CIterativeDeepening::only_one_legal_move() const {
-    return move_generator.move_list.list_size() == 1;
-}
-
-SMove CIterativeDeepening::only_move() {
-    assert(only_one_legal_move());
-    SMove result =  move_generator.move_list.get_next();
-    // We reuse the list here, otherwise we get unexpected behaviour,
-    // if we use this function again, e.g. for debug-output. 
-    move_generator.move_list.reuse_list();
-    return result;
 }
 

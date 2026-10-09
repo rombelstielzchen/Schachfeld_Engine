@@ -26,6 +26,8 @@ const std::vector<SDefaultPosition> default_positions = {
     { ' ', "", "" },
     { '0', "mate with bishop and knight", "////3K//6k/n6b b" },
     { '7', "spanish pawn-endgame", "6k/ppp2ppp/2p//4P//PPP2PPP/6K w" },
+    { '8', "anti-repetition-test, white to move", "///7R/3K/k/P6P w" /* TODO moves h5a5 a3b4 a5h5 b4a3 */ },
+    { '9', "anti-repetition-test, black to move", "/p6p/K/3k/7r b" /* TODO moves h4a4 a6b5 a4h4 b5a6 */ },
     { 'b', "mate with two bishops", "////2Bk//6K/7B w" },
     { 'f', "Falkbeer-Counter-Gambit", "startpos moves e2e3 e7e6 e3e4 e6e5 f2f4 d7d5" },
     { 'g', "position after 1.g4", "startpos moves g2g4" },

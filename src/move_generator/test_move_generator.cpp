@@ -17,6 +17,7 @@ const std::vector<STestcaseMoveGenerator> testcases = {
     // White king, simple moves, no castling, some other pieces
     { 8, 4, 4, "n1n5/1K6/n1n5/8/8/8/8/8 w" },
     { 4, 2, 4, "8/r1r5/P1P5/nKn5/P1P5/8/8/8 w" },
+    { 10, 0, 10, "/////6P/5PKP/ w" },
     // White king, testing all 8 directions separately
     { 3, 0, 3, "8/8/8/PPP5/PKP5/PPP5/8/8 w" },
     { 4, 0, 4, "8/8/8/1PP5/PKP5/PPP5/8/8 w" },

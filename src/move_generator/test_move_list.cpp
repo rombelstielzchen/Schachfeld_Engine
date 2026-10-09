@@ -1,4 +1,3 @@
-//
 // Project: Schachfeld_Engine
 // Author: Rombelstielzchen
 // License: GPLv3
@@ -7,6 +6,7 @@
 #include "test_move_list.h"
 #include "move_generator.h"
 #include "../board/board.h"
+#include "../board/move_maker.h"
 #include "../board/square_constants.h"
 #include "../technical_functions/testing.h"
 
@@ -248,6 +248,19 @@ bool CTestMoveList::test_prune_silent_piece_moves () {
     move_generator.generate_all();
     move_generator.move_list.prune_silent_piece_moves(B5);
     EXPECT(move_generator.move_list.list_size() == 27);
+    const std::string a_failed_position = "8/p6p/K7/3k4/7r/8/8/8 b - - 17 59 ";
+    EXPECT(board.set_fen_position(a_failed_position));
+    EXPECT(board.move_maker.play_variation("h4a4 a6b5 a4h4 b5a6"));
+    EXPECT(board.move_maker.move_history_contains_repetition());
+    move_generator.reset();
+    move_generator.generate_all();
+    EXPECT(move_generator.move_list.list_size() == 22);
+    const std::string repetitive_h4a4 = "h4a4";
+    EXPECT(move_generator.move_list.move_on_list(repetitive_h4a4));
+    move_generator.move_list.prune_silent_piece_moves(H4);
+    EXPECT(move_generator.move_list.list_size() == 10);
+    CTEST << move_generator.move_list.as_text() << "\n";
+    EXPECT(move_generator.move_list.move_on_list(repetitive_h4a4) == false);
     return true;
 }
 
