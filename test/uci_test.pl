@@ -315,6 +315,18 @@ sub test_16 {
     EXPECT('bestmove d5e4');
 }
 
+sub test_17 {
+    send_message('position fen R4r/6k/////7P/6K w');
+    send_message('go depth 2');
+    EXPECT('bestmove a8a7');
+    send_message('a8a7');
+    send_message('f8f7');
+    send_message('a7a8');
+    send_message('f7f8');
+    send_message('go depth 2');
+    EXPECT('bestmove a8f8');
+}
+
 sub test_all {
     test_01();
     test_02();
@@ -333,5 +345,6 @@ sub test_all {
     test_14();
     test_15();
     test_16();
+    test_17();
 }
 
