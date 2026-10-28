@@ -25,11 +25,13 @@ class CRootNodeList {
     size_t list_size() const { return n_moves; }
   public:
     bool move_on_list(const SMove move) const;
+    void display() const;
     bool only_one_legal_move() const;
     SMove only_move()const;
     void reuse_list();
     void shift_current_move_to_top();
     void prune_silent_piece_moves(SSquare location);
+    void update_entry(size_t index, SMove const move_for_verification, int evaluation, size_t nodes_calculated);
   private:
     void remove(size_t index);
     void shift_tail_elements_forward(size_t first_index_to_be_overwritten);

@@ -6,6 +6,11 @@
 #include "root_node_list.h"
 #include "../evaluator/score_constants.h"
 #include "../move_generator/move_generator.h"
+#include "../universal_chess_interface/uci_protocol.h"
+
+#include <sstream>
+#include <iomanip>
+#include <string>
 
 constexpr SExtendedRootMove null_element = {
     NULL_MOVE,
@@ -135,5 +140,32 @@ void CRootNodeList::prune_silent_piece_moves(SSquare location) {
         }
     }
     assert(data[n_moves].move == NULL_MOVE);
+}
+
+void CRootNodeList::display() const {
+    CUciProtocol::log_separator();
+    CUciProtocol::send_info("    move    eval       nodes    draw");
+    constexpr int width = 8;
+    constexpr int extended_width_for_nodes = 12;
+    for (size_t j = 0; j < list_size(); ++j) {
+        std::ostringstream info;
+        info << std::right << std::setw(width) << data[j].move;
+        info << std::right << std::setw(width) << data[j].evaluation;
+        info << std::right << std::setw(extended_width_for_nodes) << data[j].nodes_calculated;
+        info << std::right << std::setw(width) << data[j].is_direct_repetition;
+        CUciProtocol::send_info(info.str());
+    }
+    CUciProtocol::log_separator();
+}
+
+void CRootNodeList::update_entry(size_t index, SMove const move_for_verification, int evaluation, size_t nodes_calculated) {
+    assert(index < list_size());
+    assert(move_in_range(move_for_verification));
+    assert(move_on_list(move_for_verification));
+    assert(data[index].move == move_for_verification);
+    data[index].evaluation = evaluation;
+    // TODO: add or replace
+    data[index].nodes_calculated = nodes_calculated;
+    data[index].is_direct_repetition = false;
 }
 

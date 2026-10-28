@@ -27,7 +27,6 @@ void CIterativeDeepening::reset() {
 /*** Public search-interface below ****/
 
 SMove CIterativeDeepening::search_depth(int64_t depth) {
-    DEBUG_METHOD();
     reset();
     assert(depth >= 0);
     depth = std::max(depth,  minimum_search_depth);
@@ -37,7 +36,6 @@ SMove CIterativeDeepening::search_depth(int64_t depth) {
 }
 
 SMove CIterativeDeepening::search_nodes(const int64_t nodes) {
-    DEBUG_METHOD();
     reset();
     assert(nodes > 0);
     depth_control.set_nodes(nodes);
@@ -45,7 +43,6 @@ SMove CIterativeDeepening::search_nodes(const int64_t nodes) {
 }
 
 SMove CIterativeDeepening::search_movetime(const int64_t movetime_ms) {
-    DEBUG_METHOD();
     reset();
     assert(movetime_ms > 0);
     depth_control.set_movetime_ms(movetime_ms);
@@ -60,7 +57,6 @@ SMove CIterativeDeepening::search_time(
         const int64_t white_increment_milliseconds,
         const int64_t black_increment_milliseconds,
         const int64_t moves_to_go) {
-    DEBUG_METHOD();
     reset();
     assert(white_time_milliseconds >= 0);
     assert(black_time_milliseconds >= 0);
@@ -88,7 +84,6 @@ SMove CIterativeDeepening::search_time(
 /*** End of public search interface ***/
 
 SMove CIterativeDeepening::search_common_entry_point() {
-    DEBUG_METHOD();
     reset();
     root_node_list.generate_moves();
     /*!!!
@@ -109,7 +104,6 @@ SMove CIterativeDeepening::search_common_entry_point() {
 }
 
 SMove CIterativeDeepening::search_anti_repetition() {
-    DEBUG_METHOD();
     SMove const repetitive_move = board.move_maker.get_repetitive_move();
     if (repetitive_move != NULL_MOVE) {
         assert(move_in_range(repetitive_move));
@@ -133,7 +127,6 @@ SMove CIterativeDeepening::search_anti_repetition() {
 }
 
 SMove CIterativeDeepening::search_iterative() {
-    DEBUG_METHOD();
     // static in order to handle a badly timed stop-command
     static SMove best_move = NULL_MOVE;
     std::string const root_position = board.get_fen_position();
@@ -155,15 +148,14 @@ SMove CIterativeDeepening::search_iterative() {
             depth_control.adapt_depth_for_better_mates(current_depth);
         }
     }
-        //assert(root_node_list.list_size() == list_size_after_pruning);
     assert(board.get_fen_position() == root_position);
+    root_node_list.display();
     assert(best_move != NULL_MOVE);
     assert(move_in_range(best_move));
     return best_move;
 }
 
 SMove CIterativeDeepening::search_fixed_depth(int depth) {
-    DEBUG_METHOD();
     // Top-level search
     //   * managing alpha-beta-windows, but no cutoffs here ("all-node")
     //   * Sorting and reusing the move-list, therefore...
@@ -203,6 +195,7 @@ SMove CIterativeDeepening::search_fixed_depth(int depth) {
             break;
         }
         search_statistics.set_current_move(move_candidate, candidate_score, j);
+        root_node_list.update_entry(j - 1, move_candidate, candidate_score, 3141);
         if (candidate_score > best_score) {
             best_score = candidate_score;
             best_move = move_candidate;

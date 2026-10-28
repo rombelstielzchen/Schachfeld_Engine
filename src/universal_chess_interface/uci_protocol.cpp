@@ -116,7 +116,9 @@ void CUciProtocol::send_info(const std::string &information) {
 }
 
 void CUciProtocol::log_separator() {
-    send_info("****************************************");
+    if (last_message_was_separator == false) {
+            send_info("****************************************");
+    }
     last_message_was_separator = true;
 }
 
