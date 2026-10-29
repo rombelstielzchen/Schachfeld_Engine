@@ -4,6 +4,9 @@ Major Changes
 Version 1.5
 -----------
 * Hash-table-aging in order to allow old entries to get overwritten.
+
+Version 1.4.2
+-------------
 * Fix: the introduction of multiple thread_local boards broke the repetition-detection and the anti-repetition-search.
 
 Version 1.4.1
