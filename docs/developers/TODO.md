@@ -7,6 +7,7 @@ TODO
 * better move-ordering by checks
 * vector-attacks
 * internal iterative deepening
+* null-window-search
 * move-generator for (re)captures
 * extensions and reductions
 * pondering
@@ -16,6 +17,7 @@ TODO
     consider only final checks
     restrict quiescence.search
 * better time-management and estimated branching-factor    
+* zobrist-hashing
 * clown-mates and undie-promoter
 * lazy eval
 * strictly legal moves
@@ -25,7 +27,7 @@ TODO
 * multi-threading
 * maybe tablebases
 * maybe neural networks for late middle-game / endgame
-* maybe better root.node ordering
+* maybe better root.node ordering: 2nd-best move first, repetition very first
 
 https://en.wikipedia.org/wiki/List_of_tools_for_static_code_analysis
 
