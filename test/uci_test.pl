@@ -316,6 +316,14 @@ sub test_16 {
 }
 
 sub test_17 {
+    # Testing console extension (nuilt-in default test positions)
+    send_message('dp h');
+    send_message('go depth 4');
+    EXPECT('bestmove b8a7');
+}
+
+sub test_18 {
+    # Testing anti-repetition-search
     send_message('position fen R4r/6k/////7P/6K w');
     send_message('go depth 2');
     EXPECT('bestmove a8a7');
@@ -346,5 +354,6 @@ sub test_all {
     test_15();
     test_16();
     test_17();
+    test_18();
 }
 
