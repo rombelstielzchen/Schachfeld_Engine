@@ -7,10 +7,7 @@
 #include "../evaluator/score_constants.h"
 #include "../move_generator/move_generator.h"
 #include "../universal_chess_interface/uci_protocol.h"
-
-#include <sstream>
 #include <iomanip>
-#include <string>
 
 constexpr SExtendedRootMove null_element = {
     NULL_MOVE,
@@ -143,15 +140,15 @@ void CRootNodeList::prune_silent_piece_moves(SSquare location) {
 }
 
 void CRootNodeList::display() const {
-    CUciProtocol::log_separator();
-    CUciProtocol::send_info("    move    eval       nodes    draw");
+    CUciProtocol::log_separator("move statistics");
+    CUciProtocol::send_info("    move        eval       nodes    draw");
     constexpr int width = 8;
-    constexpr int extended_width_for_nodes = 12;
+    constexpr int extended_width = 12;
     for (size_t j = 0; j < list_size(); ++j) {
         std::ostringstream info;
         info << std::right << std::setw(width) << data[j].move;
-        info << std::right << std::setw(width) << data[j].evaluation;
-        info << std::right << std::setw(extended_width_for_nodes) << data[j].nodes_calculated;
+        info << std::right << std::setw(extended_width) << data[j].evaluation;
+        info << std::right << std::setw(extended_width) << data[j].nodes_calculated;
         info << std::right << std::setw(width) << data[j].is_direct_repetition;
         CUciProtocol::send_info(info.str());
     }

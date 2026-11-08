@@ -51,7 +51,8 @@ void CSearchStatistics::set_best_move(const SMove best_move, int score) {
     historic_best_move.score = score;
     bestmove_history.resize(max_depth);
     assert(max_depth > 0);
-    ///assert(max_depth < bestmove_history.size());
+    // TODO: change max_depth to size_t
+    ///assert(max_depth <(=) bestmove_history.size());
     bestmove_history[max_depth - 1] = historic_best_move;
 }
 
@@ -98,8 +99,8 @@ void CSearchStatistics::log_branching_factors() const {
     assert(nodes_at_start_of_current_depth > 0);
     assert(nodes_total > nodes_at_start_of_current_depth);
     double branching_factor = static_cast<double>(nodes_for_this_iteration()) / nodes_at_start_of_current_depth;
-    // branching_factor nay be < 1 in case of "stop"-command
     assert(branching_factor > 0);
+    ///assert((branching_factor >= 1) || DOBB_DOBB_DOBB_the_gui_wants_us_to_stop_stop_stop);
     std::string message = "branching_factor: " + std::to_string(branching_factor);
     CUciProtocol::send_info(message);
 }
@@ -158,6 +159,7 @@ void CSearchStatistics::on_finished_search() const {
 }
 
 // !!! Call this only from an extra-thread with own thread_local board!
+// TODO: assert somehow
 void CSearchStatistics::log_principal_variation() const {
 	// UCI-docu: e.g. "info depth 2 score cp 214 time 1242 nodes 2124 nps 34928 pv e2e4 e7e5 g1f3"
     std::string info = "depth " + std::to_string(max_depth);
@@ -170,6 +172,7 @@ void CSearchStatistics::log_principal_variation() const {
 }
 
 void CSearchStatistics::log_bestmove_history() const {
+    CUciProtocol::log_separator("best moves by depth");
     for (const SHistoricBestMove &bestmove : bestmove_history) {
         assert(bestmove.depth > 0);
         assert(move_in_range(bestmove.move));
@@ -181,9 +184,11 @@ void CSearchStatistics::log_bestmove_history() const {
        info += std::to_string(bestmove.score);
        CUciProtocol::send_info(info);
     }
+    CUciProtocol::log_separator();
 }
 
 // !!! Call this only from an extra-thread with own thread_local board!
+// TODO: assert somehow
 std::string CSearchStatistics::principal_variation() const {
     constexpr int max_pv_depth = 10;
     board.clone_from_global_reference_board();

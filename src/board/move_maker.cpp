@@ -9,6 +9,7 @@
 #include "square_constants.h"
 #include "../move_generator/move_generator.h"
 #include "../technical_functions/string_functions.h"
+#include "../technical_functions/profiling.h"
 #include "../technical_functions/string_tokenizer.h"
 #include "../universal_chess_interface/uci_protocol.h"
 
@@ -21,6 +22,7 @@ CMoveMaker::CMoveMaker() {
 
 void CMoveMaker::make_move(SMove move) {
     assert(move_in_range(move));
+    profiling.increment(5, "make_move");
     char moving_piece = board.get_square(move.source);
     assert(is_any_piece(moving_piece));
     board.clear_square(move.source);
@@ -37,6 +39,7 @@ void CMoveMaker::make_move(SMove move) {
             board.eng_passeng_file = move.source.file;
             break;
         case MOVE_TYPE_WHITE_SHORT_CASTLING:
+            profiling.increment(6, "castling");
             assert(move.source == E1);
             assert(moving_piece == WHITE_KING);
             board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
@@ -44,6 +47,7 @@ void CMoveMaker::make_move(SMove move) {
             board.put_piece(F1, WHITE_ROOK);
             break;
         case MOVE_TYPE_WHITE_LONG_CASTLING:
+            profiling.increment(6, "castling");
             assert(move.source == E1);
             assert(moving_piece == WHITE_KING);
             board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
@@ -51,6 +55,7 @@ void CMoveMaker::make_move(SMove move) {
             board.put_piece(D1, WHITE_ROOK);
             break;
         case MOVE_TYPE_BLACK_SHORT_CASTLING:
+            profiling.increment(6, "castling");
             assert(move.source == E8);
             assert(moving_piece == BLACK_KING);
             board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;
@@ -59,6 +64,7 @@ void CMoveMaker::make_move(SMove move) {
             board.put_piece(F8, BLACK_ROOK);
             break;
         case MOVE_TYPE_BLACK_LONG_CASTLING:
+            profiling.increment(6, "castling");
             assert(move.source == E8);
             assert(moving_piece == BLACK_KING);
             board.eng_passeng_file = NO_ENG_PASSENG_POSSIBLE;

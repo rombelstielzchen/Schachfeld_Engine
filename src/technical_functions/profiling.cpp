@@ -4,8 +4,10 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "profiling.h"
+#include "../universal_chess_interface/uci_protocol.h"
 #include <cassert>
 #include <cstring>
+#include <iomanip>
 #include <iostream>
 
 constexpr size_t default_counter = 0;
@@ -49,7 +51,7 @@ void CProfiling::increment_if(size_t index_of_counter, bool condition, const cha
 }
 
 void CProfiling::show_results() const {
-    std::cout << "*** CProfiling results *******\n";
+        CUciProtocol::log_separator("profiling results");
     // TODO: range-based loop maybe (requires vector of struct)
     for (size_t index = 0; index < counters.size(); ++index) {
         show_result(index);
@@ -59,7 +61,12 @@ void CProfiling::show_results() const {
 void CProfiling::show_result(size_t index_of_counter) const {
     assert(index_of_counter < counters.size());
     assert(descriptions[index_of_counter] != nullptr);
-    std::cout << index_of_counter << ": " << counters[index_of_counter] << " [" << descriptions[index_of_counter] <<"]\n";
+    std::ostringstream info;
+    info << std::right << std::setw(3) << index_of_counter 
+        << ": " 
+        << std::right << std::setw(12) << counters[index_of_counter] 
+        << "   [" << descriptions[index_of_counter] <<"]";
+        CUciProtocol::send_info(info.str());
 }
 
 void CProfiling::size_up(size_t n_entries) {

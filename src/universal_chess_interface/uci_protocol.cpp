@@ -45,7 +45,9 @@ const std::vector<SDefaultPosition> default_positions = {
 };
 
 bool CUciProtocol::interactive_console_mode = false;
-bool CUciProtocol::last_message_was_separator = false;
+bool CUciProtocol::last_message_was_separator = true;
+bool CUciProtocol::next_message_must_be_separator = false;
+std::string const standard_separator = "************************************************************";
 std::string CUciProtocol::recent_best_move = "";
 
 CUciProtocol::CUciProtocol() {
@@ -64,9 +66,11 @@ CUciProtocol::~CUciProtocol() {
 }
 
 /* static */ void CUciProtocol::send_message(const std::string &message) {
+        //DEBUG_METHOD();
     // Used by both UCI-thread and calculator-thread, therefore mutex-protected
     static std::mutex unique_message_mutex;
     std::lock_guard<std::mutex> lock(unique_message_mutex);
+    log_separator_if_needed();
     // UCI standard says:
     //   * communication via text-IO
     //   * every message should end with a new-line, "\n"
@@ -81,6 +85,7 @@ void CUciProtocol::identify_engine() const {
 }
 
 void CUciProtocol::send_list_of_options() const {
+        //DEBUG_METHOD();
 	send_message(std::string("option name book type combo ")
         + "default solid_mix "
         + "var broad_GM "
@@ -110,24 +115,53 @@ void CUciProtocol::send_list_of_options() const {
 }
 
 void CUciProtocol::send_info(const std::string &information) {
+        //DEBUG_METHOD();
     std::string full_message = "info " + information;
     send_message(full_message);
     last_message_was_separator = false;
+    next_message_must_be_separator = false;
 }
 
-void CUciProtocol::log_separator() {
-    if (last_message_was_separator == false) {
-            send_info("****************************************");
-    }
+void CUciProtocol::log_separator(const std::string &heading) {
+        //DEBUG_METHOD();
+    assert(heading != "");
+    size_t const max_length_of_heading = standard_separator.length() - 10;
+    assert(heading.length() <= max_length_of_heading);
+    std::string const spaced_heading = " " + heading + " ";
+    std::string named_separator = standard_separator;
+    named_separator.replace(3, spaced_heading.length(), spaced_heading);
+    next_message_must_be_separator = false;
+    send_message(named_separator);
     last_message_was_separator = true;
 }
 
+void CUciProtocol::log_separator() {
+        //DEBUG_METHOD();
+    if (last_message_was_separator) {
+        return;
+    }
+    next_message_must_be_separator = true;
+}
+
+void CUciProtocol::log_separator_if_needed() {
+        //DEBUG_METHOD();
+    if (next_message_must_be_separator == false) {
+        return;
+    }
+    assert(last_message_was_separator == false);
+    std::cout << standard_separator << "\n";
+    last_message_was_separator = true;
+    next_message_must_be_separator = false;
+}
+
 void CUciProtocol::send_error(const std::string &error_message) {
+        //DEBUG_METHOD();
     std::string full_message = "error: " + error_message + "\n";
     std::cerr << full_message;
 }
 
 void CUciProtocol::send_best_move(const std::string &best_move) {
+        //DEBUG_METHOD();
     assert(best_move != "");
     assert(looks_like_a_mnove(best_move));
     if (interactive_console_mode) {
@@ -173,7 +207,7 @@ void CUciProtocol::process_message_recursively(std::string &message) {
     } else if (string_tokenizer.next_token_is("debug")) { 
         SWITCH_DEBUG_ON(string_tokenizer.next_token() == "on");
         if (!interactive_console_mode) {
-            DEBUG_LOG_TO_FILE();
+            //DEBUG_LOG_TO_FILE();
         }
     } else if (string_tokenizer.next_token_is("dp")) {
         std::string next_token = string_tokenizer.next_token();

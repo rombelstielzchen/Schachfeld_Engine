@@ -24,13 +24,6 @@ class CSearchStatistics {
     void on_new_move();
     void on_finished_search() const;
   public:
-    // TODO: public or private?
-    void log_subtree_size() const;
-    void log_subtree_size_bestmove() const;
-    void log_branching_factors() const;
-    void log_principal_variation() const;
-    void log_bestmove_history() const;
-  public:
     void set_best_move(const SMove best_move, int score);
     void set_current_move(const SMove current_move, int score, int movenumber);
     inline void add_nodes(int64_t nodes) {
@@ -42,6 +35,12 @@ class CSearchStatistics {
     int64_t used_time_milliseconds() const;
     // For time-management
     int expected_branching_factor_for_next_iteration() const;
+    void log_principal_variation() const;
+  private:
+    void log_subtree_size() const;
+    void log_subtree_size_bestmove() const;
+    void log_branching_factors() const;
+    void log_bestmove_history() const;
   private:
     int64_t nodes_for_this_iteration() const;
     int64_t nodes_per_second() const;
