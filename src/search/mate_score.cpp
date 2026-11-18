@@ -34,3 +34,10 @@ int CMateScore::winning_mate_score(int distance_to_root_in_plies) {
 // TODO: maximize material, when losing.
 // losing_mate_score != - winning_mate_score
 // due to different side to move and nega_score!
+
+bool CMateScore::is_mate_score(int score__centi_wood_points) {
+    static_assert(SCORE_WINNING_MATE > 0);
+    static_assert(SCORE_WINNING_MATE > 4 * SCORE_KING);
+    return (abs(score__centi_wood_points) > (SCORE_WINNING_MATE / 2));
+}
+

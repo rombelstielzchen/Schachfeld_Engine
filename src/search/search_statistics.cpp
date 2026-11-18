@@ -7,6 +7,7 @@
 #include "hash_table.h"
 #include "../move_generator/move_generator.h"
 #include "../move_generator/move_list.h"
+#include "../search/mate_score.h"
 #include "../universal_chess_interface/uci_protocol.h"
 
 constexpr int64_t anti_division_by_zero = 1;
@@ -160,13 +161,19 @@ void CSearchStatistics::on_finished_search() const {
 
 // !!! Call this only from an extra-thread with own thread_local board!
 // TODO: assert somehow
+// TODO: general function score -> text for multiple use!
 void CSearchStatistics::log_principal_variation() const {
 	// UCI-docu: e.g. "info depth 2 score cp 214 time 1242 nodes 2124 nps 34928 pv e2e4 e7e5 g1f3"
     std::string info = "depth " + std::to_string(max_depth);
     if (bestmove_history.size() > 0) {
         info += " pv ";
         info += principal_variation();
-        info += anti_adjudication_score(bestmove_history.back().score);
+        int score = bestmove_history.back().score;
+        if (CMateScore::is_mate_score(score)) {
+            info += CMateScore::as_text(score);
+        } else {
+            info += anti_adjudication_score(score);
+        }
     }
     CUciProtocol::send_info(info);
 }
