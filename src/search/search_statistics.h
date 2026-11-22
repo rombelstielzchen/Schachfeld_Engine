@@ -48,7 +48,6 @@ class CSearchStatistics {
     std::string general_search_statistics() const;
     std::string principal_variation() const;
     int64_t subtree_size() const;
-    static std::string anti_adjudication_score(int score);
   private:
     int64_t nodes_total;
     int64_t nodes_at_start_of_current_depth;

@@ -5,7 +5,7 @@
 
 #include "test_evaluator.h"
 #include "evaluator.h"
-#include "score_constants.h"
+#include "scores.h"
 #include "../board/board.h"
 #include "../board/square_constants.h"
 #include "../technical_functions/testing.h"

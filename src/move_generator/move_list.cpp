@@ -9,7 +9,7 @@
 #include "../board/board.h"
 #include "../board/board_logic.h"
 #include "../board/square_constants.h"
-#include "../evaluator/score_constants.h"
+#include "../evaluator/scores.h"
 
 CMoveList::CMoveList() {
     clear();

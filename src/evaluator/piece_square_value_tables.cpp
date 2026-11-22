@@ -4,7 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "piece_square_value_tables.h"
-#include "score_constants.h"
+#include "scores.h"
 #include "../board/board_geometry.h"
 #include "../board/board.h"
 #include "../board/board_logic.h"

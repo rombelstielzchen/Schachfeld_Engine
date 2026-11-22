@@ -8,7 +8,7 @@
 #include "../../../board/board_geometry.h"
 #include "../../../board/board_logic.h"
 #include "../../../board/distances.h"
-#include "../../score_constants.h"
+#include "../../scores.h"
 #include "../../../move_generator/move.h"
 #include "../../../technical_functions/standard_headers.h"
 

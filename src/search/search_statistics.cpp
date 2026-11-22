@@ -5,9 +5,9 @@
 
 #include "search_statistics.h"
 #include "hash_table.h"
+#include "../evaluator/scores.h"
 #include "../move_generator/move_generator.h"
 #include "../move_generator/move_list.h"
-#include "../search/mate_score.h"
 #include "../universal_chess_interface/uci_protocol.h"
 
 constexpr int64_t anti_division_by_zero = 1;
@@ -43,7 +43,7 @@ void CSearchStatistics::on_new_move() {
 
 void CSearchStatistics::set_best_move(const SMove best_move, int score) {
     assert(move_in_range(best_move));
-    std::string info = "bestmove " + move_as_text(best_move) + anti_adjudication_score(score);
+    std::string info = "bestmove " + move_as_text(best_move) + " " + CScores::to_UCI_string(score);
     CUciProtocol::send_info(info);
     subtree_size_bestmove = subtree_size();
     SHistoricBestMove historic_best_move;
@@ -62,7 +62,8 @@ void CSearchStatistics::set_current_move(const SMove current_move, int score, in
     assert(movenumber >= uci_first_movenumber);
     std::string info = "currmove " 
         + move_as_text(current_move)
-        + anti_adjudication_score(score)
+        + " "
+        + CScores::to_UCI_string(score)
         + " currmovenumber "
         + std::to_string(movenumber)
         + general_search_statistics();
@@ -81,20 +82,8 @@ std::string CSearchStatistics::general_search_statistics() const {
     return info;
 }
 
-std::string CSearchStatistics::anti_adjudication_score(int score) {
     // Some GUIs adjudicate the game, if the score is too good, too bad or too equal.
     // Let's thwart this! ;-)
-    constexpr int max_score = 599;
-    constexpr int min_score = -max_score;
-    constexpr int epsilon_score = 007;
-    score = std::min(score, max_score);
-    score = std::max(score, min_score);
-    if (abs(score) < epsilon_score) {
-        score = epsilon_score;
-    }
-    std::string result = " score cp " + std::to_string(score) + " ";
-    return result;
-}
 
 void CSearchStatistics::log_branching_factors() const {
     assert(nodes_at_start_of_current_depth > 0);
@@ -168,12 +157,8 @@ void CSearchStatistics::log_principal_variation() const {
     if (bestmove_history.size() > 0) {
         info += " pv ";
         info += principal_variation();
-        int score = bestmove_history.back().score;
-        if (CMateScore::is_mate_score(score)) {
-            info += CMateScore::as_text(score);
-        } else {
-            info += anti_adjudication_score(score);
-        }
+        info += " ";
+        info += CScores::to_UCI_string(bestmove_history.back().score);
     }
     CUciProtocol::send_info(info);
 }

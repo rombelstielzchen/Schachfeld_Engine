@@ -10,7 +10,7 @@
 #include "search.h"
 #include "../board/board.h"
 #include "../board/square_constants.h"
-#include "../evaluator/score_constants.h"
+#include "../evaluator/scores.h"
 #include "../move_generator/move_generator.h"
 #include "../technical_functions/testing.h"
 #include "../universal_chess_interface/command_interface.h"

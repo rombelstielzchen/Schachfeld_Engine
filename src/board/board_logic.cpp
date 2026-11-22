@@ -10,7 +10,7 @@
 #include "board_geometry.h"
 #include "square_constants.h"
 #include "../evaluator/knowledge/opening/castling_direction/safety_evaluator.h"
-#include "../evaluator/score_constants.h"
+#include "../evaluator/scores.h"
 #include "../move_generator/move_generator.h"
 #include "../technical_functions/standard_headers.h"
 

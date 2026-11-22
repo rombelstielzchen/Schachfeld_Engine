@@ -5,7 +5,7 @@
 
 #include "expert_general.h"
 #include "../../piece_square_value_tables.h"
-#include "../../score_constants.h"
+#include "../../scores.h"
 #include "../../../technical_functions/standard_headers.h"
 
 TPieceSquareValueTable default_psv_white_king = {{{

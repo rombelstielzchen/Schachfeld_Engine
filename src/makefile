@@ -78,7 +78,6 @@ OBJECT_FILES :=  \
 	killer_heuristics.o \
 	main.o \
 	master_book.o \
-	mate_score.o \
 	math_functions.o \
 	move.o \
 	move_generator.o \
@@ -90,8 +89,9 @@ OBJECT_FILES :=  \
 	oracle.o \
 	piece_square_value_tables.o \
 	profiling.o \
-	safety_evaluator.o \
 	root_node_list.o \
+	safety_evaluator.o \
+	scores.o \
 	search.o \
 	search_statistics.o \
 	string_functions.o  \
@@ -120,6 +120,7 @@ OBJECT_FILES :=  \
 	test_root_node_list.o \
 	test_safety_evaluator.o \
 	test_search.o \
+	test_scores.o \
 	test_statistics.o \
 	test_technical_functions.o \
 	time_functions.o \
@@ -296,6 +297,9 @@ test_safety_evaluator.o: evaluator/knowledge/opening/castling_direction/test_saf
 test_search.o: search/test_search.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
+test_scores.o: evaluator/test_scores.cpp
+	$(CXX) $(CXXFLAGS) $^ 
+
 search_statistics.o: search/search_statistics.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
@@ -321,9 +325,6 @@ test_statistics.o: search/test_statistics.cpp
 
 test_math_functions.o: technical_functions/test_math_functions.cpp
 	$(CXX) $(CXXFLAGS) $^ 
-
-mate_score.o: search/mate_score.cpp
-	$(CXX) $(CXXFLAGS) $^
 
 math_functions.o: technical_functions/math_functions.cpp
 	$(CXX) $(CXXFLAGS) $^ 
@@ -362,6 +363,9 @@ root_node_list.o: search/root_node_list.cpp
 	$(CXX) $(CXXFLAGS) $^ 
 
 safety_evaluator.o: evaluator/knowledge/opening/castling_direction/safety_evaluator.cpp
+	$(CXX) $(CXXFLAGS) $^
+
+scores.o: evaluator/scores.cpp
 	$(CXX) $(CXXFLAGS) $^
 
 test_perft.o: move_generator/test_perft.cpp

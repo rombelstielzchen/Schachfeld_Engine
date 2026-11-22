@@ -5,7 +5,8 @@
 // License: GPLv3
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
-#include "../technical_functions/standard_headers.h"
+#include <cstdint>
+#include <string>
 
 // Caveat! INT32_MIN and INT32_MAX are not symmetric.
 // Naively used, this causes an overflow when doing negamax.
@@ -18,7 +19,8 @@ static_assert(-SCORE_TECHNICAL_MIN > 0);
 constexpr int32_t SCORE_DRAW = 0;
 constexpr int32_t SCORE_STALEMATE = SCORE_DRAW;
 
-constexpr int32_t SCORE_HALF_PAWN  = 50;
+constexpr int32_t SCORE_PAWN  = 100;
+constexpr int32_t SCORE_HALF_PAWN  = SCORE_PAWN / 2;
 constexpr int32_t SCORE_KING = 20000;
 constexpr int32_t SCORE_HALF_KING = SCORE_KING / 2;
 
@@ -46,4 +48,19 @@ constexpr int score_average_bishop = 320;
 constexpr int score_average_rook = 470;
 constexpr int score_average_queen = 890;
 constexpr int delta_score_kings_and_queens_bishop = 15;
+
+class CScores {
+  public:
+    static std::string to_UCI_string(int score);
+  public:
+    static int losing_mate_score(int distance_to_root_in_plies);
+    static int winning_mate_score(int distance_to_root_in_plies);
+  private:
+    static bool is_mate_score(int centi_wood_points);
+    static bool is_too_equal(int centi_wood_points);
+    static bool is_too_good(int centi_wood_points);
+  private:
+    static std::string standard_woodpoint_score(int centi_wood_points);
+    static std::string mate_score([[maybe_unused]] int centi_wood_points);
+};
 

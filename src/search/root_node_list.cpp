@@ -4,7 +4,7 @@
 // Forum: https://www.schachfeld.de/threads/40956-einen-namen-fuer-das-baby
 
 #include "root_node_list.h"
-#include "../evaluator/score_constants.h"
+#include "../evaluator/scores.h"
 #include "../move_generator/move_generator.h"
 #include "../universal_chess_interface/uci_protocol.h"
 #include <iomanip>

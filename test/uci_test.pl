@@ -220,6 +220,7 @@ sub test_05 {
     # Testing go-command (mate)
     send_message('position startpos moves f2f3 e7e5 g2g4');
     send_message('go mate 1');
+    EXPECT('info bestmove d8h4 mate 3141');
     EXPECT('bestmove d8h4');
 }
 

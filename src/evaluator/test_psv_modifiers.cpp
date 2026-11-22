@@ -6,7 +6,7 @@
 #include "test_psv_modifiers.h"
 #include "evaluator.h"
 #include "piece_square_value_tables.h"
-#include "score_constants.h"
+#include "scores.h"
 #include "test_evaluator.h"
 #include "../board/board.h"
 #include "../board/square_constants.h"

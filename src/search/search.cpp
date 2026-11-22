@@ -6,12 +6,11 @@
 #include "search.h"
 #include "hash_table.h"
 #include "killer_heuristics.h"
-#include "mate_score.h"
 #include "search_statistics.h"
 #include "../board/board.h"
 #include "../board/board_logic.h"
 #include "../evaluator/evaluator.h"
-#include "../evaluator/score_constants.h"
+#include "../evaluator/scores.h"
 #include "../move_generator/move_generator.h"
 #include "../technical_functions/profiling.h"
 #include "../universal_chess_interface/command_interface.h"
@@ -95,7 +94,7 @@ int CSearch::alpha_beta_negamax(int const remaining_depth, int const distance_to
         return best_score;
     }
     if (CBoardLogic::own_king_in_check()) {
-        return CMateScore::losing_mate_score(distance_to_root);
+        return CScores::losing_mate_score(distance_to_root);
     }
     return SCORE_STALEMATE;
 }

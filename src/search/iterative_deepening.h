@@ -7,7 +7,7 @@
 
 #include "depth_control.h"
 #include "root_node_list.h"
-#include "../evaluator/score_constants.h"
+#include "../evaluator/scores.h"
 #include"../move_generator/move.h"
 
 #pragma pack(push)
