@@ -147,7 +147,7 @@ void CRootNodeList::display() const {
     for (size_t j = 0; j < list_size(); ++j) {
         std::ostringstream info;
         info << std::right << std::setw(width) << data[j].move;
-        info << std::right << std::setw(extended_width) << data[j].evaluation;
+        info << std::right << std::setw(extended_width) << CScores::to_UCI_string(data[j].evaluation);
         info << std::right << std::setw(extended_width) << data[j].nodes_calculated;
         info << std::right << std::setw(width) << data[j].is_direct_repetition;
         CUciProtocol::send_info(info.str());

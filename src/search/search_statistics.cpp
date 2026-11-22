@@ -173,7 +173,7 @@ void CSearchStatistics::log_bestmove_history() const {
         info += ":   ";
        info += move_as_text(bestmove.move); 
        info += "    ";
-       info += std::to_string(bestmove.score);
+       info += CScores::to_UCI_string(bestmove.score);
        CUciProtocol::send_info(info);
     }
     CUciProtocol::log_separator();
