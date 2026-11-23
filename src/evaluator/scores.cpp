@@ -72,6 +72,14 @@ std::string CScores::standard_woodpoint_score(int centi_wood_points) {
     return result;
 }
 
+std::string CScores::to_short_string(int centi_wood_points) {
+    // used for debug-output, no need for anti-adjudication-tricks
+    if (is_mate_score(centi_wood_points)) {
+        return "#3141";
+    }
+    return std::to_string(centi_wood_points);
+}
+
 std::string CScores::mate_score([[maybe_unused]] int centi_wood_points) {
     std::string const alternative_mate_score_for_engine_that_optimizes_material_away_not_distance_to_mate = "mate 3141";
     return alternative_mate_score_for_engine_that_optimizes_material_away_not_distance_to_mate;

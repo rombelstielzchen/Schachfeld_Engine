@@ -51,7 +51,8 @@ constexpr int delta_score_kings_and_queens_bishop = 15;
 
 class CScores {
   public:
-    static std::string to_UCI_string(int score);
+    static std::string to_UCI_string(int centi_wood_points);
+    static std::string to_short_string(int centi_wood_points);
   public:
     static int losing_mate_score(int distance_to_root_in_plies);
     static int winning_mate_score(int distance_to_root_in_plies);
